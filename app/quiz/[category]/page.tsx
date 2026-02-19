@@ -21,6 +21,7 @@ import {
   Loader2,
   Lightbulb,
   Zap,
+  Lock,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
@@ -77,6 +78,16 @@ const ON_FIRE_MESSAGES = [
   "SCORCHING STREAK! 🔥 You're lighting up this quiz!",
 ];
 
+// Milestone messages for big streak celebrations
+const MILESTONE_MESSAGES: Record<number, string[]> = {
+  5:  ["FIVE IN A ROW! You're heating up!", "5 STREAK! Now you're cooking with gas!"],
+  10: ["TEN STREAK! Absolutely unstoppable!", "10 IN A ROW! You're on another level!"],
+  15: ["FIFTEEN! Legendary performance!", "15 STREAK! Are you even human?!"],
+  20: ["TWENTY! Master Electrician status!", "20 STREAK! Flawless!"],
+};
+
+const MILESTONES = [5, 10, 15, 20];
+
 const STREAK_THRESHOLD = 3; // Number of correct answers to trigger "on fire"
 
 // Sparky messages when streak is broken
@@ -93,48 +104,88 @@ const XP_PER_CORRECT_ANSWER = 25;
 const SESSION_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour
 const SESSION_WARNING_MS = 5 * 60 * 1000; // 5 minutes before timeout
 const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
+const UNLOCK_THRESHOLD = 70; // percentage needed to unlock next difficulty
 
 // Get a random message from an array
 function getRandomMessage(messages: string[]): string {
   return messages[Math.floor(Math.random() * messages.length)];
 }
 
-// Fire confetti celebration
-function fireConfetti() {
-  // Fire from left side
+// Fire confetti celebration with intensity levels
+// level 0 = normal (80/side), 1 = streak-5, 2 = streak-10, 3 = streak-15, 4 = streak-20
+function fireConfetti(level: number = 0) {
+  const colors = ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB", "#A3FF00"];
+  const sideCount = level >= 4 ? 200 : level >= 3 ? 180 : level >= 2 ? 150 : level >= 1 ? 120 : 80;
+
+  // Fire from both sides
   confetti({
-    particleCount: 80,
+    particleCount: sideCount,
     spread: 55,
     origin: { x: 0, y: 0.7 },
-    colors: ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB"],
+    colors,
   });
-  // Fire from right side
   confetti({
-    particleCount: 80,
+    particleCount: sideCount,
     spread: 55,
     origin: { x: 1, y: 0.7 },
-    colors: ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB"],
+    colors,
   });
+
+  // Level 2+ (streak 10): center top burst
+  if (level >= 2) {
+    confetti({
+      particleCount: level >= 3 ? 120 : 80,
+      spread: 100,
+      origin: { x: 0.5, y: 0 },
+      colors,
+      gravity: 1.2,
+    });
+  }
+
+  // Level 3 (streak 15): delayed second wave
+  if (level === 3) {
+    setTimeout(() => {
+      confetti({ particleCount: 120, spread: 70, origin: { x: 0.3, y: 0.5 }, colors });
+      confetti({ particleCount: 120, spread: 70, origin: { x: 0.7, y: 0.5 }, colors });
+    }, 300);
+  }
+
+  // Level 4 (streak 20): continuous bursts every 500ms for 2s
+  if (level >= 4) {
+    const intervals = [500, 1000, 1500, 2000];
+    intervals.forEach((delay) => {
+      setTimeout(() => {
+        confetti({ particleCount: 100, spread: 80, origin: { x: Math.random(), y: Math.random() * 0.4 }, colors });
+        confetti({ particleCount: 100, spread: 80, origin: { x: Math.random(), y: Math.random() * 0.4 }, colors });
+      }, delay);
+    });
+  }
 }
 
 // Particle burst from answer button (used during fire streaks)
-function ParticleBurst({ x, y, id }: { x: number; y: number; id: number }) {
+function ParticleBurst({ x, y, id, streak = 3 }: { x: number; y: number; id: number; streak?: number }) {
   const particles = useMemo(() => {
-    return Array.from({ length: 50 }, (_, i) => {
-      const angle = (i / 50) * 360 + (Math.random() * 15 - 7.5);
+    const count = Math.min(50 + streak * 5, 100);
+    return Array.from({ length: count }, (_, i) => {
+      const angle = (i / count) * 360 + (Math.random() * 15 - 7.5);
       const rad = (angle * Math.PI) / 180;
-      const distance = 100 + Math.random() * 140;
-      const size = 8 + Math.random() * 14;
+      const distance = 130 + Math.random() * 200;
+      const size = 10 + Math.random() * 18;
+      // Mixed shapes: ~60% circles, ~25% squares, ~15% diamonds
+      const shapeRoll = Math.random();
+      const shape: "circle" | "square" | "diamond" =
+        shapeRoll < 0.6 ? "circle" : shapeRoll < 0.85 ? "square" : "diamond";
       return {
         id: i,
         tx: Math.cos(rad) * distance,
-        ty: Math.sin(rad) * distance,
+        ty: Math.sin(rad) * distance + 40, // gravity drift
         size,
+        shape,
         color: ["#F59E0B", "#EF4444", "#F97316", "#FBBF24", "#10B981", "#FDE68A", "#FB923C"][i % 7],
         delay: Math.random() * 0.12,
       };
     });
-  }, []);
+  }, [streak]);
 
   return (
     <div
@@ -153,7 +204,7 @@ function ParticleBurst({ x, y, id }: { x: number; y: number; id: number }) {
             scale: 0,
           }}
           transition={{
-            duration: 0.8,
+            duration: 1.1,
             delay: p.delay,
             ease: "easeOut",
           }}
@@ -161,13 +212,80 @@ function ParticleBurst({ x, y, id }: { x: number; y: number; id: number }) {
             position: "absolute",
             width: p.size,
             height: p.size,
-            borderRadius: "50%",
+            borderRadius: p.shape === "circle" ? "50%" : p.shape === "square" ? "2px" : "2px",
             backgroundColor: p.color,
-            boxShadow: `0 0 12px 4px ${p.color}`,
+            boxShadow: `0 0 4px 1px ${p.color}`,
+            transform: p.shape === "diamond" ? "rotate(45deg)" : undefined,
           }}
         />
       ))}
     </div>
+  );
+}
+
+// Milestone celebration banner
+function MilestoneBanner({ streak }: { streak: number }) {
+  const config = streak >= 20
+    ? { text: "GODLIKE!", emojis: "⚡🔥", endEmojis: "🔥⚡", gradient: "from-yellow-400 via-amber to-orange-500", size: "text-4xl md:text-6xl" }
+    : streak >= 15
+    ? { text: "LEGENDARY!", emojis: "🔥🔥🔥", endEmojis: "", gradient: "from-red-500 via-orange-500 to-yellow-400", size: "text-3xl md:text-5xl" }
+    : streak >= 10
+    ? { text: "UNSTOPPABLE!", emojis: "🔥🔥", endEmojis: "", gradient: "from-orange-500 via-red-500 to-orange-500", size: "text-3xl md:text-5xl" }
+    : { text: "STREAK!", emojis: "🔥", endEmojis: "", gradient: "from-orange-400 to-red-500", size: "text-2xl md:text-4xl" };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.3 }}
+      animate={{ opacity: 1, scale: [0.3, 1.05, 1] }}
+      exit={{ opacity: 0, scale: 1.3, y: -30 }}
+      transition={{
+        duration: 0.6,
+        scale: { type: "tween", duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+      }}
+      className="fixed inset-0 flex items-center justify-center z-[60] pointer-events-none"
+    >
+      {/* Semi-transparent backdrop */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/30"
+      />
+      {/* Banner content */}
+      <div className="relative flex flex-col items-center gap-2">
+        <div className="flex items-center gap-3">
+          <motion.span
+            animate={{ scale: [1, 1.2, 1], rotate: [0, -10, 10, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 0.3 }}
+          >
+            <Flame className={`${streak >= 15 ? "h-10 w-10" : "h-8 w-8"} text-orange-500`} />
+          </motion.span>
+          <div className="text-center">
+            <motion.p
+              animate={streak >= 15 ? { scale: [1, 1.02, 1] } : {}}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className={`${config.size} font-black bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent drop-shadow-lg`}
+            >
+              {config.emojis} {config.text} {streak}! {config.endEmojis}
+            </motion.p>
+          </div>
+          <motion.span
+            animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, repeatDelay: 0.3 }}
+          >
+            <Flame className={`${streak >= 15 ? "h-10 w-10" : "h-8 w-8"} text-orange-500`} />
+          </motion.span>
+        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="text-white/80 text-sm md:text-base font-medium"
+        >
+          {streak >= 20 ? "Absolute perfection!" : streak >= 15 ? "Unbelievable streak!" : streak >= 10 ? "You're on another level!" : "Keep it going!"}
+        </motion.p>
+      </div>
+    </motion.div>
   );
 }
 
@@ -222,24 +340,24 @@ function createInitialState(categorySlug: CategorySlug, difficulty?: Difficulty,
 
 const DIFFICULTY_CONFIG: { value: Difficulty; label: string; description: string; color: string; bg: string; border: string }[] = [
   {
-    value: "easy",
-    label: "Easy",
+    value: "apprentice",
+    label: "Apprentice",
     description: "Fundamental concepts and straightforward NEC references",
-    color: "text-emerald",
-    bg: "bg-emerald/10",
-    border: "border-emerald/30 hover:border-emerald/60",
+    color: "text-emerald dark:text-sparky-green",
+    bg: "bg-emerald/10 dark:bg-sparky-green/10",
+    border: "border-emerald/30 hover:border-emerald/60 dark:border-sparky-green/30 dark:hover:border-sparky-green/60",
   },
   {
-    value: "medium",
-    label: "Medium",
+    value: "journeyman",
+    label: "Journeyman",
     description: "Applied knowledge with multi-step calculations",
     color: "text-amber",
     bg: "bg-amber/10",
     border: "border-amber/30 hover:border-amber/60",
   },
   {
-    value: "hard",
-    label: "Hard",
+    value: "master",
+    label: "Master",
     description: "Complex scenarios and deep NEC code references",
     color: "text-red-500",
     bg: "bg-red-500/10",
@@ -261,13 +379,22 @@ export default function QuizTakingPage() {
 
   // User quiz preferences
   const { status: authStatus } = useSession();
-  const [showHintsOnHard, setShowHintsOnHard] = useState(false);
+  const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
   const [questionsPerQuiz, setQuestionsPerQuiz] = useState(DEFAULT_QUESTIONS_PER_QUIZ);
+  const [focusMode, setFocusMode] = useState<string | null>(null);
 
   // Resume prompt state
   const [showResumePrompt, setShowResumePrompt] = useState(false);
   const [savedProgress, setSavedProgress] = useState<SavedQuizProgress | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  // Difficulty unlock state
+  const [unlocks, setUnlocks] = useState<Record<string, { unlocked: boolean; bestPercentage: number | null }>>({
+    apprentice: { unlocked: true, bestPercentage: null },
+    journeyman: { unlocked: false, bestPercentage: null },
+    master: { unlocked: false, bestPercentage: null },
+  });
+  const [unlocksLoading, setUnlocksLoading] = useState(true);
 
   // Initialize state lazily with questions (will be re-initialized after difficulty selection)
   const [quizState, setQuizState] = useState<QuizState>(() =>
@@ -294,6 +421,10 @@ export default function QuizTakingPage() {
   const answerButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [particleBurst, setParticleBurst] = useState<{ x: number; y: number; id: number } | null>(null);
 
+  // Milestone celebration state
+  const [milestoneBanner, setMilestoneBanner] = useState<number | null>(null);
+  const [milestoneHit, setMilestoneHit] = useState<number | null>(null);
+
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
@@ -309,6 +440,12 @@ export default function QuizTakingPage() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved) as SavedQuizProgress;
+        // Migrate old difficulty names
+        const OLD_DIFFICULTY_MAP: Record<string, Difficulty> = { easy: "apprentice", medium: "journeyman", hard: "master" };
+        if (parsed.difficulty && OLD_DIFFICULTY_MAP[parsed.difficulty]) {
+          parsed.difficulty = OLD_DIFFICULTY_MAP[parsed.difficulty];
+          localStorage.setItem(QUIZ_STORAGE_PREFIX + categorySlug, JSON.stringify(parsed));
+        }
         // Check if saved progress is not too old (24 hours)
         const isRecent = Date.now() - parsed.timestamp < 24 * 60 * 60 * 1000;
         const hasProgress = parsed.currentQuestionIndex > 0 || Object.keys(parsed.answers).length > 0;
@@ -362,15 +499,36 @@ export default function QuizTakingPage() {
     fetch("/api/profile")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data?.showHintsOnHard !== undefined) {
-          setShowHintsOnHard(data.showHintsOnHard);
+        if (data?.showHintsOnMaster !== undefined) {
+          setShowHintsOnHard(data.showHintsOnMaster);
         }
         if (data?.questionsPerQuiz !== undefined) {
           setQuestionsPerQuiz(data.questionsPerQuiz);
         }
+        if (data?.focusMode !== undefined) {
+          setFocusMode(data.focusMode || null);
+        }
       })
       .catch(() => {});
   }, [authStatus]);
+
+  // Fetch difficulty unlock status for this category
+  useEffect(() => {
+    if (authStatus !== "authenticated") {
+      setUnlocksLoading(false);
+      return;
+    }
+    setUnlocksLoading(true);
+    fetch(`/api/quiz-results/unlocks?category=${encodeURIComponent(categorySlug)}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (data) {
+          setUnlocks(data);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setUnlocksLoading(false));
+  }, [authStatus, categorySlug]);
 
   // Save progress to localStorage
   const saveProgress = useCallback((state: QuizState) => {
@@ -658,16 +816,18 @@ export default function QuizTakingPage() {
       const wasOnFire = prev.correctStreak >= STREAK_THRESHOLD;
       const streakJustBroken = !isCorrect && wasOnFire;
 
-      // Determine message based on streak
+      // Milestone detection
+      const isMilestone = MILESTONES.includes(newStreak);
+
+      // Determine message based on streak — milestones take priority
       let message: string;
       if (streakJustBroken) {
-        // Streak was just broken - show encouraging message
         message = getRandomMessage(STREAK_BROKEN_MESSAGES);
+      } else if (isMilestone && MILESTONE_MESSAGES[newStreak]) {
+        message = getRandomMessage(MILESTONE_MESSAGES[newStreak]);
       } else if (justHitStreak) {
-        // Just hit the streak threshold - show on fire message
         message = getRandomMessage(ON_FIRE_MESSAGES);
       } else if (isCorrect && isOnFire) {
-        // Continuing the streak
         message = `🔥 ${newStreak} in a row! ${getRandomMessage(CORRECT_MESSAGES)}`;
       } else if (isCorrect) {
         message = getRandomMessage(CORRECT_MESSAGES);
@@ -677,8 +837,8 @@ export default function QuizTakingPage() {
 
       // Fire celebration for correct answers
       if (isCorrect) {
+        // Always fire particle burst during streak
         if (isOnFire && selectedAnswer !== null) {
-          // Particle burst from the selected answer button
           const btn = answerButtonRefs.current[selectedAnswer];
           if (btn) {
             const rect = btn.getBoundingClientRect();
@@ -688,8 +848,19 @@ export default function QuizTakingPage() {
               id: Date.now(),
             });
           }
-        } else {
-          fireConfetti();
+        }
+
+        // Fire confetti: always on non-streak correct, AND at milestones
+        if (!isOnFire || isMilestone) {
+          const confettiLevel = newStreak >= 20 ? 4 : newStreak >= 15 ? 3 : newStreak >= 10 ? 2 : newStreak >= 5 ? 1 : 0;
+          fireConfetti(confettiLevel);
+        }
+
+        // Show milestone banner + gold flash
+        if (isMilestone) {
+          setMilestoneBanner(newStreak);
+          setMilestoneHit(newStreak);
+          setTimeout(() => setMilestoneBanner(null), 2500);
         }
       }
 
@@ -773,6 +944,9 @@ export default function QuizTakingPage() {
         sparkyMessage: "",
         showHint: false,
       }));
+      // Clear milestone state for next question
+      setMilestoneBanner(null);
+      setMilestoneHit(null);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [currentQuestionIndex, totalQuestions, answers, questions, bookmarkedQuestions, bestStreak, categorySlug, router, clearSavedProgress]);
@@ -903,9 +1077,9 @@ export default function QuizTakingPage() {
                     <span className="font-medium">{category?.name}</span>
                     {savedProgress.difficulty && (
                       <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                        savedProgress.difficulty === "easy"
-                          ? "bg-emerald/10 text-emerald"
-                          : savedProgress.difficulty === "medium"
+                        savedProgress.difficulty === "apprentice"
+                          ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                          : savedProgress.difficulty === "journeyman"
                           ? "bg-amber/10 text-amber"
                           : "bg-red-500/10 text-red-500"
                       }`}>
@@ -943,7 +1117,7 @@ export default function QuizTakingPage() {
               <div className="flex flex-col gap-3">
                 <Button
                   onClick={handleContinueProgress}
-                  className="bg-amber hover:bg-amber/90 w-full"
+                  className="bg-amber hover:bg-amber/90 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                 >
                   <ChevronRight className="h-4 w-4 mr-2" />
                   Continue Where I Left Off
@@ -965,6 +1139,16 @@ export default function QuizTakingPage() {
     );
   }
 
+  // Detect newly unlocked difficulty (unlocked but never attempted, excluding apprentice)
+  const newlyUnlockedDifficulty = !unlocksLoading
+    ? (["journeyman", "master"] as const).find(
+        (d) => unlocks[d]?.unlocked && unlocks[d]?.bestPercentage === null
+      )
+    : null;
+  const newlyUnlockedLabel = newlyUnlockedDifficulty
+    ? DIFFICULTY_CONFIG.find((d) => d.value === newlyUnlockedDifficulty)?.label
+    : null;
+
   // Show difficulty selection if not yet chosen
   if (!selectedDifficulty) {
     return (
@@ -981,8 +1165,40 @@ export default function QuizTakingPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full"
+          className="max-w-md w-full space-y-4"
         >
+          {/* Congratulatory banner for newly unlocked difficulty */}
+          {newlyUnlockedLabel && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ type: "spring", damping: 14, stiffness: 180 }}
+            >
+              <Card className="border-amber/50 dark:border-sparky-green/50 bg-gradient-to-br from-amber/5 to-amber/10 dark:from-sparky-green/5 dark:to-sparky-green/10 overflow-hidden">
+                <CardContent className="pt-5 pb-4 flex items-center gap-4">
+                  <motion.img
+                    src="/streak-sparky.svg"
+                    alt="Sparky celebrating"
+                    className="h-16 w-16 flex-shrink-0"
+                    animate={{ rotate: [0, -5, 5, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+                  />
+                  <div>
+                    <p className="font-bold text-amber dark:text-sparky-green text-sm">
+                      New Level Unlocked!
+                    </p>
+                    <p className="text-foreground font-display text-lg">
+                      {newlyUnlockedLabel} is ready!
+                    </p>
+                    <p className="text-muted-foreground text-xs mt-0.5">
+                      Great job scoring {UNLOCK_THRESHOLD}%+ — keep climbing!
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber/10 flex items-center justify-center mx-auto mb-4">
@@ -996,22 +1212,53 @@ export default function QuizTakingPage() {
             <CardContent className="space-y-3">
               {DIFFICULTY_CONFIG.map((diff) => {
                 const count = getQuestionCountByCategoryAndDifficulty(categorySlug, diff.value);
+                const unlockInfo = unlocks[diff.value];
+                const isLocked = authStatus === "authenticated" && !unlocksLoading && unlockInfo && !unlockInfo.unlocked;
+                const isFocusBlocked = focusMode !== null && diff.value !== focusMode;
+                const isDisabled = count === 0 || isLocked || unlocksLoading || isFocusBlocked;
+                const previousDifficulty = diff.value === "journeyman" ? "Apprentice" : diff.value === "master" ? "Journeyman" : null;
+                const previousBest = diff.value === "journeyman"
+                  ? unlocks["apprentice"]?.bestPercentage
+                  : diff.value === "master"
+                  ? unlocks["journeyman"]?.bestPercentage
+                  : null;
                 return (
                   <button
                     key={diff.value}
-                    onClick={() => handleDifficultySelect(diff.value)}
-                    disabled={count === 0}
+                    onClick={() => !isDisabled && handleDifficultySelect(diff.value)}
+                    disabled={isDisabled}
                     className={`w-full text-left p-4 rounded-lg border transition-all ${diff.border} ${
-                      count === 0 ? "opacity-40 cursor-not-allowed" : "cursor-pointer hover:shadow-md"
+                      isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer hover:shadow-md"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className={`font-bold ${diff.color}`}>{diff.label}</span>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${diff.bg} ${diff.color}`}>
-                        {count} questions
+                      <span className={`font-bold flex items-center gap-1.5 ${diff.color}`}>
+                        {isLocked && <Lock className="h-4 w-4" />}
+                        {diff.label}
                       </span>
+                      {isFocusBlocked && !isLocked ? (
+                        <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                          Focus Mode
+                        </span>
+                      ) : !isLocked ? (
+                        <span className={`text-xs px-2 py-0.5 rounded-full ${diff.bg} ${diff.color}`}>
+                          {count} questions
+                        </span>
+                      ) : (
+                        previousBest !== null && previousBest !== undefined && (
+                          <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
+                            Best: {previousBest}%
+                          </span>
+                        )
+                      )}
                     </div>
-                    <p className="text-sm text-muted-foreground">{diff.description}</p>
+                    {isLocked && previousDifficulty ? (
+                      <p className="text-sm text-muted-foreground">
+                        Score {UNLOCK_THRESHOLD}% on {previousDifficulty} to unlock
+                      </p>
+                    ) : (
+                      <p className={`text-sm text-muted-foreground ${isLocked ? "opacity-60" : ""}`}>{diff.description}</p>
+                    )}
                   </button>
                 );
               })}
@@ -1048,12 +1295,12 @@ export default function QuizTakingPage() {
   // Check if user is on fire (3+ streak)
   const isOnFireStreak = correctStreak >= STREAK_THRESHOLD;
 
-  // Hints are visible unless on hard difficulty with showHintsOnHard disabled
-  const hintsVisible = selectedDifficulty !== "hard" || showHintsOnHard;
+  // Hints are visible unless on hard difficulty with showHintsOnMaster disabled
+  const hintsVisible = selectedDifficulty !== "master" || showHintsOnMaster;
 
   return (
     <>
-      {/* Quick green/gold flash on correct answer */}
+      {/* Quick green flash on correct answer */}
       <AnimatePresence>
         {isSubmitted && isCorrectAnswer && (
           <motion.div
@@ -1061,8 +1308,28 @@ export default function QuizTakingPage() {
             animate={{ opacity: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="fixed inset-0 pointer-events-none z-50 bg-emerald/15"
+            className="fixed inset-0 pointer-events-none z-50 bg-emerald/15 dark:bg-sparky-green/10"
           />
+        )}
+      </AnimatePresence>
+
+      {/* Gold flash overlay for milestones */}
+      <AnimatePresence>
+        {milestoneHit && (
+          <motion.div
+            initial={{ opacity: 0.7 }}
+            animate={{ opacity: 0 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="fixed inset-0 pointer-events-none z-50 bg-amber/20 dark:bg-amber/15"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Milestone celebration banner */}
+      <AnimatePresence>
+        {milestoneBanner && (
+          <MilestoneBanner key={milestoneBanner} streak={milestoneBanner} />
         )}
       </AnimatePresence>
 
@@ -1073,6 +1340,7 @@ export default function QuizTakingPage() {
           x={particleBurst.x}
           y={particleBurst.y}
           id={particleBurst.id}
+          streak={correctStreak}
         />
       )}
 
@@ -1101,7 +1369,7 @@ export default function QuizTakingPage() {
             className={`h-full rounded-full transition-all duration-500 ${
               isOnFireStreak
                 ? "bg-gradient-to-r from-orange-500 via-amber to-red-500 bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite]"
-                : "bg-gradient-to-r from-amber to-amber-light"
+                : "bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark"
             }`}
           />
         </div>
@@ -1201,9 +1469,9 @@ export default function QuizTakingPage() {
           </span>
           {selectedDifficulty && (
             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-              selectedDifficulty === "easy"
-                ? "bg-emerald/10 text-emerald"
-                : selectedDifficulty === "medium"
+              selectedDifficulty === "apprentice"
+                ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                : selectedDifficulty === "journeyman"
                 ? "bg-amber/10 text-amber"
                 : "bg-red-500/10 text-red-500"
             }`}>
@@ -1247,7 +1515,7 @@ export default function QuizTakingPage() {
                 onClick={handleSubmitAnswer}
                 disabled={selectedAnswer === null}
                 size="default"
-                className="bg-amber hover:bg-amber/90 text-white gap-2"
+                className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 Submit
                 <ArrowRight className="h-4 w-4" />
@@ -1256,7 +1524,7 @@ export default function QuizTakingPage() {
               <Button
                 onClick={handleNextQuestion}
                 size="default"
-                className="bg-amber hover:bg-amber/90 text-white gap-2"
+                className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 {isLastQuestion ? "See Results" : "Next"}
                 <ArrowRight className="h-4 w-4" />
@@ -1284,8 +1552,8 @@ export default function QuizTakingPage() {
                   onClick={() => setQuizState(prev => ({ ...prev, showHint: !prev.showHint }))}
                   className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-all ${
                     quizState.showHint
-                      ? "bg-amber text-white border-amber"
-                      : "bg-amber/10 text-amber border-amber/30 hover:bg-amber/20"
+                      ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
+                      : "bg-amber/10 text-amber border-amber/30 hover:bg-amber/20 dark:bg-sparky-green/10 dark:text-sparky-green dark:border-sparky-green/30 dark:hover:bg-sparky-green/20"
                   }`}
                 >
                   <Lightbulb className="h-3.5 w-3.5" />
@@ -1334,25 +1602,6 @@ export default function QuizTakingPage() {
                           </div>
                         </motion.div>
 
-                        {/* Sparky Tip - Staggered Entry */}
-                        {currentQuestion.sparkyTip && (
-                          <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: 0.25 }}
-                            className="flex items-start gap-3 mt-4 pt-4 border-t border-white/20 dark:border-white/10"
-                          >
-                            <div className="p-2 rounded-lg bg-amber/20">
-                              <Zap className="h-4 w-4 text-amber" />
-                            </div>
-                            <div>
-                              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Sparky Tip</p>
-                              <p className="text-sm text-foreground leading-relaxed">
-                                {currentQuestion.sparkyTip}
-                              </p>
-                            </div>
-                          </motion.div>
-                        )}
                       </div>
                     </motion.div>
                 )}
@@ -1373,18 +1622,18 @@ export default function QuizTakingPage() {
 
               if (showCorrect) {
                 optionClasses +=
-                  "border-emerald bg-emerald/10 text-foreground";
+                  "border-emerald bg-emerald/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
               } else if (showIncorrect) {
                 optionClasses +=
                   "border-red-500 bg-red-500/10 text-foreground";
               } else if (isSelected) {
                 optionClasses +=
-                  "border-amber bg-amber/10 text-foreground";
+                  "border-amber bg-amber/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
               } else if (isSubmitted) {
                 optionClasses += "border-border bg-muted/50 dark:bg-stone-800/50 text-muted-foreground";
               } else {
                 optionClasses +=
-                  "border-border hover:border-amber/50 hover:bg-muted/50 dark:hover:bg-stone-800/50 cursor-pointer";
+                  "border-border hover:border-amber/50 dark:hover:border-sparky-green/50 hover:bg-muted/50 dark:hover:bg-stone-800/50 cursor-pointer";
               }
 
               return (
@@ -1399,11 +1648,11 @@ export default function QuizTakingPage() {
                     <span
                       className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
                         showCorrect
-                          ? "bg-emerald text-white"
+                          ? "bg-emerald text-white dark:bg-sparky-green dark:text-stone-950"
                           : showIncorrect
                           ? "bg-red-500 text-white"
                           : isSelected
-                          ? "bg-amber text-white"
+                          ? "bg-amber text-white dark:bg-sparky-green dark:text-stone-950"
                           : "bg-muted dark:bg-stone-800 text-muted-foreground"
                       }`}
                     >
@@ -1423,7 +1672,7 @@ export default function QuizTakingPage() {
                 onClick={handleSubmitAnswer}
                 disabled={selectedAnswer === null}
                 size="lg"
-                className="bg-amber hover:bg-amber/90 text-white gap-2 w-full"
+                className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 Submit
                 <ArrowRight className="h-4 w-4" />
@@ -1432,7 +1681,7 @@ export default function QuizTakingPage() {
               <Button
                 onClick={handleNextQuestion}
                 size="lg"
-                className="bg-amber hover:bg-amber/90 text-white gap-2 w-full"
+                className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 {isLastQuestion ? "See Results" : "Next Question"}
                 <ArrowRight className="h-4 w-4" />
@@ -1453,7 +1702,7 @@ export default function QuizTakingPage() {
                 className={`h-full rounded-full transition-all duration-500 ${
                   isOnFireStreak
                     ? "bg-gradient-to-r from-orange-500 via-amber to-red-500 bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite]"
-                    : "bg-gradient-to-r from-amber to-amber-light"
+                    : "bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark"
                 }`}
               />
             </div>
@@ -1503,9 +1752,9 @@ export default function QuizTakingPage() {
                 </button>
                 {selectedDifficulty && (
                   <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                    selectedDifficulty === "easy"
-                      ? "bg-emerald/10 text-emerald"
-                      : selectedDifficulty === "medium"
+                    selectedDifficulty === "apprentice"
+                      ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                      : selectedDifficulty === "journeyman"
                       ? "bg-amber/10 text-amber"
                       : "bg-red-500/10 text-red-500"
                   }`}>
@@ -1552,7 +1801,7 @@ export default function QuizTakingPage() {
                       initial={{ opacity: 0, y: 20, scale: 0.8 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald rounded-full text-lg font-bold"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green rounded-full text-lg font-bold"
                     >
                       <CheckCircle2 className="h-5 w-5" />
                       +{XP_PER_CORRECT_ANSWER} XP
@@ -1598,11 +1847,11 @@ export default function QuizTakingPage() {
                 </div>
 
                 {/* Sparky Feedback Message */}
-                <Card className={`${isCorrectAnswer ? "border-emerald/50" : "border-amber/50"}`}>
+                <Card className={`${isCorrectAnswer ? "border-emerald/50 dark:border-sparky-green/50" : "border-amber/50"}`}>
                   <CardContent className="pt-6">
                     <div className="flex items-center gap-2 mb-4">
                       {isCorrectAnswer ? (
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald/20 text-emerald text-sm font-medium">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green text-sm font-medium">
                           <CheckCircle2 className="h-3.5 w-3.5" />
                           Correct!
                         </span>
@@ -1632,9 +1881,9 @@ export default function QuizTakingPage() {
                     </div>
 
                     {/* Sparky Tip */}
-                    <div className="mt-3 p-3 bg-amber/10 rounded-lg border border-amber/30">
+                    <div className="mt-3 p-3 bg-amber/10 dark:bg-sparky-green/10 rounded-lg border border-amber/30 dark:border-sparky-green/30">
                       <p className="text-sm text-foreground">
-                        <span className="font-medium text-amber">💡 Sparky&apos;s Tip:</span>{" "}
+                        <span className="font-medium text-amber dark:text-sparky-green">💡 Sparky&apos;s Tip:</span>{" "}
                         {currentQuestion.sparkyTip}
                       </p>
                     </div>
@@ -1651,7 +1900,7 @@ export default function QuizTakingPage() {
                           variant="outline"
                           size="sm"
                           onClick={handleBookmarkFromFeedback}
-                          className="gap-2 border-amber text-amber hover:bg-amber/10"
+                          className="gap-2 border-amber text-amber hover:bg-amber/10 dark:border-sparky-green dark:text-sparky-green dark:hover:bg-sparky-green/10"
                         >
                           <Bookmark className="h-4 w-4" />
                           Save this question for later review
@@ -1662,8 +1911,8 @@ export default function QuizTakingPage() {
                     {/* Show if already bookmarked */}
                     {!isCorrectAnswer && isBookmarked && (
                       <div className="mt-4 flex items-center justify-center">
-                        <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber/10 text-amber rounded-full text-sm">
-                          <Star className="h-4 w-4 fill-amber" />
+                        <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber/10 text-amber dark:bg-sparky-green/10 dark:text-sparky-green rounded-full text-sm">
+                          <Star className="h-4 w-4 fill-amber dark:fill-sparky-green" />
                           Saved for review
                         </span>
                       </div>
@@ -1676,7 +1925,7 @@ export default function QuizTakingPage() {
                   <Button
                     onClick={handleNextQuestion}
                     size="lg"
-                    className="bg-amber hover:bg-amber/90 text-white gap-2 px-8"
+                    className="bg-amber hover:bg-amber/90 text-white gap-2 px-8 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                   >
                     {isLastQuestion ? "See Results" : "Next Question"}
                     <ArrowRight className="h-4 w-4" />

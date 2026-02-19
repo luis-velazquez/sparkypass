@@ -211,7 +211,7 @@ function ReviewContent() {
             <ChevronLeft className="h-5 w-5" />
           </Link>
           <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground">
-            <span className="text-purple">Review Queue</span>
+            <span className="text-purple dark:text-sparky-green">Review Queue</span>
           </h1>
         </div>
         <p className="text-muted-foreground">
@@ -352,8 +352,8 @@ function ReviewContent() {
 
                             <div className="flex-1 overflow-y-auto">
                               {/* Correct Answer */}
-                              <div className="p-4 rounded-lg bg-emerald/10 border border-emerald/30 mb-4">
-                                <p className="text-sm font-medium text-emerald mb-1">Correct Answer</p>
+                              <div className="p-4 rounded-lg bg-emerald/10 border border-emerald/30 dark:bg-sparky-green/10 dark:border-sparky-green/30 mb-4">
+                                <p className="text-sm font-medium text-emerald dark:text-sparky-green mb-1">Correct Answer</p>
                                 <p className="text-foreground">
                                   {currentQuestion.options[currentQuestion.correctAnswer]}
                                 </p>

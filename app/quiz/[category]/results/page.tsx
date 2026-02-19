@@ -8,6 +8,7 @@ import {
   Trophy,
   Star,
   ArrowLeft,
+  ArrowRight,
   RotateCcw,
   Share2,
   ChevronDown,
@@ -22,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { LevelUpModal, getRandomLevelUpMessage } from "@/components/level";
 import { getQuestionById } from "@/lib/questions";
-import { getCategoryBySlug, type Question, type CategorySlug } from "@/types/question";
+import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty } from "@/types/question";
 import { XP_REWARDS, checkLevelUp } from "@/lib/levels";
 
 const XP_PER_CORRECT_ANSWER = XP_REWARDS.CORRECT_ANSWER;
@@ -196,6 +197,7 @@ export default function QuizResultsPage() {
   const [username, setUsername] = useState<string | null>(null);
   const [difficulty, setDifficulty] = useState<string | null>(null);
   const [bestPercentage, setBestPercentage] = useState<number | null>(null);
+  const [unlockedNext, setUnlockedNext] = useState<{ difficulty: Difficulty; label: string } | null>(null);
 
   const category = useMemo(() => getCategoryBySlug(categorySlug), [categorySlug]);
 
@@ -302,7 +304,7 @@ export default function QuizResultsPage() {
     // Trigger XP animation
     setShowXpAnimation(true);
 
-    // Save quiz result to database, then fetch best score
+    // Save quiz result to database, then fetch best score and unlock status
     fetch("/api/quiz-results", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -317,12 +319,26 @@ export default function QuizResultsPage() {
       .then(() => {
         const params = new URLSearchParams({ category: resultData.categorySlug });
         if (difficulty) params.set("difficulty", difficulty);
-        return fetch(`/api/quiz-results/best?${params}`);
+        // Fetch best score and unlock status in parallel
+        return Promise.all([
+          fetch(`/api/quiz-results/best?${params}`).then((res) => res.ok ? res.json() : null),
+          fetch(`/api/quiz-results/unlocks?category=${encodeURIComponent(resultData.categorySlug)}`).then((res) => res.ok ? res.json() : null),
+        ]);
       })
-      .then((res) => res.ok ? res.json() : null)
-      .then((data) => {
-        if (data?.bestPercentage !== null && data?.bestPercentage !== undefined) {
-          setBestPercentage(data.bestPercentage);
+      .then(([bestData, unlockData]) => {
+        if (bestData?.bestPercentage !== null && bestData?.bestPercentage !== undefined) {
+          setBestPercentage(bestData.bestPercentage);
+        }
+        // Check if the next difficulty is now unlocked
+        if (unlockData && difficulty) {
+          const nextMap: Record<string, { key: Difficulty; label: string }> = {
+            apprentice: { key: "journeyman", label: "Journeyman" },
+            journeyman: { key: "master", label: "Master" },
+          };
+          const next = nextMap[difficulty];
+          if (next && unlockData[next.key]?.unlocked) {
+            setUnlockedNext({ difficulty: next.key, label: next.label });
+          }
         }
       })
       .catch((err) => console.error("Failed to save/fetch quiz result:", err));
@@ -406,6 +422,16 @@ export default function QuizResultsPage() {
     }
   };
 
+  const handleTakeNextLevel = () => {
+    sessionStorage.removeItem("quizAnswers");
+    sessionStorage.removeItem("quizQuestionIds");
+    sessionStorage.removeItem("quizCategory");
+    sessionStorage.removeItem("bookmarkedQuestions");
+    sessionStorage.removeItem("bestStreak");
+    sessionStorage.removeItem("quizDifficulty");
+    router.push(`/quiz/${categorySlug}`);
+  };
+
   // Loading state
   if (!resultData || !results || !category) {
     return (
@@ -430,7 +456,7 @@ export default function QuizResultsPage() {
 
   const scoreColor =
     results.percentage >= 80
-      ? "text-emerald"
+      ? "text-emerald dark:text-sparky-green"
       : results.percentage >= 60
       ? "text-amber"
       : "text-red-500";
@@ -455,9 +481,9 @@ export default function QuizResultsPage() {
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", duration: 0.8, bounce: 0.4 }}
-          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber/20 mb-4"
+          className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber/20 dark:bg-sparky-green/20 mb-4"
         >
-          <Trophy className="h-10 w-10 text-amber" />
+          <Trophy className="h-10 w-10 text-amber dark:text-sparky-green" />
         </motion.div>
 
         <motion.h1
@@ -480,9 +506,9 @@ export default function QuizResultsPage() {
           </p>
           {difficulty && (
             <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-              difficulty === "easy"
-                ? "bg-emerald/10 text-emerald"
-                : difficulty === "medium"
+              difficulty === "apprentice"
+                ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                : difficulty === "journeyman"
                 ? "bg-amber/10 text-amber"
                 : "bg-red-500/10 text-red-500"
             }`}>
@@ -498,7 +524,7 @@ export default function QuizResultsPage() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 0.4 }}
       >
-        <Card className="mb-6 border-2 border-amber/30 bg-card dark:bg-stone-900/50">
+        <Card className="mb-6 border-2 border-amber/30 dark:border-sparky-green/30 bg-card dark:bg-stone-900/50">
           <CardContent className="pt-6">
             <div className="text-center">
               {/* Score Display */}
@@ -530,11 +556,11 @@ export default function QuizResultsPage() {
                   className="flex flex-col items-center gap-2"
                 >
                   <div className="flex items-center gap-4 justify-center flex-wrap">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald rounded-full text-lg font-bold">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green rounded-full text-lg font-bold">
                       <CheckCircle2 className="h-5 w-5" />
                       +{results.correctXP} XP
                     </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple rounded-full text-lg font-bold">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple dark:bg-sparky-green/15 dark:text-sparky-green rounded-full text-lg font-bold">
                       <Star className="h-5 w-5" />
                       +{XP_QUIZ_COMPLETION_BONUS} Completion Bonus
                     </span>
@@ -568,7 +594,7 @@ export default function QuizResultsPage() {
                   transition={{ delay: 1.1 }}
                   className="mt-4"
                 >
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple rounded-full text-sm font-bold">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple dark:bg-sparky-green/15 dark:text-sparky-green rounded-full text-sm font-bold">
                     <Trophy className="h-4 w-4" />
                     Personal Best{difficulty ? ` (${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)})` : ""}: {bestPercentage}%
                   </span>
@@ -588,6 +614,88 @@ export default function QuizResultsPage() {
       >
         <SparkyMessage message={sparkyMessage} size="large" />
       </motion.div>
+
+      {/* King Sparky Master Quiz Congratulation */}
+      {difficulty === "master" && results.percentage >= 70 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 1.0, type: "spring", damping: 14, stiffness: 180 }}
+          className="mb-8"
+        >
+          <Card className="border-red-500/40 bg-gradient-to-br from-red-500/5 via-amber/5 to-amber/10 dark:from-red-500/10 dark:via-amber/5 dark:to-amber/10 overflow-hidden">
+            <CardContent className="pt-5 pb-5">
+              <div className="flex flex-col items-center text-center gap-3">
+                <motion.img
+                  src="/king-sparky.svg"
+                  alt="King Sparky"
+                  className="h-24 w-24"
+                  animate={{ y: [0, -6, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                />
+                <div>
+                  <p className="font-bold text-red-500 text-sm uppercase tracking-wide">
+                    Master Electrician
+                  </p>
+                  <p className="text-foreground font-display text-lg">
+                    {results.percentage >= 90
+                      ? "Flawless mastery! You command the NEC like a true king!"
+                      : results.percentage >= 80
+                      ? "Outstanding! You've conquered the Master level!"
+                      : "You passed the Master challenge! The crown suits you!"}
+                  </p>
+                  <p className="text-muted-foreground text-xs mt-1">
+                    Scoring {results.percentage}% on Master difficulty is no small feat.
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
+      {/* Next Level Unlocked Banner */}
+      {unlockedNext && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 1.2, type: "spring", damping: 14, stiffness: 180 }}
+          className="mb-8"
+        >
+          <Card className="border-amber/50 dark:border-sparky-green/50 bg-gradient-to-br from-amber/5 to-amber/10 dark:from-sparky-green/5 dark:to-sparky-green/10 overflow-hidden">
+            <CardContent className="pt-5 pb-5">
+              <div className="flex flex-col items-center text-center gap-3">
+                <motion.img
+                  src="/streak-sparky.svg"
+                  alt="Sparky celebrating"
+                  className="h-20 w-20"
+                  animate={{ rotate: [0, -5, 5, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
+                />
+                <div>
+                  <p className="font-bold text-amber dark:text-sparky-green text-sm">
+                    Level Unlocked!
+                  </p>
+                  <p className="text-foreground font-display text-lg">
+                    You unlocked {unlockedNext.label}!
+                  </p>
+                  <p className="text-muted-foreground text-xs mt-0.5">
+                    Your score earned you access to the next difficulty.
+                  </p>
+                </div>
+                <Button
+                  onClick={handleTakeNextLevel}
+                  size="sm"
+                  className="bg-amber hover:bg-amber-dark text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  Take {unlockedNext.label} Quiz
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
 
       {/* Incorrect Questions Review */}
       {results.incorrectQuestions.length > 0 && (
@@ -610,7 +718,7 @@ export default function QuizResultsPage() {
                   return (
                     <div
                       key={question.id}
-                      className="border rounded-lg overflow-hidden"
+                      className="border border-border dark:border-stone-700 rounded-lg overflow-hidden"
                     >
                       <button
                         onClick={() => toggleQuestionExpand(question.id)}
@@ -636,7 +744,7 @@ export default function QuizResultsPage() {
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
-                          className="border-t bg-muted/30 dark:bg-stone-800/30"
+                          className="border-t border-border dark:border-stone-700 bg-muted/30 dark:bg-stone-800/30"
                         >
                           <div className="p-4 space-y-3">
                             {/* Your Answer */}
@@ -649,7 +757,7 @@ export default function QuizResultsPage() {
 
                             {/* Correct Answer */}
                             <div>
-                              <p className="text-xs font-medium text-emerald mb-1">Correct Answer:</p>
+                              <p className="text-xs font-medium text-emerald dark:text-sparky-green mb-1">Correct Answer:</p>
                               <p className="text-sm text-foreground">
                                 {String.fromCharCode(65 + question.correctAnswer)}. {question.options[question.correctAnswer]}
                               </p>
@@ -667,9 +775,9 @@ export default function QuizResultsPage() {
                             </div>
 
                             {/* Sparky Tip */}
-                            <div className="p-3 bg-amber/10 rounded-lg border border-amber/30">
+                            <div className="p-3 bg-amber/10 dark:bg-sparky-green/10 rounded-lg border border-amber/30 dark:border-sparky-green/30">
                               <p className="text-sm text-foreground">
-                                <span className="font-medium text-amber">💡 Sparky&apos;s Tip:</span>{" "}
+                                <span className="font-medium text-amber dark:text-sparky-green">💡 Sparky&apos;s Tip:</span>{" "}
                                 {question.sparkyTip}
                               </p>
                             </div>
@@ -705,7 +813,7 @@ export default function QuizResultsPage() {
         <Button
           onClick={handleRetakeQuiz}
           size="lg"
-          className="bg-amber hover:bg-amber-dark text-white gap-2"
+          className="bg-amber hover:bg-amber-dark text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 dark:shadow-[0_0_20px_rgba(163,255,0,0.2)]"
         >
           <RotateCcw className="h-4 w-4" />
           Retake Quiz

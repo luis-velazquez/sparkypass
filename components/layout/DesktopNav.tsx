@@ -16,6 +16,7 @@ const navLinks = [
   { href: "/quiz", label: "Quiz" },
   { href: "/flashcards", label: "Flashcards" },
   { href: "/mock-exam", label: "Mock Exam" },
+  { href: "/daily", label: "Daily Challenge" },
   { href: "/load-calculator", label: "Load Calculator" },
   { href: "/settings", label: "Settings" },
 ];

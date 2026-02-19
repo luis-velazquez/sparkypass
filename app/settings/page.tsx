@@ -32,8 +32,9 @@ interface ProfileData {
   authProvider: string;
   city: string | null;
   state: string | null;
-  showHintsOnHard: boolean;
+  showHintsOnMaster: boolean;
   questionsPerQuiz: number;
+  focusMode: string | null;
   subscriptionStatus: string | null;
   trialEndsAt: string | null;
   subscriptionPeriodEnd: string | null;
@@ -63,8 +64,9 @@ export default function SettingsPage() {
   const [usernameError, setUsernameError] = useState("");
 
   // Quiz preferences state
-  const [showHintsOnHard, setShowHintsOnHard] = useState(false);
+  const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
   const [questionsPerQuiz, setQuestionsPerQuiz] = useState(0);
+  const [focusMode, setFocusMode] = useState<string | null>(null);
   const [quizPrefSaving, setQuizPrefSaving] = useState(false);
   const [quizPrefSuccess, setQuizPrefSuccess] = useState("");
   const [quizPrefError, setQuizPrefError] = useState("");
@@ -96,8 +98,9 @@ export default function SettingsPage() {
         setOriginalCity(data.city || "");
         setState(data.state || "");
         setOriginalState(data.state || "");
-        setShowHintsOnHard(data.showHintsOnHard ?? false);
+        setShowHintsOnHard(data.showHintsOnMaster ?? false);
         setQuestionsPerQuiz(data.questionsPerQuiz ?? 0);
+        setFocusMode(data.focusMode || null);
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -221,7 +224,7 @@ export default function SettingsPage() {
     }
   };
 
-  const saveQuizPreference = async (data: { showHintsOnHard?: boolean; questionsPerQuiz?: number }) => {
+  const saveQuizPreference = async (data: { showHintsOnMaster?: boolean; questionsPerQuiz?: number; focusMode?: string | null }) => {
     setQuizPrefSaving(true);
     setQuizPrefError("");
     setQuizPrefSuccess("");
@@ -238,8 +241,9 @@ export default function SettingsPage() {
         return;
       }
 
-      if (data.showHintsOnHard !== undefined) setShowHintsOnHard(data.showHintsOnHard);
+      if (data.showHintsOnMaster !== undefined) setShowHintsOnHard(data.showHintsOnMaster);
       if (data.questionsPerQuiz !== undefined) setQuestionsPerQuiz(data.questionsPerQuiz);
+      if (data.focusMode !== undefined) setFocusMode(data.focusMode ?? null);
       setQuizPrefSuccess("Preference saved!");
       setTimeout(() => setQuizPrefSuccess(""), 3000);
     } catch {
@@ -330,7 +334,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)]">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <User className="h-5 w-5 text-purple" />
@@ -421,7 +425,7 @@ export default function SettingsPage() {
               )}
 
               {usernameSuccess && (
-                <div className="p-3 rounded-md bg-emerald/10 text-emerald text-sm flex items-center gap-2">
+                <div className="p-3 rounded-md bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green text-sm flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
                   {usernameSuccess}
                 </div>
@@ -430,7 +434,7 @@ export default function SettingsPage() {
               <Button
                 onClick={handleProfileSave}
                 disabled={!profileChanged || usernameSaving || username.trim().length < 3 || name.trim().length < 1}
-                className="w-full bg-amber hover:bg-amber-dark text-white"
+                className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 {usernameSaving ? (
                   <>
@@ -454,7 +458,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
         >
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)]">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <Lightbulb className="h-5 w-5 text-amber" />
@@ -480,8 +484,8 @@ export default function SettingsPage() {
                       disabled={quizPrefSaving}
                       className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all disabled:opacity-50 ${
                         questionsPerQuiz === val
-                          ? "bg-amber text-white border-amber"
-                          : "bg-muted/50 dark:bg-stone-800/50 text-muted-foreground border-border dark:border-stone-700 hover:border-amber/50 hover:text-foreground"
+                          ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
+                          : "bg-muted/50 dark:bg-stone-800/50 text-muted-foreground border-border dark:border-stone-700 hover:border-amber/50 dark:hover:border-sparky-green/50 hover:text-foreground"
                       }`}
                     >
                       {val === 0 ? "All" : val}
@@ -494,24 +498,78 @@ export default function SettingsPage() {
               <div className="flex items-center justify-between gap-4 pt-1">
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-foreground">
-                    Show hints on Hard difficulty
+                    Show hints on Master difficulty
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Hints are hidden by default on Hard mode for extra challenge. Enable this to show them.
+                    Hints are hidden by default on Master difficulty for extra challenge. Enable this to show them.
                   </p>
                 </div>
                 <button
-                  onClick={() => saveQuizPreference({ showHintsOnHard: !showHintsOnHard })}
+                  onClick={() => saveQuizPreference({ showHintsOnMaster: !showHintsOnMaster })}
                   disabled={quizPrefSaving}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 focus:ring-offset-2 disabled:opacity-50 ${
-                    showHintsOnHard ? "bg-amber" : "bg-muted dark:bg-stone-800"
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
+                    showHintsOnMaster ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
                   }`}
                   role="switch"
-                  aria-checked={showHintsOnHard}
+                  aria-checked={showHintsOnMaster}
                 >
                   <span
                     className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      showHintsOnHard ? "translate-x-5" : "translate-x-0"
+                      showHintsOnMaster ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Journeyman Focus Mode toggle */}
+              <div className="flex items-center justify-between gap-4 pt-1">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    Journeyman Focus Mode
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Only show Journeyman difficulty questions. Apprentice and Master will be hidden.
+                  </p>
+                </div>
+                <button
+                  onClick={() => saveQuizPreference({ focusMode: focusMode === "journeyman" ? null : "journeyman" })}
+                  disabled={quizPrefSaving}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
+                    focusMode === "journeyman" ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
+                  }`}
+                  role="switch"
+                  aria-checked={focusMode === "journeyman"}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      focusMode === "journeyman" ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Master Focus Mode toggle */}
+              <div className="flex items-center justify-between gap-4 pt-1">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    Master Focus Mode
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Only show Master difficulty questions. Apprentice and Journeyman will be hidden.
+                  </p>
+                </div>
+                <button
+                  onClick={() => saveQuizPreference({ focusMode: focusMode === "master" ? null : "master" })}
+                  disabled={quizPrefSaving}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
+                    focusMode === "master" ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
+                  }`}
+                  role="switch"
+                  aria-checked={focusMode === "master"}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      focusMode === "master" ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -524,7 +582,7 @@ export default function SettingsPage() {
               )}
 
               {quizPrefSuccess && (
-                <div className="p-3 rounded-md bg-emerald/10 text-emerald text-sm flex items-center gap-2">
+                <div className="p-3 rounded-md bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green text-sm flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
                   {quizPrefSuccess}
                 </div>
@@ -539,7 +597,7 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)]">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
                 <CreditCard className="h-5 w-5 text-blue-500" />
@@ -552,7 +610,7 @@ export default function SettingsPage() {
                 <span
                   className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     profile.subscriptionStatus === "active"
-                      ? "bg-emerald/10 text-emerald"
+                      ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
                       : profile.subscriptionStatus === "trialing"
                         ? "bg-amber/10 text-amber"
                         : profile.subscriptionStatus === "canceled"
@@ -628,7 +686,7 @@ export default function SettingsPage() {
               {(!profile.subscriptionStatus || profile.subscriptionStatus === "expired" || (profile.subscriptionStatus === "trialing")) && (
                 <Button
                   onClick={() => router.push("/pricing")}
-                  className="w-full bg-amber hover:bg-amber-dark text-white"
+                  className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                 >
                   View Plans
                 </Button>
@@ -643,10 +701,10 @@ export default function SettingsPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25 }}
         >
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)]">
             <CardHeader>
               <CardTitle className="text-lg flex items-center gap-2">
-                <Shield className="h-5 w-5 text-emerald" />
+                <Shield className="h-5 w-5 text-emerald dark:text-sparky-green" />
                 Security
               </CardTitle>
             </CardHeader>
@@ -748,7 +806,7 @@ export default function SettingsPage() {
                   )}
 
                   {passwordSuccess && (
-                    <div className="p-3 rounded-md bg-emerald/10 text-emerald text-sm flex items-center gap-2">
+                    <div className="p-3 rounded-md bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green text-sm flex items-center gap-2">
                       <CheckCircle2 className="h-4 w-4" />
                       {passwordSuccess}
                     </div>
@@ -762,7 +820,7 @@ export default function SettingsPage() {
                       !newPassword ||
                       !confirmPassword
                     }
-                    className="w-full bg-amber hover:bg-amber-dark text-white"
+                    className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                   >
                     {passwordSaving ? (
                       <>

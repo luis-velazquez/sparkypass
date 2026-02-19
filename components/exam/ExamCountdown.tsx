@@ -102,21 +102,21 @@ export function ExamCountdown({
     if (daysUntilExam < 0) return "text-muted-foreground";
     if (daysUntilExam <= 3) return "text-red-500";
     if (daysUntilExam <= 7) return "text-amber";
-    return "text-purple";
+    return "text-purple dark:text-purple-light";
   };
 
   const getProgressColor = () => {
-    if (completionPercentage >= 80) return "bg-emerald";
+    if (completionPercentage >= 80) return "bg-emerald dark:bg-sparky-green";
     if (completionPercentage >= 50) return "bg-amber";
     return "bg-purple";
   };
 
   return (
     <div className={className}>
-      <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+      <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg flex items-center gap-2">
-            <Target className="h-5 w-5 text-purple" />
+            <Target className="h-5 w-5 text-purple dark:text-purple-light" />
             Exam Countdown
           </CardTitle>
         </CardHeader>
@@ -125,8 +125,8 @@ export function ExamCountdown({
             <>
               {/* Days countdown display */}
               <div className="flex items-center gap-4">
-                <div className="flex items-center justify-center w-20 h-20 rounded-full bg-purple-soft shrink-0">
-                  <Zap className="h-10 w-10 text-purple" />
+                <div className="flex items-center justify-center w-20 h-20 rounded-full bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] shrink-0 transition-all duration-300">
+                  <Zap className="h-10 w-10 text-purple dark:text-purple-light" />
                 </div>
                 <div className="min-w-0">
                   <p className={`text-4xl font-bold ${getUrgencyColor()}`}>
@@ -144,7 +144,7 @@ export function ExamCountdown({
 
               {/* Exam date display */}
               <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 dark:bg-stone-800/50 rounded-lg p-3">
-                <Calendar className="h-4 w-4 shrink-0" />
+                <Calendar className="h-4 w-4 shrink-0 dark:text-purple-light" />
                 <span className="truncate">{formatExamDate(targetExamDate)}</span>
               </div>
 
@@ -152,7 +152,7 @@ export function ExamCountdown({
               <div className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <div className="flex items-center gap-2">
-                    <CheckCircle2 className="h-4 w-4 text-emerald" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald dark:text-sparky-green" />
                     <span className="text-muted-foreground">
                       Question Bank Progress
                     </span>
@@ -181,7 +181,7 @@ export function ExamCountdown({
 
               {/* Edit exam date link */}
               <div className="pt-2 border-t">
-                <Link href="/profile" className="text-sm text-purple hover:underline">
+                <Link href="/profile" className="text-sm text-purple dark:text-purple-light hover:underline">
                   Update exam date →
                 </Link>
               </div>

@@ -57,7 +57,7 @@ export function LevelUpModal({
       // Delay confetti slightly to let modal animate in
       const timer = setTimeout(() => {
         // Fire confetti from both sides
-        const colors = ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB"];
+        const colors = ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB", "#A3FF00"];
 
         confetti({
           particleCount: 100,
@@ -95,7 +95,7 @@ export function LevelUpModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="sm:max-w-md border-amber/30 overflow-hidden">
+      <DialogContent className="sm:max-w-md border-amber/30 dark:border-sparky-green/30 overflow-hidden">
         <DialogTitle className="sr-only">Level Up!</DialogTitle>
         <AnimatePresence>
           {isOpen && (
@@ -123,7 +123,7 @@ export function LevelUpModal({
                       repeat: Infinity,
                       repeatDelay: 1,
                     }}
-                    className="absolute text-amber"
+                    className="absolute text-amber dark:text-sparky-green"
                     style={{
                       left: `${20 + (i * 12)}%`,
                       top: `${15 + (i % 3) * 25}%`,
@@ -141,7 +141,7 @@ export function LevelUpModal({
                 transition={{ delay: 0.2, type: "spring", stiffness: 300 }}
                 className="mb-4"
               >
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber to-amber-dark text-white font-bold text-lg">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber to-amber-dark dark:from-sparky-green dark:to-sparky-green-dark text-white dark:text-stone-950 font-bold text-lg">
                   <Trophy className="h-5 w-5" />
                   LEVEL UP!
                   <Zap className="h-5 w-5" />
@@ -153,11 +153,11 @@ export function LevelUpModal({
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                className="relative mb-6"
+                className="mb-2"
               >
-                <div className="w-28 h-28 rounded-full bg-gradient-to-br from-amber via-amber-light to-amber flex items-center justify-center shadow-glow-primary">
+                <div className="w-28 h-28 rounded-full bg-gradient-to-br from-amber via-amber-light to-amber dark:from-sparky-green dark:via-sparky-green dark:to-sparky-green-dark flex items-center justify-center shadow-glow-primary dark:shadow-glow-sparky">
                   <div className="w-24 h-24 rounded-full bg-background flex flex-col items-center justify-center">
-                    <span className="text-4xl font-bold text-amber">
+                    <span className="text-4xl font-bold text-amber dark:text-sparky-green">
                       {newLevel}
                     </span>
                     <span className="text-xs text-muted-foreground uppercase tracking-wider">
@@ -165,16 +165,16 @@ export function LevelUpModal({
                     </span>
                   </div>
                 </div>
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.6 }}
-                  className="absolute -bottom-2 left-1/2 transform -translate-x-1/2"
-                >
-                  <div className="px-3 py-1 rounded-full bg-purple-soft text-purple text-sm font-semibold whitespace-nowrap">
-                    {newTitle}
-                  </div>
-                </motion.div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+                className="mb-6"
+              >
+                <div className="px-3 py-1 rounded-full bg-purple-soft dark:bg-purple/20 text-purple dark:text-purple-light text-sm font-semibold whitespace-nowrap">
+                  {newTitle}
+                </div>
               </motion.div>
 
               {/* Sparky Celebration */}
@@ -182,7 +182,7 @@ export function LevelUpModal({
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="flex items-start gap-3 mb-6 p-4 bg-purple-soft/50 rounded-lg"
+                className="flex items-start gap-3 mb-6 p-4 bg-purple-soft/50 dark:bg-purple/10 rounded-lg"
               >
                 <div className="flex-shrink-0">
                   <SparkyAvatar size="small" />
@@ -201,7 +201,7 @@ export function LevelUpModal({
               >
                 <Button
                   onClick={onClose}
-                  className="bg-amber hover:bg-amber-dark text-white font-semibold px-8"
+                  className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 font-semibold px-8"
                 >
                   Continue
                 </Button>

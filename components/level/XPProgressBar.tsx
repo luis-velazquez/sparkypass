@@ -55,7 +55,7 @@ export function XPProgressBar({
     <div className={cn("w-full", className)}>
       {showLevel && (
         <div className="flex items-center gap-2 mb-2">
-          <Star className={cn(iconSize[size], "text-amber")} />
+          <Star className={cn(iconSize[size], "text-amber dark:text-sparky-green")} />
           <div className="flex items-baseline gap-2">
             <span
               className={cn(
@@ -73,12 +73,12 @@ export function XPProgressBar({
       )}
 
       {/* Progress Bar */}
-      <div className={cn("bg-muted rounded-full overflow-hidden", barHeight[size])}>
+      <div className={cn("bg-muted dark:bg-stone-800 rounded-full overflow-hidden", barHeight[size])}>
         <motion.div
           initial={{ width: 0 }}
           animate={{ width: `${xpProgress.percentage}%` }}
           transition={{ duration: animationDuration, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-amber to-amber-light rounded-full"
+          className="h-full bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark rounded-full"
         />
       </div>
 
@@ -92,7 +92,7 @@ export function XPProgressBar({
         >
           <span>{xp.toLocaleString()} XP</span>
           {isMaxLevel ? (
-            <span className="text-amber font-medium">Max Level!</span>
+            <span className="text-amber dark:text-sparky-green font-medium">Max Level!</span>
           ) : (
             <span>
               {xpProgress.current.toLocaleString()} / {xpProgress.needed.toLocaleString()} to Level {level + 1}

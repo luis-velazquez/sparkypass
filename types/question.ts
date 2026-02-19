@@ -1,8 +1,8 @@
 // Question Types for SparkyPass Quiz System
 
-export type Difficulty = "easy" | "medium" | "hard";
+export type Difficulty = "apprentice" | "journeyman" | "master";
 
-export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction";
+export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "sizing-requirements";
 
 export interface Category {
   slug: CategorySlug;
@@ -85,6 +85,24 @@ export const CATEGORIES: Category[] = [
     name: "Temperature Correction",
     necArticle: "Table 310.15(B)(1)",
     description: "Ambient temperature correction factors, conductor derating, and ampacity adjustments",
+  },
+  {
+    slug: "resistance",
+    name: "Finding Resistance",
+    necArticle: "Chapter 9, Table 8",
+    description: "Conductor resistance formulas, K factors, and calculating resistance from voltage drop",
+  },
+  {
+    slug: "transformer-sizing",
+    name: "Transformer Sizing",
+    necArticle: "Article 450",
+    description: "Transformer kVA sizing, overcurrent protection, and impedance calculations",
+  },
+  {
+    slug: "sizing-requirements",
+    name: "Sizing Requirements",
+    necArticle: "Article 314.28",
+    description: "Pull and junction box sizing, 8x and 6x rules, and wire bending space for conductors 4 AWG and larger",
   },
 ];
 

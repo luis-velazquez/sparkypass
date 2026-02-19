@@ -20,6 +20,9 @@ import {
   Activity,
   Cog,
   Thermometer,
+  Omega,
+  GitBranch,
+  Ruler,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -56,6 +59,9 @@ const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
   "voltage-drop": Activity,
   "motor-calculations": Cog,
   "temperature-correction": Thermometer,
+  "resistance": Omega,
+  "transformer-sizing": GitBranch,
+  "sizing-requirements": Ruler,
 };
 
 // Map category slugs to colors
@@ -109,6 +115,21 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     icon: "text-red-500",
     bg: "bg-red-500/10",
     badge: "bg-red-500/10 text-red-500",
+  },
+  "resistance": {
+    icon: "text-teal-500",
+    bg: "bg-teal-500/10",
+    badge: "bg-teal-500/10 text-teal-500",
+  },
+  "transformer-sizing": {
+    icon: "text-sky-500",
+    bg: "bg-sky-500/10",
+    badge: "bg-sky-500/10 text-sky-500",
+  },
+  "sizing-requirements": {
+    icon: "text-lime-500",
+    bg: "bg-lime-500/10",
+    badge: "bg-lime-500/10 text-lime-500",
   },
 };
 
@@ -237,7 +258,7 @@ export default function BookmarksPage() {
           className="relative z-10 mb-8"
         >
           <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-2">
-            Your <span className="text-amber">Bookmarks</span>
+            Your <span className="text-amber dark:text-sparky-green">Bookmarks</span>
           </h1>
           <p className="text-muted-foreground">
             Save questions during quizzes to review them later.
@@ -298,7 +319,7 @@ export default function BookmarksPage() {
         className="relative z-10 mb-6"
       >
         <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-2">
-          Your <span className="text-amber">Bookmarks</span>
+          Your <span className="text-amber dark:text-sparky-green">Bookmarks</span>
         </h1>
         <p className="text-muted-foreground">
           Review and study your saved questions. You have {bookmarks.length}{" "}
@@ -440,14 +461,14 @@ export default function BookmarksPage() {
                                     key={i}
                                     className={`flex items-start gap-2 p-2 rounded-lg ${
                                       i === question.correctAnswer
-                                        ? "bg-emerald/10 border border-emerald/30"
+                                        ? "bg-emerald/10 border border-emerald/30 dark:bg-sparky-green/10 dark:border-sparky-green/30"
                                         : "bg-muted dark:bg-stone-800"
                                     }`}
                                   >
                                     <span
                                       className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium ${
                                         i === question.correctAnswer
-                                          ? "bg-emerald text-white"
+                                          ? "bg-emerald text-white dark:bg-sparky-green dark:text-stone-950"
                                           : "bg-background text-muted-foreground"
                                       }`}
                                     >

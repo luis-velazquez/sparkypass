@@ -100,7 +100,7 @@ export default function ExamResultsPage() {
   };
 
   const getScoreColor = (score: number) => {
-    if (score >= 80) return "text-emerald";
+    if (score >= 80) return "text-emerald dark:text-sparky-green";
     if (score >= 70) return "text-amber";
     return "text-red-500";
   };
@@ -125,11 +125,11 @@ export default function ExamResultsPage() {
         className="relative z-10 text-center mb-8"
       >
         <div
-          className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 ${
-            passed ? "bg-emerald/10" : "bg-amber/10"
+          className={`inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 transition-all duration-300 ${
+            passed ? "bg-emerald/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)]" : "bg-amber/10 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)]"
           }`}
         >
-          <Trophy className={`h-10 w-10 ${passed ? "text-emerald" : "text-amber"}`} />
+          <Trophy className={`h-10 w-10 ${passed ? "text-emerald dark:text-sparky-green" : "text-amber"}`} />
         </div>
         <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-2">
           {results.examTitle} Complete!
@@ -157,7 +157,7 @@ export default function ExamResultsPage() {
 
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <div className="flex items-center justify-center gap-1 text-emerald mb-1">
+                <div className="flex items-center justify-center gap-1 text-emerald dark:text-sparky-green mb-1">
                   <CheckCircle2 className="h-5 w-5" />
                   <span className="text-2xl font-bold">{results.correct}</span>
                 </div>
@@ -268,7 +268,7 @@ export default function ExamResultsPage() {
                 key={question.id}
                 className={`${
                   isCorrect
-                    ? "border-emerald/30 bg-emerald/5"
+                    ? "border-emerald/30 bg-emerald/5 dark:border-sparky-green/30 dark:bg-sparky-green/5"
                     : "border-red-500/30 bg-red-500/5"
                 }`}
               >
@@ -281,7 +281,7 @@ export default function ExamResultsPage() {
                       )}
                     </CardTitle>
                     {isCorrect ? (
-                      <CheckCircle2 className="h-5 w-5 text-emerald" />
+                      <CheckCircle2 className="h-5 w-5 text-emerald dark:text-sparky-green" />
                     ) : (
                       <XCircle className="h-5 w-5 text-red-500" />
                     )}
@@ -300,7 +300,7 @@ export default function ExamResultsPage() {
                           key={optIndex}
                           className={`p-3 rounded-lg border-2 ${
                             isCorrectAnswer
-                              ? "bg-emerald/10 text-emerald border-emerald/50"
+                              ? "bg-emerald/10 text-emerald border-emerald/50 dark:bg-sparky-green/10 dark:text-sparky-green dark:border-sparky-green/50"
                               : isUserAnswer && !isCorrect
                               ? "bg-red-500/10 text-red-500 border-red-500/50"
                               : "text-muted-foreground border-transparent"
@@ -339,7 +339,7 @@ export default function ExamResultsPage() {
                         <strong>Explanation:</strong> {question.explanation}
                       </p>
                       {question.necReference && (
-                        <p className="text-xs text-purple mt-1">
+                        <p className="text-xs text-purple dark:text-purple-light mt-1">
                           Reference: {question.necReference}
                         </p>
                       )}
@@ -383,7 +383,7 @@ export default function ExamResultsPage() {
           </Button>
         </Link>
         <Link href="/mock-exam">
-          <Button className="w-full sm:w-auto bg-amber hover:bg-amber-dark text-white">
+          <Button className="w-full sm:w-auto bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
             <Home className="h-4 w-4 mr-2" />
             Back to Mock Exams
           </Button>

@@ -72,7 +72,12 @@ export async function GET() {
       percentage: number;
       bestStreak: number;
       completedAt: Date;
+      highestPassedDifficulty: string | null;
+      bestScoreAtHighest: number | null;
     }> = {};
+
+    // Track best percentage per difficulty per category for highest-passed calc
+    const bestByDifficultyPerCategory: Record<string, Record<string, number>> = {};
 
     for (const result of results) {
       if (!latestByCategory[result.categorySlug]) {
@@ -82,8 +87,36 @@ export async function GET() {
           percentage: Math.round((result.score / result.totalQuestions) * 100),
           bestStreak: result.bestStreak,
           completedAt: result.completedAt,
+          highestPassedDifficulty: null,
+          bestScoreAtHighest: null,
         };
       }
+      // Track best percentage per difficulty
+      if (result.difficulty) {
+        if (!bestByDifficultyPerCategory[result.categorySlug]) {
+          bestByDifficultyPerCategory[result.categorySlug] = {};
+        }
+        const pct = Math.round((result.score / result.totalQuestions) * 100);
+        const prev = bestByDifficultyPerCategory[result.categorySlug][result.difficulty];
+        if (prev === undefined || pct > prev) {
+          bestByDifficultyPerCategory[result.categorySlug][result.difficulty] = pct;
+        }
+      }
+    }
+
+    // Determine highest passed difficulty (70%+) per category
+    const PASSING_THRESHOLD = 70;
+    const DIFFICULTY_RANK = ["apprentice", "journeyman", "master"];
+    for (const slug of Object.keys(latestByCategory)) {
+      const bests = bestByDifficultyPerCategory[slug] || {};
+      let highest: string | null = null;
+      for (const diff of DIFFICULTY_RANK) {
+        if (bests[diff] !== undefined && bests[diff] >= PASSING_THRESHOLD) {
+          highest = diff;
+        }
+      }
+      latestByCategory[slug].highestPassedDifficulty = highest;
+      latestByCategory[slug].bestScoreAtHighest = highest ? (bests[highest] ?? null) : null;
     }
 
     return NextResponse.json(latestByCategory);

@@ -21,7 +21,7 @@ const sparkyMessageVariants = cva(
 );
 
 const speechBubbleVariants = cva(
-  "relative bg-sparky-green-bg text-foreground rounded-2xl break-words max-w-full border border-sparky-green/20 backdrop-blur-sm shadow-[0_0_16px_rgba(163,255,0,0.12)]",
+  "relative text-foreground rounded-2xl break-words max-w-full backdrop-blur-sm bg-[rgba(139,92,246,0.10)] border border-purple/20 shadow-[0_0_16px_rgba(139,92,246,0.08)] dark:bg-[rgba(139,92,246,0.12)] dark:border-purple/20 dark:shadow-[0_0_16px_rgba(139,92,246,0.12)]",
   {
     variants: {
       size: {
@@ -60,11 +60,19 @@ export function SparkyMessage({
         <div className={cn(speechBubbleVariants({ size }))}>
           {/* Speech bubble tail */}
           <div
-            className="absolute left-0 top-3 -translate-x-2 w-0 h-0"
+            className="absolute left-0 top-3 -translate-x-2 w-0 h-0 dark:hidden"
             style={{
               borderTop: "8px solid transparent",
               borderBottom: "8px solid transparent",
-              borderRight: "10px solid var(--sparky-green-bg)",
+              borderRight: "10px solid rgba(139, 92, 246, 0.10)",
+            }}
+          />
+          <div
+            className="absolute left-0 top-3 -translate-x-2 w-0 h-0 hidden dark:block"
+            style={{
+              borderTop: "8px solid transparent",
+              borderBottom: "8px solid transparent",
+              borderRight: "10px solid rgba(139, 92, 246, 0.12)",
             }}
           />
           <p className="relative z-10">{message}</p>

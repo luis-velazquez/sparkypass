@@ -22,8 +22,9 @@ export async function GET() {
         dateOfBirth: users.dateOfBirth,
         targetExamDate: users.targetExamDate,
         newsletterOptedIn: users.newsletterOptedIn,
-        showHintsOnHard: users.showHintsOnHard,
+        showHintsOnMaster: users.showHintsOnMaster,
         questionsPerQuiz: users.questionsPerQuiz,
+        focusMode: users.focusMode,
         xp: users.xp,
         level: users.level,
         createdAt: users.createdAt,
@@ -49,8 +50,9 @@ export async function GET() {
       dateOfBirth: user.dateOfBirth?.toISOString() || null,
       targetExamDate: user.targetExamDate?.toISOString() || null,
       newsletterOptedIn: user.newsletterOptedIn,
-      showHintsOnHard: user.showHintsOnHard,
+      showHintsOnMaster: user.showHintsOnMaster,
       questionsPerQuiz: user.questionsPerQuiz,
+      focusMode: user.focusMode || null,
       xp: user.xp,
       level: user.level,
       createdAt: user.createdAt?.toISOString() || null,
@@ -76,14 +78,15 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { targetExamDate, newsletterOptedIn, showHintsOnHard, questionsPerQuiz } = body;
+    const { targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode } = body;
 
     // Build update object with only provided fields
     const updateData: {
       targetExamDate?: Date | null;
       newsletterOptedIn?: boolean;
-      showHintsOnHard?: boolean;
+      showHintsOnMaster?: boolean;
       questionsPerQuiz?: number;
+      focusMode?: string | null;
       updatedAt: Date;
     } = {
       updatedAt: new Date(),
@@ -110,9 +113,9 @@ export async function PATCH(request: Request) {
       updateData.newsletterOptedIn = Boolean(newsletterOptedIn);
     }
 
-    // Handle showHintsOnHard update
-    if (showHintsOnHard !== undefined) {
-      updateData.showHintsOnHard = Boolean(showHintsOnHard);
+    // Handle showHintsOnMaster update
+    if (showHintsOnMaster !== undefined) {
+      updateData.showHintsOnMaster = Boolean(showHintsOnMaster);
     }
 
     // Handle questionsPerQuiz update
@@ -121,6 +124,11 @@ export async function PATCH(request: Request) {
       if (!isNaN(val) && val >= 0) {
         updateData.questionsPerQuiz = val;
       }
+    }
+
+    // Handle focusMode update
+    if (focusMode !== undefined) {
+      updateData.focusMode = focusMode === "journeyman" || focusMode === "master" ? focusMode : null;
     }
 
     await db

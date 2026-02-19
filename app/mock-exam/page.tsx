@@ -47,8 +47,8 @@ const EXAM_OPTIONS: ExamOption[] = [
     timeLimit: 30,
     difficulty: "standard",
     icon: Target,
-    color: "text-emerald",
-    bgColor: "bg-emerald/10",
+    color: "text-emerald dark:text-sparky-green",
+    bgColor: "bg-emerald/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)]",
   },
   {
     id: "half-exam",
@@ -58,8 +58,8 @@ const EXAM_OPTIONS: ExamOption[] = [
     timeLimit: 60,
     difficulty: "standard",
     icon: BookOpen,
-    color: "text-purple",
-    bgColor: "bg-purple-soft dark:bg-purple/10",
+    color: "text-purple dark:text-purple-light",
+    bgColor: "bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)]",
   },
   {
     id: "full-exam",
@@ -69,8 +69,8 @@ const EXAM_OPTIONS: ExamOption[] = [
     timeLimit: 120,
     difficulty: "standard",
     icon: ClipboardCheck,
-    color: "text-amber",
-    bgColor: "bg-amber/10",
+    color: "text-amber dark:text-amber-light",
+    bgColor: "bg-amber/10 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)]",
   },
   {
     id: "challenge-mode",
@@ -80,8 +80,8 @@ const EXAM_OPTIONS: ExamOption[] = [
     timeLimit: 45,
     difficulty: "challenging",
     icon: Trophy,
-    color: "text-red-500",
-    bgColor: "bg-red-500/10",
+    color: "text-red-500 dark:text-red-400",
+    bgColor: "bg-red-500/10 dark:shadow-[0_0_15px_rgba(239,68,68,0.35)]",
   },
 ];
 
@@ -126,7 +126,7 @@ export default function MockExamPage() {
         className="relative z-10 mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-2">
-          <span className="text-amber">Mock Exam</span>
+          <span className="text-amber dark:text-sparky-green">Mock Exam</span>
         </h1>
         <p className="text-muted-foreground">
           Simulate the real Texas Master Electrician exam with timed practice tests.
@@ -144,15 +144,15 @@ export default function MockExamPage() {
             transition={{ duration: 0.5, delay: 0.1 + index * 0.1 }}
           >
             <Card
-              className={`h-full cursor-pointer transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 ${
-                selectedExam === exam.id ? "ring-2 ring-amber" : ""
+              className={`h-full cursor-pointer transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)] pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 ${
+                selectedExam === exam.id ? "ring-2 ring-amber dark:ring-sparky-green" : ""
               } ${exam.difficulty === "challenging" ? "border-red-500/30" : ""}`}
               onClick={() => setSelectedExam(exam.id)}
             >
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div
-                    className={`w-12 h-12 rounded-lg ${exam.bgColor} flex items-center justify-center`}
+                    className={`w-12 h-12 rounded-lg ${exam.bgColor} flex items-center justify-center transition-all duration-300`}
                   >
                     <exam.icon className={`h-6 w-6 ${exam.color}`} />
                   </div>
@@ -193,7 +193,7 @@ export default function MockExamPage() {
             return (
               <>
                 <SheetHeader className="text-center">
-                  <div className={`w-14 h-14 rounded-xl ${exam.bgColor} flex items-center justify-center mx-auto`}>
+                  <div className={`w-14 h-14 rounded-xl ${exam.bgColor} flex items-center justify-center mx-auto transition-all duration-300`}>
                     <exam.icon className={`h-7 w-7 ${exam.color}`} />
                   </div>
                   <SheetTitle className="text-xl">{exam.title}</SheetTitle>
@@ -215,7 +215,7 @@ export default function MockExamPage() {
                 <SheetFooter className="flex-col gap-2 pb-6">
                   <Button
                     size="lg"
-                    className="bg-amber hover:bg-amber-dark text-white w-full"
+                    className="bg-amber hover:bg-amber-dark text-white w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 dark:shadow-[0_0_20px_rgba(163,255,0,0.2)]"
                     onClick={() => handleStartExam(selectedExam)}
                   >
                     <Play className="h-4 w-4 mr-2" />
@@ -244,7 +244,9 @@ export default function MockExamPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardContent className="pt-6">
-              <Clock className="h-8 w-8 text-amber mb-3" />
+              <div className="w-12 h-12 rounded-lg bg-amber/10 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center mb-3 transition-all duration-300">
+                <Clock className="h-6 w-6 text-amber dark:text-amber-light" />
+              </div>
               <h3 className="font-semibold text-foreground mb-2">Time Management</h3>
               <p className="text-sm text-muted-foreground">
                 Pace yourself - aim for about 1 minute per question. Flag difficult ones and return later.
@@ -253,7 +255,9 @@ export default function MockExamPage() {
           </Card>
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardContent className="pt-6">
-              <BookOpen className="h-8 w-8 text-emerald mb-3" />
+              <div className="w-12 h-12 rounded-lg bg-emerald/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] flex items-center justify-center mb-3 transition-all duration-300">
+                <BookOpen className="h-6 w-6 text-emerald dark:text-sparky-green" />
+              </div>
               <h3 className="font-semibold text-foreground mb-2">Read Carefully</h3>
               <p className="text-sm text-muted-foreground">
                 Pay attention to keywords like &quot;minimum,&quot; &quot;maximum,&quot; &quot;shall,&quot; and &quot;permitted.&quot;
@@ -262,7 +266,9 @@ export default function MockExamPage() {
           </Card>
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardContent className="pt-6">
-              <Target className="h-8 w-8 text-purple mb-3" />
+              <div className="w-12 h-12 rounded-lg bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center mb-3 transition-all duration-300">
+                <Target className="h-6 w-6 text-purple dark:text-purple-light" />
+              </div>
               <h3 className="font-semibold text-foreground mb-2">Eliminate Wrong Answers</h3>
               <p className="text-sm text-muted-foreground">
                 When unsure, eliminate obviously wrong choices first to improve your odds.

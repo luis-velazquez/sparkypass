@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   Brain,
   BookOpen,
@@ -31,6 +31,7 @@ import { getLevelTitle, getXPProgress } from "@/lib/levels";
 import { CATEGORIES } from "@/types/question";
 import { SubscriptionBanner } from "@/components/subscription/SubscriptionBanner";
 import { TrialStatusHeader } from "@/components/subscription/TrialStatusHeader";
+import { DailyChallengeBanner } from "@/components/daily";
 
 interface SavedFlashcard {
   id: string;
@@ -98,6 +99,10 @@ interface ProgressStats {
   xp: number;
   level: number;
   studyStreak: number;
+  bestStudyStreak: number;
+  dailyChallengeCompleted: boolean;
+  dailyChallengeXpEarned: number;
+  dailyChallengeXpReward: number;
 }
 
 const features = [
@@ -199,6 +204,191 @@ function formatTimeAgo(dateString: string | null): string {
   return date.toLocaleDateString();
 }
 
+const CATEGORY_COLORS: Record<string, string> = {
+  "load-calculations": "#8B5CF6",
+  "grounding-bonding": "#10B981",
+  "services": "#F59E0B",
+  "textbook-navigation": "#3B82F6",
+  "chapter-9-tables": "#F97316",
+  "box-fill": "#06B6D4",
+  "conduit-fill": "#F43F5E",
+  "voltage-drop": "#EAB308",
+  "motor-calculations": "#6366F1",
+  "temperature-correction": "#F87171",
+  "resistance": "#14B8A6",
+  "transformer-sizing": "#0EA5E9",
+  "sizing-requirements": "#84CC16",
+};
+
+function CategoryPieChart({ categoryStats }: { categoryStats: CategoryStat[] }) {
+  const [hoveredSlice, setHoveredSlice] = useState<string | null>(null);
+  const [hoveredLegend, setHoveredLegend] = useState<string | null>(null);
+  const activeSlug = hoveredSlice || hoveredLegend;
+
+  const activeStats = categoryStats.filter((s) => s.answered > 0);
+  const totalAnswered = activeStats.reduce((sum, s) => sum + s.answered, 0);
+
+  if (totalAnswered === 0) return null;
+
+  const radius = 70;
+  const strokeWidth = 28;
+  const circumference = 2 * Math.PI * radius;
+
+  // Build slices
+  type Slice = { slug: string; answered: number; accuracy: number; color: string; offset: number; length: number };
+  const slices: Slice[] = [];
+  let cumulativeOffset = 0;
+
+  for (const stat of activeStats) {
+    const proportion = stat.answered / totalAnswered;
+    const length = proportion * circumference;
+    slices.push({
+      slug: stat.slug,
+      answered: stat.answered,
+      accuracy: stat.accuracy,
+      color: CATEGORY_COLORS[stat.slug] || "#94A3B8",
+      offset: cumulativeOffset,
+      length,
+    });
+    cumulativeOffset += length;
+  }
+
+  return (
+    <div className="flex flex-col md:flex-row items-center gap-6">
+      {/* Donut Chart */}
+      <div className="relative flex-shrink-0">
+        <svg
+          width="200"
+          height="200"
+          viewBox="0 0 200 200"
+          className="transform -rotate-90"
+        >
+          {/* Background circle */}
+          <circle
+            cx="100"
+            cy="100"
+            r={radius}
+            fill="none"
+            stroke="currentColor"
+            className="text-muted dark:text-stone-800"
+            strokeWidth={strokeWidth}
+          />
+          {/* Slices */}
+          {slices.map((slice) => {
+            const isActive = activeSlug === slice.slug;
+            const isOtherActive = activeSlug !== null && activeSlug !== slice.slug;
+            return (
+              <motion.circle
+                key={slice.slug}
+                cx="100"
+                cy="100"
+                r={radius}
+                fill="none"
+                stroke={slice.color}
+                strokeWidth={isActive ? strokeWidth + 4 : strokeWidth}
+                strokeDasharray={`${slice.length} ${circumference - slice.length}`}
+                strokeDashoffset={-slice.offset}
+                strokeLinecap="butt"
+                initial={{ strokeDasharray: `0 ${circumference}`, strokeDashoffset: -slice.offset }}
+                animate={{
+                  strokeDasharray: `${slice.length} ${circumference - slice.length}`,
+                  opacity: isOtherActive ? 0.35 : 1,
+                }}
+                transition={{ duration: 0.8, ease: "easeOut", opacity: { duration: 0.2 } }}
+                className="cursor-pointer"
+                style={{ filter: isActive ? `drop-shadow(0 0 6px ${slice.color})` : undefined }}
+                onMouseEnter={() => setHoveredSlice(slice.slug)}
+                onMouseLeave={() => setHoveredSlice(null)}
+              />
+            );
+          })}
+        </svg>
+        {/* Center text */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <span className="text-2xl font-bold text-foreground dark:text-sparky-green">
+            {totalAnswered}
+          </span>
+          <span className="text-xs text-muted-foreground">answered</span>
+        </div>
+        {/* Tooltip */}
+        <AnimatePresence>
+          {hoveredSlice && (() => {
+            const slice = slices.find((s) => s.slug === hoveredSlice);
+            if (!slice) return null;
+            const cat = CATEGORIES.find((c) => c.slug === slice.slug);
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 4 }}
+                transition={{ duration: 0.15 }}
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-stone-900 dark:bg-stone-800 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap shadow-lg z-10 pointer-events-none"
+              >
+                <span className="font-medium">{cat?.name || slice.slug}</span>
+                <span className="text-stone-400 ml-1.5">
+                  {slice.answered} ({Math.round((slice.answered / totalAnswered) * 100)}%)
+                </span>
+              </motion.div>
+            );
+          })()}
+        </AnimatePresence>
+      </div>
+
+      {/* Legend */}
+      <div className="flex-1 w-full space-y-1.5 max-h-[320px] overflow-y-auto overflow-x-hidden">
+        {slices.map((slice) => {
+          const cat = CATEGORIES.find((c) => c.slug === slice.slug);
+          const isActive = activeSlug === slice.slug;
+          return (
+            <Link
+              key={slice.slug}
+              href={`/quiz/${slice.slug}`}
+              className="block"
+              onMouseEnter={() => setHoveredLegend(slice.slug)}
+              onMouseLeave={() => setHoveredLegend(null)}
+            >
+              <motion.div
+                animate={{ scale: isActive ? 1.02 : 1, x: isActive ? 4 : 0 }}
+                transition={{ duration: 0.15 }}
+                className={`flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer pressable ${
+                  isActive ? "bg-muted/80 dark:bg-stone-800/80" : "hover:bg-muted/50 dark:hover:bg-stone-800/50"
+                }`}
+              >
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <span
+                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: slice.color }}
+                  />
+                  <span className="text-sm font-medium text-foreground truncate">
+                    {cat?.name || slice.slug}
+                  </span>
+                </div>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <span className="text-xs text-muted-foreground">
+                    {slice.answered}
+                  </span>
+                  <span
+                    className={`text-xs font-semibold min-w-[36px] text-right ${
+                      slice.accuracy >= 80
+                        ? "text-emerald dark:text-sparky-green"
+                        : slice.accuracy >= 70
+                        ? "text-amber"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {slice.accuracy}%
+                  </span>
+                  <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                </div>
+              </motion.div>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -225,6 +415,12 @@ export default function DashboardPage() {
           if (saved) {
             const parsed = JSON.parse(saved) as SavedQuizProgress;
             if (!parsed.questionIds || !Array.isArray(parsed.questionIds)) continue;
+            // Migrate old difficulty names
+            const OLD_DIFF_MAP: Record<string, string> = { easy: "apprentice", medium: "journeyman", hard: "master" };
+            if (parsed.difficulty && OLD_DIFF_MAP[parsed.difficulty]) {
+              parsed.difficulty = OLD_DIFF_MAP[parsed.difficulty];
+              localStorage.setItem(`sparkypass-quiz-progress-${cat.slug}`, JSON.stringify(parsed));
+            }
             const isRecent = Date.now() - parsed.timestamp < 24 * 60 * 60 * 1000;
             const hasProgress = parsed.currentQuestionIndex > 0 || Object.keys(parsed.answers || {}).length > 0;
             if (isRecent && hasProgress) {
@@ -296,6 +492,10 @@ export default function DashboardPage() {
   const xp = progressStats?.xp ?? userData?.xp ?? 0;
   const level = progressStats?.level ?? userData?.level ?? 1;
   const studyStreak = progressStats?.studyStreak ?? userData?.studyStreak ?? 0;
+  const bestStudyStreak = progressStats?.bestStudyStreak ?? 0;
+  const dailyChallengeCompleted = progressStats?.dailyChallengeCompleted ?? false;
+  const dailyChallengeXpEarned = progressStats?.dailyChallengeXpEarned ?? 0;
+  const dailyChallengeXpReward = progressStats?.dailyChallengeXpReward ?? 25;
   const targetExamDate = userData?.targetExamDate
     ? new Date(userData.targetExamDate)
     : null;
@@ -357,7 +557,7 @@ export default function DashboardPage() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 font-display">
-            Welcome back, <span className="text-amber">{displayName}</span>!
+            Welcome back, <span className="text-amber dark:text-sparky-green">{displayName}</span>!
           </h1>
           <p className="text-muted-foreground mb-8">
             Let&apos;s keep the momentum going!
@@ -369,6 +569,80 @@ export default function DashboardPage() {
           <TrialStatusHeader />
           <SubscriptionBanner />
         </div>
+
+        {/* Daily Challenge Banner */}
+        <div className="mb-6">
+          <DailyChallengeBanner
+            completed={dailyChallengeCompleted}
+            studyStreak={studyStreak}
+            bestStudyStreak={bestStudyStreak}
+            xpReward={dailyChallengeXpReward}
+            xpEarned={dailyChallengeXpEarned}
+          />
+        </div>
+
+        {/* Continue Where You Left Off Banner */}
+        {savedQuizProgressList.length > 0 && (() => {
+          const mostRecent = savedQuizProgressList[0];
+          const cat = CATEGORIES.find((c) => c.slug === mostRecent.categorySlug);
+          const answeredCount = Object.keys(mostRecent.answers).length;
+          const totalCount = mostRecent.questionIds.length;
+          const progressPercent = totalCount > 0
+            ? Math.round((mostRecent.currentQuestionIndex / totalCount) * 100)
+            : 0;
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05 }}
+              className="mb-6"
+            >
+              <Link href={`/quiz/${mostRecent.categorySlug}?resume=true`}>
+                <div className="relative overflow-hidden rounded-xl border border-amber/40 dark:border-amber/30 bg-gradient-to-r from-amber/10 via-amber/5 to-transparent dark:from-amber/10 dark:via-amber/5 dark:to-transparent p-5 group hover:border-amber/60 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all cursor-pointer pressable">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-amber/20 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+                        <Play className="h-6 w-6 text-amber dark:text-amber-light" />
+                      </div>
+                      <div>
+                        <p className="text-base font-bold text-foreground">
+                          Continue: {cat?.name || mostRecent.categorySlug}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {answeredCount}/{totalCount} answered
+                          {mostRecent.difficulty && (
+                            <span className={`ml-2 text-xs font-bold px-1.5 py-0.5 rounded-full ${
+                              mostRecent.difficulty === "apprentice"
+                                ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                                : mostRecent.difficulty === "journeyman"
+                                ? "bg-amber/10 text-amber"
+                                : "bg-red-500/10 text-red-500"
+                            }`}>
+                              {mostRecent.difficulty.charAt(0).toUpperCase() + mostRecent.difficulty.slice(1)}
+                            </span>
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-amber font-semibold text-sm">
+                      <span className="hidden sm:inline">Pick up where you left off</span>
+                      <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="mt-4 h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${progressPercent}%` }}
+                      transition={{ duration: 0.8, ease: "easeOut" }}
+                      className="h-full bg-amber dark:bg-sparky-green rounded-full"
+                    />
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          );
+        })()}
 
         {/* Start Studying - Feature Cards */}
         <motion.div
@@ -390,8 +664,8 @@ export default function DashboardPage() {
               >
                 <Link href={feature.href}>
                   <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-5 cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] pressable">
-                    <div className="w-12 h-12 rounded-lg bg-amber/10 flex items-center justify-center mb-3 group-hover:bg-amber/20 transition-colors">
-                      <feature.icon className="h-6 w-6 text-amber" />
+                    <div className="w-12 h-12 rounded-lg bg-amber/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] flex items-center justify-center mb-3 group-hover:bg-amber/20 dark:group-hover:bg-sparky-green/20 transition-all duration-300">
+                      <feature.icon className="h-6 w-6 text-amber dark:text-sparky-green" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground mb-1">
                       {feature.title}
@@ -414,16 +688,16 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Star className="h-4 w-4 text-amber" />
+                  <Star className="h-4 w-4 text-amber dark:text-amber-light" />
                   Level & XP
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-3xl font-bold text-foreground">
+                  <span className="text-3xl font-bold text-foreground dark:text-sparky-green">
                     Level {level}
                   </span>
                   <span className="text-sm text-muted-foreground">
@@ -444,7 +718,7 @@ export default function DashboardPage() {
                       initial={{ width: 0 }}
                       animate={{ width: `${xpProgress.percentage}%` }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
-                      className="h-full bg-gradient-to-r from-amber to-amber-light rounded-full"
+                      className="h-full bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark rounded-full"
                     />
                   </div>
                 </div>
@@ -458,20 +732,20 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Flame className="h-4 w-4 text-orange-500" />
+                  <Flame className="h-4 w-4 text-orange-500 dark:text-orange-400" />
                   Study Streak
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/10">
-                    <Flame className="h-8 w-8 text-orange-500" />
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/10 dark:shadow-[0_0_15px_rgba(249,115,22,0.35)] transition-all duration-300">
+                    <Flame className="h-8 w-8 text-orange-500 dark:text-orange-400" />
                   </div>
                   <div>
-                    <p className="text-3xl font-bold text-foreground">
+                    <p className="text-3xl font-bold text-foreground dark:text-sparky-green">
                       {studyStreak}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -479,21 +753,16 @@ export default function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                {studyStreak === 0 && (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    Complete a quiz to start your streak!
-                  </p>
-                )}
-                {studyStreak > 0 && studyStreak < 7 && (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    Keep it going! Study today to maintain your streak.
-                  </p>
-                )}
-                {studyStreak >= 7 && (
-                  <p className="text-sm text-emerald mt-3">
-                    Amazing dedication! You&apos;re on fire!
-                  </p>
-                )}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="p-2.5 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
+                    <p className="text-lg font-bold text-foreground dark:text-sparky-green">{answeredToday}</p>
+                    <p className="text-xs text-muted-foreground">today</p>
+                  </div>
+                  <div className="p-2.5 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
+                    <p className="text-lg font-bold text-foreground dark:text-sparky-green">{xp.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">total XP</p>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -513,67 +782,27 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Cards Row 2 - Progress Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
-          {/* Total Questions Answered */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-          >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <CheckCircle2 className="h-4 w-4 text-emerald" />
-                  Questions Answered
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-emerald/10">
-                    <CheckCircle2 className="h-8 w-8 text-emerald" />
-                  </div>
-                  <div>
-                    <p className="text-3xl font-bold text-foreground">
-                      {totalAnswered}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      total questions
-                    </p>
-                  </div>
-                </div>
-                {isNewUser ? (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    Start a quiz to track your progress!
-                  </p>
-                ) : (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    <span className="text-emerald font-medium">{answeredToday}</span> answered today
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
           {/* Overall Accuracy */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-purple" />
+                  <TrendingUp className="h-4 w-4 text-purple dark:text-purple-light" />
                   Overall Accuracy
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-purple-soft dark:bg-purple/10">
-                    <TrendingUp className="h-8 w-8 text-purple" />
+                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] transition-all duration-300">
+                    <TrendingUp className="h-8 w-8 text-purple dark:text-purple-light" />
                   </div>
                   <div>
-                    <p className="text-3xl font-bold text-foreground">
+                    <p className="text-3xl font-bold text-foreground dark:text-sparky-green">
                       {isNewUser ? "—" : `${accuracy}%`}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -586,7 +815,7 @@ export default function DashboardPage() {
                     Answer questions to see your accuracy!
                   </p>
                 ) : accuracy >= 80 ? (
-                  <p className="text-sm text-emerald mt-3">
+                  <p className="text-sm text-emerald dark:text-sparky-green mt-3">
                     Excellent work! Keep it up!
                   </p>
                 ) : accuracy >= 70 ? (
@@ -608,7 +837,7 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
           >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]">
+            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
                   <AlertTriangle className="h-4 w-4 text-amber" />
@@ -624,8 +853,8 @@ export default function DashboardPage() {
                   </div>
                 ) : weakAreas.length === 0 ? (
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-emerald/10">
-                      <CheckCircle2 className="h-8 w-8 text-emerald" />
+                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-emerald/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] transition-all duration-300">
+                      <CheckCircle2 className="h-8 w-8 text-emerald dark:text-sparky-green" />
                     </div>
                     <div>
                       <p className="text-lg font-semibold text-foreground">
@@ -685,7 +914,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Bookmark className="h-5 w-5 text-amber" />
+                  <Bookmark className="h-5 w-5 text-amber dark:text-amber-light" />
                   Saved for Later
                 </CardTitle>
               </CardHeader>
@@ -695,7 +924,7 @@ export default function DashboardPage() {
                   {savedFlashcards.length > 0 && (
                     <div>
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-emerald" />
+                        <BookOpen className="h-4 w-4 text-emerald dark:text-sparky-green" />
                         Flashcards ({savedFlashcards.length})
                       </h3>
                       <div className="space-y-2 max-h-[300px] overflow-y-auto">
@@ -849,7 +1078,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-purple" />
+                  <Brain className="h-5 w-5 text-purple dark:text-purple-light" />
                   Category Progress
                 </CardTitle>
               </CardHeader>
@@ -861,70 +1090,11 @@ export default function DashboardPage() {
                       No progress yet. Start a quiz to see your category breakdown!
                     </p>
                     <Link href="/quiz">
-                      <Button className="bg-amber hover:bg-amber-dark text-white">Start a Quiz</Button>
+                      <Button className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">Start a Quiz</Button>
                     </Link>
                   </div>
                 ) : (
-                  <div className="space-y-4">
-                    {CATEGORIES.map((category) => {
-                      const stat = categoryStats.find(
-                        (s) => s.slug === category.slug
-                      );
-                      const answered = stat?.answered || 0;
-                      const categoryAccuracy = stat?.accuracy || 0;
-                      const isWeak = answered > 0 && categoryAccuracy < 70;
-
-                      return (
-                        <Link key={category.slug} href={`/quiz/${category.slug}`} className="block group">
-                          <div className="flex items-center justify-between mb-1">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-medium text-foreground group-hover:text-amber transition-colors">
-                                {category.name}
-                              </span>
-                              {isWeak && (
-                                <AlertTriangle className="h-3 w-3 text-amber" />
-                              )}
-                            </div>
-                            <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                              <span>{answered} answered</span>
-                              <span
-                                className={`font-medium ${
-                                  answered === 0
-                                    ? "text-muted-foreground"
-                                    : categoryAccuracy >= 80
-                                    ? "text-emerald"
-                                    : categoryAccuracy >= 70
-                                    ? "text-amber"
-                                    : "text-red-500"
-                                }`}
-                              >
-                                {answered === 0 ? "—" : `${categoryAccuracy}%`}
-                              </span>
-                              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-amber group-hover:translate-x-0.5 transition-all" />
-                            </div>
-                          </div>
-                          <div className="h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
-                            <motion.div
-                              initial={{ width: 0 }}
-                              animate={{
-                                width: answered > 0 ? `${categoryAccuracy}%` : "0%",
-                              }}
-                              transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-                              className={`h-full rounded-full ${
-                                answered === 0
-                                  ? "bg-muted"
-                                  : categoryAccuracy >= 80
-                                  ? "bg-emerald"
-                                  : categoryAccuracy >= 70
-                                  ? "bg-amber"
-                                  : "bg-red-400"
-                              }`}
-                            />
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
+                  <CategoryPieChart categoryStats={categoryStats} />
                 )}
               </CardContent>
             </Card>
@@ -939,7 +1109,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-amber" />
+                  <Clock className="h-5 w-5 text-amber dark:text-amber-light" />
                   Recent Activity
                 </CardTitle>
               </CardHeader>
@@ -951,7 +1121,7 @@ export default function DashboardPage() {
                       No quizzes in progress. Start a study session to track your progress!
                     </p>
                     <Link href="/quiz">
-                      <Button className="bg-amber hover:bg-amber-dark text-white">Start Studying</Button>
+                      <Button className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">Start Studying</Button>
                     </Link>
                   </div>
                 ) : (
@@ -968,17 +1138,17 @@ export default function DashboardPage() {
                           <div className="relative overflow-hidden rounded-lg border border-amber/30 dark:border-amber/20 bg-amber/5 dark:bg-amber/5 p-4 group-hover:border-amber/60 group-hover:bg-amber/10 transition-all">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-amber/20 flex items-center justify-center">
-                                  <Play className="h-5 w-5 text-amber" />
+                                <div className="w-10 h-10 rounded-full bg-amber/20 dark:shadow-[0_0_12px_rgba(245,158,11,0.35)] flex items-center justify-center transition-all duration-300">
+                                  <Play className="h-5 w-5 text-amber dark:text-amber-light" />
                                 </div>
                                 <div>
                                   <p className="text-sm font-semibold text-foreground flex items-center gap-2">
                                     {cat?.name || progress.categorySlug}
                                     {progress.difficulty && (
                                       <span className={`text-xs font-bold px-1.5 py-0.5 rounded-full ${
-                                        progress.difficulty === "easy"
-                                          ? "bg-emerald/10 text-emerald"
-                                          : progress.difficulty === "medium"
+                                        progress.difficulty === "apprentice"
+                                          ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                                          : progress.difficulty === "journeyman"
                                           ? "bg-amber/10 text-amber"
                                           : "bg-red-500/10 text-red-500"
                                       }`}>
@@ -996,7 +1166,7 @@ export default function DashboardPage() {
                             {/* Progress bar */}
                             <div className="mt-3 h-1.5 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-amber rounded-full transition-all"
+                                className="h-full bg-amber dark:bg-sparky-green rounded-full transition-all"
                                 style={{ width: `${progressPercent}%` }}
                               />
                             </div>
@@ -1021,8 +1191,8 @@ export default function DashboardPage() {
                       return (
                         <div key={session.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 dark:bg-stone-800/50">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-purple-soft dark:bg-purple/10 flex items-center justify-center">
-                              <CheckCircle2 className="h-5 w-5 text-emerald" />
+                            <div className="w-10 h-10 rounded-full bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_12px_rgba(139,92,246,0.35)] flex items-center justify-center transition-all duration-300">
+                              <CheckCircle2 className="h-5 w-5 text-emerald dark:text-sparky-green" />
                             </div>
                             <div>
                               <p className="text-sm font-medium text-foreground">
@@ -1035,7 +1205,7 @@ export default function DashboardPage() {
                           </div>
                           <span className={`text-sm font-bold ${
                             scorePercent >= 80
-                              ? "text-emerald"
+                              ? "text-emerald dark:text-sparky-green"
                               : scorePercent >= 60
                               ? "text-amber"
                               : "text-red-500"

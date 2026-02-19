@@ -12,6 +12,7 @@ import {
   BookOpen,
   Layers,
   ClipboardCheck,
+  Calendar,
   Calculator,
   Settings,
   ChevronDown,
@@ -30,6 +31,7 @@ const navLinks = [
   { href: "/quiz", label: "Quiz", icon: BookOpen },
   { href: "/flashcards", label: "Flashcards", icon: Layers },
   { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },
+  { href: "/daily", label: "Daily Challenge", icon: Calendar },
   { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
   { href: "/settings", label: "Settings", icon: Settings },
 ];
@@ -153,7 +155,7 @@ export function MobileNav() {
                 </Button>
               </Link>
               <Link href="/register" className="w-full" onClick={closeSheet}>
-                <Button className="w-full bg-amber hover:bg-amber-dark text-white min-h-[44px]">
+                <Button className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 min-h-[44px]">
                   Sign up
                 </Button>
               </Link>

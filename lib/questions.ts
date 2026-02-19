@@ -42,7 +42,12 @@ export function getRandomQuestions(category: CategorySlug, count: number = 15, d
   const categoryQuestions = difficulty
     ? getQuestionsByCategoryAndDifficulty(category, difficulty)
     : getQuestionsByCategory(category);
-  const shuffled = [...categoryQuestions].sort(() => Math.random() - 0.5);
+  // Fisher-Yates shuffle for uniform randomization
+  const shuffled = [...categoryQuestions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
   return shuffled.slice(0, Math.min(count, shuffled.length));
 }
 
@@ -51,6 +56,18 @@ export function getRandomQuestions(category: CategorySlug, count: number = 15, d
  */
 export function getQuestionCountByCategoryAndDifficulty(category: CategorySlug, difficulty: Difficulty): number {
   return getQuestionsByCategoryAndDifficulty(category, difficulty).length;
+}
+
+/**
+ * Get a random selection of questions from ALL categories
+ */
+export function getRandomQuestionsAll(count: number = 5): Question[] {
+  const shuffled = [...questions];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled.slice(0, Math.min(count, shuffled.length));
 }
 
 /**
@@ -82,6 +99,9 @@ export function getCategoryCounts(): Record<CategorySlug, number> {
     "voltage-drop": getQuestionCountByCategory("voltage-drop"),
     "motor-calculations": getQuestionCountByCategory("motor-calculations"),
     "temperature-correction": getQuestionCountByCategory("temperature-correction"),
+    "resistance": getQuestionCountByCategory("resistance"),
+    "transformer-sizing": getQuestionCountByCategory("transformer-sizing"),
+    "sizing-requirements": getQuestionCountByCategory("sizing-requirements"),
   };
 }
 

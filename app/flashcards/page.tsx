@@ -284,7 +284,7 @@ function FlashcardsContent() {
         className="mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-2">
-          <span className="text-emerald">Flashcards</span>
+          <span className="text-emerald dark:text-sparky-green">Flashcards</span>
         </h1>
         <p className="text-muted-foreground">
           Master key NEC concepts with our flashcard system. Flip to reveal answers!
@@ -316,7 +316,7 @@ function FlashcardsContent() {
             variant={selectedSetId === set.id ? "default" : "outline"}
             size="sm"
             onClick={() => setSelectedSetId(set.id)}
-            className={selectedSetId === set.id ? "bg-emerald hover:bg-emerald/90" : ""}
+            className={selectedSetId === set.id ? "bg-emerald hover:bg-emerald/90 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950" : ""}
           >
             {set.name}
           </Button>
@@ -343,7 +343,7 @@ function FlashcardsContent() {
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
-            className="h-full bg-emerald rounded-full"
+            className="h-full bg-emerald dark:bg-sparky-green rounded-full"
           />
         </div>
       </motion.div>
@@ -374,7 +374,7 @@ function FlashcardsContent() {
                     savedCards.has(currentCard.id)
                       ? "border-2 border-amber bg-amber/5 shadow-glow-primary"
                       : isFlipped
-                      ? "bg-emerald/5 border-emerald/30"
+                      ? "bg-emerald/5 border-emerald/30 dark:bg-sparky-green/5 dark:border-sparky-green/30"
                       : "bg-card dark:bg-stone-900/50 border-border dark:border-stone-800"
                   }`}
                 >
@@ -388,7 +388,7 @@ function FlashcardsContent() {
                   <CardContent className="flex flex-col items-center justify-center h-full">
                     {!isFlipped ? (
                       <>
-                        <BookOpen className={`h-8 w-8 mb-4 ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald"}`} />
+                        <BookOpen className={`h-8 w-8 mb-4 ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald dark:text-sparky-green"}`} />
                         <p className="text-lg md:text-xl font-medium text-foreground mb-4">
                           {currentCard.front}
                         </p>
@@ -398,11 +398,11 @@ function FlashcardsContent() {
                       </>
                     ) : (
                       <>
-                        <CheckCircle2 className={`h-8 w-8 mb-4 ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald"}`} />
+                        <CheckCircle2 className={`h-8 w-8 mb-4 ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald dark:text-sparky-green"}`} />
                         <p className="text-lg md:text-xl text-foreground mb-4">
                           {currentCard.back}
                         </p>
-                        <p className={`text-sm font-medium ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald"}`}>
+                        <p className={`text-sm font-medium ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald dark:text-sparky-green"}`}>
                           {currentCard.necReference}
                         </p>
                       </>
@@ -513,7 +513,7 @@ function FlashcardsContent() {
           className="mt-8"
         >
           <h2 className="text-lg font-semibold font-display text-foreground mb-4 flex items-center gap-2">
-            <Star className="h-5 w-5 text-amber fill-amber" />
+            <Star className="h-5 w-5 text-amber fill-amber dark:text-sparky-green dark:fill-sparky-green" />
             Saved for Later ({savedCards.size})
           </h2>
           <div className="grid gap-2">
@@ -527,17 +527,17 @@ function FlashcardsContent() {
                   href={`/flashcards?card=${card.id}`}
                   className="block"
                 >
-                  <Card className="p-3 border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:border-amber/50 hover:bg-amber/5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] cursor-pointer group pressable">
+                  <Card className="p-3 border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:border-amber/50 hover:bg-amber/5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)] cursor-pointer group pressable">
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-amber transition-colors">
+                        <p className="text-sm font-medium text-foreground line-clamp-2 group-hover:text-amber dark:group-hover:text-sparky-green transition-colors">
                           {card.front}
                         </p>
                         <p className="text-xs text-muted-foreground mt-1">
                           {setName} • {card.necReference}
                         </p>
                       </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-amber group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-0.5" />
+                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-amber dark:group-hover:text-sparky-green group-hover:translate-x-0.5 transition-all flex-shrink-0 mt-0.5" />
                     </div>
                   </Card>
                 </Link>

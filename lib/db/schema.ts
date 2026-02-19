@@ -19,11 +19,13 @@ export const users = sqliteTable("users", {
   dateOfBirth: integer("date_of_birth", { mode: "timestamp" }),
   targetExamDate: integer("target_exam_date", { mode: "timestamp" }),
   newsletterOptedIn: integer("newsletter_opted_in", { mode: "boolean" }).notNull().default(false),
-  showHintsOnHard: integer("show_hints_on_hard", { mode: "boolean" }).notNull().default(false),
+  showHintsOnMaster: integer("show_hints_on_master", { mode: "boolean" }).notNull().default(false),
   questionsPerQuiz: integer("questions_per_quiz").notNull().default(0),
+  focusMode: text("focus_mode"),  // null = off, "journeyman", "master"
   xp: integer("xp").notNull().default(0),
   level: integer("level").notNull().default(1),
   studyStreak: integer("study_streak").notNull().default(0),
+  bestStudyStreak: integer("best_study_streak").notNull().default(0),
   lastStudyDate: integer("last_study_date", { mode: "timestamp" }),
   // Subscription fields
   trialEndsAt: integer("trial_ends_at", { mode: "timestamp" }),

@@ -20,7 +20,7 @@ export function SubscriptionBanner() {
 
     if (daysLeft <= 2 && daysLeft > 0) {
       return (
-        <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-amber/10 border border-amber/20 text-amber-dark dark:text-amber text-sm">
+        <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-amber/10 dark:bg-sparky-green/10 border border-amber/20 dark:border-sparky-green/20 text-amber-dark dark:text-sparky-green text-sm">
           <div className="flex items-center gap-2">
             <Clock className="h-4 w-4 flex-shrink-0" />
             <span>
@@ -61,7 +61,7 @@ export function SubscriptionBanner() {
     const endDate = new Date(subscriptionPeriodEnd);
     if (endDate > new Date()) {
       return (
-        <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-amber/10 border border-amber/20 text-amber-dark dark:text-amber text-sm">
+        <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-amber/10 dark:bg-sparky-green/10 border border-amber/20 dark:border-sparky-green/20 text-amber-dark dark:text-sparky-green text-sm">
           <div className="flex items-center gap-2">
             <CreditCard className="h-4 w-4 flex-shrink-0" />
             <span>

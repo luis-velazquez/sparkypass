@@ -35,7 +35,7 @@ export function AuthButtons() {
         <Button variant="ghost" className="min-h-[44px]">Log in</Button>
       </Link>
       <Link href="/register">
-        <Button className="bg-amber hover:bg-amber-dark text-white min-h-[44px]">
+        <Button className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 min-h-[44px]">
           Sign up
         </Button>
       </Link>
@@ -78,7 +78,7 @@ export function MobileAuthButtons({ onClose }: { onClose?: () => void }) {
         </Button>
       </Link>
       <Link href="/register" className="w-full" onClick={onClose}>
-        <Button className="w-full bg-amber hover:bg-amber-dark text-white min-h-[44px]">
+        <Button className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 min-h-[44px]">
           Sign up
         </Button>
       </Link>

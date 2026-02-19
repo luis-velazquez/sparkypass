@@ -36,15 +36,15 @@ export function SessionTimeoutWarning({
       <AlertDialogContent>
         <AlertDialogHeader>
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 rounded-full bg-amber/20">
-              <Clock className="h-6 w-6 text-amber" />
+            <div className="p-2 rounded-full bg-amber/20 dark:bg-sparky-green/20">
+              <Clock className="h-6 w-6 text-amber dark:text-sparky-green" />
             </div>
             <AlertDialogTitle>Are you still there?</AlertDialogTitle>
           </div>
           <AlertDialogDescription className="space-y-3">
             <p>
               You&apos;ve been inactive for a while. Your session will automatically
-              end in <span className="font-bold text-amber">{formatTime(remainingTime)}</span> to
+              end in <span className="font-bold text-amber dark:text-sparky-green">{formatTime(remainingTime)}</span> to
               save your progress.
             </p>
             <p className="text-sm">
@@ -55,7 +55,7 @@ export function SessionTimeoutWarning({
         <AlertDialogFooter>
           <AlertDialogAction
             onClick={onContinue}
-            className="bg-amber hover:bg-amber-dark text-white"
+            className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
           >
             Continue Studying
           </AlertDialogAction>

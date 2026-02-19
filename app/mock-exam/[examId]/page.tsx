@@ -95,7 +95,7 @@ export default function ExamSessionPage() {
     // Get questions based on exam type
     let availableQuestions: Question[];
     if (examConfig.difficulty === "challenging") {
-      availableQuestions = getQuestionsByDifficulty("hard");
+      availableQuestions = getQuestionsByDifficulty("master");
     } else {
       availableQuestions = getAllQuestions();
     }
@@ -264,7 +264,7 @@ export default function ExamSessionPage() {
             </span>
             <div
               className={`flex items-center gap-2 px-3 py-1.5 rounded-full ${
-                isTimeLow ? "bg-red-500/10 text-red-500" : "bg-amber/10 text-amber"
+                isTimeLow ? "bg-red-500/10 text-red-500" : "bg-amber/10 text-amber dark:bg-sparky-green/10 dark:text-sparky-green"
               }`}
             >
               <Clock className="h-4 w-4" />
@@ -290,9 +290,9 @@ export default function ExamSessionPage() {
                 onClick={() => handleGoToQuestion(index)}
                 className={`w-8 h-8 rounded-full text-xs font-medium transition-all flex items-center justify-center relative ${
                   isActive
-                    ? "bg-amber text-white"
+                    ? "bg-amber text-white dark:bg-sparky-green dark:text-stone-950"
                     : isQAnswered
-                    ? "bg-emerald/20 text-emerald"
+                    ? "bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green"
                     : "bg-muted dark:bg-stone-800 text-muted-foreground hover:bg-muted/80"
                 }`}
               >
@@ -345,15 +345,15 @@ export default function ExamSessionPage() {
                     onClick={() => handleSelectAnswer(index)}
                     className={`w-full text-left p-4 rounded-lg border transition-all ${
                       isSelected
-                        ? "border-amber bg-amber/10"
-                        : "border-border hover:border-amber/50 hover:bg-muted/50 dark:hover:bg-stone-800/50"
+                        ? "border-amber bg-amber/10 dark:border-sparky-green dark:bg-sparky-green/10"
+                        : "border-border hover:border-amber/50 dark:hover:border-sparky-green/50 hover:bg-muted/50 dark:hover:bg-stone-800/50"
                     }`}
                   >
                     <div className="flex items-start gap-3">
                       <span
                         className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-sm font-medium ${
                           isSelected
-                            ? "bg-amber text-white"
+                            ? "bg-amber text-white dark:bg-sparky-green dark:text-stone-950"
                             : "bg-muted dark:bg-stone-800 text-muted-foreground"
                         }`}
                       >
@@ -384,13 +384,14 @@ export default function ExamSessionPage() {
           <Button
             variant="outline"
             onClick={() => setShowSubmitDialog(true)}
+            className="dark:border-sparky-green/50 dark:text-sparky-green dark:hover:bg-sparky-green/10"
           >
             <CheckCircle2 className="h-4 w-4 mr-2" />
             Finish
           </Button>
 
           {currentIndex < questions.length - 1 && (
-            <Button onClick={handleNext}>
+            <Button onClick={handleNext} className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
             </Button>
@@ -422,7 +423,7 @@ export default function ExamSessionPage() {
           <AlertDialogFooter>
             <AlertDialogCancel>Review Answers</AlertDialogCancel>
             <AlertDialogAction
-              className="bg-amber hover:bg-amber-dark"
+              className="bg-amber hover:bg-amber-dark dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               onClick={handleSubmitExam}
             >
               Submit Exam

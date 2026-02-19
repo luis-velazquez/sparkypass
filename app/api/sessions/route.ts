@@ -105,7 +105,7 @@ export async function PATCH(request: Request) {
 
     // Get user's last study date to calculate streak
     const [user] = await db
-      .select({ lastStudyDate: users.lastStudyDate, studyStreak: users.studyStreak })
+      .select({ lastStudyDate: users.lastStudyDate, studyStreak: users.studyStreak, bestStudyStreak: users.bestStudyStreak })
       .from(users)
       .where(eq(users.id, session.user.id))
       .limit(1);
@@ -124,12 +124,15 @@ export async function PATCH(request: Request) {
       // Otherwise, streak resets to 1
     }
 
+    const newBestStreak = Math.max(newStreak, user?.bestStudyStreak || 0);
+
     await db
       .update(users)
       .set({
         xp: sql`${users.xp} + ${completionBonus}`,
         level: newLevel,
         studyStreak: newStreak,
+        bestStudyStreak: newBestStreak,
         lastStudyDate: new Date(),
         updatedAt: new Date(),
       })

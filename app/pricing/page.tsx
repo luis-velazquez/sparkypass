@@ -57,6 +57,7 @@ const plans = [
     interval: "one-time",
     perMonth: "Pay once, access forever",
     tagline: "Includes all future NEC Code Cycles",
+    badge: "Best Deal",
     icon: Infinity,
     features: [
       "Everything in Yearly",
@@ -145,7 +146,7 @@ export default function PricingPage() {
         transition={{ duration: 0.4, delay: 0.1 }}
         className="relative z-10 text-center mb-10"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20 text-emerald text-sm font-medium">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20 text-emerald dark:bg-sparky-green/10 dark:border-sparky-green/20 dark:text-sparky-green text-sm font-medium">
           <Shield className="h-4 w-4" />
           7-day free trial — no credit card required
         </div>
@@ -167,7 +168,7 @@ export default function PricingPage() {
               </p>
             </div>
           ) : subscriptionStatus === "active" ? (
-            <div className="flex items-center gap-3 p-4 rounded-lg bg-emerald/10 border border-emerald/20 text-emerald">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-emerald/10 border border-emerald/20 text-emerald dark:bg-sparky-green/10 dark:border-sparky-green/20 dark:text-sparky-green">
               <Check className="h-5 w-5 flex-shrink-0" />
               <p className="text-sm font-medium">
                 You have an active subscription. You&apos;re all set!
@@ -193,10 +194,10 @@ export default function PricingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 + i * 0.1 }}
           >
-            <Card className={`relative h-full flex flex-col border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] ${plan.badge ? "border-amber shadow-lg shadow-amber/10 scale-[1.02]" : ""}`}>
+            <Card className={`relative h-full flex flex-col border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] ${plan.key === "lifetime" ? "border-sparky-green/40 dark:border-sparky-green/50 shadow-[0_0_24px_rgba(163,255,0,0.1)] hover:border-sparky-green/60 hover:shadow-[0_0_30px_rgba(163,255,0,0.18)]" : plan.badge ? "border-amber shadow-lg shadow-amber/10 scale-[1.02]" : ""}`}>
               {plan.badge && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1 px-4 py-1 rounded-full bg-amber text-white text-xs font-semibold">
+                  <span className={`inline-flex items-center gap-1 px-4 py-1 rounded-full text-xs font-semibold ${plan.key === "lifetime" ? "bg-sparky-green text-stone-950 shadow-[0_0_12px_rgba(163,255,0,0.3)]" : "bg-amber text-white"}`}>
                     <Crown className="h-3 w-3" />
                     {plan.badge}
                   </span>
@@ -205,7 +206,7 @@ export default function PricingPage() {
               <CardHeader className="text-center pb-2">
                 <CardTitle className="text-xl">{plan.name}</CardTitle>
                 <div className="mt-3">
-                  <span className="text-4xl font-bold text-foreground">{plan.price}</span>
+                  <span className={`text-4xl font-bold ${plan.key === "lifetime" ? "text-sparky-green" : "text-foreground"}`}>{plan.price}</span>
                   <span className="text-muted-foreground ml-1 text-sm">/{plan.interval}</span>
                 </div>
                 <p className="text-sm text-muted-foreground mt-1">{plan.perMonth}</p>
@@ -223,7 +224,7 @@ export default function PricingPage() {
                 <Button
                   onClick={() => handleSubscribe(plan.key)}
                   disabled={loadingPlan !== null || subscriptionStatus === "active"}
-                  className={`w-full ${plan.badge ? "bg-amber hover:bg-amber-dark text-white shadow-md" : "bg-purple hover:bg-purple-dark text-white"}`}
+                  className={`w-full ${plan.key === "lifetime" ? "bg-sparky-green hover:bg-sparky-green-dark text-stone-950 font-bold shadow-[0_0_20px_rgba(163,255,0,0.25)] hover:shadow-[0_0_30px_rgba(163,255,0,0.4)]" : plan.badge ? "bg-amber hover:bg-amber-dark text-white shadow-md" : "bg-purple hover:bg-purple-dark text-white"}`}
                 >
                   {loadingPlan === plan.key ? (
                     <>

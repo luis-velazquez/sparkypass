@@ -45,7 +45,7 @@ function AnimatedStat({
   return (
     <div ref={ref} className="text-center">
       <motion.p
-        className="text-5xl md:text-6xl font-bold text-amber mb-2 font-display"
+        className="text-5xl md:text-6xl font-bold text-amber dark:text-sparky-green mb-2 font-display"
         initial={{ opacity: 0, scale: 0.5 }}
         animate={isInView ? { opacity: 1, scale: 1 } : {}}
         transition={{ duration: 0.6, type: "spring" }}
@@ -200,12 +200,12 @@ export default function Home() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber/20 bg-amber/5 dark:bg-amber/5 mb-8"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber/20 bg-amber/5 dark:border-sparky-green/30 dark:bg-sparky-green/5 mb-8"
               >
                 <div className="w-6 h-6 rounded-md bg-stone-900 flex items-center justify-center">
                   <img src="/lightning-bolt.svg" alt="" className="w-4 h-4" />
                 </div>
-                <span className="text-amber text-sm font-medium tracking-wide">
+                <span className="text-amber dark:text-sparky-green text-sm font-medium tracking-wide">
                   Texas Master Electrician Exam Prep
                 </span>
               </motion.div>
@@ -221,7 +221,7 @@ export default function Home() {
               </h1>
 
               <p className="text-lg md:text-xl text-muted-foreground mb-3 max-w-2xl mx-auto">
-                Only <span className="font-semibold text-amber">26%</span> of
+                Only <span className="font-semibold text-amber dark:text-sparky-green">26%</span> of
                 candidates pass the Master Electrician exam on their first
                 attempt.
               </p>
@@ -236,7 +236,7 @@ export default function Home() {
                 <Link href="/register">
                   <Button
                     size="lg"
-                    className="bg-amber hover:bg-amber-dark text-white dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] transition-shadow"
+                    className="bg-amber hover:bg-amber-dark text-white dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] dark:shadow-[0_0_30px_rgba(163,255,0,0.15)] dark:hover:shadow-[0_0_40px_rgba(163,255,0,0.25)] transition-shadow"
                   >
                     Start Your 7-Day Free Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -425,7 +425,7 @@ export default function Home() {
             <blockquote className="text-2xl md:text-3xl font-display text-foreground leading-snug mb-6">
               &ldquo;The difference between a journeyman and a master
               isn&apos;t talent — it&apos;s{" "}
-              <span className="text-amber">preparation</span>.&rdquo;
+              <span className="text-amber dark:text-sparky-green">preparation</span>.&rdquo;
             </blockquote>
             <p className="text-muted-foreground text-sm uppercase tracking-widest">
               Built by electricians, for electricians
@@ -489,7 +489,7 @@ export default function Home() {
               <Link href="/register">
                 <Button
                   size="lg"
-                  className="bg-amber hover:bg-amber-dark text-white dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] transition-shadow"
+                  className="bg-amber hover:bg-amber-dark text-white dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] dark:shadow-[0_0_30px_rgba(163,255,0,0.15)] dark:hover:shadow-[0_0_40px_rgba(163,255,0,0.25)] transition-shadow"
                 >
                   Start Your 7-Day Free Trial
                   <ArrowRight className="ml-2 h-5 w-5" />

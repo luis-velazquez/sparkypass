@@ -280,7 +280,7 @@ export default function BookmarkReviewResultsPage() {
 
   const scoreColor =
     results.percentage >= 80
-      ? "text-emerald"
+      ? "text-emerald dark:text-sparky-green"
       : results.percentage >= 60
       ? "text-amber"
       : "text-red-500";
@@ -372,10 +372,10 @@ export default function BookmarkReviewResultsPage() {
                   className="flex flex-col items-center gap-2"
                 >
                   <div className="flex items-center gap-4 justify-center flex-wrap">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald rounded-full text-lg font-bold">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green rounded-full text-lg font-bold">
                       <CheckCircle2 className="h-5 w-5" />+{results.correctXP} XP
                     </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple rounded-full text-lg font-bold">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple dark:bg-sparky-green/15 dark:text-sparky-green rounded-full text-lg font-bold">
                       <Star className="h-5 w-5" />+{XP_QUIZ_COMPLETION_BONUS}{" "}
                       Completion Bonus
                     </span>

@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, userProgress, studySessions } from "@/lib/db";
-import { eq, sql, count, and, gte, countDistinct } from "drizzle-orm";
-import { getTotalQuestionCount } from "@/lib/questions";
+import { eq, sql, count, and, gte, countDistinct, isNotNull } from "drizzle-orm";
+import { getTotalQuestionCount, getQuestionById } from "@/lib/questions";
+import { CATEGORIES } from "@/types/question";
 
 export async function GET() {
   try {
@@ -40,6 +41,22 @@ export async function GET() {
         )
       );
 
+    // Check if today's daily challenge is completed
+    const [dailyStatus] = await db
+      .select({ id: studySessions.id, xpEarned: studySessions.xpEarned })
+      .from(studySessions)
+      .where(and(
+        eq(studySessions.userId, userId),
+        eq(studySessions.sessionType, "daily_challenge"),
+        gte(studySessions.startedAt, today),
+        isNotNull(studySessions.endedAt)
+      ))
+      .limit(1);
+
+    // Daily challenge XP reward schedule (Sun=0 → Day 1, Sat=6 → Day 7)
+    const dailyXpSchedule = [25, 30, 30, 30, 50, 75, 100];
+    const dailyChallengeXpReward = dailyXpSchedule[new Date().getDay()];
+
     // Get category breakdown - we'll extract category from questionId prefix
     const categoryProgress = await db
       .select({
@@ -49,29 +66,23 @@ export async function GET() {
       .from(userProgress)
       .where(eq(userProgress.userId, userId));
 
-    // Group by category based on question ID prefix
+    // Group by category using actual question data
     const categoryStats: Record<
       string,
       { answered: number; correct: number }
-    > = {
-      "load-calculations": { answered: 0, correct: 0 },
-      "grounding-bonding": { answered: 0, correct: 0 },
-      services: { answered: 0, correct: 0 },
-      "textbook-navigation": { answered: 0, correct: 0 },
-    };
+    > = {};
+    for (const cat of CATEGORIES) {
+      categoryStats[cat.slug] = { answered: 0, correct: 0 };
+    }
 
     categoryProgress.forEach((p) => {
-      let category = "services";
-      if (p.questionId.startsWith("LC-") || p.questionId.startsWith("HC-")) {
-        category = "load-calculations";
-      } else if (p.questionId.startsWith("GB-")) {
-        category = "grounding-bonding";
-      } else if (p.questionId.startsWith("SV-")) {
-        category = "services";
-      } else if (p.questionId.startsWith("TN-")) {
-        category = "textbook-navigation";
-      }
+      const question = getQuestionById(p.questionId);
+      if (!question) return;
+      const category = question.category;
 
+      if (!categoryStats[category]) {
+        categoryStats[category] = { answered: 0, correct: 0 };
+      }
       categoryStats[category].answered++;
       if (p.isCorrect) {
         categoryStats[category].correct++;
@@ -101,6 +112,7 @@ export async function GET() {
         xp: users.xp,
         level: users.level,
         studyStreak: users.studyStreak,
+        bestStudyStreak: users.bestStudyStreak,
       })
       .from(users)
       .where(eq(users.id, userId))
@@ -141,6 +153,10 @@ export async function GET() {
       xp: user?.xp || 0,
       level: user?.level || 1,
       studyStreak: user?.studyStreak || 0,
+      bestStudyStreak: user?.bestStudyStreak || 0,
+      dailyChallengeCompleted: !!dailyStatus,
+      dailyChallengeXpEarned: dailyStatus?.xpEarned ?? 0,
+      dailyChallengeXpReward,
     });
   } catch (error) {
     console.error("Error fetching progress stats:", error);

@@ -519,8 +519,8 @@ export default function LoadCalculatorPage() {
         >
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardHeader className="text-center">
-              <div className="w-16 h-16 rounded-full bg-amber/10 flex items-center justify-center mx-auto mb-4">
-                <Save className="h-8 w-8 text-amber" />
+              <div className="w-16 h-16 rounded-full bg-amber/10 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center mx-auto mb-4 transition-all duration-300">
+                <Save className="h-8 w-8 text-amber dark:text-amber-light" />
               </div>
               <CardTitle className="text-xl">Welcome Back!</CardTitle>
             </CardHeader>
@@ -552,9 +552,9 @@ export default function LoadCalculatorPage() {
                     </div>
                     {/* Progress bar */}
                     <div className="pt-2">
-                      <div className="h-2 bg-background rounded-full overflow-hidden">
+                      <div className="h-2 bg-background dark:bg-stone-900 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-amber rounded-full transition-all"
+                          className="h-full bg-amber dark:bg-sparky-green rounded-full transition-all"
                           style={{ width: `${progressPercent}%` }}
                         />
                       </div>
@@ -569,7 +569,7 @@ export default function LoadCalculatorPage() {
               <div className="flex flex-col gap-3">
                 <Button
                   onClick={handleContinueProgress}
-                  className="bg-amber hover:bg-amber/90 w-full"
+                  className="bg-amber hover:bg-amber/90 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                 >
                   <ChevronRight className="h-4 w-4 mr-2" />
                   Continue Where I Left Off
@@ -620,7 +620,7 @@ export default function LoadCalculatorPage() {
               className="text-left"
             >
               <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2 cursor-pointer hover:opacity-80 transition-opacity">
-                <span className="text-amber">Load Calculator</span>
+                <span className="text-amber dark:text-sparky-green">Load Calculator</span>
               </h1>
             </button>
             <p className="text-muted-foreground">
@@ -655,7 +655,7 @@ export default function LoadCalculatorPage() {
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              className="h-full bg-amber rounded-full"
+              className="h-full bg-amber dark:bg-sparky-green rounded-full"
             />
           </div>
         </motion.div>
@@ -709,7 +709,7 @@ export default function LoadCalculatorPage() {
                     >
                       <span className={`truncate mr-2 flex items-center gap-2 ${
                         isAccountedFor || isManuallyScratchedOff ? "line-through" : ""
-                      } ${isHighlighted ? "text-amber font-medium" : ""}`}>
+                      } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
                         {(isAccountedFor || isManuallyScratchedOff) && (
                           <CheckCircle2 className="h-3.5 w-3.5 text-emerald flex-shrink-0" />
                         )}
@@ -720,7 +720,7 @@ export default function LoadCalculatorPage() {
                       </span>
                       <span className={`font-mono whitespace-nowrap ${
                         isHighlighted
-                          ? "text-amber font-semibold"
+                          ? "text-amber dark:text-sparky-green font-semibold"
                           : isAccountedFor || isManuallyScratchedOff
                           ? "text-muted-foreground/50 line-through"
                           : "text-foreground"
@@ -772,7 +772,7 @@ export default function LoadCalculatorPage() {
                     >
                       <span className={`truncate mr-2 flex items-center gap-2 ${
                         effectiveAccountedFor || isManuallyScratchedOff ? "line-through" : ""
-                      } ${isHighlighted ? "text-amber font-medium" : ""}`}>
+                      } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
                         {(effectiveAccountedFor || isManuallyScratchedOff) && (
                           <CheckCircle2 className="h-3.5 w-3.5 text-emerald flex-shrink-0" />
                         )}
@@ -783,14 +783,14 @@ export default function LoadCalculatorPage() {
                       </span>
                       <span className={`font-mono whitespace-nowrap flex items-center gap-1 ${
                         isHighlighted
-                          ? "text-amber font-semibold"
+                          ? "text-amber dark:text-sparky-green font-semibold"
                           : effectiveAccountedFor || isManuallyScratchedOff
                           ? "text-muted-foreground/50 line-through"
                           : "text-foreground"
                       }`}>
                         {isMotor ? (
                           hasBeenConverted ? (
-                            <span className="text-emerald font-semibold">= {convertedWatts.toLocaleString()}W</span>
+                            <span className="text-emerald dark:text-sparky-green font-semibold">= {convertedWatts.toLocaleString()}W</span>
                           ) : (
                             <span>{appliance.horsepower} HP</span>
                           )
@@ -886,7 +886,7 @@ export default function LoadCalculatorPage() {
                         key={level.id}
                         className={`cursor-pointer hover:shadow-md transition-all duration-300 pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 ${
                           level.id === "beginner"
-                            ? "hover:border-emerald/50"
+                            ? "hover:border-emerald/50 dark:hover:border-sparky-green/50"
                             : "hover:border-amber/50"
                         } hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]`}
                         onClick={() => handleSelectDifficulty(level.id)}
@@ -894,10 +894,10 @@ export default function LoadCalculatorPage() {
                         <CardContent className="pt-6">
                           <div className="flex items-center gap-3 mb-3">
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              level.id === "beginner" ? "bg-emerald/10" : "bg-amber/10"
+                              level.id === "beginner" ? "bg-emerald/10 dark:bg-sparky-green/10" : "bg-amber/10"
                             }`}>
                               <Zap className={`h-5 w-5 ${
-                                level.id === "beginner" ? "text-emerald" : "text-amber"
+                                level.id === "beginner" ? "text-emerald dark:text-sparky-green" : "text-amber"
                               }`} />
                             </div>
                             <div>
@@ -911,7 +911,7 @@ export default function LoadCalculatorPage() {
                             {level.features.map((feature, i) => (
                               <li key={i} className="flex items-center gap-2">
                                 <CheckCircle2 className={`h-3 w-3 ${
-                                  level.id === "beginner" ? "text-emerald" : "text-amber"
+                                  level.id === "beginner" ? "text-emerald dark:text-sparky-green" : "text-amber"
                                 }`} />
                                 {feature}
                               </li>
@@ -941,7 +941,7 @@ export default function LoadCalculatorPage() {
                     </button>
                     <span className={`text-xs px-2 py-1 rounded-full ${
                       state.difficulty === "beginner"
-                        ? "bg-emerald/10 text-emerald"
+                        ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
                         : "bg-amber/10 text-amber"
                     }`}>
                       {state.difficulty === "beginner" ? "Beginner" : "Intermediate"}
@@ -991,8 +991,8 @@ export default function LoadCalculatorPage() {
                   {currentStep.formula && (
                     <div className="bg-purple-soft dark:bg-purple/10 rounded-lg p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <BookOpen className="h-4 w-4 text-purple" />
-                        <span className="text-sm font-medium text-purple">Formula</span>
+                        <BookOpen className="h-4 w-4 text-purple dark:text-purple-light" />
+                        <span className="text-sm font-medium text-purple dark:text-purple-light">Formula</span>
                       </div>
                       <p className="text-foreground font-mono">{currentStep.formula}</p>
                     </div>
@@ -1036,12 +1036,12 @@ export default function LoadCalculatorPage() {
                         className="text-lg"
                       />
                       {state.lastAnswerCorrect === false ? (
-                        <Button onClick={handleTryAgain} className="bg-amber hover:bg-amber/90">
+                        <Button onClick={handleTryAgain} className="bg-amber hover:bg-amber/90 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
                           Try Again
                           <RotateCcw className="h-4 w-4 ml-2" />
                         </Button>
                       ) : (
-                        <Button onClick={handleSubmitAnswer} className="bg-emerald hover:bg-emerald/90">
+                        <Button onClick={handleSubmitAnswer} className="bg-emerald hover:bg-emerald/90 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
                           Submit
                           <ArrowRight className="h-4 w-4 ml-2" />
                         </Button>
@@ -1058,7 +1058,7 @@ export default function LoadCalculatorPage() {
                         exit={{ opacity: 0 }}
                         className={`flex items-center gap-2 p-3 rounded-lg ${
                           state.lastAnswerCorrect
-                            ? "bg-emerald/10 text-emerald"
+                            ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
                             : "bg-red-500/10 text-red-500"
                         }`}
                       >
@@ -1080,7 +1080,7 @@ export default function LoadCalculatorPage() {
                       variant="outline"
                       size="sm"
                       onClick={() => setState(prev => ({ ...prev, showHint: !prev.showHint }))}
-                      className="border-amber text-amber hover:bg-amber/10"
+                      className="border-amber text-amber hover:bg-amber/10 dark:border-sparky-green dark:text-sparky-green dark:hover:bg-sparky-green/10"
                     >
                       <Lightbulb className="h-4 w-4 mr-2" />
                       {state.showHint ? "Hide Hint" : "Show Hint"}
@@ -1138,8 +1138,8 @@ export default function LoadCalculatorPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="text-center py-8"
                 >
-                  <div className="w-20 h-20 rounded-full bg-emerald/10 flex items-center justify-center mx-auto mb-4">
-                    <Trophy className="h-10 w-10 text-emerald" />
+                  <div className="w-20 h-20 rounded-full bg-emerald/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] flex items-center justify-center mx-auto mb-4 transition-all duration-300">
+                    <Trophy className="h-10 w-10 text-emerald dark:text-sparky-green" />
                   </div>
                   <h2 className="text-2xl font-bold text-foreground mb-4">
                     Calculation Complete!
@@ -1149,24 +1149,24 @@ export default function LoadCalculatorPage() {
                   <div className="grid grid-cols-3 gap-4 mb-6 max-w-md mx-auto">
                     <div className="bg-amber/10 rounded-lg p-3">
                       <p className="text-xs text-muted-foreground mb-1">Service</p>
-                      <p className="text-xl font-bold text-amber">{completionResults.serviceAmps}A</p>
+                      <p className="text-xl font-bold text-amber dark:text-sparky-green">{completionResults.serviceAmps}A</p>
                     </div>
                     <div className="bg-emerald/10 rounded-lg p-3">
                       <p className="text-xs text-muted-foreground mb-1">Conductor</p>
-                      <p className="text-xl font-bold text-emerald">{completionResults.conductorSize}</p>
+                      <p className="text-xl font-bold text-emerald dark:text-sparky-green">{completionResults.conductorSize}</p>
                       <p className="text-xs text-muted-foreground">AWG/kcmil</p>
                     </div>
                     <div className="bg-purple/10 rounded-lg p-3">
                       <p className="text-xs text-muted-foreground mb-1">GEC</p>
-                      <p className="text-xl font-bold text-purple">{completionResults.gecSize}</p>
+                      <p className="text-xl font-bold text-purple dark:text-purple-light">{completionResults.gecSize}</p>
                       <p className="text-xs text-muted-foreground">AWG</p>
                     </div>
                   </div>
 
                   <p className="text-muted-foreground mb-6">
-                    You calculated a <span className="text-amber font-semibold">{completionResults.serviceAmps}A</span> service
-                    with <span className="text-emerald font-semibold">{completionResults.conductorSize}</span> conductors
-                    and <span className="text-purple font-semibold">{completionResults.gecSize} AWG</span> GEC
+                    You calculated a <span className="text-amber dark:text-sparky-green font-semibold">{completionResults.serviceAmps}A</span> service
+                    with <span className="text-emerald dark:text-sparky-green font-semibold">{completionResults.conductorSize}</span> conductors
+                    and <span className="text-purple dark:text-purple-light font-semibold">{completionResults.gecSize} AWG</span> GEC
                     for this {state.selectedScenario?.squareFootage.toLocaleString()} sq ft home.
                   </p>
                   <div className="flex justify-center gap-4">
@@ -1219,13 +1219,13 @@ export default function LoadCalculatorPage() {
                         }`}
                       >
                         <span className={`truncate mr-2 flex items-center gap-1 ${
-                          isHighlighted ? "text-amber font-medium" : "text-muted-foreground"
+                          isHighlighted ? "text-amber dark:text-sparky-green font-medium" : "text-muted-foreground"
                         }`}>
                           {isHighlighted && <Plus className="h-3 w-3 flex-shrink-0" />}
                           {step.title}
                         </span>
                         <span className={`font-mono whitespace-nowrap ${
-                          isHighlighted ? "text-amber font-semibold" : "text-foreground"
+                          isHighlighted ? "text-amber dark:text-sparky-green font-semibold" : "text-foreground"
                         }`}>
                           {(() => {
                             if (step.id === "service-conductor") {
@@ -1254,19 +1254,19 @@ export default function LoadCalculatorPage() {
                     <div className="border-t pt-2 mt-2 space-y-1">
                       <div className="flex justify-between items-center font-semibold">
                         <span className="text-foreground">Service Size</span>
-                        <span className="text-emerald text-lg">
+                        <span className="text-emerald dark:text-sparky-green text-lg">
                           {completionResults.serviceAmps}A
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-muted-foreground">Conductor</span>
-                        <span className="text-emerald font-medium">
+                        <span className="text-emerald dark:text-sparky-green font-medium">
                           {completionResults.conductorSize} AWG/kcmil
                         </span>
                       </div>
                       <div className="flex justify-between items-center text-sm">
                         <span className="text-muted-foreground">GEC</span>
-                        <span className="text-emerald font-medium">
+                        <span className="text-emerald dark:text-sparky-green font-medium">
                           {completionResults.gecSize} AWG
                         </span>
                       </div>
