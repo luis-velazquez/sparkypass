@@ -11,10 +11,10 @@ import {
   ChevronRight,
   RotateCcw,
   Shuffle,
-  CheckCircle2,
   Bookmark,
   Loader2,
   Star,
+  Brain,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -357,7 +357,7 @@ function FlashcardsContent() {
           className="mb-6"
         >
           <div
-            className="relative h-[300px] md:h-[350px] cursor-pointer perspective-1000 pressable"
+            className="relative min-h-[400px] md:min-h-[450px] cursor-pointer perspective-1000 pressable"
             onClick={() => setIsFlipped(!isFlipped)}
           >
             <AnimatePresence mode="wait">
@@ -369,41 +369,86 @@ function FlashcardsContent() {
                 transition={{ duration: 0.3 }}
                 className="absolute inset-0"
               >
-                <Card
-                  className={`h-full flex flex-col justify-center items-center p-8 text-center relative ${
-                    savedCards.has(currentCard.id)
-                      ? "border-2 border-amber bg-amber/5 shadow-glow-primary"
-                      : isFlipped
-                      ? "bg-emerald/5 border-emerald/30 dark:bg-sparky-green/5 dark:border-sparky-green/30"
-                      : "bg-card dark:bg-stone-900/50 border-border dark:border-stone-800"
-                  }`}
-                >
-                  {/* Saved indicator badge */}
-                  {savedCards.has(currentCard.id) && (
-                    <div className="absolute top-3 right-3 flex items-center gap-1.5 px-2 py-1 rounded-full bg-amber text-white text-xs font-medium">
-                      <Star className="h-3 w-3 fill-white" />
-                      Study Later
-                    </div>
-                  )}
-                  <CardContent className="flex flex-col items-center justify-center h-full">
+                <Card className={`h-full flex flex-col ${
+                  isFlipped
+                    ? "bg-emerald/5 border-emerald/30 dark:bg-sparky-green/5 dark:border-sparky-green/30"
+                    : "bg-card dark:bg-stone-900/50 border-border dark:border-stone-800"
+                }`}>
+                  <CardContent className="flex flex-col h-full p-6">
                     {!isFlipped ? (
+                      /* Front - Question */
                       <>
-                        <BookOpen className={`h-8 w-8 mb-4 ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald dark:text-sparky-green"}`} />
-                        <p className="text-lg md:text-xl font-medium text-foreground mb-4">
-                          {currentCard.front}
-                        </p>
-                        <p className="text-sm text-muted-foreground">
-                          Click to reveal answer
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-emerald dark:text-sparky-green font-medium px-2 py-0.5 rounded bg-emerald/10 dark:bg-sparky-green/10">
+                              {currentCard.category}
+                            </span>
+                            <span className="text-xs text-muted-foreground px-2 py-0.5 rounded bg-muted dark:bg-stone-800">
+                              {FLASHCARD_SETS.find((s) => s.cards.some((c) => c.id === currentCard.id))?.name || "All"}
+                            </span>
+                          </div>
+                          {savedCards.has(currentCard.id) && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-amber hover:text-amber/80"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleSave();
+                              }}
+                            >
+                              <Star className="h-4 w-4 fill-current" />
+                            </Button>
+                          )}
+                        </div>
+
+                        <div className="flex-1 flex flex-col items-center justify-center text-center">
+                          <Brain className="h-10 w-10 text-emerald dark:text-sparky-green mb-4" />
+                          <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
+                            {currentCard.front}
+                          </p>
+                        </div>
+
+                        <p className="text-sm text-muted-foreground text-center mt-4">
+                          Tap to reveal answer
                         </p>
                       </>
                     ) : (
+                      /* Back - Answer */
                       <>
-                        <CheckCircle2 className={`h-8 w-8 mb-4 ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald dark:text-sparky-green"}`} />
-                        <p className="text-lg md:text-xl text-foreground mb-4">
-                          {currentCard.back}
-                        </p>
-                        <p className={`text-sm font-medium ${savedCards.has(currentCard.id) ? "text-amber" : "text-emerald dark:text-sparky-green"}`}>
-                          {currentCard.necReference}
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs text-emerald dark:text-sparky-green font-medium">
+                            Answer
+                          </span>
+                          {savedCards.has(currentCard.id) && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="text-amber hover:text-amber/80"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleToggleSave();
+                              }}
+                            >
+                              <Star className="h-4 w-4 fill-current" />
+                            </Button>
+                          )}
+                        </div>
+
+                        <div className="flex-1 flex flex-col items-center justify-center text-center">
+                          <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed mb-4">
+                            {currentCard.back}
+                          </p>
+                          <div className="flex items-center gap-1.5 text-emerald dark:text-sparky-green">
+                            <BookOpen className="h-4 w-4" />
+                            <p className="text-sm font-medium">
+                              {currentCard.necReference}
+                            </p>
+                          </div>
+                        </div>
+
+                        <p className="text-sm text-muted-foreground text-center mt-4">
+                          Tap to see question
                         </p>
                       </>
                     )}
@@ -414,7 +459,7 @@ function FlashcardsContent() {
           </div>
         </motion.div>
       ) : (
-        <Card className="h-[300px] flex items-center justify-center mb-6 border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
+        <Card className="min-h-[400px] flex items-center justify-center mb-6 border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
           <div className="text-center">
             {selectedSetId === "saved" ? (
               <>

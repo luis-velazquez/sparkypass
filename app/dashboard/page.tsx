@@ -217,7 +217,6 @@ const CATEGORY_COLORS: Record<string, string> = {
   "temperature-correction": "#F87171",
   "resistance": "#14B8A6",
   "transformer-sizing": "#0EA5E9",
-  "sizing-requirements": "#84CC16",
 };
 
 function CategoryPieChart({ categoryStats }: { categoryStats: CategoryStat[] }) {
@@ -305,7 +304,7 @@ function CategoryPieChart({ categoryStats }: { categoryStats: CategoryStat[] }) 
         </svg>
         {/* Center text */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold text-foreground dark:text-sparky-green">
+          <span className="text-2xl font-bold text-foreground">
             {totalAnswered}
           </span>
           <span className="text-xs text-muted-foreground">answered</span>
@@ -322,7 +321,7 @@ function CategoryPieChart({ categoryStats }: { categoryStats: CategoryStat[] }) 
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 4 }}
                 transition={{ duration: 0.15 }}
-                className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-stone-900 dark:bg-stone-800 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap shadow-lg z-10 pointer-events-none"
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-stone-900 dark:bg-stone-800 dark:border dark:border-stone-700 text-white text-xs rounded-lg px-3 py-1.5 whitespace-nowrap shadow-lg z-10 pointer-events-none"
               >
                 <span className="font-medium">{cat?.name || slice.slug}</span>
                 <span className="text-stone-400 ml-1.5">
@@ -351,13 +350,16 @@ function CategoryPieChart({ categoryStats }: { categoryStats: CategoryStat[] }) 
                 animate={{ scale: isActive ? 1.02 : 1, x: isActive ? 4 : 0 }}
                 transition={{ duration: 0.15 }}
                 className={`flex items-center justify-between p-2 rounded-lg transition-colors cursor-pointer pressable ${
-                  isActive ? "bg-muted/80 dark:bg-stone-800/80" : "hover:bg-muted/50 dark:hover:bg-stone-800/50"
+                  isActive ? "bg-muted/80 dark:bg-stone-800/80 dark:ring-1 dark:ring-stone-700" : "hover:bg-muted/50 dark:hover:bg-stone-800/50"
                 }`}
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <span
-                    className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: slice.color }}
+                    className="w-3 h-3 rounded-full flex-shrink-0 transition-shadow duration-200"
+                    style={{
+                      backgroundColor: slice.color,
+                      boxShadow: isActive ? `0 0 8px 2px ${slice.color}` : undefined,
+                    }}
                   />
                   <span className="text-sm font-medium text-foreground truncate">
                     {cat?.name || slice.slug}
@@ -601,8 +603,8 @@ export default function DashboardPage() {
                 <div className="relative overflow-hidden rounded-xl border border-amber/40 dark:border-amber/30 bg-gradient-to-r from-amber/10 via-amber/5 to-transparent dark:from-amber/10 dark:via-amber/5 dark:to-transparent p-5 group hover:border-amber/60 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all cursor-pointer pressable">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-full bg-amber/20 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center group-hover:scale-110 transition-all duration-300">
-                        <Play className="h-6 w-6 text-amber dark:text-amber-light" />
+                      <div className="w-12 h-12 rounded-full bg-amber/20 dark:bg-stone-800 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+                        <Play className="h-6 w-6 text-amber dark:text-stone-300" />
                       </div>
                       <div>
                         <p className="text-base font-bold text-foreground">
@@ -663,9 +665,9 @@ export default function DashboardPage() {
                 transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
               >
                 <Link href={feature.href}>
-                  <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-5 cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] pressable">
-                    <div className="w-12 h-12 rounded-lg bg-amber/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] flex items-center justify-center mb-3 group-hover:bg-amber/20 dark:group-hover:bg-sparky-green/20 transition-all duration-300">
-                      <feature.icon className="h-6 w-6 text-amber dark:text-sparky-green" />
+                  <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-5 cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] dark:hover:border-stone-700 dark:hover:shadow-none pressable">
+                    <div className="w-12 h-12 rounded-lg bg-amber/10 dark:bg-stone-800 flex items-center justify-center mb-3 group-hover:bg-amber/20 dark:group-hover:bg-stone-700 transition-all duration-300">
+                      <feature.icon className="h-6 w-6 text-amber dark:text-stone-400" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground mb-1">
                       {feature.title}
@@ -680,24 +682,24 @@ export default function DashboardPage() {
           </div>
         </motion.div>
 
-        {/* Stats Cards Row 1 - Core Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
-          {/* XP & Level Card */}
+        {/* Stats Cards - Core Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+          {/* Level & XP + Overall Accuracy Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
           >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
+            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Star className="h-4 w-4 text-amber dark:text-amber-light" />
+                  <Star className="h-4 w-4 text-amber dark:text-stone-400" />
                   Level & XP
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-3xl font-bold text-foreground dark:text-sparky-green">
+                  <span className="text-3xl font-bold text-foreground">
                     Level {level}
                   </span>
                   <span className="text-sm text-muted-foreground">
@@ -722,30 +724,60 @@ export default function DashboardPage() {
                     />
                   </div>
                 </div>
+
+                {/* Overall Accuracy */}
+                <div className="mt-4 pt-4 border-t border-border dark:border-stone-800">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-purple dark:text-stone-400" />
+                      <span className="text-sm font-medium text-muted-foreground">Overall Accuracy</span>
+                    </div>
+                    <span className="text-2xl font-bold text-foreground">
+                      {isNewUser ? "—" : `${accuracy}%`}
+                    </span>
+                  </div>
+                  {isNewUser ? (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Answer questions to see your accuracy!
+                    </p>
+                  ) : accuracy >= 80 ? (
+                    <p className="text-xs text-emerald dark:text-sparky-green mt-1">
+                      Excellent work! Keep it up!
+                    </p>
+                  ) : accuracy >= 70 ? (
+                    <p className="text-xs text-amber mt-1">
+                      Good progress! Aim for 80%+
+                    </p>
+                  ) : (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Keep practicing to improve!
+                    </p>
+                  )}
+                </div>
               </CardContent>
             </Card>
           </motion.div>
 
-          {/* Study Streak Card */}
+          {/* Study Streak + Focus Areas Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
+            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Flame className="h-4 w-4 text-orange-500 dark:text-orange-400" />
+                  <Flame className="h-4 w-4 text-orange-500 dark:text-stone-400" />
                   Study Streak
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-orange-500/10 dark:shadow-[0_0_15px_rgba(249,115,22,0.35)] transition-all duration-300">
-                    <Flame className="h-8 w-8 text-orange-500 dark:text-orange-400" />
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-orange-500/10 dark:bg-stone-800 transition-all duration-300">
+                    <Flame className="h-7 w-7 text-orange-500 dark:text-stone-400" />
                   </div>
                   <div>
-                    <p className="text-3xl font-bold text-foreground dark:text-sparky-green">
+                    <p className="text-3xl font-bold text-foreground">
                       {studyStreak}
                     </p>
                     <p className="text-sm text-muted-foreground">
@@ -753,15 +785,58 @@ export default function DashboardPage() {
                     </p>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="p-2.5 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
-                    <p className="text-lg font-bold text-foreground dark:text-sparky-green">{answeredToday}</p>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
+                    <p className="text-lg font-bold text-foreground">{answeredToday}</p>
                     <p className="text-xs text-muted-foreground">today</p>
                   </div>
-                  <div className="p-2.5 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
-                    <p className="text-lg font-bold text-foreground dark:text-sparky-green">{xp.toLocaleString()}</p>
+                  <div className="p-2 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
+                    <p className="text-lg font-bold text-foreground">{xp.toLocaleString()}</p>
                     <p className="text-xs text-muted-foreground">total XP</p>
                   </div>
+                </div>
+
+                {/* Focus Areas */}
+                <div className="pt-4 border-t border-border dark:border-stone-800">
+                  <div className="flex items-center gap-2 mb-3">
+                    <AlertTriangle className="h-4 w-4 text-amber" />
+                    <span className="text-sm font-medium text-muted-foreground">Focus Areas</span>
+                  </div>
+                  {isNewUser ? (
+                    <p className="text-xs text-muted-foreground">
+                      Complete some quizzes to identify areas for improvement!
+                    </p>
+                  ) : weakAreas.length === 0 ? (
+                    <div className="flex items-center gap-2">
+                      <CheckCircle2 className="h-5 w-5 text-emerald dark:text-stone-400" />
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">All clear!</p>
+                        <p className="text-xs text-muted-foreground">No weak areas detected</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {weakAreas.slice(0, 2).map((slug) => {
+                        const category = CATEGORIES.find((c) => c.slug === slug);
+                        const stat = categoryStats.find((s) => s.slug === slug);
+                        return (
+                          <Link key={slug} href={`/quiz/${slug}`}>
+                            <div className="flex items-center justify-between p-2 rounded-lg bg-amber/5 hover:bg-amber/10 transition-colors cursor-pointer pressable">
+                              <span className="text-sm font-medium text-foreground">
+                                {category?.name || slug}
+                              </span>
+                              <span className="text-sm text-amber font-medium">
+                                {stat?.accuracy || 0}%
+                              </span>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Click to practice
+                      </p>
+                    </div>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -778,118 +853,6 @@ export default function DashboardPage() {
               totalQuestionsAnswered={uniqueQuestionsAnswered}
               totalQuestionsInBank={totalQuestionsInBank}
             />
-          </motion.div>
-        </div>
-
-        {/* Stats Cards Row 2 - Progress Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-8">
-          {/* Overall Accuracy */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4 text-purple dark:text-purple-light" />
-                  Overall Accuracy
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center justify-center w-16 h-16 rounded-full bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] transition-all duration-300">
-                    <TrendingUp className="h-8 w-8 text-purple dark:text-purple-light" />
-                  </div>
-                  <div>
-                    <p className="text-3xl font-bold text-foreground dark:text-sparky-green">
-                      {isNewUser ? "—" : `${accuracy}%`}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      correct answers
-                    </p>
-                  </div>
-                </div>
-                {isNewUser ? (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    Answer questions to see your accuracy!
-                  </p>
-                ) : accuracy >= 80 ? (
-                  <p className="text-sm text-emerald dark:text-sparky-green mt-3">
-                    Excellent work! Keep it up!
-                  </p>
-                ) : accuracy >= 70 ? (
-                  <p className="text-sm text-amber mt-3">
-                    Good progress! Aim for 80%+
-                  </p>
-                ) : (
-                  <p className="text-sm text-muted-foreground mt-3">
-                    Keep practicing to improve!
-                  </p>
-                )}
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Weak Areas */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.45 }}
-          >
-            <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/25 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.06)]">
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-amber" />
-                  Focus Areas
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isNewUser ? (
-                  <div className="flex flex-col items-center justify-center py-4">
-                    <p className="text-sm text-muted-foreground text-center">
-                      Complete some quizzes to identify areas for improvement!
-                    </p>
-                  </div>
-                ) : weakAreas.length === 0 ? (
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center justify-center w-16 h-16 rounded-full bg-emerald/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] transition-all duration-300">
-                      <CheckCircle2 className="h-8 w-8 text-emerald dark:text-sparky-green" />
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold text-foreground">
-                        All clear!
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        No weak areas detected
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-2">
-                    {weakAreas.slice(0, 2).map((slug) => {
-                      const category = CATEGORIES.find((c) => c.slug === slug);
-                      const stat = categoryStats.find((s) => s.slug === slug);
-                      return (
-                        <Link key={slug} href={`/quiz/${slug}`}>
-                          <div className="flex items-center justify-between p-2 rounded-lg bg-amber/5 hover:bg-amber/10 transition-colors cursor-pointer pressable">
-                            <span className="text-sm font-medium text-foreground">
-                              {category?.name || slug}
-                            </span>
-                            <span className="text-sm text-amber font-medium">
-                              {stat?.accuracy || 0}%
-                            </span>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                    <p className="text-xs text-muted-foreground mt-2">
-                      Click to practice
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
           </motion.div>
         </div>
 
@@ -914,7 +877,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Bookmark className="h-5 w-5 text-amber dark:text-amber-light" />
+                  <Bookmark className="h-5 w-5 text-amber dark:text-stone-400" />
                   Saved for Later
                 </CardTitle>
               </CardHeader>
@@ -924,7 +887,7 @@ export default function DashboardPage() {
                   {savedFlashcards.length > 0 && (
                     <div>
                       <h3 className="text-sm font-medium text-muted-foreground mb-3 flex items-center gap-2">
-                        <BookOpen className="h-4 w-4 text-emerald dark:text-sparky-green" />
+                        <BookOpen className="h-4 w-4 text-emerald dark:text-stone-400" />
                         Flashcards ({savedFlashcards.length})
                       </h3>
                       <div className="space-y-2 max-h-[300px] overflow-y-auto">
@@ -1053,12 +1016,26 @@ export default function DashboardPage() {
                             : `+${savedQuestions.length - 5} more questions`}
                         </button>
                       )}
-                      <Link href="/review" className="block mt-3">
-                        <Button variant="outline" size="sm" className="w-full border-border dark:border-stone-700">
-                          <Brain className="h-4 w-4 mr-2" />
-                          Review Questions
+                      <div className="flex gap-2 mt-3">
+                        <Button
+                          size="sm"
+                          className="flex-1 bg-purple hover:bg-purple/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                          onClick={() => {
+                            const ids = savedQuestions.map((q) => q.questionId);
+                            sessionStorage.setItem("bookmarkReviewIds", JSON.stringify(ids));
+                            router.push("/bookmarks/review");
+                          }}
+                        >
+                          <Play className="h-4 w-4 mr-2" />
+                          Quiz Saved Questions ({savedQuestions.length})
                         </Button>
-                      </Link>
+                        <Link href="/review" className="flex-1">
+                          <Button variant="outline" size="sm" className="w-full border-border dark:border-stone-700">
+                            <Brain className="h-4 w-4 mr-2" />
+                            Review Questions
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -1078,7 +1055,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-purple dark:text-purple-light" />
+                  <Brain className="h-5 w-5 text-purple dark:text-stone-400" />
                   Category Progress
                 </CardTitle>
               </CardHeader>
@@ -1109,7 +1086,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-amber dark:text-amber-light" />
+                  <Clock className="h-5 w-5 text-amber dark:text-stone-400" />
                   Recent Activity
                 </CardTitle>
               </CardHeader>
@@ -1138,8 +1115,8 @@ export default function DashboardPage() {
                           <div className="relative overflow-hidden rounded-lg border border-amber/30 dark:border-amber/20 bg-amber/5 dark:bg-amber/5 p-4 group-hover:border-amber/60 group-hover:bg-amber/10 transition-all">
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-full bg-amber/20 dark:shadow-[0_0_12px_rgba(245,158,11,0.35)] flex items-center justify-center transition-all duration-300">
-                                  <Play className="h-5 w-5 text-amber dark:text-amber-light" />
+                                <div className="w-10 h-10 rounded-full bg-amber/20 dark:bg-stone-800 flex items-center justify-center transition-all duration-300">
+                                  <Play className="h-5 w-5 text-amber dark:text-stone-300" />
                                 </div>
                                 <div>
                                   <p className="text-sm font-semibold text-foreground flex items-center gap-2">
@@ -1191,8 +1168,8 @@ export default function DashboardPage() {
                       return (
                         <div key={session.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50 dark:bg-stone-800/50">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_12px_rgba(139,92,246,0.35)] flex items-center justify-center transition-all duration-300">
-                              <CheckCircle2 className="h-5 w-5 text-emerald dark:text-sparky-green" />
+                            <div className="w-10 h-10 rounded-full bg-purple-soft dark:bg-stone-800 flex items-center justify-center transition-all duration-300">
+                              <CheckCircle2 className="h-5 w-5 text-emerald dark:text-stone-400" />
                             </div>
                             <div>
                               <p className="text-sm font-medium text-foreground">

@@ -253,9 +253,9 @@ export default function ExamSessionPage() {
               <X className="h-4 w-4 mr-1" />
               Exit
             </Button>
-            <h1 className="text-lg font-semibold font-display text-foreground hidden sm:block">
+            <span className="text-xs text-muted-foreground hidden sm:block">
               {examConfig.title}
-            </h1>
+            </span>
           </div>
 
           <div className="flex items-center gap-4">

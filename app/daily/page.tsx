@@ -36,8 +36,58 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { SparkyMessage } from "@/components/sparky";
-import { getRandomQuestionsAll } from "@/lib/questions";
+import { getRandomQuestionsAll, getQuestionById } from "@/lib/questions";
 import type { Question } from "@/types/question";
+
+const DAILY_PROGRESS_KEY = "sparkypass-daily-challenge-progress";
+
+interface SavedProgress {
+  date: string;
+  questionIds: string[];
+  currentQuestionIndex: number;
+  answers: Record<string, number>;
+  bookmarkedQuestions: string[];
+  correctStreak: number;
+  bestStreak: number;
+  sessionId: string | null;
+}
+
+function getTodayKey(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function saveProgress(state: QuizState, sessionId: string | null) {
+  const data: SavedProgress = {
+    date: getTodayKey(),
+    questionIds: state.questions.map((q) => q.id),
+    currentQuestionIndex: state.currentQuestionIndex,
+    answers: Object.fromEntries(state.answers),
+    bookmarkedQuestions: Array.from(state.bookmarkedQuestions),
+    correctStreak: state.correctStreak,
+    bestStreak: state.bestStreak,
+    sessionId,
+  };
+  localStorage.setItem(DAILY_PROGRESS_KEY, JSON.stringify(data));
+}
+
+function loadProgress(): SavedProgress | null {
+  try {
+    const raw = localStorage.getItem(DAILY_PROGRESS_KEY);
+    if (!raw) return null;
+    const data: SavedProgress = JSON.parse(raw);
+    if (data.date !== getTodayKey()) {
+      localStorage.removeItem(DAILY_PROGRESS_KEY);
+      return null;
+    }
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+function clearProgress() {
+  localStorage.removeItem(DAILY_PROGRESS_KEY);
+}
 
 // Sparky congratulation messages for correct answers
 const CORRECT_MESSAGES = [
@@ -263,6 +313,7 @@ export default function DailyChallengePage() {
         setStudyStreak(stats.studyStreak || 0);
 
         if (stats.dailyChallengeCompleted) {
+          clearProgress();
           setCompletionData({
             xpEarned: stats.dailyChallengeXpEarned || 0,
             studyStreak: stats.studyStreak || 0,
@@ -270,6 +321,51 @@ export default function DailyChallengePage() {
           });
           setPhase("completed");
           return;
+        }
+
+        // Check for saved in-progress quiz
+        const saved = loadProgress();
+        if (saved) {
+          const restoredQuestions = saved.questionIds
+            .map((id) => getQuestionById(id))
+            .filter((q): q is Question => q !== undefined);
+
+          if (restoredQuestions.length === saved.questionIds.length) {
+            // Restore session ID
+            if (saved.sessionId) {
+              sessionStorage.setItem("currentSessionId", saved.sessionId);
+            }
+
+            // Fetch fresh bookmarks
+            let bookmarkedIds = new Set<string>(saved.bookmarkedQuestions);
+            try {
+              const bookmarksRes = await fetch("/api/bookmarks");
+              if (bookmarksRes.ok) {
+                const bookmarksData = await bookmarksRes.json();
+                bookmarkedIds = new Set<string>(
+                  bookmarksData.bookmarks.map((b: { questionId: string }) => b.questionId)
+                );
+              }
+            } catch { /* use saved bookmarks */ }
+
+            setQuizState({
+              questions: restoredQuestions,
+              currentQuestionIndex: saved.currentQuestionIndex,
+              selectedAnswer: null,
+              bookmarkedQuestions: bookmarkedIds,
+              answers: new Map(Object.entries(saved.answers).map(([k, v]) => [k, v])),
+              isSubmitted: false,
+              showXpAnimation: false,
+              sparkyMessage: "",
+              showHint: false,
+              correctStreak: saved.correctStreak,
+              bestStreak: saved.bestStreak,
+              showOnFire: false,
+              streakBroken: false,
+            });
+            setPhase("quiz");
+            return;
+          }
         }
 
         startQuiz();
@@ -307,12 +403,14 @@ export default function DailyChallengePage() {
           );
         }
 
+        let newSessionId: string | null = null;
         if (sessionRes.ok) {
           const sessionData = await sessionRes.json();
+          newSessionId = sessionData.sessionId;
           sessionStorage.setItem("currentSessionId", sessionData.sessionId);
         }
 
-        setQuizState({
+        const newState: QuizState = {
           questions: dailyQuestions,
           currentQuestionIndex: 0,
           selectedAnswer: null,
@@ -326,7 +424,9 @@ export default function DailyChallengePage() {
           bestStreak: 0,
           showOnFire: false,
           streakBroken: false,
-        });
+        };
+        setQuizState(newState);
+        saveProgress(newState, newSessionId);
       } catch {
         // Even if API calls fail, still load questions
         setQuizState((prev) => ({
@@ -458,7 +558,7 @@ export default function DailyChallengePage() {
 
       const newBestStreak = Math.max(prev.bestStreak, newStreak);
 
-      return {
+      const updatedState = {
         ...prev,
         answers: newAnswers,
         isSubmitted: true,
@@ -470,6 +570,12 @@ export default function DailyChallengePage() {
         streakBroken: streakJustBroken,
         showHint: false,
       };
+
+      // Persist progress after each answer
+      const sid = sessionStorage.getItem("currentSessionId");
+      saveProgress(updatedState, sid);
+
+      return updatedState;
     });
   }, [quizState]);
 
@@ -505,6 +611,7 @@ export default function DailyChallengePage() {
         }
       }
 
+      clearProgress();
       setResultsData({
         score: correctCount,
         total: totalQuestions,
@@ -513,15 +620,20 @@ export default function DailyChallengePage() {
       });
       setPhase("results");
     } else {
-      setQuizState((prev) => ({
-        ...prev,
-        currentQuestionIndex: prev.currentQuestionIndex + 1,
-        selectedAnswer: null,
-        isSubmitted: false,
-        showXpAnimation: false,
-        sparkyMessage: "",
-        showHint: false,
-      }));
+      setQuizState((prev) => {
+        const updatedState = {
+          ...prev,
+          currentQuestionIndex: prev.currentQuestionIndex + 1,
+          selectedAnswer: null,
+          isSubmitted: false,
+          showXpAnimation: false,
+          sparkyMessage: "",
+          showHint: false,
+        };
+        const sid = sessionStorage.getItem("currentSessionId");
+        saveProgress(updatedState, sid);
+        return updatedState;
+      });
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [currentQuestionIndex, totalQuestions, answers, questions, bestStreak]);
@@ -834,7 +946,7 @@ export default function DailyChallengePage() {
                 className={`h-full rounded-full transition-all duration-500 ${
                   isOnFireStreak
                     ? "bg-gradient-to-r from-orange-500 via-amber to-red-500 bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite]"
-                    : "bg-gradient-to-r from-purple to-purple/70"
+                    : "bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark"
                 }`}
               />
             </div>
@@ -854,7 +966,7 @@ export default function DailyChallengePage() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Exit Daily Challenge?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Are you sure you want to exit? Your progress won&apos;t be saved and you&apos;ll need to start over.
+                    Are you sure you want to exit? Your progress is saved — you can pick up where you left off.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -886,7 +998,7 @@ export default function DailyChallengePage() {
                   {correctStreak}
                 </motion.span>
               )}
-              <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-purple/10 text-purple">
+              <span className="text-xs text-muted-foreground">
                 Daily Challenge
               </span>
             </div>
@@ -913,7 +1025,7 @@ export default function DailyChallengePage() {
                     onClick={handleSubmitAnswer}
                     disabled={selectedAnswer === null}
                     size="default"
-                    className="bg-purple hover:bg-purple/90 text-white gap-2"
+                    className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                   >
                     Submit
                     <ArrowRight className="h-4 w-4" />
@@ -922,7 +1034,7 @@ export default function DailyChallengePage() {
                   <Button
                     onClick={handleNextQuestion}
                     size="default"
-                    className="bg-purple hover:bg-purple/90 text-white gap-2"
+                    className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                   >
                     {isLastQuestion ? "See Results" : "Next"}
                     <ArrowRight className="h-4 w-4" />
@@ -949,8 +1061,8 @@ export default function DailyChallengePage() {
                       onClick={() => setQuizState(prev => ({ ...prev, showHint: !prev.showHint }))}
                       className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-all ${
                         quizState.showHint
-                          ? "bg-purple text-white border-purple"
-                          : "bg-purple/10 text-purple border-purple/30 hover:bg-purple/20"
+                          ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
+                          : "bg-amber/10 text-amber border-amber/30 hover:bg-amber/20 dark:bg-sparky-green/10 dark:text-sparky-green dark:border-sparky-green/30 dark:hover:bg-sparky-green/20"
                       }`}
                     >
                       <Lightbulb className="h-3.5 w-3.5" />
@@ -997,24 +1109,6 @@ export default function DailyChallengePage() {
                             </div>
                           </motion.div>
 
-                          {currentQuestion.sparkyTip && (
-                            <motion.div
-                              initial={{ opacity: 0, x: -20 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              transition={{ duration: 0.3, delay: 0.25 }}
-                              className="flex items-start gap-3 mt-4 pt-4 border-t border-white/20 dark:border-white/10"
-                            >
-                              <div className="p-2 rounded-lg bg-amber/20">
-                                <Zap className="h-4 w-4 text-amber" />
-                              </div>
-                              <div>
-                                <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Sparky Tip</p>
-                                <p className="text-sm text-foreground leading-relaxed">
-                                  {currentQuestion.sparkyTip}
-                                </p>
-                              </div>
-                            </motion.div>
-                          )}
                         </div>
                       </motion.div>
                     )}
@@ -1041,12 +1135,12 @@ export default function DailyChallengePage() {
                       "border-red-500 bg-red-500/10 text-foreground";
                   } else if (isSelected) {
                     optionClasses +=
-                      "border-purple bg-purple/10 text-foreground";
+                      "border-amber bg-amber/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
                   } else if (isSubmitted) {
                     optionClasses += "border-border bg-muted/50 dark:bg-stone-800/50 text-muted-foreground";
                   } else {
                     optionClasses +=
-                      "border-border hover:border-purple/50 hover:bg-muted/50 dark:hover:bg-stone-800/50 cursor-pointer";
+                      "border-border hover:border-amber/50 dark:hover:border-sparky-green/50 hover:bg-muted/50 dark:hover:bg-stone-800/50 cursor-pointer";
                   }
 
                   return (
@@ -1065,7 +1159,7 @@ export default function DailyChallengePage() {
                               : showIncorrect
                               ? "bg-red-500 text-white"
                               : isSelected
-                              ? "bg-purple text-white"
+                              ? "bg-amber text-white dark:bg-sparky-green dark:text-stone-950"
                               : "bg-muted dark:bg-stone-800 text-muted-foreground"
                           }`}
                         >
@@ -1085,7 +1179,7 @@ export default function DailyChallengePage() {
                     onClick={handleSubmitAnswer}
                     disabled={selectedAnswer === null}
                     size="lg"
-                    className="bg-purple hover:bg-purple/90 text-white gap-2 w-full"
+                    className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                   >
                     Submit
                     <ArrowRight className="h-4 w-4" />
@@ -1094,7 +1188,7 @@ export default function DailyChallengePage() {
                   <Button
                     onClick={handleNextQuestion}
                     size="lg"
-                    className="bg-purple hover:bg-purple/90 text-white gap-2 w-full"
+                    className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                   >
                     {isLastQuestion ? "See Results" : "Next Question"}
                     <ArrowRight className="h-4 w-4" />
@@ -1114,7 +1208,7 @@ export default function DailyChallengePage() {
                     className={`h-full rounded-full transition-all duration-500 ${
                       isOnFireStreak
                         ? "bg-gradient-to-r from-orange-500 via-amber to-red-500 bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite]"
-                        : "bg-gradient-to-r from-purple to-purple/70"
+                        : "bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark"
                     }`}
                   />
                 </div>
@@ -1130,7 +1224,7 @@ export default function DailyChallengePage() {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Exit Daily Challenge?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Are you sure you want to exit? Your progress won&apos;t be saved and you&apos;ll need to start over.
+                          Are you sure you want to exit? Your progress is saved — you can pick up where you left off.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -1156,8 +1250,8 @@ export default function DailyChallengePage() {
                         {correctStreak}
                       </motion.span>
                     )}
-                    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-purple/10 text-purple">
-                      Daily
+                    <span className="text-xs text-muted-foreground">
+                      Daily Challenge
                     </span>
                   </div>
 
@@ -1237,7 +1331,7 @@ export default function DailyChallengePage() {
                           )}
                         </div>
 
-                        <SparkyMessage message={sparkyMessage} size="medium" className="mb-4" />
+                        <SparkyMessage message={sparkyMessage} size="medium" variant={isCorrectAnswer ? "default" : "calm"} className="mb-4" />
 
                         {/* Explanation */}
                         <div className="mt-4 p-4 bg-muted/50 dark:bg-stone-800/50 rounded-lg">
@@ -1255,9 +1349,9 @@ export default function DailyChallengePage() {
 
                         {/* Sparky Tip */}
                         {currentQuestion.sparkyTip && (
-                          <div className="mt-3 p-3 bg-purple/10 rounded-lg border border-purple/30">
+                          <div className="mt-3 p-3 bg-amber/10 dark:bg-sparky-green/10 rounded-lg border border-amber/30 dark:border-sparky-green/30">
                             <p className="text-sm text-foreground">
-                              <span className="font-medium text-purple">💡 Sparky&apos;s Tip:</span>{" "}
+                              <span className="font-medium text-amber dark:text-sparky-green">💡 Sparky&apos;s Tip:</span>{" "}
                               {currentQuestion.sparkyTip}
                             </p>
                           </div>
@@ -1275,7 +1369,7 @@ export default function DailyChallengePage() {
                               variant="outline"
                               size="sm"
                               onClick={handleBookmarkFromFeedback}
-                              className="gap-2 border-purple text-purple hover:bg-purple/10"
+                              className="gap-2 border-amber text-amber hover:bg-amber/10 dark:border-sparky-green dark:text-sparky-green dark:hover:bg-sparky-green/10"
                             >
                               <Bookmark className="h-4 w-4" />
                               Save this question for later review
@@ -1299,7 +1393,7 @@ export default function DailyChallengePage() {
                       <Button
                         onClick={handleNextQuestion}
                         size="lg"
-                        className="bg-purple hover:bg-purple/90 text-white gap-2 px-8"
+                        className="bg-amber hover:bg-amber/90 text-white gap-2 px-8 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                       >
                         {isLastQuestion ? "See Results" : "Next Question"}
                         <ArrowRight className="h-4 w-4" />

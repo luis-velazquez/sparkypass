@@ -10,6 +10,7 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from "@/components/ui/popover";
+import { NavTipButton } from "@/components/tip";
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard" },
@@ -34,7 +35,7 @@ export function DesktopNav() {
   if (status !== "authenticated") return null;
 
   return (
-    <nav className="hidden md:flex items-center gap-1">
+    <nav className="hidden xl:flex items-center gap-1">
       {navLinks.map((link) => {
         const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
 
@@ -101,6 +102,7 @@ export function DesktopNav() {
           </Link>
         );
       })}
+      <NavTipButton variant="desktop" autoOpen />
     </nav>
   );
 }

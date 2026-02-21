@@ -2,7 +2,7 @@
 
 import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
-import { SparkyAvatar } from "./SparkyAvatar";
+import { SparkyAvatar, type SparkyVariant } from "./SparkyAvatar";
 
 const sparkyMessageVariants = cva(
   "flex items-start gap-3",
@@ -40,11 +40,13 @@ export interface SparkyMessageProps
   extends React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof sparkyMessageVariants> {
   message: string;
+  variant?: SparkyVariant;
 }
 
 export function SparkyMessage({
   message,
   size,
+  variant = "default",
   className,
   ...props
 }: SparkyMessageProps) {
@@ -54,28 +56,11 @@ export function SparkyMessage({
       {...props}
     >
       <div className="flex-shrink-0">
-        <SparkyAvatar size={size} />
+        <SparkyAvatar size={size} variant={variant} />
       </div>
       <div className="flex flex-col min-w-0 flex-1">
         <div className={cn(speechBubbleVariants({ size }))}>
-          {/* Speech bubble tail */}
-          <div
-            className="absolute left-0 top-3 -translate-x-2 w-0 h-0 dark:hidden"
-            style={{
-              borderTop: "8px solid transparent",
-              borderBottom: "8px solid transparent",
-              borderRight: "10px solid rgba(139, 92, 246, 0.10)",
-            }}
-          />
-          <div
-            className="absolute left-0 top-3 -translate-x-2 w-0 h-0 hidden dark:block"
-            style={{
-              borderTop: "8px solid transparent",
-              borderBottom: "8px solid transparent",
-              borderRight: "10px solid rgba(139, 92, 246, 0.12)",
-            }}
-          />
-          <p className="relative z-10">{message}</p>
+          <p>{message}</p>
         </div>
       </div>
     </div>

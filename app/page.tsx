@@ -186,7 +186,7 @@ export default function Home() {
           }}
         />
         {/* Radial glow behind headline */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-amber/[0.08] dark:bg-amber/[0.06] rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-amber/[0.08] dark:bg-sparky-green/[0.03] rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 relative z-10">
           <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
@@ -200,12 +200,13 @@ export default function Home() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber/20 bg-amber/5 dark:border-sparky-green/30 dark:bg-sparky-green/5 mb-8"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber/20 bg-amber/5 dark:border-stone-700 dark:bg-stone-800/50 mb-8"
               >
-                <div className="w-6 h-6 rounded-md bg-stone-900 flex items-center justify-center">
-                  <img src="/lightning-bolt.svg" alt="" className="w-4 h-4" />
+                <div className="w-6 h-6 rounded-md bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
+                  <Zap className="w-3.5 h-3.5 text-amber dark:hidden" />
+                  <img src="/lightning-bolt.svg" alt="" className="w-4 h-4 hidden dark:block" />
                 </div>
-                <span className="text-amber dark:text-sparky-green text-sm font-medium tracking-wide">
+                <span className="text-amber dark:text-stone-300 text-sm font-medium tracking-wide">
                   Texas Master Electrician Exam Prep
                 </span>
               </motion.div>
@@ -236,7 +237,7 @@ export default function Home() {
                 <Link href="/register">
                   <Button
                     size="lg"
-                    className="bg-amber hover:bg-amber-dark text-white dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] dark:shadow-[0_0_30px_rgba(163,255,0,0.15)] dark:hover:shadow-[0_0_40px_rgba(163,255,0,0.25)] transition-shadow"
+                    className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] dark:shadow-none dark:hover:shadow-[0_0_25px_rgba(163,255,0,0.15)] transition-shadow"
                   >
                     Start Your 7-Day Free Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -305,12 +306,12 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: index * 0.15 }}
                   className="relative group"
                 >
-                  <div className="rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-8 h-full transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_25px_rgba(245,158,11,0.08)]">
-                    <span className="text-amber/15 dark:text-amber/30 text-6xl font-bold font-display absolute top-4 right-6 select-none">
+                  <div className="rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-8 h-full">
+                    <span className="text-amber/15 dark:text-sparky-green/10 text-6xl font-bold font-display absolute top-4 right-6 select-none">
                       {step.step}
                     </span>
-                    <div className="w-12 h-12 rounded-lg bg-amber/10 flex items-center justify-center mb-5">
-                      <Icon className="h-6 w-6 text-amber" />
+                    <div className="w-12 h-12 rounded-lg bg-amber/10 dark:bg-sparky-green/10 flex items-center justify-center mb-5">
+                      <Icon className="h-6 w-6 text-amber dark:text-sparky-green" />
                     </div>
                     <h3 className="text-xl font-bold text-foreground mb-2">
                       {step.title}
@@ -360,9 +361,9 @@ export default function Home() {
                   transition={{ duration: 0.5, delay: index * 0.08 }}
                   className="group"
                 >
-                  <div className="rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-950/60 p-6 h-full transition-all duration-300 hover:border-amber/25 hover:shadow-card dark:hover:bg-stone-950/80">
-                    <div className="w-10 h-10 rounded-lg bg-amber/10 flex items-center justify-center mb-4 transition-colors group-hover:bg-amber/15">
-                      <Icon className="h-5 w-5 text-amber" />
+                  <div className="rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-950/60 p-6 h-full">
+                    <div className="w-10 h-10 rounded-lg bg-amber/10 dark:bg-sparky-green/10 flex items-center justify-center mb-4">
+                      <Icon className="h-5 w-5 text-amber dark:text-sparky-green" />
                     </div>
                     <h3 className="text-lg font-bold text-foreground mb-2">
                       {feature.title}
@@ -421,7 +422,7 @@ export default function Home() {
       <section className="bg-card dark:bg-stone-900 py-20 md:py-24 border-t border-border dark:border-stone-800">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
-            <Zap className="h-8 w-8 text-amber/40 mx-auto mb-6" />
+            <Zap className="h-8 w-8 text-amber/40 dark:text-stone-700 mx-auto mb-6" />
             <blockquote className="text-2xl md:text-3xl font-display text-foreground leading-snug mb-6">
               &ldquo;The difference between a journeyman and a master
               isn&apos;t talent — it&apos;s{" "}
@@ -448,9 +449,9 @@ export default function Home() {
                 <AccordionItem
                   key={i}
                   value={`faq-${i}`}
-                  className="border border-border dark:border-stone-800 rounded-lg px-5 data-[state=open]:border-amber/20 transition-colors"
+                  className="border border-border dark:border-stone-800 rounded-lg px-5 data-[state=open]:border-amber/20 dark:data-[state=open]:border-stone-700 transition-colors"
                 >
-                  <AccordionTrigger className="text-foreground text-base hover:no-underline hover:text-amber transition-colors py-5">
+                  <AccordionTrigger className="text-foreground text-base hover:no-underline hover:text-amber dark:hover:text-stone-200 transition-colors py-5">
                     {faq.q}
                   </AccordionTrigger>
                   <AccordionContent className="text-muted-foreground leading-relaxed">
@@ -468,7 +469,7 @@ export default function Home() {
           ============================================================ */}
       <section className="relative overflow-hidden bg-cream-dark dark:bg-stone-900 py-20 md:py-28 border-t border-border dark:border-stone-800">
         {/* Ambient glow */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber/[0.07] dark:bg-amber/[0.05] rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber/[0.07] dark:bg-sparky-green/[0.02] rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
@@ -489,7 +490,7 @@ export default function Home() {
               <Link href="/register">
                 <Button
                   size="lg"
-                  className="bg-amber hover:bg-amber-dark text-white dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] dark:shadow-[0_0_30px_rgba(163,255,0,0.15)] dark:hover:shadow-[0_0_40px_rgba(163,255,0,0.25)] transition-shadow"
+                  className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 font-bold text-lg px-10 py-6 w-full sm:w-auto shadow-[0_0_30px_rgba(245,158,11,0.25)] hover:shadow-[0_0_40px_rgba(245,158,11,0.4)] dark:shadow-none dark:hover:shadow-[0_0_25px_rgba(163,255,0,0.15)] transition-shadow"
                 >
                   Start Your 7-Day Free Trial
                   <ArrowRight className="ml-2 h-5 w-5" />

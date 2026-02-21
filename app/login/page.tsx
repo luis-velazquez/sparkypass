@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Loader2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -88,7 +88,10 @@ function LoginForm() {
     <Card className="shadow-lg border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
       <CardHeader className="text-center space-y-4">
         <Link href="/" className="inline-flex items-center justify-center gap-2">
-          <div className="w-12 h-12 rounded-xl bg-stone-900 flex items-center justify-center"><img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7" /></div>
+          <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
+            <Zap className="w-7 h-7 text-amber dark:hidden" />
+            <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+          </div>
         </Link>
         <CardTitle className="text-2xl font-bold font-display">Welcome Back!</CardTitle>
         <p className="text-muted-foreground">
@@ -220,7 +223,7 @@ function LoginForm() {
 
           <Button
             type="submit"
-            className="w-full bg-amber hover:bg-amber-dark text-white"
+            className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -254,7 +257,10 @@ function LoginFormFallback() {
     <Card className="shadow-lg border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
       <CardHeader className="text-center space-y-4">
         <div className="inline-flex items-center justify-center gap-2">
-          <div className="w-12 h-12 rounded-xl bg-stone-900 flex items-center justify-center"><img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7" /></div>
+          <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
+            <Zap className="w-7 h-7 text-amber dark:hidden" />
+            <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+          </div>
         </div>
         <CardTitle className="text-2xl font-bold font-display">Welcome Back!</CardTitle>
         <p className="text-muted-foreground">

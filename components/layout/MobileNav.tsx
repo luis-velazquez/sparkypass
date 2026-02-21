@@ -25,6 +25,7 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { NavTipButton } from "@/components/tip";
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -128,6 +129,7 @@ export function MobileNav() {
               </Link>
             );
           })}
+          <NavTipButton variant="mobile" onAfterOpen={closeSheet} />
         </nav>}
 
         <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-border">

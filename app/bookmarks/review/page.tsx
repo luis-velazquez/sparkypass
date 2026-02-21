@@ -10,7 +10,7 @@ import {
   ArrowRight,
   CheckCircle2,
   XCircle,
-  BookMarked,
+
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -233,15 +233,10 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
           backgroundSize: "60px 60px",
         }}
       />
-      {/* Header Banner */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="relative z-10 mb-4 flex items-center gap-2 px-3 py-2 bg-amber/10 rounded-lg text-amber text-sm"
-      >
-        <BookMarked className="h-4 w-4" />
-        <span className="font-medium">Bookmark Review Session</span>
-      </motion.div>
+      {/* Header Label */}
+      <div className="relative z-10 mb-4 flex items-center justify-center">
+        <span className="text-xs text-muted-foreground">Bookmark Review</span>
+      </div>
 
       {/* Progress Bar */}
       <div className="relative z-10 mb-6">
@@ -459,7 +454,7 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
                 onClick={handleSubmitAnswer}
                 disabled={selectedAnswer === null}
                 size="lg"
-                className="bg-amber hover:bg-amber-dark text-white"
+                className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 Submit Answer
               </Button>
@@ -467,7 +462,7 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
               <Button
                 onClick={handleNextQuestion}
                 size="lg"
-                className="bg-amber hover:bg-amber-dark text-white gap-2"
+                className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 gap-2"
               >
                 {isLastQuestion ? "See Results" : "Next Question"}
                 <ArrowRight className="h-4 w-4" />

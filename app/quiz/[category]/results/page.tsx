@@ -612,7 +612,7 @@ export default function QuizResultsPage() {
         transition={{ delay: 0.8 }}
         className="mb-8"
       >
-        <SparkyMessage message={sparkyMessage} size="large" />
+        <SparkyMessage message={sparkyMessage} size="large" variant={results.percentage < 70 ? "sad" : "default"} />
       </motion.div>
 
       {/* King Sparky Master Quiz Congratulation */}

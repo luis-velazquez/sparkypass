@@ -22,7 +22,6 @@ import {
   Thermometer,
   Omega,
   GitBranch,
-  Ruler,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -61,7 +60,6 @@ const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
   "temperature-correction": Thermometer,
   "resistance": Omega,
   "transformer-sizing": GitBranch,
-  "sizing-requirements": Ruler,
 };
 
 // Map category slugs to colors
@@ -125,11 +123,6 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     icon: "text-sky-500",
     bg: "bg-sky-500/10",
     badge: "bg-sky-500/10 text-sky-500",
-  },
-  "sizing-requirements": {
-    icon: "text-lime-500",
-    bg: "bg-lime-500/10",
-    badge: "bg-lime-500/10 text-lime-500",
   },
 };
 
@@ -281,7 +274,7 @@ export default function BookmarksPage() {
             When you take quizzes, you can bookmark questions to review later.
             Look for the star icon on any question!
           </p>
-          <Button onClick={() => router.push("/quiz")} className="bg-amber hover:bg-amber-dark text-white">
+          <Button onClick={() => router.push("/quiz")} className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
             Start a Quiz
           </Button>
         </motion.div>

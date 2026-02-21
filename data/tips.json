@@ -1,0 +1,46 @@
+{
+  "tips": [
+    {
+      "id": "TIP-001-VD",
+      "type": "tip-of-the-day",
+      "title": "The Tale of Two Formulas: R vs. Z",
+      "category": "Electrical Theory & Voltage Drop",
+      "difficulty": "journeyman",
+      "content": "Have you ever looked at a Voltage Drop calculation and wondered why some formulas use an R and others use a Z? Here is the secret:\n\n1. The 'R' stands for Resistance. Use the R formula for DC circuits or when pulling small conductors (like #2 AWG and smaller) for AC circuits. In small wires, the only thing fighting the current is the physical copper itself. Get your R values from Chapter 9, Table 8.\n\n2. The 'Z' stands for Impedance. Use the Z formula when dealing with large conductors (like 1/0 AWG and up) in AC circuits. When you pump AC through a massive wire, the magnetic field creates a 'choke' effect called Inductive Reactance. Impedance (Z) is just physical Resistance (R) combining forces with that magnetic choke! Get your Z values from Chapter 9, Table 9.",
+      "formulas": [
+        "VD = (2 x L x R x I) / 1000",
+        "VD = (2 x L x Z x I) / 1000"
+      ],
+      "necReference": "Chapter 9, Tables 8 & 9",
+      "sparkyBottomLine": "Small wire? Stick to R. Big wire with a motor load? You better use Z, or your voltage drop math will leave you short!"
+    },
+    {
+      "id": "TIP-002-GB",
+      "type": "tip-of-the-day",
+      "title": "Gas Pipe Bonding: The Exam vs. The Real World",
+      "category": "Grounding & Bonding",
+      "difficulty": "journeyman",
+      "content": "Hey Sparky crew! Let's talk about one of the biggest traps that catches experienced electricians on exam day: bonding gas pipes.\n\nIn the field, you are probably used to running a #6 AWG bare copper wire from the service panel straight to the yellow CSST (flexible gas pipe). Why? Because the CSST manufacturer and the Fuel Gas Code demand it to protect against lightning strikes.\n\nBUT ON THE NEC EXAM... we are usually dealing with standard black iron pipe and NEC 250.104(B). The code says 'other metal piping' (which includes gas) only needs to be bonded based on the circuit *likely to energize it*. That means you put down Table 250.66 and pick up Table 250.122!\n\nIf a 30A gas dryer circuit is the only thing likely to energize that pipe, your bonding jumper is just a #10 AWG copper wire. If it's a 100A furnace, it's a #8 AWG.",
+      "tables": [
+        "Table 250.122 (Use for standard gas pipe on the exam)",
+        "Table 250.66 (Do NOT use for gas pipe!)"
+      ],
+      "necReference": "250.104(B)",
+      "sparkyBottomLine": "Keep your exam brain and your field brain separate! If the test asks about bonding standard gas pipe, look at the breaker size of the appliance and head straight to Table 250.122."
+    },
+    {
+      "id": "TIP-003-AMP",
+      "type": "tip-of-the-day",
+      "title": "The Termination Temperature Trap: 60°C vs. 75°C",
+      "category": "Ampacity & Conductor Sizing",
+      "difficulty": "journeyman",
+      "content": "Hey SparkyPass crew! Let's talk about the number one reason people fail ampacity questions: The Termination Temperature Trap.\n\nYou pull a wire like THHN or XHHW-2 and think, 'Awesome, 90°C insulation! I'll use the 90°C column in Table 310.16.' WRONG! Your wire might be rated to handle 90°C, but the breaker lugs you are landing it on are not.\n\nNEC 110.14(C) lays down the law for termination limits:\n\n1. 100 Amps or Less (or #1 AWG and smaller): You are stuck in the 60°C column. Period.\n2. Over 100 Amps (or larger than #1 AWG): You get to graduate to the 75°C column.\n\nEven if your wire is XHHW-2, the equipment you connect it to acts as a bottleneck. You only ever use that 90°C column for derating (ampacity adjustment), never for your final wire size!",
+      "rulesToRemember": [
+        "<= 100A or <= #1 AWG = 60°C Column",
+        "> 100A or > #1 AWG = 75°C Column"
+      ],
+      "necReference": "110.14(C), Table 310.16",
+      "sparkyBottomLine": "Don't get tricked by the 90°C insulation rating on the wire! Always check your amperage: under 100A means 60°C, over 100A means 75°C. Your wire is only as strong as its weakest lug!"
+    }
+  ]
+}

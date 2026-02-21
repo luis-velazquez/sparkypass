@@ -11,6 +11,7 @@ import {
   Play,
   Trophy,
   Target,
+  XCircle,
   Loader2,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -98,8 +99,10 @@ export default function MockExamPage() {
 
   if (status === "loading") {
     return (
-      <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-amber" />
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-amber" />
+        </div>
       </main>
     );
   }
@@ -109,7 +112,7 @@ export default function MockExamPage() {
   };
 
   return (
-    <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-8">
+    <main className="relative min-h-screen bg-cream dark:bg-stone-950">
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
         style={{
@@ -118,12 +121,13 @@ export default function MockExamPage() {
           backgroundSize: "60px 60px",
         }}
       />
+      <div className="container mx-auto px-4 py-8 relative z-10">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 mb-8"
+        className="mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-2">
           <span className="text-amber dark:text-sparky-green">Mock Exam</span>
@@ -242,39 +246,39 @@ export default function MockExamPage() {
       >
         <h2 className="text-xl font-semibold font-display text-foreground mb-4">Exam Day Tips</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-            <CardContent className="pt-6">
-              <div className="w-12 h-12 rounded-lg bg-amber/10 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center mb-3 transition-all duration-300">
-                <Clock className="h-6 w-6 text-amber dark:text-amber-light" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Time Management</h3>
+          <div className="flex gap-3 items-start">
+            <div className="w-9 h-9 rounded-lg bg-amber/10 flex items-center justify-center shrink-0 mt-0.5">
+              <Clock className="h-5 w-5 text-amber dark:text-amber-light" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground text-sm mb-1">Time Management</h3>
               <p className="text-sm text-muted-foreground">
                 Pace yourself - aim for about 1 minute per question. Flag difficult ones and return later.
               </p>
-            </CardContent>
-          </Card>
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-            <CardContent className="pt-6">
-              <div className="w-12 h-12 rounded-lg bg-emerald/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] flex items-center justify-center mb-3 transition-all duration-300">
-                <BookOpen className="h-6 w-6 text-emerald dark:text-sparky-green" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Read Carefully</h3>
+            </div>
+          </div>
+          <div className="flex gap-3 items-start">
+            <div className="w-9 h-9 rounded-lg bg-emerald/10 dark:bg-sparky-green/10 flex items-center justify-center shrink-0 mt-0.5">
+              <BookOpen className="h-5 w-5 text-emerald dark:text-sparky-green" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground text-sm mb-1">Read Carefully</h3>
               <p className="text-sm text-muted-foreground">
                 Pay attention to keywords like &quot;minimum,&quot; &quot;maximum,&quot; &quot;shall,&quot; and &quot;permitted.&quot;
               </p>
-            </CardContent>
-          </Card>
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-            <CardContent className="pt-6">
-              <div className="w-12 h-12 rounded-lg bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center mb-3 transition-all duration-300">
-                <Target className="h-6 w-6 text-purple dark:text-purple-light" />
-              </div>
-              <h3 className="font-semibold text-foreground mb-2">Eliminate Wrong Answers</h3>
+            </div>
+          </div>
+          <div className="flex gap-3 items-start">
+            <div className="w-9 h-9 rounded-lg bg-purple-soft dark:bg-purple/10 flex items-center justify-center shrink-0 mt-0.5">
+              <XCircle className="h-5 w-5 text-purple dark:text-purple-light" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-foreground text-sm mb-1">Eliminate Wrong Answers</h3>
               <p className="text-sm text-muted-foreground">
                 When unsure, eliminate obviously wrong choices first to improve your odds.
               </p>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </motion.div>
 
@@ -290,6 +294,7 @@ export default function MockExamPage() {
           message="Mock exams are your secret weapon! Taking practice tests under timed conditions builds the mental stamina you need for exam day. Don't worry about failing practice tests - that's how you identify areas to improve!"
         />
       </motion.div>
+      </div>
     </main>
   );
 }

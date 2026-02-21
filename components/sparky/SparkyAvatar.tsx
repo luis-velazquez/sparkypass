@@ -19,15 +19,38 @@ const sparkyAvatarVariants = cva(
   }
 );
 
+export type SparkyVariant = "default" | "calm" | "sad";
+
 export interface SparkyAvatarProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof sparkyAvatarVariants> {}
+    VariantProps<typeof sparkyAvatarVariants> {
+  variant?: SparkyVariant;
+}
 
 export function SparkyAvatar({
   size,
+  variant = "default",
   className,
   ...props
 }: SparkyAvatarProps) {
+  if (variant === "calm" || variant === "sad") {
+    const src = variant === "sad" ? "/sad-sparky.svg" : "/calm-sparky.svg";
+    const alt = `Sparky the electrician mascot - ${variant}`;
+    return (
+      <div
+        className={cn(sparkyAvatarVariants({ size }), className)}
+        {...props}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-full"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className={cn(sparkyAvatarVariants({ size }), className)}

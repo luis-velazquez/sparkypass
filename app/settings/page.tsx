@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SparkyMessage } from "@/components/sparky";
+import { TIP_ENABLED_KEY } from "@/lib/tips";
 
 interface ProfileData {
   name: string;
@@ -71,6 +72,9 @@ export default function SettingsPage() {
   const [quizPrefSuccess, setQuizPrefSuccess] = useState("");
   const [quizPrefError, setQuizPrefError] = useState("");
 
+  // Tip of the Day state
+  const [tipEnabled, setTipEnabled] = useState(true);
+
   // Billing state
   const [billingLoading, setBillingLoading] = useState(false);
 
@@ -116,6 +120,8 @@ export default function SettingsPage() {
     }
     if (status === "authenticated") {
       fetchProfile();
+      const stored = localStorage.getItem(TIP_ENABLED_KEY);
+      if (stored === "false") setTipEnabled(false);
     }
   }, [status, router, fetchProfile]);
 
@@ -270,12 +276,14 @@ export default function SettingsPage() {
 
   if (status === "loading" || loading) {
     return (
-      <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-8">
-        <div className="animate-pulse">
-          <div className="h-10 bg-muted dark:bg-stone-800 rounded w-48 mb-8" />
-          <div className="max-w-2xl mx-auto space-y-6">
-            <div className="h-64 bg-muted dark:bg-stone-800 rounded" />
-            <div className="h-64 bg-muted dark:bg-stone-800 rounded" />
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8">
+          <div className="animate-pulse">
+            <div className="h-10 bg-muted dark:bg-stone-800 rounded w-48 mb-8" />
+            <div className="max-w-2xl mx-auto space-y-6">
+              <div className="h-64 bg-muted dark:bg-stone-800 rounded" />
+              <div className="h-64 bg-muted dark:bg-stone-800 rounded" />
+            </div>
           </div>
         </div>
       </main>
@@ -284,12 +292,14 @@ export default function SettingsPage() {
 
   if (!profile) {
     return (
-      <main className="container mx-auto px-4 py-8">
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">Unable to load settings.</p>
-          <Button onClick={() => router.push("/dashboard")} className="mt-4">
-            Back to Dashboard
-          </Button>
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8">
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">Unable to load settings.</p>
+            <Button onClick={() => router.push("/dashboard")} className="mt-4">
+              Back to Dashboard
+            </Button>
+          </div>
         </div>
       </main>
     );
@@ -303,7 +313,7 @@ export default function SettingsPage() {
   const profileChanged = nameChanged || usernameChanged || cityChanged || stateChanged;
 
   return (
-    <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-8">
+    <main className="relative min-h-screen bg-cream dark:bg-stone-950">
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
         style={{
@@ -312,12 +322,13 @@ export default function SettingsPage() {
           backgroundSize: "60px 60px",
         }}
       />
+      <div className="container mx-auto px-4 py-8 relative z-10">
       {/* Page Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 mb-8"
+        className="mb-8"
       >
         <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2">
           Account Settings
@@ -327,7 +338,7 @@ export default function SettingsPage() {
         </p>
       </motion.div>
 
-      <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+      <div className="max-w-2xl mx-auto space-y-6">
         {/* Profile Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -570,6 +581,36 @@ export default function SettingsPage() {
                   <span
                     className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
                       focusMode === "master" ? "translate-x-5" : "translate-x-0"
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Tip of the Day toggle */}
+              <div className="flex items-center justify-between gap-4 pt-1">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    Tip of the Day
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Show a daily electrical theory tip on the dashboard and a dialog on your first visit each day.
+                  </p>
+                </div>
+                <button
+                  onClick={() => {
+                    const next = !tipEnabled;
+                    setTipEnabled(next);
+                    localStorage.setItem(TIP_ENABLED_KEY, String(next));
+                  }}
+                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 ${
+                    tipEnabled ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
+                  }`}
+                  role="switch"
+                  aria-checked={tipEnabled}
+                >
+                  <span
+                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      tipEnabled ? "translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -851,6 +892,7 @@ export default function SettingsPage() {
             message="Keeping your account secure is important! A strong password is like good insulation — it protects what matters."
           />
         </motion.div>
+      </div>
       </div>
     </main>
   );

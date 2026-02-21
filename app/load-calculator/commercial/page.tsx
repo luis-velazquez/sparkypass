@@ -488,8 +488,10 @@ export default function CommercialLoadCalculatorPage() {
 
   if (status === "loading") {
     return (
-      <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="h-8 w-8 animate-spin text-amber" />
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-amber" />
+        </div>
       </main>
     );
   }
@@ -502,7 +504,8 @@ export default function CommercialLoadCalculatorPage() {
     );
 
     return (
-      <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -576,6 +579,7 @@ export default function CommercialLoadCalculatorPage() {
             </CardContent>
           </Card>
         </motion.div>
+        </div>
       </main>
     );
   }
@@ -588,7 +592,7 @@ export default function CommercialLoadCalculatorPage() {
   const completionResults = getCompletionResults();
 
   return (
-    <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-8">
+    <main className="relative min-h-screen bg-cream dark:bg-stone-950">
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
         style={{
@@ -597,12 +601,13 @@ export default function CommercialLoadCalculatorPage() {
           backgroundSize: "60px 60px",
         }}
       />
+      <div className="container mx-auto px-4 py-8 relative z-10">
       {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="relative z-10 mb-6"
+        className="mb-6"
       >
         <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
@@ -1265,6 +1270,7 @@ export default function CommercialLoadCalculatorPage() {
             </div>
           )}
         </motion.div>
+      </div>
       </div>
     </main>
   );

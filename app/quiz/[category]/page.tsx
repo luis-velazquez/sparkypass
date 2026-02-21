@@ -22,6 +22,7 @@ import {
   Lightbulb,
   Zap,
   Lock,
+  Trophy,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
@@ -461,9 +462,10 @@ export default function QuizTakingPage() {
               if (parsed.difficulty) {
                 setSelectedDifficulty(parsed.difficulty as Difficulty);
               }
+              const clampedIndex = Math.min(parsed.currentQuestionIndex, questions.length - 1);
               setQuizState({
                 questions,
-                currentQuestionIndex: parsed.currentQuestionIndex,
+                currentQuestionIndex: clampedIndex,
                 selectedAnswer: null,
                 bookmarkedQuestions: new Set(parsed.bookmarkedQuestions),
                 answers: new Map(Object.entries(parsed.answers).map(([k, v]) => [k, v])),
@@ -570,9 +572,10 @@ export default function QuizTakingPage() {
       setSelectedDifficulty(savedProgress.difficulty);
     }
 
+    const clampedIndex = Math.min(savedProgress.currentQuestionIndex, questions.length - 1);
     setQuizState({
       questions,
-      currentQuestionIndex: savedProgress.currentQuestionIndex,
+      currentQuestionIndex: clampedIndex,
       selectedAnswer: null,
       bookmarkedQuestions: new Set(savedProgress.bookmarkedQuestions),
       answers: new Map(Object.entries(savedProgress.answers).map(([k, v]) => [k, v])),
@@ -837,7 +840,7 @@ export default function QuizTakingPage() {
 
       // Fire celebration for correct answers
       if (isCorrect) {
-        // Always fire particle burst during streak
+        // Fire particle burst during streak, clear on streak break
         if (isOnFire && selectedAnswer !== null) {
           const btn = answerButtonRefs.current[selectedAnswer];
           if (btn) {
@@ -847,7 +850,10 @@ export default function QuizTakingPage() {
               y: rect.top + rect.height / 2,
               id: Date.now(),
             });
+            setTimeout(() => setParticleBurst(null), 1200);
           }
+        } else {
+          setParticleBurst(null);
         }
 
         // Fire confetti: always on non-streak correct, AND at milestones
@@ -935,15 +941,20 @@ export default function QuizTakingPage() {
         clearTimeout(xpTimeoutRef.current);
         xpTimeoutRef.current = null;
       }
-      setQuizState((prev) => ({
-        ...prev,
-        currentQuestionIndex: prev.currentQuestionIndex + 1,
-        selectedAnswer: null,
-        isSubmitted: false,
-        showXpAnimation: false,
-        sparkyMessage: "",
-        showHint: false,
-      }));
+      setQuizState((prev) => {
+        const nextIndex = prev.currentQuestionIndex + 1;
+        const nextQuestion = prev.questions[nextIndex];
+        const alreadyAnswered = nextQuestion ? prev.answers.has(nextQuestion.id) : false;
+        return {
+          ...prev,
+          currentQuestionIndex: nextIndex,
+          selectedAnswer: alreadyAnswered ? (prev.answers.get(nextQuestion!.id) ?? null) : null,
+          isSubmitted: alreadyAnswered,
+          showXpAnimation: false,
+          sparkyMessage: "",
+          showHint: false,
+        };
+      });
       // Clear milestone state for next question
       setMilestoneBanner(null);
       setMilestoneHit(null);
@@ -1011,8 +1022,8 @@ export default function QuizTakingPage() {
     router.push("/quiz");
   }, [router]);
 
-  // Redirect if invalid category or no questions
-  if (!category || totalQuestions === 0) {
+  // Redirect if invalid category, no questions, or current question out of bounds
+  if (!category || totalQuestions === 0 || !currentQuestion) {
     notFound();
   }
 
@@ -1259,6 +1270,18 @@ export default function QuizTakingPage() {
                     ) : (
                       <p className={`text-sm text-muted-foreground ${isLocked ? "opacity-60" : ""}`}>{diff.description}</p>
                     )}
+                    {!isLocked && unlockInfo?.bestPercentage !== null && unlockInfo?.bestPercentage !== undefined && (
+                      <div className="flex items-center gap-1.5 mt-1.5">
+                        <Trophy className={`h-3.5 w-3.5 ${
+                          unlockInfo.bestPercentage >= 90 ? "text-amber" : "text-muted-foreground"
+                        }`} />
+                        <span className={`text-xs font-medium ${
+                          unlockInfo.bestPercentage >= 90 ? "text-amber" : "text-muted-foreground"
+                        }`}>
+                          Best: {unlockInfo.bestPercentage}%
+                        </span>
+                      </div>
+                    )}
                   </button>
                 );
               })}
@@ -1464,20 +1487,9 @@ export default function QuizTakingPage() {
               {correctStreak >= 10 && "🔥"}
             </motion.span>
           )}
-          <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-purple/10 text-purple hidden sm:inline-flex">
-            {category?.name}
+          <span className="text-xs text-muted-foreground hidden sm:inline-flex">
+            {category?.name}{selectedDifficulty && ` · ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`}
           </span>
-          {selectedDifficulty && (
-            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-              selectedDifficulty === "apprentice"
-                ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
-                : selectedDifficulty === "journeyman"
-                ? "bg-amber/10 text-amber"
-                : "bg-red-500/10 text-red-500"
-            }`}>
-              {selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}
-            </span>
-          )}
         </div>
 
         {/* Right - Save (icon on mobile, full on desktop) + Submit/Next (desktop only) */}
@@ -1750,19 +1762,8 @@ export default function QuizTakingPage() {
                 >
                   <ChevronRight className="h-4 w-4" />
                 </button>
-                {selectedDifficulty && (
-                  <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                    selectedDifficulty === "apprentice"
-                      ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
-                      : selectedDifficulty === "journeyman"
-                      ? "bg-amber/10 text-amber"
-                      : "bg-red-500/10 text-red-500"
-                  }`}>
-                    {selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}
-                  </span>
-                )}
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-purple/10 text-purple">
-                  {category?.name}
+                <span className="text-xs text-muted-foreground">
+                  {category?.name}{selectedDifficulty && ` · ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`}
                 </span>
               </div>
 
@@ -1864,7 +1865,7 @@ export default function QuizTakingPage() {
                     </div>
 
                     {/* Sparky Message */}
-                    <SparkyMessage message={sparkyMessage} size="medium" className="mb-4" />
+                    <SparkyMessage message={sparkyMessage} size="medium" variant={isCorrectAnswer ? "default" : "calm"} className="mb-4" />
 
                     {/* Explanation */}
                     <div className="mt-4 p-4 bg-muted/50 dark:bg-stone-800/50 rounded-lg">

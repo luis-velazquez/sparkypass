@@ -396,7 +396,7 @@ export default function ProfilePage() {
                 <Button
                   onClick={handleSave}
                   disabled={!hasChanges || saving}
-                  className="w-full bg-amber hover:bg-amber-dark text-white"
+                  className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                 >
                   {saving ? (
                     <>

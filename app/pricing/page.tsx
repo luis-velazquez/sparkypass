@@ -38,9 +38,9 @@ const plans = [
   {
     key: "yearly" as const,
     name: "Yearly",
-    price: "$299",
+    price: "$299.99",
     interval: "per year",
-    perMonth: "$24.92/mo",
+    perMonth: "$25.00/mo",
     tagline: "Our most popular comprehensive study track",
     badge: "Recommended",
     features: [
@@ -53,7 +53,7 @@ const plans = [
   {
     key: "lifetime" as const,
     name: "Lifetime",
-    price: "$500",
+    price: "$499.99",
     interval: "one-time",
     perMonth: "Pay once, access forever",
     tagline: "Includes all future NEC Code Cycles",
@@ -73,6 +73,7 @@ export default function PricingPage() {
   const router = useRouter();
   const [promoCode, setPromoCode] = useState("");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const subscriptionStatus = session?.user?.subscriptionStatus;
   const trialEndsAt = session?.user?.trialEndsAt;
@@ -88,6 +89,7 @@ export default function PricingPage() {
     }
 
     setLoadingPlan(planKey);
+    setError(null);
 
     try {
       const res = await fetch("/api/stripe/checkout", {
@@ -104,11 +106,11 @@ export default function PricingPage() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        console.error("No checkout URL returned");
+        setError(data.error || "No checkout URL returned. Please try again.");
         setLoadingPlan(null);
       }
-    } catch (error) {
-      console.error("Checkout error:", error);
+    } catch {
+      setError("Something went wrong. Please try again.");
       setLoadingPlan(null);
     }
   };
@@ -185,6 +187,16 @@ export default function PricingPage() {
         </motion.div>
       )}
 
+      {/* Error Banner */}
+      {error && (
+        <div className="relative z-10 max-w-4xl mx-auto mb-6">
+          <div className="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm font-medium">
+            <Zap className="h-5 w-5 flex-shrink-0" />
+            {error}
+          </div>
+        </div>
+      )}
+
       {/* Plan Cards */}
       <div className="relative z-10 grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mb-10">
         {plans.map((plan, i) => (
@@ -224,7 +236,7 @@ export default function PricingPage() {
                 <Button
                   onClick={() => handleSubscribe(plan.key)}
                   disabled={loadingPlan !== null || subscriptionStatus === "active"}
-                  className={`w-full ${plan.key === "lifetime" ? "bg-sparky-green hover:bg-sparky-green-dark text-stone-950 font-bold shadow-[0_0_20px_rgba(163,255,0,0.25)] hover:shadow-[0_0_30px_rgba(163,255,0,0.4)]" : plan.badge ? "bg-amber hover:bg-amber-dark text-white shadow-md" : "bg-purple hover:bg-purple-dark text-white"}`}
+                  className={`w-full ${plan.key === "lifetime" ? "bg-sparky-green hover:bg-sparky-green-dark text-stone-950 font-bold shadow-[0_0_20px_rgba(163,255,0,0.25)] hover:shadow-[0_0_30px_rgba(163,255,0,0.4)]" : plan.badge ? "bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 shadow-md" : "bg-purple hover:bg-purple-dark text-white"}`}
                 >
                   {loadingPlan === plan.key ? (
                     <>

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Loader2, CheckCircle, ArrowLeft } from "lucide-react";
+import { Mail, Loader2, CheckCircle, ArrowLeft, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -80,7 +80,10 @@ export default function ForgotPasswordPage() {
               href="/"
               className="inline-flex items-center justify-center gap-2"
             >
-              <div className="w-12 h-12 rounded-xl bg-stone-900 flex items-center justify-center"><img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7" /></div>
+              <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
+                <Zap className="w-7 h-7 text-amber dark:hidden" />
+                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+              </div>
             </Link>
             {isSubmitted ? (
               <>
@@ -137,7 +140,7 @@ export default function ForgotPasswordPage() {
                 {/* Back to Login */}
                 <div className="text-center space-y-4">
                   <Link href="/login">
-                    <Button className="bg-amber hover:bg-amber-dark text-white">
+                    <Button className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back to Login
                     </Button>
@@ -176,7 +179,7 @@ export default function ForgotPasswordPage() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-amber hover:bg-amber-dark text-white"
+                    className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                     disabled={isLoading}
                   >
                     {isLoading ? (

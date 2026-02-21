@@ -101,7 +101,6 @@ export function getCategoryCounts(): Record<CategorySlug, number> {
     "temperature-correction": getQuestionCountByCategory("temperature-correction"),
     "resistance": getQuestionCountByCategory("resistance"),
     "transformer-sizing": getQuestionCountByCategory("transformer-sizing"),
-    "sizing-requirements": getQuestionCountByCategory("sizing-requirements"),
   };
 }
 

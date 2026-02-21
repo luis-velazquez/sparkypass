@@ -69,13 +69,13 @@ export default function RootLayout({
             <DesktopNav />
 
             {/* Desktop Auth Buttons */}
-            <div className="hidden md:flex items-center gap-2">
+            <div className="hidden xl:flex items-center gap-2">
               <ThemeToggle />
               <AuthButtons />
             </div>
 
             {/* Mobile Menu */}
-            <div className="flex items-center gap-1 md:hidden">
+            <div className="flex items-center gap-1 xl:hidden">
               <ThemeToggle />
               <MobileNav />
             </div>

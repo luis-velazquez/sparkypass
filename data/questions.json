@@ -115,7 +115,7 @@
         "30.3 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC Table 314.16(A), a 4 × 1-1/2 inch square box has a volume of 21.0 cubic inches.",
+      "explanation": "Per NEC Table 314.16(A), a 4 \u00d7 1-1/2 inch square box has a volume of 21.0 cubic inches.",
       "necReference": "Table 314.16(A)",
       "sparkyTip": "Know your common box sizes! 4-inch square at 1-1/2 deep = 21 cubic inches."
     },
@@ -183,7 +183,7 @@
         "22.5 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Calculation: 4 circuit conductors (4 × 2.25 = 9.0) + 1 for all EGCs (2.25) + 1 for clamps (2.25) + 2 for receptacle (2 × 2.25 = 4.5) = 18.0 cubic inches.",
+      "explanation": "Calculation: 4 circuit conductors (4 \u00d7 2.25 = 9.0) + 1 for all EGCs (2.25) + 1 for clamps (2.25) + 2 for receptacle (2 \u00d7 2.25 = 4.5) = 18.0 cubic inches.",
       "necReference": "314.16(B)",
       "sparkyTip": "Two 12/2 cables = 4 hot/neutral wires + grounds (count as 1) + clamps (count as 1) + receptacle (counts as 2)!"
     },
@@ -209,7 +209,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
-      "questionText": "What is the minimum volume for a 3 × 2 × 2-1/2 inch device box?",
+      "questionText": "What is the minimum volume for a 3 \u00d7 2 \u00d7 2-1/2 inch device box?",
       "options": [
         "10.5 cubic inches",
         "12.5 cubic inches",
@@ -217,7 +217,7 @@
         "18.0 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC Table 314.16(A), a 3 × 2 × 2-1/2 inch device box has a volume of 12.5 cubic inches.",
+      "explanation": "Per NEC Table 314.16(A), a 3 \u00d7 2 \u00d7 2-1/2 inch device box has a volume of 12.5 cubic inches.",
       "necReference": "Table 314.16(A)",
       "sparkyTip": "Standard single-gang boxes are around 12-14 cubic inches. Know your common sizes!"
     },
@@ -234,16 +234,16 @@
         "10 conductors"
       ],
       "correctAnswer": 1,
-      "explanation": "18 cubic inches ÷ 2.25 cubic inches per #12 conductor = 8 conductors maximum.",
+      "explanation": "18 cubic inches \u00f7 2.25 cubic inches per #12 conductor = 8 conductors maximum.",
       "necReference": "Table 314.16(B)",
-      "sparkyTip": "Simple division: Box volume ÷ conductor volume = max conductors. 18 ÷ 2.25 = 8!"
+      "sparkyTip": "Simple division: Box volume \u00f7 conductor volume = max conductors. 18 \u00f7 2.25 = 8!"
     },
     {
       "id": "BF-020",
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A 4-11/16 inch square box (2-1/8 deep, 42 cu in) contains: 8 #12 conductors, 4 #12 EGCs, internal clamps, and two single-gang device yokes with receptacles. Is this installation compliant?",
+      "questionText": "A 4-11/16 inch square box (2-1/8 inches deep) contains: 8 #12 conductors, 4 #12 EGCs, internal clamps, and two single-gang device yokes with receptacles. Is this installation compliant?",
       "options": [
         "Yes, with 10.5 cubic inches to spare",
         "Yes, with 1.5 cubic inches to spare",
@@ -251,7 +251,7 @@
         "No, it exceeds fill by 4.5 cubic inches"
       ],
       "correctAnswer": 0,
-      "explanation": "Calculation: 8 conductors (8 × 2.25 = 18.0) + 1 for EGCs (2.25) + 1 for clamps (2.25) + 4 for two devices (4 × 2.25 = 9.0) Total: 18 + 2.25 + 2.25 + 9 = 31.5. Remaining: 42 - 31.5 = 10.5 cubic inches.",
+      "explanation": "Calculation: 8 conductors (8 \u00d7 2.25 = 18.0) + 1 for EGCs (2.25) + 1 for clamps (2.25) + 4 for two devices (4 \u00d7 2.25 = 9.0) Total: 18 + 2.25 + 2.25 + 9 = 31.5. Remaining: 42 - 31.5 = 10.5 cubic inches.",
       "necReference": "314.16(B)",
       "sparkyTip": "Always add up each category: conductors + grounds + clamps + devices. Then compare to box volume!"
     },
@@ -268,7 +268,7 @@
         "29.25 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Conductors: (2 cables × 2) + (1 cable × 3) = 7 conductors → 7 × 2.25 = 15.75. Grounds = 1 × 2.25. Clamps = 1 × 2.25. One device yoke = 2 × 2.25 = 4.5. Total = 24.75 cu in.",
+      "explanation": "Conductors: (2 cables \u00d7 2) + (1 cable \u00d7 3) = 7 conductors \u2192 7 \u00d7 2.25 = 15.75. Grounds = 1 \u00d7 2.25. Clamps = 1 \u00d7 2.25. One device yoke = 2 \u00d7 2.25 = 4.5. Total = 24.75 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "Count all current-carrying conductors, then add one for grounds, one for clamps, and two for the device yoke."
     },
@@ -285,7 +285,7 @@
         "21.5 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Conductors: (2 × 3.0) + (3 × 2.25) = 6.0 + 6.75 = 12.75. Grounds = 1 × 2.5 = 2.5 (largest EGC is #10). Clamps use largest conductor in box (#8) → 3.0. Total = 18.25 cu in.",
+      "explanation": "Conductors: (2 \u00d7 3.0) + (3 \u00d7 2.25) = 6.0 + 6.75 = 12.75. Grounds = 1 \u00d7 2.5 = 2.5 (largest EGC is #10). Clamps use largest conductor in box (#8) \u2192 3.0. Total = 18.25 cu in.",
       "necReference": "314.16(B)(2)",
       "sparkyTip": "Clamps use the largest conductor in the box. Grounds use the largest EGC present."
     },
@@ -302,7 +302,7 @@
         "34.0 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Conductors: (3 × 2) + 3 = 9 conductors → 9 × 2.0 = 18.0. Grounds = 2.0. Clamps = 2.0. Two device yokes = 4 × 2.0 = 8.0. Total = 30.0 cu in.",
+      "explanation": "Conductors: (3 \u00d7 2) + 3 = 9 conductors \u2192 9 \u00d7 2.0 = 18.0. Grounds = 2.0. Clamps = 2.0. Two device yokes = 4 \u00d7 2.0 = 8.0. Total = 30.0 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "Each device yoke counts as two conductor allowances."
     },
@@ -319,7 +319,7 @@
         "20.25 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Conductors: 4 × 2.25 = 9.0. Grounds = 2.25. Clamps = 2.25. Internal support = 2.25. Total = 15.75 cu in.",
+      "explanation": "Conductors: 4 \u00d7 2.25 = 9.0. Grounds = 2.25. Clamps = 2.25. Internal support = 2.25. Total = 15.75 cu in.",
       "necReference": "314.16(B)(2)",
       "sparkyTip": "Internal support fittings count as one conductor allowance."
     },
@@ -336,7 +336,7 @@
         "4.0 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Fill: 8 × 2.0 = 16.0 cu in. Grounds = 2.0 cu in. Clamps = 2.0 cu in. One device yoke = 2 × 2.0 cu in = 4.0. Total = 24.0 cu in. Box volume 21.0 cu in → exceeds by 3.0 cu in.",
+      "explanation": "Fill: 8 \u00d7 2.0 = 16.0 cu in. Grounds = 2.0 cu in. Clamps = 2.0 cu in. One device yoke = 2 \u00d7 2.0 cu in = 4.0. Total = 24.0 cu in. Box volume 21.0 cu in \u2192 exceeds by 3.0 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "When the calculated fill exceeds the box volume, find the overage."
     },
@@ -353,7 +353,7 @@
         "34.5 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Conductors: (6 × 2.5) + (2 × 2.25) = 15.0 + 4.5 = 19.5. Grounds = 2.5. Clamps = 2.5. Device yoke = 2 × 2.5 = 5.0. Total = 29.5 cu in.",
+      "explanation": "Conductors: (6 \u00d7 2.5) + (2 \u00d7 2.25) = 15.0 + 4.5 = 19.5. Grounds = 2.5. Clamps = 2.5. Device yoke = 2 \u00d7 2.5 = 5.0. Total = 29.5 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "Device yokes use the largest conductor connected to that device."
     },
@@ -370,7 +370,7 @@
         "30.0 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: (3 × 5.0) + (1 × 2.5) = 15.0 + 2.5 = 17.5. Grounds = 5.0. Clamps = 5.0. Total = 27.5 cu in.",
+      "explanation": "Conductors: (3 \u00d7 5.0) + (1 \u00d7 2.5) = 15.0 + 2.5 = 17.5. Grounds = 5.0. Clamps = 5.0. Total = 27.5 cu in.",
       "necReference": "314.16(B)(2)",
       "sparkyTip": "Large conductors quickly increase box fill."
     },
@@ -387,7 +387,7 @@
         "24.5 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: (2 × 3.0) + (4 × 2.0) = 6.0 + 8.0 = 14.0. Grounds = 2.0. Clamps use largest conductor (#8) = 3.0. Device yoke (#14) = 2 × 2.0 = 4.0. Total = 23.0 cu in.",
+      "explanation": "Conductors: (2 \u00d7 3.0) + (4 \u00d7 2.0) = 6.0 + 8.0 = 14.0. Grounds = 2.0. Clamps use largest conductor (#8) = 3.0. Device yoke (#14) = 2 \u00d7 2.0 = 4.0. Total = 23.0 cu in.",
       "necReference": "314.16(B)(2)",
       "sparkyTip": "Clamps use the largest conductor in the box, even if the device is smaller."
     },
@@ -404,7 +404,7 @@
         "29.25 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: 4 pass-through + 4 spliced = 8 conductors → 8 × 2.25 = 18.0. Grounds = 2.25. Clamps = 2.25. Device yoke = 2 × 2.25 = 4.5. Total = 27.0 cu in.",
+      "explanation": "Conductors: 4 pass-through + 4 spliced = 8 conductors \u2192 8 \u00d7 2.25 = 18.0. Grounds = 2.25. Clamps = 2.25. Device yoke = 2 \u00d7 2.25 = 4.5. Total = 27.0 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "Pigtails that terminate in the box don't count as conductors."
     },
@@ -421,7 +421,7 @@
         "15.75 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Fixture wires from a domed canopy 6 inches or less do not count. Conductors: 3 × 2.25 = 6.75. Grounds = 2.25. Clamps = 2.25. Total = 11.25 cu in.",
+      "explanation": "Fixture wires from a domed canopy 6 inches or less do not count. Conductors: 3 \u00d7 2.25 = 6.75. Grounds = 2.25. Clamps = 2.25. Total = 11.25 cu in.",
       "necReference": "314.16(B)(1) Exception",
       "sparkyTip": "Short fixture wires from a domed canopy are excluded from fill."
     },
@@ -438,7 +438,7 @@
         "18.0 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: 4 × 2.0 = 8.0. Grounds = 2.0. Clamps = 2.0. One yoke = 2 × 2.0 = 4.0. Total = 16.0 cu in.",
+      "explanation": "Conductors: 4 \u00d7 2.0 = 8.0. Grounds = 2.0. Clamps = 2.0. One yoke = 2 \u00d7 2.0 = 4.0. Total = 16.0 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "Multiple devices on one yoke still count as two allowances."
     },
@@ -455,9 +455,9 @@
         "5.5 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: (2 × 2) + 3 = 7 conductors → 7 × 2.0 = 14.0. Grounds = 2.0. Clamps = 2.0. Support = 2.0. Total = 20.0. Box volume 15.5 → exceeds by 4.5 cu in.",
+      "explanation": "Conductors: (2 \u00d7 2) + 3 = 7 conductors \u2192 7 \u00d7 2.0 = 14.0. Grounds = 2.0. Clamps = 2.0. Support = 2.0. Total = 20.0. Box volume 15.5 \u2192 exceeds by 4.5 cu in.",
       "necReference": "314.16(B)",
-      "sparkyTip": "Octagon boxes fill up fast—don’t forget internal supports."
+      "sparkyTip": "Octagon boxes fill up fast\u2014don\u2019t forget internal supports."
     },
     {
       "id": "BF-038",
@@ -472,7 +472,7 @@
         "27.0 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: 6 × 3.0 = 18.0. Grounds = 3.0. Clamps = 3.0. Total = 24.0 cu in.",
+      "explanation": "Conductors: 6 \u00d7 3.0 = 18.0. Grounds = 3.0. Clamps = 3.0. Total = 24.0 cu in.",
       "necReference": "314.16(B)",
       "sparkyTip": "#8 conductors require 3.0 cu in each."
     },
@@ -610,14 +610,14 @@
       "correctAnswer": 1,
       "explanation": "According to Chapter 9 Table 4, 3/4\" EMT has an internal diameter of 0.824 inches.",
       "necReference": "Chapter 9, Table 4",
-      "sparkyTip": "3/4\" EMT internal diameter ≈ 0.824 inches. Internal area ≈ 0.533 sq in."
+      "sparkyTip": "3/4\" EMT internal diameter \u2248 0.824 inches. Internal area \u2248 0.533 sq in."
     },
     {
       "id": "C9-014",
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "What is the DC resistance per 1000 feet of uncoated #12 AWG copper conductor at 75°C?",
+      "questionText": "What is the DC resistance per 1000 feet of uncoated #12 AWG copper conductor at 75\u00b0C?",
       "options": [
         "1.21 ohms",
         "1.93 ohms",
@@ -625,9 +625,9 @@
         "4.89 ohms"
       ],
       "correctAnswer": 1,
-      "explanation": "According to Chapter 9 Table 8, #12 AWG uncoated copper has a DC resistance of 1.93 ohms per 1000 feet at 75°C.",
+      "explanation": "According to Chapter 9 Table 8, #12 AWG uncoated copper has a DC resistance of 1.93 ohms per 1000 feet at 75\u00b0C.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "#12 copper ≈ 2 ohms per 1000 ft. Use Table 8 for DC voltage drop calculations!"
+      "sparkyTip": "#12 copper \u2248 2 ohms per 1000 ft. Use Table 8 for DC voltage drop calculations!"
     },
     {
       "id": "C9-017",
@@ -659,9 +659,9 @@
         "0.864 sq in"
       ],
       "correctAnswer": 1,
-      "explanation": "1\" EMT has a total internal area of 0.864 sq in. At 40% fill: 0.864 × 0.40 = 0.346 sq in.",
+      "explanation": "1\" EMT has a total internal area of 0.864 sq in. At 40% fill: 0.864 \u00d7 0.40 = 0.346 sq in.",
       "necReference": "Chapter 9, Table 4",
-      "sparkyTip": "40% of 1\" EMT ≈ 0.346 sq in. Know your common conduit fill areas!"
+      "sparkyTip": "40% of 1\" EMT \u2248 0.346 sq in. Know your common conduit fill areas!"
     },
     {
       "id": "C9-019",
@@ -761,7 +761,7 @@
         "1,000,000 cmil"
       ],
       "correctAnswer": 1,
-      "explanation": "A 500 kcmil conductor has an area of 500,000 circular mils. The 'k' in kcmil means 1000, so 500 kcmil = 500 × 1000 = 500,000 cmil.",
+      "explanation": "A 500 kcmil conductor has an area of 500,000 circular mils. The 'k' in kcmil means 1000, so 500 kcmil = 500 \u00d7 1000 = 500,000 cmil.",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "kcmil = kilo-circular mils. 500 kcmil = 500,000 circular mils. Simple math!"
     },
@@ -772,15 +772,15 @@
       "difficulty": "journeyman",
       "questionText": "According to Table 9, at what temperature are the AC resistance values given?",
       "options": [
-        "60°C",
-        "75°C",
-        "90°C",
-        "30°C"
+        "60\u00b0C",
+        "75\u00b0C",
+        "90\u00b0C",
+        "30\u00b0C"
       ],
       "correctAnswer": 1,
-      "explanation": "Table 9 provides AC resistance and reactance values for 600-volt cables at 75°C (167°F).",
+      "explanation": "Table 9 provides AC resistance and reactance values for 600-volt cables at 75\u00b0C (167\u00b0F).",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Table 9 values are at 75°C. This matches the most common conductor ampacity temperature rating!"
+      "sparkyTip": "Table 9 values are at 75\u00b0C. This matches the most common conductor ampacity temperature rating!"
     },
     {
       "id": "C9-028",
@@ -814,7 +814,7 @@
       "correctAnswer": 0,
       "explanation": "According to Chapter 9 Table 5, a #14 AWG THHN conductor has an approximate area of 0.0097 square inches.",
       "necReference": "Chapter 9, Table 5",
-      "sparkyTip": "#14 THHN ≈ 0.0097 sq in. Smaller than #12 (0.0133) and #10 (0.0211)."
+      "sparkyTip": "#14 THHN \u2248 0.0097 sq in. Smaller than #12 (0.0133) and #10 (0.0211)."
     },
     {
       "id": "C9-030",
@@ -899,7 +899,7 @@
       "correctAnswer": 1,
       "explanation": "Chapter 9 Note 4 permits up to 60% fill for conduit nipples not exceeding 24 inches in length.",
       "necReference": "Chapter 9, Note 4",
-      "sparkyTip": "Nipples ≤ 24\" = 60% fill allowed. A nipple exception that's often overlooked!"
+      "sparkyTip": "Nipples \u2264 24\" = 60% fill allowed. A nipple exception that's often overlooked!"
     },
     {
       "id": "C9-041",
@@ -916,24 +916,24 @@
       "correctAnswer": 3,
       "explanation": "According to Chapter 9 Table 8, a 4/0 AWG conductor has an area of 211,600 circular mils.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "4/0 AWG ≈ 212 kcmil. The next size up is 250 kcmil."
+      "sparkyTip": "4/0 AWG \u2248 212 kcmil. The next size up is 250 kcmil."
     },
     {
       "id": "C9-042",
       "category": "chapter-9-tables",
-      "necArticle": "Chapter 9",
+      "necArticle": "Chapter 9, Table 4",
       "difficulty": "journeyman",
-      "questionText": "What is the total internal area of 2\" EMT?",
+      "questionText": "According to NEC Chapter 9, Table 4, what is the 100% total internal area of 2-inch Electrical Metallic Tubing (EMT)?",
       "options": [
-        "2.013 sq in",
-        "2.874 sq in",
+        "1.342 sq in",
+        "2.014 sq in",
         "3.356 sq in",
-        "3.538 sq in"
+        "3.408 sq in"
       ],
       "correctAnswer": 2,
-      "explanation": "According to Chapter 9 Table 4, 2\" EMT has a total internal area of 3.356 square inches.",
+      "explanation": "Step 1: Navigate to Chapter 9, Table 4 and find the specific page for Electrical Metallic Tubing (EMT). Step 2: Locate Trade Size 2. Step 3: Look under the '100% Total Area' column. The value is 3.356 square inches.",
       "necReference": "Chapter 9, Table 4",
-      "sparkyTip": "2\" EMT ≈ 3.36 sq in total area. At 40% fill ≈ 1.34 sq in usable."
+      "sparkyTip": "Did you pick 1.342 or 2.014? You fell for the column trap! 1.342 is the 40% fill area (for pulling 3 or more wires). 2.014 is the 60% fill area (for short nipples). The question asked for the TOTAL area (100%), which is 3.356 sq in."
     },
     {
       "id": "C9-043",
@@ -965,26 +965,26 @@
         "0.1332 sq in"
       ],
       "correctAnswer": 1,
-      "explanation": "Each #10 THHN is 0.0211 sq in (Table 5). Four conductors: 4 × 0.0211 = 0.0844 sq in total.",
+      "explanation": "Each #10 THHN is 0.0211 sq in (Table 5). Four conductors: 4 \u00d7 0.0211 = 0.0844 sq in total.",
       "necReference": "Chapter 9, Table 5",
-      "sparkyTip": "Conduit fill math: count conductors × individual area. #10 THHN = 0.0211 sq in each."
+      "sparkyTip": "Conduit fill math: count conductors \u00d7 individual area. #10 THHN = 0.0211 sq in each."
     },
     {
       "id": "C9-045",
       "category": "chapter-9-tables",
-      "necArticle": "Chapter 9",
+      "necArticle": "Annex C, Table C.1",
       "difficulty": "journeyman",
-      "questionText": "What is the minimum conduit size for three #6 AWG THHN conductors?",
+      "questionText": "What is the minimum size EMT required for a 50-foot run enclosing three #6 AWG THHN conductors?",
       "options": [
-        "1/2\" EMT",
-        "3/4\" EMT",
-        "1\" EMT",
-        "1-1/4\" EMT"
+        "1/2\"",
+        "3/4\"",
+        "1\"",
+        "1-1/4\""
       ],
       "correctAnswer": 1,
-      "explanation": "Three #6 THHN conductors (0.0507 sq in each = 0.152 sq in total) fit in 3/4\" EMT (40% fill = 0.213 sq in).",
-      "necReference": "Annex C, Table C.1",
-      "sparkyTip": "3 #6 THHN = 3/4\" EMT minimum. Quick check: Annex C, Table C.1 shows 4 #6 THHN fit in 3/4\"."
+      "explanation": "Because the raceway exceeds 24 inches, it is subject to the standard 40% fill limit (Chapter 9, Table 1) and not the 60% nipple exception. When all conductors are the exact same size and type, use Annex C. Looking at Annex C, Table C.1 for EMT: a 1/2\" conduit holds a maximum of two #6 THHN conductors, while a 3/4\" conduit holds up to four. Therefore, 3/4\" is the minimum size.",
+      "necReference": "Annex C, Table C.1 & Chapter 9 Table 1 Note 4",
+      "sparkyTip": "The '50-foot run' detail is the test writer's way of telling you: 'Do NOT use the 60% nipple rule!' Once you know you're at 40% fill, and the wires match, skip the calculator and jump straight to Annex C."
     },
     {
       "id": "C9-046",
@@ -999,26 +999,26 @@
         "3.2 ohms"
       ],
       "correctAnswer": 1,
-      "explanation": "According to Chapter 9 Table 9, #12 AWG copper in steel conduit has an AC resistance of approximately 2.0 ohms per 1000 feet at 75°C.",
+      "explanation": "According to Chapter 9 Table 9, #12 AWG copper in steel conduit has an AC resistance of approximately 2.0 ohms per 1000 feet at 75\u00b0C.",
       "necReference": "Chapter 9, Table 9",
       "sparkyTip": "AC resistance in steel conduit is higher than DC due to skin effect and conduit losses."
     },
     {
       "id": "C9-047",
       "category": "chapter-9-tables",
-      "necArticle": "Chapter 9",
+      "necArticle": "Chapter 9, Table 9",
       "difficulty": "journeyman",
-      "questionText": "What causes the difference between DC and AC resistance in conductors?",
+      "questionText": "When using the NEC Chapter 9 tables, what primary factors cause the AC resistance of a conductor to be higher than its DC resistance?",
       "options": [
-        "Temperature differences",
+        "Ambient temperature and terminal ratings",
         "Skin effect and proximity effect",
-        "Conductor material",
-        "Insulation type"
+        "Conductor material and stranding",
+        "Insulation thickness and voltage drop"
       ],
       "correctAnswer": 1,
-      "explanation": "Skin effect (current concentrates near conductor surface) and proximity effect (interaction between conductors) cause AC resistance to be higher than DC resistance.",
-      "necReference": "Chapter 9, Tables 8 and 9",
-      "sparkyTip": "AC resistance > DC resistance due to skin effect. More significant in larger conductors!"
+      "explanation": "Per NEC Chapter 9, Table 9, Note 2, the alternating-current (AC) resistance values take into consideration both the skin effect and the proximity effect. The skin effect causes AC current to concentrate near the outer surface of the conductor, effectively reducing the usable cross-sectional area and increasing resistance compared to DC current.",
+      "necReference": "Chapter 9, Table 9, Note 2",
+      "sparkyTip": "This is exactly why we use Table 8 for small wires and Table 9 for large wires! Skin effect pushes the current to the outside edge of the wire. The bigger the wire, the worse the skin effect gets, which is why AC resistance is always higher than DC resistance in large feeders."
     },
     {
       "id": "C9-048",
@@ -1044,15 +1044,15 @@
       "difficulty": "master",
       "questionText": "For voltage drop calculations on a 3-phase circuit, which formula applies?",
       "options": [
-        "Vd = 2 × I × R × L / 1000",
-        "Vd = √3 × I × R × L / 1000",
-        "Vd = I × R × L / 1000",
-        "Vd = 3 × I × R × L / 1000"
+        "Vd = 2 \u00d7 I \u00d7 R \u00d7 L / 1000",
+        "Vd = \u221a3 \u00d7 I \u00d7 R \u00d7 L / 1000",
+        "Vd = I \u00d7 R \u00d7 L / 1000",
+        "Vd = 3 \u00d7 I \u00d7 R \u00d7 L / 1000"
       ],
       "correctAnswer": 1,
-      "explanation": "For 3-phase circuits, voltage drop = √3 × I × R × L / 1000, where I is current, R is resistance per 1000 ft, and L is one-way length in feet.",
+      "explanation": "For 3-phase circuits, voltage drop = \u221a3 \u00d7 I \u00d7 R \u00d7 L / 1000, where I is current, R is resistance per 1000 ft, and L is one-way length in feet.",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Single-phase = 2×I×R×L/1000. Three-phase = √3×I×R×L/1000 (√3 ≈ 1.732)."
+      "sparkyTip": "Single-phase = 2\u00d7I\u00d7R\u00d7L/1000. Three-phase = \u221a3\u00d7I\u00d7R\u00d7L/1000 (\u221a3 \u2248 1.732)."
     },
     {
       "id": "C9-050",
@@ -1067,9 +1067,9 @@
         "0.458 sq in"
       ],
       "correctAnswer": 1,
-      "explanation": "1\" EMT has a total internal area of 0.864 sq in. At 31% fill (2 conductors): 0.864 × 0.31 = 0.268 sq in.",
+      "explanation": "1\" EMT has a total internal area of 0.864 sq in. At 31% fill (2 conductors): 0.864 \u00d7 0.31 = 0.268 sq in.",
       "necReference": "Chapter 9, Tables 1 and 4",
-      "sparkyTip": "Two conductors = 31% fill. 1\" EMT × 31% ≈ 0.27 sq in."
+      "sparkyTip": "Two conductors = 31% fill. 1\" EMT \u00d7 31% \u2248 0.27 sq in."
     },
     {
       "id": "C9-052",
@@ -1120,14 +1120,14 @@
       "correctAnswer": 1,
       "explanation": "According to Chapter 9 Table 5, a 500 kcmil THHN conductor has an approximate area of 0.7073 square inches.",
       "necReference": "Chapter 9, Table 5",
-      "sparkyTip": "500 kcmil THHN ≈ 0.7 sq in. Large conductors require careful conduit sizing!"
+      "sparkyTip": "500 kcmil THHN \u2248 0.7 sq in. Large conductors require careful conduit sizing!"
     },
     {
       "id": "C9-056",
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "What is the DC resistance per 1000 feet of #4 AWG copper at 75°C?",
+      "questionText": "What is the DC resistance per 1000 feet of #4 AWG copper at 75\u00b0C?",
       "options": [
         "0.194 ohms",
         "0.308 ohms",
@@ -1135,9 +1135,9 @@
         "0.764 ohms"
       ],
       "correctAnswer": 1,
-      "explanation": "According to Chapter 9 Table 8, #4 AWG uncoated copper has a DC resistance of approximately 0.308 ohms per 1000 feet at 75°C.",
+      "explanation": "According to Chapter 9 Table 8, #4 AWG uncoated copper has a DC resistance of approximately 0.308 ohms per 1000 feet at 75\u00b0C.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "#4 copper ≈ 0.3 ohms per 1000 ft. Roughly 1/6 the resistance of #12!"
+      "sparkyTip": "#4 copper \u2248 0.3 ohms per 1000 ft. Roughly 1/6 the resistance of #12!"
     },
     {
       "id": "C9-058",
@@ -1171,7 +1171,7 @@
       "correctAnswer": 1,
       "explanation": "Per NEC Chapter 9, Table 5, a #12 AWG THHN conductor has an approximate area of 0.0133 square inches.",
       "necReference": "Chapter 9, Table 5",
-      "sparkyTip": "Table 5 is your friend for conductor areas! #12 THHN ≈ 0.0133 sq in."
+      "sparkyTip": "Table 5 is your friend for conductor areas! #12 THHN \u2248 0.0133 sq in."
     },
     {
       "id": "CF-005",
@@ -1186,9 +1186,9 @@
         "0.346 square inches"
       ],
       "correctAnswer": 0,
-      "explanation": "Per NEC Chapter 9, Table 4, 3/4-inch EMT has a total area of 0.533 sq in. At 40% fill: 0.533 × 0.40 = 0.213 square inches.",
+      "explanation": "Per NEC Chapter 9, Table 4, 3/4-inch EMT has a total area of 0.533 sq in. At 40% fill: 0.533 \u00d7 0.40 = 0.213 square inches.",
       "necReference": "Chapter 9, Table 4",
-      "sparkyTip": "Total area × fill percentage = usable area. Table 4 even has the 40% pre-calculated!"
+      "sparkyTip": "Total area \u00d7 fill percentage = usable area. Table 4 even has the 40% pre-calculated!"
     },
     {
       "id": "CF-006",
@@ -1220,7 +1220,7 @@
         "1-1/4 inch"
       ],
       "correctAnswer": 1,
-      "explanation": "Total area: 6 × 0.0211 (#10 THHN) + 3 × 0.0133 (#12 THHN) = 0.1266 + 0.0399 = 0.1665 sq in. 3/4-inch EMT at 40% = 0.213 sq in, which accommodates this fill.",
+      "explanation": "Total area: 6 \u00d7 0.0211 (#10 THHN) + 3 \u00d7 0.0133 (#12 THHN) = 0.1266 + 0.0399 = 0.1665 sq in. 3/4-inch EMT at 40% = 0.213 sq in, which accommodates this fill.",
       "necReference": "Chapter 9, Tables 4 & 5",
       "sparkyTip": "Add up conductor areas from Table 5, then find a conduit from Table 4 with enough 40% fill area."
     },
@@ -1273,7 +1273,24 @@
       "correctAnswer": 1,
       "explanation": "Per NEC Chapter 9, Table 4, 1-inch EMT has an internal diameter of 1.049 inches.",
       "necReference": "Chapter 9, Table 4",
-      "sparkyTip": "Trade size ≠ actual size! 1-inch EMT is actually about 1.049 inches inside."
+      "sparkyTip": "Trade size \u2260 actual size! 1-inch EMT is actually about 1.049 inches inside."
+    },
+    {
+      "id": "CF-038",
+      "category": "conduit-fill",
+      "necArticle": "Chapter 9, Table 1 (Info Note 2); Tables 4 & 5",
+      "difficulty": "master",
+      "questionText": "An electrician is planning to pull three 500 kcmil THHN conductors into a 2½-inch EMT run. The total cross-sectional area of the wires is 2.1219 sq in, which legally passes the 40% fill limit of the EMT (2.343 sq in). However, based on the exact dimensions in Chapter 9, what is the Jam Ratio, and will these conductors likely jam when pulled through a 90-degree bend?",
+      "options": [
+        "2.88; Yes, they fall directly into the jamming hazard range.",
+        "3.54; No, they are safely above the jamming hazard range.",
+        "2.45; No, the ratio is too small to cause jamming.",
+        "3.15; Yes, but jamming only applies to schedule 80 PVC."
+      ],
+      "correctAnswer": 0,
+      "explanation": "Step 1: Find the conduit ID. Per Chapter 9, Table 4, 2½-inch EMT has an Internal Diameter of 2.731 inches. Step 2: Find the wire OD. Per Chapter 9, Table 5, 500 kcmil THHN has an Approximate Diameter of 0.949 inches. Step 3: Calculate the ratio. 2.731 ÷ 0.949 = 2.877 (rounds to 2.88). Step 4: Check the rule. Chapter 9, Table 1, Informational Note 2 warns that a ratio between 2.8 and 3.2 will cause three conductors to jam. Even though it passes the 40% fill rule, this pull will likely get stuck!",
+      "necReference": "Chapter 9, Table 1 Info Note 2; Table 4; Table 5",
+      "sparkyTip": "This is the ultimate Master Electrician trap! Just because it fits on paper using the 40% square-inch rule doesn't mean it will pull in the real world. If you calculate a jam ratio of 2.8 to 3.2, you have to either upsize the pipe or change the wire size to break the geometry!"
     },
     {
       "id": "CF-011",
@@ -1288,9 +1305,9 @@
         "36.8%"
       ],
       "correctAnswer": 1,
-      "explanation": "Total conductor area: 4 × 0.0366 = 0.1464 sq in. Fill percentage: 0.1464 ÷ 0.533 × 100 = 27.5%.",
+      "explanation": "Total conductor area: 4 \u00d7 0.0366 = 0.1464 sq in. Fill percentage: 0.1464 \u00f7 0.533 \u00d7 100 = 27.5%.",
       "necReference": "Chapter 9, Tables 4 & 5",
-      "sparkyTip": "Fill % = (Total conductor area ÷ Conduit area) × 100. Keep it under 40% for 3+ conductors!"
+      "sparkyTip": "Fill % = (Total conductor area \u00f7 Conduit area) \u00d7 100. Keep it under 40% for 3+ conductors!"
     },
     {
       "id": "CF-012",
@@ -1373,9 +1390,9 @@
         "1/2 inch is adequate"
       ],
       "correctAnswer": 0,
-      "explanation": "Total area: 12 × 0.0097 = 0.1164 sq in. 1/2-inch EMT at 40% fill = 0.122 sq in. This is adequate (0.1164 < 0.122).",
+      "explanation": "Total area: 12 \u00d7 0.0097 = 0.1164 sq in. 1/2-inch EMT at 40% fill = 0.122 sq in. This is adequate (0.1164 < 0.122).",
       "necReference": "Chapter 9, Tables 4 & 5",
-      "sparkyTip": "12 × 0.0097 = 0.1164. Just barely fits in 1/2-inch EMT! Always double-check close calls."
+      "sparkyTip": "12 \u00d7 0.0097 = 0.1164. Just barely fits in 1/2-inch EMT! Always double-check close calls."
     },
     {
       "id": "CF-017",
@@ -1424,7 +1441,7 @@
         "1 inch is adequate"
       ],
       "correctAnswer": 0,
-      "explanation": "Total area: (3 × 0.0824) + 0.0211 = 0.2472 + 0.0211 = 0.2683 sq in. 3/4-inch EMT (0.213) is too small. 1-inch EMT at 40% = 0.346 sq in, which is adequate.",
+      "explanation": "Total area: (3 \u00d7 0.0824) + 0.0211 = 0.2472 + 0.0211 = 0.2683 sq in. 3/4-inch EMT (0.213) is too small. 1-inch EMT at 40% = 0.346 sq in, which is adequate.",
       "necReference": "Chapter 9, Tables 4 & 5",
       "sparkyTip": "Don't forget the ground wire! Add up ALL conductors in the raceway for your fill calculation."
     },
@@ -1441,9 +1458,9 @@
         "15 conductors"
       ],
       "correctAnswer": 2,
-      "explanation": "60% area = 0.865 × 0.60 = 0.519 sq in. Max conductors = 0.519 ÷ 0.0366 = 14.18, so 14 conductors.",
+      "explanation": "60% area = 0.865 \u00d7 0.60 = 0.519 sq in. Max conductors = 0.519 \u00f7 0.0366 = 14.18, so 14 conductors.",
       "necReference": "Chapter 9, Table 1 Note 4; Tables 4 & 5",
-      "sparkyTip": "Nipples ≤ 24 inches can use 60% fill. Remember to recalc the fill area."
+      "sparkyTip": "Nipples \u2264 24 inches can use 60% fill. Remember to recalc the fill area."
     },
     {
       "id": "CF-030",
@@ -1458,7 +1475,7 @@
         "No, it exceeds 40%"
       ],
       "correctAnswer": 0,
-      "explanation": "Total area: 2 × 0.0824 = 0.1648 sq in. 3/4-inch EMT total area = 0.533 sq in. 31% limit = 0.533 × 0.31 = 0.165 sq in. 0.1648 is within the limit.",
+      "explanation": "Total area: 2 \u00d7 0.0824 = 0.1648 sq in. 3/4-inch EMT total area = 0.533 sq in. 31% limit = 0.533 \u00d7 0.31 = 0.165 sq in. 0.1648 is within the limit.",
       "necReference": "Chapter 9, Table 1; Tables 4 & 5",
       "sparkyTip": "For two conductors, check against 31% of the total conduit area."
     },
@@ -1475,9 +1492,9 @@
         "7 conductors"
       ],
       "correctAnswer": 1,
-      "explanation": "Max conductors = 0.122 ÷ 0.0211 = 5.78, so 5 conductors.",
+      "explanation": "Max conductors = 0.122 \u00f7 0.0211 = 5.78, so 5 conductors.",
       "necReference": "Chapter 9, Tables 4 & 5",
-      "sparkyTip": "Small conduit sizes fill up fast—double-check your math."
+      "sparkyTip": "Small conduit sizes fill up fast\u2014double-check your math."
     },
     {
       "id": "CF-032",
@@ -1492,9 +1509,9 @@
         "1-1/2 inch"
       ],
       "correctAnswer": 1,
-      "explanation": "Total area: 2 × 0.1158 = 0.2316 sq in. 3/4-inch EMT at 31% = 0.533 × 0.31 = 0.165 sq in (too small). 1-inch EMT at 31% = 0.865 × 0.31 = 0.268 sq in (adequate).",
+      "explanation": "Total area: 2 \u00d7 0.1158 = 0.2316 sq in. 3/4-inch EMT at 31% = 0.533 \u00d7 0.31 = 0.165 sq in (too small). 1-inch EMT at 31% = 0.865 \u00d7 0.31 = 0.268 sq in (adequate).",
       "necReference": "Chapter 9, Table 1; Tables 4 & 5",
-      "sparkyTip": "Two-conductor runs use 31%—that often bumps you up a size."
+      "sparkyTip": "Two-conductor runs use 31%\u2014that often bumps you up a size."
     },
     {
       "id": "CF-034",
@@ -1509,9 +1526,9 @@
         "37.5%"
       ],
       "correctAnswer": 1,
-      "explanation": "Total conductor area: 10 × 0.0133 = 0.133 sq in. Fill % = 0.133 ÷ 0.533 × 100 = 24.9%.",
+      "explanation": "Total conductor area: 10 \u00d7 0.0133 = 0.133 sq in. Fill % = 0.133 \u00f7 0.533 \u00d7 100 = 24.9%.",
       "necReference": "Chapter 9, Tables 4 & 5",
-      "sparkyTip": "Use the conduit’s total area (not the 40% area) when calculating fill percentage."
+      "sparkyTip": "Use the conduit\u2019s total area (not the 40% area) when calculating fill percentage."
     },
     {
       "id": "CF-036",
@@ -1526,7 +1543,7 @@
         "2 inch"
       ],
       "correctAnswer": 2,
-      "explanation": "Total area: (4 × 0.161) + 0.0507 = 0.6440 + 0.0507 = 0.6947 sq in. 1-1/4 inch EMT at 40% = 0.598 sq in (too small). 1-1/2 inch EMT at 40% = 0.814 sq in (adequate).",
+      "explanation": "Total area: (4 \u00d7 0.161) + 0.0507 = 0.6440 + 0.0507 = 0.6947 sq in. 1-1/4 inch EMT at 40% = 0.598 sq in (too small). 1-1/2 inch EMT at 40% = 0.814 sq in (adequate).",
       "necReference": "Chapter 9, Tables 4 & 5",
       "sparkyTip": "Once you exceed the 40% area, you must jump to the next trade size."
     },
@@ -1652,19 +1669,19 @@
     {
       "id": "GB-008",
       "category": "grounding-bonding",
-      "necArticle": "Article 250",
-      "difficulty": "master",
-      "questionText": "A metal underground water pipe must be supplemented by an additional electrode if it is the sole grounding electrode and extends less than how many feet?",
+      "necArticle": "250.52(A)(1)",
+      "difficulty": "apprentice",
+      "questionText": "To qualify as a grounding electrode, a metal underground water pipe must be in direct contact with the earth for a minimum distance of:",
       "options": [
         "5 feet",
         "8 feet",
         "10 feet",
-        "15 feet"
+        "20 feet"
       ],
       "correctAnswer": 2,
-      "explanation": "NEC 250.52(A)(1) requires a metal underground water pipe to be in direct contact with the earth for 10 feet or more to qualify as a grounding electrode without supplementation.",
-      "necReference": "250.52(A)(1)",
-      "sparkyTip": "Water pipe electrode needs 10 feet in earth - if less, it needs a buddy electrode!"
+      "explanation": "Per NEC 250.52(A)(1), a metal underground water pipe in direct contact with the earth for 10 feet (3.0 m) or more is considered a grounding electrode. However, remember that NEC 250.53(D)(2) requires that this water pipe electrode MUST be supplemented by an additional electrode (like a ground rod) regardless of its length.",
+      "necReference": "250.52(A)(1); 250.53(D)(2)",
+      "sparkyTip": "10 feet is the magic number to BE an electrode. But here is the real-world trap: Even if you have 100 feet of pipe, the NEC doesn't trust it! You ALWAYS have to add a supplemental ground rod just in case the utility company swaps the water meter for plastic later."
     },
     {
       "id": "GB-009",
@@ -1703,9 +1720,9 @@
     {
       "id": "GB-011",
       "category": "grounding-bonding",
-      "necArticle": "Article 250",
+      "necArticle": "250.104(B), Table 250.122",
       "difficulty": "master",
-      "questionText": "What is the minimum size copper bonding jumper for a metal gas piping system where the circuit likely to energize the piping is rated at 100 amperes?",
+      "questionText": "What is the minimum size copper bonding jumper required for an indoor metal gas piping system, where the specific branch circuit likely to energize the piping is rated at 100 amperes?",
       "options": [
         "#10 AWG",
         "#8 AWG",
@@ -1713,9 +1730,9 @@
         "#4 AWG"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC 250.104(B), other metal piping (including gas) must be bonded using a conductor sized per Table 250.122 based on the rating of the circuit likely to energize the piping. For a 100A circuit, Table 250.122 requires a #8 AWG copper conductor.",
-      "necReference": "250.104(B); Table 250.122",
-      "sparkyTip": "Remember: Gas = Table 250.122. For 100A, think #8. You don't need to jump to #6 until you're bonding for a 200A circuit!"
+      "explanation": "Per NEC 250.104(B), 'other metal piping' (which includes standard gas pipe) must be bonded using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping. For a 100A overcurrent device, Table 250.122 requires a minimum #8 AWG copper conductor.",
+      "necReference": "250.104(B), Table 250.122",
+      "sparkyTip": "Exam vs. Real World! On the NEC exam, standard gas pipe is bonded using Table 250.122 based on the circuit likely to energize it (100A = #8 AWG). But in the field, if you see flexible yellow CSST gas pipe, the manufacturer and Fuel Gas Code usually demand a minimum #6 AWG bond back to the service. Keep your exam brain and your field brain separate!"
     },
     {
       "id": "GB-012",
@@ -1724,15 +1741,15 @@
       "difficulty": "journeyman",
       "questionText": "What is the diameter of a standard ground rod?",
       "options": [
-        "½ inch",
-        "⅝ inch",
-        "¾ inch",
+        "\u00bd inch",
+        "\u215d inch",
+        "\u00be inch",
         "1 inch"
       ],
       "correctAnswer": 1,
-      "explanation": "NEC 250.52(A)(5) requires rod electrodes to have a minimum diameter of ⅝ inch (15.87 mm) for standard ground rods. Stainless steel or nonferrous rods can be ½ inch.",
+      "explanation": "NEC 250.52(A)(5) requires rod electrodes to have a minimum diameter of \u215d inch (15.87 mm) for standard ground rods. Stainless steel or nonferrous rods can be \u00bd inch.",
       "necReference": "250.52(A)(5)",
-      "sparkyTip": "Standard ground rod = ⅝ inch diameter. It's the industry standard!"
+      "sparkyTip": "Standard ground rod = \u215d inch diameter. It's the industry standard!"
     },
     {
       "id": "GB-013",
@@ -1754,25 +1771,25 @@
     {
       "id": "GB-014",
       "category": "grounding-bonding",
-      "necArticle": "Article 250",
+      "necArticle": "250.30(A)(5), Table 250.66",
       "difficulty": "master",
-      "questionText": "For a separately derived system (transformer), the grounding electrode conductor size is based on:",
+      "questionText": "A 112.5 kVA separately derived system (transformer) is installed using 500 kcmil copper secondary phase conductors. According to NEC 250.30(A)(5), what is the minimum required size for the copper grounding electrode conductor (GEC)?",
       "options": [
-        "The primary conductor size",
-        "The secondary conductor size",
-        "The transformer kVA rating",
-        "Table 250.66 based on derived phase conductors"
+        "#2 AWG",
+        "1/0 AWG",
+        "3/0 AWG",
+        "#4 AWG"
       ],
-      "correctAnswer": 3,
-      "explanation": "NEC 250.30(A)(6) requires the grounding electrode conductor for separately derived systems to be sized per Table 250.66, based on the derived phase conductors.",
-      "necReference": "250.30(A)(6)",
-      "sparkyTip": "Separately derived systems use Table 250.66 too - based on secondary conductor size!"
+      "correctAnswer": 1,
+      "explanation": "Per NEC 250.30(A)(5), the grounding electrode conductor for a single separately derived system must be sized in accordance with Table 250.66, based on the derived ungrounded (secondary phase) conductors. According to Table 250.66, a 500 kcmil copper conductor requires a minimum 1/0 AWG copper GEC.",
+      "necReference": "250.30(A)(5), Table 250.66",
+      "sparkyTip": "Transformers = Table 250.66! But remember the golden rule of transformers: you size the GEC based on the SECONDARY (derived) conductors, never the primary conductors feeding the transformer!"
     },
     {
       "id": "GB-016",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "The intersystem bonding termination device must be capable of terminating how many conductors?",
       "options": [
         "2 conductors",
@@ -1851,7 +1868,7 @@
       "correctAnswer": 1,
       "explanation": "According to NEC 250.104(B), 'other metal piping' systems, including gas piping, must be bonded to the service equipment enclosure or grounding electrode system using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping.",
       "necReference": "250.104(B)",
-      "sparkyTip": "Think of gas pipe bonding as 'equipment protection'—that’s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table."
+      "sparkyTip": "Think of gas pipe bonding as 'equipment protection'\u2014that\u2019s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table."
     },
     {
       "id": "GB-024",
@@ -1891,7 +1908,7 @@
       "id": "GB-031",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "When multiple grounding electrodes are present, what is required for 2023 NEC?",
       "options": [
         "Use only the lowest resistance electrode",
@@ -1976,7 +1993,7 @@
       "id": "GB-038",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "If a metal underground water pipe is used as an electrode, what else is required?",
       "options": [
         "Nothing else is required",
@@ -2180,7 +2197,7 @@
       "id": "GB-052",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "In a separately derived system, where is the system bonding jumper installed for 2023 NEC?",
       "options": [
         "At every panelboard",
@@ -2197,8 +2214,8 @@
       "id": "GB-054",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
-      "questionText": "Which statement best describes the function of an equipment grounding conductor (EGC) (select the best answer)",
+      "difficulty": "apprentice",
+      "questionText": "Which statement best describes the function of an equipment grounding conductor (EGC)?",
       "options": [
         "It carries normal load current",
         "It provides a low-impedance fault path to clear ground faults",
@@ -2248,7 +2265,7 @@
       "id": "GB-058",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "Which of the following is a grounding electrode type listed in 250.52 for 2023 NEC?",
       "options": [
         "Plastic water pipe",
@@ -2282,8 +2299,8 @@
       "id": "GB-063",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
-      "difficulty": "master",
-      "questionText": "What is one primary purpose of the grounding electrode system (select the best answer)",
+      "difficulty": "apprentice",
+      "questionText": "What is one primary purpose of the grounding electrode system?",
       "options": [
         "Carry normal load current",
         "Stabilize the system to earth and limit voltage from lightning or surges",
@@ -2378,7 +2395,7 @@
       "correctAnswer": 0,
       "explanation": "NEC 220.52(A) requires a minimum of two 20-ampere small-appliance branch circuits, and 220.52(A)(1) specifies each circuit shall be calculated at 1,500 VA.",
       "necReference": "220.52(A)",
-      "sparkyTip": "Small appliance circuits = 1,500 VA each. Easy to remember: 15 amps × 100 = 1,500!"
+      "sparkyTip": "Small appliance circuits = 1,500 VA each. Easy to remember: 15 amps \u00d7 100 = 1,500!"
     },
     {
       "id": "LC-003",
@@ -2417,9 +2434,9 @@
     {
       "id": "LC-005",
       "category": "load-calculations",
-      "necArticle": "Article 220",
+      "necArticle": "Table 220.42",
       "difficulty": "journeyman",
-      "questionText": "For dwelling units, what is the demand factor applied to general lighting loads that exceed 10,000 VA?",
+      "questionText": "For dwelling units using the standard calculation method, what is the demand factor applied to the portion of the general lighting load that exceeds 3,000 VA (up to 120,000 VA)?",
       "options": [
         "50%",
         "40%",
@@ -2427,9 +2444,9 @@
         "25%"
       ],
       "correctAnswer": 2,
-      "explanation": "NEC Table 220.42 allows a 35% demand factor for lighting loads that exceed 10,000 VA in dwelling units. This recognizes that not all lights are on simultaneously.",
+      "explanation": "Per NEC Table 220.42, when calculating dwelling unit lighting loads using the Standard Method, the first 3,000 VA is calculated at 100%. The remaining load between 3,001 VA and 120,000 VA is calculated at a 35% demand factor.",
       "necReference": "Table 220.42",
-      "sparkyTip": "Over 10 kVA? Apply 35%. Think 'after 10, things get lean at 35%!'"
+      "sparkyTip": "Do not mix up your calculation methods! Standard Method = first 3,000 VA at 100%, remainder at 35%. Optional Method = first 10 kVA at 100%, remainder at 40%. Keep those two rules in separate compartments in your brain!"
     },
     {
       "id": "LC-006",
@@ -2452,7 +2469,7 @@
       "id": "LC-007",
       "category": "load-calculations",
       "necArticle": "Article 220",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "Using the optional calculation method (220.82), what percentage is applied to general loads exceeding 10 kVA?",
       "options": [
         "35%",
@@ -2485,25 +2502,25 @@
     {
       "id": "LC-009",
       "category": "load-calculations",
-      "necArticle": "Article 220",
+      "necArticle": "Table 220.55",
       "difficulty": "journeyman",
-      "questionText": "What is the demand factor for four or more household cooking appliances rated over 1¾ kW but not more than 8¾ kW?",
+      "questionText": "What is the calculated demand load for four household wall-mounted ovens, each having a nameplate rating of 5 kW?",
       "options": [
-        "Use Table 220.55",
-        "80%",
-        "75%",
-        "65%"
+        "20 kW",
+        "17 kW",
+        "10 kW",
+        "16 kW"
       ],
-      "correctAnswer": 0,
-      "explanation": "NEC Table 220.55 must be used for household cooking appliances over 1¾ kW. The demand factors vary based on the number of appliances and their wattage.",
-      "necReference": "Article 220",
-      "sparkyTip": "Always go to Table 220.55 for cooking appliances - it's your cooking demand cheat sheet!"
+      "correctAnswer": 2,
+      "explanation": "Step 1: Determine the column. Since 5 kW falls between 3.5 kW and 8.75 kW, we use Column B. Step 2: Find the demand factor. According to Column B, the demand factor for 4 appliances is 50%. Step 3: Calculate total connected load (4 ovens \u00d7 5 kW = 20 kW). Step 4: Apply the demand factor (20 kW \u00d7 0.50 = 10 kW).",
+      "necReference": "Table 220.55 (Column B)",
+      "sparkyTip": "Table 220.55 is a beast! Always check the wattage first to pick your column. Because these were 5 kW, they landed in Column B, where you use percentages instead of a flat kW value."
     },
     {
       "id": "LC-010",
       "category": "load-calculations",
       "necArticle": "Article 220",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "Per NEC Table 220.55, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
       "options": [
         "8 kW",
@@ -2554,7 +2571,7 @@
       "id": "LC-013",
       "category": "load-calculations",
       "necArticle": "Article 220",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
       "options": [
         "47%",
@@ -2570,9 +2587,9 @@
     {
       "id": "LC-014",
       "category": "load-calculations",
-      "necArticle": "Article 220",
+      "necArticle": "220.41",
       "difficulty": "journeyman",
-      "questionText": "The lighting load for a 2,000 square foot dwelling unit using standard calculation method is:",
+      "questionText": "What is the general lighting load for a 2,000 square foot dwelling unit using the standard calculation method?",
       "options": [
         "4,000 VA",
         "5,000 VA",
@@ -2580,26 +2597,26 @@
         "8,000 VA"
       ],
       "correctAnswer": 2,
-      "explanation": "2,000 sq ft × 3 VA/sq ft = 6,000 VA. NEC Table 220.12 specifies 3 VA per square foot for dwelling unit general lighting load calculations.",
-      "necReference": "Table 220.12",
-      "sparkyTip": "Square footage × 3 = lighting VA. Quick math for every dwelling unit!"
+      "explanation": "Per NEC 220.41 (in the 2023 edition), the minimum unit load for a dwelling unit is calculated at 3 VA per square foot. Calculation: 2,000 sq ft \u00d7 3 VA/sq ft = 6,000 VA.",
+      "necReference": "220.41",
+      "sparkyTip": "Code change alert! Dwelling unit lighting moved from Table 220.12 (2017), to 220.14(J) (2020), and is now officially in 220.41 (2023). Remember: Square footage \u00d7 3 = lighting VA. It's the quickest math you'll do all day."
     },
     {
       "id": "LC-015",
       "category": "load-calculations",
-      "necArticle": "Article 220",
+      "necArticle": "220.51, 220.60",
       "difficulty": "master",
-      "questionText": "When using the standard calculation for a dwelling with electric heating at 10 kW and air conditioning at 5 kW, what load is used?",
+      "questionText": "When using the Standard Calculation Method for a dwelling unit with fixed electric space heating rated at 10 kW and central air conditioning rated at 5 kW, what is the calculated load for the HVAC equipment?",
       "options": [
-        "10 kW only",
-        "5 kW only",
-        "15 kW total",
-        "10 kW at 100%"
+        "10 kW at 100% (10,000 VA)",
+        "10 kW at 65% (6,500 VA)",
+        "5 kW at 100% (5,000 VA)",
+        "15 kW total (15,000 VA)"
       ],
       "correctAnswer": 0,
-      "explanation": "NEC 220.60 allows omitting the smaller of two loads if they cannot operate simultaneously. Since heating and cooling don't run at the same time, use only the larger load (10 kW).",
-      "necReference": "220.60",
-      "sparkyTip": "Heating vs. cooling - use the bigger one! They don't run together, so why calculate both?"
+      "explanation": "Step 1: Compare the loads. Per NEC 220.60 (Noncoincident Loads), because heating and cooling do not run simultaneously, you only calculate the larger of the two (10 kW Heat vs 5 kW AC). Drop the 5 kW AC. Step 2: Apply the Standard Method demand factor. Per NEC 220.51, fixed electric space heating must be calculated at 100% of the total connected load. Therefore, the load used is 10 kW.",
+      "necReference": "220.51, 220.60",
+      "sparkyTip": "Did you pick 6.5 kW? You just fell for the Optional Method trap! The 65% demand factor for heating ONLY applies when using the Optional Method (220.82). For the Standard Method, heat is always calculated at a full 100%."
     },
     {
       "id": "LC-016",
@@ -2621,59 +2638,59 @@
     {
       "id": "LC-017",
       "category": "load-calculations",
-      "necArticle": "Article 220",
-      "difficulty": "master",
-      "questionText": "For a commercial building, what is the lighting load per square foot for an office building per NEC Table 220.12?",
+      "necArticle": "Table 220.12",
+      "difficulty": "journeyman",
+      "questionText": "According to NEC Table 220.12, what is the minimum general lighting load per square foot for an office building?",
       "options": [
-        "2 VA/sq ft",
-        "3 VA/sq ft",
-        "3½ VA/sq ft",
-        "2½ VA/sq ft"
+        "3.5 VA/sq ft",
+        "1.3 VA/sq ft",
+        "2.0 VA/sq ft",
+        "1.5 VA/sq ft"
       ],
-      "correctAnswer": 2,
-      "explanation": "NEC Table 220.12 specifies 3½ VA per square foot for office buildings. Different occupancy types have different lighting load requirements.",
+      "correctAnswer": 1,
+      "explanation": "Per modern NEC Table 220.12 (2020 and 2023 cycles), the general lighting load for an office building is 1.3 VA per square foot. The NEC drastically lowered this value from older cycles to reflect the modern energy efficiency of LED lighting.",
       "necReference": "Table 220.12",
-      "sparkyTip": "Offices need 3½ VA/sq ft - a little more than dwellings due to task lighting needs!"
+      "sparkyTip": "Code Update Trap! If you are using old study guides from the journeyman guys at work, you might have memorized 3.5 VA/sq ft for offices. That is dead wrong on a modern exam! The LED revolution dropped offices all the way down to 1.3 VA/sq ft."
     },
     {
       "id": "LC-019",
       "category": "load-calculations",
-      "necArticle": "Article 220",
+      "necArticle": "Table 220.42",
       "difficulty": "journeyman",
-      "questionText": "A dwelling unit has 1700 sq ft of floor area, 2 small-appliance circuits, and 1 laundry circuit. Using 3 VA/sq ft for lighting (Table 220.12), 1,500 VA per small-appliance and laundry circuit (220.52), and the demand factors of 100% for the first 10 kVA and 35% for the remainder (Table 220.42), what is the calculated general load demand in VA?",
+      "questionText": "A dwelling unit has 1700 sq ft of floor area, two 20-amp small-appliance circuits, and one 20-amp laundry circuit. Using the Standard Method, what is the calculated general lighting and receptacle demand load in VA?",
       "options": [
-        "10000 VA",
-        "10800 VA",
-        "9200 VA",
-        "11200 VA"
+        "5310 VA",
+        "9600 VA",
+        "3360 VA",
+        "4350 VA"
       ],
       "correctAnswer": 0,
-      "explanation": "Lighting=5100 VA. Small-appliance=3000 VA. Laundry=1500 VA. Total general=9600 VA. Demand=10,000 VA + 35% of 0 VA = 10000 VA.",
-      "necReference": "Table 220.12; 220.52; Table 220.42",
-      "sparkyTip": "Compute total general load first, then apply the 10 kVA/35% demand break."
+      "explanation": "Step 1: Find total connected load. Lighting: 1700 sq ft \u00d7 3 VA = 5100 VA (220.14(J)). Small Appliance: 2 \u00d7 1500 VA = 3000 VA. Laundry: 1 \u00d7 1500 VA = 1500 VA. Total = 9600 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (9600 - 3000 = 6600 VA) is calculated at 35% (6600 \u00d7 0.35 = 2310 VA). Step 3: Add them together. 3000 + 2310 = 5310 VA.",
+      "necReference": "220.14(J), 220.52(A)&(B), Table 220.42",
+      "sparkyTip": "Don't confuse the Standard Method with the Optional Method! For the Standard Method, your magic number is 3,000 VA at 100%, then 35% for the rest. If you just multiply the whole 9600 by 35%, you hit the trap answer!"
     },
     {
       "id": "LC-024",
       "category": "load-calculations",
-      "necArticle": "Article 220",
+      "necArticle": "Table 220.42",
       "difficulty": "master",
-      "questionText": "A dwelling unit has 2450 sq ft of floor area, 3 small-appliance circuits, and 1 laundry circuit. What is the calculated general load demand in VA?",
+      "questionText": "A dwelling unit has 2,450 sq ft of floor area, 3 small-appliance branch circuits, and 1 laundry circuit. Using the Standard Method, what is the calculated general lighting and receptacle demand load in VA?",
       "options": [
+        "6623 VA",
         "11172 VA",
-        "11972 VA",
-        "10372 VA",
-        "12372 VA"
+        "13350 VA",
+        "4673 VA"
       ],
       "correctAnswer": 0,
-      "explanation": "Lighting=7350 VA. Small-appliance=4500 VA. Laundry=1500 VA. Total general=13350 VA. Demand=10,000 VA + 35% of 3350 VA = 11172 VA.",
-      "necReference": "Table 220.12; 220.52; Table 220.42",
-      "sparkyTip": "Compute total general load first, then apply the 10 kVA/35% demand break."
+      "explanation": "Step 1: Total connected load. Lighting: 2450 sq ft × 3 VA = 7350 VA (220.41). Small Appliance: 3 × 1500 = 4500 VA. Laundry: 1 × 1500 = 1500 VA. Total = 13350 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (13350 - 3000 = 10350 VA) is calculated at 35% (10350 × 0.35 = 3622.5 VA). Step 3: Add them together. 3000 + 3622.5 = 6622.5 VA (rounds to 6623 VA).",
+      "necReference": "220.41, 220.52, Table 220.42",
+      "sparkyTip": "Beware the Frankenstein rule! Never mix 10,000 VA with 35%. For the Standard Method general load, ALWAYS use the first 3,000 VA at 100%, and the rest at 35%. I left the 'Frankenstein' math (11172 VA) in the options as a trap!"
     },
     {
       "id": "LC-027",
       "category": "load-calculations",
       "necArticle": "Article 220",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "Using the optional calculation method for a dwelling (220.82), the total general load is 12000 VA. Apply 100% to the first 10 kVA and 40% to the remainder. What is the calculated demand in VA?",
       "options": [
         "10800 VA",
@@ -2704,10 +2721,10 @@
       "sparkyTip": "Largest motor at 125%, all others at 100%."
     },
     {
-      "id": "LC-036",
-      "category": "load-calculations",
+      "id": "MC-021",
+      "category": "motor-calculations",
       "necArticle": "Article 430",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "A feeder supplies three motors with full-load currents of 44 A, 26 A, and 14 A. Per 430.24, what is the minimum feeder conductor ampacity?",
       "options": [
         "95 A",
@@ -2723,9 +2740,9 @@
     {
       "id": "LC-044",
       "category": "load-calculations",
-      "necArticle": "Article 430",
-      "difficulty": "master",
-      "questionText": "A motor has a full-load current of 40 A. Per 430.22, what is the minimum branch-circuit conductor ampacity?",
+      "necArticle": "430.22",
+      "difficulty": "journeyman",
+      "questionText": "A continuous duty motor has a table-rated full-load current (FLC) of 40 A. What is the minimum required branch-circuit conductor ampacity?",
       "options": [
         "50 A",
         "55 A",
@@ -2733,30 +2750,30 @@
         "60 A"
       ],
       "correctAnswer": 0,
-      "explanation": "Branch-circuit conductor ampacity = 125% of FLC = 50 A.",
+      "explanation": "Per NEC 430.22, branch-circuit conductors supplying a single continuous-duty motor must have an ampacity of not less than 125% of the motor's full-load current (FLC) rating. Calculation: 40 A \u00d7 1.25 = 50 A.",
       "necReference": "430.22",
-      "sparkyTip": "Motors: conductors are sized at 125% of FLC."
+      "sparkyTip": "Vocabulary check! Always use the NEC Table FLC (Full-Load Current) to size your wires. Only use the motor's nameplate FLA (Full-Load Amperes) to size your overloads!"
     },
     {
       "id": "LC-051",
       "category": "load-calculations",
-      "necArticle": "Article 430",
+      "necArticle": "430.52(C)(1) Ex. 1; 240.6(A)",
       "difficulty": "master",
-      "questionText": "A motor has a full-load current of 25 A. Using an inverse time circuit breaker at 250% per 430.52, what is the maximum OCPD rating in amperes?",
+      "questionText": "A continuous-duty motor has a full-load current (FLC) of 25 A. Using an inverse time circuit breaker sized at 250% per Table 430.52, what is the maximum standard OCPD rating permitted?",
       "options": [
-        "63 A",
-        "73 A",
-        "53 A",
-        "78 A"
+        "70 A",
+        "60 A",
+        "62.5 A",
+        "80 A"
       ],
       "correctAnswer": 0,
-      "explanation": "OCPD = 250% of FLC = 63 A (round up to next standard size if needed).",
-      "necReference": "430.52",
-      "sparkyTip": "Breaker size for motors often uses 250% of FLC (inverse time)."
+      "explanation": "Step 1: Calculate the maximum rating. 25 A × 2.50 = 62.5 A. Step 2: Apply the exception. Per 430.52(C)(1) Exception No. 1, because 62.5 A is not a standard size, you are permitted to go up to the next standard size overcurrent device. Step 3: Find the standard size. Per 240.6(A), the next standard size above 60 A is 70 A.",
+      "necReference": "430.52(C)(1) Ex. 1, Table 240.6(A)",
+      "sparkyTip": "Motors break all the rules! A 62.5A calculation means you get to jump up to a 70A breaker. Test writers will always put the exact math answer (62.5A) and the 'round down' answer (60A) in the options to trick you. Always check your standard sizes in 240.6(A)!"
     },
     {
-      "id": "LC-063",
-      "category": "load-calculations",
+      "id": "TC-021",
+      "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
       "questionText": "A single-phase transformer is rated 50 kVA at 480 V primary. What is the primary full-load current?",
@@ -2792,7 +2809,7 @@
       "id": "LC-076",
       "category": "load-calculations",
       "necArticle": "Article 210",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "A 120 V single-phase circuit carries 59 A and runs 200 ft one-way. The conductor resistance is 0.321 ohms per 1000 ft. What is the approximate voltage drop in volts?",
       "options": [
         "7.58 V",
@@ -2809,7 +2826,7 @@
       "id": "LC-078",
       "category": "load-calculations",
       "necArticle": "Article 215",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "A 3-phase feeder carries 60 A and runs 150 ft one-way. The conductor resistance is 0.197 ohms per 1000 ft. What is the approximate line-to-line voltage drop in volts?",
       "options": [
         "3.07 V",
@@ -2840,10 +2857,10 @@
       "sparkyTip": "3-phase voltage drop uses 1.732 x I x R x D / 1000."
     },
     {
-      "id": "LC-098",
-      "category": "load-calculations",
+      "id": "BF-039",
+      "category": "box-fill",
       "necArticle": "Article 314",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "A box contains 6 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. Using 2.25 cu in per 12 AWG conductor, what is the minimum required box volume?",
       "options": [
         "22.5 cu in",
@@ -2869,9 +2886,9 @@
         "#3 AWG"
       ],
       "correctAnswer": 2,
-      "explanation": "EV charging is a continuous load, requiring the circuit to be sized at 125% of the load (48A x 1.25 = 60A). Per NEC 334.80, NM-B cable must be sized using the 60°C column of Table 310.16. Since #6 NM-B is only rated for 55A, you must step up to #4 NM-B, which is rated for 70A.",
+      "explanation": "EV charging is a continuous load, requiring the circuit to be sized at 125% of the load (48A x 1.25 = 60A). Per NEC 334.80, NM-B cable must be sized using the 60\u00b0C column of Table 310.16. Since #6 NM-B is only rated for 55A, you must step up to #4 NM-B, which is rated for 70A.",
       "necReference": "210.19(A)(1); 334.80; Table 310.16",
-      "sparkyTip": "Watch out for NM cable! Even though the wire inside is 90°C, the Code forces you to use the 60°C column. This is why #6 THHN is okay for 60A, but #6 Romex is NOT."
+      "sparkyTip": "Watch out for NM cable! Even though the wire inside is 90\u00b0C, the Code forces you to use the 60\u00b0C column. This is why #6 THHN is okay for 60A, but #6 Romex is NOT."
     },
     {
       "id": "LC-101",
@@ -2893,19 +2910,19 @@
     {
       "id": "LC-102",
       "category": "load-calculations",
-      "necArticle": "Table 310.16; 210.19(A) Informational Note",
+      "necArticle": "625.41, Table 310.16",
       "difficulty": "master",
-      "questionText": "A 48-amp continuous EV charger is being installed 80 feet away from the panel using THHN copper conductors in conduit. What is the minimum size conductor required to satisfy ampacity requirements, and what is the estimated voltage drop at 240V?",
+      "questionText": "A 48-amp EV charging station is being installed 80 feet away from the service panel using THHN copper conductors in PVC conduit. What is the minimum size conductor required to satisfy ampacity requirements, and what is the estimated voltage drop at 240V using Chapter 9, Table 8?",
       "options": [
-        "#6 AWG; 1.3% drop",
-        "#4 AWG; 0.8% drop",
+        "#6 AWG; 1.6% drop",
+        "#4 AWG; 1.0% drop",
         "#6 AWG; 2.5% drop",
         "#8 AWG; 3.1% drop"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Sizing for Ampacity. A 48A continuous load requires a 60A circuit (48 x 1.25). Per Table 310.16, #6 THHN is rated for 65A in the 75°C column, which satisfies the 60A requirement. Step 2: Voltage Drop. At 80ft and 48A, #6 copper results in approximately a 1.3% drop, well within the NEC recommendation of 3% for branch circuits.",
-      "necReference": "210.19(A)(1); Table 310.16",
-      "sparkyTip": "Because you switched from Romex to THHN in conduit, you can now use the 75°C column! This allows you to use #6 AWG instead of the #4 AWG required for NM cable."
+      "explanation": "Step 1: Ampacity. Per 625.41, EV chargers are continuous loads (48A × 1.25 = 60A). Per Table 310.16, #6 THHN copper is rated for 65A at 75°C, satisfying the 60A requirement. Step 2: Voltage Drop. Using Chapter 9, Table 8, #6 copper has a resistance of 0.491 ohms/1000ft. VD = (2 × 80ft × 0.491Ω × 48A) / 1000 = 3.77V. Percentage drop = 3.77V / 240V = 1.57% (rounds to 1.6%). This is well within the 3% recommended limit.",
+      "necReference": "625.41, Table 310.16, Chapter 9 Table 8",
+      "sparkyTip": "The Romex Trap! If you ran NM-B (Romex) instead of THHN in conduit, you'd be stuck in the 60°C column. #6 NM-B is only good for 55A, which fails the 60A requirement. You'd be forced to buy expensive #4 NM-B. THHN in pipe saves the day!"
     },
     {
       "id": "MC-001",
@@ -2920,9 +2937,9 @@
         "42.5A (125% of Table FLC)"
       ],
       "correctAnswer": 3,
-      "explanation": "Per NEC 430.22, branch circuit conductors must have ampacity not less than 125% of the motor FLC from Table 430.250 — NOT the nameplate FLA. 34A × 1.25 = 42.5A minimum ampacity required.",
+      "explanation": "Per NEC 430.22, branch circuit conductors must have ampacity not less than 125% of the motor FLC from Table 430.250 \u2014 NOT the nameplate FLA. 34A \u00d7 1.25 = 42.5A minimum ampacity required.",
       "necReference": "NEC 430.22; Table 430.250",
-      "sparkyTip": "Never use nameplate FLA for conductor sizing — always use Table 430.250 FLC × 125%!"
+      "sparkyTip": "Never use nameplate FLA for conductor sizing \u2014 always use Table 430.250 FLC \u00d7 125%!"
     },
     {
       "id": "MC-002",
@@ -2937,7 +2954,7 @@
         "110A"
       ],
       "correctAnswer": 2,
-      "explanation": "Per NEC Table 430.52, inverse time breakers for squirrel cage motors without code letter can be sized up to 250% of FLC. 40A × 2.50 = 100A. If 100A doesn't hold, you may go to the next standard size per 430.52(C)(1).",
+      "explanation": "Per NEC Table 430.52, inverse time breakers for squirrel cage motors without code letter can be sized up to 250% of FLC. 40A \u00d7 2.50 = 100A. If 100A doesn't hold, you may go to the next standard size per 430.52(C)(1).",
       "necReference": "NEC Table 430.52; 430.52(C)(1)",
       "sparkyTip": "Inverse time breaker = 250% max for standard squirrel cage motors. Round UP to standard size if needed."
     },
@@ -2954,7 +2971,7 @@
         "89A"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC 430.24, feeder ampacity = 125% of largest motor FLC + 100% of all other motors. (40 × 1.25) + 28 + 14 = 50 + 28 + 14 = 92A.",
+      "explanation": "Per NEC 430.24, feeder ampacity = 125% of largest motor FLC + 100% of all other motors. (40 \u00d7 1.25) + 28 + 14 = 50 + 28 + 14 = 92A.",
       "necReference": "NEC 430.24",
       "sparkyTip": "Feeder = 125% of LARGEST motor + sum of all others at 100%. Always identify the biggest motor first!"
     },
@@ -2971,7 +2988,7 @@
         "60A"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Find the FLC in Table 430.250. For a 10 HP, 230V, 3-phase motor, the FLC is 28A. Step 2: Determine the multiplier for a dual-element fuse from Table 430.52, which is 175%. Step 3: Calculate: 28A × 1.75 = 49A. Step 4: Per 430.52(C)(1) Exception 1, you may round up to the next standard size. Per 240.6, the next standard fuse size is 50A.",
+      "explanation": "Step 1: Find the FLC in Table 430.250. For a 10 HP, 230V, 3-phase motor, the FLC is 28A. Step 2: Determine the multiplier for a dual-element fuse from Table 430.52, which is 175%. Step 3: Calculate: 28A \u00d7 1.75 = 49A. Step 4: Per 430.52(C)(1) Exception 1, you may round up to the next standard size. Per 240.6, the next standard fuse size is 50A.",
       "necReference": "Table 430.250; Table 430.52; 240.6",
       "sparkyTip": "Don't use the nameplate! For calculations, the NEC says you MUST use the FLC tables (430.247-250) unless the motor is specifically rated for low speed or high torque."
     },
@@ -2988,16 +3005,16 @@
         "23.1A"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC 430.32(A)(1), motors with service factor ≥ 1.15 can have overload protection up to 125% of nameplate FLA. Using the formula FLA: 21A × 1.25 = 26.25A.",
+      "explanation": "Per NEC 430.32(A)(1), motors with service factor \u2265 1.15 can have overload protection up to 125% of nameplate FLA. Using the formula FLA: 21A \u00d7 1.25 = 26.25A.",
       "necReference": "NEC 430.32(A)(1)",
-      "sparkyTip": "Service factor 1.15+ or 40°C rise = 125% overload. Otherwise it's 115%. This protects the motor windings!"
+      "sparkyTip": "Service factor 1.15+ or 40\u00b0C rise = 125% overload. Otherwise it's 115%. This protects the motor windings!"
     },
     {
       "id": "MC-007",
       "category": "motor-calculations",
-      "necArticle": "Article 430",
+      "necArticle": "430.52(C)(3) Ex. 1",
       "difficulty": "journeyman",
-      "questionText": "A 50 HP, 460V, 3-phase motor has an FLC of 65A per Table 430.250. Using an instantaneous trip breaker (MCP), what is the maximum setting if the motor is not Design B energy efficient or desing B premium efficiency?",
+      "questionText": "A 50 HP, 460V, 3-phase AC motor has a full-load current of 65A per Table 430.250. It is NOT a Design B energy-efficient or premium efficiency motor. If the starting current causes nuisance tripping at the standard setting, what is the absolute maximum permitted setting for an instantaneous trip circuit breaker (MCP)?",
       "options": [
         "520A",
         "650A",
@@ -3005,9 +3022,9 @@
         "845A"
       ],
       "correctAnswer": 3,
-      "explanation": "Per NEC Table 430.52, instantaneous trip breakers (MCPs) can be sized up to 1300% of FLC for motors not icluding design B. 65A × 13.00 = 845A maximum setting.",
-      "necReference": "NEC Table 430.52",
-      "sparkyTip": "MCPs can go up to 1300% for Design B motors — they only protect against short circuits, not overloads!"
+      "explanation": "Step 1: Standard Table Rule. Table 430.52 normally limits an instantaneous trip breaker (MCP) to 800% of the FLC (65A × 8 = 520A). Step 2: The Exception. Because the standard setting isn't holding the starting current, 430.52(C)(3) Exception No. 1 allows you to increase the setting to a maximum of 1300% for standard motors. 65A × 13 = 845A.",
+      "necReference": "430.52(C)(3) Exception No. 1",
+      "sparkyTip": "Watch your motor types! For standard motors, the absolute max MCP setting is 1300%. But if the question says it IS a 'Design B energy-efficient' or 'Design E' motor, the code lets you crank that breaker all the way up to 1700%!"
     },
     {
       "id": "MC-008",
@@ -3022,26 +3039,60 @@
         "110A"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Find FLCs in Table 430.250. 20 HP = 27A; 10 HP = 14A. Step 2: Calculate the largest branch-circuit OCPD per 430.52. 27A × 250% = 67.5A. The next standard size is 70A. Step 3: Calculate the feeder maximum per 430.62(A) by adding the largest branch-circuit OCPD (70A) to the FLCs of the other motors. 70A + 27A + 14A = 111A. Step 4: Per 430.62, you must NOT exceed this value, so you must round down to the next standard size of 100A.",
+      "explanation": "Step 1: Find FLCs in Table 430.250. 20 HP = 27A; 10 HP = 14A. Step 2: Calculate the largest branch-circuit OCPD per 430.52. 27A \u00d7 250% = 67.5A. The next standard size is 70A. Step 3: Calculate the feeder maximum per 430.62(A) by adding the largest branch-circuit OCPD (70A) to the FLCs of the other motors. 70A + 27A + 14A = 111A. Step 4: Per 430.62, you must NOT exceed this value, so you must round down to the next standard size of 100A.",
       "necReference": "430.62(A); Table 430.250; Table 430.52",
       "sparkyTip": "Here is the golden rule: Branch circuits let you round UP (430.52), but Feeders force you to round DOWN (430.62). If you land on 111A, a 110A breaker is the absolute limit!"
     },
     {
       "id": "MC-009",
       "category": "motor-calculations",
-      "necArticle": "Article 430",
+      "necArticle": "Table 430.7(B)",
       "difficulty": "journeyman",
-      "questionText": "A Design E motor has a code letter K (locked rotor kVA per HP = 8.0-8.99). What is the mid-range (3.5) locked rotor current for a 30 HP, 460V, 3-phase motor?",
+      "questionText": "A 30 HP, 460V, 3-phase motor has a NEMA Code Letter K stamped on its nameplate. According to NEC Table 430.7(B), what is the maximum locked-rotor current (LRA) for this motor?",
       "options": [
-        "270A",
+        "301A",
         "320A",
         "339A",
         "390A"
       ],
       "correctAnswer": 2,
-      "explanation": "Using mid-range kVA/HP of 8.5: LRA = (HP × kVA/HP × 1000) / (√3 × Voltage) = (30 × 8.5 × 1000) / (1.732 × 460) = 255,000 / 797 = 320A. Using exact 8.5 gives approximately 320A, but with code letter K (up to 8.99), max would be about 339A.",
-      "necReference": "NEC Table 430.7(B)",
-      "sparkyTip": "Locked rotor kVA = code letter from Table 430.7(B). Use it to calculate LRA for sizing protection!"
+      "explanation": "Step 1: Find the kVA/HP range. Per Table 430.7(B), Code Letter K is 8.0 to 8.99 kVA/HP. Step 2: Use the maximum value (8.99) to find the worst-case scenario. Step 3: Apply the 3-phase formula: LRA = (HP × kVA/HP × 1000) / (Volts × 1.732). Step 4: Calculate: (30 × 8.99 × 1000) / (460 × 1.732) = 269,700 / 796.72 = 338.5A. This rounds up to 339A.",
+      "necReference": "Table 430.7(B)",
+      "sparkyTip": "When an exam asks for Locked-Rotor Current based on a Code Letter, always calculate using the HIGHEST number in that letter's range (like 8.99 for K). You always have to plan for the worst-case inrush current!"
+    },
+    {
+      "id": "MC-022",
+      "category": "motor-calculations",
+      "necArticle": "430.109(C)(2)",
+      "difficulty": "master",
+      "questionText": "An electrician is installing a 1.5 HP, 120V stationary motor and wants to use a standard 20-ampere, AC-only general-use snap switch as the required disconnecting means. According to the NEC, what is the maximum allowable full-load current (FLC) of the motor to legally use this switch?",
+      "options": [
+        "10 Amperes",
+        "16 Amperes",
+        "20 Amperes",
+        "25 Amperes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Identify the rule for small stationary motors (2 HP or less). Step 2: Because the prompt specifies an AC-only general-use snap switch, we use 430.109(C)(2). This rule states the motor FLC cannot be more than 80% of the ampere rating of the switch. Step 3: Calculate the maximum FLC: 20A × 0.80 = 16 Amperes.",
+      "necReference": "430.109(C)(2)",
+      "sparkyTip": "Read carefully! If the question says 'AC snap switch', multiply the switch rating by 80% (20A switch = 16A motor). But if the question just says 'general-use switch' (430.109(C)(1)), the switch has to be TWICE the size of the motor FLC (20A switch = 10A motor). The wording makes a 6-amp difference!"
+    },
+    {
+      "id": "MC-023",
+      "category": "motor-calculations",
+      "necArticle": "Table 430.72(B)(2)",
+      "difficulty": "journeyman",
+      "questionText": "A 60A circuit breaker protects a motor branch circuit. The motor control circuit is tapped from the load side of this breaker using 14 AWG copper wire and runs 20 feet through EMT to a remote Start/Stop push-button station. According to Table 430.72(B)(2), does this 14 AWG control circuit require separate overcurrent protection (inline fuses)?",
+      "options": [
+        "Yes, because the 60A breaker exceeds the 45A limit for control wires extending beyond the enclosure.",
+        "No, because 14 AWG control wires are permitted to be protected by a breaker up to 100A.",
+        "Yes, because all tapped control circuits must be protected by 15-amp fuses.",
+        "No, because the remote station is within 50 feet of the controller."
+      ],
+      "correctAnswer": 0,
+      "explanation": "Step 1: Check the wire size and location. The wire is 14 AWG and extends beyond the motor control enclosure. Step 2: Use Table 430.72(B)(2). Find the row for 14 AWG. Because the wire leaves the enclosure, you must use Column C, which limits the maximum branch-circuit protective device to 45A. Step 3: Compare. Since the actual motor breaker is 60A (which is larger than 45A), it cannot legally protect the control circuit. Separate inline fuses must be installed.",
+      "necReference": "430.72(B)(2), Table 430.72(B)(2)",
+      "sparkyTip": "Location is everything! If that 14 AWG wire stayed strictly INSIDE the starter box (like a reset button on the cover), you'd use Column B (100A limit), and the 60A breaker would be perfectly legal without extra fuses. But the second that wire leaves the box, you drop to Column C (45A limit) and have to add fuses to prevent a meltdown!"
     },
     {
       "id": "MC-010",
@@ -3056,9 +3107,9 @@
         "24.2A"
       ],
       "correctAnswer": 0,
-      "explanation": "Per NEC 430.32(A)(1), motors with service factor less than 1.15 (or temp rise over 40°C) can have overload protection up to 115% of nameplate FLA. 22A × 1.15 = 25.3A maximum. Note: Use NAMEPLATE FLA for overloads, not Table FLC!",
+      "explanation": "Per NEC 430.32(A)(1), motors with service factor less than 1.15 (or temp rise over 40\u00b0C) can have overload protection up to 115% of nameplate FLA. 22A \u00d7 1.15 = 25.3A maximum. Note: Use NAMEPLATE FLA for overloads, not Table FLC!",
       "necReference": "NEC 430.32(A)(1)",
-      "sparkyTip": "SF < 1.15 means 115% overload max. Also, always use NAMEPLATE amps for overload sizing — one of the few times you don't use Table 430.250!"
+      "sparkyTip": "SF < 1.15 means 115% overload max. Also, always use NAMEPLATE amps for overload sizing \u2014 one of the few times you don't use Table 430.250!"
     },
     {
       "id": "MC-011",
@@ -3073,7 +3124,7 @@
         "138A"
       ],
       "correctAnswer": 1,
-      "explanation": "First, find the FLC for the motors from Table 430.250: 30 HP is 40A, and 10 HP is 14A. The total motor load is calculated per 430.24: (1.25 × 40A) + 14A = 64A. The non-motor load is calculated per 220.40, which requires continuous loads to be taken at 125%: 40A × 1.25 = 50A. The total feeder ampacity is the sum of these two calculated loads: 64A + 50A = 114A.",
+      "explanation": "First, find the FLC for the motors from Table 430.250: 30 HP is 40A, and 10 HP is 14A. The total motor load is calculated per 430.24: (1.25 \u00d7 40A) + 14A = 64A. The non-motor load is calculated per 220.40, which requires continuous loads to be taken at 125%: 40A \u00d7 1.25 = 50A. The total feeder ampacity is the sum of these two calculated loads: 64A + 50A = 114A.",
       "necReference": "430.24, 220.10, Table 430.250",
       "sparkyTip": "When mixing motors and other continuous loads on a feeder, remember to apply the 125% multiplier to BOTH the largest motor and the continuous non-motor load separately, then add the results."
     },
@@ -3090,7 +3141,7 @@
         "250A"
       ],
       "correctAnswer": 1,
-      "explanation": "Per 430.62(A), the feeder protection is sized based on the largest branch-circuit protective device plus the sum of the other motors' FLCs. First, find FLCs from Table 430.250: 50 HP wound-rotor is 65A, 25 HP is 34A. Next, size the largest branch OCPD (the wound-rotor). Table 430.52 allows a 150% multiplier for a wound-rotor motor's IT breaker: 65A × 1.50 = 97.5A. Per 430.52(C)(1) Exception No. 1, you can use the next standard size up, which is 100A. Finally, add the FLC of the other motors: 100A + 34A + 34A = 168A. Per 430.62(A) Exception, since 168A is not a standard size, you are permitted to use the next higher standard size, which is 175A.",
+      "explanation": "Per 430.62(A), the feeder protection is sized based on the largest branch-circuit protective device plus the sum of the other motors' FLCs. First, find FLCs from Table 430.250: 50 HP wound-rotor is 65A, 25 HP is 34A. Next, size the largest branch OCPD (the wound-rotor). Table 430.52 allows a 150% multiplier for a wound-rotor motor's IT breaker: 65A \u00d7 1.50 = 97.5A. Per 430.52(C)(1) Exception No. 1, you can use the next standard size up, which is 100A. Finally, add the FLC of the other motors: 100A + 34A + 34A = 168A. Per 430.62(A) Exception, since 168A is not a standard size, you are permitted to use the next higher standard size, which is 175A.",
       "necReference": "430.62(A), Table 430.52, Table 430.250, 240.6(A)",
       "sparkyTip": "Sizing feeder protection for a group of motors is tricky. It's not just the sum of the branch breakers! Size the largest branch device first (rounding up if needed), then add the other motors' FLCs, and round up again if necessary."
     },
@@ -3099,7 +3150,7 @@
       "category": "motor-calculations",
       "necArticle": "Article 430",
       "difficulty": "master",
-      "questionText": "You are installing a 15 HP, 460V, 3-phase high-efficiency motor with a nameplate full-load amperes (FLA) of 18A. The motor has a service factor of 1.15 and a temperature rise of 40°C. What are the minimum conductor ampacity and the maximum standard-size thermal overload protection rating, respectively?",
+      "questionText": "You are installing a 15 HP, 460V, 3-phase high-efficiency motor with a nameplate full-load amperes (FLA) of 18A. The motor has a service factor of 1.15 and a temperature rise of 40\u00b0C. What are the minimum conductor ampacity and the maximum standard-size thermal overload protection rating, respectively?",
       "options": [
         "22.5A, 22.5A",
         "26.25A, 22.5A",
@@ -3107,7 +3158,7 @@
         "26.25A, 21A"
       ],
       "correctAnswer": 1,
-      "explanation": "This question tests the critical rule of 430.6(A)(1). For conductor sizing, you MUST use the FLC from Table 430.250, which is 21A for a 15 HP, 460V motor. Conductor ampacity is 125% of this value: 21A × 1.25 = 26.25A. For overload protection, however, you MUST use the motor's nameplate FLA of 18A. Since the service factor is 1.15 and temp rise is 40°C, per 430.32(A)(1), you can size the overload at 125% of the FLA: 18A × 1.25 = 22.5A.",
+      "explanation": "This question tests the critical rule of 430.6(A)(1). For conductor sizing, you MUST use the FLC from Table 430.250, which is 21A for a 15 HP, 460V motor. Conductor ampacity is 125% of this value: 21A \u00d7 1.25 = 26.25A. For overload protection, however, you MUST use the motor's nameplate FLA of 18A. Since the service factor is 1.15 and temp rise is 40\u00b0C, per 430.32(A)(1), you can size the overload at 125% of the FLA: 18A \u00d7 1.25 = 22.5A.",
       "necReference": "430.6(A)(1), 430.22, 430.32(A)(1), Table 430.250",
       "sparkyTip": "Table FLC for wires, nameplate FLA for overloads. Engrave this rule in your mind. It's a common point of failure on exams and in the field."
     },
@@ -3124,7 +3175,7 @@
         "100A"
       ],
       "correctAnswer": 2,
-      "explanation": "First, find the FLC from Table 430.250 for a 25 HP, 460V motor, which is 34A. According to Table 430.52, the maximum percentage for an inverse-time breaker is 250% of the FLC. So, 34A × 2.50 = 85A. However, 85A is not a standard circuit breaker size listed in 240.6(A). Per 430.52(C)(1) Exception No. 1, if the calculated value does not correspond to a standard size, you are permitted to use the next higher standard size. The next standard size up from 85A is 90A.",
+      "explanation": "First, find the FLC from Table 430.250 for a 25 HP, 460V motor, which is 34A. According to Table 430.52, the maximum percentage for an inverse-time breaker is 250% of the FLC. So, 34A \u00d7 2.50 = 85A. However, 85A is not a standard circuit breaker size listed in 240.6(A). Per 430.52(C)(1) Exception No. 1, if the calculated value does not correspond to a standard size, you are permitted to use the next higher standard size. The next standard size up from 85A is 90A.",
       "necReference": "430.52(C)(1), Table 430.52, Table 430.250, 240.6(A)",
       "sparkyTip": "The 'next size up' rule for motor branch-circuit protection is a crucial exception. Don't just stop at the calculated value; always check if you need to round up to the next standard breaker or fuse size."
     },
@@ -3133,7 +3184,7 @@
       "category": "motor-calculations",
       "necArticle": "Article 430, Article 310",
       "difficulty": "master",
-      "questionText": "A feeder supplies two 3-phase, 460V motors: one 20 HP and one 10 HP. The feeder will be run using THWN-2 copper conductors in a conduit through an area with an ambient temperature of 52°C. What is the minimum required size for the feeder conductors?",
+      "questionText": "A feeder supplies two 3-phase, 460V motors: one 20 HP and one 10 HP. The feeder will be run using THWN-2 copper conductors in a conduit through an area with an ambient temperature of 52\u00b0C. What is the minimum required size for the feeder conductors?",
       "options": [
         "#8 AWG",
         "#6 AWG",
@@ -3141,7 +3192,7 @@
         "#3 AWG"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Calculate the required feeder ampacity per 430.24. FLCs from Table 430.250 are 27A (20 HP) and 14A (10 HP). Required ampacity = (1.25 × 27A) + 14A = 33.75A + 14A = 47.75A. Step 2: Find the temperature derating factor. For THWN-2 (a 90°C conductor), the correction factor for an ambient temp of 51-55°C is 0.76 per Table 310.15(B)(1). Step 3: Determine the required conductor ampacity before derating. You need a conductor that, after being derated, can handle at least 47.75A. Required base ampacity = 47.75A / 0.76 = 62.83A. Step 4: Select the conductor from the 90°C column of Table 310.16. A #6 AWG has 75A at 90°C (75A × 0.76 = 57A), which exceeds 47.75A. However, per 110.14(C), terminations rated 75°C require using the 75°C column for ampacity. #6 at 75°C is 65A, derated: 65A × 0.76 = 49.4A, which barely works.",
+      "explanation": "Step 1: Calculate the required feeder ampacity per 430.24. FLCs from Table 430.250 are 27A (20 HP) and 14A (10 HP). Required ampacity = (1.25 \u00d7 27A) + 14A = 33.75A + 14A = 47.75A. Step 2: Find the temperature derating factor. For THWN-2 (a 90\u00b0C conductor), the correction factor for an ambient temp of 51-55\u00b0C is 0.76 per Table 310.15(B)(1). Step 3: Determine the required conductor ampacity before derating. You need a conductor that, after being derated, can handle at least 47.75A. Required base ampacity = 47.75A / 0.76 = 62.83A. Step 4: Select the conductor from the 90\u00b0C column of Table 310.16. A #6 AWG has 75A at 90\u00b0C (75A \u00d7 0.76 = 57A), which exceeds 47.75A. However, per 110.14(C), terminations rated 75\u00b0C require using the 75\u00b0C column for ampacity. #6 at 75\u00b0C is 65A, derated: 65A \u00d7 0.76 = 49.4A, which barely works.",
       "necReference": "430.24, 310.15(B)(1), Table 310.16, Table 430.250",
       "sparkyTip": "High ambient temperature is a game-changer. Always calculate your load first, then figure out how big your wire needs to be before derating. It's a two-step process that trips up many electricians."
     },
@@ -3158,7 +3209,7 @@
         "136A"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC 430.24, the feeder ampacity is 125% of the FLC of the LARGEST motor, plus the sum of the FLCs of all other motors. Even though they are all the same size, this rule applies to only ONE of them. Calculation: (1.25 × 34A) + 34A + 34A = 42.5A + 68A = 110.5A.",
+      "explanation": "Per NEC 430.24, the feeder ampacity is 125% of the FLC of the LARGEST motor, plus the sum of the FLCs of all other motors. Even though they are all the same size, this rule applies to only ONE of them. Calculation: (1.25 \u00d7 34A) + 34A + 34A = 42.5A + 68A = 110.5A.",
       "necReference": "430.24, Table 430.250",
       "sparkyTip": "A common mistake is to apply the 125% multiplier to all identical motors. Remember, it only applies to the single 'largest' one, even if they're all the same size."
     },
@@ -3175,9 +3226,9 @@
         "42.0A (175%)"
       ],
       "correctAnswer": 2,
-      "explanation": "This is a hermetic motor, so the rules of Article 440 apply, not Article 430. Per NEC 440.52(A)(1), overload relays for hermetic motors shall be selected to trip at not more than 140% of the motor-compressor rated-load current. Calculation: 24A × 1.40 = 33.6A.",
+      "explanation": "This is a hermetic motor, so the rules of Article 440 apply, not Article 430. Per NEC 440.52(A)(1), overload relays for hermetic motors shall be selected to trip at not more than 140% of the motor-compressor rated-load current. Calculation: 24A \u00d7 1.40 = 33.6A.",
       "necReference": "440.52(A)(1)",
-      "sparkyTip": "Hermetic motors (A/C units) live in Article 440. Their overload protection rules are different from standard motors—140% of RLC, not 115% or 125% of FLC."
+      "sparkyTip": "Hermetic motors (A/C units) live in Article 440. Their overload protection rules are different from standard motors\u2014140% of RLC, not 115% or 125% of FLC."
     },
     {
       "id": "MC-018",
@@ -3192,7 +3243,7 @@
         "150A"
       ],
       "correctAnswer": 2,
-      "explanation": "First, calculate primary FLC: 75,000 VA / (480V × 1.732) = 90.2A. Per NEC 450.3(B), if there is no secondary protection, the primary OCPD can be sized at 125% of the primary FLC. Calculation: 90.2A × 1.25 = 112.75A. Exception No. 1 to 450.3(B) allows rounding up to the next standard size. The next standard size from 112.75A is 125A.",
+      "explanation": "First, calculate primary FLC: 75,000 VA / (480V \u00d7 1.732) = 90.2A. Per NEC 450.3(B), if there is no secondary protection, the primary OCPD can be sized at 125% of the primary FLC. Calculation: 90.2A \u00d7 1.25 = 112.75A. Exception No. 1 to 450.3(B) allows rounding up to the next standard size. The next standard size from 112.75A is 125A.",
       "necReference": "450.3(B) & Exception No. 1, Table 240.6(A)",
       "sparkyTip": "Transformer primary protection is tricky. The default is 125% of primary FLC, but the 'next size up' rule is often permitted, which is a critical exception to know."
     },
@@ -3226,7 +3277,7 @@
         "81.25A"
       ],
       "correctAnswer": 2,
-      "explanation": "This is a feeder tap between 10 and 25 feet, governed by 430.28(2). The tap conductors must have an ampacity of at least 1/3 of the feeder OCPD (200A / 3 = 66.7A) AND must have an ampacity for the motor load per Part II of Article 430. A single motor requires conductors at 125% of FLC (52A × 1.25 = 65A). The tap must meet BOTH conditions, so it must have an ampacity of at least 66.7A.",
+      "explanation": "This is a feeder tap between 10 and 25 feet, governed by 430.28(2). The tap conductors must have an ampacity of at least 1/3 of the feeder OCPD (200A / 3 = 66.7A) AND must have an ampacity for the motor load per Part II of Article 430. A single motor requires conductors at 125% of FLC (52A \u00d7 1.25 = 65A). The tap must meet BOTH conditions, so it must have an ampacity of at least 66.7A.",
       "necReference": "430.28(B)(2), 430.22",
       "sparkyTip": "Feeder taps for motors have multiple conditions. For taps over 10 ft, the conductor must be sized for the load AND meet the 1/3 rule of the feeder protection. You must satisfy the larger of the two."
     },
@@ -3302,7 +3353,7 @@
       "id": "SV-005",
       "category": "services",
       "necArticle": "Article 230",
-      "difficulty": "master",
+      "difficulty": "Journeyman",
       "questionText": "What is the minimum clearance required for service drop conductors over a public street?",
       "options": [
         "12 feet",
@@ -3353,7 +3404,7 @@
       "id": "SV-008",
       "category": "services",
       "necArticle": "Article 230",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "The service point is defined as the point of connection between:",
       "options": [
         "The meter and the panel",
@@ -3404,7 +3455,7 @@
       "id": "SV-011",
       "category": "services",
       "necArticle": "Article 230",
-      "difficulty": "master",
+      "difficulty": "Journeyman",
       "questionText": "For a 400-ampere service using parallel 200A conductors, what is the maximum overcurrent protection?",
       "options": [
         "200 amperes each set",
@@ -3455,7 +3506,7 @@
       "id": "SV-014",
       "category": "services",
       "necArticle": "Article 110.26(A)(1)",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "What is the minimum working clearance required in front of a 480V switchboard where there are exposed live parts on one side and a concrete/block wall (grounded) on the other side?",
       "options": [
         "3 feet",
@@ -3489,7 +3540,7 @@
       "id": "SV-016",
       "category": "services",
       "necArticle": "Article 230.70(A)(1)",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "According to the NEC, where must the service disconnecting means be installed relative to the service entrance conductors entering the building?",
       "options": [
         "Within 10 feet of the entrance",
@@ -3500,14 +3551,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.70(A)(1) states that the service disconnecting means shall be installed either outside the building or inside nearest the point of entrance of the service conductors. The NEC does not specify a maximum distance in feet.",
       "necReference": "NEC 230.70(A)(1)",
-      "sparkyTip": "The NEC is vague here! It just says 'Nearest the point of entrance.' Check your LOCAL city code—they often set a strict limit (like 6ft or 10ft)."
+      "sparkyTip": "The NEC is vague here! It just says 'Nearest the point of entrance.' Check your LOCAL city code\u2014they often set a strict limit (like 6ft or 10ft)."
     },
     {
       "id": "TC-001",
       "category": "temperature-correction",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "master",
-      "questionText": "A 6 AWG THWN-2 copper conductor is installed in a location with an ambient temperature of 52°C. What is the corrected ampacity of this conductor?",
+      "questionText": "A 6 AWG THWN-2 copper conductor is installed in a location with an ambient temperature of 52\u00b0C. What is the corrected ampacity of this conductor?",
       "options": [
         "57.4A",
         "61.5A",
@@ -3515,16 +3566,16 @@
         "53.3A"
       ],
       "correctAnswer": 1,
-      "explanation": "A 6 AWG THWN-2 copper conductor has a base ampacity of 75A from Table 310.16 (using the 90°C column since THWN-2 is rated 90°C). However, since the termination is likely rated 75°C, we use 65A from the 75°C column per 110.14(C). Wait — the question says to use the correction factor directly. 6 AWG THWN-2 at 90°C column = 75A × 0.82 = 61.5A.",
+      "explanation": "A 6 AWG THWN-2 copper conductor has a base ampacity of 75A from Table 310.16 (using the 90\u00b0C column since THWN-2 is rated 90\u00b0C). However, since the termination is likely rated 75\u00b0C, we use 65A from the 75\u00b0C column per 110.14(C). Wait \u2014 the question says to use the correction factor directly. 6 AWG THWN-2 at 90\u00b0C column = 75A \u00d7 0.82 = 61.5A.",
       "necReference": "Table 310.16, Table 310.15(B)(2)(a)",
-      "sparkyTip": "Always use the ampacity from the column matching the conductor's insulation temperature rating, THEN apply correction factors. The termination temperature limit is a separate check — compare your corrected ampacity against the termination-limited ampacity and use the lesser."
+      "sparkyTip": "Always use the ampacity from the column matching the conductor's insulation temperature rating, THEN apply correction factors. The termination temperature limit is a separate check \u2014 compare your corrected ampacity against the termination-limited ampacity and use the lesser."
     },
     {
       "id": "TC-002",
       "category": "temperature-correction",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "master",
-      "questionText": "Nine #12-AWG THHN current-carrying conductors are installed in a single conduit in an area with an ambient temperature of 40°C. What is the final adjusted ampacity?",
+      "questionText": "Nine #12-AWG THHN current-carrying conductors are installed in a single conduit in an area with an ambient temperature of 40\u00b0C. What is the final adjusted ampacity?",
       "options": [
         "19.11A",
         "21.0A",
@@ -3532,16 +3583,16 @@
         "24.57A"
       ],
       "correctAnswer": 0,
-      "explanation": "When both conduit fill adjustment and temperature correction apply, you multiply both factors: 30A × 0.70 (conduit fill) × 0.91 (temperature) = 19.11A. Both derating factors compound — this is a common trap on the exam where candidates only apply one factor.",
+      "explanation": "When both conduit fill adjustment and temperature correction apply, you multiply both factors: 30A \u00d7 0.70 (conduit fill) \u00d7 0.91 (temperature) = 19.11A. Both derating factors compound \u2014 this is a common trap on the exam where candidates only apply one factor.",
       "necReference": "310.15(B)(3)(a), Table 310.15(B)(2)(a)",
-      "sparkyTip": "When you have BOTH elevated ambient temperature AND multiple conductors in a raceway, you must apply BOTH correction factors. Multiply the base ampacity by each factor — they stack multiplicatively, not additively."
+      "sparkyTip": "When you have BOTH elevated ambient temperature AND multiple conductors in a raceway, you must apply BOTH correction factors. Multiply the base ampacity by each factor \u2014 they stack multiplicatively, not additively."
     },
     {
       "id": "TC-003",
       "category": "temperature-correction",
       "necArticle": "310.15(B)(1)",
       "difficulty": "master",
-      "questionText": "A rooftop AC unit is installed in an area where the ambient temperature is 40°C (104°F). Using #6 THHN copper conductors, what is the corrected ampacity before considering conduit fill?",
+      "questionText": "A rooftop AC unit is installed in an area where the ambient temperature is 40\u00b0C (104\u00b0F). Using #6 THHN copper conductors, what is the corrected ampacity before considering conduit fill?",
       "options": [
         "75A",
         "60.75A",
@@ -3549,33 +3600,33 @@
         "53.25A"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Start with the 90°C rating for #6 THHN, which is 75A. Step 2: Per Table 310.15(B)(1), the correction factor for 40°C in the 90°C column is 0.91. Step 3: 75A × 0.91 = 68.25A.",
+      "explanation": "Step 1: Start with the 90\u00b0C rating for #6 THHN, which is 75A. Step 2: Per Table 310.15(B)(1), the correction factor for 40\u00b0C in the 90\u00b0C column is 0.91. Step 3: 75A \u00d7 0.91 = 68.25A.",
       "necReference": "310.15(B)(1), Table 310.16",
-      "sparkyTip": "Note: The old '33°C rooftop adder' was removed from the code! Now, you just use the ambient temperature. Also, don't forget our fun fact: 26-30°C is 78-86°F."
+      "sparkyTip": "Note: The old '33\u00b0C rooftop adder' was removed from the code! Now, you just use the ambient temperature. Also, don't forget our fun fact: 26-30\u00b0C is 78-86\u00b0F."
     },
     {
       "id": "TC-005",
       "category": "temperature-correction",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "master",
-      "questionText": "Six current-carrying THWN-2 conductors are installed in a conduit in a 36°C ambient environment. The conduit fill adjustment factor for 4-6 conductors is 0.80. For 90°C rated insulation at 36°C, the temperature correction factor is 0.96. An engineer argues that since THWN-2 is dual-rated (75°C wet / 90°C dry) and the installation is in a wet location, the 75°C correction factor of 0.87 should be used instead. Which correction factor applies?",
+      "questionText": "Six current-carrying THWN-2 conductors are installed in a conduit in a 36\u00b0C ambient environment. The conduit fill adjustment factor for 4-6 conductors is 0.80. For 90\u00b0C rated insulation at 36\u00b0C, the temperature correction factor is 0.96. An engineer argues that since THWN-2 is dual-rated (75\u00b0C wet / 90\u00b0C dry) and the installation is in a wet location, the 75\u00b0C correction factor of 0.87 should be used instead. Which correction factor applies?",
       "options": [
-        "0.96 — always use the 90°C column for THWN-2",
-        "0.87 — wet location means use the 75°C column",
-        "0.96 — use the 90°C column for derating, but limit final ampacity to the 75°C column value",
-        "Neither — no correction is needed below 40°C"
+        "0.96 \u2014 always use the 90\u00b0C column for THWN-2",
+        "0.87 \u2014 wet location means use the 75\u00b0C column",
+        "0.96 \u2014 use the 90\u00b0C column for derating, but limit final ampacity to the 75\u00b0C column value",
+        "Neither \u2014 no correction is needed below 40\u00b0C"
       ],
       "correctAnswer": 2,
-      "explanation": "Per 310.15(B)(2), you use the temperature correction factor corresponding to the conductor's insulation temperature rating. THWN-2 in a wet location is limited to 75°C per its listing, but the NEC permits using the 90°C ampacity column and 90°C correction factors for the PURPOSE of derating — then you cap the final result at the 75°C column ampacity. This is the standard practice confirmed by 110.14(C) and is the most advantageous method for the installer.",
+      "explanation": "Per 310.15(B)(2), you use the temperature correction factor corresponding to the conductor's insulation temperature rating. THWN-2 in a wet location is limited to 75\u00b0C per its listing, but the NEC permits using the 90\u00b0C ampacity column and 90\u00b0C correction factors for the PURPOSE of derating \u2014 then you cap the final result at the 75\u00b0C column ampacity. This is the standard practice confirmed by 110.14(C) and is the most advantageous method for the installer.",
       "necReference": "310.15(B)(2), 110.14(C), Table 310.16",
-      "sparkyTip": "This is one of the most tested concepts! The 90°C column is your 'derating playground' — you can always use it to apply correction and adjustment factors, even for conductors in wet locations. But the final usable ampacity can never exceed the 75°C column value (or 60°C for smaller circuits). This trick often saves you from upsizing conductors."
+      "sparkyTip": "This is one of the most tested concepts! The 90\u00b0C column is your 'derating playground' \u2014 you can always use it to apply correction and adjustment factors, even for conductors in wet locations. But the final usable ampacity can never exceed the 75\u00b0C column value (or 60\u00b0C for smaller circuits). This trick often saves you from upsizing conductors."
     },
     {
       "id": "TC-006",
       "category": "temperature-correction",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "journeyman",
-      "questionText": "A set of #12 AWG THHN copper conductors are installed in a walk-in freezer with an ambient temperature of 10°C (50°F). What is the corrected ampacity of the conductors (before any other adjustments)?",
+      "questionText": "A set of #12 AWG THHN copper conductors are installed in a walk-in freezer with an ambient temperature of 10\u00b0C (50\u00b0F). What is the corrected ampacity of the conductors (before any other adjustments)?",
       "options": [
         "30 Amps",
         "34.5 Amps",
@@ -3583,33 +3634,33 @@
         "30.9 Amps"
       ],
       "correctAnswer": 1,
-      "explanation": "According to Table 310.16, #12 AWG THHN has a 90°C base ampacity of 30A. For an ambient temperature of 10°C, the correction factor in Table 310.15(B)(1) is 1.15. Calculation: 30A × 1.15 = 34.5A.",
+      "explanation": "According to Table 310.16, #12 AWG THHN has a 90\u00b0C base ampacity of 30A. For an ambient temperature of 10\u00b0C, the correction factor in Table 310.15(B)(1) is 1.15. Calculation: 30A \u00d7 1.15 = 34.5A.",
       "necReference": "Table 310.16, Table 310.15(B)(1)",
-      "sparkyTip": "Temperature correction works both ways! In cold ambient temperatures, the conductor can dissipate heat more efficiently, allowing for a higher ampacity. Just remember: 26-30°C (78-86°F) is your baseline 1.00 multiplier!"
+      "sparkyTip": "Temperature correction works both ways! In cold ambient temperatures, the conductor can dissipate heat more efficiently, allowing for a higher ampacity. Just remember: 26-30\u00b0C (78-86\u00b0F) is your baseline 1.00 multiplier!"
     },
     {
-      "id": "TC-008",
-      "category": "temperature-correction",
-      "necArticle": "110.14(C)(1)",
+      "id": "TC-009",
+      "category": "Termination & Derating",
+      "necArticle": "110.14(C) & Table 310.16",
       "difficulty": "master",
-      "questionText": "A 100-amp subpanel is fed with #3 AWG THW conductors (75°C rated). The lugs on the circuit breaker are only rated for 60°C. The ambient temperature is 40°C. After temperature correction, what is the maximum allowable ampacity?",
+      "questionText": "A 100-amp subpanel is fed with #3 AWG THW copper conductors. The lugs on the circuit breaker are rated for 60\u00b0C. The ambient temperature is 40\u00b0C. What is the maximum allowable ampacity of the circuit?",
       "options": [
-        "100 Amps",
-        "82 Amps",
-        "73.8 Amps",
-        "69.7 Amps"
+        "100A",
+        "88A",
+        "85A",
+        "75A"
       ],
-      "correctAnswer": 3,
-      "explanation": "Per 110.14(C), we must use the 60°C column because of the lug rating. #3 AWG at 60°C is 85A. At 40°C ambient, the 60°C correction factor is 0.82. Calculation: 85A × 0.82 = 69.7A.",
-      "necReference": "110.14(C)(1), Table 310.16, Table 310.15(B)(1)",
-      "sparkyTip": "This is a 'weakest link' situation. Your wire might be tough, but if the breaker lug can't take the heat, the whole system has to be throttled down."
+      "correctAnswer": 2,
+      "explanation": "First, apply temperature correction to the conductor: #3 THW (100A) \u00d7 0.88 (Correction Factor for 40\u00b0C) = 88A. Second, check the termination limit: NEC 110.14(C) requires us to use the 60\u00b0C column because the lugs are rated 60\u00b0C. #3 AWG at 60\u00b0C = 85A. Finally, compare the two: 88A vs 85A. The lower value (85A) is the maximum allowable ampacity.",
+      "necReference": "110.14(C), Table 310.16, Table 310.15(B)(1)",
+      "sparkyTip": "You did the hard math (88A), but the 'dumb' lug (85A) beat you! Always check the 60\u00b0C column if your equipment is old or standard-rated. It is the ultimate ceiling."
     },
     {
       "id": "TC-010",
       "category": "temperature-correction",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "apprentice",
-      "questionText": "A Mineral Insulated (MI) cable is installed in a boiler room with an ambient temperature of 55°C (131°F). If the cable is rated for 90°C, what is the correction factor that must be applied to its ampacity?",
+      "questionText": "A Mineral Insulated (MI) cable is installed in a boiler room with an ambient temperature of 55\u00b0C (131\u00b0F). If the cable is rated for 90\u00b0C, what is the correction factor that must be applied to its ampacity?",
       "options": [
         "0.76",
         "0.82",
@@ -3617,7 +3668,7 @@
         "0.50"
       ],
       "correctAnswer": 0,
-      "explanation": "Looking at Table 310.15(B)(1)(1) under the 90°C column, for an ambient temperature range of 51-55°C, the correction factor is 0.76.",
+      "explanation": "Looking at Table 310.15(B)(1)(1) under the 90\u00b0C column, for an ambient temperature range of 51-55\u00b0C, the correction factor is 0.76.",
       "necReference": "Table 310.15(B)(1)(1)",
       "sparkyTip": "Boiler rooms and industrial furnaces are where correction factors become a matter of life and death for the cable jacket. Always check the high-range of the table."
     },
@@ -3626,12 +3677,12 @@
       "category": "temperature-correction",
       "necArticle": "310.14(A)(2) Exc.",
       "difficulty": "master",
-      "questionText": "A conduit run is 100ft long. 90ft is underground (20°C) and 10ft emerges into a boiler room (50°C). If the 10ft portion is more than 10% of the circuit length and longer than 10ft, which temperature must be used for the entire run?",
+      "questionText": "A conduit run is 100ft long. 90ft is underground (20\u00b0C) and 10ft emerges into a boiler room (50\u00b0C). If the 10ft portion is more than 10% of the circuit length and longer than 10ft, which temperature must be used for the entire run?",
       "options": [
-        "20°C",
-        "50°C",
-        "An average of 35°C",
-        "30°C standard"
+        "20\u00b0C",
+        "50\u00b0C",
+        "An average of 35\u00b0C",
+        "30\u00b0C standard"
       ],
       "correctAnswer": 1,
       "explanation": "Per 310.14(A)(2), the higher ambient temperature must be used where the length of the conductor in the hotter area exceeds 10 feet or 10% of the total length.",
@@ -3651,16 +3702,16 @@
         "40A"
       ],
       "correctAnswer": 2,
-      "explanation": "TW insulation is rated for 60°C. Looking at NEC Table 310.16 in the 60°C column, the ampacity for #10 AWG copper is 30A. While 240.4(D) also limits #10 to 30A OCPD, the question asks for the 'base ampacity' found in the table for derating purposes.",
+      "explanation": "TW insulation is rated for 60\u00b0C. Looking at NEC Table 310.16 in the 60\u00b0C column, the ampacity for #10 AWG copper is 30A. While 240.4(D) also limits #10 to 30A OCPD, the question asks for the 'base ampacity' found in the table for derating purposes.",
       "necReference": "Table 310.16",
-      "sparkyTip": "TW is 60°C only! You have zero 'headroom' for derating. If the ambient temp is above 86°F (30°C), that #10 TW is immediately worth less than 30 Amps."
+      "sparkyTip": "TW is 60\u00b0C only! You have zero 'headroom' for derating. If the ambient temp is above 86\u00b0F (30\u00b0C), that #10 TW is immediately worth less than 30 Amps."
     },
     {
       "id": "TC-015",
       "category": "temperature-correction",
       "necArticle": "310.15(B)(1)",
       "difficulty": "journeyman",
-      "questionText": "For an ambient temperature of 115°F, what is the correction factor for a 75°C rated conductor?",
+      "questionText": "For an ambient temperature of 115\u00b0F, what is the correction factor for a 75\u00b0C rated conductor?",
       "options": [
         "0.82",
         "0.75",
@@ -3668,9 +3719,9 @@
         "0.58"
       ],
       "correctAnswer": 1,
-      "explanation": "Table 310.15(B)(1) indicates that for an ambient temperature between 114-122°F, the correction factor for the 75°C column is 0.75.",
+      "explanation": "Table 310.15(B)(1) indicates that for an ambient temperature between 114-122\u00b0F, the correction factor for the 75\u00b0C column is 0.75.",
       "necReference": "Table 310.15(B)(1)",
-      "sparkyTip": "75°C wire (like standard THW) 'wilts' faster in the heat than 90°C wire. You lose 25% of your capacity at 115°F."
+      "sparkyTip": "75\u00b0C wire (like standard THW) 'wilts' faster in the heat than 90\u00b0C wire. You lose 25% of your capacity at 115\u00b0F."
     },
     {
       "id": "TC-016",
@@ -3683,16 +3734,16 @@
         "False"
       ],
       "correctAnswer": 1,
-      "explanation": "False. 310.15 states correction factors apply to the ambient temperature. For underground, the 'ambient' is the earth temperature, typically assumed at 20°C, but correction is required if conditions differ.",
+      "explanation": "False. 310.15 states correction factors apply to the ambient temperature. For underground, the 'ambient' is the earth temperature, typically assumed at 20\u00b0C, but correction is required if conditions differ.",
       "necReference": "310.15",
-      "sparkyTip": "People assume dirt is always 30°C. In many places, it's cooler, allowing for more ampacity, but in the desert, it can be much hotter."
+      "sparkyTip": "People assume dirt is always 30\u00b0C. In many places, it's cooler, allowing for more ampacity, but in the desert, it can be much hotter."
     },
     {
       "id": "TC-024-MASTER",
       "category": "Termination & Derating",
       "necArticle": "110.14(C) & Table 310.15(B)(1)",
       "difficulty": "master",
-      "questionText": "You are installing #4 THHN copper conductors. The equipment terminals are rated for 75°C. The ambient temperature is 20°C. What is the maximum allowable ampacity for this circuit?",
+      "questionText": "You are installing #4 THHN copper conductors. The equipment terminals are rated for 75\u00b0C. The ambient temperature is 20\u00b0C. What is the maximum allowable ampacity for this circuit?",
       "options": [
         "100A",
         "95A",
@@ -3700,9 +3751,9 @@
         "105A"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: #4 THHN starts at 95A (90°C column). Step 2: Apply the 20°C correction factor (1.05). 95A × 1.05 = 99.75A. Step 3: Compare to the 75°C termination limit. A #4 copper conductor at 75°C is only rated for 85A. Even though the cold air allows the wire to carry nearly 100A, the 75°C lug limits the entire circuit to 85A.",
+      "explanation": "Step 1: #4 THHN starts at 95A (90\u00b0C column). Step 2: Apply the 20\u00b0C correction factor (1.05). 95A \u00d7 1.05 = 99.75A. Step 3: Compare to the 75\u00b0C termination limit. A #4 copper conductor at 75\u00b0C is only rated for 85A. Even though the cold air allows the wire to carry nearly 100A, the 75\u00b0C lug limits the entire circuit to 85A.",
       "necReference": "110.14(C), Table 310.16, Table 310.15(B)(1)",
-      "sparkyTip": "Don't let the 'boost' fool you! A cold day might make your wire more efficient, but it doesn't change the physical heat limit of the breaker lug. You're still stuck at the 75°C table value of 85A. Fun fact: 26-30°C is 78-86°F."
+      "sparkyTip": "Don't let the 'boost' fool you! A cold day might make your wire more efficient, but it doesn't change the physical heat limit of the breaker lug. You're still stuck at the 75\u00b0C table value of 85A. Fun fact: 26-30\u00b0C is 78-86\u00b0F."
     },
     {
       "id": "TC-018",
@@ -3711,22 +3762,22 @@
       "difficulty": "apprentice",
       "questionText": "Based on Table 310.15(B)(1), at what ambient Celsius temperature range is the correction factor 1.00 (requiring no adjustment to conductor ampacity)?",
       "options": [
-        "21-25°C",
-        "26-30°C",
-        "31-35°C",
-        "16-20°C"
+        "21-25\u00b0C",
+        "26-30\u00b0C",
+        "31-35\u00b0C",
+        "16-20\u00b0C"
       ],
       "correctAnswer": 1,
-      "explanation": "The ampacity values in Table 310.16 are based on an ambient temperature of 30°C (86°F). Per Table 310.15(B)(1), the 26-30°C range represents this baseline, resulting in a multiplier of 1.00.",
+      "explanation": "The ampacity values in Table 310.16 are based on an ambient temperature of 30\u00b0C (86\u00b0F). Per Table 310.15(B)(1), the 26-30\u00b0C range represents this baseline, resulting in a multiplier of 1.00.",
       "necReference": "Table 310.15(B)(1)",
-      "sparkyTip": "Think of 86°F (30°C) as the 'room temperature' of the NEC. By the way, 26-30°C is equal to 78-86°F—if the weather is in that sweet spot, your wires can carry their full rated current!"
+      "sparkyTip": "Think of 86\u00b0F (30\u00b0C) as the 'room temperature' of the NEC. By the way, 26-30\u00b0C is equal to 78-86\u00b0F\u2014if the weather is in that sweet spot, your wires can carry their full rated current!"
     },
     {
       "id": "TC-019",
       "category": "temperature-correction",
       "necArticle": "310.15(B)(1)",
       "difficulty": "master",
-      "questionText": "Using 500 kcmil THHN Copper in an ambient temperature of 125°F. What is the allowable ampacity?",
+      "questionText": "Using 500 kcmil THHN Copper in an ambient temperature of 125\u00b0F. What is the allowable ampacity?",
       "options": [
         "430A",
         "326.8A",
@@ -3734,15 +3785,15 @@
         "310.5A"
       ],
       "correctAnswer": 1,
-      "explanation": "500 kcmil Copper THHN = 430A (90°C). 125°F factor for 90°C = 0.76. 430A * 0.76 = 326.8A.",
+      "explanation": "500 kcmil Copper THHN = 430A (90\u00b0C). 125\u00b0F factor for 90\u00b0C = 0.76. 430A * 0.76 = 326.8A.",
       "necReference": "Table 310.16, Table 310.15(B)(1)",
-      "sparkyTip": "When you get into large kcmil wires, a 24% loss in ampacity due to heat is a huge deal—that's over 100 Amps lost!"
+      "sparkyTip": "When you get into large kcmil wires, a 24% loss in ampacity due to heat is a huge deal\u2014that's over 100 Amps lost!"
     },
     {
       "id": "TC-020",
       "category": "temperature-correction",
       "necArticle": "310.15(C)(1)",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "Ten current-carrying conductors are in a conduit. The base ampacity must be adjusted by what percentage?",
       "options": [
         "80%",
@@ -3754,6 +3805,23 @@
       "explanation": "Table 310.15(C)(1) specifies an adjustment factor of 50% for 10-20 current-carrying conductors.",
       "necReference": "Table 310.15(C)(1)",
       "sparkyTip": "The jump from 9 conductors (70%) to 10 conductors (50%) is the most brutal 'cliff' in the code book. Avoid 10 conductors in a pipe if you can!"
+    },
+    {
+      "id": "TC-025",
+      "category": "temperature-correction",
+      "necArticle": "310.15(B)(2)",
+      "difficulty": "master",
+      "questionText": "A conduit containing #6 THHN copper conductors is mounted on a rooftop with only 1/2 inch of clearance between the conduit and the roof surface. If the outdoor ambient temperature is 40\u00b0C, what is the total ambient temperature that must be used to determine the correction factor?",
+      "options": [
+        "40\u00b0C",
+        "60\u00b0C",
+        "73\u00b0C",
+        "53\u00b0C"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 310.15(B)(2) in the 2023 edition, if a raceway is exposed to direct sunlight and is less than 3/4 inch above the rooftop, a 33\u00b0C (60\u00b0F) adder must be applied. 40\u00b0C (Ambient) + 33\u00b0C (Adder) = 73\u00b0C.",
+      "necReference": "310.15(B)(2)",
+      "sparkyTip": "The measurement changed from 7/8\" to 3/4\" in the 2023 Code to better match real-world strut sizes. If you're too close to the hot roof, you pay the 33\u00b0C penalty! Also: 26-30\u00b0C is 78-86\u00b0F."
     },
     {
       "id": "TN-001",
@@ -3929,7 +3997,7 @@
       "id": "TN-011",
       "category": "textbook-navigation",
       "necArticle": "Article 110",
-      "difficulty": "journeyman",
+      "difficulty": "apprentice",
       "questionText": "You need general requirements for electrical installations (workmanship, listing, labeling). Where do you start?",
       "options": [
         "Article 90",
@@ -3980,7 +4048,7 @@
       "id": "TN-014",
       "category": "textbook-navigation",
       "necArticle": "Chapter 4",
-      "difficulty": "journeyman",
+      "difficulty": "apprentice",
       "questionText": "You need rules for equipment (switches, receptacles, luminaires). Which chapter applies?",
       "options": [
         "Chapter 2",
@@ -4048,7 +4116,7 @@
       "id": "TN-019",
       "category": "textbook-navigation",
       "necArticle": "Article 300",
-      "difficulty": "journeyman",
+      "difficulty": "apprentice",
       "questionText": "Where are general requirements for wiring methods found?",
       "options": [
         "Article 300",
@@ -4603,7 +4671,7 @@
       "correctAnswer": 2,
       "explanation": "The calculated load is 87.5 kVA. Standard 3-phase dry-type transformer sizes are 15, 30, 45, 75, 112.5, 150, 225, 300, 500, 750, and 1000 kVA. Since there is no 100 kVA standard size, the next available standard transformer is 112.5 kVA.",
       "necReference": "450.1; Standard Transformer Sizes",
-      "sparkyTip": "Memorize the standard transformer kVA sizes! There is no 100 kVA — it jumps from 75 straight to 112.5. This trips up a lot of people on the exam."
+      "sparkyTip": "Memorize the standard transformer kVA sizes! There is no 100 kVA \u2014 it jumps from 75 straight to 112.5. This trips up a lot of people on the exam."
     },
     {
       "id": "TS-002",
@@ -4618,9 +4686,9 @@
         "625 amps"
       ],
       "correctAnswer": 2,
-      "explanation": "For a 3-phase transformer, I = kVA × 1000 ÷ (V × √3). Secondary FLC = 150,000 ÷ (208 × 1.732) = 150,000 ÷ 360.2 = 416.4 amps.",
+      "explanation": "For a 3-phase transformer, I = kVA \u00d7 1000 \u00f7 (V \u00d7 \u221a3). Secondary FLC = 150,000 \u00f7 (208 \u00d7 1.732) = 150,000 \u00f7 360.2 = 416.4 amps.",
       "necReference": "Article 450",
-      "sparkyTip": "For 3-phase: always multiply voltage by √3 (1.732). A common mistake is forgetting √3 and getting 721A — that's the single-phase answer!"
+      "sparkyTip": "For 3-phase: always multiply voltage by \u221a3 (1.732). A common mistake is forgetting \u221a3 and getting 721A \u2014 that's the single-phase answer!"
     },
     {
       "id": "TS-003",
@@ -4635,7 +4703,7 @@
         "150 amps"
       ],
       "correctAnswer": 2,
-      "explanation": "Primary FLC = 75,000 ÷ (480 × 1.732) = 90.2A. Per Table 450.3(B), primary-only protection is limited to 125% of primary FLC: 90.2A × 1.25 = 112.7A. Since this doesn't correspond to a standard overcurrent device rating and the primary current exceeds 9A, the next higher standard size is permitted per 240.6(A): 125A.",
+      "explanation": "Primary FLC = 75,000 \u00f7 (480 \u00d7 1.732) = 90.2A. Per Table 450.3(B), primary-only protection is limited to 125% of primary FLC: 90.2A \u00d7 1.25 = 112.7A. Since this doesn't correspond to a standard overcurrent device rating and the primary current exceeds 9A, the next higher standard size is permitted per 240.6(A): 125A.",
       "necReference": "Table 450.3(B); 240.6(A)",
       "sparkyTip": "Remember the two-step process: (1) calculate 125% of primary FLC, (2) if it doesn't land on a standard size, round UP to the next standard OCPD. Don't confuse this with the 250% rule, which only applies when you also protect the secondary!"
     },
@@ -4652,9 +4720,9 @@
         "150 amps"
       ],
       "correctAnswer": 3,
-      "explanation": "Primary FLC = 45,000 ÷ (480 × 1.732) = 54.1A. When BOTH primary and secondary overcurrent protection are provided, Table 450.3(B) permits the primary OCPD to be sized at up to 250% of primary FLC: 54.1A × 2.50 = 135.3A. The next standard overcurrent device size per 240.6(A) is 150A.",
+      "explanation": "Primary FLC = 45,000 \u00f7 (480 \u00d7 1.732) = 54.1A. When BOTH primary and secondary overcurrent protection are provided, Table 450.3(B) permits the primary OCPD to be sized at up to 250% of primary FLC: 54.1A \u00d7 2.50 = 135.3A. The next standard overcurrent device size per 240.6(A) is 150A.",
       "necReference": "Table 450.3(B); 240.6(A)",
-      "sparkyTip": "When you add secondary protection, the primary OCPD jumps from 125% to 250%! The secondary still needs its own protection at 125% of secondary FLC. This is a classic exam question — know both methods cold."
+      "sparkyTip": "When you add secondary protection, the primary OCPD jumps from 125% to 250%! The secondary still needs its own protection at 125% of secondary FLC. This is a classic exam question \u2014 know both methods cold."
     },
     {
       "id": "TS-005",
@@ -4669,9 +4737,9 @@
         "16,656 amps"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Calculate secondary FLC = 75,000 ÷ (208 × 1.732) = 208.2A. Step 2: Available fault current = FLC ÷ %Z (as decimal) = 208.2 ÷ 0.05 = 4,164A. The transformer impedance limits the maximum fault current. A lower impedance means higher available fault current.",
+      "explanation": "Step 1: Calculate secondary FLC = 75,000 \u00f7 (208 \u00d7 1.732) = 208.2A. Step 2: Available fault current = FLC \u00f7 %Z (as decimal) = 208.2 \u00f7 0.05 = 4,164A. The transformer impedance limits the maximum fault current. A lower impedance means higher available fault current.",
       "necReference": "110.24; Transformer Impedance",
-      "sparkyTip": "Fault current = FLC ÷ %Z. A 5% impedance transformer can deliver 20× its full-load current in a fault. This is critical for selecting properly rated equipment downstream — NEC 110.24 requires this to be labeled at the service!"
+      "sparkyTip": "Fault current = FLC \u00f7 %Z. A 5% impedance transformer can deliver 20\u00d7 its full-load current in a fault. This is critical for selecting properly rated equipment downstream \u2014 NEC 110.24 requires this to be labeled at the service!"
     },
     {
       "id": "TS-006",
@@ -4686,15 +4754,15 @@
         "34.6 kW"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Calculate power output (secondary): P = V × I × √3 = 208V × 100A × 1.732 = 36,025W (36.0 kW). Step 2: Calculate power input (primary): Since efficiency is less than 100%, the primary must supply more power than the secondary uses. Input = Output ÷ Efficiency = 36.0 kW ÷ 0.96 = 37.5 kW.",
+      "explanation": "Step 1: Calculate power output (secondary): P = V \u00d7 I \u00d7 \u221a3 = 208V \u00d7 100A \u00d7 1.732 = 36,025W (36.0 kW). Step 2: Calculate power input (primary): Since efficiency is less than 100%, the primary must supply more power than the secondary uses. Input = Output \u00f7 Efficiency = 36.0 kW \u00f7 0.96 = 37.5 kW.",
       "necReference": "Article 450; 3-Phase Power Formula",
-      "sparkyTip": "When a transformer isn't 100% efficient, the primary side always draws MORE power than the secondary delivers. Divide the output by efficiency to find the input — don't multiply! Think of it as: you need to put in extra to get what you want out."
+      "sparkyTip": "When a transformer isn't 100% efficient, the primary side always draws MORE power than the secondary delivers. Divide the output by efficiency to find the input \u2014 don't multiply! Think of it as: you need to put in extra to get what you want out."
     },
     {
       "id": "VD-001",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "A 240V single-phase circuit supplies a 40A continuous load through 10 AWG copper conductors (10,380 CM) at a distance of 150 feet. Using K = 12.9, what is the approximate voltage drop?",
       "options": [
         "14.9V",
@@ -4703,7 +4771,7 @@
         "7.5V"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 × K × I × D / CM = 2 × 12.9 × 40 × 150 / 10,380 = 154,800 / 10,380 = 14.9V. That's 14.9 / 240 = 6.2%, which exceeds the 3% branch circuit recommendation.",
+      "explanation": "VD = 2 \u00d7 K \u00d7 I \u00d7 D / CM = 2 \u00d7 12.9 \u00d7 40 \u00d7 150 / 10,380 = 154,800 / 10,380 = 14.9V. That's 14.9 / 240 = 6.2%, which exceeds the 3% branch circuit recommendation.",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "Always plug into VD = 2KID/CM first, then check if the percentage is under 3% for branch circuits!"
     },
@@ -4720,7 +4788,7 @@
         "4 AWG (41,740 CM)"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 120 × 0.03 = 3.6V. CM = 2 × 12.9 × 16 × 200 / 3.6 = 82,560 / 3.6 = 22,933 CM. 10 AWG = 10,380 (too small). 8 AWG = 16,510 (too small). 6 AWG = 26,240 CM (adequate).",
+      "explanation": "Max VD = 120 \u00d7 0.03 = 3.6V. CM = 2 \u00d7 12.9 \u00d7 16 \u00d7 200 / 3.6 = 82,560 / 3.6 = 22,933 CM. 10 AWG = 10,380 (too small). 8 AWG = 16,510 (too small). 6 AWG = 26,240 CM (adequate).",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "Rearrange to CM = 2KID/VD to find the minimum wire size, then round UP to the next standard size."
     },
@@ -4739,7 +4807,7 @@
       "correctAnswer": 1,
       "explanation": "NEC recommends a maximum total voltage drop of 5% for feeder + branch circuit combined. With 2.5% on the feeder, only 2.5% remains for the branch circuit (5% - 2.5% = 2.5%).",
       "necReference": "210.19(A) Informational Note No. 4; 215.2(A)(2) Informational Note No. 2",
-      "sparkyTip": "Think of the 5% total as a budget — whatever the feeder uses, the branch circuit gets the rest!"
+      "sparkyTip": "Think of the 5% total as a budget \u2014 whatever the feeder uses, the branch circuit gets the rest!"
     },
     {
       "id": "VD-005",
@@ -4754,9 +4822,9 @@
         "3.9V"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 × L × Z × I / 1000 = 2 × 175 × 0.491 × 45 / 1000 = 7,717.5 / 1000 = 7.7V. Percent = 7.7 / 240 = 3.2%.",
+      "explanation": "VD = 2 \u00d7 L \u00d7 Z \u00d7 I / 1000 = 2 \u00d7 175 \u00d7 0.491 \u00d7 45 / 1000 = 7,717.5 / 1000 = 7.7V. Percent = 7.7 / 240 = 3.2%.",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Table 9 gives ohms per 1000 ft — don't forget to divide by 1000 in the formula!"
+      "sparkyTip": "Table 9 gives ohms per 1000 ft \u2014 don't forget to divide by 1000 in the formula!"
     },
     {
       "id": "VD-007",
@@ -4773,7 +4841,7 @@
       "correctAnswer": 0,
       "explanation": "Aluminum has a resistivity constant (K) of 21.2 compared to copper's 12.9. Since VD = 2KID/CM, the higher K directly increases voltage drop by about 64% for the same size conductor.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Aluminum K = 21.2, Copper K = 12.9. Ratio is about 1.64:1 — aluminum drops 64% more voltage at the same size."
+      "sparkyTip": "Aluminum K = 21.2, Copper K = 12.9. Ratio is about 1.64:1 \u2014 aluminum drops 64% more voltage at the same size."
     },
     {
       "id": "VD-009",
@@ -4788,9 +4856,9 @@
         "114 feet"
       ],
       "correctAnswer": 1,
-      "explanation": "Max VD = 120 × 0.03 = 3.6V. Rearranging: D = VD × CM / (2 × K × I) = 3.6 × 6,530 / (2 × 12.9 × 20) = 23,508 / 516 = 45.6 feet... Recalculating: D = 3.6 × 6530 / (2 × 12.9 × 20) = 23,508 / 516 ≈ 45.6 ft. Using actual NEC table values, the practical limit is approximately 70 feet one-way.",
+      "explanation": "Max VD = 120 \u00d7 0.03 = 3.6V. Rearranging: D = VD \u00d7 CM / (2 \u00d7 K \u00d7 I) = 3.6 \u00d7 6,530 / (2 \u00d7 12.9 \u00d7 20) = 23,508 / 516 = 45.6 feet... Recalculating: D = 3.6 \u00d7 6530 / (2 \u00d7 12.9 \u00d7 20) = 23,508 / 516 \u2248 45.6 ft. Using actual NEC table values, the practical limit is approximately 70 feet one-way.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Rearrange to D = VD × CM / (2 × K × I) to find max distance. Great for planning long home runs!"
+      "sparkyTip": "Rearrange to D = VD \u00d7 CM / (2 \u00d7 K \u00d7 I) to find max distance. Great for planning long home runs!"
     },
     {
       "id": "VD-010",
@@ -4805,7 +4873,7 @@
         "8.5V"
       ],
       "correctAnswer": 2,
-      "explanation": "3-phase VD = 1.732 × K × I × D / CM = 1.732 × 12.9 × 100 × 400 / 133,100 = 893,808 / 133,100 = 6.71V. Using actual resistance values from Table 8, the result is approximately 6.9V (1.4%).",
+      "explanation": "3-phase VD = 1.732 \u00d7 K \u00d7 I \u00d7 D / CM = 1.732 \u00d7 12.9 \u00d7 100 \u00d7 400 / 133,100 = 893,808 / 133,100 = 6.71V. Using actual resistance values from Table 8, the result is approximately 6.9V (1.4%).",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "You have a voltage budget of 3% of 480V which is 14.4V, giving you more than enough room."
     },
@@ -4824,7 +4892,7 @@
       "correctAnswer": 2,
       "explanation": "Table 9 provides Effective Z values that combine both resistance and reactance for specific power factors and conduit types. For steel conduit at 0.85 PF, use the corresponding Effective Z column.",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Effective Z does the heavy lifting — it combines R and XL so you don't have to calculate impedance yourself!"
+      "sparkyTip": "Effective Z does the heavy lifting \u2014 it combines R and XL so you don't have to calculate impedance yourself!"
     },
     {
       "id": "VD-013",
@@ -4841,7 +4909,7 @@
       "correctAnswer": 1,
       "explanation": "VD is inversely proportional to CM. 10 AWG = 10,380 CM, 6 AWG = 26,240 CM. Ratio = 10,380 / 26,240 = 0.396. New VD is about 40% of original, meaning a 60% decrease.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Doubling the CM area cuts voltage drop in half. Going from 10 AWG to 6 AWG more than doubles CM — big improvement!"
+      "sparkyTip": "Doubling the CM area cuts voltage drop in half. Going from 10 AWG to 6 AWG more than doubles CM \u2014 big improvement!"
     },
     {
       "id": "VD-014",
@@ -4850,15 +4918,15 @@
       "difficulty": "master",
       "questionText": "A lighting contractor runs a 277V circuit 500 feet using 8 AWG copper (16,510 CM) at 12A. Is this within the NEC 3% recommendation? (K = 12.9)",
       "options": [
-        "Yes — voltage drop is 2.7%",
-        "No — voltage drop is 3.4%",
-        "No — voltage drop is 5.7%",
-        "Yes — voltage drop is 1.9%"
+        "Yes \u2014 voltage drop is 2.7%",
+        "No \u2014 voltage drop is 3.4%",
+        "No \u2014 voltage drop is 5.7%",
+        "Yes \u2014 voltage drop is 1.9%"
       ],
       "correctAnswer": 1,
-      "explanation": "VD = 2 × 12.9 × 12 × 500 / 16,510 = 154,800 / 16,510 = 9.38V. Percent = 9.38 / 277 = 3.4%. This exceeds the 3% recommendation. Upsizing to 6 AWG would bring it within limits.",
+      "explanation": "VD = 2 \u00d7 12.9 \u00d7 12 \u00d7 500 / 16,510 = 154,800 / 16,510 = 9.38V. Percent = 9.38 / 277 = 3.4%. This exceeds the 3% recommendation. Upsizing to 6 AWG would bring it within limits.",
       "necReference": "Chapter 9, Table 8; 210.19(A) Informational Note No. 4",
-      "sparkyTip": "277V lighting circuits in commercial buildings often run long distances — always check VD on runs over 200 feet!"
+      "sparkyTip": "277V lighting circuits in commercial buildings often run long distances \u2014 always check VD on runs over 200 feet!"
     },
     {
       "id": "VD-015",
@@ -4875,7 +4943,7 @@
       "correctAnswer": 1,
       "explanation": "When conductors are run in parallel, their circular mil areas are added together. Two 500 kcmil conductors per phase = 500,000 + 500,000 = 1,000,000 CM effective area per phase.",
       "necReference": "Chapter 9, Table 8; NEC 310.10(G)",
-      "sparkyTip": "Parallel conductors are a powerful tool for reducing voltage drop — double the conductors, double the CM, half the drop!"
+      "sparkyTip": "Parallel conductors are a powerful tool for reducing voltage drop \u2014 double the conductors, double the CM, half the drop!"
     },
     {
       "id": "VD-016",
@@ -4890,9 +4958,9 @@
         "12.2V"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 × K × I × D / CM = 2 × 12.9 × 25 × 180 / 16,510 = 7.03V (about 5.9% of 120V).",
+      "explanation": "VD = 2 \u00d7 K \u00d7 I \u00d7 D / CM = 2 \u00d7 12.9 \u00d7 25 \u00d7 180 / 16,510 = 7.03V (about 5.9% of 120V).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Use the K-method when you’re given CM area. Then check the percent against 3% for branch circuits."
+      "sparkyTip": "Use the K-method when you\u2019re given CM area. Then check the percent against 3% for branch circuits."
     },
     {
       "id": "VD-017",
@@ -4907,7 +4975,7 @@
         "4 AWG (41,740 CM)"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 240 × 0.03 = 7.2V. CM = 2 × 12.9 × 30 × 220 / 7.2 = 23,650 CM. 6 AWG (26,240 CM) is the minimum standard size that meets it.",
+      "explanation": "Max VD = 240 \u00d7 0.03 = 7.2V. CM = 2 \u00d7 12.9 \u00d7 30 \u00d7 220 / 7.2 = 23,650 CM. 6 AWG (26,240 CM) is the minimum standard size that meets it.",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "Solve for CM first, then round UP to the next standard size."
     },
@@ -4924,7 +4992,7 @@
         "9.6V"
       ],
       "correctAnswer": 1,
-      "explanation": "3-phase VD = 1.732 × K × I × D / CM = 1.732 × 21.2 × 90 × 300 / 167,800 = 5.91V (about 1.23% of 480V).",
+      "explanation": "3-phase VD = 1.732 \u00d7 K \u00d7 I \u00d7 D / CM = 1.732 \u00d7 21.2 \u00d7 90 \u00d7 300 / 167,800 = 5.91V (about 1.23% of 480V).",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "For 3-phase, use 1.732 instead of 2 in the VD formula."
     },
@@ -4941,9 +5009,9 @@
         "12.9V"
       ],
       "correctAnswer": 2,
-      "explanation": "VD = 1.732 × 12.9 × 50 × 400 / 41,740 = 10.71V (about 5.15% of 208V).",
+      "explanation": "VD = 1.732 \u00d7 12.9 \u00d7 50 \u00d7 400 / 41,740 = 10.71V (about 5.15% of 208V).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Long 208V runs can exceed 3% fast—check VD early."
+      "sparkyTip": "Long 208V runs can exceed 3% fast\u2014check VD early."
     },
     {
       "id": "VD-022",
@@ -4958,7 +5026,7 @@
         "15.6V"
       ],
       "correctAnswer": 2,
-      "explanation": "Parallel CM = 105,600 × 2 = 211,200 CM. VD = 2 × 12.9 × 200 × 500 / 211,200 = 12.22V (about 5.1%).",
+      "explanation": "Parallel CM = 105,600 \u00d7 2 = 211,200 CM. VD = 2 \u00d7 12.9 \u00d7 200 \u00d7 500 / 211,200 = 12.22V (about 5.1%).",
       "necReference": "Chapter 9, Table 8; 310.10(G)",
       "sparkyTip": "Parallel conductors add CM area, which reduces VD."
     },
@@ -4975,9 +5043,9 @@
         "2/0 AWG (133,100 CM)"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 240 × 0.03 = 7.2V. CM = 2 × 21.2 × 55 × 300 / 7.2 = 97,167 CM. 1/0 AWG (105,600 CM) is the minimum standard size.",
+      "explanation": "Max VD = 240 \u00d7 0.03 = 7.2V. CM = 2 \u00d7 21.2 \u00d7 55 \u00d7 300 / 7.2 = 97,167 CM. 1/0 AWG (105,600 CM) is the minimum standard size.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Aluminum needs more CM to match copper’s VD performance."
+      "sparkyTip": "Aluminum needs more CM to match copper\u2019s VD performance."
     },
     {
       "id": "VD-024",
@@ -4992,9 +5060,9 @@
         "18A"
       ],
       "correctAnswer": 0,
-      "explanation": "Max VD = 120 × 0.03 = 3.6V. I = VD × CM / (2 × K × D) = 3.6 × 10,380 / (2 × 12.9 × 150) = 9.66A.",
+      "explanation": "Max VD = 120 \u00d7 0.03 = 3.6V. I = VD \u00d7 CM / (2 \u00d7 K \u00d7 D) = 3.6 \u00d7 10,380 / (2 \u00d7 12.9 \u00d7 150) = 9.66A.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Rearrange the VD formula to solve for current when length and size are fixed. I = VDmax × CM / 2 × K × L"
+      "sparkyTip": "Rearrange the VD formula to solve for current when length and size are fixed. I = VDmax \u00d7 CM / 2 \u00d7 K \u00d7 L"
     },
     {
       "id": "VD-026",
@@ -5009,7 +5077,7 @@
         "6.0V"
       ],
       "correctAnswer": 1,
-      "explanation": "VD = 2 × L × Z × I / 1000 = 2 × 200 × 0.404 × 75 / 1000 = 12.12V (5.83%).",
+      "explanation": "VD = 2 \u00d7 L \u00d7 Z \u00d7 I / 1000 = 2 \u00d7 200 \u00d7 0.404 \u00d7 75 / 1000 = 12.12V (5.83%).",
       "necReference": "Chapter 9, Table 9",
       "sparkyTip": "Effective Z already accounts for R and X at the given PF."
     },
@@ -5020,13 +5088,13 @@
       "difficulty": "master",
       "questionText": "A 277V lighting circuit supplies 20A at 400 feet using 6 AWG copper (26,240 CM). Is this within the 3% voltage drop recommendation? (K = 12.9)",
       "options": [
-        "Yes — about 2.8%",
-        "Yes — about 3.6%",
-        "No — about 3.4%",
-        "No — about 4.1%"
+        "Yes \u2014 about 2.8%",
+        "Yes \u2014 about 3.6%",
+        "No \u2014 about 3.4%",
+        "No \u2014 about 4.1%"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 × 12.9 × 20 × 400 / 26,240 = 7.87V. Percent = 7.87 / 277 = 2.84%. Within 3%.",
+      "explanation": "VD = 2 \u00d7 12.9 \u00d7 20 \u00d7 400 / 26,240 = 7.87V. Percent = 7.87 / 277 = 2.84%. Within 3%.",
       "necReference": "Chapter 9, Table 8; 210.19(A) Informational Note No. 4",
       "sparkyTip": "Always check the percent drop against the system voltage."
     },
@@ -5034,7 +5102,7 @@
       "id": "VD-029",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "What is the maximum one-way distance for a 208V single-phase, 30A circuit using 8 AWG copper (16,510 CM) to stay within 3% voltage drop? (K = 12.9)",
       "options": [
         "85 feet",
@@ -5043,7 +5111,7 @@
         "165 feet"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 208 × 0.03 = 6.24V. D = VD × CM / (2 × K × I) = 6.24 × 16,510 / (2 × 12.9 × 30) = 133.1 ft.",
+      "explanation": "Max VD = 208 \u00d7 0.03 = 6.24V. D = VD \u00d7 CM / (2 \u00d7 K \u00d7 I) = 6.24 \u00d7 16,510 / (2 \u00d7 12.9 \u00d7 30) = 133.1 ft.",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "208V gives more distance than 120V for the same wire and current."
     },
@@ -5145,7 +5213,7 @@
         "0.05 ohms"
       ],
       "correctAnswer": 0,
-      "explanation": "Using the power formula R = E² / P. R = 240² / 4,800. R = 57,600 / 4,800 = 12 ohms.",
+      "explanation": "Using the power formula R = E\u00b2 / P. R = 240\u00b2 / 4,800. R = 57,600 / 4,800 = 12 ohms.",
       "necReference": "Ohm's Law / Power Formula",
       "sparkyTip": "When you only have Volts and Watts, square the Volts first! Think: 'Volts times Volts divided by Watts'."
     },
@@ -5164,7 +5232,7 @@
       "correctAnswer": 0,
       "explanation": "Use Ohm's Law: R = E / I. R = 0.8V / 12A = 0.0666... ohms (rounded to 0.067).",
       "necReference": "Ohm's Law",
-      "sparkyTip": "Even a tiny resistance like 0.06 ohms can create heat. Power = I²R. 12² * 0.067 = nearly 10 watts of heat at that splice!"
+      "sparkyTip": "Even a tiny resistance like 0.06 ohms can create heat. Power = I\u00b2R. 12\u00b2 * 0.067 = nearly 10 watts of heat at that splice!"
     },
     {
       "id": "res-scen-008",
@@ -5232,7 +5300,7 @@
       "correctAnswer": 0,
       "explanation": "Resistance is directly proportional to length. If the road is twice as long, there is twice as much friction.",
       "necReference": "Electrical Theory",
-      "sparkyTip": "Length and Resistance are best friends—they go up and down together!"
+      "sparkyTip": "Length and Resistance are best friends\u2014they go up and down together!"
     },
     {
       "id": "res-scen-012",
@@ -5283,7 +5351,7 @@
       "correctAnswer": 0,
       "explanation": "Resistance is measured in Ohms. Amps measure current, Volts measure pressure, and Watts measure power.",
       "necReference": "Article 100 - Definitions",
-      "sparkyTip": "The Omega symbol (Ω) represents Ohms. It looks like a horseshoe—resistance is the 'whoa' on the horse!"
+      "sparkyTip": "The Omega symbol (\u03a9) represents Ohms. It looks like a horseshoe\u2014resistance is the 'whoa' on the horse!"
     },
     {
       "id": "res-scen-015",
@@ -5360,13 +5428,13 @@
       "difficulty": "apprentice",
       "questionText": "What is the symbol used to represent 'Ohms'?",
       "options": [
-        "Ω (Omega)",
+        "\u03a9 (Omega)",
         "A (Ampere)",
         "V (Volt)",
         "W (Watt)"
       ],
       "correctAnswer": 0,
-      "explanation": "The Greek letter Omega (Ω) is the standard symbol for resistance.",
+      "explanation": "The Greek letter Omega (\u03a9) is the standard symbol for resistance.",
       "necReference": "Standard Symbols",
       "sparkyTip": "It looks like a horseshoe. Resistance is what holds the horses (current) back!"
     },
@@ -5375,7 +5443,7 @@
       "category": "resistance",
       "necArticle": "Ohm's Law",
       "difficulty": "apprentice",
-      "questionText": "If a resistor has a value of 1.5 kΩ (kilo-ohms), how many Ohms is that?",
+      "questionText": "If a resistor has a value of 1.5 k\u03a9 (kilo-ohms), how many Ohms is that?",
       "options": [
         "1,500 Ohms",
         "150 Ohms",
@@ -5453,7 +5521,7 @@
       "correctAnswer": 0,
       "explanation": "A short circuit occurs when current bypasses the load through a path of very low resistance, causing amperage to spike.",
       "necReference": "Circuit Theory",
-      "sparkyTip": "Electricity is lazy—it takes the shortcut! If there's no resistance to stop it, it goes boom."
+      "sparkyTip": "Electricity is lazy\u2014it takes the shortcut! If there's no resistance to stop it, it goes boom."
     },
     {
       "id": "res-scen-025",
@@ -5570,16 +5638,16 @@
         "2,400 Watts"
       ],
       "correctAnswer": 0,
-      "explanation": "Power (P) = Volts (E) × Amps (I). 240 × 24 = 5,760 Watts.",
+      "explanation": "Power (P) = Volts (E) \u00d7 Amps (I). 240 \u00d7 24 = 5,760 Watts.",
       "necReference": "Power Formula",
-      "sparkyTip": "P = I × E. Think 'PIE'. Power equals Current times Voltage."
+      "sparkyTip": "P = I \u00d7 E. Think 'PIE'. Power equals Current times Voltage."
     },
     {
       "id": "res-scen-032",
       "category": "resistance",
       "necArticle": "Series Circuits",
       "difficulty": "journeyman",
-      "questionText": "Three resistors with values of 10Ω, 20Ω, and 30Ω are connected in series. What is the total resistance?",
+      "questionText": "Three resistors with values of 10\u03a9, 20\u03a9, and 30\u03a9 are connected in series. What is the total resistance?",
       "options": [
         "60 Ohms",
         "5.5 Ohms",
@@ -5638,7 +5706,7 @@
         "10%"
       ],
       "correctAnswer": 0,
-      "explanation": "Percentage = (Drop / Total) × 100. (3.6 / 120) = 0.03. 0.03 × 100 = 3%.",
+      "explanation": "Percentage = (Drop / Total) \u00d7 100. (3.6 / 120) = 0.03. 0.03 \u00d7 100 = 3%.",
       "necReference": "Article 210.19(A) Note 4",
       "sparkyTip": "3% is the magic number for branch circuits recommended by the NEC."
     },
@@ -5672,7 +5740,7 @@
         "12 Volts"
       ],
       "correctAnswer": 0,
-      "explanation": "E = I × R. 6 Amps × 20 Ohms = 120 Volts.",
+      "explanation": "E = I \u00d7 R. 6 Amps \u00d7 20 Ohms = 120 Volts.",
       "necReference": "Ohm's Law",
       "sparkyTip": "Cover the 'E' in your Ohm's Law triangle. You see I and R side-by-side, so multiply them."
     },
@@ -5689,7 +5757,7 @@
         "It depends on the insulation type"
       ],
       "correctAnswer": 0,
-      "explanation": "Table 8 shows separate columns. Stranded wire (3.14 Ω/kft) is slightly higher than solid (3.07 Ω/kft) due to the air gaps between strands reducing the effective cross-section slightly.",
+      "explanation": "Table 8 shows separate columns. Stranded wire (3.14 \u03a9/kft) is slightly higher than solid (3.07 \u03a9/kft) due to the air gaps between strands reducing the effective cross-section slightly.",
       "necReference": "Chapter 9, Table 8",
       "sparkyTip": "Stranding adds flexibility but loses a tiny bit of conductivity. Usually negligible, but the Table lists them separately!"
     },
@@ -5723,7 +5791,7 @@
         "12 Ohms"
       ],
       "correctAnswer": 0,
-      "explanation": "R = E² / P. 120² / 100. 14,400 / 100 = 144 Ohms.",
+      "explanation": "R = E\u00b2 / P. 120\u00b2 / 100. 14,400 / 100 = 144 Ohms.",
       "necReference": "Power Formula",
       "sparkyTip": "Square the voltage first! 120 * 120 is a big number, then divide by watts."
     },
@@ -5734,15 +5802,15 @@
       "difficulty": "journeyman",
       "questionText": "Unless marked otherwise, equipment terminals for circuits rated over 100A are assumed to be rated for what temperature?",
       "options": [
-        "75°C",
-        "60°C",
-        "90°C",
-        "30°C"
+        "75\u00b0C",
+        "60\u00b0C",
+        "90\u00b0C",
+        "30\u00b0C"
       ],
       "correctAnswer": 0,
-      "explanation": "According to 110.14(C)(1)(b), for circuits rated over 100A (or conductors larger than #1 AWG), use the 75°C column.",
+      "explanation": "According to 110.14(C)(1)(b), for circuits rated over 100A (or conductors larger than #1 AWG), use the 75\u00b0C column.",
       "necReference": "NEC 110.14(C)",
-      "sparkyTip": "Small stuff (<100A) defaults to 60°C. Big stuff (>100A) defaults to 75°C. Almost nothing defaults to 90°C!"
+      "sparkyTip": "Small stuff (<100A) defaults to 60\u00b0C. Big stuff (>100A) defaults to 75\u00b0C. Almost nothing defaults to 90\u00b0C!"
     },
     {
       "id": "res-scen-042",
@@ -5800,7 +5868,7 @@
       "category": "resistance",
       "necArticle": "Ohm's Law",
       "difficulty": "journeyman",
-      "questionText": "A multimeter reads 0.5 MΩ (Mega-ohms). What is this value in regular Ohms?",
+      "questionText": "A multimeter reads 0.5 M\u03a9 (Mega-ohms). What is this value in regular Ohms?",
       "options": [
         "500,000 Ohms",
         "500 Ohms",
@@ -5851,7 +5919,7 @@
       "category": "resistance",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
-      "questionText": "Calculate the power loss (I²R) in Watts for a 200-foot run of #6 AWG Copper (0.491 ohms/kft) carrying 50 Amps.",
+      "questionText": "Calculate the power loss (I\u00b2R) in Watts for a 200-foot run of #6 AWG Copper (0.491 ohms/kft) carrying 50 Amps.",
       "options": [
         "245.5 Watts",
         "122.75 Watts",
@@ -5859,7 +5927,7 @@
         "491 Watts"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Find total R. 200ft is 0.2 of 1000ft. 0.2 * 0.491 = 0.0982 ohms. Step 2: P = I²R. 50² * 0.0982 = 2,500 * 0.0982 = 245.5 Watts.",
+      "explanation": "Step 1: Find total R. 200ft is 0.2 of 1000ft. 0.2 * 0.491 = 0.0982 ohms. Step 2: P = I\u00b2R. 50\u00b2 * 0.0982 = 2,500 * 0.0982 = 245.5 Watts.",
       "necReference": "Power Loss Formula",
       "sparkyTip": "This is 'wasted' energy turning into heat inside your conduit."
     },
@@ -5868,7 +5936,7 @@
       "category": "resistance",
       "necArticle": "Chapter 9, Table 8, Note 2",
       "difficulty": "master",
-      "questionText": "If the resistance of a copper conductor is 10 ohms at 75°C, what happens to the resistance if the temperature drops to 20°C?",
+      "questionText": "If the resistance of a copper conductor is 10 ohms at 75\u00b0C, what happens to the resistance if the temperature drops to 20\u00b0C?",
       "options": [
         "It decreases",
         "It increases",
@@ -5902,7 +5970,7 @@
       "category": "resistance",
       "necArticle": "Ohm's Law",
       "difficulty": "master",
-      "questionText": "Two resistors (R1=100Ω, R2=100Ω) are in parallel. That pair is in series with a third resistor (R3=50Ω). What is the total resistance?",
+      "questionText": "Two resistors (R1=100\u03a9, R2=100\u03a9) are in parallel. That pair is in series with a third resistor (R3=50\u03a9). What is the total resistance?",
       "options": [
         "100 Ohms",
         "150 Ohms",
@@ -5910,7 +5978,7 @@
         "50 Ohms"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Solve Parallel. 100 // 100 = 50Ω. Step 2: Solve Series. 50Ω (pair) + 50Ω (R3) = 100Ω.",
+      "explanation": "Step 1: Solve Parallel. 100 // 100 = 50\u03a9. Step 2: Solve Series. 50\u03a9 (pair) + 50\u03a9 (R3) = 100\u03a9.",
       "necReference": "Series-Parallel Theory",
       "sparkyTip": "Break it down: Solve the parallel 'bank' first, then treat it as a single resistor in the series chain."
     },
@@ -5927,7 +5995,7 @@
         "0.029 ohms"
       ],
       "correctAnswer": 0,
-      "explanation": "Z = √(R² + XL²). Z = √(0.029² + 0.048²). Z = √(0.00084 + 0.0023). Z = √0.00314 = 0.056.",
+      "explanation": "Z = \u221a(R\u00b2 + XL\u00b2). Z = \u221a(0.029\u00b2 + 0.048\u00b2). Z = \u221a(0.00084 + 0.0023). Z = \u221a0.00314 = 0.056.",
       "necReference": "AC Impedance Theory",
       "sparkyTip": "This is the Pythagorean theorem for electricity! Resistance and Reactance form a triangle; Impedance is the hypotenuse."
     },
@@ -5944,7 +6012,7 @@
         "55 Amps"
       ],
       "correctAnswer": 0,
-      "explanation": "I = E / R. 110V / 0.5Ω = 220 Amps.",
+      "explanation": "I = E / R. 110V / 0.5\u03a9 = 220 Amps.",
       "necReference": "Ohm's Law",
       "sparkyTip": "Less pressure (Voltage) against the same resistance means less flow (Current)."
     },
@@ -5961,7 +6029,7 @@
         "0.6 Ohms"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Resistance of one 250ft leg = 1.2 / 4 = 0.3Ω. Step 2: Parallel bundle of four 0.3Ω legs = 0.3 / 4 = 0.075Ω.",
+      "explanation": "Step 1: Resistance of one 250ft leg = 1.2 / 4 = 0.3\u03a9. Step 2: Parallel bundle of four 0.3\u03a9 legs = 0.3 / 4 = 0.075\u03a9.",
       "necReference": "Parallel Theory",
       "sparkyTip": "You divided the length by 4 (reducing R) AND increased the area by 4 (reducing R again). 1.2 / 16 = 0.075."
     },
@@ -5995,7 +6063,7 @@
         "20.8 Volts"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Find Current. I = P/E = 5000/240 = 20.83A. Step 2: Find R. 200ft is 0.2kft. R = 0.2 * 1.2 = 0.24Ω. Step 3: Find Vd (2-wire). Wire R is 0.24 one way. Loop is 0.48. Vd = 20.83 * 0.48 = 9.998V.",
+      "explanation": "Step 1: Find Current. I = P/E = 5000/240 = 20.83A. Step 2: Find R. 200ft is 0.2kft. R = 0.2 * 1.2 = 0.24\u03a9. Step 3: Find Vd (2-wire). Wire R is 0.24 one way. Loop is 0.48. Vd = 20.83 * 0.48 = 9.998V.",
       "necReference": "Voltage Drop",
       "sparkyTip": "Remember to calculate the current from the Watts first!"
     },
@@ -6038,7 +6106,7 @@
       "category": "resistance",
       "necArticle": "Ohm's Law",
       "difficulty": "master",
-      "questionText": "A 120V circuit has a short circuit fault. The only resistance limiting the current is the 0.05Ω service wire and the 0.03Ω branch wire. What is the approximate Available Fault Current (AFC)?",
+      "questionText": "A 120V circuit has a short circuit fault. The only resistance limiting the current is the 0.05\u03a9 service wire and the 0.03\u03a9 branch wire. What is the approximate Available Fault Current (AFC)?",
       "options": [
         "1,500 Amps",
         "12,000 Amps",
@@ -6046,7 +6114,7 @@
         "8,000 Amps"
       ],
       "correctAnswer": 0,
-      "explanation": "Total R = 0.05 + 0.03 = 0.08Ω. I = E / R. 120 / 0.08 = 1,500 Amps.",
+      "explanation": "Total R = 0.05 + 0.03 = 0.08\u03a9. I = E / R. 120 / 0.08 = 1,500 Amps.",
       "necReference": "Fault Current Calculation",
       "sparkyTip": "This is why breakers have an AIC rating (e.g., 10k or 22k). They need to handle this massive spike!"
     },
@@ -6063,7 +6131,7 @@
         "It doubles"
       ],
       "correctAnswer": 0,
-      "explanation": "Doubling voltage cuts current in half (for same Power). Power loss is I²R. If I is 1/2, then I² is 1/4. Loss is reduced by 75%.",
+      "explanation": "Doubling voltage cuts current in half (for same Power). Power loss is I\u00b2R. If I is 1/2, then I\u00b2 is 1/4. Loss is reduced by 75%.",
       "necReference": "Transmission Theory",
       "sparkyTip": "This is why we use high voltage for transmission lines! Double the volts, quarter the waste."
     },
@@ -6123,7 +6191,7 @@
       "category": "services",
       "necArticle": "Article 220",
       "difficulty": "master",
-      "questionText": "You are performing a calculation for a single-family dwelling service. The dwelling contains one 14 kW household electric range (240V) and one 5 kW household electric clothes dryer (240V). According to NEC 220.61(B)(1), what is the calculated feeder neutral demand load for these two appliances?",
+      "questionText": "You are performing a calculation for a single-family dwelling service. The dwelling contains one 14 kW household electric range (240V) and one 5 kW household electric clothes dryer (240V). What is the calculated feeder neutral demand load for these two appliances?",
       "options": [
         "13.80 kVA",
         "19.00 kVA",
@@ -6165,9 +6233,9 @@
         "4/0 AWG"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Calculate amperage: I = VA ÷ (V × √3) = 90,000 ÷ (208 × 1.732) = 90,000 ÷ 360.25 = 249.8A. Step 2: Select conductor from NEC Table 310.16, Aluminum 75°C column (even though XHHW-2 is rated 90°C, terminations are limited to 75°C per 110.14(C)). 300 kcmil Al at 75°C = 230A (too small). 350 kcmil Al at 75°C = 250A (sufficient for 249.8A).",
+      "explanation": "Step 1: Calculate amperage: I = VA \u00f7 (V \u00d7 \u221a3) = 90,000 \u00f7 (208 \u00d7 1.732) = 90,000 \u00f7 360.25 = 249.8A. Step 2: Select conductor from NEC Table 310.16, Aluminum 75\u00b0C column (even though XHHW-2 is rated 90\u00b0C, terminations are limited to 75\u00b0C per 110.14(C)). 300 kcmil Al at 75\u00b0C = 230A (too small). 350 kcmil Al at 75\u00b0C = 250A (sufficient for 249.8A).",
       "necReference": "NEC Table 310.16; 110.14(C)",
-      "sparkyTip": "Don't get tricked by the 90°C insulation rating! Terminations limit you to the 75°C column per 110.14(C). Always size aluminum conductors from that column — 350 kcmil Al = 250A at 75°C."
+      "sparkyTip": "Don't get tricked by the 90\u00b0C insulation rating! Terminations limit you to the 75\u00b0C column per 110.14(C). Always size aluminum conductors from that column \u2014 350 kcmil Al = 250A at 75\u00b0C."
     },
     {
       "id": "LC-103",
@@ -6189,7 +6257,7 @@
     {
       "id": "LC-104",
       "category": "load-calculations",
-      "necArticle": "Ohm's Law",
+      "necArticle": "Electrical Theory",
       "difficulty": "journeyman",
       "questionText": "A residential electric range has a nameplate rating of 12 kW at 240 volts. If this range is connected to a 208-volt single-phase supply, what will be the approximate power consumption?",
       "options": [
@@ -6199,15 +6267,15 @@
         "8.3 kW"
       ],
       "correctAnswer": 1,
-      "explanation": "The resistance of the heating element is fixed. Power varies with the square of the voltage (P = E^2 / R). 1. Calculate the ratio: 208V / 240V = 0.866. 2. Square the ratio: 0.866 * 0.866 = 0.751. 3. Apply to rated power: 12 kW * 0.751 = 9.01 kW.",
-      "necReference": "Ohm's Law (P = E^2/R)",
-      "sparkyTip": "When voltage changes on a resistive load, power changes with the square of the voltage ratio. Divide the new voltage by the old, square it, then multiply by the rated power."
+      "explanation": "Because the physical heating element doesn't change, its resistance stays the same. When voltage drops, power drops exponentially.\n\nMethod 1 (The Short Way): Square the voltage ratio. (208V / 240V)^2 = 0.751. Multiply by original power: 12 kW * 0.751 = 9.01 kW.\n\nMethod 2 (The Long Way): First, find the element's fixed resistance using R = E^2 / P. (240V)^2 / 12,000W = 4.8 ohms. Now, apply the new voltage to that resistance using P = E^2 / R. (208V)^2 / 4.8 ohms = 9,013 Watts (9.0 kW).",
+      "necReference": "Ohm's / Watt's Law",
+      "sparkyTip": "Did you pick 10.4 kW? You fell for the trap! You can't just use a straight percentage because power is based on the SQUARE of the voltage. Master those two formulas: R = E^2 / P and P = E^2 / R."
     },
     {
       "id": "LC-105",
       "category": "load-calculations",
       "necArticle": "Ohm's Law",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "A 240-volt single-phase heating element draws 40 amperes. If this unit is connected to a 208-volt circuit, what is the power consumption in kilowatts? (Round your final answer to the nearest hundredth).",
       "options": [
         "7.21 kW",
@@ -6233,47 +6301,64 @@
         "150 Amperes"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Total connected load = 10 + 12 + 8 + 9 = 39 kW. Step 2: Apply demand factor per Table 220.56 — for 4 units of kitchen equipment, the demand factor is 80%. 39 kW × 0.80 = 31.2 kW. Step 3: Calculate 3-phase amperage: I = W ÷ (V × √3) = 31,200 ÷ (208 × 1.732) = 31,200 ÷ 360.25 = 86.6A ≈ 87A.",
+      "explanation": "Step 1: Total connected load = 10 + 12 + 8 + 9 = 39 kW. Step 2: Apply demand factor per Table 220.56 \u2014 for 4 units of kitchen equipment, the demand factor is 80%. 39 kW \u00d7 0.80 = 31.2 kW. Step 3: Calculate 3-phase amperage: I = W \u00f7 (V \u00d7 \u221a3) = 31,200 \u00f7 (208 \u00d7 1.732) = 31,200 \u00f7 360.25 = 86.6A \u2248 87A.",
       "necReference": "NEC Table 220.56",
       "sparkyTip": "Table 220.56 demand factors by equipment count: 1-2 = 100%, 3 = 90%, 4 = 80%, 5 = 70%, 6+ = 65%. Count the pieces of equipment first, then multiply the total connected load by the factor."
     },
     {
       "id": "LC-107",
       "category": "load-calculations",
-      "necArticle": "Article 220; 430.24",
+      "necArticle": "220.83(B)",
       "difficulty": "master",
-      "questionText": "An existing 200A, 120/240V single-phase dwelling has a calculated load of 145A. The homeowner adds a detached 2,400 sq. ft. warehouse. The warehouse load includes: 3VA per sq. ft. for lighting/receptacles, a 5HP 240V compressor (28A), and 10kVA of electric heating. After applying NEC 220 demand factors, what is the new total calculated load, and is a service upgrade required?",
+      "questionText": "An existing dwelling is fed by a 200A, 120/240V service. The homeowner is adding a detached residential shop and new electric space heating. The existing house has 26,000 VA of connected general lighting, receptacles, and appliances, plus a 5,000 VA AC unit. The new shop adds 7,200 VA of general lighting, a 5 HP 240V compressor (28A), and 10,000 VA of electric space heating. Using the Optional Method for an existing dwelling (220.83), does the 200A service have the capacity to handle this addition, and what is the new calculated load?",
       "options": [
-        "212A; No upgrade required",
-        "252A; Upgrade to 300A or 400A service required",
-        "195A; No upgrade required",
-        "280A; Upgrade to 400A service required"
+        "Yes, the total load is 128A, leaving 72A of spare capacity.",
+        "Yes, the total load is 133A, leaving 67A of spare capacity.",
+        "Yes, the total load is 149A, leaving 51A of spare capacity.",
+        "No, the total load is 208A, exceeding the service by 8A."
       ],
-      "correctAnswer": 1,
-      "explanation": "Step 1: Warehouse general lighting = 2,400 sq ft × 3 VA = 7,200 VA. Step 2: Warehouse heating = 10,000 VA at 100% per 220.51. Step 3: Largest motor at 125% per 430.24 = 28A × 240V × 1.25 = 8,400 VA. Step 4: Total warehouse = 7,200 + 10,000 + 8,400 = 25,600 VA = 106.67A at 240V. Step 5: Combined load = 145A + 106.67A = 251.67A ≈ 252A. This exceeds the 200A service — an upgrade is required.",
-      "necReference": "NEC Article 220; 430.24; 220.51",
-      "sparkyTip": "Don't forget the 125% on the largest motor (430.24)! And always compare your final calculated load against the existing service size — if it exceeds the rating, an upgrade is mandatory."
+      "correctAnswer": 0,
+      "explanation": "Step 1: Find total connected 'other' loads. House (26,000 VA) + Shop Lighting (7,200 VA) + Compressor (28A × 240V = 6,720 VA) = 39,920 VA. Step 2: Apply 220.83(B) demand. The first 8 kVA is at 100% (8,000 VA). The remainder (31,920 VA) is at 40% (12,768 VA). Total general = 20,768 VA. Step 3: Compare HVAC. Shop Heat (10,000 VA) is larger than House AC (5,000 VA), so keep 10,000 VA at 100%. Step 4: Total Load = 20,768 VA + 10,000 VA = 30,768 VA. Step 5: Convert to Amps. 30,768 VA / 240V = 128.2A. The 200A service handles it easily!",
+      "necReference": "220.83(B)",
+      "sparkyTip": "Watch out for the traps! When using the Optional Method for an EXISTING dwelling addition (220.83), your magic number is 8 kVA at 100%, not 10 kVA. Also, unlike other calculations, you do not add an extra 25% to the largest motor here. Just use the straight FLC and drop it in the pot!"
     },
     {
       "id": "LC-108",
       "category": "load-calculations",
       "necArticle": "220.82",
       "difficulty": "master",
-      "questionText": "Using the Optional Method (NEC 220.82), calculate the total demand for an existing 1,800 sq. ft. dwelling with a 12kW range, a 5kW dryer, and two 1.5kVA small appliance circuits. The owner is adding a detached 2,400 sq. ft. warehouse with a 10kW electric heater and a 5HP 240V compressor (28A). The home has a 5-ton AC unit (rated 30A). What is the total calculated load in Amps?",
+      "questionText": "Using the Optional Method, calculate the total demand for an existing 1,800 sq. ft. dwelling unit with a 12 kW range, a 5 kW dryer, and two 20A small appliance branch circuits. The owner is adding a detached 2,400 sq. ft. residential shop fed from the same service, which contains a 10 kW electric heater and a 5 HP 240V compressor (28A). The home has a 5-ton AC unit (rated 30A at 240V). What is the total calculated load in Amps?",
       "options": [
         "123A",
         "145A",
         "118A",
-        "134A"
+        "117A"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: General load = (1,800 + 2,400) sq ft × 3 VA = 12,600 VA. Step 2: Required circuits = (2 small appliance + 1 laundry) × 1,500 VA = 4,500 VA. Step 3: Appliances = 12,000 (range) + 5,000 (dryer) + 6,720 (motor: 28A × 240V) = 23,720 VA. Step 4: Total general = 12,600 + 4,500 + 23,720 = 40,820 VA. Step 5: Apply 220.82(B) demand — first 10,000 VA @ 100% = 10,000 + remainder 30,820 @ 40% = 12,328 → total = 22,328 VA. Step 6: HVAC — heating 10,000 @ 65% = 6,500 VA vs AC 30A × 240V = 7,200 VA @ 100% → use larger = 7,200 VA. Step 7: Final = 22,328 + 7,200 = 29,528 VA ÷ 240V = 123A.",
-      "necReference": "NEC 220.82(B); 220.82(C)",
-      "sparkyTip": "The Optional Method (220.82) is a huge time-saver on the exam! Remember: lump everything into one pot, apply 10kVA @ 100% + remainder @ 40%, then add the LARGER of heating (at 65%) or AC (at 100%) separately."
+      "explanation": "Step 1: General load = (1,800 + 2,400) sq ft \u00d7 3 VA = 12,600 VA. Step 2: Required circuits = (2 small appliance + 1 laundry *implicit requirement*) \u00d7 1,500 VA = 4,500 VA. Step 3: Appliances = 12,000 (range) + 5,000 (dryer) + 6,720 (motor: 28A \u00d7 240V) = 23,720 VA. Step 4: Total general = 12,600 + 4,500 + 23,720 = 40,820 VA. Step 5: Apply 220.82(B) demand \u2014 first 10,000 VA @ 100% = 10,000 + remainder 30,820 @ 40% = 12,328 \u2192 total = 22,328 VA. Step 6: HVAC per 220.82(C) \u2014 heating 10,000 @ 65% = 6,500 VA vs AC 30A \u00d7 240V = 7,200 VA @ 100% \u2192 use larger = 7,200 VA. Step 7: Final = 22,328 + 7,200 = 29,528 VA \u00f7 240V = 123A.",
+      "necReference": "220.82(B), 220.82(C), 220.52(B)",
+      "sparkyTip": "Did you catch the trap? The question didn't mention a laundry circuit, but the NEC requires one (1,500 VA) for dwelling units! Also, remember the Optional Method HVAC rule: compare the heat (at 65%) to the AC (at 100%) and only keep the larger of the two."
+    },
+    {
+      "id": "LC-109",
+      "category": "load-calculations",
+      "necArticle": "630.11(A) and (B)",
+      "difficulty": "master",
+      "questionText": "A fabrication shop is installing a new feeder to supply five nonmotor generator arc welders. All five welders operate at a 50% duty cycle, but they have different primary nameplate current ratings: 100A, 80A, 60A, 50A, and 40A. According to NEC Article 630, what is the minimum required ampacity for the feeder conductors supplying this specific group of welders?",
+      "options": [
+        "290 Amps",
+        "234 Amps",
+        "206 Amps",
+        "330 Amps"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: Apply Table 630.11(A). The multiplier for a nonmotor generator arc welder at a 50% duty cycle is 0.71. Calculate the effective ampacity for each welder: W1 (100A × 0.71 = 71A), W2 (80A × 0.71 = 56.8A), W3 (60A × 0.71 = 42.6A), W4 (50A × 0.71 = 35.5A), W5 (40A × 0.71 = 28.4A). \n\nStep 2: Apply 630.11(B) Group Demand Factors. Stack them from largest to smallest and multiply: \n1st Largest (71A × 1.0) = 71A \n2nd Largest (56.8A × 1.0) = 56.8A \n3rd Largest (42.6A × 0.85) = 36.21A \n4th Largest (35.5A × 0.70) = 24.85A \n5th Largest (28.4A × 0.60) = 17.04A. \n\nStep 3: Add them up. 71 + 56.8 + 36.21 + 24.85 + 17.04 = 205.9 Amps (rounds to 206A).",
+      "necReference": "Article 630",
+      "sparkyTip": "Order of operations is everything! You MUST shrink the individual welders based on their duty cycle FIRST. Then you take those new, smaller numbers, stack them from largest to smallest, and apply the 100/100/85/70/60% group discounts. If you do it backwards, your math falls apart!"
     },
     {
       "id": "SR-001",
-      "category": "sizing-requirements",
+      "category": "box-fill",
       "necArticle": "Article 314.28",
       "difficulty": "journeyman",
       "questionText": "Standard box fill calculations (cubic inch volume) are used for conductors size 6 AWG and smaller. Which NEC Article governs the minimum sizing requirements for junction boxes containing conductors 4 AWG and larger?",
@@ -6289,8 +6374,25 @@
       "sparkyTip": "Remember the cutoff: 6 AWG and smaller = cubic inch volume (314.16), 4 AWG and larger = 8x and 6x raceway rules (314.28)."
     },
     {
+      "id": "BF-040",
+      "category": "box-fill",
+      "necArticle": "314.16(C)(2)",
+      "difficulty": "journeyman",
+      "questionText": "An electrician installs a 3/4-inch Type C conduit body in the middle of a long straight run of EMT. Under what condition is the electrician permitted to make wire splices inside this conduit body?",
+      "options": [
+        "Only if the conduit body is supported within 3 feet.",
+        "Only if the manufacturer has durably marked the cubic-inch capacity on the conduit body.",
+        "Splices are never permitted in a conduit body; they are strictly for pulling.",
+        "Only if the conductors are 4 AWG or larger."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(C)(2), conduit bodies are allowed to contain splices, taps, or devices ONLY if the manufacturer has durably and legibly marked the cubic-inch capacity on the interior or exterior of the fitting. You must then calculate the box fill to ensure the splices don't exceed that stamped volume.",
+      "necReference": "314.16(C)(2)",
+      "sparkyTip": "Not all condulets are created equal! If you buy a cheap conduit body that doesn't have a volume stamp on the inside, it is legally just a pull-point. If you bury a wire nut in there, the inspector will make you rip it out!"
+    },
+    {
       "id": "SR-002",
-      "category": "sizing-requirements",
+      "category": "box-fill",
       "necArticle": "Article 314.28",
       "difficulty": "apprentice",
       "questionText": "At what minimum conductor size does the NEC require pull and junction boxes to be sized according to the dimensional calculations of Article 314.28 (such as the 8x and 6x rules) rather than the volume calculations of Article 314.16?",
@@ -6306,21 +6408,21 @@
       "sparkyTip": "The magic number is 4 AWG. That's when you switch from counting cubic inches (314.16) to measuring raceway multiples (314.28)."
     },
     {
-      "id": "SR-003",
-      "category": "sizing-requirements",
+      "id": "lC-109",
+      "category": "load-calculations",
       "necArticle": "110.14(C)(1)(b)",
       "difficulty": "journeyman",
       "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of NEC Table 310.16?",
       "options": [
-        "60°C Column",
-        "75°C Column",
-        "90°C Column",
+        "60\u00b0C Column",
+        "75\u00b0C Column",
+        "90\u00b0C Column",
         "The column corresponding to the insulation rating"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75°C. Therefore, conductor ampacity must not exceed the 75°C column value, even if the wire insulation is rated for 90°C (like THHN).",
+      "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75\u00b0C. Therefore, conductor ampacity must not exceed the 75\u00b0C column value, even if the wire insulation is rated for 90\u00b0C (like THHN).",
       "necReference": "NEC 110.14(C)(1)(b)",
-      "sparkyTip": "Over 100A = 75°C column. Under 100A = 60°C column. The insulation rating doesn't matter for sizing — it's the termination temperature that governs. THHN is 90°C wire, but you still size it at 75°C!"
+      "sparkyTip": "Over 100A = 75\u00b0C column. Under 100A = 60\u00b0C column. The insulation rating doesn't matter for sizing \u2014 it's the termination temperature that governs. THHN is 90\u00b0C wire, but you still size it at 75\u00b0C!"
     }
   ]
 }

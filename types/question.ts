@@ -2,7 +2,7 @@
 
 export type Difficulty = "apprentice" | "journeyman" | "master";
 
-export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "sizing-requirements";
+export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing";
 
 export interface Category {
   slug: CategorySlug;
@@ -60,7 +60,7 @@ export const CATEGORIES: Category[] = [
     slug: "box-fill",
     name: "Box Fill",
     necArticle: "Article 314 & 310",
-    description: "Box fill calculations, conductor counting, device sizing, and volume requirements",
+    description: "Box fill calculations, conductor counting, pull/junction box sizing, and volume requirements",
   },
   {
     slug: "conduit-fill",
@@ -97,12 +97,6 @@ export const CATEGORIES: Category[] = [
     name: "Transformer Sizing",
     necArticle: "Article 450",
     description: "Transformer kVA sizing, overcurrent protection, and impedance calculations",
-  },
-  {
-    slug: "sizing-requirements",
-    name: "Sizing Requirements",
-    necArticle: "Article 314.28",
-    description: "Pull and junction box sizing, 8x and 6x rules, and wire bending space for conductors 4 AWG and larger",
   },
 ];
 

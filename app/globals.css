@@ -269,6 +269,9 @@
   --sparky-green-dark: #8BDB00;
   --sparky-green-glow: rgba(163, 255, 0, 0.35);
 
+  /* Dark gradient overrides — sparky-green as sole accent */
+  --grad-primary: linear-gradient(135deg, #A3FF00 0%, #CCFF66 100%);
+
   /* Dark warm neutrals */
   --bg-base: #1C1917;
   --bg-surface: #292524;

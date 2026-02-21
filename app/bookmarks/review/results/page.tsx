@@ -537,7 +537,7 @@ export default function BookmarkReviewResultsPage() {
         <Button
           onClick={handleRetakeReview}
           size="lg"
-          className="bg-amber hover:bg-amber-dark text-white gap-2"
+          className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 gap-2"
         >
           <RotateCcw className="h-4 w-4" />
           Review Again

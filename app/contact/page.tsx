@@ -189,7 +189,7 @@ export default function ContactPage() {
                 {/* Back to Home */}
                 <div className="text-center space-y-4">
                   <Link href="/">
-                    <Button className="bg-amber hover:bg-amber-dark text-white">
+                    <Button className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
                       <ArrowLeft className="mr-2 h-4 w-4" />
                       Back to Home
                     </Button>
@@ -279,7 +279,7 @@ export default function ContactPage() {
 
                   <Button
                     type="submit"
-                    className="w-full bg-amber hover:bg-amber-dark text-white"
+                    className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                     disabled={isLoading}
                   >
                     {isLoading ? (

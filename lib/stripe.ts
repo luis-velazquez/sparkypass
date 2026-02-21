@@ -29,7 +29,7 @@ export const PLANS: Record<
   yearly: {
     name: "SparkyPass Yearly",
     priceId: process.env.STRIPE_YEARLY_PRICE_ID!,
-    displayPrice: "$299",
+    displayPrice: "$299.99",
     interval: "per year",
     description: "Our most popular comprehensive study track",
     mode: "subscription",
@@ -37,7 +37,7 @@ export const PLANS: Record<
   lifetime: {
     name: "SparkyPass Lifetime",
     priceId: process.env.STRIPE_LIFETIME_PRICE_ID!,
-    displayPrice: "$500",
+    displayPrice: "$499.99",
     interval: "one-time",
     description: "All future NEC Code Cycles included",
     mode: "payment",

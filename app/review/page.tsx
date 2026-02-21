@@ -211,7 +211,7 @@ function ReviewContent() {
             <ChevronLeft className="h-5 w-5" />
           </Link>
           <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground">
-            <span className="text-purple dark:text-sparky-green">Review Queue</span>
+            <span className="text-emerald dark:text-sparky-green">Review Queue</span>
           </h1>
         </div>
         <p className="text-muted-foreground">
@@ -254,7 +254,7 @@ function ReviewContent() {
                 Card {currentIndex + 1} of {questions.length}
               </span>
               <span className="flex items-center gap-1">
-                <BookMarked className="h-3.5 w-3.5 text-purple" />
+                <BookMarked className="h-3.5 w-3.5 text-emerald dark:text-sparky-green" />
                 {questions.length} saved
               </span>
             </div>
@@ -262,7 +262,7 @@ function ReviewContent() {
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                className="h-full bg-purple rounded-full"
+                className="h-full bg-emerald dark:bg-sparky-green rounded-full"
               />
             </div>
           </motion.div>
@@ -290,7 +290,7 @@ function ReviewContent() {
                   >
                     <Card className={`h-full flex flex-col ${
                       isFlipped
-                        ? "bg-purple/5 border-purple/30"
+                        ? "bg-emerald/5 border-emerald/30 dark:bg-sparky-green/5 dark:border-sparky-green/30"
                         : "bg-card dark:bg-stone-900/50 border-border dark:border-stone-800"
                     }`}>
                       <CardContent className="flex flex-col h-full p-6">
@@ -299,7 +299,7 @@ function ReviewContent() {
                           <>
                             <div className="flex items-center justify-between mb-4">
                               <div className="flex items-center gap-2">
-                                <span className="text-xs text-purple font-medium px-2 py-0.5 rounded bg-purple/10">
+                                <span className="text-xs text-emerald dark:text-sparky-green font-medium px-2 py-0.5 rounded bg-emerald/10 dark:bg-sparky-green/10">
                                   {category?.name || currentQuestion.category}
                                 </span>
                                 <span className="text-xs text-muted-foreground capitalize px-2 py-0.5 rounded bg-muted dark:bg-stone-800">
@@ -320,7 +320,7 @@ function ReviewContent() {
                             </div>
 
                             <div className="flex-1 flex flex-col items-center justify-center text-center">
-                              <Brain className="h-10 w-10 text-purple mb-4" />
+                              <Brain className="h-10 w-10 text-emerald dark:text-sparky-green mb-4" />
                               <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed">
                                 {currentQuestion.questionText}
                               </p>
@@ -333,8 +333,8 @@ function ReviewContent() {
                         ) : (
                           /* Back - Answer */
                           <>
-                            <div className="flex items-center justify-between mb-4">
-                              <span className="text-xs text-purple font-medium">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-emerald dark:text-sparky-green font-medium">
                                 Answer
                               </span>
                               <Button
@@ -350,44 +350,25 @@ function ReviewContent() {
                               </Button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto">
-                              {/* Correct Answer */}
-                              <div className="p-4 rounded-lg bg-emerald/10 border border-emerald/30 dark:bg-sparky-green/10 dark:border-sparky-green/30 mb-4">
-                                <p className="text-sm font-medium text-emerald dark:text-sparky-green mb-1">Correct Answer</p>
-                                <p className="text-foreground">
-                                  {currentQuestion.options[currentQuestion.correctAnswer]}
+                            <div className="flex-1 flex flex-col items-center justify-center text-center">
+                              <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed mb-3">
+                                {currentQuestion.options[currentQuestion.correctAnswer]}
+                              </p>
+                              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                                {currentQuestion.explanation}
+                              </p>
+                              <div className="flex items-center gap-1.5 text-emerald dark:text-sparky-green mb-2">
+                                <BookOpen className="h-4 w-4" />
+                                <p className="text-sm font-medium">
+                                  {currentQuestion.necReference}
                                 </p>
                               </div>
-
-                              {/* Explanation */}
-                              <div className="mb-4">
-                                <p className="text-sm font-medium text-muted-foreground mb-2">Explanation</p>
-                                <p className="text-sm text-foreground leading-relaxed">
-                                  {currentQuestion.explanation}
-                                </p>
-                              </div>
-
-                              {/* NEC Reference */}
-                              <div className="flex items-start gap-2 mb-4">
-                                <BookOpen className="h-4 w-4 text-purple mt-0.5 flex-shrink-0" />
-                                <div>
-                                  <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">NEC Reference</p>
-                                  <p className="text-sm font-medium text-purple">
-                                    {currentQuestion.necReference}
-                                  </p>
-                                </div>
-                              </div>
-
-                              {/* Sparky Tip */}
                               {currentQuestion.sparkyTip && (
-                                <div className="flex items-start gap-2 p-3 rounded-lg bg-amber/10 border border-amber/20">
-                                  <Zap className="h-4 w-4 text-amber mt-0.5 flex-shrink-0" />
-                                  <div>
-                                    <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Sparky Tip</p>
-                                    <p className="text-sm text-foreground">
-                                      {currentQuestion.sparkyTip}
-                                    </p>
-                                  </div>
+                                <div className="flex items-center gap-1.5 text-amber">
+                                  <Zap className="h-3.5 w-3.5" />
+                                  <p className="text-xs">
+                                    {currentQuestion.sparkyTip}
+                                  </p>
                                 </div>
                               )}
                             </div>

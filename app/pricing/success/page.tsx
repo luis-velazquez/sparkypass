@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,30 @@ import { SparkyMessage } from "@/components/sparky";
 
 export default function SubscriptionSuccessPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { update: updateSession } = useSession();
   const confettiFired = useRef(false);
+  const verified = useRef(false);
 
   useEffect(() => {
+    // Verify the checkout session, refresh the JWT, then redirect
+    const sessionId = searchParams.get("session_id");
+    if (sessionId && !verified.current) {
+      verified.current = true;
+      fetch("/api/stripe/verify-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId }),
+      })
+        .then(async (res) => {
+          if (res.ok) {
+            // Force session refresh so the JWT cookie gets the new subscriptionStatus
+            await updateSession();
+          }
+        })
+        .catch(console.error);
+    }
+
     // Fire confetti once
     if (!confettiFired.current) {
       confettiFired.current = true;
@@ -50,7 +72,7 @@ export default function SubscriptionSuccessPage() {
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, [router]);
+  }, [router, searchParams, updateSession]);
 
   return (
     <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-16">
@@ -98,7 +120,7 @@ export default function SubscriptionSuccessPage() {
         >
           <Button
             onClick={() => router.push("/dashboard")}
-            className="bg-amber hover:bg-amber-dark text-white"
+            className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
           >
             Go to Dashboard
             <ArrowRight className="ml-2 h-4 w-4" />
