@@ -71,6 +71,20 @@
       "when": 1771545600000,
       "tag": "0009_add_focus_mode",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1771850242425,
+      "tag": "0010_graceful_komodo",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "6",
+      "when": 1771850857982,
+      "tag": "0011_eager_nehzno",
+      "breakpoints": true
     }
   ]
 }

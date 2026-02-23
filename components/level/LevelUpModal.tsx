@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { haptic } from "@/lib/haptics";
 import {
   Dialog,
   DialogContent,
@@ -56,6 +57,7 @@ export function LevelUpModal({
 
       // Delay confetti slightly to let modal animate in
       const timer = setTimeout(() => {
+        haptic("celebration");
         // Fire confetti from both sides
         const colors = ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB", "#A3FF00"];
 

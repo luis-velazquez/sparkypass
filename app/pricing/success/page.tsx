@@ -1,14 +1,23 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
+import { haptic } from "@/lib/haptics";
 
 export default function SubscriptionSuccessPage() {
+  return (
+    <Suspense>
+      <SubscriptionSuccessContent />
+    </Suspense>
+  );
+}
+
+function SubscriptionSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { update: updateSession } = useSession();
@@ -39,6 +48,7 @@ export default function SubscriptionSuccessPage() {
       confettiFired.current = true;
       import("canvas-confetti").then((mod) => {
         const confetti = mod.default;
+        haptic("celebration");
         // First burst
         confetti({
           particleCount: 100,

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import confetti from "canvas-confetti";
+import { haptic } from "@/lib/haptics";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -89,6 +90,7 @@ function getHintText(
 
 // Fire confetti celebration
 function fireConfetti() {
+  haptic("celebration");
   confetti({
     particleCount: 100,
     spread: 70,

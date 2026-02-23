@@ -111,6 +111,7 @@ export async function GET() {
       .select({
         xp: users.xp,
         level: users.level,
+        coins: users.coins,
         studyStreak: users.studyStreak,
         bestStudyStreak: users.bestStudyStreak,
       })
@@ -152,6 +153,7 @@ export async function GET() {
       })),
       xp: user?.xp || 0,
       level: user?.level || 1,
+      coins: user?.coins || 0,
       studyStreak: user?.studyStreak || 0,
       bestStudyStreak: user?.bestStudyStreak || 0,
       dailyChallengeCompleted: !!dailyStatus,

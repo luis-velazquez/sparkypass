@@ -1,11 +1,51 @@
 // Level system configuration for SparkyPass
 // XP thresholds from SP-020: 1:0, 2:500, 3:1000, 4:2000, 5:3500, 6:5500, 7:8000, 8:11000, 9:15000, 10:20000
 
-// XP reward constants
-export const XP_REWARDS = {
-  CORRECT_ANSWER: 25,
-  QUIZ_COMPLETE: 50,
-} as const;
+import type { Difficulty } from "@/types/question";
+
+// Difficulty-scaled XP rewards
+export const DIFFICULTY_XP_REWARDS: Record<Difficulty, { CORRECT_ANSWER: number; QUIZ_COMPLETE: number }> = {
+  apprentice: { CORRECT_ANSWER: 15, QUIZ_COMPLETE: 30 },
+  journeyman: { CORRECT_ANSWER: 25, QUIZ_COMPLETE: 50 },
+  master: { CORRECT_ANSWER: 40, QUIZ_COMPLETE: 75 },
+};
+
+/** Get XP rewards for a difficulty level. Falls back to journeyman. */
+export function getXPRewardsForDifficulty(difficulty?: Difficulty | string | null): { CORRECT_ANSWER: number; QUIZ_COMPLETE: number } {
+  if (difficulty && difficulty in DIFFICULTY_XP_REWARDS) {
+    return DIFFICULTY_XP_REWARDS[difficulty as Difficulty];
+  }
+  return DIFFICULTY_XP_REWARDS.journeyman;
+}
+
+// Backward-compatible alias (journeyman baseline) for daily/bookmarks
+export const XP_REWARDS = DIFFICULTY_XP_REWARDS.journeyman;
+
+// Difficulty-scaled coin rewards
+export const DIFFICULTY_COIN_REWARDS: Record<Difficulty, { CORRECT_ANSWER: number; QUIZ_COMPLETE: number }> = {
+  apprentice: { CORRECT_ANSWER: 5, QUIZ_COMPLETE: 10 },
+  journeyman: { CORRECT_ANSWER: 10, QUIZ_COMPLETE: 20 },
+  master: { CORRECT_ANSWER: 20, QUIZ_COMPLETE: 40 },
+};
+
+/** Get coin rewards for a difficulty level. Falls back to journeyman. */
+export function getCoinRewardsForDifficulty(difficulty?: Difficulty | string | null): { CORRECT_ANSWER: number; QUIZ_COMPLETE: number } {
+  if (difficulty && difficulty in DIFFICULTY_COIN_REWARDS) {
+    return DIFFICULTY_COIN_REWARDS[difficulty as Difficulty];
+  }
+  return DIFFICULTY_COIN_REWARDS.journeyman;
+}
+
+// Backward-compatible alias (journeyman baseline) for daily/bookmarks
+export const COIN_REWARDS = DIFFICULTY_COIN_REWARDS.journeyman;
+
+// Streak milestone coin bonuses
+export const STREAK_COIN_BONUSES: Record<number, number> = {
+  5: 25,
+  10: 50,
+  15: 100,
+  20: 200,
+};
 
 export const LEVEL_THRESHOLDS = [
   { level: 1, xp: 0, title: "Apprentice" },
@@ -88,17 +128,38 @@ export function checkLevelUp(
 
 /**
  * Calculates XP earned from a quiz session based on correct answers.
+ * Accepts an optional difficulty to use scaled XP rewards.
  */
-export function calculateQuizXP(correctAnswers: number): {
+export function calculateQuizXP(correctAnswers: number, difficulty?: Difficulty | string | null): {
   answerXP: number;
   bonusXP: number;
   totalXP: number;
 } {
-  const answerXP = correctAnswers * XP_REWARDS.CORRECT_ANSWER;
-  const bonusXP = XP_REWARDS.QUIZ_COMPLETE;
+  const rewards = getXPRewardsForDifficulty(difficulty);
+  const answerXP = correctAnswers * rewards.CORRECT_ANSWER;
+  const bonusXP = rewards.QUIZ_COMPLETE;
   return {
     answerXP,
     bonusXP,
     totalXP: answerXP + bonusXP,
+  };
+}
+
+/**
+ * Calculates coins earned from a quiz session based on correct answers.
+ * Accepts an optional difficulty to use scaled coin rewards.
+ */
+export function calculateQuizCoins(correctAnswers: number, difficulty?: Difficulty | string | null): {
+  answerCoins: number;
+  bonusCoins: number;
+  totalCoins: number;
+} {
+  const rewards = getCoinRewardsForDifficulty(difficulty);
+  const answerCoins = correctAnswers * rewards.CORRECT_ANSWER;
+  const bonusCoins = rewards.QUIZ_COMPLETE;
+  return {
+    answerCoins,
+    bonusCoins,
+    totalCoins: answerCoins + bonusCoins,
   };
 }

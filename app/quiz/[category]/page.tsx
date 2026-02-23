@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useParams, useRouter, useSearchParams, notFound } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { haptic } from "@/lib/haptics";
 import {
   Star,
   StarOff,
@@ -43,6 +44,8 @@ import {
 import { SparkyMessage } from "@/components/sparky";
 import { getRandomQuestions, getQuestionById, getQuestionCountByCategoryAndDifficulty } from "@/lib/questions";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty } from "@/types/question";
+import { getXPRewardsForDifficulty, getCoinRewardsForDifficulty, DIFFICULTY_XP_REWARDS, DIFFICULTY_COIN_REWARDS, STREAK_COIN_BONUSES } from "@/lib/levels";
+import { Coins } from "lucide-react";
 
 // Sparky congratulation messages for correct answers
 const CORRECT_MESSAGES = [
@@ -101,7 +104,6 @@ const STREAK_BROKEN_MESSAGES = [
 ];
 
 const DEFAULT_QUESTIONS_PER_QUIZ = 60;
-const XP_PER_CORRECT_ANSWER = 25;
 const SESSION_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour
 const SESSION_WARNING_MS = 5 * 60 * 1000; // 5 minutes before timeout
 const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
@@ -115,6 +117,7 @@ function getRandomMessage(messages: string[]): string {
 // Fire confetti celebration with intensity levels
 // level 0 = normal (80/side), 1 = streak-5, 2 = streak-10, 3 = streak-15, 4 = streak-20
 function fireConfetti(level: number = 0) {
+  haptic("celebration");
   const colors = ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB", "#A3FF00"];
   const sideCount = level >= 4 ? 200 : level >= 3 ? 180 : level >= 2 ? 150 : level >= 1 ? 120 : 80;
 
@@ -671,17 +674,24 @@ export default function QuizTakingPage() {
         correctCount++;
       }
     });
-    const xpEarned = correctCount * XP_PER_CORRECT_ANSWER;
+    const xpPerAnswer = getXPRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+    const xpEarned = correctCount * xpPerAnswer;
 
     // End the study session
     const sessionId = sessionStorage.getItem("currentSessionId");
     if (sessionId) {
       try {
-        await fetch("/api/sessions", {
+        const sessionRes = await fetch("/api/sessions", {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId, xpEarned, questionsAnswered: answers.size, questionsCorrect: correctCount }),
+          body: JSON.stringify({ sessionId, xpEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
         });
+        if (sessionRes.ok) {
+          const data = await sessionRes.json();
+          if (typeof data.totalCoins === "number") {
+            window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+          }
+        }
       } catch {
         // Silently fail
       }
@@ -719,6 +729,7 @@ export default function QuizTakingPage() {
   });
 
   const handleSelectAnswer = useCallback((answerIndex: number) => {
+    haptic("tap");
     setQuizState((prev) => {
       if (prev.isSubmitted) return prev;
       return {
@@ -792,17 +803,30 @@ export default function QuizTakingPage() {
     if (!question) return;
 
     const isCorrect = selectedAnswer === question.correctAnswer;
+    haptic(isCorrect ? "success" : "error");
+
+    // Detect streak milestone for coin bonus (compute new streak before API call)
+    const newStreak = isCorrect ? quizState.correctStreak + 1 : 0;
+    const streakCoinBonus = isCorrect && STREAK_COIN_BONUSES[newStreak] ? STREAK_COIN_BONUSES[newStreak] : 0;
 
     // Save progress to database
     try {
-      await fetch('/api/progress', {
+      const progressRes = await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           questionId: question.id,
           isCorrect,
+          difficulty: selectedDifficulty,
+          streakCoinBonus,
         }),
       });
+      if (progressRes.ok) {
+        const data = await progressRes.json();
+        if (typeof data.totalCoins === "number") {
+          window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+        }
+      }
     } catch (error) {
       console.error('Failed to save progress:', error);
     }
@@ -856,11 +880,9 @@ export default function QuizTakingPage() {
           setParticleBurst(null);
         }
 
-        // Fire confetti: always on non-streak correct, AND at milestones
-        if (!isOnFire || isMilestone) {
-          const confettiLevel = newStreak >= 20 ? 4 : newStreak >= 15 ? 3 : newStreak >= 10 ? 2 : newStreak >= 5 ? 1 : 0;
-          fireConfetti(confettiLevel);
-        }
+        // Fire confetti on every correct answer; big at milestones
+        const confettiLevel = isMilestone ? (newStreak >= 20 ? 4 : newStreak >= 15 ? 3 : newStreak >= 10 ? 2 : newStreak >= 5 ? 1 : 0) : 0;
+        fireConfetti(confettiLevel);
 
         // Show milestone banner + gold flash
         if (isMilestone) {
@@ -903,17 +925,24 @@ export default function QuizTakingPage() {
           correctCount++;
         }
       });
-      const xpEarned = correctCount * XP_PER_CORRECT_ANSWER;
+      const xpPerAnswer = getXPRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+      const xpEarned = correctCount * xpPerAnswer;
 
       // End the study session
       const sessionId = sessionStorage.getItem("currentSessionId");
       if (sessionId) {
         try {
-          await fetch("/api/sessions", {
+          const sessionRes = await fetch("/api/sessions", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sessionId, xpEarned, questionsAnswered: answers.size, questionsCorrect: correctCount }),
+            body: JSON.stringify({ sessionId, xpEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
           });
+          if (sessionRes.ok) {
+            const data = await sessionRes.json();
+            if (typeof data.totalCoins === "number") {
+              window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+            }
+          }
         } catch {
           // Silently fail
         }
@@ -1268,7 +1297,14 @@ export default function QuizTakingPage() {
                         Score {UNLOCK_THRESHOLD}% on {previousDifficulty} to unlock
                       </p>
                     ) : (
-                      <p className={`text-sm text-muted-foreground ${isLocked ? "opacity-60" : ""}`}>{diff.description}</p>
+                      <>
+                        <p className={`text-sm text-muted-foreground ${isLocked ? "opacity-60" : ""}`}>{diff.description}</p>
+                        {!isLocked && (
+                          <p className={`text-xs font-semibold mt-1 ${diff.color}`}>
+                            {DIFFICULTY_XP_REWARDS[diff.value].CORRECT_ANSWER} XP + {DIFFICULTY_COIN_REWARDS[diff.value].CORRECT_ANSWER} coins/answer
+                          </p>
+                        )}
+                      </>
                     )}
                     {!isLocked && unlockInfo?.bestPercentage !== null && unlockInfo?.bestPercentage !== undefined && (
                       <div className="flex items-center gap-1.5 mt-1.5">
@@ -1523,24 +1559,28 @@ export default function QuizTakingPage() {
           {/* Submit/Next - desktop only */}
           <div className="hidden md:block">
             {!isSubmitted ? (
-              <Button
-                onClick={handleSubmitAnswer}
-                disabled={selectedAnswer === null}
-                size="default"
-                className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-              >
-                Submit
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                <Button
+                  onClick={handleSubmitAnswer}
+                  disabled={selectedAnswer === null}
+                  size="default"
+                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  Submit
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </motion.div>
             ) : (
-              <Button
-                onClick={handleNextQuestion}
-                size="default"
-                className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-              >
-                {isLastQuestion ? "See Results" : "Next"}
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                <Button
+                  onClick={handleNextQuestion}
+                  size="default"
+                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  {isLastQuestion ? "See Results" : "Next"}
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </motion.div>
             )}
           </div>
         </div>
@@ -1654,6 +1694,8 @@ export default function QuizTakingPage() {
                   ref={(el) => { answerButtonRefs.current[index] = el; }}
                   onClick={() => handleSelectAnswer(index)}
                   disabled={isSubmitted}
+                  whileTap={!isSubmitted ? { scale: 0.97 } : undefined}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   className={optionClasses}
                 >
                   <div className="flex items-start gap-3">
@@ -1680,24 +1722,56 @@ export default function QuizTakingPage() {
           {/* Mobile Submit/Next Button - visible only on small screens */}
           <div className="flex justify-center mb-6 md:hidden">
             {!isSubmitted ? (
-              <Button
-                onClick={handleSubmitAnswer}
-                disabled={selectedAnswer === null}
-                size="lg"
-                className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-              >
-                Submit
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
+                <Button
+                  onClick={handleSubmitAnswer}
+                  disabled={selectedAnswer === null}
+                  size="lg"
+                  className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  Submit
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </motion.div>
             ) : (
-              <Button
-                onClick={handleNextQuestion}
-                size="lg"
-                className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-              >
-                {isLastQuestion ? "See Results" : "Next Question"}
-                <ArrowRight className="h-4 w-4" />
-              </Button>
+              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
+                <Button
+                  onClick={handleNextQuestion}
+                  size="lg"
+                  className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  {isLastQuestion ? "See Results" : "Next Question"}
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </motion.div>
+            )}
+          </div>
+
+          {/* Desktop Submit/Next Button - below answers so user doesn't scroll up */}
+          <div className="hidden md:flex justify-end mb-6">
+            {!isSubmitted ? (
+              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                <Button
+                  onClick={handleSubmitAnswer}
+                  disabled={selectedAnswer === null}
+                  size="default"
+                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  Submit
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </motion.div>
+            ) : (
+              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                <Button
+                  onClick={handleNextQuestion}
+                  size="default"
+                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                >
+                  {isLastQuestion ? "See Results" : "Next"}
+                  <ArrowRight className="h-4 w-4" />
+                </Button>
+              </motion.div>
             )}
           </div>
 
@@ -1797,17 +1871,70 @@ export default function QuizTakingPage() {
                 {/* XP and Streak badges - persist while on streak */}
                 <div className="flex justify-center gap-3 mb-4 flex-wrap">
                   {/* XP Animation for correct answers */}
-                  {isCorrectAnswer && (
-                    <motion.span
-                      initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green rounded-full text-lg font-bold"
-                    >
-                      <CheckCircle2 className="h-5 w-5" />
-                      +{XP_PER_CORRECT_ANSWER} XP
-                    </motion.span>
-                  )}
+                  {isCorrectAnswer && (() => {
+                    const xpAmount = getXPRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+                    const xpColor = selectedDifficulty === "apprentice"
+                      ? "bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green"
+                      : selectedDifficulty === "master"
+                      ? "bg-red-500/20 text-red-500"
+                      : "bg-amber/20 text-amber";
+                    return (
+                      <span className="relative inline-flex">
+                        {/* Static badge that stays */}
+                        <motion.span
+                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
+                          className={`inline-flex items-center gap-2 px-4 py-2 ${xpColor} rounded-full text-lg font-bold`}
+                        >
+                          <CheckCircle2 className="h-5 w-5" />
+                          +{xpAmount} XP
+                        </motion.span>
+                        {/* Floating duplicate that rises and fades */}
+                        <motion.span
+                          key={`float-xp-${currentQuestionIndex}`}
+                          initial={{ opacity: 1, y: 0, scale: 1.1 }}
+                          animate={{ opacity: 0, y: -50, scale: 0.8 }}
+                          transition={{ duration: 1, ease: "easeOut" }}
+                          className={`absolute inset-0 inline-flex items-center justify-center gap-2 px-4 py-2 ${xpColor} rounded-full text-lg font-bold pointer-events-none`}
+                        >
+                          <CheckCircle2 className="h-5 w-5" />
+                          +{xpAmount} XP
+                        </motion.span>
+                      </span>
+                    );
+                  })()}
+                  {/* Coin Animation for correct answers */}
+                  {isCorrectAnswer && (() => {
+                    const coinAmount = getCoinRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+                    const streakBonus = STREAK_COIN_BONUSES[correctStreak] || 0;
+                    const totalCoinAmount = coinAmount + streakBonus;
+                    return (
+                      <span className="relative inline-flex">
+                        {/* Static coin badge */}
+                        <motion.span
+                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.5, type: "spring", bounce: 0.4, delay: 0.15 }}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold"
+                        >
+                          <Coins className="h-5 w-5" />
+                          +{totalCoinAmount}{streakBonus > 0 && <span className="text-sm font-normal ml-1">(+{streakBonus} bonus!)</span>}
+                        </motion.span>
+                        {/* Floating coin ghost */}
+                        <motion.span
+                          key={`float-coin-${currentQuestionIndex}`}
+                          initial={{ opacity: 1, y: 0, scale: 1.1 }}
+                          animate={{ opacity: 0, y: -50, scale: 0.8 }}
+                          transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
+                          className="absolute inset-0 inline-flex items-center justify-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold pointer-events-none"
+                        >
+                          <Coins className="h-5 w-5" />
+                          +{totalCoinAmount}
+                        </motion.span>
+                      </span>
+                    );
+                  })()}
                   {/* Streak fire badge - persists while on streak */}
                   {correctStreak >= STREAK_THRESHOLD && (
                     <motion.span

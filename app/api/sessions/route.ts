@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { db, users, studySessions } from "@/lib/db";
 import { eq, sql, and, gte } from "drizzle-orm";
 import crypto from "crypto";
-import { XP_REWARDS, getLevelFromXP } from "@/lib/levels";
+import { getXPRewardsForDifficulty, getCoinRewardsForDifficulty, getLevelFromXP } from "@/lib/levels";
 
 // POST - Create a new study session
 export async function POST(request: Request) {
@@ -58,7 +58,7 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { sessionId, xpEarned, questionsAnswered, questionsCorrect } = body;
+    const { sessionId, xpEarned, questionsAnswered, questionsCorrect, difficulty } = body;
 
     if (!sessionId) {
       return NextResponse.json(
@@ -83,17 +83,19 @@ export async function PATCH(request: Request) {
         )
       );
 
-    // Award quiz completion bonus XP
-    const completionBonus = XP_REWARDS.QUIZ_COMPLETE;
+    // Award quiz completion bonus XP + coins (scaled by difficulty)
+    const completionBonus = getXPRewardsForDifficulty(difficulty).QUIZ_COMPLETE;
+    const coinCompletionBonus = getCoinRewardsForDifficulty(difficulty).QUIZ_COMPLETE;
 
-    // Get current user XP
+    // Get current user XP and coins
     const [currentUser] = await db
-      .select({ xp: users.xp })
+      .select({ xp: users.xp, coins: users.coins })
       .from(users)
       .where(eq(users.id, session.user.id))
       .limit(1);
 
     const newXP = (currentUser?.xp || 0) + completionBonus;
+    const totalCoins = (currentUser?.coins || 0) + coinCompletionBonus;
     const newLevel = getLevelFromXP(newXP);
 
     // Update user XP and check study streak using UTC date strings
@@ -130,6 +132,7 @@ export async function PATCH(request: Request) {
       .update(users)
       .set({
         xp: sql`${users.xp} + ${completionBonus}`,
+        coins: sql`${users.coins} + ${coinCompletionBonus}`,
         level: newLevel,
         studyStreak: newStreak,
         bestStudyStreak: newBestStreak,
@@ -143,6 +146,8 @@ export async function PATCH(request: Request) {
     return NextResponse.json({
       success: true,
       completionBonus,
+      coinCompletionBonus,
+      totalCoins,
       newStreak,
     });
   } catch (error) {

@@ -78,7 +78,7 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode } = body;
+    const { targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode, hasSeenOnboarding, hasSeenTour } = body;
 
     // Build update object with only provided fields
     const updateData: {
@@ -87,6 +87,8 @@ export async function PATCH(request: Request) {
       showHintsOnMaster?: boolean;
       questionsPerQuiz?: number;
       focusMode?: string | null;
+      hasSeenOnboarding?: boolean;
+      hasSeenTour?: boolean;
       updatedAt: Date;
     } = {
       updatedAt: new Date(),
@@ -129,6 +131,16 @@ export async function PATCH(request: Request) {
     // Handle focusMode update
     if (focusMode !== undefined) {
       updateData.focusMode = focusMode === "journeyman" || focusMode === "master" ? focusMode : null;
+    }
+
+    // Handle hasSeenOnboarding update
+    if (hasSeenOnboarding !== undefined) {
+      updateData.hasSeenOnboarding = Boolean(hasSeenOnboarding);
+    }
+
+    // Handle hasSeenTour update
+    if (hasSeenTour !== undefined) {
+      updateData.hasSeenTour = Boolean(hasSeenTour);
     }
 
     await db

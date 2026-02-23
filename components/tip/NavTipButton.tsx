@@ -37,7 +37,6 @@ export function NavTipButton({ variant, autoOpen = false, onAfterOpen }: NavTipB
   }, [autoOpen]);
 
   const handleClick = () => {
-    onAfterOpen?.();
     setOpen(true);
   };
 
@@ -64,8 +63,11 @@ export function NavTipButton({ variant, autoOpen = false, onAfterOpen }: NavTipB
     <>
       {trigger}
 
-      <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="sm:max-w-lg dark:bg-stone-900 dark:border-stone-800">
+      <Dialog open={open} onOpenChange={(isOpen) => {
+        setOpen(isOpen);
+        if (!isOpen) onAfterOpen?.();
+      }}>
+        <DialogContent className="sm:max-w-lg dark:bg-stone-900 dark:border-stone-800 max-h-[calc(100dvh-2rem)] overflow-y-auto">
           <DialogHeader>
             <div className="flex items-center gap-2 mb-1">
               <div className="w-8 h-8 rounded-full bg-amber/20 dark:bg-sparky-green/20 flex items-center justify-center">

@@ -17,6 +17,7 @@ import {
   CheckCircle2,
   XCircle,
   Flame,
+  Coins,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,10 +25,7 @@ import { SparkyMessage } from "@/components/sparky";
 import { LevelUpModal, getRandomLevelUpMessage } from "@/components/level";
 import { getQuestionById } from "@/lib/questions";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty } from "@/types/question";
-import { XP_REWARDS, checkLevelUp } from "@/lib/levels";
-
-const XP_PER_CORRECT_ANSWER = XP_REWARDS.CORRECT_ANSWER;
-const XP_QUIZ_COMPLETION_BONUS = XP_REWARDS.QUIZ_COMPLETE;
+import { getXPRewardsForDifficulty, getCoinRewardsForDifficulty, checkLevelUp } from "@/lib/levels";
 
 // Sparky messages based on score percentage
 const CELEBRATION_MESSAGES = [
@@ -266,18 +264,34 @@ export default function QuizResultsPage() {
 
     const totalQuestions = questions.length;
     const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
-    const correctXP = correctCount * XP_PER_CORRECT_ANSWER;
-    const totalXP = correctXP + XP_QUIZ_COMPLETION_BONUS;
+    const rewards = getXPRewardsForDifficulty(difficulty);
+    const xpPerAnswer = rewards.CORRECT_ANSWER;
+    const completionBonus = rewards.QUIZ_COMPLETE;
+    const correctXP = correctCount * xpPerAnswer;
+    const totalXP = correctXP + completionBonus;
+
+    // Coin calculations
+    const coinRewards = getCoinRewardsForDifficulty(difficulty);
+    const coinsPerAnswer = coinRewards.CORRECT_ANSWER;
+    const coinCompletionBonus = coinRewards.QUIZ_COMPLETE;
+    const correctCoins = correctCount * coinsPerAnswer;
+    const totalCoins = correctCoins + coinCompletionBonus;
 
     return {
       correctCount,
       totalQuestions,
       percentage,
       correctXP,
+      xpPerAnswer,
+      completionBonus,
       totalXP,
+      coinsPerAnswer,
+      coinCompletionBonus,
+      correctCoins,
+      totalCoins,
       incorrectQuestions,
     };
-  }, [resultData]);
+  }, [resultData, difficulty]);
 
   // Set Sparky message, fire animation, save result, and check for level-up
   useEffect(() => {
@@ -555,18 +569,44 @@ export default function QuizResultsPage() {
                   transition={{ delay: 0.7, type: "spring", bounce: 0.4 }}
                   className="flex flex-col items-center gap-2"
                 >
+                  {difficulty && (
+                    <p className={`text-sm font-semibold ${
+                      difficulty === "apprentice"
+                        ? "text-emerald dark:text-sparky-green"
+                        : difficulty === "master"
+                        ? "text-red-500"
+                        : "text-amber"
+                    }`}>
+                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ({results.xpPerAnswer} XP/answer)
+                    </p>
+                  )}
                   <div className="flex items-center gap-4 justify-center flex-wrap">
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green rounded-full text-lg font-bold">
                       <CheckCircle2 className="h-5 w-5" />
-                      +{results.correctXP} XP
+                      {results.correctCount} x {results.xpPerAnswer} = +{results.correctXP} XP
                     </span>
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple dark:bg-sparky-green/15 dark:text-sparky-green rounded-full text-lg font-bold">
                       <Star className="h-5 w-5" />
-                      +{XP_QUIZ_COMPLETION_BONUS} Completion Bonus
+                      +{results.completionBonus} Completion Bonus
                     </span>
                   </div>
                   <p className="text-muted-foreground mt-2">
                     Total: <span className="font-bold text-foreground">{results.totalXP} XP</span>
+                  </p>
+
+                  {/* Coin breakdown */}
+                  <div className="flex items-center gap-4 justify-center flex-wrap mt-3">
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold">
+                      <Coins className="h-5 w-5" />
+                      {results.correctCount} x {results.coinsPerAnswer} = +{results.correctCoins} coins
+                    </span>
+                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber/10 text-amber rounded-full text-lg font-bold">
+                      <Coins className="h-5 w-5" />
+                      +{results.coinCompletionBonus} Coin Bonus
+                    </span>
+                  </div>
+                  <p className="text-muted-foreground mt-2">
+                    Total: <span className="font-bold text-amber">{results.totalCoins} coins</span>
                   </p>
                 </motion.div>
               )}

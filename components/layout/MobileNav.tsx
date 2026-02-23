@@ -53,7 +53,7 @@ export function MobileNav() {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button variant="ghost" size="icon" className="min-w-[44px] min-h-[44px]">
+        <Button data-tour="nav-mobile" variant="ghost" size="icon" className="min-w-[44px] min-h-[44px]">
           <Menu className="size-[22px]" />
           <span className="sr-only">Open menu</span>
         </Button>

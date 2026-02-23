@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { db, users, userProgress } from "@/lib/db";
 import { eq, sql } from "drizzle-orm";
 import crypto from "crypto";
-import { XP_REWARDS, getLevelFromXP, checkLevelUp } from "@/lib/levels";
+import { getXPRewardsForDifficulty, getCoinRewardsForDifficulty, getLevelFromXP, checkLevelUp } from "@/lib/levels";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { questionId, isCorrect, timeSpentSeconds } = body;
+    const { questionId, isCorrect, timeSpentSeconds, difficulty, streakCoinBonus } = body;
 
     if (!questionId || typeof isCorrect !== "boolean") {
       return NextResponse.json(
@@ -26,9 +26,9 @@ export async function POST(request: Request) {
     // Generate unique ID for progress entry
     const progressId = crypto.randomUUID();
 
-    // Get current user XP for level-up detection
+    // Get current user XP and coins for level-up detection
     const [currentUser] = await db
-      .select({ xp: users.xp, level: users.level })
+      .select({ xp: users.xp, level: users.level, coins: users.coins })
       .from(users)
       .where(eq(users.id, session.user.id))
       .limit(1);
@@ -45,12 +45,14 @@ export async function POST(request: Request) {
       answeredAt: new Date(),
     });
 
-    // If correct, award XP and update user record
+    // If correct, award XP + coins and update user record
     let xpEarned = 0;
+    let coinsEarned = 0;
     let levelUp = null;
 
     if (isCorrect) {
-      xpEarned = XP_REWARDS.CORRECT_ANSWER;
+      xpEarned = getXPRewardsForDifficulty(difficulty).CORRECT_ANSWER;
+      coinsEarned = getCoinRewardsForDifficulty(difficulty).CORRECT_ANSWER + (streakCoinBonus || 0);
       const newXP = previousXP + xpEarned;
       const newLevel = getLevelFromXP(newXP);
 
@@ -61,6 +63,7 @@ export async function POST(request: Request) {
         .update(users)
         .set({
           xp: sql`${users.xp} + ${xpEarned}`,
+          coins: sql`${users.coins} + ${coinsEarned}`,
           level: newLevel,
           updatedAt: new Date(),
         })
@@ -68,9 +71,9 @@ export async function POST(request: Request) {
     }
     // Note: lastStudyDate and studyStreak are updated in /api/sessions when the session ends
 
-    // Get updated user XP
+    // Get updated user XP and coins
     const [updatedUser] = await db
-      .select({ xp: users.xp, level: users.level })
+      .select({ xp: users.xp, level: users.level, coins: users.coins })
       .from(users)
       .where(eq(users.id, session.user.id))
       .limit(1);
@@ -79,8 +82,10 @@ export async function POST(request: Request) {
       success: true,
       progressId,
       xpEarned,
+      coinsEarned,
       previousXP,
       totalXp: updatedUser?.xp || 0,
+      totalCoins: updatedUser?.coins || 0,
       level: updatedUser?.level || 1,
       levelUp,
     });

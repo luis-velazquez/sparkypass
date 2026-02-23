@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { haptic } from "@/lib/haptics";
 import {
   Star,
   StarOff,
@@ -20,6 +21,7 @@ import {
   Zap,
   Trophy,
   Calendar,
+  Coins,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,6 +40,7 @@ import {
 import { SparkyMessage } from "@/components/sparky";
 import { getRandomQuestionsAll, getQuestionById } from "@/lib/questions";
 import type { Question } from "@/types/question";
+import { COIN_REWARDS } from "@/lib/levels";
 
 const DAILY_PROGRESS_KEY = "sparkypass-daily-challenge-progress";
 
@@ -142,6 +145,7 @@ function getRandomMessage(messages: string[]): string {
 }
 
 function fireConfetti(level: number = 0) {
+  haptic("celebration");
   const colors = ["#F59E0B", "#10B981", "#8B5CF6", "#FFFBEB", "#A3FF00"];
   const sideCount = level >= 1 ? 120 : 80;
 
@@ -442,6 +446,7 @@ export default function DailyChallengePage() {
   }, [authStatus]);
 
   const handleSelectAnswer = useCallback((answerIndex: number) => {
+    haptic("tap");
     setQuizState((prev) => {
       if (prev.isSubmitted) return prev;
       return { ...prev, selectedAnswer: answerIndex };
@@ -500,13 +505,20 @@ export default function DailyChallengePage() {
     if (!question) return;
 
     const isCorrect = selectedAnswer === question.correctAnswer;
+    haptic(isCorrect ? "success" : "error");
 
     try {
-      await fetch("/api/progress", {
+      const progressRes = await fetch("/api/progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ questionId: question.id, isCorrect }),
       });
+      if (progressRes.ok) {
+        const data = await progressRes.json();
+        if (typeof data.totalCoins === "number") {
+          window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+        }
+      }
     } catch (error) {
       console.error("Failed to save progress:", error);
     }
@@ -547,9 +559,7 @@ export default function DailyChallengePage() {
           }
         }
 
-        if (!isOnFire) {
-          fireConfetti(0);
-        }
+        fireConfetti(0);
       }
 
       setTimeout(() => {
@@ -596,7 +606,7 @@ export default function DailyChallengePage() {
       const sessionId = sessionStorage.getItem("currentSessionId");
       if (sessionId) {
         try {
-          await fetch("/api/sessions", {
+          const sessionRes = await fetch("/api/sessions", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -606,6 +616,12 @@ export default function DailyChallengePage() {
               questionsCorrect: correctCount,
             }),
           });
+          if (sessionRes.ok) {
+            const data = await sessionRes.json();
+            if (typeof data.totalCoins === "number") {
+              window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+            }
+          }
         } catch {
           // Silently fail
         }
@@ -851,6 +867,14 @@ export default function DailyChallengePage() {
                   </div>
                 </div>
 
+                {/* Coins earned */}
+                <div className="flex items-center justify-center gap-2 p-3 bg-amber/10 rounded-lg">
+                  <Coins className="h-5 w-5 text-amber" />
+                  <span className="text-lg font-bold text-amber">
+                    +{resultsData.score * COIN_REWARDS.CORRECT_ANSWER + COIN_REWARDS.QUIZ_COMPLETE} coins earned
+                  </span>
+                </div>
+
                 <SparkyMessage size="medium" message={resultMessage} />
 
                 <div className="flex flex-col gap-3">
@@ -1021,24 +1045,28 @@ export default function DailyChallengePage() {
 
               <div>
                 {!isSubmitted ? (
-                  <Button
-                    onClick={handleSubmitAnswer}
-                    disabled={selectedAnswer === null}
-                    size="default"
-                    className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                  >
-                    Submit
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                    <Button
+                      onClick={handleSubmitAnswer}
+                      disabled={selectedAnswer === null}
+                      size="default"
+                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                    >
+                      Submit
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
                 ) : (
-                  <Button
-                    onClick={handleNextQuestion}
-                    size="default"
-                    className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                  >
-                    {isLastQuestion ? "See Results" : "Next"}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                    <Button
+                      onClick={handleNextQuestion}
+                      size="default"
+                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                    >
+                      {isLastQuestion ? "See Results" : "Next"}
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
                 )}
               </div>
             </div>
@@ -1149,6 +1177,8 @@ export default function DailyChallengePage() {
                       ref={(el) => { answerButtonRefs.current[index] = el; }}
                       onClick={() => handleSelectAnswer(index)}
                       disabled={isSubmitted}
+                      whileTap={!isSubmitted ? { scale: 0.97 } : undefined}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       className={optionClasses}
                     >
                       <div className="flex items-start gap-3">
@@ -1175,24 +1205,56 @@ export default function DailyChallengePage() {
               {/* Mobile Submit/Next Button */}
               <div className="flex justify-center mb-6 md:hidden">
                 {!isSubmitted ? (
-                  <Button
-                    onClick={handleSubmitAnswer}
-                    disabled={selectedAnswer === null}
-                    size="lg"
-                    className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                  >
-                    Submit
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
+                    <Button
+                      onClick={handleSubmitAnswer}
+                      disabled={selectedAnswer === null}
+                      size="lg"
+                      className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                    >
+                      Submit
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
                 ) : (
-                  <Button
-                    onClick={handleNextQuestion}
-                    size="lg"
-                    className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                  >
-                    {isLastQuestion ? "See Results" : "Next Question"}
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
+                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
+                    <Button
+                      onClick={handleNextQuestion}
+                      size="lg"
+                      className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                    >
+                      {isLastQuestion ? "See Results" : "Next Question"}
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
+                )}
+              </div>
+
+              {/* Desktop Submit/Next Button - below answers so user doesn't scroll up */}
+              <div className="hidden md:flex justify-end mb-6">
+                {!isSubmitted ? (
+                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                    <Button
+                      onClick={handleSubmitAnswer}
+                      disabled={selectedAnswer === null}
+                      size="default"
+                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                    >
+                      Submit
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
+                ) : (
+                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                    <Button
+                      onClick={handleNextQuestion}
+                      size="default"
+                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                    >
+                      {isLastQuestion ? "See Results" : "Next"}
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </motion.div>
                 )}
               </div>
 
@@ -1293,6 +1355,17 @@ export default function DailyChallengePage() {
                         >
                           <CheckCircle2 className="h-5 w-5" />
                           +{XP_PER_CORRECT_ANSWER} XP
+                        </motion.span>
+                      )}
+                      {isCorrectAnswer && (
+                        <motion.span
+                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          transition={{ duration: 0.5, type: "spring", bounce: 0.4, delay: 0.15 }}
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold"
+                        >
+                          <Coins className="h-5 w-5" />
+                          +{COIN_REWARDS.CORRECT_ANSWER}
                         </motion.span>
                       )}
                       {correctStreak >= STREAK_THRESHOLD && (

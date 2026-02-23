@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
+import { haptic } from "@/lib/haptics";
 import {
   ChevronLeft,
   Book,
@@ -64,6 +65,7 @@ function getRandomMessage(messages: string[]): string {
 
 // Fire confetti celebration
 function fireConfetti() {
+  haptic("celebration");
   confetti({
     particleCount: 80,
     spread: 55,

@@ -35,7 +35,7 @@ export function DesktopNav() {
   if (status !== "authenticated") return null;
 
   return (
-    <nav className="hidden xl:flex items-center gap-1">
+    <nav data-tour="nav-desktop" className="hidden xl:flex items-center gap-1">
       {navLinks.map((link) => {
         const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
 

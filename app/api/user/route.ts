@@ -19,6 +19,8 @@ export async function GET() {
         level: users.level,
         studyStreak: users.studyStreak,
         targetExamDate: users.targetExamDate,
+        hasSeenOnboarding: users.hasSeenOnboarding,
+        hasSeenTour: users.hasSeenTour,
       })
       .from(users)
       .where(eq(users.id, session.user.id))
@@ -35,6 +37,8 @@ export async function GET() {
       level: user.level,
       studyStreak: user.studyStreak,
       targetExamDate: user.targetExamDate?.toISOString() || null,
+      hasSeenOnboarding: user.hasSeenOnboarding ?? false,
+      hasSeenTour: user.hasSeenTour ?? false,
     });
   } catch (error) {
     console.error("Error fetching user data:", error);

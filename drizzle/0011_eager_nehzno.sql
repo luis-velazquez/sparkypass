@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `has_seen_onboarding` integer DEFAULT false;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { haptic } from "@/lib/haptics";
 import {
   ArrowRight,
   Delete,
@@ -172,7 +173,7 @@ export function MiniCalculator({ onResult }: { onResult: (value: string) => void
       type="button"
       tabIndex={-1}
       onMouseDown={(e) => e.preventDefault()}
-      onClick={() => { onClick(); containerRef.current?.focus(); }}
+      onClick={() => { haptic("tap"); onClick(); containerRef.current?.focus(); }}
       className={`h-11 rounded-lg text-base font-medium transition-all flex items-center justify-center active:scale-95 ${
         buttonId && activeKey === buttonId ? "scale-95 ring-2 ring-amber brightness-125" : ""
       } ${className}`}

@@ -22,7 +22,10 @@ export const users = sqliteTable("users", {
   showHintsOnMaster: integer("show_hints_on_master", { mode: "boolean" }).notNull().default(false),
   questionsPerQuiz: integer("questions_per_quiz").notNull().default(0),
   focusMode: text("focus_mode"),  // null = off, "journeyman", "master"
+  hasSeenOnboarding: integer("has_seen_onboarding", { mode: "boolean" }).default(false),
+  hasSeenTour: integer("has_seen_tour", { mode: "boolean" }).default(false),
   xp: integer("xp").notNull().default(0),
+  coins: integer("coins").notNull().default(0),
   level: integer("level").notNull().default(1),
   studyStreak: integer("study_streak").notNull().default(0),
   bestStudyStreak: integer("best_study_streak").notNull().default(0),

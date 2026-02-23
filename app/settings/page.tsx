@@ -1,8 +1,14 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { Suspense, useEffect, useState, useCallback } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import dynamic from "next/dynamic";
+import { ACTIONS, EVENTS, STATUS, type CallBackProps } from "react-joyride";
+import { SETTINGS_TOUR_STEP } from "@/components/tour";
+import { SparkyTooltip } from "@/components/tour";
+
+const Joyride = dynamic(() => import("react-joyride"), { ssr: false });
 import { motion } from "framer-motion";
 import {
   User,
@@ -42,10 +48,20 @@ interface ProfileData {
 }
 
 export default function SettingsPage() {
+  return (
+    <Suspense>
+      <SettingsContent />
+    </Suspense>
+  );
+}
+
+function SettingsContent() {
   const { status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showSettingsTour, setShowSettingsTour] = useState(false);
 
   // Name state
   const [name, setName] = useState("");
@@ -124,6 +140,31 @@ export default function SettingsPage() {
       if (stored === "false") setTipEnabled(false);
     }
   }, [status, router, fetchProfile]);
+
+  // Start settings tour step if arriving from dashboard tour
+  useEffect(() => {
+    if (!loading && profile && searchParams.get("tour") === "1") {
+      const timer = setTimeout(() => setShowSettingsTour(true), 500);
+      return () => clearTimeout(timer);
+    }
+  }, [loading, profile, searchParams]);
+
+  const handleSettingsTourCallback = useCallback(
+    (data: CallBackProps) => {
+      const { status: tourStatus, action, type } = data;
+      const done =
+        tourStatus === STATUS.FINISHED ||
+        tourStatus === STATUS.SKIPPED ||
+        (type === EVENTS.STEP_AFTER && action === ACTIONS.CLOSE) ||
+        (action === ACTIONS.CLOSE && type === EVENTS.TARGET_NOT_FOUND);
+
+      if (done) {
+        setShowSettingsTour(false);
+        router.push("/dashboard");
+      }
+    },
+    [router]
+  );
 
   const handleNameChange = (value: string) => {
     setName(value);
@@ -465,6 +506,7 @@ export default function SettingsPage() {
 
         {/* Quiz Preferences Card */}
         <motion.div
+          data-tour="quiz-preferences"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
@@ -518,15 +560,15 @@ export default function SettingsPage() {
                 <button
                   onClick={() => saveQuizPreference({ showHintsOnMaster: !showHintsOnMaster })}
                   disabled={quizPrefSaving}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
+                  className={`relative inline-flex items-center !h-[18px] !min-h-0 w-[48px] md:!h-6 md:!min-h-0 md:w-11 flex-shrink-0 cursor-pointer rounded-full p-[3px] md:p-0 md:border-2 md:border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
                     showHintsOnMaster ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
                   }`}
                   role="switch"
                   aria-checked={showHintsOnMaster}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      showHintsOnMaster ? "translate-x-5" : "translate-x-0"
+                    className={`pointer-events-none block h-[16px] w-[16px] md:h-5 md:w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      showHintsOnMaster ? "translate-x-[26px] md:translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -545,15 +587,15 @@ export default function SettingsPage() {
                 <button
                   onClick={() => saveQuizPreference({ focusMode: focusMode === "journeyman" ? null : "journeyman" })}
                   disabled={quizPrefSaving}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
+                  className={`relative inline-flex items-center !h-[18px] !min-h-0 w-[48px] md:!h-6 md:!min-h-0 md:w-11 flex-shrink-0 cursor-pointer rounded-full p-[3px] md:p-0 md:border-2 md:border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
                     focusMode === "journeyman" ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
                   }`}
                   role="switch"
                   aria-checked={focusMode === "journeyman"}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      focusMode === "journeyman" ? "translate-x-5" : "translate-x-0"
+                    className={`pointer-events-none block h-[16px] w-[16px] md:h-5 md:w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      focusMode === "journeyman" ? "translate-x-[26px] md:translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -572,15 +614,15 @@ export default function SettingsPage() {
                 <button
                   onClick={() => saveQuizPreference({ focusMode: focusMode === "master" ? null : "master" })}
                   disabled={quizPrefSaving}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
+                  className={`relative inline-flex items-center !h-[18px] !min-h-0 w-[48px] md:!h-6 md:!min-h-0 md:w-11 flex-shrink-0 cursor-pointer rounded-full p-[3px] md:p-0 md:border-2 md:border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
                     focusMode === "master" ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
                   }`}
                   role="switch"
                   aria-checked={focusMode === "master"}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      focusMode === "master" ? "translate-x-5" : "translate-x-0"
+                    className={`pointer-events-none block h-[16px] w-[16px] md:h-5 md:w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      focusMode === "master" ? "translate-x-[26px] md:translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
@@ -602,18 +644,49 @@ export default function SettingsPage() {
                     setTipEnabled(next);
                     localStorage.setItem(TIP_ENABLED_KEY, String(next));
                   }}
-                  className={`relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 ${
+                  className={`relative inline-flex items-center !h-[18px] !min-h-0 w-[48px] md:!h-6 md:!min-h-0 md:w-11 flex-shrink-0 cursor-pointer rounded-full p-[3px] md:p-0 md:border-2 md:border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 ${
                     tipEnabled ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
                   }`}
                   role="switch"
                   aria-checked={tipEnabled}
                 >
                   <span
-                    className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      tipEnabled ? "translate-x-5" : "translate-x-0"
+                    className={`pointer-events-none block h-[16px] w-[16px] md:h-5 md:w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
+                      tipEnabled ? "translate-x-[26px] md:translate-x-5" : "translate-x-0"
                     }`}
                   />
                 </button>
+              </div>
+
+              {/* Replay onboarding */}
+              <div className="flex items-center justify-between gap-4 pt-3 border-t border-border dark:border-stone-800">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    Replay Onboarding
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    See the welcome tour and dashboard highlights again.
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="border-border dark:border-stone-700 flex-shrink-0"
+                  onClick={async () => {
+                    try {
+                      await fetch("/api/profile", {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ hasSeenOnboarding: false, hasSeenTour: false }),
+                      });
+                      router.push("/dashboard");
+                    } catch {
+                      // ignore
+                    }
+                  }}
+                >
+                  Replay
+                </Button>
               </div>
 
               {quizPrefError && (
@@ -894,6 +967,38 @@ export default function SettingsPage() {
         </motion.div>
       </div>
       </div>
+
+      {/* Settings tour step (during dashboard tour) */}
+      {showSettingsTour && (
+        <Joyride
+          run={showSettingsTour}
+          steps={[SETTINGS_TOUR_STEP]}
+          continuous
+          scrollToFirstStep
+          scrollOffset={120}
+          tooltipComponent={SparkyTooltip}
+          callback={handleSettingsTourCallback}
+          styles={{
+            options: {
+              overlayColor: "rgba(0, 0, 0, 0.6)",
+              zIndex: 60,
+            },
+            overlay: {
+              zIndex: 60,
+            },
+            spotlight: {
+              borderRadius: 12,
+            },
+          }}
+          floaterProps={{
+            styles: {
+              floater: {
+                zIndex: 70,
+              },
+            },
+          }}
+        />
+      )}
     </main>
   );
 }

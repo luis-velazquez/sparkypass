@@ -1,6 +1,7 @@
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { SparkyAvatar, type SparkyVariant } from "./SparkyAvatar";
 
@@ -41,20 +42,19 @@ export interface SparkyMessageProps
     VariantProps<typeof sparkyMessageVariants> {
   message: string;
   variant?: SparkyVariant;
+  animated?: boolean;
 }
 
 export function SparkyMessage({
   message,
   size,
   variant = "default",
+  animated = true,
   className,
   ...props
 }: SparkyMessageProps) {
-  return (
-    <div
-      className={cn(sparkyMessageVariants({ size }), className)}
-      {...props}
-    >
+  const content = (
+    <>
       <div className="flex-shrink-0">
         <SparkyAvatar size={size} variant={variant} />
       </div>
@@ -63,6 +63,28 @@ export function SparkyMessage({
           <p>{message}</p>
         </div>
       </div>
+    </>
+  );
+
+  if (animated) {
+    return (
+      <motion.div
+        className={cn(sparkyMessageVariants({ size }), className)}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      >
+        {content}
+      </motion.div>
+    );
+  }
+
+  return (
+    <div
+      className={cn(sparkyMessageVariants({ size }), className)}
+      {...props}
+    >
+      {content}
     </div>
   );
 }

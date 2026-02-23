@@ -32,6 +32,8 @@ import { CATEGORIES } from "@/types/question";
 import { SubscriptionBanner } from "@/components/subscription/SubscriptionBanner";
 import { TrialStatusHeader } from "@/components/subscription/TrialStatusHeader";
 import { DailyChallengeBanner } from "@/components/daily";
+import { WelcomeOnboarding } from "@/components/onboarding";
+import { DashboardTour } from "@/components/tour";
 
 interface SavedFlashcard {
   id: string;
@@ -58,6 +60,8 @@ interface UserData {
   level: number;
   studyStreak: number;
   targetExamDate: string | null;
+  hasSeenOnboarding: boolean;
+  hasSeenTour: boolean;
 }
 
 interface CategoryStat {
@@ -113,6 +117,7 @@ const features = [
     href: "/quiz",
     color: "text-purple dark:text-purple-light",
     bg: "bg-purple/10 group-hover:bg-purple/20 dark:bg-purple/15 dark:group-hover:bg-purple/25",
+    tourId: "feature-quiz",
   },
   {
     title: "Flashcards",
@@ -121,6 +126,7 @@ const features = [
     href: "/flashcards",
     color: "text-emerald dark:text-emerald-light",
     bg: "bg-emerald/10 group-hover:bg-emerald/20 dark:bg-emerald/15 dark:group-hover:bg-emerald/25",
+    tourId: "feature-flashcards",
   },
   {
     title: "Load Calculator",
@@ -129,6 +135,7 @@ const features = [
     href: "/load-calculator",
     color: "text-amber dark:text-amber-light",
     bg: "bg-amber/10 group-hover:bg-amber/20 dark:bg-amber/15 dark:group-hover:bg-amber/25",
+    tourId: "feature-load-calculator",
   },
   {
     title: "Mock Exam",
@@ -137,6 +144,7 @@ const features = [
     href: "/mock-exam",
     color: "text-sky-500 dark:text-sky-400",
     bg: "bg-sky-500/10 group-hover:bg-sky-500/20 dark:bg-sky-500/15 dark:group-hover:bg-sky-500/25",
+    tourId: "feature-mock-exam",
   },
   {
     title: "Daily Challenge",
@@ -145,6 +153,7 @@ const features = [
     href: "/daily",
     color: "text-orange-500 dark:text-orange-400",
     bg: "bg-orange-500/10 group-hover:bg-orange-500/20 dark:bg-orange-500/15 dark:group-hover:bg-orange-500/25",
+    tourId: "feature-daily-challenge",
   },
 ];
 
@@ -411,6 +420,8 @@ export default function DashboardPage() {
   const [savedQuestions, setSavedQuestions] = useState<SavedQuestion[]>([]);
   const [savedQuizProgressList, setSavedQuizProgressList] = useState<SavedQuizProgress[]>([]);
   const [questionsExpanded, setQuestionsExpanded] = useState(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showTour, setShowTour] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -471,6 +482,13 @@ export default function DashboardPage() {
           // Set flashcard bookmarks
           setSavedFlashcards(flashcardBookmarksData.bookmarks || []);
           setLoading(false);
+
+          // Onboarding / tour flow
+          if (user.hasSeenOnboarding === false) {
+            setShowOnboarding(true);
+          } else if (user.hasSeenOnboarding && !user.hasSeenTour) {
+            setTimeout(() => setShowTour(true), 500);
+          }
         })
         .catch(() => {
           setLoading(false);
@@ -499,6 +517,46 @@ export default function DashboardPage() {
       </main>
     );
   }
+
+  const handleOnboardingComplete = async () => {
+    setShowOnboarding(false);
+    try {
+      await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hasSeenOnboarding: true }),
+      });
+    } catch {
+      // Silently fail — onboarding persists on next visit
+    }
+    setTimeout(() => setShowTour(true), 500);
+  };
+
+  const handleOnboardingSkip = async () => {
+    setShowOnboarding(false);
+    try {
+      await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hasSeenOnboarding: true, hasSeenTour: true }),
+      });
+    } catch {
+      // Silently fail
+    }
+  };
+
+  const handleTourComplete = async () => {
+    setShowTour(false);
+    try {
+      await fetch("/api/profile", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ hasSeenTour: true }),
+      });
+    } catch {
+      // Silently fail
+    }
+  };
 
   const displayName = userData?.username || userData?.name || session?.user?.name || "Electrician";
   const xp = progressStats?.xp ?? userData?.xp ?? 0;
@@ -670,6 +728,7 @@ export default function DashboardPage() {
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
+                data-tour={feature.tourId}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
@@ -696,6 +755,7 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
           {/* Level & XP + Overall Accuracy Card */}
           <motion.div
+            data-tour="stat-level-xp"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
@@ -770,6 +830,7 @@ export default function DashboardPage() {
 
           {/* Study Streak + Focus Areas Card */}
           <motion.div
+            data-tour="stat-study-streak"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -854,6 +915,7 @@ export default function DashboardPage() {
 
           {/* Exam Countdown Card */}
           <motion.div
+            data-tour="stat-exam-countdown"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -868,6 +930,7 @@ export default function DashboardPage() {
 
         {/* Sparky Message */}
         <motion.div
+          data-tour="sparky-message"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
@@ -907,11 +970,14 @@ export default function DashboardPage() {
                             className="flex items-start justify-between p-3 rounded-lg bg-muted/50 dark:bg-stone-800/50 group"
                           >
                             <div className="flex-1 min-w-0 mr-2">
-                              <p className="text-sm font-medium text-foreground truncate">
+                              <p className="text-xs font-semibold text-emerald dark:text-sparky-green uppercase tracking-wide">
+                                {card.setName}
+                              </p>
+                              <p className="text-sm text-foreground truncate mt-0.5">
                                 {card.front}
                               </p>
-                              <p className="text-xs text-muted-foreground truncate">
-                                {card.necReference}
+                              <p className="text-[11px] text-muted-foreground/60 mt-0.5 font-mono">
+                                {card.necReference} · ID: {card.flashcardId}
                               </p>
                             </div>
                             <button
@@ -973,11 +1039,14 @@ export default function DashboardPage() {
                             >
                               <div className="flex items-start justify-between p-3 rounded-lg bg-muted/50 dark:bg-stone-800/50 group hover:bg-purple/10 dark:hover:bg-purple/10 hover:border-purple/30 border border-transparent transition-colors cursor-pointer pressable">
                                 <div className="flex-1 min-w-0 mr-2">
-                                  <p className="text-sm font-medium text-foreground truncate group-hover:text-purple transition-colors">
+                                  <p className="text-xs font-semibold text-purple dark:text-purple-light uppercase tracking-wide">
+                                    {category?.name || question.category}
+                                  </p>
+                                  <p className="text-sm text-foreground truncate group-hover:text-purple transition-colors mt-0.5">
                                     {question.question}
                                   </p>
-                                  <p className="text-xs text-muted-foreground">
-                                    {category?.name || question.category}
+                                  <p className="text-[11px] text-muted-foreground/60 mt-0.5 font-mono">
+                                    ID: {question.questionId}
                                   </p>
                                 </div>
                                 <div className="flex items-center gap-1">
@@ -1210,6 +1279,10 @@ export default function DashboardPage() {
         </div>
 
       </div>
+
+      {/* Onboarding modal + highlight tour */}
+      <WelcomeOnboarding isOpen={showOnboarding} onComplete={handleOnboardingComplete} onSkip={handleOnboardingSkip} />
+      <DashboardTour isActive={showTour} onComplete={handleTourComplete} />
     </main>
   );
 }
