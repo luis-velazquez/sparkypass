@@ -71,7 +71,7 @@ export function DailyChallengeBanner({
     >
       <Link href="/daily">
         <div className="relative overflow-hidden rounded-xl border border-purple/30 dark:border-purple/25 bg-gradient-to-r from-purple/10 via-purple/5 to-amber/10 dark:from-purple/10 dark:via-purple/5 dark:to-amber/10 p-5 group hover:border-purple/50 hover:shadow-[0_0_24px_rgba(139,92,246,0.12)] transition-all cursor-pointer pressable">
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-full bg-purple/20 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center group-hover:scale-110 transition-all duration-300">
                 <Calendar className="h-6 w-6 text-purple dark:text-purple-light" />
@@ -87,7 +87,7 @@ export function DailyChallengeBanner({
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
+            <div className="flex items-center gap-3 md:gap-4 w-full md:w-auto">
               {studyStreak > 0 && (
                 <span className="flex items-center gap-1 text-sm text-orange-500 dark:text-orange-400 font-medium">
                   <Flame className="h-4 w-4" />
@@ -106,7 +106,7 @@ export function DailyChallengeBanner({
               </span>
               <Button
                 size="sm"
-                className="bg-purple hover:bg-purple/90 text-white ml-auto sm:ml-0"
+                className="bg-purple hover:bg-purple/90 text-white ml-auto md:ml-0"
                 tabIndex={-1}
               >
                 Start Challenge

@@ -111,30 +111,40 @@ const features = [
     description: "Practice with NEC-based questions and get instant feedback.",
     icon: Brain,
     href: "/quiz",
+    color: "text-purple dark:text-purple-light",
+    bg: "bg-purple/10 group-hover:bg-purple/20 dark:bg-purple/15 dark:group-hover:bg-purple/25",
   },
   {
     title: "Flashcards",
     description: "Memorize key formulas and code references.",
     icon: BookOpen,
     href: "/flashcards",
+    color: "text-emerald dark:text-emerald-light",
+    bg: "bg-emerald/10 group-hover:bg-emerald/20 dark:bg-emerald/15 dark:group-hover:bg-emerald/25",
   },
   {
     title: "Load Calculator",
     description: "Learn residential load calculations step by step with Sparky.",
     icon: Calculator,
     href: "/load-calculator",
+    color: "text-amber dark:text-amber-light",
+    bg: "bg-amber/10 group-hover:bg-amber/20 dark:bg-amber/15 dark:group-hover:bg-amber/25",
   },
   {
     title: "Mock Exam",
     description: "Simulate the real exam with timed practice tests.",
     icon: ClipboardCheck,
     href: "/mock-exam",
+    color: "text-sky-500 dark:text-sky-400",
+    bg: "bg-sky-500/10 group-hover:bg-sky-500/20 dark:bg-sky-500/15 dark:group-hover:bg-sky-500/25",
   },
   {
     title: "Daily Challenge",
     description: "Complete daily challenges to keep your streak alive!",
     icon: Calendar,
     href: "/daily",
+    color: "text-orange-500 dark:text-orange-400",
+    bg: "bg-orange-500/10 group-hover:bg-orange-500/20 dark:bg-orange-500/15 dark:group-hover:bg-orange-500/25",
   },
 ];
 
@@ -666,8 +676,8 @@ export default function DashboardPage() {
               >
                 <Link href={feature.href}>
                   <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-5 cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] dark:hover:border-stone-700 dark:hover:shadow-none pressable">
-                    <div className="w-12 h-12 rounded-lg bg-amber/10 dark:bg-stone-800 flex items-center justify-center mb-3 group-hover:bg-amber/20 dark:group-hover:bg-stone-700 transition-all duration-300">
-                      <feature.icon className="h-6 w-6 text-amber dark:text-stone-400" />
+                    <div className={`w-12 h-12 rounded-lg ${feature.bg} flex items-center justify-center mb-3 transition-all duration-300`}>
+                      <feature.icon className={`h-6 w-6 ${feature.color}`} />
                     </div>
                     <h3 className="text-lg font-bold text-foreground mb-1">
                       {feature.title}
@@ -693,7 +703,7 @@ export default function DashboardPage() {
             <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Star className="h-4 w-4 text-amber dark:text-stone-400" />
+                  <Star className="h-4 w-4 text-amber dark:text-amber-light" />
                   Level & XP
                 </CardTitle>
               </CardHeader>
@@ -729,7 +739,7 @@ export default function DashboardPage() {
                 <div className="mt-4 pt-4 border-t border-border dark:border-stone-800">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="h-4 w-4 text-purple dark:text-stone-400" />
+                      <TrendingUp className="h-4 w-4 text-purple dark:text-purple-light" />
                       <span className="text-sm font-medium text-muted-foreground">Overall Accuracy</span>
                     </div>
                     <span className="text-2xl font-bold text-foreground">
@@ -767,14 +777,14 @@ export default function DashboardPage() {
             <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Flame className="h-4 w-4 text-orange-500 dark:text-stone-400" />
+                  <Flame className="h-4 w-4 text-orange-500 dark:text-orange-400" />
                   Study Streak
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-orange-500/10 dark:bg-stone-800 transition-all duration-300">
-                    <Flame className="h-7 w-7 text-orange-500 dark:text-stone-400" />
+                  <div className="flex items-center justify-center w-14 h-14 rounded-full bg-orange-500/10 dark:bg-orange-500/15 transition-all duration-300">
+                    <Flame className="h-7 w-7 text-orange-500 dark:text-orange-400" />
                   </div>
                   <div>
                     <p className="text-3xl font-bold text-foreground">
@@ -877,7 +887,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Bookmark className="h-5 w-5 text-amber dark:text-stone-400" />
+                  <Bookmark className="h-5 w-5 text-amber dark:text-amber-light" />
                   Saved for Later
                 </CardTitle>
               </CardHeader>
@@ -1016,7 +1026,7 @@ export default function DashboardPage() {
                             : `+${savedQuestions.length - 5} more questions`}
                         </button>
                       )}
-                      <div className="flex gap-2 mt-3">
+                      <div className="flex flex-col sm:flex-row gap-2 mt-3">
                         <Button
                           size="sm"
                           className="flex-1 bg-purple hover:bg-purple/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
@@ -1055,7 +1065,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Brain className="h-5 w-5 text-purple dark:text-stone-400" />
+                  <Brain className="h-5 w-5 text-purple dark:text-purple-light" />
                   Category Progress
                 </CardTitle>
               </CardHeader>
@@ -1086,7 +1096,7 @@ export default function DashboardPage() {
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <Clock className="h-5 w-5 text-amber dark:text-stone-400" />
+                  <Clock className="h-5 w-5 text-amber dark:text-amber-light" />
                   Recent Activity
                 </CardTitle>
               </CardHeader>
