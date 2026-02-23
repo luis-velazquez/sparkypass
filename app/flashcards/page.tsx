@@ -436,7 +436,12 @@ function FlashcardsContent() {
                         </div>
 
                         <div className="flex-1 flex flex-col items-center justify-center text-center">
-                          <p className="text-lg md:text-xl font-medium text-foreground leading-relaxed mb-4">
+                          {currentCard.highlight && (
+                            <p className="text-2xl md:text-3xl font-bold font-mono text-emerald dark:text-sparky-green mb-3 tracking-wide">
+                              {currentCard.highlight}
+                            </p>
+                          )}
+                          <p className={`font-medium text-foreground leading-relaxed mb-4 ${currentCard.highlight ? "text-base md:text-lg text-muted-foreground" : "text-lg md:text-xl"}`}>
                             {currentCard.back}
                           </p>
                           <div className="flex items-center gap-1.5 text-emerald dark:text-sparky-green">
