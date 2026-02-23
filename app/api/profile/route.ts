@@ -25,6 +25,7 @@ export async function GET() {
         showHintsOnMaster: users.showHintsOnMaster,
         questionsPerQuiz: users.questionsPerQuiz,
         focusMode: users.focusMode,
+        necYear: users.necYear,
         xp: users.xp,
         level: users.level,
         createdAt: users.createdAt,
@@ -53,6 +54,7 @@ export async function GET() {
       showHintsOnMaster: user.showHintsOnMaster,
       questionsPerQuiz: user.questionsPerQuiz,
       focusMode: user.focusMode || null,
+      necYear: user.necYear,
       xp: user.xp,
       level: user.level,
       createdAt: user.createdAt?.toISOString() || null,
@@ -78,7 +80,7 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode, hasSeenOnboarding, hasSeenTour } = body;
+    const { targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode, necYear, hasSeenOnboarding, hasSeenTour } = body;
 
     // Build update object with only provided fields
     const updateData: {
@@ -87,6 +89,7 @@ export async function PATCH(request: Request) {
       showHintsOnMaster?: boolean;
       questionsPerQuiz?: number;
       focusMode?: string | null;
+      necYear?: string;
       hasSeenOnboarding?: boolean;
       hasSeenTour?: boolean;
       updatedAt: Date;
@@ -131,6 +134,13 @@ export async function PATCH(request: Request) {
     // Handle focusMode update
     if (focusMode !== undefined) {
       updateData.focusMode = focusMode === "journeyman" || focusMode === "master" ? focusMode : null;
+    }
+
+    // Handle necYear update
+    if (necYear !== undefined) {
+      if (necYear === "2023" || necYear === "2026") {
+        updateData.necYear = necYear;
+      }
     }
 
     // Handle hasSeenOnboarding update

@@ -42,6 +42,7 @@ interface ProfileData {
   showHintsOnMaster: boolean;
   questionsPerQuiz: number;
   focusMode: string | null;
+  necYear: string;
   subscriptionStatus: string | null;
   trialEndsAt: string | null;
   subscriptionPeriodEnd: string | null;
@@ -84,6 +85,7 @@ function SettingsContent() {
   const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
   const [questionsPerQuiz, setQuestionsPerQuiz] = useState(0);
   const [focusMode, setFocusMode] = useState<string | null>(null);
+  const [necYear, setNecYear] = useState("2023");
   const [quizPrefSaving, setQuizPrefSaving] = useState(false);
   const [quizPrefSuccess, setQuizPrefSuccess] = useState("");
   const [quizPrefError, setQuizPrefError] = useState("");
@@ -121,6 +123,7 @@ function SettingsContent() {
         setShowHintsOnHard(data.showHintsOnMaster ?? false);
         setQuestionsPerQuiz(data.questionsPerQuiz ?? 0);
         setFocusMode(data.focusMode || null);
+        setNecYear(data.necYear || "2023");
       }
     } catch (error) {
       console.error("Error fetching profile:", error);
@@ -271,7 +274,7 @@ function SettingsContent() {
     }
   };
 
-  const saveQuizPreference = async (data: { showHintsOnMaster?: boolean; questionsPerQuiz?: number; focusMode?: string | null }) => {
+  const saveQuizPreference = async (data: { showHintsOnMaster?: boolean; questionsPerQuiz?: number; focusMode?: string | null; necYear?: string }) => {
     setQuizPrefSaving(true);
     setQuizPrefError("");
     setQuizPrefSuccess("");
@@ -291,6 +294,10 @@ function SettingsContent() {
       if (data.showHintsOnMaster !== undefined) setShowHintsOnHard(data.showHintsOnMaster);
       if (data.questionsPerQuiz !== undefined) setQuestionsPerQuiz(data.questionsPerQuiz);
       if (data.focusMode !== undefined) setFocusMode(data.focusMode ?? null);
+      if (data.necYear !== undefined) {
+        setNecYear(data.necYear);
+        window.dispatchEvent(new CustomEvent("nec-year-updated", { detail: data.necYear }));
+      }
       setQuizPrefSuccess("Preference saved!");
       setTimeout(() => setQuizPrefSuccess(""), 3000);
     } catch {
@@ -519,6 +526,34 @@ function SettingsContent() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
+              {/* NEC Year */}
+              <div className="space-y-2">
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-foreground">
+                    NEC Edition
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Select which NEC code year you&apos;re studying for.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {(["2023", "2026"] as const).map((year) => (
+                    <button
+                      key={year}
+                      onClick={() => saveQuizPreference({ necYear: year })}
+                      disabled={quizPrefSaving}
+                      className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all disabled:opacity-50 ${
+                        necYear === year
+                          ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
+                          : "bg-muted/50 dark:bg-stone-800/50 text-muted-foreground border-border dark:border-stone-700 hover:border-amber/50 dark:hover:border-sparky-green/50 hover:text-foreground"
+                      }`}
+                    >
+                      {year} NEC
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Questions per quiz */}
               <div className="space-y-2">
                 <div className="space-y-1">
