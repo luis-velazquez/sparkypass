@@ -1466,7 +1466,7 @@ export default function QuizTakingPage() {
         </AlertDialog>
 
         {/* Center - Previous chevron, question counter, streak */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 min-w-0">
           <button
             onClick={handlePrevQuestion}
             disabled={currentQuestionIndex === 0}
@@ -1523,7 +1523,7 @@ export default function QuizTakingPage() {
               {correctStreak >= 10 && "🔥"}
             </motion.span>
           )}
-          <span className="text-xs text-muted-foreground hidden sm:inline-flex">
+          <span className="text-xs text-muted-foreground hidden sm:inline-flex truncate pl-1">
             {category?.name}{selectedDifficulty && ` · ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`}
           </span>
         </div>
