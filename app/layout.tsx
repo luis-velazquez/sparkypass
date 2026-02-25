@@ -63,7 +63,13 @@ export default function RootLayout({
         <SessionProvider>
         <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="container mx-auto flex h-16 items-center justify-between px-4">
-            <Logo />
+            <div className="flex items-center gap-1">
+              {/* Mobile Menu (left side) */}
+              <div className="xl:hidden">
+                <MobileNav />
+              </div>
+              <Logo />
+            </div>
 
             {/* Desktop Navigation */}
             <DesktopNav />
@@ -74,10 +80,9 @@ export default function RootLayout({
               <AuthButtons />
             </div>
 
-            {/* Mobile Menu */}
-            <div className="flex items-center gap-1 xl:hidden">
+            {/* Mobile User Menu */}
+            <div className="xl:hidden">
               <UserMenu />
-              <MobileNav />
             </div>
           </div>
         </header>

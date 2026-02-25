@@ -14,6 +14,7 @@ import {
   Calculator,
   ChevronDown,
   Building2,
+  Zap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -55,9 +56,10 @@ export function MobileNav() {
           <span className="sr-only">Open menu</span>
         </Button>
       </SheetTrigger>
-      <SheetContent side="right" className="w-[280px] sm:w-[320px] px-3">
+      <SheetContent side="left" className="w-[280px] sm:w-[320px] px-3">
         <SheetTitle className="flex items-center gap-3 mb-8">
-          <div className="w-8 h-8 rounded-lg bg-stone-900 flex items-center justify-center">
+          <Zap className="h-7 w-7 text-amber dark:hidden" />
+          <div className="w-8 h-8 rounded-lg bg-stone-900 hidden dark:flex items-center justify-center">
             <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-5 h-5" />
           </div>
           <span className="font-bold text-2xl">SparkyPass</span>
