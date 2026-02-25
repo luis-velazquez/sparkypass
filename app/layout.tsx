@@ -7,10 +7,8 @@ import { DesktopNav } from "@/components/layout/DesktopNav";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AuthButtons } from "@/components/layout/AuthButtons";
-import { CoinBalance } from "@/components/layout/CoinBalance";
-import { NecYearBadge } from "@/components/layout/NecYearBadge";
+import { UserMenu } from "@/components/layout/UserMenu";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -72,17 +70,13 @@ export default function RootLayout({
 
             {/* Desktop Auth Buttons */}
             <div className="hidden xl:flex items-center gap-2">
-              <NecYearBadge />
-              <CoinBalance />
-              <ThemeToggle />
+              <UserMenu />
               <AuthButtons />
             </div>
 
             {/* Mobile Menu */}
             <div className="flex items-center gap-1 xl:hidden">
-              <NecYearBadge />
-              <CoinBalance />
-              <ThemeToggle />
+              <UserMenu />
               <MobileNav />
             </div>
           </div>

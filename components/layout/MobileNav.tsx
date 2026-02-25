@@ -3,18 +3,15 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import {
   Menu,
-  LogOut,
-  Loader2,
   LayoutDashboard,
   BookOpen,
   Layers,
   ClipboardCheck,
   Calendar,
   Calculator,
-  Settings,
   ChevronDown,
   Building2,
 } from "lucide-react";
@@ -26,6 +23,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { NavTipButton } from "@/components/tip";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const navLinks = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -34,7 +32,6 @@ const navLinks = [
   { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },
   { href: "/daily", label: "Daily Challenge", icon: Calendar },
   { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 const calcSubLinks = [
@@ -132,38 +129,23 @@ export function MobileNav() {
           <NavTipButton variant="mobile" onAfterOpen={closeSheet} />
         </nav>}
 
-        <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-border">
-          {status === "loading" ? (
-            <Button variant="outline" className="w-full min-h-[44px]" disabled>
-              <Loader2 className="h-4 w-4 animate-spin" />
-            </Button>
-          ) : session ? (
-            <Button
-              variant="outline"
-              className="w-full min-h-[44px] gap-2 text-destructive hover:text-destructive"
-              onClick={() => {
-                closeSheet();
-                signOut({ callbackUrl: "/" });
-              }}
-            >
-              <LogOut className="h-4 w-4" />
-              Log out
-            </Button>
-          ) : (
-            <>
-              <Link href="/login" className="w-full" onClick={closeSheet}>
-                <Button variant="outline" className="w-full min-h-[44px]">
-                  Log in
-                </Button>
-              </Link>
-              <Link href="/register" className="w-full" onClick={closeSheet}>
-                <Button className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 min-h-[44px]">
-                  Sign up
-                </Button>
-              </Link>
-            </>
-          )}
-        </div>
+        {!session && status !== "loading" && (
+          <div className="flex flex-col gap-3 mt-6 pt-6 border-t border-border">
+            <div className="flex justify-center">
+              <ThemeToggle />
+            </div>
+            <Link href="/login" className="w-full" onClick={closeSheet}>
+              <Button variant="outline" className="w-full min-h-[44px]">
+                Log in
+              </Button>
+            </Link>
+            <Link href="/register" className="w-full" onClick={closeSheet}>
+              <Button className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 min-h-[44px]">
+                Sign up
+              </Button>
+            </Link>
+          </div>
+        )}
       </SheetContent>
     </Sheet>
   );

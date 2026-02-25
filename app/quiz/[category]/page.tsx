@@ -1484,45 +1484,6 @@ export default function QuizTakingPage() {
           >
             <ChevronRight className="h-4 w-4" />
           </button>
-          {correctStreak >= STREAK_THRESHOLD && (
-            <motion.span
-              key={correctStreak}
-              initial={{ opacity: 0, scale: 0.5, rotate: -15 }}
-              animate={{
-                opacity: 1,
-                scale: correctStreak >= 10 ? 1.2 : correctStreak >= 7 ? 1.1 : 1,
-                rotate: 0,
-              }}
-              transition={{ type: "spring", bounce: 0.5 }}
-              className={`inline-flex items-center gap-1 rounded-full font-bold border ${
-                correctStreak >= 10
-                  ? "px-3 py-1.5 text-sm bg-gradient-to-r from-red-500/30 via-orange-500/30 to-yellow-500/30 text-red-500 border-red-500/50 shadow-[0_0_10px_2px_rgba(239,68,68,0.3)]"
-                  : correctStreak >= 7
-                  ? "px-2.5 py-1 text-xs bg-gradient-to-r from-orange-500/25 to-red-500/25 text-orange-500 border-orange-500/40 shadow-[0_0_8px_2px_rgba(249,115,22,0.25)]"
-                  : correctStreak >= 5
-                  ? "px-2.5 py-1 text-xs bg-gradient-to-r from-orange-500/20 to-red-500/20 text-orange-500 border-orange-500/30"
-                  : "px-2 py-1 text-xs bg-gradient-to-r from-orange-500/15 to-red-500/15 text-orange-500 border-orange-500/25"
-              }`}
-            >
-              <motion.span
-                animate={correctStreak >= 7 ? {
-                  scale: [1, 1.3, 1],
-                  rotate: [0, -10, 10, 0],
-                } : correctStreak >= 5 ? {
-                  scale: [1, 1.15, 1],
-                } : {}}
-                transition={{
-                  duration: correctStreak >= 7 ? 0.8 : 1,
-                  repeat: Infinity,
-                  repeatDelay: correctStreak >= 10 ? 0.3 : 0.8,
-                }}
-              >
-                <Flame className={correctStreak >= 10 ? "h-4 w-4" : "h-3 w-3"} />
-              </motion.span>
-              {correctStreak}
-              {correctStreak >= 10 && "🔥"}
-            </motion.span>
-          )}
           <span className="text-xs text-muted-foreground hidden sm:inline-flex truncate pl-1">
             {category?.name}{selectedDifficulty && ` · ${selectedDifficulty.charAt(0).toUpperCase() + selectedDifficulty.slice(1)}`}
           </span>

@@ -22,6 +22,7 @@ export async function GET() {
         hasSeenOnboarding: users.hasSeenOnboarding,
         hasSeenTour: users.hasSeenTour,
         necYear: users.necYear,
+        coins: users.coins,
       })
       .from(users)
       .where(eq(users.id, session.user.id))
@@ -41,6 +42,7 @@ export async function GET() {
       hasSeenOnboarding: user.hasSeenOnboarding ?? false,
       hasSeenTour: user.hasSeenTour ?? false,
       necYear: user.necYear,
+      coins: user.coins,
     });
   } catch (error) {
     console.error("Error fetching user data:", error);

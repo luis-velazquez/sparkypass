@@ -19,7 +19,6 @@ const navLinks = [
   { href: "/mock-exam", label: "Mock Exam" },
   { href: "/daily", label: "Daily Challenge" },
   { href: "/load-calculator", label: "Load Calculator" },
-  { href: "/settings", label: "Settings" },
 ];
 
 const calcSubLinks = [
