@@ -1,0 +1,38 @@
+{
+  "master": [
+    {
+      "id": "TD-001",
+      "category": "termination-derating",
+      "necArticle": "110.14(C) & Table 310.16",
+      "difficulty": "master",
+      "questionText": "A 100-amp subpanel is fed with #3 AWG THW copper conductors. The lugs on the circuit breaker are rated for 60\u00b0C. The ambient temperature is 40\u00b0C. What is the maximum allowable ampacity of the circuit?",
+      "options": [
+        "100A",
+        "88A",
+        "85A",
+        "75A"
+      ],
+      "correctAnswer": 2,
+      "explanation": "First, apply temperature correction to the conductor: #3 THW (100A) \u00d7 0.88 (Correction Factor for 40\u00b0C) = 88A. Second, check the termination limit: NEC 110.14(C) requires us to use the 60\u00b0C column because the lugs are rated 60\u00b0C. #3 AWG at 60\u00b0C = 85A. Finally, compare the two: 88A vs 85A. The lower value (85A) is the maximum allowable ampacity.",
+      "necReference": "110.14(C), Table 310.16, Table 310.15(B)(1)",
+      "sparkyTip": "You did the hard math (88A), but the 'dumb' lug (85A) beat you! Always check the 60\u00b0C column if your equipment is old or standard-rated. It is the ultimate ceiling."
+    },
+    {
+      "id": "TD-002",
+      "category": "termination-derating",
+      "necArticle": "110.14(C) & Table 310.15(B)(1)",
+      "difficulty": "master",
+      "questionText": "You are installing #4 THHN copper conductors. The equipment terminals are rated for 75\u00b0C. The ambient temperature is 20\u00b0C. What is the maximum allowable ampacity for this circuit?",
+      "options": [
+        "100A",
+        "95A",
+        "85A",
+        "105A"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: #4 THHN starts at 95A (90\u00b0C column). Step 2: Apply the 20\u00b0C correction factor (1.05). 95A \u00d7 1.05 = 99.75A. Step 3: Compare to the 75\u00b0C termination limit. A #4 copper conductor at 75\u00b0C is only rated for 85A. Even though the cold air allows the wire to carry nearly 100A, the 75\u00b0C lug limits the entire circuit to 85A.",
+      "necReference": "110.14(C), Table 310.16, Table 310.15(B)(1)",
+      "sparkyTip": "Don't let the 'boost' fool you! A cold day might make your wire more efficient, but it doesn't change the physical heat limit of the breaker lug. You're still stuck at the 75\u00b0C table value of 85A. Fun fact: 26-30\u00b0C is 78-86\u00b0F."
+    }
+  ]
+}

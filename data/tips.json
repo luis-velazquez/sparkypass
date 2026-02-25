@@ -1,7 +1,7 @@
 {
   "tips": [
     {
-      "id": "TIP-001-VD",
+      "id": "TIP-001",
       "type": "tip-of-the-day",
       "title": "The Tale of Two Formulas: R vs. Z",
       "category": "Electrical Theory & Voltage Drop",
@@ -15,7 +15,7 @@
       "sparkyBottomLine": "Small wire? Stick to R. Big wire with a motor load? You better use Z, or your voltage drop math will leave you short!"
     },
     {
-      "id": "TIP-002-GB",
+      "id": "TIP-002",
       "type": "tip-of-the-day",
       "title": "Gas Pipe Bonding: The Exam vs. The Real World",
       "category": "Grounding & Bonding",
@@ -29,18 +29,64 @@
       "sparkyBottomLine": "Keep your exam brain and your field brain separate! If the test asks about bonding standard gas pipe, look at the breaker size of the appliance and head straight to Table 250.122."
     },
     {
-      "id": "TIP-003-AMP",
+      "id": "TIP-003",
       "type": "tip-of-the-day",
-      "title": "The Termination Temperature Trap: 60°C vs. 75°C",
+      "title": "The Termination Temperature Trap: 60\u00b0C vs. 75\u00b0C",
       "category": "Ampacity & Conductor Sizing",
       "difficulty": "journeyman",
-      "content": "Hey SparkyPass crew! Let's talk about the number one reason people fail ampacity questions: The Termination Temperature Trap.\n\nYou pull a wire like THHN or XHHW-2 and think, 'Awesome, 90°C insulation! I'll use the 90°C column in Table 310.16.' WRONG! Your wire might be rated to handle 90°C, but the breaker lugs you are landing it on are not.\n\nNEC 110.14(C) lays down the law for termination limits:\n\n1. 100 Amps or Less (or #1 AWG and smaller): You are stuck in the 60°C column. Period.\n2. Over 100 Amps (or larger than #1 AWG): You get to graduate to the 75°C column.\n\nEven if your wire is XHHW-2, the equipment you connect it to acts as a bottleneck. You only ever use that 90°C column for derating (ampacity adjustment), never for your final wire size!",
+      "content": "Hey SparkyPass crew! Let's talk about the number one reason people fail ampacity questions: The Termination Temperature Trap.\n\nYou pull a wire like THHN or XHHW-2 and think, 'Awesome, 90\u00b0C insulation! I'll use the 90\u00b0C column in Table 310.16.' WRONG! Your wire might be rated to handle 90\u00b0C, but the breaker lugs you are landing it on are not.\n\nNEC 110.14(C) lays down the law for termination limits:\n\n1. 100 Amps or Less (or #1 AWG and smaller): You are stuck in the 60\u00b0C column. Period.\n2. Over 100 Amps (or larger than #1 AWG): You get to graduate to the 75\u00b0C column.\n\nEven if your wire is XHHW-2, the equipment you connect it to acts as a bottleneck. You only ever use that 90\u00b0C column for derating (ampacity adjustment), never for your final wire size!",
       "rulesToRemember": [
-        "<= 100A or <= #1 AWG = 60°C Column",
-        "> 100A or > #1 AWG = 75°C Column"
+        "<= 100A or <= #1 AWG = 60\u00b0C Column",
+        "> 100A or > #1 AWG = 75\u00b0C Column"
       ],
       "necReference": "110.14(C), Table 310.16",
-      "sparkyBottomLine": "Don't get tricked by the 90°C insulation rating on the wire! Always check your amperage: under 100A means 60°C, over 100A means 75°C. Your wire is only as strong as its weakest lug!"
+      "sparkyBottomLine": "Don't get tricked by the 90\u00b0C insulation rating on the wire! Always check your amperage: under 100A means 60\u00b0C, over 100A means 75\u00b0C. Your wire is only as strong as its weakest lug!"
+    },
+    {
+      "id": "TIP-004",
+      "type": "tip-of-the-day",
+      "title": "The Phase Multiplier: 2 vs. 1.732",
+      "category": "Voltage Drop & Circuit Calculations",
+      "difficulty": "master",
+      "content": "Hey SparkyPass crew! Don't let the voltage trick you into the wrong phase. When calculating voltage drop, the multiplier you choose ($2$ vs. $1.732$) depends on the current path, not just the system voltage.\n\nA common Master's exam trap describes a 277V lighting circuit. Students see '277V,' think '480Y/277V Three-Phase System,' and use $1.732$. But a 277V circuit uses one phase and one neutral\u2014it is a single-phase loop. You must use the multiplier 2.\n\nOnly use $\\sqrt{3}$ ($1.732$) when the load is a balanced three-phase load (like a 3-phase motor) where the current is distributed across three phase conductors.",
+      "rulesToRemember": [
+        "Multiplier 2 = Single-Phase / Two-wire loop (120V, 277V, etc.)",
+        "Multiplier 1.732 = Balanced Three-Phase loads only"
+      ],
+      "necReference": "210.19(A) Informational Note No. 4, Chapter 9 Table 8 & 9",
+      "sparkyBottomLine": "If you see 'Neutral' or 'Phase-to-Neutral' in the description, your multiplier is 2. The multiplier is about the path the current takes, not the name of the system it's fed from!"
+    },
+    {
+      "id": "TIP-005",
+      "type": "tip-of-the-day",
+      "title": "The XHHW Location Trap",
+      "category": "Ampacity & Conductor Derating",
+      "difficulty": "master",
+      "content": "Watch out for the 'Location Trap' when dealing with XHHW conductors! Unlike most modern THHN/THWN-2, standard XHHW has a 'split personality' depending on where it is installed.\n\n**The Trap:**\nIf a question specifies **XHHW** (without the '-2') in a **Wet Location** (like underground PVC), you CANNOT start your derating calculation from the 90\u00b0C column. You must use the 75\u00b0C column.\n\n**The Fix:**\nIf the question specifies **XHHW-2**, the '-2' signifies that the insulation is rated for 90\u00b0C in **both** wet and dry locations. This allows you to use the 90\u00b0C ampacity as your starting point for derating, regardless of the environment.",
+      "rulesToRemember": [
+        "XHHW in Dry/Damp Locations = 90\u00b0C Rating",
+        "XHHW in Wet Locations = 75\u00b0C Rating (Significant Ampacity Drop!)",
+        "XHHW-2 in Any Location = 90\u00b0C Rating"
+      ],
+      "necReference": "Table 310.4(1) (Conductor Applications and Insulations), Table 310.16",
+      "sparkyBottomLine": "Always check for the '-2' suffix! If it's missing and the conduit is wet, you just lost 15\u00b0C of heat-handling capability before you even started your math."
+    },
+    {
+      "id": "TIP-006",
+      "type": "tip-of-the-day",
+      "title": "The Elevator Rule: Round Up or Down?",
+      "category": "Overcurrent Protection",
+      "difficulty": "master",
+      "content": "One of the most common exam traps is knowing when the Code allows you to round **UP** to the next standard breaker size and when you are forced to round **DOWN**. \n\nThe general rule is the **'Elevator Rule'**: Think of the electrical system like a tree.\n\n**Twigs (Branch Circuits):** You generally round **UP**. The Code is generous here because motors need inrush current and standard breakers rarely match wire ampacity perfectly.\n\n**Trunks (Feeders & Services):** You generally round **DOWN**. These conductors are the bottleneck of the system. You cannot protect a feeder with a breaker larger than its calculated limit just because 'it's close.'",
+      "rulesToRemember": [
+        "Branch Circuits (< 800A): Round **UP** (240.4(B))",
+        "Motor Branch Circuits: Round **UP** (430.52 Exception No. 1)",
+        "Motor Feeders: Round **DOWN** (430.62 'shall not be greater than')",
+        "Services & Feeders > 800A: Round **DOWN** (240.4(C))",
+        "Transformer Secondary Taps: Round **DOWN** (240.21(C))"
+      ],
+      "necReference": "NEC 240.4(B), 240.4(C), 430.52, 430.62",
+      "sparkyBottomLine": "Memorize this rhyme: 'If it starts a load, give it room (Up). If it feeds a panel, seal the doom (Down).'"
     }
   ]
 }
