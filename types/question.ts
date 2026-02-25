@@ -2,7 +2,7 @@
 
 export type Difficulty = "apprentice" | "journeyman" | "master";
 
-export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing";
+export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "mobile-homes" | "swimming-pools";
 
 export interface Category {
   slug: CategorySlug;
@@ -98,9 +98,67 @@ export const CATEGORIES: Category[] = [
     necArticle: "Article 450",
     description: "Transformer kVA sizing, overcurrent protection, and impedance calculations",
   },
+  {
+    slug: "mobile-homes",
+    name: "Mobile Homes",
+    necArticle: "Article 550",
+    description: "Mobile home power supply, cord requirements, park electrical systems, and service equipment",
+  },
+  {
+    slug: "swimming-pools",
+    name: "Swimming Pools",
+    necArticle: "Article 680",
+    description: "Swimming pools, fountains, and similar installations — GFCI, bonding, clearances, and wiring methods",
+  },
 ];
 
 // Helper to get category by slug
 export function getCategoryBySlug(slug: string): Category | undefined {
   return CATEGORIES.find((c) => c.slug === slug);
+}
+
+// Parent category groupings for the quiz landing page
+export type ParentCategorySlug = "general-code" | "tables" | "special-code" | "communications-code";
+
+export interface ParentCategory {
+  slug: ParentCategorySlug;
+  name: string;
+  necChapters: string;
+  description: string;
+  categorySlugs: CategorySlug[];
+}
+
+export const PARENT_CATEGORIES: ParentCategory[] = [
+  {
+    slug: "general-code",
+    name: "General Code",
+    necChapters: "Chapters 1–4",
+    description: "Core NEC requirements covering installations, wiring methods, equipment, and general-use circuits",
+    categorySlugs: ["load-calculations", "grounding-bonding", "services", "textbook-navigation", "box-fill", "motor-calculations", "temperature-correction", "transformer-sizing"],
+  },
+  {
+    slug: "tables",
+    name: "Tables",
+    necChapters: "Chapter 9",
+    description: "NEC Chapter 9 tables for conduit fill, conductor properties, and voltage drop",
+    categorySlugs: ["chapter-9-tables", "conduit-fill", "voltage-drop", "resistance"],
+  },
+  {
+    slug: "special-code",
+    name: "Special Code",
+    necChapters: "Chapters 5–7",
+    description: "Special occupancies, special equipment, and special conditions",
+    categorySlugs: ["mobile-homes", "swimming-pools"],
+  },
+  {
+    slug: "communications-code",
+    name: "Communications Code",
+    necChapters: "Chapter 8",
+    description: "Communications systems, including network-powered broadband and CATV",
+    categorySlugs: [],
+  },
+];
+
+export function getParentCategoryBySlug(slug: string): ParentCategory | undefined {
+  return PARENT_CATEGORIES.find((c) => c.slug === slug);
 }

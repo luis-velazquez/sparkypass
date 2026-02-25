@@ -5,7 +5,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A box contains 8 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. Using 2.25 cu in per 12 AWG conductor, what is the minimum required box volume?",
+      "questionText": "A box contains 8 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. What is the minimum required box volume?",
       "options": [
         "27.0 cu in",
         "28.0 cu in",
@@ -175,7 +175,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A device box contains: 2 #12 cables (each with 2 conductors and 1 EGC), internal clamps, and a duplex receptacle. What is the minimum box fill?",
+      "questionText": "A device box contains two 12/2 NM cables with ground, internal cable clamps, and one duplex receptacle. What is the minimum required box volume?",
       "options": [
         "15.75 cubic inches",
         "18.0 cubic inches",
@@ -183,9 +183,9 @@
         "22.5 cubic inches"
       ],
       "correctAnswer": 1,
-      "explanation": "Calculation: 4 circuit conductors (4 \u00d7 2.25 = 9.0) + 1 for all EGCs (2.25) + 1 for clamps (2.25) + 2 for receptacle (2 \u00d7 2.25 = 4.5) = 18.0 cubic inches.",
-      "necReference": "314.16(B)",
-      "sparkyTip": "Two 12/2 cables = 4 hot/neutral wires + grounds (count as 1) + clamps (count as 1) + receptacle (counts as 2)!"
+      "explanation": "Conductors: Four #12 hot/neutral wires (4 \u00d7 2.25) = 9.0 cu in. Clamps: 1 allowance = 2.25 cu in. Device: 2 allowances (2 \u00d7 2.25) = 4.5 cu in. Grounds: Because there are 4 or fewer grounds, they equal 1 allowance = 2.25 cu in. Total = 9.0 + 2.25 + 4.5 + 2.25 = 18.0 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Two 12/2 cables = 4 wires. Clamps = 1 allowance. Receptacle = 2 allowances. Grounds (if 4 or fewer) = 1 allowance. Multiply everything by 2.25!"
     },
     {
       "id": "BF-017",
@@ -260,17 +260,17 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A device box contains two 12/2 NM cables and one 12/3 NM cable, all #12. All equipment grounds are present, internal clamps are used, and one GFCI receptacle is installed. What is the minimum required box volume?",
+      "questionText": "A device box contains two 12/2 NM cables and one 12/3 NM cable. All equipment grounds are present, internal cable clamps are used, and one GFCI receptacle is installed. What is the minimum required box volume?",
       "options": [
-        "22.5 cubic inches",
+        "20.25 cubic inches",
+        "22.50 cubic inches",
         "24.75 cubic inches",
-        "27.0 cubic inches",
-        "29.25 cubic inches"
+        "27.00 cubic inches"
       ],
-      "correctAnswer": 1,
-      "explanation": "Conductors: (2 cables \u00d7 2) + (1 cable \u00d7 3) = 7 conductors \u2192 7 \u00d7 2.25 = 15.75. Grounds = 1 \u00d7 2.25. Clamps = 1 \u00d7 2.25. One device yoke = 2 \u00d7 2.25 = 4.5. Total = 24.75 cu in.",
-      "necReference": "314.16(B)",
-      "sparkyTip": "Count all current-carrying conductors, then add one for grounds, one for clamps, and two for the device yoke."
+      "correctAnswer": 2,
+      "explanation": "Calculation (based on 2.25 cu in per #12 wire): 7 insulated conductors (4 from the 12/2s + 3 from the 12/3) = 15.75 cu in. Internal clamps (1 allowance) = 2.25 cu in. Equipment grounds (3 grounds = 1 allowance) = 2.25 cu in. One device yoke (2 allowances \u00d7 2.25) = 4.50 cu in. Total Volume = 15.75 + 2.25 + 2.25 + 4.50 = 24.75 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Code trap! Even though a GFCI is physically bulky, it still mounts on a single yoke, meaning it only takes up TWO volume allowances\u2014just like a standard receptacle."
     },
     {
       "id": "BF-023",
@@ -328,17 +328,17 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A 4-inch square, 1-1/2 inch deep box (21.0 cu in) contains eight #14 conductors, all #14 equipment grounds, internal clamps, and one duplex receptacle. By how much does it exceed the allowed fill?",
+      "questionText": "A 4-inch square, 1-1/2 inch deep box contains four 14/2 NM cables (each with a bare ground), internal cable clamps, and one duplex receptacle. By how much does the calculated fill exceed the allowed box volume?",
       "options": [
-        "1.0 cubic inch",
         "2.0 cubic inches",
         "3.0 cubic inches",
-        "4.0 cubic inches"
+        "4.5 cubic inches",
+        "5.5 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Fill: 8 \u00d7 2.0 = 16.0 cu in. Grounds = 2.0 cu in. Clamps = 2.0 cu in. One device yoke = 2 \u00d7 2.0 cu in = 4.0. Total = 24.0 cu in. Box volume 21.0 cu in \u2192 exceeds by 3.0 cu in.",
-      "necReference": "314.16(B)",
-      "sparkyTip": "When the calculated fill exceeds the box volume, find the overage."
+      "explanation": "Calculated Fill: 8 insulated conductors \u00d7 2.0 = 16.0 cu in. Internal clamps (1 allowance) = 2.0 cu in. One device yoke (2 allowances \u00d7 2.0) = 4.0 cu in. Under NEC 314.16(B)(5), the four EGCs calculate as: 1 full allowance (2.0) + 3 additional quarter allowances (3 \u00d7 0.5) = 3.5 cu in. Total Fill = 25.5 cu in. Box volume is 21.0 cu in. 25.5 - 21.0 = 4.5 cu in overage.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Watch out for the modern EGC rule! The largest ground counts fully, but every additional ground in the box adds 1/4 of a volume allowance."
     },
     {
       "id": "BF-027",
@@ -362,7 +362,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A box contains three #6 conductors, one #10 conductor, all #6 equipment grounds, and internal clamps. What is the minimum required box volume?",
+      "questionText": "A box contains three #6 conductors, one #10 equipment grounding conductor and internal clamps. What is the minimum required box volume?",
       "options": [
         "22.5 cubic inches",
         "25.0 cubic inches",
@@ -375,28 +375,11 @@
       "sparkyTip": "Large conductors quickly increase box fill."
     },
     {
-      "id": "BF-030",
-      "category": "box-fill",
-      "necArticle": "Article 314",
-      "difficulty": "master",
-      "questionText": "A box contains two #8 conductors, four #14 conductors, all #14 equipment grounds, internal clamps, and one device yoke connected to #14 conductors. What is the minimum required box volume?",
-      "options": [
-        "20.0 cubic inches",
-        "21.0 cubic inches",
-        "23.0 cubic inches",
-        "24.5 cubic inches"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Conductors: (2 \u00d7 3.0) + (4 \u00d7 2.0) = 6.0 + 8.0 = 14.0. Grounds = 2.0. Clamps use largest conductor (#8) = 3.0. Device yoke (#14) = 2 \u00d7 2.0 = 4.0. Total = 23.0 cu in.",
-      "necReference": "314.16(B)(2)",
-      "sparkyTip": "Clamps use the largest conductor in the box, even if the device is smaller."
-    },
-    {
       "id": "BF-031",
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A box has four #12 conductors passing through and four #12 wires spliced in the box, all #12 grounds, internal clamps, and one receptacle. What is the minimum required box volume?",
+      "questionText": "A box contains four unbroken #12 AWG conductors passing through, four #12 AWG conductors terminating in splices or on a device, four #12 AWG equipment grounding conductors, internal cable clamps, and one duplex receptacle. What is the minimum required box volume?",
       "options": [
         "22.5 cubic inches",
         "24.75 cubic inches",
@@ -404,9 +387,9 @@
         "29.25 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: 4 pass-through + 4 spliced = 8 conductors \u2192 8 \u00d7 2.25 = 18.0. Grounds = 2.25. Clamps = 2.25. Device yoke = 2 \u00d7 2.25 = 4.5. Total = 27.0 cu in.",
-      "necReference": "314.16(B)",
-      "sparkyTip": "Pigtails that terminate in the box don't count as conductors."
+      "explanation": "Calculation (based on 2.25 cu in per #12 wire): 4 pass-through + 4 terminating = 8 allowances. Clamps = 1 allowance. Receptacle = 2 allowances. Grounds (up to four) = 1 allowance. Total allowances = 12. Volume = 12 \u00d7 2.25 = 27.0 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Count your allowances first! 8 wires + 1 clamp + 2 for the device + 1 for the grounds = 12 total allowances. 12 \u00d7 2.25 makes the math much faster."
     },
     {
       "id": "BF-032",
@@ -430,7 +413,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A box contains four #14 conductors, all #14 equipment grounds, internal clamps, and one duplex switch on a single yoke. What is the minimum required box volume?",
+      "questionText": "A box contains four #14 AWG insulated conductors, two #14 AWG equipment grounding conductors, internal cable clamps, and one duplex switch on a single yoke. What is the minimum required box volume?",
       "options": [
         "12.0 cubic inches",
         "14.0 cubic inches",
@@ -438,9 +421,9 @@
         "18.0 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: 4 \u00d7 2.0 = 8.0. Grounds = 2.0. Clamps = 2.0. One yoke = 2 \u00d7 2.0 = 4.0. Total = 16.0 cu in.",
-      "necReference": "314.16(B)",
-      "sparkyTip": "Multiple devices on one yoke still count as two allowances."
+      "explanation": "Calculation (based on 2.0 cu in per #14 wire): 4 insulated conductors (4 \u00d7 2.0) = 8.0 cu in. Internal clamps (1 allowance) = 2.0 cu in. Equipment grounds (2 grounds = 1 allowance) = 2.0 cu in. One yoke/device (2 allowances \u00d7 2.0) = 4.0 cu in. Total Volume = 8.0 + 2.0 + 2.0 + 4.0 = 16.0 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "A duplex switch (two switches on one strap) is still just one yoke! Any single yoke counts as exactly two volume allowances based on the largest wire connected to it."
     },
     {
       "id": "BF-036",
@@ -464,17 +447,17 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
-      "questionText": "A junction box contains six #8 conductors, all #8 equipment grounds, and internal clamps. What is the minimum required box volume?",
+      "questionText": "A junction box contains six #8 AWG insulated conductors, one #10 AWG equipment grounding conductor, and internal cable clamps. What is the minimum required box volume?",
       "options": [
-        "18.0 cubic inches",
+        "20.5 cubic inches",
         "21.0 cubic inches",
-        "24.0 cubic inches",
+        "23.5 cubic inches",
         "27.0 cubic inches"
       ],
       "correctAnswer": 2,
-      "explanation": "Conductors: 6 \u00d7 3.0 = 18.0. Grounds = 3.0. Clamps = 3.0. Total = 24.0 cu in.",
-      "necReference": "314.16(B)",
-      "sparkyTip": "#8 conductors require 3.0 cu in each."
+      "explanation": "Conductors: 6 \u00d7 3.0 cu in (for #8) = 18.0 cu in. Internal clamps: 1 allowance based on the largest conductor in the box (#8) = 3.0 cu in. Equipment Ground: 1 allowance based on the largest ground (#10) = 2.5 cu in. Total Volume = 18.0 + 3.0 + 2.5 = 23.5 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Code trap! Clamp volume is based on the largest conductor present (#8), but ground volume is based solely on the largest ground conductor present (#10)."
     },
     {
       "id": "C9-001",
@@ -752,7 +735,7 @@
       "id": "C9-025",
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "What is the area in circular mils of a 500 kcmil conductor?",
       "options": [
         "250,000 cmil",
@@ -837,7 +820,7 @@
       "id": "C9-031",
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
-      "difficulty": "master",
+      "difficulty": "apprentice",
       "questionText": "When calculating conduit fill with equipment grounding conductors, how are they counted?",
       "options": [
         "They are not counted",
@@ -849,6 +832,23 @@
       "explanation": "Equipment grounding conductors are included in conduit fill calculations using their actual areas from Table 5, just like circuit conductors.",
       "necReference": "Chapter 9, Note 3",
       "sparkyTip": "EGCs count! Include them in your fill calculations using Table 5 areas."
+    },
+    {
+      "id": "C9-010",
+      "category": "chapter-9-tables",
+      "necArticle": "Chapter 9",
+      "difficulty": "master",
+      "questionText": "A feeder is installed in Electrical Metallic Tubing (EMT) and consists of three 1/0 AWG THHN conductors and one 6 AWG THHN equipment grounding conductor. What is the minimum trade size EMT required for this installation?",
+      "options": [
+        "1",
+        "1 1/4",
+        "1 1/2",
+        "2"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Chapter 9 Note 3 requires EGCs to be included in fill calculations. Using Table 5: 1/0 THHN = 0.1855 in\u00b2 and 6 AWG THHN = 0.0507 in\u00b2. Total area = (3 \u00d7 0.1855) + 0.0507 = 0.6072 in\u00b2. Table 1 allows 40% fill for over 2 wires. In Table 4 for EMT, 1 1/4-inch allows 0.598 in\u00b2 (too small). You must step up to 1 1/2-inch, which allows 0.814 in\u00b2.",
+      "necReference": "Chapter 9, Tables 1, 4, and 5",
+      "sparkyTip": "Don't forget the EGC! If you omit the ground wire in this calculation, the area is 0.5565 in\u00b2, which perfectly traps you into choosing 1 1/4-inch EMT."
     },
     {
       "id": "C9-034",
@@ -872,7 +872,7 @@
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "What is the stranding for a #12 AWG stranded copper conductor according to Table 8?",
+      "questionText": "What is the stranding for a #12 AWG stranded copper conductor?",
       "options": [
         "Solid only",
         "7 strands",
@@ -956,7 +956,7 @@
       "id": "C9-044",
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
-      "difficulty": "master",
+      "difficulty": "journeyman",
       "questionText": "Calculate the conduit fill: Four #10 THHN conductors have a total area of approximately:",
       "options": [
         "0.0532 sq in",
@@ -1041,7 +1041,7 @@
       "id": "C9-049",
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
-      "difficulty": "master",
+      "difficulty": "Journeyman",
       "questionText": "For voltage drop calculations on a 3-phase circuit, which formula applies?",
       "options": [
         "Vd = 2 \u00d7 I \u00d7 R \u00d7 L / 1000",
@@ -1144,7 +1144,7 @@
       "category": "chapter-9-tables",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "What is the reactance (XL) per 1000 feet for conductors in steel conduit according to Table 9?",
+      "questionText": "What is the reactance (XL) per 1000 feet for conductors in steel conduit?",
       "options": [
         "It varies by conductor size",
         "It is constant at approximately 0.050 ohms",
@@ -1212,7 +1212,7 @@
       "category": "conduit-fill",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "You need to install 6 #10 AWG THHN and 3 #12 AWG THHN conductors. What is the minimum EMT size required?",
+      "questionText": "A 5-foot run of Electrical Metallic Tubing (EMT) is used to house six #10 AWG THHN conductors and three #12 AWG THHN conductors. What is the minimum trade size EMT required?",
       "options": [
         "1/2 inch",
         "3/4 inch",
@@ -1220,9 +1220,9 @@
         "1-1/4 inch"
       ],
       "correctAnswer": 1,
-      "explanation": "Total area: 6 \u00d7 0.0211 (#10 THHN) + 3 \u00d7 0.0133 (#12 THHN) = 0.1266 + 0.0399 = 0.1665 sq in. 3/4-inch EMT at 40% = 0.213 sq in, which accommodates this fill.",
-      "necReference": "Chapter 9, Tables 4 & 5",
-      "sparkyTip": "Add up conductor areas from Table 5, then find a conduit from Table 4 with enough 40% fill area."
+      "explanation": "Calculation using Table 5 for THHN areas: (6 \u00d7 0.0211 sq in for #10) + (3 \u00d7 0.0133 sq in for #12) = 0.1266 + 0.0399 = 0.1665 sq in. Per Chapter 9 Table 1, 40% fill applies. Looking at Table 4 for EMT: 1/2-inch at 40% = 0.122 sq in (too small). 3/4-inch at 40% = 0.213 sq in (adequate).",
+      "necReference": "Chapter 9, Tables 1, 4 & 5",
+      "sparkyTip": "Always verify individual wire areas in Table 5. Even though these are small wires, the combination quickly exceeds the capacity of a 1/2-inch pipe!"
     },
     {
       "id": "CF-008",
@@ -1280,7 +1280,7 @@
       "category": "conduit-fill",
       "necArticle": "Chapter 9, Table 1 (Info Note 2); Tables 4 & 5",
       "difficulty": "master",
-      "questionText": "An electrician is planning to pull three 500 kcmil THHN conductors into a 2½-inch EMT run. The total cross-sectional area of the wires is 2.1219 sq in, which legally passes the 40% fill limit of the EMT (2.343 sq in). However, based on the exact dimensions in Chapter 9, what is the Jam Ratio, and will these conductors likely jam when pulled through a 90-degree bend?",
+      "questionText": "An electrician is planning to pull three 500 kcmil THHN conductors into a 2\u00bd-inch EMT run. The total cross-sectional area of the wires is 2.1219 sq in, which legally passes the 40% fill limit of the EMT (2.343 sq in). However, based on the exact dimensions in Chapter 9, what is the Jam Ratio, and will these conductors likely jam when pulled through a 90-degree bend?",
       "options": [
         "2.88; Yes, they fall directly into the jamming hazard range.",
         "3.54; No, they are safely above the jamming hazard range.",
@@ -1288,7 +1288,7 @@
         "3.15; Yes, but jamming only applies to schedule 80 PVC."
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Find the conduit ID. Per Chapter 9, Table 4, 2½-inch EMT has an Internal Diameter of 2.731 inches. Step 2: Find the wire OD. Per Chapter 9, Table 5, 500 kcmil THHN has an Approximate Diameter of 0.949 inches. Step 3: Calculate the ratio. 2.731 ÷ 0.949 = 2.877 (rounds to 2.88). Step 4: Check the rule. Chapter 9, Table 1, Informational Note 2 warns that a ratio between 2.8 and 3.2 will cause three conductors to jam. Even though it passes the 40% fill rule, this pull will likely get stuck!",
+      "explanation": "Step 1: Find the conduit ID. Per Chapter 9, Table 4, 2\u00bd-inch EMT has an Internal Diameter of 2.731 inches. Step 2: Find the wire OD. Per Chapter 9, Table 5, 500 kcmil THHN has an Approximate Diameter of 0.949 inches. Step 3: Calculate the ratio. 2.731 \u00f7 0.949 = 2.877 (rounds to 2.88). Step 4: Check the rule. Chapter 9, Table 1, Informational Note 2 warns that a ratio between 2.8 and 3.2 will cause three conductors to jam. Even though it passes the 40% fill rule, this pull will likely get stuck!",
       "necReference": "Chapter 9, Table 1 Info Note 2; Table 4; Table 5",
       "sparkyTip": "This is the ultimate Master Electrician trap! Just because it fits on paper using the 40% square-inch rule doesn't mean it will pull in the real world. If you calculate a jam ratio of 2.8 to 3.2, you have to either upsize the pipe or change the wire size to break the geometry!"
     },
@@ -1297,7 +1297,7 @@
       "category": "conduit-fill",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "Calculate the conduit fill percentage: 4 #8 AWG THHN conductors in 3/4-inch EMT. (Total EMT area = 0.533 sq in, #8 THHN = 0.0366 sq in each)",
+      "questionText": "Calculate the conduit fill percentage: 4 #8 AWG THHN conductors in 3/4-inch EMT.",
       "options": [
         "22.5%",
         "27.5%",
@@ -1347,7 +1347,7 @@
       "id": "CF-014",
       "category": "conduit-fill",
       "necArticle": "Chapter 9",
-      "difficulty": "master",
+      "difficulty": "Journeyman",
       "questionText": "A nipple (conduit 24 inches or less) between enclosures can be filled to what maximum percentage?",
       "options": [
         "40%",
@@ -1535,7 +1535,7 @@
       "category": "conduit-fill",
       "necArticle": "Chapter 9",
       "difficulty": "master",
-      "questionText": "A raceway contains 4 1/0 AWG THHN conductors and 1 #6 AWG THHN equipment ground. What is the minimum EMT size required?",
+      "questionText": "A 10-foot run of Electrical Metallic Tubing (EMT) contains four 1/0 AWG THHN conductors and one 6 AWG THHN equipment grounding conductor. What is the minimum trade size EMT required?",
       "options": [
         "1 inch",
         "1-1/4 inch",
@@ -1543,9 +1543,9 @@
         "2 inch"
       ],
       "correctAnswer": 2,
-      "explanation": "Total area: (4 \u00d7 0.161) + 0.0507 = 0.6440 + 0.0507 = 0.6947 sq in. 1-1/4 inch EMT at 40% = 0.598 sq in (too small). 1-1/2 inch EMT at 40% = 0.814 sq in (adequate).",
-      "necReference": "Chapter 9, Tables 4 & 5",
-      "sparkyTip": "Once you exceed the 40% area, you must jump to the next trade size."
+      "explanation": "Calculation using Table 5 for THHN areas: (4 \u00d7 0.1855 sq in) + (1 \u00d7 0.0507 sq in) = 0.742 + 0.0507 = 0.7927 sq in. Per Chapter 9 Table 1, the 40% fill rate applies for over two conductors. Looking at Table 4 for EMT: 1-1/4 inch at 40% = 0.598 sq in (too small). 1-1/2 inch at 40% = 0.814 sq in (adequate).",
+      "necReference": "Chapter 9, Tables 1, 4, & 5",
+      "sparkyTip": "Because this run is over 24 inches, you are limited to 40% fill. If it were a nipple (24\" or less), you could go up to 60%!"
     },
     {
       "id": "GB-001",
@@ -2682,7 +2682,7 @@
         "4673 VA"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Total connected load. Lighting: 2450 sq ft × 3 VA = 7350 VA (220.41). Small Appliance: 3 × 1500 = 4500 VA. Laundry: 1 × 1500 = 1500 VA. Total = 13350 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (13350 - 3000 = 10350 VA) is calculated at 35% (10350 × 0.35 = 3622.5 VA). Step 3: Add them together. 3000 + 3622.5 = 6622.5 VA (rounds to 6623 VA).",
+      "explanation": "Step 1: Total connected load. Lighting: 2450 sq ft \u00d7 3 VA = 7350 VA (220.41). Small Appliance: 3 \u00d7 1500 = 4500 VA. Laundry: 1 \u00d7 1500 = 1500 VA. Total = 13350 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (13350 - 3000 = 10350 VA) is calculated at 35% (10350 \u00d7 0.35 = 3622.5 VA). Step 3: Add them together. 3000 + 3622.5 = 6622.5 VA (rounds to 6623 VA).",
       "necReference": "220.41, 220.52, Table 220.42",
       "sparkyTip": "Beware the Frankenstein rule! Never mix 10,000 VA with 35%. For the Standard Method general load, ALWAYS use the first 3,000 VA at 100%, and the rest at 35%. I left the 'Frankenstein' math (11172 VA) in the options as a trap!"
     },
@@ -2767,7 +2767,7 @@
         "80 A"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Calculate the maximum rating. 25 A × 2.50 = 62.5 A. Step 2: Apply the exception. Per 430.52(C)(1) Exception No. 1, because 62.5 A is not a standard size, you are permitted to go up to the next standard size overcurrent device. Step 3: Find the standard size. Per 240.6(A), the next standard size above 60 A is 70 A.",
+      "explanation": "Step 1: Calculate the maximum rating. 25 A \u00d7 2.50 = 62.5 A. Step 2: Apply the exception. Per 430.52(C)(1) Exception No. 1, because 62.5 A is not a standard size, you are permitted to go up to the next standard size overcurrent device. Step 3: Find the standard size. Per 240.6(A), the next standard size above 60 A is 70 A.",
       "necReference": "430.52(C)(1) Ex. 1, Table 240.6(A)",
       "sparkyTip": "Motors break all the rules! A 62.5A calculation means you get to jump up to a 70A breaker. Test writers will always put the exact math answer (62.5A) and the 'round down' answer (60A) in the options to trick you. Always check your standard sizes in 240.6(A)!"
     },
@@ -2920,9 +2920,9 @@
         "#8 AWG; 3.1% drop"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Ampacity. Per 625.41, EV chargers are continuous loads (48A × 1.25 = 60A). Per Table 310.16, #6 THHN copper is rated for 65A at 75°C, satisfying the 60A requirement. Step 2: Voltage Drop. Using Chapter 9, Table 8, #6 copper has a resistance of 0.491 ohms/1000ft. VD = (2 × 80ft × 0.491Ω × 48A) / 1000 = 3.77V. Percentage drop = 3.77V / 240V = 1.57% (rounds to 1.6%). This is well within the 3% recommended limit.",
+      "explanation": "Step 1: Ampacity. Per 625.41, EV chargers are continuous loads (48A \u00d7 1.25 = 60A). Per Table 310.16, #6 THHN copper is rated for 65A at 75\u00b0C, satisfying the 60A requirement. Step 2: Voltage Drop. Using Chapter 9, Table 8, #6 copper has a resistance of 0.491 ohms/1000ft. VD = (2 \u00d7 80ft \u00d7 0.491\u03a9 \u00d7 48A) / 1000 = 3.77V. Percentage drop = 3.77V / 240V = 1.57% (rounds to 1.6%). This is well within the 3% recommended limit.",
       "necReference": "625.41, Table 310.16, Chapter 9 Table 8",
-      "sparkyTip": "The Romex Trap! If you ran NM-B (Romex) instead of THHN in conduit, you'd be stuck in the 60°C column. #6 NM-B is only good for 55A, which fails the 60A requirement. You'd be forced to buy expensive #4 NM-B. THHN in pipe saves the day!"
+      "sparkyTip": "The Romex Trap! If you ran NM-B (Romex) instead of THHN in conduit, you'd be stuck in the 60\u00b0C column. #6 NM-B is only good for 55A, which fails the 60A requirement. You'd be forced to buy expensive #4 NM-B. THHN in pipe saves the day!"
     },
     {
       "id": "MC-001",
@@ -3022,7 +3022,7 @@
         "845A"
       ],
       "correctAnswer": 3,
-      "explanation": "Step 1: Standard Table Rule. Table 430.52 normally limits an instantaneous trip breaker (MCP) to 800% of the FLC (65A × 8 = 520A). Step 2: The Exception. Because the standard setting isn't holding the starting current, 430.52(C)(3) Exception No. 1 allows you to increase the setting to a maximum of 1300% for standard motors. 65A × 13 = 845A.",
+      "explanation": "Step 1: Standard Table Rule. Table 430.52 normally limits an instantaneous trip breaker (MCP) to 800% of the FLC (65A \u00d7 8 = 520A). Step 2: The Exception. Because the standard setting isn't holding the starting current, 430.52(C)(3) Exception No. 1 allows you to increase the setting to a maximum of 1300% for standard motors. 65A \u00d7 13 = 845A.",
       "necReference": "430.52(C)(3) Exception No. 1",
       "sparkyTip": "Watch your motor types! For standard motors, the absolute max MCP setting is 1300%. But if the question says it IS a 'Design B energy-efficient' or 'Design E' motor, the code lets you crank that breaker all the way up to 1700%!"
     },
@@ -3056,7 +3056,7 @@
         "390A"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Find the kVA/HP range. Per Table 430.7(B), Code Letter K is 8.0 to 8.99 kVA/HP. Step 2: Use the maximum value (8.99) to find the worst-case scenario. Step 3: Apply the 3-phase formula: LRA = (HP × kVA/HP × 1000) / (Volts × 1.732). Step 4: Calculate: (30 × 8.99 × 1000) / (460 × 1.732) = 269,700 / 796.72 = 338.5A. This rounds up to 339A.",
+      "explanation": "Step 1: Find the kVA/HP range. Per Table 430.7(B), Code Letter K is 8.0 to 8.99 kVA/HP. Step 2: Use the maximum value (8.99) to find the worst-case scenario. Step 3: Apply the 3-phase formula: LRA = (HP \u00d7 kVA/HP \u00d7 1000) / (Volts \u00d7 1.732). Step 4: Calculate: (30 \u00d7 8.99 \u00d7 1000) / (460 \u00d7 1.732) = 269,700 / 796.72 = 338.5A. This rounds up to 339A.",
       "necReference": "Table 430.7(B)",
       "sparkyTip": "When an exam asks for Locked-Rotor Current based on a Code Letter, always calculate using the HIGHEST number in that letter's range (like 8.99 for K). You always have to plan for the worst-case inrush current!"
     },
@@ -3073,7 +3073,7 @@
         "25 Amperes"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Identify the rule for small stationary motors (2 HP or less). Step 2: Because the prompt specifies an AC-only general-use snap switch, we use 430.109(C)(2). This rule states the motor FLC cannot be more than 80% of the ampere rating of the switch. Step 3: Calculate the maximum FLC: 20A × 0.80 = 16 Amperes.",
+      "explanation": "Step 1: Identify the rule for small stationary motors (2 HP or less). Step 2: Because the prompt specifies an AC-only general-use snap switch, we use 430.109(C)(2). This rule states the motor FLC cannot be more than 80% of the ampere rating of the switch. Step 3: Calculate the maximum FLC: 20A \u00d7 0.80 = 16 Amperes.",
       "necReference": "430.109(C)(2)",
       "sparkyTip": "Read carefully! If the question says 'AC snap switch', multiply the switch rating by 80% (20A switch = 16A motor). But if the question just says 'general-use switch' (430.109(C)(1)), the switch has to be TWICE the size of the motor FLC (20A switch = 10A motor). The wording makes a 6-amp difference!"
     },
@@ -3124,9 +3124,9 @@
         "138A"
       ],
       "correctAnswer": 1,
-      "explanation": "First, find the FLC for the motors from Table 430.250: 30 HP is 40A, and 10 HP is 14A. The total motor load is calculated per 430.24: (1.25 \u00d7 40A) + 14A = 64A. The non-motor load is calculated per 220.40, which requires continuous loads to be taken at 125%: 40A \u00d7 1.25 = 50A. The total feeder ampacity is the sum of these two calculated loads: 64A + 50A = 114A.",
-      "necReference": "430.24, 220.10, Table 430.250",
-      "sparkyTip": "When mixing motors and other continuous loads on a feeder, remember to apply the 125% multiplier to BOTH the largest motor and the continuous non-motor load separately, then add the results."
+      "explanation": "First, determine the Full-Load Currents (FLC) from Table 430.250: The 30 HP motor is 40A, and the 10 HP motor is 14A. \n\nPer 430.24, size the motor load by taking 125% of the largest motor plus the sum of the others: (40A \u00d7 1.25) + 14A = 64A. \n\nNext, per 215.2(A)(1), add the continuous non-motor load at 125%: 40A \u00d7 1.25 = 50A. \n\nFinally, sum the two calculated values: 64A (motors) + 50A (lighting) = 114A.",
+      "necReference": "430.24, 215.2(A)(1), Table 430.250",
+      "sparkyTip": "Don't just add the raw FLCs (40A + 14A = 54A)! You MUST multiply the largest motor by 125% first (50A + 14A = 64A). Then, calculate the continuous load separately (40A \u00d7 1.25 = 50A). It helps to think of this as two separate '125% rules' that you add together at the end."
     },
     {
       "id": "MC-012",
@@ -3150,17 +3150,17 @@
       "category": "motor-calculations",
       "necArticle": "Article 430",
       "difficulty": "master",
-      "questionText": "You are installing a 15 HP, 460V, 3-phase high-efficiency motor with a nameplate full-load amperes (FLA) of 18A. The motor has a service factor of 1.15 and a temperature rise of 40\u00b0C. What are the minimum conductor ampacity and the maximum standard-size thermal overload protection rating, respectively?",
+      "questionText": "You are installing a 15 HP, 460V, 3-phase high-efficiency motor with a nameplate full-load amperes (FLA) of 18A. The motor has a service factor of 1.15 and a temperature rise of 40\u00b0C. What are the minimum required conductor ampacity and the maximum permitted overload protection setting?",
       "options": [
-        "22.5A, 22.5A",
-        "26.25A, 22.5A",
-        "22.5A, 26.25A",
-        "26.25A, 21A"
+        "Conductors: 22.5A | Overload: 22.5A",
+        "Conductors: 26.25A | Overload: 22.5A",
+        "Conductors: 22.5A | Overload: 26.25A",
+        "Conductors: 26.25A | Overload: 21A"
       ],
       "correctAnswer": 1,
-      "explanation": "This question tests the critical rule of 430.6(A)(1). For conductor sizing, you MUST use the FLC from Table 430.250, which is 21A for a 15 HP, 460V motor. Conductor ampacity is 125% of this value: 21A \u00d7 1.25 = 26.25A. For overload protection, however, you MUST use the motor's nameplate FLA of 18A. Since the service factor is 1.15 and temp rise is 40\u00b0C, per 430.32(A)(1), you can size the overload at 125% of the FLA: 18A \u00d7 1.25 = 22.5A.",
+      "explanation": "This tests the distinction between 'Table FLC' and 'Nameplate FLA'. \n\n1) Conductors (430.6(A)(1)): You MUST use the FLC from Table 430.250. A 15 HP, 460V, 3-phase motor is rated at 21A. The conductor ampacity is 125% of this value: 21A \u00d7 1.25 = 26.25A. \n\n2) Overload (430.32(A)(1)): You MUST use the actual Nameplate FLA of 18A. Because the Service Factor is 1.15 and Temp Rise is 40\u00b0C, you are permitted to size the overload at 125%: 18A \u00d7 1.25 = 22.5A.",
       "necReference": "430.6(A)(1), 430.22, 430.32(A)(1), Table 430.250",
-      "sparkyTip": "Table FLC for wires, nameplate FLA for overloads. Engrave this rule in your mind. It's a common point of failure on exams and in the field."
+      "sparkyTip": "Remember the mantra: 'Table for Wires, Nameplate for Heaters (Overloads).' If you swap them, you will calculate 22.5A for the wires, which is undersized!"
     },
     {
       "id": "MC-014",
@@ -4341,14 +4341,14 @@
       "questionText": "When boring holes in wood members for cable or raceway installation, what is the minimum distance from the nearest edge required to avoid using a steel plate?",
       "options": [
         "At least 1 inch",
-        "At least 1¼ inches",
-        "At least 1½ inches",
-        "At least ¾ inch"
+        "At least 1\u00bc inches",
+        "At least 1\u00bd inches",
+        "At least \u00be inch"
       ],
       "correctAnswer": 1,
-      "explanation": "NEC 300.4(A)(1) requires that holes bored in wood members be at least **1¼ inches** from the nearest edge. If the distance is less than 1¼ inches, a 1/16-inch thick steel plate (nail plate) is required.",
+      "explanation": "NEC 300.4(A)(1) requires that holes bored in wood members be at least **1\u00bc inches** from the nearest edge. If the distance is less than 1\u00bc inches, a 1/16-inch thick steel plate (nail plate) is required.",
       "necReference": "NEC 300.4(A)(1)",
-      "sparkyTip": "1¼\" is the magic number. Less than that = Nail Plate."
+      "sparkyTip": "1\u00bc\" is the magic number. Less than that = Nail Plate."
     },
     {
       "id": "TN-040",
@@ -5014,21 +5014,21 @@
       "sparkyTip": "Effective Z already accounts for R and X at the given PF."
     },
     {
-      "id": "VD-028",
+      "id": "VD-045",
       "category": "voltage-drop",
-      "necArticle": "Chapter 9, Table 8; 210.19(A) Informational Note No. 4",
+      "necArticle": "Chapter 9, Table 9",
       "difficulty": "master",
-      "questionText": "A 277V lighting circuit supplies 20A at 400 feet using 6 AWG copper (26,240 CM). Is this within the 3% voltage drop recommendation? (K = 12.9)",
+      "questionText": "Using Chapter 9 Table 9, a 6 AWG copper conductor in steel conduit has an effective impedance (Ze) of 0.491 ohms per 1000 ft at 0.85 power factor. What is the voltage drop for a 45A load at 175 feet on a single-phase 240V circuit?",
       "options": [
-        "Yes \u2014 about 2.8%",
-        "Yes \u2014 about 3.6%",
-        "No \u2014 about 3.4%",
-        "No \u2014 about 4.1%"
+        "3.87 Volts",
+        "7.73 Volts",
+        "13.40 Volts",
+        "15.46 Volts"
       ],
-      "correctAnswer": 0,
-      "explanation": "VD = 2 \u00d7 12.9 \u00d7 20 \u00d7 400 / 26,240 = 7.87V. Percent = 7.87 / 277 = 2.84%. Within 3%.",
-      "necReference": "Chapter 9, Table 8; 210.19(A) Informational Note No. 4",
-      "sparkyTip": "Always check the percent drop against the system voltage."
+      "correctAnswer": 1,
+      "explanation": "For single-phase calculations using Effective Z: VD = (2 \u00d7 I \u00d7 L \u00d7 Ze) / 1000. Calculation: (2 \u00d7 45A \u00d7 175ft \u00d7 0.491) / 1000 = 7.73325V. Note: The multiplier '2' is used for single-phase to account for the total loop (out and back).",
+      "necReference": "Chapter 9, Table 9",
+      "sparkyTip": "Table 9 is your go-to for AC circuits because it includes inductive reactance. At 6 AWG and larger in steel pipe, reactance starts to matter!"
     },
     {
       "id": "VD-029",
@@ -6250,7 +6250,7 @@
         "No, the total load is 208A, exceeding the service by 8A."
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Find total connected 'other' loads. House (26,000 VA) + Shop Lighting (7,200 VA) + Compressor (28A × 240V = 6,720 VA) = 39,920 VA. Step 2: Apply 220.83(B) demand. The first 8 kVA is at 100% (8,000 VA). The remainder (31,920 VA) is at 40% (12,768 VA). Total general = 20,768 VA. Step 3: Compare HVAC. Shop Heat (10,000 VA) is larger than House AC (5,000 VA), so keep 10,000 VA at 100%. Step 4: Total Load = 20,768 VA + 10,000 VA = 30,768 VA. Step 5: Convert to Amps. 30,768 VA / 240V = 128.2A. The 200A service handles it easily!",
+      "explanation": "Step 1: Find total connected 'other' loads. House (26,000 VA) + Shop Lighting (7,200 VA) + Compressor (28A \u00d7 240V = 6,720 VA) = 39,920 VA. Step 2: Apply 220.83(B) demand. The first 8 kVA is at 100% (8,000 VA). The remainder (31,920 VA) is at 40% (12,768 VA). Total general = 20,768 VA. Step 3: Compare HVAC. Shop Heat (10,000 VA) is larger than House AC (5,000 VA), so keep 10,000 VA at 100%. Step 4: Total Load = 20,768 VA + 10,000 VA = 30,768 VA. Step 5: Convert to Amps. 30,768 VA / 240V = 128.2A. The 200A service handles it easily!",
       "necReference": "220.83(B)",
       "sparkyTip": "Watch out for the traps! When using the Optional Method for an EXISTING dwelling addition (220.83), your magic number is 8 kVA at 100%, not 10 kVA. Also, unlike other calculations, you do not add an extra 25% to the largest motor here. Just use the straight FLC and drop it in the pot!"
     },
@@ -6284,7 +6284,7 @@
         "330 Amps"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Apply Table 630.11(A). The multiplier for a nonmotor generator arc welder at a 50% duty cycle is 0.71. Calculate the effective ampacity for each welder: W1 (100A × 0.71 = 71A), W2 (80A × 0.71 = 56.8A), W3 (60A × 0.71 = 42.6A), W4 (50A × 0.71 = 35.5A), W5 (40A × 0.71 = 28.4A). \n\nStep 2: Apply 630.11(B) Group Demand Factors. Stack them from largest to smallest and multiply: \n1st Largest (71A × 1.0) = 71A \n2nd Largest (56.8A × 1.0) = 56.8A \n3rd Largest (42.6A × 0.85) = 36.21A \n4th Largest (35.5A × 0.70) = 24.85A \n5th Largest (28.4A × 0.60) = 17.04A. \n\nStep 3: Add them up. 71 + 56.8 + 36.21 + 24.85 + 17.04 = 205.9 Amps (rounds to 206A).",
+      "explanation": "Step 1: Apply Table 630.11(A). The multiplier for a nonmotor generator arc welder at a 50% duty cycle is 0.71. Calculate the effective ampacity for each welder: W1 (100A \u00d7 0.71 = 71A), W2 (80A \u00d7 0.71 = 56.8A), W3 (60A \u00d7 0.71 = 42.6A), W4 (50A \u00d7 0.71 = 35.5A), W5 (40A \u00d7 0.71 = 28.4A). \n\nStep 2: Apply 630.11(B) Group Demand Factors. Stack them from largest to smallest and multiply: \n1st Largest (71A \u00d7 1.0) = 71A \n2nd Largest (56.8A \u00d7 1.0) = 56.8A \n3rd Largest (42.6A \u00d7 0.85) = 36.21A \n4th Largest (35.5A \u00d7 0.70) = 24.85A \n5th Largest (28.4A \u00d7 0.60) = 17.04A. \n\nStep 3: Add them up. 71 + 56.8 + 36.21 + 24.85 + 17.04 = 205.9 Amps (rounds to 206A).",
       "necReference": "Article 630",
       "sparkyTip": "Order of operations is everything! You MUST shrink the individual welders based on their duty cycle FIRST. Then you take those new, smaller numbers, stack them from largest to smallest, and apply the 100/100/85/70/60% group discounts. If you do it backwards, your math falls apart!"
     },
@@ -6355,6 +6355,771 @@
       "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75\u00b0C. Therefore, conductor ampacity must not exceed the 75\u00b0C column value, even if the wire insulation is rated for 90\u00b0C (like THHN).",
       "necReference": "NEC 110.14(C)(1)(b)",
       "sparkyTip": "Over 100A = 75\u00b0C column. Under 100A = 60\u00b0C column. The insulation rating doesn't matter for sizing \u2014 it's the termination temperature that governs. THHN is 90\u00b0C wire, but you still size it at 75\u00b0C!"
+    },
+    {
+      "id": "MH-001",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "apprentice",
+      "questionText": "Which NEC article covers the electrical requirements for mobile homes, manufactured homes, and mobile home parks?",
+      "options": [
+        "Article 545",
+        "Article 550",
+        "Article 551",
+        "Article 555"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC Article 550 specifically covers mobile homes, manufactured homes, and mobile home parks. Article 545 covers manufactured buildings, Article 551 covers recreational vehicles, and Article 555 covers marinas and boatyards.",
+      "necReference": "550.1",
+      "sparkyTip": "Remember the 550s: 550 = mobile homes, 551 = RVs, 555 = marinas. Each Chapter 5 article covers a different type of special occupancy!"
+    },
+    {
+      "id": "MH-002",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "apprentice",
+      "questionText": "What is the ampere rating for a mobile home power-supply cord attachment plug cap?",
+      "options": [
+        "30 amperes",
+        "40 amperes",
+        "50 amperes",
+        "60 amperes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.10(C), the attachment plug cap for a mobile home power-supply cord must be a 125/250-volt, 3-pole, 4-wire, grounding type rated 50 amperes.",
+      "necReference": "550.10(C)",
+      "sparkyTip": "Mobile home plugs are always 50A \u2014 same size as a range outlet. If you see a 4-prong 50A plug, think mobile home or electric range!"
+    },
+    {
+      "id": "MH-003",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "apprentice",
+      "questionText": "The secondary electrical distribution system for a mobile home park must be what type?",
+      "options": [
+        "3-phase, 208Y/120V",
+        "Single-phase, 120V only",
+        "Single-phase, 120/240V",
+        "3-phase, 480Y/277V"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.30, the secondary electrical distribution system for mobile home parks to mobile home lots must be single-phase, 120/240-volt, nominal.",
+      "necReference": "550.30",
+      "sparkyTip": "Mobile homes are residential \u2014 they always get single-phase 120/240V, just like a regular house!"
+    },
+    {
+      "id": "MH-004",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "apprentice",
+      "questionText": "The mobile home power-supply cord attachment plug cap must be what configuration?",
+      "options": [
+        "2-pole, 3-wire",
+        "3-pole, 4-wire",
+        "4-pole, 4-wire",
+        "3-pole, 3-wire"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 550.10(C), the plug cap must be a 3-pole, 4-wire, grounding type. The 4 wires consist of 2 ungrounded (hot) conductors, 1 grounded (neutral) conductor, and 1 equipment grounding conductor.",
+      "necReference": "550.10(C)",
+      "sparkyTip": "3 poles = 2 hots + 1 neutral. The 4th wire is the equipment ground \u2014 that's what makes it a 'grounding type' connector."
+    },
+    {
+      "id": "MH-005",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum calculated load per mobile home lot used for park service and feeder calculations?",
+      "options": [
+        "8,000 VA",
+        "12,000 VA",
+        "16,000 VA",
+        "20,000 VA"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.31, park electrical wiring systems shall be calculated on the basis of not less than 16,000 volt-amperes for each mobile home lot.",
+      "necReference": "550.31",
+      "sparkyTip": "16,000 VA per lot is the baseline for every mobile home park calculation. Even if the actual home uses less, you calculate with 16,000 VA minimum."
+    },
+    {
+      "id": "MH-006",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "journeyman",
+      "questionText": "What is the maximum permitted length for a mobile home power-supply cord?",
+      "options": [
+        "21 feet",
+        "25 feet",
+        "30 feet",
+        "36\u00bd feet"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36\u00bd feet (11.0 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
+      "necReference": "550.10(D)",
+      "sparkyTip": "Max cord = 36\u00bd feet, min = 21 feet. The cord needs to reach the pedestal but not be so long it creates a hazard."
+    },
+    {
+      "id": "MH-007",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "journeyman",
+      "questionText": "In a mobile home, the grounded (neutral) conductor and the equipment grounding conductor must be:",
+      "options": [
+        "Bonded together at the mobile home panelboard",
+        "Connected at the power-supply cord plug",
+        "Kept separate throughout the mobile home",
+        "Bonded at any accessible point in the home"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.16(A), the grounded (neutral) conductor and the equipment grounding conductor must be kept separate in a mobile home. The neutral-to-ground bond is made at the service disconnecting means (the outdoor pedestal), not inside the mobile home.",
+      "necReference": "550.16(A)",
+      "sparkyTip": "A mobile home panelboard works like a sub-panel \u2014 neutral and ground stay separate! The bond happens at the outdoor disconnect."
+    },
+    {
+      "id": "MH-008",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "journeyman",
+      "questionText": "Where must the mobile home service equipment be located?",
+      "options": [
+        "Inside the mobile home, adjacent to the panelboard",
+        "Underneath the mobile home chassis",
+        "In a readily accessible outdoor location within sight of the home",
+        "At the property line of the mobile home lot"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.32(A), mobile home service equipment must not be mounted in or on the mobile home. It must be located in a readily accessible outdoor location and within sight from the mobile home it serves.",
+      "necReference": "550.32(A)",
+      "sparkyTip": "Service equipment goes OUTSIDE and within sight \u2014 think of the familiar power pedestal standing next to the home. Never inside or under the unit!"
+    },
+    {
+      "id": "MH-009",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum permitted length for a mobile home power-supply cord?",
+      "options": [
+        "10 feet",
+        "15 feet",
+        "21 feet",
+        "25 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.10(D), the power-supply cord must be not less than 21 feet (6.4 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
+      "necReference": "550.10(D)",
+      "sparkyTip": "Min 21 feet, max 36\u00bd feet. The minimum ensures you can reach the disconnect pedestal from most lot configurations."
+    },
+    {
+      "id": "MH-010",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "journeyman",
+      "questionText": "The mobile home power-supply cord must be permanently connected to which component?",
+      "options": [
+        "An exterior-mounted junction box on the chassis",
+        "A receptacle outlet on the mobile home frame",
+        "The distribution panelboard or a junction box inside the mobile home",
+        "The main service disconnect at the lot pedestal"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.10(B), the power-supply cord must be permanently connected to the distribution panelboard or to a junction box permanently connected to the panelboard, with both located inside the mobile home.",
+      "necReference": "550.10(B)",
+      "sparkyTip": "The cord connects inside to the panel \u2014 it is a permanent connection, not a plug-in. The only plug is at the other end, at the lot pedestal."
+    },
+    {
+      "id": "MH-011",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "master",
+      "questionText": "A mobile home park has 2 lots, each with the minimum calculated load of 16,000 VA. Using Table 550.31 (55% demand factor for 2 lots), what is the total demand load for the park service?",
+      "options": [
+        "16,000 VA",
+        "17,600 VA",
+        "24,000 VA",
+        "32,000 VA"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Total connected load = 2 lots \u00d7 16,000 VA = 32,000 VA. Step 2: Apply Table 550.31 demand factor for 2 lots = 55%. Step 3: 32,000 VA \u00d7 0.55 = 17,600 VA demand load.",
+      "necReference": "Table 550.31",
+      "sparkyTip": "Always multiply first (lots \u00d7 VA), then apply the demand factor. The demand factor accounts for diversity \u2014 not all homes peak at the same time."
+    },
+    {
+      "id": "MH-012",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "master",
+      "questionText": "Using a total demand load of 17,600 VA for a 2-lot mobile home park at 120/240V, what is the calculated service current?",
+      "options": [
+        "55.0 amperes",
+        "66.7 amperes",
+        "73.3 amperes",
+        "146.7 amperes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "For a single-phase 120/240V service: I = VA \u00f7 V = 17,600 VA \u00f7 240V = 73.3 amperes. This is the calculated demand current used for sizing the park service conductors and overcurrent protection.",
+      "necReference": "Table 550.31",
+      "sparkyTip": "Single-phase amps = VA \u00f7 240V. Don't accidentally divide by 120V (that would double your answer) or use the three-phase formula."
+    },
+    {
+      "id": "MH-013",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "master",
+      "questionText": "An electrician bonds the neutral bus to the equipment grounding bus at the panelboard inside a new mobile home. Where should this bond be located instead?",
+      "options": [
+        "At the first disconnect inside the mobile home",
+        "At any point along the feeder assembly",
+        "At the service disconnecting means outside the mobile home",
+        "Bonding is not required for mobile homes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.16(A), the neutral and equipment grounding conductors must be kept separate in the mobile home. The neutral-to-ground bond must be made at the service disconnecting means (outdoor pedestal), not at the mobile home panelboard. The mobile home panel is a sub-panel fed from the service equipment outside.",
+      "necReference": "550.16(A)",
+      "sparkyTip": "The mobile home panel is a sub-panel. The bond goes at the main disconnect outside \u2014 bonding inside would create parallel neutral current paths on the grounding conductor, which is a shock hazard."
+    },
+    {
+      "id": "MH-014",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "master",
+      "questionText": "A mobile home power-supply cord is measured at 38 feet from the attachment plug cap to the point of entrance. Which NEC requirement does this violate?",
+      "options": [
+        "550.10(A) \u2014 cord must be listed for 50 amperes",
+        "550.10(B) \u2014 cord must connect to the panelboard",
+        "550.10(C) \u2014 plug cap must be 3-pole, 4-wire",
+        "550.10(D) \u2014 maximum cord length is 36\u00bd feet"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36\u00bd feet (11.0 m) in length. At 38 feet, this cord exceeds the maximum by 1\u00bd feet and must be replaced with a compliant cord.",
+      "necReference": "550.10(D)",
+      "sparkyTip": "550.10 has four parts: (A) = supply type, (B) = connection point, (C) = plug configuration, (D) = cord length. Master-level questions often ask you to cite the specific subsection!"
+    },
+    {
+      "id": "MH-015",
+      "category": "mobile-homes",
+      "necArticle": "Article 550",
+      "difficulty": "master",
+      "questionText": "A mobile home's calculated load per 550.18 is 13,500 VA at 120/240V. Can the standard 50-ampere power-supply cord serve this home?",
+      "options": [
+        "Yes \u2014 the 50A cord can supply up to 15,000 VA",
+        "Yes \u2014 demand factors reduce the load below 50A",
+        "No \u2014 a permanently installed feeder is required",
+        "No \u2014 a 60A power-supply cord must be used instead"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The current draw is 13,500 VA \u00f7 240V = 56.25 amperes, which exceeds the 50-ampere cord rating. Per 550.10(A), when the calculated load exceeds the cord capacity, a permanently installed feeder rated not less than the calculated load must be used instead of a power-supply cord.",
+      "necReference": "550.10(A)",
+      "sparkyTip": "A 50A cord at 240V maxes out at 12,000 VA (50 \u00d7 240). If the calculated load exceeds that, the Code requires a permanent feeder \u2014 there is no 60A cord option for mobile homes."
+    },
+    {
+      "id": "TS-007",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "apprentice",
+      "questionText": "NEC Table 450.3(A) provides overcurrent protection requirements for transformers rated over what voltage?",
+      "options": [
+        "240 volts",
+        "480 volts",
+        "600 volts",
+        "1000 volts"
+      ],
+      "correctAnswer": 3,
+      "explanation": "NEC Table 450.3(A) applies to transformers rated over 1000 volts. These are medium-voltage and high-voltage transformers commonly found in utility substations and large commercial/industrial facilities. Table 450.3(B) covers transformers rated 1000 volts or less.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Two tables, one cutoff: 450.3(A) = over 1000V, 450.3(B) = 1000V or less. The (A) table has much higher protection percentages because medium-voltage transformers handle faults differently."
+    },
+    {
+      "id": "TS-008",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "apprentice",
+      "questionText": "Per Table 450.3(A), what is the maximum primary fuse rating for a transformer with impedance not more than 6%, installed at any location?",
+      "options": [
+        "125% of primary FLC",
+        "250% of primary FLC",
+        "300% of primary FLC",
+        "600% of primary FLC"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per Table 450.3(A), for a transformer with impedance not more than 6% at any location, the maximum primary fuse rating is 300% of the transformer-rated primary current. The 600% value is for circuit breakers, not fuses.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Fuses blow faster than breakers trip, so fuses get a LOWER percentage (300%) compared to circuit breakers (600%). Faster device = lower setting needed."
+    },
+    {
+      "id": "TS-009",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "apprentice",
+      "questionText": "Per Table 450.3(A), what is the maximum primary circuit breaker setting for a transformer with impedance not more than 6%, installed at any location?",
+      "options": [
+        "250% of primary FLC",
+        "300% of primary FLC",
+        "400% of primary FLC",
+        "600% of primary FLC"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Per Table 450.3(A), for a transformer with impedance not more than 6% at any location, the maximum primary circuit breaker setting is 600% of the transformer-rated primary current. Circuit breakers are permitted a higher setting than fuses (300%) because they have different trip characteristics.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "600% for breakers, 300% for fuses \u2014 breakers get double! These high percentages exist because the protection is for transformer damage, not conductor protection."
+    },
+    {
+      "id": "TS-010",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "apprentice",
+      "questionText": "In the context of NEC Table 450.3(A), what defines a \"supervised location\"?",
+      "options": [
+        "A location with security cameras and alarms",
+        "A location where only qualified persons monitor and service the installation",
+        "Any indoor electrical room with a locked door",
+        "A location inspected annually by the AHJ"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A supervised location, as referenced in Table 450.3(A), is one where conditions of maintenance and supervision ensure that only qualified persons monitor and service the transformer installation. This typically means utility substations, industrial plants, or institutional facilities with dedicated electrical staff.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Supervised = qualified people watching over the equipment. This allows using primary-only protection at tighter settings because trained staff can respond to problems quickly."
+    },
+    {
+      "id": "TS-011",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "apprentice",
+      "questionText": "Per Table 450.3(A), in a supervised location with primary-only protection, is secondary overcurrent protection required?",
+      "options": [
+        "Yes \u2014 secondary protection is always required",
+        "Yes \u2014 but only for impedance over 6%",
+        "No \u2014 secondary protection is not required",
+        "No \u2014 but only if a circuit breaker is used on the primary"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per Table 450.3(A), in a supervised location with primary-only protection, secondary overcurrent protection is not required. This is the key advantage of the supervised primary-only option \u2014 it allows a simpler installation with tighter primary settings (CB at 300%, fuse at 250%) in exchange for eliminating the secondary device.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Supervised location + primary-only protection = no secondary OCPD needed. The trade-off is tighter primary settings (300% CB / 250% fuse vs. 600% CB / 300% fuse)."
+    },
+    {
+      "id": "TS-012",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "journeyman",
+      "questionText": "Per Table 450.3(A), what is the maximum primary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%, installed at any location?",
+      "options": [
+        "250% of primary FLC",
+        "300% of primary FLC",
+        "400% of primary FLC",
+        "600% of primary FLC"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per Table 450.3(A), for a transformer with impedance greater than 6% but not more than 10% at any location, the maximum primary circuit breaker setting is reduced to 400% of the rated primary current. Compare this to 600% for transformers with impedance not more than 6%.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Higher impedance = lower primary CB setting. At \u22646% you get 600%, but above 6% it drops to 400%. Higher impedance transformers limit fault current less on the secondary, so tighter primary protection is needed."
+    },
+    {
+      "id": "TS-013",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "journeyman",
+      "questionText": "Per Table 450.3(A), what is the maximum primary fuse rating for a supervised location with primary-only protection?",
+      "options": [
+        "125% of primary FLC",
+        "250% of primary FLC",
+        "300% of primary FLC",
+        "600% of primary FLC"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per Table 450.3(A), for a supervised location with primary-only protection (no secondary OCPD), the maximum primary fuse rating is 250% of the rated primary current. This is lower than the 300% permitted when secondary protection is also provided, because the primary device must provide all the transformer protection by itself.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Supervised primary-only: fuse = 250%, breaker = 300%. These are tighter than the \"any location\" values because there is no secondary backup device."
+    },
+    {
+      "id": "TS-014",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "journeyman",
+      "questionText": "Per Table 450.3(A), what is the maximum secondary fuse rating for a transformer with impedance not more than 6%?",
+      "options": [
+        "125% of secondary FLC",
+        "225% of secondary FLC",
+        "250% of secondary FLC",
+        "300% of secondary FLC"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per Table 450.3(A), for a transformer with impedance not more than 6%, the maximum secondary fuse rating is 250% of the rated secondary current. The secondary circuit breaker is permitted up to 300%. Remember, fuses always get a lower percentage than circuit breakers.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Secondary protection follows the same fuse-vs-breaker pattern: fuse at 250%, breaker at 300% for \u22646% impedance. For >6%, it drops to 225% fuse / 250% breaker."
+    },
+    {
+      "id": "TS-015",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "journeyman",
+      "questionText": "Per Table 450.3(A), how does increasing transformer impedance from \u22646% to greater than 6% affect the maximum primary circuit breaker setting at any location?",
+      "options": [
+        "It increases from 400% to 600%",
+        "It decreases from 600% to 400%",
+        "It remains at 600% regardless of impedance",
+        "It decreases from 300% to 250%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "When transformer impedance increases above 6%, the maximum primary circuit breaker setting decreases from 600% to 400% of rated primary current. Higher impedance means the transformer provides less fault current limiting on the secondary side, so tighter primary overcurrent protection is required to compensate.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Think of it this way: low impedance = transformer limits faults well = looser primary protection (600%). High impedance = less fault limiting = tighter primary protection (400%)."
+    },
+    {
+      "id": "TS-016",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "journeyman",
+      "questionText": "Per Table 450.3(A), what is the maximum secondary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%?",
+      "options": [
+        "125% of secondary FLC",
+        "225% of secondary FLC",
+        "250% of secondary FLC",
+        "300% of secondary FLC"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per Table 450.3(A), for a transformer with impedance greater than 6% but not more than 10%, the maximum secondary circuit breaker setting is 250% of the rated secondary current. This is reduced from 300% for transformers with impedance not more than 6%.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Higher impedance tightens ALL protection settings: Primary CB drops 600%\u2192400%, Secondary CB drops 300%\u2192250%, Secondary fuse drops 250%\u2192225%. Only the primary fuse stays at 300%."
+    },
+    {
+      "id": "TS-017",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "questionText": "A 1000 kVA, 4160V to 480Y/277V, 3-phase transformer has 5.75% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary fuse rating?",
+      "options": [
+        "208.2 amperes",
+        "277.6 amperes",
+        "416.4 amperes",
+        "832.8 amperes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: Primary FLC = 1,000,000 VA \u00f7 (4160V \u00d7 1.732) = 138.8A. Step 2: Impedance is 5.75% (\u22646%), so per Table 450.3(A), primary fuse = 300%. Step 3: 138.8A \u00d7 3.00 = 416.4 amperes maximum fuse rating.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Three-phase FLC = kVA \u00d7 1000 \u00f7 (V \u00d7 1.732). Then multiply by the table percentage. The wrong answers here use 150% (208.2A), 200% (277.6A), and 600% (832.8A) \u2014 watch for fuse vs. breaker mix-ups!"
+    },
+    {
+      "id": "TS-018",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
+      "options": [
+        "138.8 amperes",
+        "173.5 amperes",
+        "208.2 amperes",
+        "416.4 amperes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: Primary FLC = 500,000 VA \u00f7 (4160V \u00d7 1.732) = 69.4A. Step 2: Supervised location, primary-only protection: per Table 450.3(A), primary circuit breaker = 300%. Step 3: 69.4A \u00d7 3.00 = 208.2 amperes maximum circuit breaker setting.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Supervised primary-only uses the tighter settings: CB = 300%, fuse = 250%. If you used the \"any location\" 600% value, you would get 416.4A \u2014 that is only valid when secondary protection is also provided."
+    },
+    {
+      "id": "TS-019",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "questionText": "A 300 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed at any location. Per Table 450.3(A), what is the maximum secondary fuse rating?",
+      "options": [
+        "541.3 amperes",
+        "721.7 amperes",
+        "902.1 amperes",
+        "1,082.5 amperes"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: Secondary FLC = 300,000 VA \u00f7 (480V \u00d7 1.732) = 360.8A. Step 2: Impedance is 5% (\u22646%), so per Table 450.3(A), secondary fuse = 250%. Step 3: 360.8A \u00d7 2.50 = 902.1 amperes maximum secondary fuse rating.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Secondary FLC uses the SECONDARY voltage (480V), not the primary. The secondary fuse at 250% will always be a large number because secondary currents are much higher than primary currents on step-down transformers."
+    },
+    {
+      "id": "TS-020",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer has 8% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
+      "options": [
+        "208.2 amperes",
+        "277.6 amperes",
+        "347.0 amperes",
+        "416.4 amperes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Primary FLC = 500,000 VA \u00f7 (4160V \u00d7 1.732) = 69.4A. Step 2: Impedance is 8% (>6% but \u226410%), so per Table 450.3(A), primary circuit breaker = 400% (not 600%). Step 3: 69.4A \u00d7 4.00 = 277.6 amperes maximum circuit breaker setting.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "The impedance determines which row to use! At 8% (>6%), the primary CB drops to 400%. If you mistakenly used the \u22646% row at 600%, you would get 416.4A. Always check the impedance first."
+    },
+    {
+      "id": "TS-021",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "questionText": "A 750 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary fuse rating?",
+      "options": [
+        "208.2 amperes",
+        "260.3 amperes",
+        "312.3 amperes",
+        "624.5 amperes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Primary FLC = 750,000 VA \u00f7 (4160V \u00d7 1.732) = 104.1A. Step 2: Supervised location, primary-only protection: per Table 450.3(A), primary fuse = 250%. Step 3: 104.1A \u00d7 2.50 = 260.3 amperes maximum fuse rating.",
+      "necReference": "Table 450.3(A)",
+      "sparkyTip": "Supervised primary-only fuse = 250% (the tightest primary setting in the table). The other options use 200% (208.2A), 300% (312.3A), and 600% (624.5A) \u2014 common mistakes from grabbing the wrong row or column."
+    },
+    {
+      "id": "SP-001",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "apprentice",
+      "questionText": "Per NEC 680.22(A), all 125-volt receptacles that supply power to a pool pump motor must have what type of protection?",
+      "options": [
+        "AFCI protection",
+        "GFCI protection",
+        "Surge protection",
+        "Double-insulated protection"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.22(A) requires that all 125-volt, single-phase receptacles rated 30 amperes or less and located within 20 feet of the inside walls of a pool shall be protected by a ground-fault circuit interrupter (GFCI). This includes receptacles supplying pool pump motors.",
+      "necReference": "680.22(A)",
+      "sparkyTip": "GFCI is the golden rule near water. Any 125V receptacle within 20 feet of the pool edge needs it \u2014 no exceptions for pool pump receptacles!"
+    },
+    {
+      "id": "SP-002",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum distance a receptacle outlet must be located from the inside wall of a pool per NEC 680.22(A)(5)?",
+      "options": [
+        "5 feet",
+        "6 feet",
+        "10 feet",
+        "20 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.22(A)(5) requires receptacles to be located not less than 6 feet from the inside walls of the pool. At least one 125-volt receptacle must be located between 6 and 20 feet from the pool.",
+      "necReference": "680.22(A)(5)",
+      "sparkyTip": "Think of it as the \"6-20 rule\" \u2014 receptacles must be at least 6 feet away, but at least one must be within 20 feet so pool equipment can be plugged in."
+    },
+    {
+      "id": "SP-003",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "apprentice",
+      "questionText": "Which of the following must be included in the equipotential bonding grid for a permanently installed pool per NEC 680.26(B)?",
+      "options": [
+        "Only the pool water itself",
+        "Metal parts of the pool structure, metal fittings, and forming shells",
+        "Only underwater luminaire niches",
+        "Only the pool pump motor frame"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.26(B) requires bonding of all metal parts of the pool structure, including the reinforcing steel, metal fittings within or attached to the pool, forming shells, mounting brackets, and metal parts of the pool cover mechanism. This equipotential bonding grid reduces voltage gradients in the pool area.",
+      "necReference": "680.26(B)",
+      "sparkyTip": "Think \"bond everything metal\" near the pool. The equipotential bonding grid ties all metal together so there is no voltage difference that could shock a swimmer."
+    },
+    {
+      "id": "SP-004",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "apprentice",
+      "questionText": "Per NEC 680.10, what is the minimum burial depth for underground wiring that is not beneath a building, slab, or paving and supplies a pool, spa, or hot tub?",
+      "options": [
+        "6 inches",
+        "12 inches",
+        "18 inches",
+        "24 inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 680.10 specifies that underground wiring shall not be installed under the pool or within 5 feet horizontally of the pool unless necessary to supply pool equipment. The burial depth must comply with Table 300.5, which generally requires 18 inches minimum for direct-burial cables.",
+      "necReference": "680.10",
+      "sparkyTip": "Pool underground wiring follows Table 300.5 for burial depth. For most residential pool installations with direct-burial cable, that means 18 inches minimum."
+    },
+    {
+      "id": "SP-005",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "apprentice",
+      "questionText": "Per NEC 680.7, are extension cords permitted to be used with pool pumps and other pool equipment?",
+      "options": [
+        "Yes, as long as they are outdoor-rated",
+        "Yes, if they have GFCI protection",
+        "No, extension cords are not permitted for pool equipment",
+        "Yes, but only if the cord is 25 feet or shorter"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 680.7 prohibits the use of flexible cords and extension cords for pool pump motors and other fixed pool equipment. All pool equipment must be hard-wired or connected via a suitable cord-and-plug connection as permitted for specific equipment.",
+      "necReference": "680.7",
+      "sparkyTip": "Extension cords + pools = never allowed. This is a safety no-brainer. Pool equipment gets a permanent wiring connection, period."
+    },
+    {
+      "id": "SP-006",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "journeyman",
+      "questionText": "Per NEC 680.8, what is the minimum clearance for overhead conductors (insulated supply or service drop cables at 0-750V to ground) above the pool water level or diving platform?",
+      "options": [
+        "10 feet",
+        "14.5 feet",
+        "22.5 feet",
+        "25 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 680.8 Table requires that insulated supply or service drop cables (0-750V to ground) maintain a minimum clearance of 22.5 feet above the maximum water level of the pool, the diving structure, or the observation stand/tower/platform.",
+      "necReference": "680.8",
+      "sparkyTip": "The 22.5-foot clearance above pool water applies to insulated service drop cables. All other overhead conductors (not voltage-limited) require even more \u2014 25 feet."
+    },
+    {
+      "id": "SP-007",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum size of the solid copper bonding conductor used in the equipotential bonding grid for a pool per NEC 680.26(B)(1)?",
+      "options": [
+        "6 AWG",
+        "8 AWG",
+        "10 AWG",
+        "12 AWG"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.26(B)(1) requires that the equipotential bonding grid use a minimum 8 AWG solid copper conductor. This conductor connects all metal parts and creates a grid that equalizes the voltage potential around the pool.",
+      "necReference": "680.26(B)(1)",
+      "sparkyTip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded \u2014 solid copper holds up better when buried in concrete or soil."
+    },
+    {
+      "id": "SP-008",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "journeyman",
+      "questionText": "Per NEC 680.23(A)(3), what protection is required for all luminaires installed in the walls of a pool that operate at more than the low voltage contact limit?",
+      "options": [
+        "AFCI protection",
+        "GFCI protection",
+        "Double insulation only",
+        "An isolation transformer only"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.23(A)(3) requires that a GFCI shall protect all luminaires operating at more than the low voltage contact limit that are installed in the walls of pools. This provides a critical layer of safety for underwater lighting.",
+      "necReference": "680.23(A)(3)",
+      "sparkyTip": "Underwater lights above low voltage contact limit (15V) MUST have GFCI protection. This is non-negotiable \u2014 electricity and water right next to swimmers."
+    },
+    {
+      "id": "SP-009",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "journeyman",
+      "questionText": "Per NEC 680.23(A)(5), what is the maximum voltage permitted for luminaires installed in a pool?",
+      "options": [
+        "120 volts",
+        "150 volts",
+        "208 volts",
+        "240 volts"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.23(A)(5) limits luminaires installed in pools to a maximum of 150 volts between conductors. This voltage limitation helps reduce the risk of electric shock to swimmers in the event of a luminaire failure.",
+      "necReference": "680.23(A)(5)",
+      "sparkyTip": "150 volts max for pool lights. Most pool luminaires actually operate at 12V via a transformer, but the NEC caps it at 150V as an absolute maximum."
+    },
+    {
+      "id": "SP-010",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "journeyman",
+      "questionText": "Per NEC 680.21(A), which wiring method is required within 5 feet of the inside wall of a pool for branch circuits that supply pool equipment?",
+      "options": [
+        "Any approved wiring method",
+        "Rigid metal conduit, IMC, or a listed nonmetallic raceway system",
+        "Only Type MC cable",
+        "Only nonmetallic-sheathed cable (Romex)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.21(A) requires that wiring methods within 5 feet of the inside wall of the pool use rigid metal conduit (RMC), intermediate metal conduit (IMC), liquidtight flexible nonmetallic conduit, or a rigid nonmetallic conduit system. NM cable and MC cable are generally not permitted within this zone.",
+      "necReference": "680.21(A)",
+      "sparkyTip": "Within 5 feet of the pool wall, think rigid raceways only. No Romex, no standard MC cable. The pool zone demands heavy-duty wiring protection."
+    },
+    {
+      "id": "SP-011",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "master",
+      "questionText": "Per NEC 680.26(B)(2), the equipotential bonding grid must extend how far horizontally from the inside walls of a permanently installed pool?",
+      "options": [
+        "12 inches",
+        "18 inches",
+        "3 feet",
+        "5 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 680.26(B)(2) requires that the perimeter surface bonding extend for 3 feet horizontally beyond the inside walls of the pool. This ensures that anyone standing near the pool edge is on bonded surfaces, reducing the risk of shock from voltage differences.",
+      "necReference": "680.26(B)(2)",
+      "sparkyTip": "3 feet out from the pool wall for the bonding grid. Think of it as creating a \"safety zone\" of equal potential around the entire pool perimeter."
+    },
+    {
+      "id": "SP-012",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "master",
+      "questionText": "Per NEC 680.44, what protection is required for all electrical equipment associated with a permanently installed indoor spa or hot tub, including the outlet supplying it?",
+      "options": [
+        "AFCI protection",
+        "GFCI protection for all 125V and 240V outlets",
+        "Surge protection",
+        "An equipment grounding conductor only"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.44 requires GFCI protection for all electrical equipment associated with a permanently installed indoor spa or hot tub. This includes the receptacle outlet supplying power, regardless of the voltage (125V or 240V), providing essential protection against electric shock in a wet environment.",
+      "necReference": "680.44",
+      "sparkyTip": "Indoor spas and hot tubs need GFCI on everything \u2014 even 240V circuits. This catches many people off guard since GFCI is often associated only with 120V receptacles."
+    },
+    {
+      "id": "SP-013",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "master",
+      "questionText": "Per NEC 680.51 and 680.52, what are the two key electrical safety requirements for a permanently installed fountain?",
+      "options": [
+        "AFCI protection and surge protection",
+        "GFCI protection for all circuits and bonding of all metal parts",
+        "Only a disconnect switch within sight",
+        "Only double insulation on all conductors"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.51 requires GFCI protection for all electrical equipment associated with fountains, and NEC 680.52 requires bonding of all metal piping and metal parts of the fountain that are in contact with the water. Together these two requirements ensure both shock protection and equipotential bonding.",
+      "necReference": "680.51, 680.52",
+      "sparkyTip": "Fountains get the same treatment as pools: GFCI everything + bond all metal. People wade in fountains too, so the NEC treats them seriously."
+    },
+    {
+      "id": "SP-014",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "master",
+      "questionText": "Per NEC 680.12, where must the disconnecting means for a pool motor be located?",
+      "options": [
+        "Inside the house panel only",
+        "Within sight from the pool motor and at least 5 feet from the inside wall of the pool",
+        "Anywhere within 50 feet of the pool",
+        "Adjacent to the pool pump with no minimum distance"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.12 requires that the disconnecting means for pool motors be within sight of the equipment it controls AND located at least 5 feet from the inside wall of the pool. \"Within sight\" means visible and not more than 50 feet away. This ensures a technician can see the equipment while operating the disconnect.",
+      "necReference": "680.12",
+      "sparkyTip": "Two rules for the pool motor disconnect: (1) within sight of the motor, and (2) at least 5 feet from the pool edge. Both must be satisfied \u2014 one without the other is a code violation."
+    },
+    {
+      "id": "SP-015",
+      "category": "swimming-pools",
+      "necArticle": "Article 680",
+      "difficulty": "master",
+      "questionText": "Per NEC 680.8(A), what is the minimum clearance required for utility supply conductors (0-750V to ground, not insulated) above a pool?",
+      "options": [
+        "14.5 feet",
+        "22.5 feet",
+        "25 feet",
+        "27 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 680.8(A) requires that all conductors of any type (other than those specifically permitted in 680.8(B)) maintain a minimum 25-foot clearance over the maximum water level, diving structures, and observation areas. Insulated service drop cables get a reduced clearance of 22.5 feet, but bare or uninsulated utility conductors require the full 25 feet.",
+      "necReference": "680.8(A)",
+      "sparkyTip": "25 feet for bare/uninsulated utility lines over a pool, 22.5 feet for insulated service drops. The exam loves to test which clearance goes with which conductor type."
     }
   ]
 }

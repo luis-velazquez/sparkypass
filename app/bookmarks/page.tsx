@@ -22,6 +22,8 @@ import {
   Thermometer,
   Omega,
   GitBranch,
+  Home,
+  Waves,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,6 +62,8 @@ const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
   "temperature-correction": Thermometer,
   "resistance": Omega,
   "transformer-sizing": GitBranch,
+  "mobile-homes": Home,
+  "swimming-pools": Waves,
 };
 
 // Map category slugs to colors
@@ -123,6 +127,16 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     icon: "text-sky-500",
     bg: "bg-sky-500/10",
     badge: "bg-sky-500/10 text-sky-500",
+  },
+  "mobile-homes": {
+    icon: "text-fuchsia-500",
+    bg: "bg-fuchsia-500/10",
+    badge: "bg-fuchsia-500/10 text-fuchsia-500",
+  },
+  "swimming-pools": {
+    icon: "text-blue-400",
+    bg: "bg-blue-400/10",
+    badge: "bg-blue-400/10 text-blue-400",
   },
 };
 
