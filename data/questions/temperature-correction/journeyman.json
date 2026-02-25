@@ -1,0 +1,53 @@
+[
+  {
+    "id": "TC-006",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.15(B)(1)",
+    "difficulty": "journeyman",
+    "questionText": "A set of #12 AWG THHN copper conductors are installed in a walk-in freezer with an ambient temperature of 10°C (50°F). What is the corrected ampacity of the conductors (before any other adjustments)?",
+    "options": [
+      "30 Amps",
+      "34.5 Amps",
+      "25.5 Amps",
+      "30.9 Amps"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to Table 310.16, #12 AWG THHN has a 90°C base ampacity of 30A. For an ambient temperature of 10°C, the correction factor in Table 310.15(B)(1) is 1.15. Calculation: 30A × 1.15 = 34.5A.",
+    "necReference": "Table 310.16, Table 310.15(B)(1)",
+    "sparkyTip": "Temperature correction works both ways! In cold ambient temperatures, the conductor can dissipate heat more efficiently, allowing for a higher ampacity. Just remember: 26-30°C (78-86°F) is your baseline 1.00 multiplier!"
+  },
+  {
+    "id": "TC-014",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.16",
+    "difficulty": "journeyman",
+    "questionText": "What is the base ampacity used for derating a #10 AWG TW copper conductor?",
+    "options": [
+      "20A",
+      "25A",
+      "30A",
+      "40A"
+    ],
+    "correctAnswer": 2,
+    "explanation": "TW insulation is rated for 60°C. Looking at NEC Table 310.16 in the 60°C column, the ampacity for #10 AWG copper is 30A. While 240.4(D) also limits #10 to 30A OCPD, the question asks for the 'base ampacity' found in the table for derating purposes.",
+    "necReference": "Table 310.16",
+    "sparkyTip": "TW is 60°C only! You have zero 'headroom' for derating. If the ambient temp is above 86°F (30°C), that #10 TW is immediately worth less than 30 Amps."
+  },
+  {
+    "id": "TC-015",
+    "category": "temperature-correction",
+    "necArticle": "310.15(B)(1)",
+    "difficulty": "journeyman",
+    "questionText": "For an ambient temperature of 115°F, what is the correction factor for a 75°C rated conductor?",
+    "options": [
+      "0.82",
+      "0.75",
+      "0.67",
+      "0.58"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Table 310.15(B)(1) indicates that for an ambient temperature between 114-122°F, the correction factor for the 75°C column is 0.75.",
+    "necReference": "Table 310.15(B)(1)",
+    "sparkyTip": "75°C wire (like standard THW) 'wilts' faster in the heat than 90°C wire. You lose 25% of your capacity at 115°F."
+  }
+]

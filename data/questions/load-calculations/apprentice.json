@@ -1,0 +1,155 @@
+[
+  {
+    "id": "LC-001",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "What is the standard general lighting load per square foot for dwelling units according to NEC Table 220.12?",
+    "options": [
+      "2 VA per sq ft",
+      "3 VA per sq ft",
+      "4 VA per sq ft",
+      "5 VA per sq ft"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC Table 220.12 specifies 3 VA per square foot for general lighting loads in dwelling units. This value is used to calculate the minimum branch circuit load for lighting.",
+    "necReference": "Table 220.12",
+    "sparkyTip": "Remember: 3 VA for dwelling units - think of it as '3 rooms in a home' to help you remember!"
+  },
+  {
+    "id": "LC-002",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "What is the standard small-appliance branch circuit load for a dwelling unit with two 20-ampere circuits?",
+    "options": [
+      "1,500 VA per circuit",
+      "1,800 VA per circuit",
+      "2,000 VA per circuit",
+      "1,200 VA per circuit"
+    ],
+    "correctAnswer": 0,
+    "explanation": "NEC 220.52(A) requires a minimum of two 20-ampere small-appliance branch circuits, and 220.52(A)(1) specifies each circuit shall be calculated at 1,500 VA.",
+    "necReference": "220.52(A)",
+    "sparkyTip": "Small appliance circuits = 1,500 VA each. Easy to remember: 15 amps × 100 = 1,500!"
+  },
+  {
+    "id": "LC-007",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "Using the optional calculation method (220.82), what percentage is applied to general loads exceeding 10 kVA?",
+    "options": [
+      "35%",
+      "50%",
+      "40%",
+      "65%"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 220.82(B) applies 40% to the portion of general loads exceeding 10 kVA. This simplified method often results in smaller service sizes than the standard method.",
+    "necReference": "220.82(B)",
+    "sparkyTip": "40% after 10 kVA in the optional method - that's why customers love it: smaller service = savings!"
+  },
+  {
+    "id": "LC-008",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "How many VA must be included for each laundry circuit in a dwelling unit load calculation?",
+    "options": [
+      "1,000 VA",
+      "1,200 VA",
+      "1,500 VA",
+      "2,000 VA"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 220.52(B) requires at least one 20-ampere laundry branch circuit, and it shall be calculated at 1,500 VA.",
+    "necReference": "220.52(B)",
+    "sparkyTip": "Laundry circuit = 1,500 VA, just like small appliance circuits. Consistency is key!"
+  },
+  {
+    "id": "LC-010",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "Per NEC Table 220.55, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
+    "options": [
+      "8 kW",
+      "10 kW",
+      "12 kW",
+      "11 kW"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Table 220.55, Column C shows that one household range rated not more than 12 kW has a maximum demand of 8 kW. This significant reduction recognizes that all elements rarely operate simultaneously at full power.",
+    "necReference": "Table 220.55, Column C",
+    "sparkyTip": "One range up to 12 kW = 8 kW demand. The NEC knows your stove isn't cooking everything at once!"
+  },
+  {
+    "id": "LC-012",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "When calculating branch circuit loads, what is the continuous load multiplier?",
+    "options": [
+      "100%",
+      "115%",
+      "125%",
+      "150%"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 210.20(A) requires that branch circuits supplying continuous loads shall have an ampacity of at least 125% of the continuous load (plus 100% of non-continuous loads).",
+    "necReference": "210.20(A)",
+    "sparkyTip": "Continuous loads = 125%. Add that extra 25% for loads running 3+ hours!"
+  },
+  {
+    "id": "LC-013",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
+    "options": [
+      "47%",
+      "50%",
+      "52%",
+      "55%"
+    ],
+    "correctAnswer": 0,
+    "explanation": "NEC Table 220.54 shows that for 12 dryers, the demand factor is 47%. The demand factor decreases as the number of dryers increases because they won't all operate simultaneously.",
+    "necReference": "Table 220.54",
+    "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!"
+  },
+  {
+    "id": "LC-016",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "What is the minimum number of small-appliance branch circuits required for a dwelling unit kitchen and dining area?",
+    "options": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 210.11(C)(1) requires a minimum of two 20-ampere small-appliance branch circuits to supply receptacle outlets in the kitchen, pantry, breakfast room, and dining room.",
+    "necReference": "210.11(C)(1)",
+    "sparkyTip": "Two small appliance circuits minimum - one for each side of the kitchen counter!"
+  },
+  {
+    "id": "LC-027",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "apprentice",
+    "questionText": "Using the optional calculation method for a dwelling (220.82), the total general load is 12000 VA. Apply 100% to the first 10 kVA and 40% to the remainder. What is the calculated demand in VA?",
+    "options": [
+      "10800 VA",
+      "11400 VA",
+      "10200 VA",
+      "11800 VA"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Demand=10,000 VA + 40% of 2000 VA = 10800 VA.",
+    "necReference": "220.82(B)",
+    "sparkyTip": "Optional method is 100% for the first 10 kVA, then 40%."
+  }
+]

@@ -1,0 +1,121 @@
+[
+  {
+    "id": "TC-001",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.15(B)(1)",
+    "difficulty": "master",
+    "questionText": "A 6 AWG THWN-2 copper conductor is installed in a location with an ambient temperature of 52°C. What is the corrected ampacity of this conductor?",
+    "options": [
+      "57.4A",
+      "61.5A",
+      "65A",
+      "53.3A"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A 6 AWG THWN-2 copper conductor has a base ampacity of 75A from Table 310.16 (using the 90°C column since THWN-2 is rated 90°C). However, since the termination is likely rated 75°C, we use 65A from the 75°C column per 110.14(C). Wait — the question says to use the correction factor directly. 6 AWG THWN-2 at 90°C column = 75A × 0.82 = 61.5A.",
+    "necReference": "Table 310.16, Table 310.15(B)(2)(a)",
+    "sparkyTip": "Always use the ampacity from the column matching the conductor's insulation temperature rating, THEN apply correction factors. The termination temperature limit is a separate check — compare your corrected ampacity against the termination-limited ampacity and use the lesser."
+  },
+  {
+    "id": "TC-002",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.15(B)(1)",
+    "difficulty": "master",
+    "questionText": "Nine #12-AWG THHN current-carrying conductors are installed in a single conduit in an area with an ambient temperature of 40°C. What is the final adjusted ampacity?",
+    "options": [
+      "19.11A",
+      "21.0A",
+      "27.3A",
+      "24.57A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "When both conduit fill adjustment and temperature correction apply, you multiply both factors: 30A × 0.70 (conduit fill) × 0.91 (temperature) = 19.11A. Both derating factors compound — this is a common trap on the exam where candidates only apply one factor.",
+    "necReference": "310.15(B)(3)(a), Table 310.15(B)(2)(a)",
+    "sparkyTip": "When you have BOTH elevated ambient temperature AND multiple conductors in a raceway, you must apply BOTH correction factors. Multiply the base ampacity by each factor — they stack multiplicatively, not additively."
+  },
+  {
+    "id": "TC-003",
+    "category": "temperature-correction",
+    "necArticle": "310.15(B)(1)",
+    "difficulty": "master",
+    "questionText": "A rooftop AC unit is installed in an area where the ambient temperature is 40°C (104°F). Using #6 THHN copper conductors, what is the corrected ampacity before considering conduit fill?",
+    "options": [
+      "75A",
+      "60.75A",
+      "68.25A",
+      "53.25A"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Step 1: Start with the 90°C rating for #6 THHN, which is 75A. Step 2: Per Table 310.15(B)(1), the correction factor for 40°C in the 90°C column is 0.91. Step 3: 75A × 0.91 = 68.25A.",
+    "necReference": "310.15(B)(1), Table 310.16",
+    "sparkyTip": "Note: The old '33°C rooftop adder' was removed from the code! Now, you just use the ambient temperature. Also, don't forget our fun fact: 26-30°C is 78-86°F."
+  },
+  {
+    "id": "TC-005",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.15(B)(1)",
+    "difficulty": "master",
+    "questionText": "Six current-carrying THWN-2 conductors are installed in a conduit in a 36°C ambient environment. The conduit fill adjustment factor for 4-6 conductors is 0.80. For 90°C rated insulation at 36°C, the temperature correction factor is 0.96. An engineer argues that since THWN-2 is dual-rated (75°C wet / 90°C dry) and the installation is in a wet location, the 75°C correction factor of 0.87 should be used instead. Which correction factor applies?",
+    "options": [
+      "0.96 — always use the 90°C column for THWN-2",
+      "0.87 — wet location means use the 75°C column",
+      "0.96 — use the 90°C column for derating, but limit final ampacity to the 75°C column value",
+      "Neither — no correction is needed below 40°C"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per 310.15(B)(2), you use the temperature correction factor corresponding to the conductor's insulation temperature rating. THWN-2 in a wet location is limited to 75°C per its listing, but the NEC permits using the 90°C ampacity column and 90°C correction factors for the PURPOSE of derating — then you cap the final result at the 75°C column ampacity. This is the standard practice confirmed by 110.14(C) and is the most advantageous method for the installer.",
+    "necReference": "310.15(B)(2), 110.14(C), Table 310.16",
+    "sparkyTip": "This is one of the most tested concepts! The 90°C column is your 'derating playground' — you can always use it to apply correction and adjustment factors, even for conductors in wet locations. But the final usable ampacity can never exceed the 75°C column value (or 60°C for smaller circuits). This trick often saves you from upsizing conductors."
+  },
+  {
+    "id": "TC-013",
+    "category": "temperature-correction",
+    "necArticle": "310.14(A)(2) Exc.",
+    "difficulty": "master",
+    "questionText": "A conduit run is 100ft long. 90ft is underground (20°C) and 10ft emerges into a boiler room (50°C). If the 10ft portion is more than 10% of the circuit length and longer than 10ft, which temperature must be used for the entire run?",
+    "options": [
+      "20°C",
+      "50°C",
+      "An average of 35°C",
+      "30°C standard"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per 310.14(A)(2), the higher ambient temperature must be used where the length of the conductor in the hotter area exceeds 10 feet or 10% of the total length.",
+    "necReference": "310.14(A)(2) Exception",
+    "sparkyTip": "The '10-foot/10-percent' rule is a classic inspector favorite. If the hot section is too long, the whole wire gets derated."
+  },
+  {
+    "id": "TC-019",
+    "category": "temperature-correction",
+    "necArticle": "310.15(B)(1)",
+    "difficulty": "master",
+    "questionText": "Using 500 kcmil THHN Copper in an ambient temperature of 125°F. What is the allowable ampacity?",
+    "options": [
+      "430A",
+      "326.8A",
+      "292.4A",
+      "310.5A"
+    ],
+    "correctAnswer": 1,
+    "explanation": "500 kcmil Copper THHN = 430A (90°C). 125°F factor for 90°C = 0.76. 430A * 0.76 = 326.8A.",
+    "necReference": "Table 310.16, Table 310.15(B)(1)",
+    "sparkyTip": "When you get into large kcmil wires, a 24% loss in ampacity due to heat is a huge deal—that's over 100 Amps lost!"
+  },
+  {
+    "id": "TC-025",
+    "category": "temperature-correction",
+    "necArticle": "310.15(B)(2)",
+    "difficulty": "master",
+    "questionText": "A conduit containing #6 THHN copper conductors is mounted on a rooftop with only 1/2 inch of clearance between the conduit and the roof surface. If the outdoor ambient temperature is 40°C, what is the total ambient temperature that must be used to determine the correction factor?",
+    "options": [
+      "40°C",
+      "60°C",
+      "73°C",
+      "53°C"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC 310.15(B)(2) in the 2023 edition, if a raceway is exposed to direct sunlight and is less than 3/4 inch above the rooftop, a 33°C (60°F) adder must be applied. 40°C (Ambient) + 33°C (Adder) = 73°C.",
+    "necReference": "310.15(B)(2)",
+    "sparkyTip": "The measurement changed from 7/8\" to 3/4\" in the 2023 Code to better match real-world strut sizes. If you're too close to the hot roof, you pay the 33°C penalty! Also: 26-30°C is 78-86°F."
+  }
+]

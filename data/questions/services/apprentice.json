@@ -1,0 +1,87 @@
+[
+  {
+    "id": "SV-001",
+    "category": "services",
+    "necArticle": "Article 230",
+    "difficulty": "apprentice",
+    "questionText": "What is the maximum number of service disconnects allowed for a single service?",
+    "options": [
+      "4",
+      "6",
+      "8",
+      "Unlimited"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 230.71(A) limits the number of service disconnecting means to a maximum of 6 switches or circuit breakers, mounted in a single enclosure or grouped together.",
+    "necReference": "230.71(A)",
+    "sparkyTip": "Six throws max to turn off the service - remember the 'rule of six!'"
+  },
+  {
+    "id": "SV-002",
+    "category": "services",
+    "necArticle": "Article 230",
+    "difficulty": "apprentice",
+    "questionText": "What is the minimum service size required for a single-family dwelling?",
+    "options": [
+      "60 amperes",
+      "100 amperes",
+      "150 amperes",
+      "200 amperes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 230.79(C) requires a minimum 100-ampere, 3-wire service for a single-family dwelling with an initial installation of more than two 2-wire branch circuits.",
+    "necReference": "230.79(C)",
+    "sparkyTip": "100 amps minimum for homes - the modern standard for residential service!"
+  },
+  {
+    "id": "SV-006",
+    "category": "services",
+    "necArticle": "Article 230",
+    "difficulty": "apprentice",
+    "questionText": "Service entrance conductors must be sized to carry at least what percentage of the calculated load?",
+    "options": [
+      "80%",
+      "100%",
+      "115%",
+      "125%"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 230.42(A)(1) requires service entrance conductors to have an ampacity not less than 100% of the maximum load to be served after applying demand factors.",
+    "necReference": "230.42(A)(1)",
+    "sparkyTip": "Service conductors at 100% of calculated load - after demand factors are applied!"
+  },
+  {
+    "id": "SV-010",
+    "category": "services",
+    "necArticle": "Article 230",
+    "difficulty": "apprentice",
+    "questionText": "Where must the service disconnecting means be located?",
+    "options": [
+      "Inside the building only",
+      "At the meter base",
+      "At a readily accessible location nearest the point of entrance",
+      "Anywhere convenient"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 230.70(A)(1) requires the service disconnecting means to be installed at a readily accessible location either outside the building or inside nearest the point of entrance.",
+    "necReference": "230.70(A)(1)",
+    "sparkyTip": "Service disconnect near the entry point - firefighters need quick access!"
+  },
+  {
+    "id": "SV-013",
+    "category": "services",
+    "necArticle": "Article 230",
+    "difficulty": "apprentice",
+    "questionText": "What is the purpose of a drip loop on service entrance conductors?",
+    "options": [
+      "To provide slack for repairs",
+      "To prevent water from entering the raceway",
+      "To make connections easier",
+      "To allow thermal expansion"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 230.54(F) requires service entrance conductors to have a drip loop to prevent water from entering the service raceway or equipment. Water runs down and drips off the loop.",
+    "necReference": "230.54(F)",
+    "sparkyTip": "Drip loops keep water out - always form that loop below the weatherhead!"
+  }
+]

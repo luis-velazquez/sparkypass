@@ -1,0 +1,36 @@
+[
+  {
+    "id": "VD-001",
+    "category": "voltage-drop",
+    "necArticle": "Chapter 9, Tables 8 & 9",
+    "difficulty": "journeyman",
+    "questionText": "A 240V single-phase circuit supplies a 40A continuous load through 10 AWG copper conductors (10,380 CM) at a distance of 150 feet. Using K = 12.9, what is the approximate voltage drop?",
+    "options": [
+      "14.9V",
+      "18.6V",
+      "29.8V",
+      "7.5V"
+    ],
+    "correctAnswer": 0,
+    "explanation": "VD = 2 × K × I × D / CM = 2 × 12.9 × 40 × 150 / 10,380 = 154,800 / 10,380 = 14.9V. That's 14.9 / 240 = 6.2%, which exceeds the 3% branch circuit recommendation.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Always plug into VD = 2KID/CM first, then check if the percentage is under 3% for branch circuits!"
+  },
+  {
+    "id": "VD-029",
+    "category": "voltage-drop",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "What is the maximum one-way distance for a 208V single-phase, 30A circuit using 8 AWG copper (16,510 CM) to stay within 3% voltage drop? (K = 12.9)",
+    "options": [
+      "85 feet",
+      "120 feet",
+      "133 feet",
+      "165 feet"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Max VD = 208 × 0.03 = 6.24V. D = VD × CM / (2 × K × I) = 6.24 × 16,510 / (2 × 12.9 × 30) = 133.1 ft.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "208V gives more distance than 120V for the same wire and current."
+  }
+]

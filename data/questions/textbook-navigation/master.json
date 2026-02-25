@@ -1,0 +1,19 @@
+[
+  {
+    "id": "TN-032",
+    "category": "textbook-navigation",
+    "necArticle": "Article 250",
+    "difficulty": "master",
+    "questionText": "Where do you find the sizing rules for bonding jumpers on the supply side of a service?",
+    "options": [
+      "250.102(C)(1)",
+      "250.122",
+      "250.66",
+      "250.90"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Supply-side bonding jumpers are sized per Table 250.102(C)(1).",
+    "necReference": "Article 250",
+    "sparkyTip": "Supply-side bonding jumper sizing = 250.102(C)(1)."
+  }
+]

@@ -1,0 +1,274 @@
+[
+  {
+    "id": "GB-002",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "What is the minimum burial depth for a ground rod?",
+    "options": [
+      "6 feet",
+      "8 feet",
+      "10 feet",
+      "4 feet"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.53(G) requires rod electrodes to be installed so that at least 8 feet (2.44 m) of length is in contact with the soil.",
+    "necReference": "250.53(G)",
+    "sparkyTip": "Ground rods need 8 feet in the earth - think 'great 8' for ground rods!"
+  },
+  {
+    "id": "GB-005",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "The grounding electrode conductor connects the grounding electrode to the:",
+    "options": [
+      "Branch circuit panel",
+      "Equipment grounding bus",
+      "Service equipment neutral bar",
+      "Main breaker"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The grounding electrode conductor connects the grounding electrode system to the grounded service conductor (neutral) at the service equipment, as specified in NEC 250.24(A).",
+    "necReference": "250.24(A)",
+    "sparkyTip": "GEC goes from ground rod to neutral bar at service - that's where earth meets the system!"
+  },
+  {
+    "id": "GB-008",
+    "category": "grounding-bonding",
+    "necArticle": "250.52(A)(1)",
+    "difficulty": "apprentice",
+    "questionText": "To qualify as a grounding electrode, a metal underground water pipe must be in direct contact with the earth for a minimum distance of:",
+    "options": [
+      "5 feet",
+      "8 feet",
+      "10 feet",
+      "20 feet"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC 250.52(A)(1), a metal underground water pipe in direct contact with the earth for 10 feet (3.0 m) or more is considered a grounding electrode. However, remember that NEC 250.53(D)(2) requires that this water pipe electrode MUST be supplemented by an additional electrode (like a ground rod) regardless of its length.",
+    "necReference": "250.52(A)(1); 250.53(D)(2)",
+    "sparkyTip": "10 feet is the magic number to BE an electrode. But here is the real-world trap: Even if you have 100 feet of pipe, the NEC doesn't trust it! You ALWAYS have to add a supplemental ground rod just in case the utility company swaps the water meter for plastic later."
+  },
+  {
+    "id": "GB-009",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "The main bonding jumper at service equipment connects the neutral bus to the:",
+    "options": [
+      "Circuit breaker",
+      "Equipment grounding bus",
+      "Service conductors",
+      "Load center cover"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.28 requires the main bonding jumper to connect the grounded conductor (neutral) to the equipment grounding conductor and the equipment enclosure at the service.",
+    "necReference": "250.28",
+    "sparkyTip": "Main bonding jumper bridges neutral to ground at service - the only place they should meet!"
+  },
+  {
+    "id": "GB-013",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "What color is required for insulated equipment grounding conductors?",
+    "options": [
+      "White",
+      "Gray",
+      "Green or green with yellow stripes",
+      "Any color with green tape"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 250.119 requires equipment grounding conductors to be identified by a continuous green color or green with one or more yellow stripes.",
+    "necReference": "250.119",
+    "sparkyTip": "Green for ground - it's easy to remember: G for Green, G for Ground!"
+  },
+  {
+    "id": "GB-016",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "The intersystem bonding termination device must be capable of terminating how many conductors?",
+    "options": [
+      "2 conductors",
+      "3 conductors",
+      "4 conductors",
+      "6 conductors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.94 requires an intersystem bonding termination that provides connection capacity for at least 3 intersystem bonding conductors (for cable, telephone, etc.).",
+    "necReference": "250.94",
+    "sparkyTip": "Intersystem bonding = 3 terminations minimum. One for each utility that might need it!"
+  },
+  {
+    "id": "GB-017",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "Where is the system grounding connection typically made for a grounded electrical system?",
+    "options": [
+      "At the transformer secondary",
+      "At the service entrance equipment",
+      "At the first panelboard",
+      "At the meter base"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.24(A)(1) requires the grounding electrode conductor connection to be made at any accessible point from the load end of the service drop to the service disconnecting means.",
+    "necReference": "250.24(A)(1)",
+    "sparkyTip": "System ground connects at the service - that's home base for your grounding!"
+  },
+  {
+    "id": "GB-018",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "Which table is used to size equipment grounding conductors (EGCs) based on overcurrent device rating?",
+    "options": [
+      "Table 250.66",
+      "Table 250.122",
+      "Table 250.102(C)(1)",
+      "Table 310.16"
+    ],
+    "correctAnswer": 1,
+    "explanation": "EGC sizing is based on the rating of the overcurrent device per Table 250.122.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-024",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "A rod electrode has 18 ohms resistance. What is required by the NEC? (select the best answer)",
+    "options": [
+      "No supplemental electrode required",
+      "Add a supplemental electrode",
+      "Install a ground ring",
+      "Bond to gas piping"
+    ],
+    "correctAnswer": 0,
+    "explanation": "At 25 ohms or less, no supplemental electrode is required by 250.53(A)(2).",
+    "necReference": "250.53(A)(2)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-031",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "When multiple grounding electrodes are present, what is required for 2023 NEC?",
+    "options": [
+      "Use only the lowest resistance electrode",
+      "Bond all electrodes together to form a grounding electrode system",
+      "Disconnect supplementary electrodes",
+      "Bond only to the metal water pipe"
+    ],
+    "correctAnswer": 1,
+    "explanation": "All available electrodes must be bonded together to form a grounding electrode system.",
+    "necReference": "250.50",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-038",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "If a metal underground water pipe is used as an electrode, what else is required?",
+    "options": [
+      "Nothing else is required",
+      "It must be supplemented by another electrode",
+      "It must be isolated from other electrodes",
+      "It must be coated"
+    ],
+    "correctAnswer": 1,
+    "explanation": "A metal underground water pipe electrode must be supplemented by another electrode.",
+    "necReference": "250.53(D)(2)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-052",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "In a separately derived system, where is the system bonding jumper installed for 2023 NEC?",
+    "options": [
+      "At every panelboard",
+      "At the separately derived system or first disconnect as required",
+      "Only at the service disconnect",
+      "At the last branch circuit"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The system bonding jumper is installed at the SDS as specified in 250.30(A)(1).",
+    "necReference": "250.30(A)(1)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-054",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "Which statement best describes the function of an equipment grounding conductor (EGC)?",
+    "options": [
+      "It carries normal load current",
+      "It provides a low-impedance fault path to clear ground faults",
+      "It replaces the grounded conductor",
+      "It reduces voltage drop"
+    ],
+    "correctAnswer": 1,
+    "explanation": "EGCs provide a low-impedance path for fault current to operate OCPDs.",
+    "necReference": "250.4(A)(5)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-058",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "Which of the following is a grounding electrode type listed in 250.52 for 2023 NEC?",
+    "options": [
+      "Plastic water pipe",
+      "Concrete-encased electrode",
+      "Painted metal raceway",
+      "Flexible cord"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Concrete-encased electrodes are listed in 250.52(A)(3).",
+    "necReference": "250.52(A)(3)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-063",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "What is one primary purpose of the grounding electrode system?",
+    "options": [
+      "Carry normal load current",
+      "Stabilize the system to earth and limit voltage from lightning or surges",
+      "Replace overcurrent protection",
+      "Eliminate the need for bonding"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Grounding electrodes stabilize the system to earth and limit voltage surges.",
+    "necReference": "250.4(A)(1)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-064",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "apprentice",
+    "questionText": "Which table is used to size grounding electrode conductors (GECs) based on service conductor size?",
+    "options": [
+      "Table 250.66",
+      "Table 250.122",
+      "Table 250.102(C)(1)",
+      "Table 310.16"
+    ],
+    "correctAnswer": 0,
+    "explanation": "GEC sizing for services is based on Table 250.66.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  }
+]

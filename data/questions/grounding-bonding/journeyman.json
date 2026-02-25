@@ -1,0 +1,478 @@
+[
+  {
+    "id": "GB-001",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250.66",
+    "difficulty": "journeyman",
+    "questionText": "What is the minimum size Copper Grounding Electrode Conductor (GEC) required for a standard residential 200-Ampere service supplied by 2/0 AWG Copper service-entrance conductors?",
+    "options": [
+      "#8 AWG",
+      "#6 AWG",
+      "#4 AWG",
+      "#2 AWG"
+    ],
+    "correctAnswer": 2,
+    "explanation": "First, refer to NEC Table 310.12 (Residential Services): A 200A service typically uses 2/0 AWG Copper conductors. Second, refer to NEC Table 250.66: For ungrounded service-entrance conductors sized 'Over 1/0 through 3/0 AWG Copper', the required Grounding Electrode Conductor is #4 AWG Copper.",
+    "necReference": "Table 250.66 & Table 310.12",
+    "sparkyTip": "Don't guess based on the breaker! Size the GEC based on the service WIRE size. 200A = 2/0 Cu Wire = #4 Cu Ground."
+  },
+  {
+    "id": "GB-003",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "When a single ground rod has a resistance greater than 25 ohms, what is required?",
+    "options": [
+      "Install a larger rod",
+      "Add a supplemental electrode",
+      "Use a different location",
+      "Nothing additional required"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.53(A)(2) requires that if a single rod electrode has a resistance to earth greater than 25 ohms, it shall be augmented by one additional electrode.",
+    "necReference": "250.53(A)(2)",
+    "sparkyTip": "Over 25 ohms? Add another rod! Two rods are the solution to high resistance."
+  },
+  {
+    "id": "GB-004",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "What is the minimum spacing between two ground rods?",
+    "options": [
+      "4 feet",
+      "6 feet",
+      "8 feet",
+      "10 feet"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.53(A)(3) requires that when more than one rod electrode is used, they shall be spaced not less than 6 feet apart.",
+    "necReference": "250.53(A)(3)",
+    "sparkyTip": "6 feet between rods minimum - give them room to do their job effectively!"
+  },
+  {
+    "id": "GB-006",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "The minimum size of a copper bonding jumper for a 2-inch trade size rigid metal conduit used for service-entrance conductors is determined by which basis?",
+    "options": [
+      "The length of the conduit per Table 250.66",
+      "The size of the largest service-entrance conductor per Table 250.102(C)(1)",
+      "The ampacity of the conductors per Table 310.16",
+      "The rating of the overcurrent device per Table 250.122"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Since this is on the supply side (service), NEC 250.102(C)(1) requires the bonding jumper to be sized based on the largest ungrounded service-entrance conductor, not the conduit size itself.",
+    "necReference": "250.102(C)(1)",
+    "sparkyTip": "If it's ahead of the main breaker, use 250.102(C)(1). If it's after the breaker, use 250.122!"
+  },
+  {
+    "id": "GB-007",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "What is the minimum size equipment grounding conductor for a 60-ampere circuit?",
+    "options": [
+      "#14 AWG",
+      "#12 AWG",
+      "#10 AWG",
+      "#8 AWG"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC Table 250.122 specifies a minimum #10 AWG copper equipment grounding conductor for overcurrent devices rated 60 amperes.",
+    "necReference": "Table 250.122",
+    "sparkyTip": "Table 250.122 is your EGC sizing guide - match the breaker size to find your wire!"
+  },
+  {
+    "id": "GB-010",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "At what point must the grounded conductor (neutral) and equipment grounding conductor be bonded together?",
+    "options": [
+      "At every panel",
+      "Only at the service equipment",
+      "At the first disconnect",
+      "At each subpanel"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.24(A)(5) and 250.142(B) prohibit connecting the grounded conductor to equipment grounding conductors or equipment on the load side of the service disconnecting means, except in specific circumstances.",
+    "necReference": "250.142(B)",
+    "sparkyTip": "Neutral-ground bond ONLY at service! In subpanels, keep them separate."
+  },
+  {
+    "id": "GB-012",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "What is the diameter of a standard ground rod?",
+    "options": [
+      "½ inch",
+      "⅝ inch",
+      "¾ inch",
+      "1 inch"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.52(A)(5) requires rod electrodes to have a minimum diameter of ⅝ inch (15.87 mm) for standard ground rods. Stainless steel or nonferrous rods can be ½ inch.",
+    "necReference": "250.52(A)(5)",
+    "sparkyTip": "Standard ground rod = ⅝ inch diameter. It's the industry standard!"
+  },
+  {
+    "id": "GB-019",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which table is used to size the main bonding jumper for service equipment for 2023 NEC?",
+    "options": [
+      "Table 250.66",
+      "Table 250.122",
+      "Table 250.102(C)(1)",
+      "Table 310.16"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Main bonding jumper sizing is in Table 250.102(C)(1).",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-030",
+    "category": "grounding-bonding",
+    "necArticle": "250.24(B)",
+    "difficulty": "journeyman",
+    "questionText": "On the load side of the service disconnect, how must the grounded (neutral) conductor and equipment grounding conductors be treated?",
+    "options": [
+      "They must be bonded together in every junction box",
+      "They must be kept separate and not connected to each other",
+      "They must be connected only in subpanels",
+      "The neutral must be used as the grounding path for all motors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.24(B) prohibits the connection of the grounded conductor to the grounding conductor or to equipment enclosures on the load side of the service disconnect to prevent objectionable current on metal parts.",
+    "necReference": "250.24(B)",
+    "sparkyTip": "Bonded at the Main, Separated at the Sub. If you bond them twice, you're inviting the current to ride the conduit!"
+  },
+  {
+    "id": "GB-034",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section lists specific equipment connected by cord and plug that must be grounded for 2023 NEC?",
+    "options": [
+      "250.110",
+      "250.112",
+      "250.114",
+      "250.118"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Section 250.114 covers cord-and-plug equipment that must be grounded.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-035",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section lists equipment grounding conductor (EGC) types?",
+    "options": [
+      "250.118",
+      "250.122",
+      "250.66",
+      "250.104"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Section 250.118 lists acceptable EGC types.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-036",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section defines concrete-encased electrodes as grounding electrodes (select the best answer)",
+    "options": [
+      "250.52(A)(1)",
+      "250.52(A)(2)",
+      "250.52(A)(3)",
+      "250.52(A)(5)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Concrete-encased electrodes are defined in 250.52(A)(3).",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-037",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section identifies ground ring electrodes as part of the grounding electrode system for 2023 NEC?",
+    "options": [
+      "250.52(A)(4)",
+      "250.52(A)(1)",
+      "250.52(A)(5)",
+      "250.50"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Ground ring electrodes are listed in 250.52(A)(4).",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-039",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which section covers bonding of service equipment enclosures (select the best answer)",
+    "options": [
+      "250.90",
+      "250.92",
+      "250.96",
+      "250.102"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Service equipment bonding is covered in 250.92.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-040",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250.96",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section specifically requires the bonding of metal raceways and enclosures to ensure electrical continuity, including the removal of nonconductive coatings like paint?",
+    "options": [
+      "250.90",
+      "250.96",
+      "250.92",
+      "250.102"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 250.96 'Bonding Other Enclosures' requires that metal parts serve as an effective ground path. It specifically mandates the removal of paint, enamel, or similar coatings at contact points to ensure continuity.",
+    "necReference": "Article 250",
+    "sparkyTip": "Think of 250.96 as the 'Scrape the Paint' rule. If you don't scrape the paint off the sub-panel where the conduit lands, you've violated 250.96!"
+  },
+  {
+    "id": "GB-042",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section explains the effective ground-fault current path requirement (select the best answer)",
+    "options": [
+      "250.4(A)(1)",
+      "250.4(A)(5)",
+      "250.50",
+      "250.118"
+    ],
+    "correctAnswer": 1,
+    "explanation": "250.4(A)(5) addresses the effective ground-fault current path.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-043",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section requires all available electrodes to be bonded into a grounding electrode system for 2023 NEC?",
+    "options": [
+      "250.50",
+      "250.53",
+      "250.54",
+      "250.60"
+    ],
+    "correctAnswer": 0,
+    "explanation": "250.50 requires bonding all available electrodes.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-044",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "If building steel qualifies as a grounding electrode, what must be done?",
+    "options": [
+      "Ignore it",
+      "Bond it into the grounding electrode system",
+      "Isolate it from other electrodes",
+      "Use it only for communications"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Qualifying building steel must be bonded into the grounding electrode system.",
+    "necReference": "250.52(A)(2); 250.50",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-045",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section covers installation requirements for grounding electrode conductors (GECs) (select the best answer)",
+    "options": [
+      "250.64",
+      "250.66",
+      "250.68",
+      "250.70"
+    ],
+    "correctAnswer": 0,
+    "explanation": "GEC installation requirements are in 250.64.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-046",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section addresses how grounding electrode conductors are connected to electrodes for 2023 NEC?",
+    "options": [
+      "250.64",
+      "250.66",
+      "250.70",
+      "250.74"
+    ],
+    "correctAnswer": 2,
+    "explanation": "250.70 covers the connection of GECs to electrodes.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-047",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section covers grounding and bonding of separately derived systems?",
+    "options": [
+      "250.24",
+      "250.26",
+      "250.30",
+      "250.32"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Separately derived systems are covered in 250.30.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-049",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section covers grounding of AC systems supplied by a service for 2023 NEC?",
+    "options": [
+      "250.24",
+      "250.30",
+      "250.32",
+      "250.50"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Grounding of service-supplied AC systems is in 250.24.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-050",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section lists rod and pipe electrodes as grounding electrodes?",
+    "options": [
+      "250.52(A)(1)",
+      "250.52(A)(3)",
+      "250.52(A)(5)",
+      "250.53(A)(2)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Rod and pipe electrodes are in 250.52(A)(5).",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-055",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section addresses continuity and attachment of EGCs for 2023 NEC?",
+    "options": [
+      "250.148",
+      "250.118",
+      "250.122",
+      "250.52"
+    ],
+    "correctAnswer": 0,
+    "explanation": "250.148 covers EGC continuity and attachment in boxes.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-057",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "A detached structure is supplied by a feeder. What section governs grounding and bonding for that building (select the best answer)",
+    "options": [
+      "250.24",
+      "250.30",
+      "250.32",
+      "250.50"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Detached structures supplied by feeders are addressed in 250.32.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-059",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Metal piping systems likely to become energized must be bonded according to which section?",
+    "options": [
+      "250.104",
+      "250.118",
+      "250.122",
+      "250.70"
+    ],
+    "correctAnswer": 0,
+    "explanation": "250.104 covers bonding of piping systems likely to become energized.",
+    "necReference": "Article 250",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  },
+  {
+    "id": "GB-074",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Which NEC section provides the general requirements for grounding exposed non-current-carrying metal parts of fixed equipment?",
+    "options": [
+      "250.110",
+      "250.112",
+      "250.114",
+      "250.118"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Section 250.110 lists the conditions requiring grounding for fixed equipment, such as proximity to ground (within 8' vertically or 5' horizontally), locations in wet/damp areas, or if supplied by a metal-cased wiring method.",
+    "necReference": "Article 250",
+    "sparkyTip": "Think of 250.110 as the 'General Rule' for fixed stuff. 250.112 is for 'Specific' equipment like organs or elevators, and 250.114 is for 'Cord-and-Plug' equipment."
+  },
+  {
+    "id": "GB-092",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "The bonding jumper for an interior metal water piping system shall be sized using which table in the 2023 NEC?",
+    "options": [
+      "Table 250.66",
+      "Table 250.122",
+      "Table 250.102(C)(1)",
+      "Table 310.16"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC 250.104(A)(1), the metal water piping bonding jumper must be sized in accordance with Table 250.102(C)(1) based on the size of the largest service-entrance conductor.",
+    "necReference": "250.104(A)(1)",
+    "sparkyTip": "Don't fall for the legacy trap! Water pipe BONDING uses the Supply-Side Bonding Jumper table 250.102(C)(1), even though it looks similar to the GEC table 250.66."
+  }
+]

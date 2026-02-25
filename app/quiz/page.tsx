@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BookOpen, Zap, Shield, ChevronRight, Navigation, Table, Box, CircleDot, TrendingDown, Cog, Thermometer, Omega, GitBranch, Trophy, Lock, Library, TableProperties, HardHat, Radio, Home, Waves } from "lucide-react";
+import { BookOpen, Zap, Shield, ChevronRight, Navigation, Table, Box, CircleDot, TrendingDown, Cog, Thermometer, Omega, GitBranch, Trophy, Lock, Library, TableProperties, HardHat, Radio, Home, Waves, Flame } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
 import { CATEGORIES, PARENT_CATEGORIES, type Category } from "@/types/question";
@@ -35,6 +35,7 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   "transformer-sizing": GitBranch,
   "mobile-homes": Home,
   "swimming-pools": Waves,
+  "termination-derating": Flame,
 };
 
 // Map category slugs to colors
@@ -108,6 +109,11 @@ const categoryColors = {
     icon: "text-blue-400 dark:text-blue-300",
     bg: "bg-blue-400/10",
     border: "hover:border-blue-400/50",
+  },
+  "termination-derating": {
+    icon: "text-orange-600 dark:text-orange-400",
+    bg: "bg-orange-600/10",
+    border: "hover:border-orange-600/50",
   },
 };
 

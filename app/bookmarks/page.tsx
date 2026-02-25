@@ -24,6 +24,7 @@ import {
   GitBranch,
   Home,
   Waves,
+  Flame,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -64,6 +65,7 @@ const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
   "transformer-sizing": GitBranch,
   "mobile-homes": Home,
   "swimming-pools": Waves,
+  "termination-derating": Flame,
 };
 
 // Map category slugs to colors
@@ -137,6 +139,11 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     icon: "text-blue-400",
     bg: "bg-blue-400/10",
     badge: "bg-blue-400/10 text-blue-400",
+  },
+  "termination-derating": {
+    icon: "text-orange-600",
+    bg: "bg-orange-600/10",
+    badge: "bg-orange-600/10 text-orange-600",
   },
 };
 

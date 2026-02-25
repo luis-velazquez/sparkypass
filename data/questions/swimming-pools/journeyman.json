@@ -1,0 +1,87 @@
+[
+  {
+    "id": "SP-006",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "journeyman",
+    "questionText": "Per NEC 680.8, what is the minimum clearance for overhead conductors (insulated supply or service drop cables at 0-750V to ground) above the pool water level or diving platform?",
+    "options": [
+      "10 feet",
+      "14.5 feet",
+      "22.5 feet",
+      "25 feet"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 680.8 Table requires that insulated supply or service drop cables (0-750V to ground) maintain a minimum clearance of 22.5 feet above the maximum water level of the pool, the diving structure, or the observation stand/tower/platform.",
+    "necReference": "680.8",
+    "sparkyTip": "The 22.5-foot clearance above pool water applies to insulated service drop cables. All other overhead conductors (not voltage-limited) require even more — 25 feet."
+  },
+  {
+    "id": "SP-007",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "journeyman",
+    "questionText": "What is the minimum size of the solid copper bonding conductor used in the equipotential bonding grid for a pool per NEC 680.26(B)(1)?",
+    "options": [
+      "6 AWG",
+      "8 AWG",
+      "10 AWG",
+      "12 AWG"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.26(B)(1) requires that the equipotential bonding grid use a minimum 8 AWG solid copper conductor. This conductor connects all metal parts and creates a grid that equalizes the voltage potential around the pool.",
+    "necReference": "680.26(B)(1)",
+    "sparkyTip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded — solid copper holds up better when buried in concrete or soil."
+  },
+  {
+    "id": "SP-008",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "journeyman",
+    "questionText": "Per NEC 680.23(A)(3), what protection is required for all luminaires installed in the walls of a pool that operate at more than the low voltage contact limit?",
+    "options": [
+      "AFCI protection",
+      "GFCI protection",
+      "Double insulation only",
+      "An isolation transformer only"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.23(A)(3) requires that a GFCI shall protect all luminaires operating at more than the low voltage contact limit that are installed in the walls of pools. This provides a critical layer of safety for underwater lighting.",
+    "necReference": "680.23(A)(3)",
+    "sparkyTip": "Underwater lights above low voltage contact limit (15V) MUST have GFCI protection. This is non-negotiable — electricity and water right next to swimmers."
+  },
+  {
+    "id": "SP-009",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "journeyman",
+    "questionText": "Per NEC 680.23(A)(5), what is the maximum voltage permitted for luminaires installed in a pool?",
+    "options": [
+      "120 volts",
+      "150 volts",
+      "208 volts",
+      "240 volts"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.23(A)(5) limits luminaires installed in pools to a maximum of 150 volts between conductors. This voltage limitation helps reduce the risk of electric shock to swimmers in the event of a luminaire failure.",
+    "necReference": "680.23(A)(5)",
+    "sparkyTip": "150 volts max for pool lights. Most pool luminaires actually operate at 12V via a transformer, but the NEC caps it at 150V as an absolute maximum."
+  },
+  {
+    "id": "SP-010",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "journeyman",
+    "questionText": "Per NEC 680.21(A), which wiring method is required within 5 feet of the inside wall of a pool for branch circuits that supply pool equipment?",
+    "options": [
+      "Any approved wiring method",
+      "Rigid metal conduit, IMC, or a listed nonmetallic raceway system",
+      "Only Type MC cable",
+      "Only nonmetallic-sheathed cable (Romex)"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.21(A) requires that wiring methods within 5 feet of the inside wall of the pool use rigid metal conduit (RMC), intermediate metal conduit (IMC), liquidtight flexible nonmetallic conduit, or a rigid nonmetallic conduit system. NM cable and MC cable are generally not permitted within this zone.",
+    "necReference": "680.21(A)",
+    "sparkyTip": "Within 5 feet of the pool wall, think rigid raceways only. No Romex, no standard MC cable. The pool zone demands heavy-duty wiring protection."
+  }
+]

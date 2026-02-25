@@ -1,0 +1,121 @@
+[
+  {
+    "id": "CF-007",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "master",
+    "questionText": "A 5-foot run of Electrical Metallic Tubing (EMT) is used to house six #10 AWG THHN conductors and three #12 AWG THHN conductors. What is the minimum trade size EMT required?",
+    "options": [
+      "1/2 inch",
+      "3/4 inch",
+      "1 inch",
+      "1-1/4 inch"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Calculation using Table 5 for THHN areas: (6 × 0.0211 sq in for #10) + (3 × 0.0133 sq in for #12) = 0.1266 + 0.0399 = 0.1665 sq in. Per Chapter 9 Table 1, 40% fill applies. Looking at Table 4 for EMT: 1/2-inch at 40% = 0.122 sq in (too small). 3/4-inch at 40% = 0.213 sq in (adequate).",
+    "necReference": "Chapter 9, Tables 1, 4 & 5",
+    "sparkyTip": "Always verify individual wire areas in Table 5. Even though these are small wires, the combination quickly exceeds the capacity of a 1/2-inch pipe!"
+  },
+  {
+    "id": "CF-011",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "master",
+    "questionText": "Calculate the conduit fill percentage: 4 #8 AWG THHN conductors in 3/4-inch EMT.",
+    "options": [
+      "22.5%",
+      "27.5%",
+      "31.0%",
+      "36.8%"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Total conductor area: 4 × 0.0366 = 0.1464 sq in. Fill percentage: 0.1464 ÷ 0.533 × 100 = 27.5%.",
+    "necReference": "Chapter 9, Tables 4 & 5",
+    "sparkyTip": "Fill % = (Total conductor area ÷ Conduit area) × 100. Keep it under 40% for 3+ conductors!"
+  },
+  {
+    "id": "CF-023",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "master",
+    "questionText": "A 1-inch EMT nipple is 24 inches long. Using the 60% fill allowance, what is the maximum number of #8 AWG THHN conductors allowed?",
+    "options": [
+      "12 conductors",
+      "13 conductors",
+      "14 conductors",
+      "15 conductors"
+    ],
+    "correctAnswer": 2,
+    "explanation": "60% area = 0.865 × 0.60 = 0.519 sq in. Max conductors = 0.519 ÷ 0.0366 = 14.18, so 14 conductors.",
+    "necReference": "Chapter 9, Table 1 Note 4; Tables 4 & 5",
+    "sparkyTip": "Nipples ≤ 24 inches can use 60% fill. Remember to recalc the fill area."
+  },
+  {
+    "id": "CF-030",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "master",
+    "questionText": "Is 2 #4 AWG THHN in 3/4-inch EMT compliant under the 31% limit for two conductors?",
+    "options": [
+      "Yes, it is within 31%",
+      "No, it exceeds 31%",
+      "Yes, but only if it is a nipple",
+      "No, it exceeds 40%"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Total area: 2 × 0.0824 = 0.1648 sq in. 3/4-inch EMT total area = 0.533 sq in. 31% limit = 0.533 × 0.31 = 0.165 sq in. 0.1648 is within the limit.",
+    "necReference": "Chapter 9, Table 1; Tables 4 & 5",
+    "sparkyTip": "For two conductors, check against 31% of the total conduit area."
+  },
+  {
+    "id": "CF-032",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "master",
+    "questionText": "Two #2 AWG THHN conductors are installed in a raceway. What is the minimum EMT size required?",
+    "options": [
+      "3/4 inch",
+      "1 inch",
+      "1-1/4 inch",
+      "1-1/2 inch"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Total area: 2 × 0.1158 = 0.2316 sq in. 3/4-inch EMT at 31% = 0.533 × 0.31 = 0.165 sq in (too small). 1-inch EMT at 31% = 0.865 × 0.31 = 0.268 sq in (adequate).",
+    "necReference": "Chapter 9, Table 1; Tables 4 & 5",
+    "sparkyTip": "Two-conductor runs use 31%—that often bumps you up a size."
+  },
+  {
+    "id": "CF-036",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "master",
+    "questionText": "A 10-foot run of Electrical Metallic Tubing (EMT) contains four 1/0 AWG THHN conductors and one 6 AWG THHN equipment grounding conductor. What is the minimum trade size EMT required?",
+    "options": [
+      "1 inch",
+      "1-1/4 inch",
+      "1-1/2 inch",
+      "2 inch"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Calculation using Table 5 for THHN areas: (4 × 0.1855 sq in) + (1 × 0.0507 sq in) = 0.742 + 0.0507 = 0.7927 sq in. Per Chapter 9 Table 1, the 40% fill rate applies for over two conductors. Looking at Table 4 for EMT: 1-1/4 inch at 40% = 0.598 sq in (too small). 1-1/2 inch at 40% = 0.814 sq in (adequate).",
+    "necReference": "Chapter 9, Tables 1, 4, & 5",
+    "sparkyTip": "Because this run is over 24 inches, you are limited to 40% fill. If it were a nipple (24\" or less), you could go up to 60%!"
+  },
+  {
+    "id": "CF-038",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9, Table 1 (Info Note 2); Tables 4 & 5",
+    "difficulty": "master",
+    "questionText": "An electrician is planning to pull three 500 kcmil THHN conductors into a 2½-inch EMT run. The total cross-sectional area of the wires is 2.1219 sq in, which legally passes the 40% fill limit of the EMT (2.343 sq in). However, based on the exact dimensions in Chapter 9, what is the Jam Ratio, and will these conductors likely jam when pulled through a 90-degree bend?",
+    "options": [
+      "2.88; Yes, they fall directly into the jamming hazard range.",
+      "3.54; No, they are safely above the jamming hazard range.",
+      "2.45; No, the ratio is too small to cause jamming.",
+      "3.15; Yes, but jamming only applies to schedule 80 PVC."
+    ],
+    "correctAnswer": 0,
+    "explanation": "Step 1: Find the conduit ID. Per Chapter 9, Table 4, 2½-inch EMT has an Internal Diameter of 2.731 inches. Step 2: Find the wire OD. Per Chapter 9, Table 5, 500 kcmil THHN has an Approximate Diameter of 0.949 inches. Step 3: Calculate the ratio. 2.731 ÷ 0.949 = 2.877 (rounds to 2.88). Step 4: Check the rule. Chapter 9, Table 1, Informational Note 2 warns that a ratio between 2.8 and 3.2 will cause three conductors to jam. Even though it passes the 40% fill rule, this pull will likely get stuck!",
+    "necReference": "Chapter 9, Table 1 Info Note 2; Table 4; Table 5",
+    "sparkyTip": "This is the ultimate Master Electrician trap! Just because it fits on paper using the 40% square-inch rule doesn't mean it will pull in the real world. If you calculate a jam ratio of 2.8 to 3.2, you have to either upsize the pipe or change the wire size to break the geometry!"
+  }
+]

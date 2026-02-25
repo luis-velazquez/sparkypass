@@ -1,0 +1,70 @@
+[
+  {
+    "id": "GB-011",
+    "category": "grounding-bonding",
+    "necArticle": "250.104(B), Table 250.122",
+    "difficulty": "master",
+    "questionText": "What is the minimum size copper bonding jumper required for an indoor metal gas piping system, where the specific branch circuit likely to energize the piping is rated at 100 amperes?",
+    "options": [
+      "#10 AWG",
+      "#8 AWG",
+      "#6 AWG",
+      "#4 AWG"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per NEC 250.104(B), 'other metal piping' (which includes standard gas pipe) must be bonded using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping. For a 100A overcurrent device, Table 250.122 requires a minimum #8 AWG copper conductor.",
+    "necReference": "250.104(B), Table 250.122",
+    "sparkyTip": "Exam vs. Real World! On the NEC exam, standard gas pipe is bonded using Table 250.122 based on the circuit likely to energize it (100A = #8 AWG). But in the field, if you see flexible yellow CSST gas pipe, the manufacturer and Fuel Gas Code usually demand a minimum #6 AWG bond back to the service. Keep your exam brain and your field brain separate!"
+  },
+  {
+    "id": "GB-014",
+    "category": "grounding-bonding",
+    "necArticle": "250.30(A)(5), Table 250.66",
+    "difficulty": "master",
+    "questionText": "A 112.5 kVA separately derived system (transformer) is installed using 500 kcmil copper secondary phase conductors. According to NEC 250.30(A)(5), what is the minimum required size for the copper grounding electrode conductor (GEC)?",
+    "options": [
+      "#2 AWG",
+      "1/0 AWG",
+      "3/0 AWG",
+      "#4 AWG"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per NEC 250.30(A)(5), the grounding electrode conductor for a single separately derived system must be sized in accordance with Table 250.66, based on the derived ungrounded (secondary phase) conductors. According to Table 250.66, a 500 kcmil copper conductor requires a minimum 1/0 AWG copper GEC.",
+    "necReference": "250.30(A)(5), Table 250.66",
+    "sparkyTip": "Transformers = Table 250.66! But remember the golden rule of transformers: you size the GEC based on the SECONDARY (derived) conductors, never the primary conductors feeding the transformer!"
+  },
+  {
+    "id": "GB-022",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "master",
+    "questionText": "Per the 2023 NEC, the bonding jumper for a metal gas piping system shall be sized using which table and basis?",
+    "options": [
+      "Table 250.66 based on the size of the largest service-entrance conductor",
+      "Table 250.122 based on the rating of the circuit likely to energize the piping",
+      "Table 250.102(C)(1) based on the size of the largest service-entrance conductor",
+      "Table 310.16 based on the allowable ampacity of the conductors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "According to NEC 250.104(B), 'other metal piping' systems, including gas piping, must be bonded to the service equipment enclosure or grounding electrode system using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping.",
+    "necReference": "250.104(B)",
+    "sparkyTip": "Think of gas pipe bonding as 'equipment protection'—that’s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table."
+  },
+  {
+    "id": "GB-041",
+    "category": "grounding-bonding",
+    "necArticle": "Article 250",
+    "difficulty": "master",
+    "questionText": "What is the primary purpose of bonding in grounding and bonding systems?",
+    "options": [
+      "Prevent all voltage drop",
+      "Provide a low-impedance fault path to facilitate OCPD operation",
+      "Eliminate the need for grounding electrodes",
+      "Increase insulation resistance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Bonding provides an effective fault current path to operate OCPDs.",
+    "necReference": "250.4(A)(5)",
+    "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything."
+  }
+]

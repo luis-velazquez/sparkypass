@@ -1,0 +1,121 @@
+[
+  {
+    "id": "CF-006",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "How many #12 AWG THHN conductors can be installed in 1/2-inch EMT?",
+    "options": [
+      "6 conductors",
+      "7 conductors",
+      "9 conductors",
+      "12 conductors"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC Chapter 9, Table C.1, 1/2-inch EMT can accommodate 9 #12 AWG THHN conductors at 40% fill.",
+    "necReference": "Chapter 9, Table C.1",
+    "sparkyTip": "Annex C tables give you the answer directly! C.1 is for EMT - memorize common combinations."
+  },
+  {
+    "id": "CF-010",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "What is the internal diameter of 1-inch EMT?",
+    "options": [
+      "0.824 inches",
+      "1.049 inches",
+      "1.163 inches",
+      "1.380 inches"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per NEC Chapter 9, Table 4, 1-inch EMT has an internal diameter of 1.049 inches.",
+    "necReference": "Chapter 9, Table 4",
+    "sparkyTip": "Trade size ≠ actual size! 1-inch EMT is actually about 1.049 inches inside."
+  },
+  {
+    "id": "CF-013",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "How many #6 AWG THHN conductors can be installed in 1-inch EMT?",
+    "options": [
+      "4 conductors",
+      "7 conductors",
+      "8 conductors",
+      "10 conductors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per NEC Chapter 9, Table C.1, 1-inch EMT can accommodate 7 #6 AWG THHN conductors at 40% fill.",
+    "necReference": "Chapter 9, Table C.1",
+    "sparkyTip": "Check Annex C for quick answers! Table C.1 has EMT fill for common conductor combinations."
+  },
+  {
+    "id": "CF-014",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "A nipple (conduit 24 inches or less) between enclosures can be filled to what maximum percentage?",
+    "options": [
+      "40%",
+      "53%",
+      "60%",
+      "No limit"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC Chapter 9, Table 1, Note 4, short conduit sections (nipples) not exceeding 24 inches can be filled to 60%.",
+    "necReference": "Chapter 9, Table 1, Note 4",
+    "sparkyTip": "Nipples get a break! 24 inches or less = 60% fill allowed. Less pulling stress in short runs."
+  },
+  {
+    "id": "CF-017",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "NEC Chapter 9, Table 5A provides dimensions and cross-sectional areas specifically for which type of conductors?",
+    "options": [
+      "Standard Concentric-Strand conductors",
+      "Compact Copper and Aluminum building wire",
+      "Fixture wires (Type TF and TFF)",
+      "Bare grounding conductors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Table 5A is the dedicated table for compact stranded conductors. Because the gaps between strands are reduced, these wires have a smaller overall diameter than the standard concentric-strand conductors found in Table 5.",
+    "necReference": "Chapter 9, Table 5A",
+    "sparkyTip": "Remember: 'A' stands for 'Alternative' or 'Almost-smaller'. If the exam says 'Compact,' you MUST flip past Table 5 and use Table 5A, or your conduit fill math will be wrong!"
+  },
+  {
+    "id": "CF-019",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "A run requires 3 #4 AWG THHN and 1 #10 AWG THHN for a ground. The length of the EMT is 10 feet. What is the minimum EMT size?",
+    "options": [
+      "1 inch",
+      "1-1/4 inch",
+      "3/4 inch",
+      "1 inch is adequate"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Total area: (3 × 0.0824) + 0.0211 = 0.2472 + 0.0211 = 0.2683 sq in. 3/4-inch EMT (0.213) is too small. 1-inch EMT at 40% = 0.346 sq in, which is adequate.",
+    "necReference": "Chapter 9, Tables 4 & 5",
+    "sparkyTip": "Don't forget the ground wire! Add up ALL conductors in the raceway for your fill calculation."
+  },
+  {
+    "id": "CF-031",
+    "category": "conduit-fill",
+    "necArticle": "Chapter 9",
+    "difficulty": "journeyman",
+    "questionText": "How many #10 AWG THHN conductors can fit in 1/2-inch EMT?",
+    "options": [
+      "4 conductors",
+      "5 conductors",
+      "6 conductors",
+      "7 conductors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Max conductors = 0.122 ÷ 0.0211 = 5.78, so 5 conductors.",
+    "necReference": "Chapter 9, Tables 4 & 5",
+    "sparkyTip": "Small conduit sizes fill up fast—double-check your math."
+  }
+]

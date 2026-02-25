@@ -1,0 +1,291 @@
+[
+  {
+    "id": "TN-011",
+    "category": "textbook-navigation",
+    "necArticle": "Article 110",
+    "difficulty": "apprentice",
+    "questionText": "You need general requirements for electrical installations (workmanship, listing, labeling). Where do you start?",
+    "options": [
+      "Article 90",
+      "Article 100",
+      "Article 110",
+      "Chapter 9"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Article 110 contains general requirements for electrical installations.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Article 110 is the first stop for general installation rules."
+  },
+  {
+    "id": "TN-014",
+    "category": "textbook-navigation",
+    "necArticle": "Chapter 4",
+    "difficulty": "apprentice",
+    "questionText": "You need rules for equipment (switches, receptacles, luminaires). Which chapter applies?",
+    "options": [
+      "Chapter 2",
+      "Chapter 3",
+      "Chapter 4",
+      "Chapter 5"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Chapter 4 covers equipment for general use.",
+    "necReference": "90.3",
+    "sparkyTip": "Equipment rules start in Chapter 4."
+  },
+  {
+    "id": "TN-019",
+    "category": "textbook-navigation",
+    "necArticle": "Article 300",
+    "difficulty": "apprentice",
+    "questionText": "Where are general requirements for wiring methods found?",
+    "options": [
+      "Article 300",
+      "Article 310",
+      "Article 400",
+      "Article 408"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Article 300 provides general requirements for wiring methods.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Article 300 is the gateway to wiring method rules."
+  },
+  {
+    "id": "TN-024",
+    "category": "textbook-navigation",
+    "necArticle": "Article 90",
+    "difficulty": "apprentice",
+    "questionText": "According to NEC 90.1(C), which of the following statements is TRUE regarding the intention of the Code?",
+    "options": [
+      "The Code is intended to be a design specification.",
+      "The Code serves as an instruction manual for untrained persons.",
+      "The Code is NOT intended as a design specification or an instruction manual for untrained persons.",
+      "The Code is intended exclusively for engineers."
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 90.1(C) explicitly states that the Code is not intended as a design specification or an instruction manual for untrained persons.",
+    "necReference": "NEC 90.1(C)",
+    "sparkyTip": "Not a design spec. Not a how-to guide."
+  },
+  {
+    "id": "TN-026",
+    "category": "textbook-navigation",
+    "necArticle": "Article 210",
+    "difficulty": "apprentice",
+    "questionText": "According to NEC 210.8(A), which of the following dwelling unit locations is NOT required to have GFCI protection for 125-volt, 15- and 20-ampere receptacles?",
+    "options": [
+      "Kitchens",
+      "Basements",
+      "Garages",
+      "Bedrooms"
+    ],
+    "correctAnswer": 3,
+    "explanation": "NEC 210.8(A) specifically lists Kitchens, Basements, and Garages as areas requiring GFCI protection. Bedrooms typically require AFCI protection (210.12) but do not require GFCI protection unless a receptacle is within 6 feet of a sink.",
+    "necReference": "NEC 210.8(A)",
+    "sparkyTip": "Water = GFCI (Kitchen, Garage, Basement). Sleeping = AFCI (Bedroom)."
+  },
+  {
+    "id": "TN-035",
+    "category": "textbook-navigation",
+    "necArticle": "Article 300",
+    "difficulty": "apprentice",
+    "questionText": "When boring holes in wood members for cable or raceway installation, what is the minimum distance from the nearest edge required to avoid using a steel plate?",
+    "options": [
+      "At least 1 inch",
+      "At least 1¼ inches",
+      "At least 1½ inches",
+      "At least ¾ inch"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 300.4(A)(1) requires that holes bored in wood members be at least **1¼ inches** from the nearest edge. If the distance is less than 1¼ inches, a 1/16-inch thick steel plate (nail plate) is required.",
+    "necReference": "NEC 300.4(A)(1)",
+    "sparkyTip": "1¼\" is the magic number. Less than that = Nail Plate."
+  },
+  {
+    "id": "TN-041",
+    "category": "textbook-navigation",
+    "necArticle": "Article 300",
+    "difficulty": "apprentice",
+    "questionText": "In NEC Table 300.5, which column determines the cover depth for Rigid Polyvinyl Chloride Conduit (PVC) approved for direct burial?",
+    "options": [
+      "Column 1 (Direct Burial Cables)",
+      "Column 2 (Rigid Metal Conduit)",
+      "Column 3 (Nonmetallic Raceways)",
+      "Column 4 (Residential Branch Circuits)"
+    ],
+    "correctAnswer": 2,
+    "explanation": "PVC is a 'Nonmetallic Raceway.' Therefore, it falls under Column 3 ('Nonmetallic Raceways Listed for Direct Burial...'). Column 2 is strictly for Metal Conduit (RMC/IMC), and Column 1 is for Cables (UF).",
+    "necReference": "NEC Table 300.5",
+    "sparkyTip": "Metal Pipe = Col 2. Plastic Pipe = Col 3."
+  },
+  {
+    "id": "TN-047",
+    "category": "textbook-navigation",
+    "necArticle": "Article 210",
+    "difficulty": "apprentice",
+    "questionText": "Branch-circuit rules are primarily found in which article?",
+    "options": [
+      "Article 210",
+      "Article 220",
+      "Article 230",
+      "Article 240"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Article 210 contains branch-circuit requirements.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Branch circuits = Article 210."
+  },
+  {
+    "id": "TN-052",
+    "category": "textbook-navigation",
+    "necArticle": "Article 314",
+    "difficulty": "apprentice",
+    "questionText": "Rules for boxes and conduit bodies are primarily found in which article?",
+    "options": [
+      "Article 312",
+      "Article 314",
+      "Article 320",
+      "Article 330"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Article 314 covers boxes and conduit bodies.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Boxes and conduit bodies = 314."
+  },
+  {
+    "id": "TN-053",
+    "category": "textbook-navigation",
+    "necArticle": "Article 400",
+    "difficulty": "apprentice",
+    "questionText": "Flexible cords and cables are covered in which article?",
+    "options": [
+      "Article 400",
+      "Article 402",
+      "Article 404",
+      "Article 408"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Article 400 covers flexible cords and cables.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Flex cords = Article 400."
+  },
+  {
+    "id": "TN-054",
+    "category": "textbook-navigation",
+    "necArticle": "Article 404",
+    "difficulty": "apprentice",
+    "questionText": "Switches are covered in which article?",
+    "options": [
+      "Article 404",
+      "Article 406",
+      "Article 408",
+      "Article 410"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Article 404 covers switches.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Switches = Article 404."
+  },
+  {
+    "id": "TN-055",
+    "category": "textbook-navigation",
+    "necArticle": "Article 406",
+    "difficulty": "apprentice",
+    "questionText": "Receptacles are covered in which article?",
+    "options": [
+      "Article 404",
+      "Article 406",
+      "Article 408",
+      "Article 410"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Article 406 covers receptacles and cord connectors.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Receptacles = Article 406."
+  },
+  {
+    "id": "TN-056",
+    "category": "textbook-navigation",
+    "necArticle": "Article 408",
+    "difficulty": "apprentice",
+    "questionText": "Panelboards and switchboards are covered in which article?",
+    "options": [
+      "Article 404",
+      "Article 406",
+      "Article 408",
+      "Article 410"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Article 408 covers switchboards, switchgear, and panelboards.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Panels = Article 408."
+  },
+  {
+    "id": "TN-057",
+    "category": "textbook-navigation",
+    "necArticle": "Article 410",
+    "difficulty": "apprentice",
+    "questionText": "Luminaires (lighting fixtures) are covered in which article?",
+    "options": [
+      "Article 410",
+      "Article 412",
+      "Article 422",
+      "Article 424"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Article 410 covers luminaires, lampholders, and lamps.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Lighting fixtures = Article 410."
+  },
+  {
+    "id": "TN-058",
+    "category": "textbook-navigation",
+    "necArticle": "Article 422",
+    "difficulty": "apprentice",
+    "questionText": "Appliances are covered in which article?",
+    "options": [
+      "Article 422",
+      "Article 424",
+      "Article 430",
+      "Article 440"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Article 422 covers appliances.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Appliances = Article 422."
+  },
+  {
+    "id": "TN-059",
+    "category": "textbook-navigation",
+    "necArticle": "Article 430",
+    "difficulty": "apprentice",
+    "questionText": "Motors, motor circuits, and controllers are covered in which article?",
+    "options": [
+      "Article 424",
+      "Article 430",
+      "Article 440",
+      "Article 450"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Article 430 covers motors and motor circuits.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "Motors = Article 430."
+  },
+  {
+    "id": "TN-060",
+    "category": "textbook-navigation",
+    "necArticle": "Article 440",
+    "difficulty": "apprentice",
+    "questionText": "Air-conditioning and refrigeration equipment are covered in which article?",
+    "options": [
+      "Article 430",
+      "Article 440",
+      "Article 450",
+      "Article 455"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Article 440 covers air-conditioning and refrigeration equipment.",
+    "necReference": "NEC Table of Contents",
+    "sparkyTip": "A/C and refrigeration = Article 440."
+  }
+]

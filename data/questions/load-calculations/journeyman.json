@@ -1,0 +1,257 @@
+[
+  {
+    "id": "calc-cont-001",
+    "category": "load-calculations",
+    "necArticle": "Article 210.19(A)(1)",
+    "difficulty": "journeyman",
+    "questionText": "You are calculating the number of 20A, 120V branch circuits required for the general lighting of a retail store. The total connected load is 14,000 Volt-Amps (VA). How many circuits are required?",
+    "options": [
+      "6 circuits",
+      "8 circuits",
+      "5 circuits",
+      "7 circuits"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 1: Find total Amps. I = P / E. 14,000VA / 120V = 116.67 Amps. Step 2: Apply Continuous Load factor. Commercial lighting is continuous (>3 hours). 116.67 * 1.25 = 145.83 Amps required capacity. Step 3: Divide by circuit size. 145.83A / 20A = 7.29 circuits. Step 4: Round up. You need 8 circuits.",
+    "necReference": "Article 210.19(A)(1)",
+    "sparkyTip": "Retail = Continuous! If you didn't multiply by 1.25, you would have gotten 5.8 (6 circuits), which is WRONG and dangerous."
+  },
+  {
+    "id": "LC-003",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "journeyman",
+    "questionText": "When calculating demand for household clothes dryers, what is the minimum demand load per dryer if the nameplate rating is unknown?",
+    "options": [
+      "4,000 watts",
+      "5,000 watts",
+      "5,500 watts",
+      "6,000 watts"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 220.54 states that the load for household clothes dryers shall be either 5,000 watts (volt-amperes) or the nameplate rating, whichever is larger.",
+    "necReference": "220.54",
+    "sparkyTip": "5,000 watts minimum for dryers - think of it as 'high five' for your dryer load!"
+  },
+  {
+    "id": "LC-004",
+    "category": "load-calculations",
+    "necArticle": "Table 220.42",
+    "difficulty": "journeyman",
+    "questionText": "According to the Standard Method (Table 220.42), what portion of the general lighting load in a dwelling unit is calculated at 100% demand factor?",
+    "options": [
+      "The first 3,000 VA",
+      "The first 10,000 VA",
+      "The first 1,200 VA",
+      "The total connected load"
+    ],
+    "correctAnswer": 0,
+    "explanation": "NEC Table 220.42 specifies that for dwelling units, the first 3,000 VA of general lighting load is calculated at 100%. The remainder (up to 120,000 VA) is calculated at 35%.",
+    "necReference": "Table 220.42",
+    "sparkyTip": "Standard Method = 3,000 VA breakpoint. Optional Method = 10,000 VA breakpoint. Don't mix them up!"
+  },
+  {
+    "id": "LC-005",
+    "category": "load-calculations",
+    "necArticle": "Table 220.42",
+    "difficulty": "journeyman",
+    "questionText": "For dwelling units using the standard calculation method, what is the demand factor applied to the portion of the general lighting load that exceeds 3,000 VA (up to 120,000 VA)?",
+    "options": [
+      "50%",
+      "40%",
+      "35%",
+      "25%"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC Table 220.42, when calculating dwelling unit lighting loads using the Standard Method, the first 3,000 VA is calculated at 100%. The remaining load between 3,001 VA and 120,000 VA is calculated at a 35% demand factor.",
+    "necReference": "Table 220.42",
+    "sparkyTip": "Do not mix up your calculation methods! Standard Method = first 3,000 VA at 100%, remainder at 35%. Optional Method = first 10 kVA at 100%, remainder at 40%. Keep those two rules in separate compartments in your brain!"
+  },
+  {
+    "id": "LC-009",
+    "category": "load-calculations",
+    "necArticle": "Table 220.55",
+    "difficulty": "journeyman",
+    "questionText": "What is the calculated demand load for four household wall-mounted ovens, each having a nameplate rating of 5 kW?",
+    "options": [
+      "20 kW",
+      "17 kW",
+      "10 kW",
+      "16 kW"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Step 1: Determine the column. Since 5 kW falls between 3.5 kW and 8.75 kW, we use Column B. Step 2: Find the demand factor. According to Column B, the demand factor for 4 appliances is 50%. Step 3: Calculate total connected load (4 ovens × 5 kW = 20 kW). Step 4: Apply the demand factor (20 kW × 0.50 = 10 kW).",
+    "necReference": "Table 220.55 (Column B)",
+    "sparkyTip": "Table 220.55 is a beast! Always check the wattage first to pick your column. Because these were 5 kW, they landed in Column B, where you use percentages instead of a flat kW value."
+  },
+  {
+    "id": "LC-011",
+    "category": "load-calculations",
+    "necArticle": "Article 220",
+    "difficulty": "journeyman",
+    "questionText": "What demand factor can be applied to four or more fastened-in-place appliances in a dwelling unit?",
+    "options": [
+      "100%",
+      "80%",
+      "75%",
+      "65%"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 220.53 allows a 75% demand factor for four or more fastened-in-place appliances (other than cooking equipment, dryers, and heating/AC). This includes appliances like water heaters, dishwashers, and disposals.",
+    "necReference": "220.53",
+    "sparkyTip": "Four or more fixed appliances? Take 75%. Not everything runs at once!"
+  },
+  {
+    "id": "LC-014",
+    "category": "load-calculations",
+    "necArticle": "220.41",
+    "difficulty": "journeyman",
+    "questionText": "What is the general lighting load for a 2,000 square foot dwelling unit using the standard calculation method?",
+    "options": [
+      "4,000 VA",
+      "5,000 VA",
+      "6,000 VA",
+      "8,000 VA"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Per NEC 220.41 (in the 2023 edition), the minimum unit load for a dwelling unit is calculated at 3 VA per square foot. Calculation: 2,000 sq ft × 3 VA/sq ft = 6,000 VA.",
+    "necReference": "220.41",
+    "sparkyTip": "Code change alert! Dwelling unit lighting moved from Table 220.12 (2017), to 220.14(J) (2020), and is now officially in 220.41 (2023). Remember: Square footage × 3 = lighting VA. It's the quickest math you'll do all day."
+  },
+  {
+    "id": "LC-017",
+    "category": "load-calculations",
+    "necArticle": "Table 220.12",
+    "difficulty": "journeyman",
+    "questionText": "According to NEC Table 220.12, what is the minimum general lighting load per square foot for an office building?",
+    "options": [
+      "3.5 VA/sq ft",
+      "1.3 VA/sq ft",
+      "2.0 VA/sq ft",
+      "1.5 VA/sq ft"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per modern NEC Table 220.12 (2020 and 2023 cycles), the general lighting load for an office building is 1.3 VA per square foot. The NEC drastically lowered this value from older cycles to reflect the modern energy efficiency of LED lighting.",
+    "necReference": "Table 220.12",
+    "sparkyTip": "Code Update Trap! If you are using old study guides from the journeyman guys at work, you might have memorized 3.5 VA/sq ft for offices. That is dead wrong on a modern exam! The LED revolution dropped offices all the way down to 1.3 VA/sq ft."
+  },
+  {
+    "id": "LC-019",
+    "category": "load-calculations",
+    "necArticle": "Table 220.42",
+    "difficulty": "journeyman",
+    "questionText": "A dwelling unit has 1700 sq ft of floor area, two 20-amp small-appliance circuits, and one 20-amp laundry circuit. Using the Standard Method, what is the calculated general lighting and receptacle demand load in VA?",
+    "options": [
+      "5310 VA",
+      "9600 VA",
+      "3360 VA",
+      "4350 VA"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Step 1: Find total connected load. Lighting: 1700 sq ft × 3 VA = 5100 VA (220.14(J)). Small Appliance: 2 × 1500 VA = 3000 VA. Laundry: 1 × 1500 VA = 1500 VA. Total = 9600 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (9600 - 3000 = 6600 VA) is calculated at 35% (6600 × 0.35 = 2310 VA). Step 3: Add them together. 3000 + 2310 = 5310 VA.",
+    "necReference": "220.14(J), 220.52(A)&(B), Table 220.42",
+    "sparkyTip": "Don't confuse the Standard Method with the Optional Method! For the Standard Method, your magic number is 3,000 VA at 100%, then 35% for the rest. If you just multiply the whole 9600 by 35%, you hit the trap answer!"
+  },
+  {
+    "id": "LC-044",
+    "category": "load-calculations",
+    "necArticle": "430.22",
+    "difficulty": "journeyman",
+    "questionText": "A continuous duty motor has a table-rated full-load current (FLC) of 40 A. What is the minimum required branch-circuit conductor ampacity?",
+    "options": [
+      "50 A",
+      "55 A",
+      "45 A",
+      "60 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Per NEC 430.22, branch-circuit conductors supplying a single continuous-duty motor must have an ampacity of not less than 125% of the motor's full-load current (FLC) rating. Calculation: 40 A × 1.25 = 50 A.",
+    "necReference": "430.22",
+    "sparkyTip": "Vocabulary check! Always use the NEC Table FLC (Full-Load Current) to size your wires. Only use the motor's nameplate FLA (Full-Load Amperes) to size your overloads!"
+  },
+  {
+    "id": "LC-076",
+    "category": "load-calculations",
+    "necArticle": "Article 210",
+    "difficulty": "journeyman",
+    "questionText": "A 120 V single-phase circuit carries 59 A and runs 200 ft one-way. The conductor resistance is 0.321 ohms per 1000 ft. What is the approximate voltage drop in volts?",
+    "options": [
+      "7.58 V",
+      "8.08 V",
+      "7.08 V",
+      "8.58 V"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Voltage drop = 2 x I x R x D / 1000 = 7.58 V.",
+    "necReference": "210.19(A) Informational Note",
+    "sparkyTip": "Use 2 x distance for single-phase voltage drop."
+  },
+  {
+    "id": "LC-078",
+    "category": "load-calculations",
+    "necArticle": "Article 215",
+    "difficulty": "journeyman",
+    "questionText": "A 3-phase feeder carries 60 A and runs 150 ft one-way. The conductor resistance is 0.197 ohms per 1000 ft. What is the approximate line-to-line voltage drop in volts?",
+    "options": [
+      "3.07 V",
+      "3.77 V",
+      "2.37 V",
+      "4.47 V"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Voltage drop = 1.732 x I x R x D / 1000 = 3.07 V.",
+    "necReference": "215.2(A) Informational Note",
+    "sparkyTip": "3-phase voltage drop uses 1.732 x I x R x D / 1000."
+  },
+  {
+    "id": "LC-104",
+    "category": "load-calculations",
+    "necArticle": "Electrical Theory",
+    "difficulty": "journeyman",
+    "questionText": "A residential electric range has a nameplate rating of 12 kW at 240 volts. If this range is connected to a 208-volt single-phase supply, what will be the approximate power consumption?",
+    "options": [
+      "10.4 kW",
+      "9.0 kW",
+      "12.0 kW",
+      "8.3 kW"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Because the physical heating element doesn't change, its resistance stays the same. When voltage drops, power drops exponentially.\n\nMethod 1 (The Short Way): Square the voltage ratio. (208V / 240V)^2 = 0.751. Multiply by original power: 12 kW * 0.751 = 9.01 kW.\n\nMethod 2 (The Long Way): First, find the element's fixed resistance using R = E^2 / P. (240V)^2 / 12,000W = 4.8 ohms. Now, apply the new voltage to that resistance using P = E^2 / R. (208V)^2 / 4.8 ohms = 9,013 Watts (9.0 kW).",
+    "necReference": "Ohm's / Watt's Law",
+    "sparkyTip": "Did you pick 10.4 kW? You fell for the trap! You can't just use a straight percentage because power is based on the SQUARE of the voltage. Master those two formulas: R = E^2 / P and P = E^2 / R."
+  },
+  {
+    "id": "LC-105",
+    "category": "load-calculations",
+    "necArticle": "Ohm's Law",
+    "difficulty": "journeyman",
+    "questionText": "A 240-volt single-phase heating element draws 40 amperes. If this unit is connected to a 208-volt circuit, what is the power consumption in kilowatts? (Round your final answer to the nearest hundredth).",
+    "options": [
+      "7.21 kW",
+      "8.32 kW",
+      "9.60 kW",
+      "6.94 kW"
+    ],
+    "correctAnswer": 0,
+    "explanation": "1. Determine the resistance of the element: R = E / I = 240V / 40A = 6 Ohms. 2. Calculate the power at the new voltage: P = E^2 / R = (208)^2 / 6 = 43,264 / 6 = 7,210.67 Watts. 3. Convert to kW: 7.21 kW.",
+    "necReference": "Ohm's Law (P = E^2 / R)",
+    "sparkyTip": "Find resistance first with R = E/I using the original values, then plug the new voltage into P = E^2/R. Don't forget to convert watts to kilowatts at the end."
+  },
+  {
+    "id": "lC-109",
+    "category": "load-calculations",
+    "necArticle": "110.14(C)(1)(b)",
+    "difficulty": "journeyman",
+    "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of NEC Table 310.16?",
+    "options": [
+      "60°C Column",
+      "75°C Column",
+      "90°C Column",
+      "The column corresponding to the insulation rating"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75°C. Therefore, conductor ampacity must not exceed the 75°C column value, even if the wire insulation is rated for 90°C (like THHN).",
+    "necReference": "NEC 110.14(C)(1)(b)",
+    "sparkyTip": "Over 100A = 75°C column. Under 100A = 60°C column. The insulation rating doesn't matter for sizing — it's the termination temperature that governs. THHN is 90°C wire, but you still size it at 75°C!"
+  }
+]

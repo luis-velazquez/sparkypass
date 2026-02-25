@@ -1,0 +1,359 @@
+[
+  {
+    "id": "res-scen-001",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "A 480V, 3-phase feeder has a measured voltage drop of 9 volts. If the load is drawing 80 amps and the one-way distance is 250 feet, what is the resistance per foot of the installed conductor?",
+    "options": [
+      "0.00026 ohms/ft",
+      "0.00125 ohms/ft",
+      "0.00032 ohms/ft",
+      "0.00065 ohms/ft"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Step 1: Find the total resistance of the line. For 3-phase, Vd = I * R * 1.732. So, R = Vd / (I * 1.732). R = 9 / (80 * 1.732) = 0.0649 ohms. Step 2: Divide by length. 0.0649 / 250 ft = 0.000259 (rounded to 0.00026 ohms/ft).",
+    "necReference": "Voltage Drop Theory",
+    "sparkyTip": "Don't forget the square root of 3 (1.732) for 3-phase circuits! It changes the effective current ratio."
+  },
+  {
+    "id": "res-scen-003",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "You are comparing two 500-foot conductors. One is Copper (K=12.9) and one is Aluminum (K=21.2). Both are 250 kcmil. What is the difference in total resistance between the two?",
+    "options": [
+      "0.0166 ohms",
+      "0.0258 ohms",
+      "0.0424 ohms",
+      "0.0083 ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Calculate both: R(Cu) = (12.9 * 500)/250,000 = 0.0258 ohms. R(Al) = (21.2 * 500)/250,000 = 0.0424 ohms. Difference: 0.0424 - 0.0258 = 0.0166 ohms.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Aluminum always has higher resistance for the same size wire. This is why we often have to 'upsize' aluminum conductors."
+  },
+  {
+    "id": "res-scen-005",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "A 120V circuit has a total resistance of 0.3 ohms. If the load is increased from 10 amps to 20 amps, what happens to the resistance of the conductor?",
+    "options": [
+      "The resistance doubles",
+      "The resistance is cut in half",
+      "The resistance remains the same",
+      "The resistance increases by the square of the current"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Resistance is a physical property of the wire (material, length, size). Changing the current (amps) changes the Voltage Drop, but the resistance of the wire itself stays the same (unless temperature changes significantly).",
+    "necReference": "Electrical Theory",
+    "sparkyTip": "Don't let the math trick you! The wire doesn't grow or shrink just because you plugged in a bigger motor."
+  },
+  {
+    "id": "res-scen-006",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "A 240V heating element is rated at 4,800 Watts. What is the resistance of this element?",
+    "options": [
+      "12 ohms",
+      "24 ohms",
+      "50 ohms",
+      "0.05 ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Using the power formula R = E² / P. R = 240² / 4,800. R = 57,600 / 4,800 = 12 ohms.",
+    "necReference": "Ohm's Law / Power Formula",
+    "sparkyTip": "When you only have Volts and Watts, square the Volts first! Think: 'Volts times Volts divided by Watts'."
+  },
+  {
+    "id": "res-scen-008",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "If you double the circular mil area (CM) of a conductor while keeping the length the same, what happens to its resistance?",
+    "options": [
+      "It doubles",
+      "It is cut in half",
+      "It quadruples",
+      "It stays the same"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Resistance is inversely proportional to area. R = (K * L) / CM. Since CM is in the denominator, doubling it divides the result by 2.",
+    "necReference": "Electrical Theory",
+    "sparkyTip": "Think of a highway: If you double the number of lanes (CM), you cut the traffic jam (Resistance) in half."
+  },
+  {
+    "id": "res-scen-010",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "A 1000-foot spool of solid aluminum wire has a resistance of 3.2 ohms. What is the approximate Circular Mil (CM) area of this wire? (Use K = 21.2)",
+    "options": [
+      "6,625 CM",
+      "3,200 CM",
+      "21,200 CM",
+      "10,380 CM"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Rearrange to solve for CM: CM = (K * L) / R. CM = (21.2 * 1000) / 3.2. CM = 21,200 / 3.2 = 6,625 CM.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Always check your K value! If this were copper (K=12.9), the answer would be totally different. Aluminum is 21.2."
+  },
+  {
+    "id": "res-scen-031",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "journeyman",
+    "questionText": "A 240-volt motor draws 24 amps. What is the power consumed by this motor in Watts?",
+    "options": [
+      "5,760 Watts",
+      "10 Watts",
+      "100 Watts",
+      "2,400 Watts"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Power (P) = Volts (E) × Amps (I). 240 × 24 = 5,760 Watts.",
+    "necReference": "Power Formula",
+    "sparkyTip": "P = I × E. Think 'PIE'. Power equals Current times Voltage."
+  },
+  {
+    "id": "res-scen-032",
+    "category": "resistance",
+    "necArticle": "Series Circuits",
+    "difficulty": "journeyman",
+    "questionText": "Three resistors with values of 10Ω, 20Ω, and 30Ω are connected in series. What is the total resistance?",
+    "options": [
+      "60 Ohms",
+      "5.5 Ohms",
+      "30 Ohms",
+      "10 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In series, you simply add them up: R_total = R1 + R2 + R3. 10 + 20 + 30 = 60 Ohms.",
+    "necReference": "Series Circuits",
+    "sparkyTip": "Series circuits are additive. Just stack 'em up!"
+  },
+  {
+    "id": "res-scen-033",
+    "category": "resistance",
+    "necArticle": "Parallel Circuits",
+    "difficulty": "journeyman",
+    "questionText": "Two 100-Ohm resistors are connected in parallel. What is the total resistance?",
+    "options": [
+      "50 Ohms",
+      "200 Ohms",
+      "100 Ohms",
+      "25 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For two identical resistors in parallel, divide the value by 2. 100 / 2 = 50 Ohms.",
+    "necReference": "Parallel Circuits",
+    "sparkyTip": "Parallel paths always REDUCE the total resistance. The answer must be smaller than the smallest resistor."
+  },
+  {
+    "id": "res-scen-034",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "According to Chapter 9, Table 8, what is the Circular Mil (CM) area of a #10 AWG conductor?",
+    "options": [
+      "10,380 CM",
+      "6,530 CM",
+      "16,510 CM",
+      "4,110 CM"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Direct lookup in Chapter 9, Table 8. #10 AWG is 10,380 CM.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Memorize the CM for #12 (6,530) and #10 (10,380). You'll use them constantly."
+  },
+  {
+    "id": "res-scen-035",
+    "category": "resistance",
+    "necArticle": "Voltage Drop",
+    "difficulty": "journeyman",
+    "questionText": "A 120V circuit has a voltage drop of 3.6 Volts. What percentage of voltage drop is this?",
+    "options": [
+      "3%",
+      "5%",
+      "2.5%",
+      "10%"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Percentage = (Drop / Total) × 100. (3.6 / 120) = 0.03. 0.03 × 100 = 3%.",
+    "necReference": "Article 210.19(A) Note 4",
+    "sparkyTip": "3% is the magic number for branch circuits recommended by the NEC."
+  },
+  {
+    "id": "res-scen-036",
+    "category": "resistance",
+    "necArticle": "Article 310.10(H)",
+    "difficulty": "journeyman",
+    "questionText": "What is the minimum size conductor permitted to be connected in parallel?",
+    "options": [
+      "1/0 AWG",
+      "#1 AWG",
+      "#2 AWG",
+      "#4 AWG"
+    ],
+    "correctAnswer": 0,
+    "explanation": "NEC 310.10(H) states that conductors 1/0 AWG and larger are permitted to be connected in parallel.",
+    "necReference": "NEC 310.10(H)",
+    "sparkyTip": "Think 'One-Ought' for parallel. Anything smaller is too risky to balance the load."
+  },
+  {
+    "id": "res-scen-037",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "journeyman",
+    "questionText": "If a circuit has a resistance of 20 Ohms and the current is 6 Amps, what is the voltage supply?",
+    "options": [
+      "120 Volts",
+      "3.3 Volts",
+      "240 Volts",
+      "12 Volts"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E = I × R. 6 Amps × 20 Ohms = 120 Volts.",
+    "necReference": "Ohm's Law",
+    "sparkyTip": "Cover the 'E' in your Ohm's Law triangle. You see I and R side-by-side, so multiply them."
+  },
+  {
+    "id": "res-scen-038",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "Which has a higher resistance per 1,000 feet: #14 Solid copper or #14 Stranded copper?",
+    "options": [
+      "Stranded has slightly higher resistance",
+      "Solid has slightly higher resistance",
+      "They are exactly the same",
+      "It depends on the insulation type"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Table 8 shows separate columns. Stranded wire (3.14 Ω/kft) is slightly higher than solid (3.07 Ω/kft) due to the air gaps between strands reducing the effective cross-section slightly.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Stranding adds flexibility but loses a tiny bit of conductivity. Usually negligible, but the Table lists them separately!"
+  },
+  {
+    "id": "res-scen-039",
+    "category": "resistance",
+    "necArticle": "Article 100",
+    "difficulty": "journeyman",
+    "questionText": "What is the term for the opposition to current flow in an AC circuit that includes both resistance and reactance?",
+    "options": [
+      "Impedance",
+      "Inductance",
+      "Capacitance",
+      "Conductance"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Impedance (Z) is the total opposition to current flow in an AC circuit, combining Resistance (R) and Reactance (X).",
+    "necReference": "Article 100",
+    "sparkyTip": "Impedance 'impedes' (blocks) the flow. It's the big boss of AC resistance."
+  },
+  {
+    "id": "res-scen-040",
+    "category": "resistance",
+    "necArticle": "Power Formula",
+    "difficulty": "journeyman",
+    "questionText": "A 100-Watt light bulb is rated for 120 Volts. What is its resistance?",
+    "options": [
+      "144 Ohms",
+      "120 Ohms",
+      "0.83 Ohms",
+      "12 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "R = E² / P. 120² / 100. 14,400 / 100 = 144 Ohms.",
+    "necReference": "Power Formula",
+    "sparkyTip": "Square the voltage first! 120 * 120 is a big number, then divide by watts."
+  },
+  {
+    "id": "res-scen-041",
+    "category": "resistance",
+    "necArticle": "Article 110.14(C)",
+    "difficulty": "journeyman",
+    "questionText": "Unless marked otherwise, equipment terminals for circuits rated over 100A are assumed to be rated for what temperature?",
+    "options": [
+      "75°C",
+      "60°C",
+      "90°C",
+      "30°C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "According to 110.14(C)(1)(b), for circuits rated over 100A (or conductors larger than #1 AWG), use the 75°C column.",
+    "necReference": "NEC 110.14(C)",
+    "sparkyTip": "Small stuff (<100A) defaults to 60°C. Big stuff (>100A) defaults to 75°C. Almost nothing defaults to 90°C!"
+  },
+  {
+    "id": "res-scen-042",
+    "category": "resistance",
+    "necArticle": "Voltage Drop",
+    "difficulty": "journeyman",
+    "questionText": "You have a single-phase circuit. If you accidentally calculate voltage drop using the '1-way distance' instead of '2-way distance' (or forgetting the '2' in the formula), what happens to your result?",
+    "options": [
+      "Your calculated voltage drop is half of the actual drop",
+      "Your calculated voltage drop is double the actual drop",
+      "It makes no difference",
+      "Your calculated voltage drop is squared"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The formula uses '2 * L' to account for the trip there and back. If you miss the 2, you are only calculating the drop for half the wire length.",
+    "necReference": "Voltage Drop Theory",
+    "sparkyTip": "Don't leave the return trip out! Electrons have to come home too."
+  },
+  {
+    "id": "res-scen-043",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "journeyman",
+    "questionText": "How many circular mils are in one 'kcmil'?",
+    "options": [
+      "1,000 circular mils",
+      "100 circular mils",
+      "10,000 circular mils",
+      "1,000,000 circular mils"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The 'k' prefix stands for kilo (1,000). So 1 kcmil = 1,000 cmils.",
+    "necReference": "Metric Definitions",
+    "sparkyTip": "Just like a kilometer is 1,000 meters, a kcmil is 1,000 circular mils."
+  },
+  {
+    "id": "res-scen-044",
+    "category": "resistance",
+    "necArticle": "Article 250",
+    "difficulty": "journeyman",
+    "questionText": "Does the Equipment Grounding Conductor (EGC) normally carry current?",
+    "options": [
+      "No, only during a fault condition",
+      "Yes, it carries the return current",
+      "Yes, it carries the unbalanced current",
+      "No, it never carries current under any circumstances"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The EGC is a safety line. It only carries current when something goes wrong (a ground fault) to trip the breaker.",
+    "necReference": "Article 250",
+    "sparkyTip": "The Neutral carries the return current. The Ground is just watching and waiting for an emergency."
+  },
+  {
+    "id": "res-scen-045",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "journeyman",
+    "questionText": "A multimeter reads 0.5 MΩ (Mega-ohms). What is this value in regular Ohms?",
+    "options": [
+      "500,000 Ohms",
+      "500 Ohms",
+      "5,000,000 Ohms",
+      "0.0005 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Mega (M) means million (1,000,000). 0.5 * 1,000,000 = 500,000 Ohms.",
+    "necReference": "Metric Prefixes",
+    "sparkyTip": "Mega is massive! Move that decimal point 6 spots to the right."
+  }
+]

@@ -1,8 +1,5 @@
-import questionsData from "@/data/questions.json";
+import { questions } from "@/data/questions";
 import type { Question, CategorySlug, Difficulty } from "@/types/question";
-
-// Type assertion for imported JSON data
-const questions = questionsData.questions as Question[];
 
 /**
  * Get all questions
@@ -103,6 +100,7 @@ export function getCategoryCounts(): Record<CategorySlug, number> {
     "transformer-sizing": getQuestionCountByCategory("transformer-sizing"),
     "mobile-homes": getQuestionCountByCategory("mobile-homes"),
     "swimming-pools": getQuestionCountByCategory("swimming-pools"),
+    "termination-derating": getQuestionCountByCategory("termination-derating"),
   };
 }
 

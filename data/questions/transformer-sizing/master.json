@@ -1,0 +1,206 @@
+[
+  {
+    "id": "TC-021",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A single-phase transformer is rated 50 kVA at 480 V primary. What is the primary full-load current?",
+    "options": [
+      "104.2 A",
+      "107.2 A",
+      "101.2 A",
+      "109.2 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Primary current = (kVA x 1000) / V = 104.2 A.",
+    "necReference": "450.6",
+    "sparkyTip": "Single-phase transformer: I = kVA x 1000 / V."
+  },
+  {
+    "id": "TS-001",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A commercial building has a calculated demand load of 87,500 VA served by a 208V 3-phase system. What is the minimum standard dry-type transformer kVA rating required?",
+    "options": [
+      "75 kVA",
+      "100 kVA",
+      "112.5 kVA",
+      "150 kVA"
+    ],
+    "correctAnswer": 2,
+    "explanation": "The calculated load is 87.5 kVA. Standard 3-phase dry-type transformer sizes are 15, 30, 45, 75, 112.5, 150, 225, 300, 500, 750, and 1000 kVA. Since there is no 100 kVA standard size, the next available standard transformer is 112.5 kVA.",
+    "necReference": "450.1; Standard Transformer Sizes",
+    "sparkyTip": "Memorize the standard transformer kVA sizes! There is no 100 kVA — it jumps from 75 straight to 112.5. This trips up a lot of people on the exam."
+  },
+  {
+    "id": "TS-002",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 150 kVA, 480V delta to 208Y/120V 3-phase transformer is installed in a commercial building. What is the full-load current on the secondary side?",
+    "options": [
+      "312 amps",
+      "361 amps",
+      "416 amps",
+      "625 amps"
+    ],
+    "correctAnswer": 2,
+    "explanation": "For a 3-phase transformer, I = kVA × 1000 ÷ (V × √3). Secondary FLC = 150,000 ÷ (208 × 1.732) = 150,000 ÷ 360.2 = 416.4 amps.",
+    "necReference": "Article 450",
+    "sparkyTip": "For 3-phase: always multiply voltage by √3 (1.732). A common mistake is forgetting √3 and getting 721A — that's the single-phase answer!"
+  },
+  {
+    "id": "TS-003",
+    "category": "transformer-sizing",
+    "necArticle": "Table 450.3(B); 240.6(A)",
+    "difficulty": "master",
+    "questionText": "A 75 kVA, 480V to 208Y/120V 3-phase transformer is installed with primary-only overcurrent protection. Per NEC Table 450.3(B), what is the maximum standard overcurrent device rating for the primary?",
+    "options": [
+      "100 amps",
+      "110 amps",
+      "125 amps",
+      "150 amps"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Primary FLC = 75,000 ÷ (480 × 1.732) = 90.2A. Per Table 450.3(B), primary-only protection is limited to 125% of primary FLC: 90.2A × 1.25 = 112.7A. Since this doesn't correspond to a standard overcurrent device rating and the primary current exceeds 9A, the next higher standard size is permitted per 240.6(A): 125A.",
+    "necReference": "Table 450.3(B); 240.6(A)",
+    "sparkyTip": "Remember the two-step process: (1) calculate 125% of primary FLC, (2) if it doesn't land on a standard size, round UP to the next standard OCPD. Don't confuse this with the 250% rule, which only applies when you also protect the secondary!"
+  },
+  {
+    "id": "TS-004",
+    "category": "transformer-sizing",
+    "necArticle": "Table 450.3(B)",
+    "difficulty": "master",
+    "questionText": "A 45 kVA, 480V to 208Y/120V 3-phase transformer has both primary AND secondary overcurrent protection installed. Per NEC Table 450.3(B), what is the maximum rating for the primary overcurrent device?",
+    "options": [
+      "70 amps",
+      "100 amps",
+      "125 amps",
+      "150 amps"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Primary FLC = 45,000 ÷ (480 × 1.732) = 54.1A. When BOTH primary and secondary overcurrent protection are provided, Table 450.3(B) permits the primary OCPD to be sized at up to 250% of primary FLC: 54.1A × 2.50 = 135.3A. The next standard overcurrent device size per 240.6(A) is 150A.",
+    "necReference": "Table 450.3(B); 240.6(A)",
+    "sparkyTip": "When you add secondary protection, the primary OCPD jumps from 125% to 250%! The secondary still needs its own protection at 125% of secondary FLC. This is a classic exam question — know both methods cold."
+  },
+  {
+    "id": "TS-005",
+    "category": "transformer-sizing",
+    "necArticle": "110.24; Article 450",
+    "difficulty": "master",
+    "questionText": "A 75 kVA, 480V to 208Y/120V 3-phase transformer has a nameplate impedance of 5%. Assuming an infinite bus on the primary, what is the maximum available fault current at the transformer secondary?",
+    "options": [
+      "2,082 amps",
+      "4,164 amps",
+      "8,328 amps",
+      "16,656 amps"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 1: Calculate secondary FLC = 75,000 ÷ (208 × 1.732) = 208.2A. Step 2: Available fault current = FLC ÷ %Z (as decimal) = 208.2 ÷ 0.05 = 4,164A. The transformer impedance limits the maximum fault current. A lower impedance means higher available fault current.",
+    "necReference": "110.24; Transformer Impedance",
+    "sparkyTip": "Fault current = FLC ÷ %Z. A 5% impedance transformer can deliver 20× its full-load current in a fault. This is critical for selecting properly rated equipment downstream — NEC 110.24 requires this to be labeled at the service!"
+  },
+  {
+    "id": "TS-006",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 3-phase transformer has a primary voltage of 480 volts and a secondary voltage of 208Y/120 volts. The secondary side is supplying a balanced load of 100 amperes. Assuming the transformer operates at 96% efficiency, how many kilowatts (kW) are being consumed on the primary side?",
+    "options": [
+      "36.0 kW",
+      "37.5 kW",
+      "83.1 kW",
+      "34.6 kW"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 1: Calculate power output (secondary): P = V × I × √3 = 208V × 100A × 1.732 = 36,025W (36.0 kW). Step 2: Calculate power input (primary): Since efficiency is less than 100%, the primary must supply more power than the secondary uses. Input = Output ÷ Efficiency = 36.0 kW ÷ 0.96 = 37.5 kW.",
+    "necReference": "Article 450; 3-Phase Power Formula",
+    "sparkyTip": "When a transformer isn't 100% efficient, the primary side always draws MORE power than the secondary delivers. Divide the output by efficiency to find the input — don't multiply! Think of it as: you need to put in extra to get what you want out."
+  },
+  {
+    "id": "TS-017",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 1000 kVA, 4160V to 480Y/277V, 3-phase transformer has 5.75% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary fuse rating?",
+    "options": [
+      "208.2 amperes",
+      "277.6 amperes",
+      "416.4 amperes",
+      "832.8 amperes"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Step 1: Primary FLC = 1,000,000 VA ÷ (4160V × 1.732) = 138.8A. Step 2: Impedance is 5.75% (≤6%), so per Table 450.3(A), primary fuse = 300%. Step 3: 138.8A × 3.00 = 416.4 amperes maximum fuse rating.",
+    "necReference": "Table 450.3(A)",
+    "sparkyTip": "Three-phase FLC = kVA × 1000 ÷ (V × 1.732). Then multiply by the table percentage. The wrong answers here use 150% (208.2A), 200% (277.6A), and 600% (832.8A) — watch for fuse vs. breaker mix-ups!"
+  },
+  {
+    "id": "TS-018",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
+    "options": [
+      "138.8 amperes",
+      "173.5 amperes",
+      "208.2 amperes",
+      "416.4 amperes"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Step 1: Primary FLC = 500,000 VA ÷ (4160V × 1.732) = 69.4A. Step 2: Supervised location, primary-only protection: per Table 450.3(A), primary circuit breaker = 300%. Step 3: 69.4A × 3.00 = 208.2 amperes maximum circuit breaker setting.",
+    "necReference": "Table 450.3(A)",
+    "sparkyTip": "Supervised primary-only uses the tighter settings: CB = 300%, fuse = 250%. If you used the \"any location\" 600% value, you would get 416.4A — that is only valid when secondary protection is also provided."
+  },
+  {
+    "id": "TS-019",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 300 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed at any location. Per Table 450.3(A), what is the maximum secondary fuse rating?",
+    "options": [
+      "541.3 amperes",
+      "721.7 amperes",
+      "902.1 amperes",
+      "1,082.5 amperes"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Step 1: Secondary FLC = 300,000 VA ÷ (480V × 1.732) = 360.8A. Step 2: Impedance is 5% (≤6%), so per Table 450.3(A), secondary fuse = 250%. Step 3: 360.8A × 2.50 = 902.1 amperes maximum secondary fuse rating.",
+    "necReference": "Table 450.3(A)",
+    "sparkyTip": "Secondary FLC uses the SECONDARY voltage (480V), not the primary. The secondary fuse at 250% will always be a large number because secondary currents are much higher than primary currents on step-down transformers."
+  },
+  {
+    "id": "TS-020",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer has 8% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
+    "options": [
+      "208.2 amperes",
+      "277.6 amperes",
+      "347.0 amperes",
+      "416.4 amperes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 1: Primary FLC = 500,000 VA ÷ (4160V × 1.732) = 69.4A. Step 2: Impedance is 8% (>6% but ≤10%), so per Table 450.3(A), primary circuit breaker = 400% (not 600%). Step 3: 69.4A × 4.00 = 277.6 amperes maximum circuit breaker setting.",
+    "necReference": "Table 450.3(A)",
+    "sparkyTip": "The impedance determines which row to use! At 8% (>6%), the primary CB drops to 400%. If you mistakenly used the ≤6% row at 600%, you would get 416.4A. Always check the impedance first."
+  },
+  {
+    "id": "TS-021",
+    "category": "transformer-sizing",
+    "necArticle": "Article 450",
+    "difficulty": "master",
+    "questionText": "A 750 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary fuse rating?",
+    "options": [
+      "208.2 amperes",
+      "260.3 amperes",
+      "312.3 amperes",
+      "624.5 amperes"
+    ],
+    "correctAnswer": 1,
+    "explanation": "Step 1: Primary FLC = 750,000 VA ÷ (4160V × 1.732) = 104.1A. Step 2: Supervised location, primary-only protection: per Table 450.3(A), primary fuse = 250%. Step 3: 104.1A × 2.50 = 260.3 amperes maximum fuse rating.",
+    "necReference": "Table 450.3(A)",
+    "sparkyTip": "Supervised primary-only fuse = 250% (the tightest primary setting in the table). The other options use 200% (208.2A), 300% (312.3A), and 600% (624.5A) — common mistakes from grabbing the wrong row or column."
+  }
+]

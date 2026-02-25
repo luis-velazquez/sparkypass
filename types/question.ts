@@ -2,7 +2,7 @@
 
 export type Difficulty = "apprentice" | "journeyman" | "master";
 
-export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "mobile-homes" | "swimming-pools";
+export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "mobile-homes" | "swimming-pools" | "termination-derating";
 
 export interface Category {
   slug: CategorySlug;
@@ -110,6 +110,12 @@ export const CATEGORIES: Category[] = [
     necArticle: "Article 680",
     description: "Swimming pools, fountains, and similar installations — GFCI, bonding, clearances, and wiring methods",
   },
+  {
+    slug: "termination-derating",
+    name: "Termination & Derating",
+    necArticle: "110.14(C) & 310.15",
+    description: "Terminal temperature limitations, conductor derating for bundling, and ampacity adjustment calculations",
+  },
 ];
 
 // Helper to get category by slug
@@ -134,7 +140,7 @@ export const PARENT_CATEGORIES: ParentCategory[] = [
     name: "General Code",
     necChapters: "Chapters 1–4",
     description: "Core NEC requirements covering installations, wiring methods, equipment, and general-use circuits",
-    categorySlugs: ["load-calculations", "grounding-bonding", "services", "textbook-navigation", "box-fill", "motor-calculations", "temperature-correction", "transformer-sizing"],
+    categorySlugs: ["load-calculations", "grounding-bonding", "services", "textbook-navigation", "box-fill", "motor-calculations", "temperature-correction", "termination-derating", "transformer-sizing"],
   },
   {
     slug: "tables",

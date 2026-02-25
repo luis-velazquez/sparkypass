@@ -1,0 +1,121 @@
+[
+  {
+    "id": "MC-001",
+    "category": "motor-calculations",
+    "necArticle": "Article 430",
+    "difficulty": "journeyman",
+    "questionText": "A 25 HP, 460V, 3-phase squirrel cage motor has a nameplate FLA of 32A. Per NEC Table 430.250, the FLC is 34A. What current value must be used to size the branch circuit conductors?",
+    "options": [
+      "32A (nameplate FLA)",
+      "34A (Table 430.250 FLC)",
+      "40A (125% of nameplate)",
+      "42.5A (125% of Table FLC)"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Per NEC 430.22, branch circuit conductors must have ampacity not less than 125% of the motor FLC from Table 430.250 — NOT the nameplate FLA. 34A × 1.25 = 42.5A minimum ampacity required.",
+    "necReference": "NEC 430.22; Table 430.250",
+    "sparkyTip": "Never use nameplate FLA for conductor sizing — always use Table 430.250 FLC × 125%!"
+  },
+  {
+    "id": "MC-007",
+    "category": "motor-calculations",
+    "necArticle": "430.52(C)(3) Ex. 1",
+    "difficulty": "journeyman",
+    "questionText": "A 50 HP, 460V, 3-phase AC motor has a full-load current of 65A per Table 430.250. It is NOT a Design B energy-efficient or premium efficiency motor. If the starting current causes nuisance tripping at the standard setting, what is the absolute maximum permitted setting for an instantaneous trip circuit breaker (MCP)?",
+    "options": [
+      "520A",
+      "650A",
+      "800A",
+      "845A"
+    ],
+    "correctAnswer": 3,
+    "explanation": "Step 1: Standard Table Rule. Table 430.52 normally limits an instantaneous trip breaker (MCP) to 800% of the FLC (65A × 8 = 520A). Step 2: The Exception. Because the standard setting isn't holding the starting current, 430.52(C)(3) Exception No. 1 allows you to increase the setting to a maximum of 1300% for standard motors. 65A × 13 = 845A.",
+    "necReference": "430.52(C)(3) Exception No. 1",
+    "sparkyTip": "Watch your motor types! For standard motors, the absolute max MCP setting is 1300%. But if the question says it IS a 'Design B energy-efficient' or 'Design E' motor, the code lets you crank that breaker all the way up to 1700%!"
+  },
+  {
+    "id": "MC-009",
+    "category": "motor-calculations",
+    "necArticle": "Table 430.7(B)",
+    "difficulty": "journeyman",
+    "questionText": "A 30 HP, 460V, 3-phase motor has a NEMA Code Letter K stamped on its nameplate. According to NEC Table 430.7(B), what is the maximum locked-rotor current (LRA) for this motor?",
+    "options": [
+      "301A",
+      "320A",
+      "339A",
+      "390A"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Step 1: Find the kVA/HP range. Per Table 430.7(B), Code Letter K is 8.0 to 8.99 kVA/HP. Step 2: Use the maximum value (8.99) to find the worst-case scenario. Step 3: Apply the 3-phase formula: LRA = (HP × kVA/HP × 1000) / (Volts × 1.732). Step 4: Calculate: (30 × 8.99 × 1000) / (460 × 1.732) = 269,700 / 796.72 = 338.5A. This rounds up to 339A.",
+    "necReference": "Table 430.7(B)",
+    "sparkyTip": "When an exam asks for Locked-Rotor Current based on a Code Letter, always calculate using the HIGHEST number in that letter's range (like 8.99 for K). You always have to plan for the worst-case inrush current!"
+  },
+  {
+    "id": "MC-010",
+    "category": "motor-calculations",
+    "necArticle": "Article 430",
+    "difficulty": "journeyman",
+    "questionText": "A 7.5 HP, 208V, 3-phase motor has an FLC of 24.2A per Table 430.250. The motor nameplate shows 22A FLA and a service factor of 1.0. What is the maximum overload protection?",
+    "options": [
+      "25.3A",
+      "27.8A",
+      "30.25A",
+      "24.2A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Per NEC 430.32(A)(1), motors with service factor less than 1.15 (or temp rise over 40°C) can have overload protection up to 115% of nameplate FLA. 22A × 1.15 = 25.3A maximum. Note: Use NAMEPLATE FLA for overloads, not Table FLC!",
+    "necReference": "NEC 430.32(A)(1)",
+    "sparkyTip": "SF < 1.15 means 115% overload max. Also, always use NAMEPLATE amps for overload sizing — one of the few times you don't use Table 430.250!"
+  },
+  {
+    "id": "MC-014",
+    "category": "motor-calculations",
+    "necArticle": "Article 430, Article 240",
+    "difficulty": "journeyman",
+    "questionText": "What is the maximum size standard inverse-time circuit breaker that can be used for branch-circuit, short-circuit, and ground-fault protection for a 25 HP, 460V, 3-phase, squirrel-cage motor (Design B)?",
+    "options": [
+      "80A",
+      "85A",
+      "90A",
+      "100A"
+    ],
+    "correctAnswer": 2,
+    "explanation": "First, find the FLC from Table 430.250 for a 25 HP, 460V motor, which is 34A. According to Table 430.52, the maximum percentage for an inverse-time breaker is 250% of the FLC. So, 34A × 2.50 = 85A. However, 85A is not a standard circuit breaker size listed in 240.6(A). Per 430.52(C)(1) Exception No. 1, if the calculated value does not correspond to a standard size, you are permitted to use the next higher standard size. The next standard size up from 85A is 90A.",
+    "necReference": "430.52(C)(1), Table 430.52, Table 430.250, 240.6(A)",
+    "sparkyTip": "The 'next size up' rule for motor branch-circuit protection is a crucial exception. Don't just stop at the calculated value; always check if you need to round up to the next standard breaker or fuse size."
+  },
+  {
+    "id": "MC-021",
+    "category": "motor-calculations",
+    "necArticle": "Article 430",
+    "difficulty": "journeyman",
+    "questionText": "A feeder supplies three motors with full-load currents of 44 A, 26 A, and 14 A. Per 430.24, what is the minimum feeder conductor ampacity?",
+    "options": [
+      "95 A",
+      "100 A",
+      "90 A",
+      "105 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Feeder ampacity = 125% of largest (44 A) + 100% of others = 95 A.",
+    "necReference": "430.24",
+    "sparkyTip": "Largest motor at 125%, all others at 100%."
+  },
+  {
+    "id": "MC-023",
+    "category": "motor-calculations",
+    "necArticle": "Table 430.72(B)(2)",
+    "difficulty": "journeyman",
+    "questionText": "A 60A circuit breaker protects a motor branch circuit. The motor control circuit is tapped from the load side of this breaker using 14 AWG copper wire and runs 20 feet through EMT to a remote Start/Stop push-button station. According to Table 430.72(B)(2), does this 14 AWG control circuit require separate overcurrent protection (inline fuses)?",
+    "options": [
+      "Yes, because the 60A breaker exceeds the 45A limit for control wires extending beyond the enclosure.",
+      "No, because 14 AWG control wires are permitted to be protected by a breaker up to 100A.",
+      "Yes, because all tapped control circuits must be protected by 15-amp fuses.",
+      "No, because the remote station is within 50 feet of the controller."
+    ],
+    "correctAnswer": 0,
+    "explanation": "Step 1: Check the wire size and location. The wire is 14 AWG and extends beyond the motor control enclosure. Step 2: Use Table 430.72(B)(2). Find the row for 14 AWG. Because the wire leaves the enclosure, you must use Column C, which limits the maximum branch-circuit protective device to 45A. Step 3: Compare. Since the actual motor breaker is 60A (which is larger than 45A), it cannot legally protect the control circuit. Separate inline fuses must be installed.",
+    "necReference": "430.72(B)(2), Table 430.72(B)(2)",
+    "sparkyTip": "Location is everything! If that 14 AWG wire stayed strictly INSIDE the starter box (like a reset button on the cover), you'd use Column B (100A limit), and the 60A breaker would be perfectly legal without extra fuses. But the second that wire leaves the box, you drop to Column C (45A limit) and have to add fuses to prevent a meltdown!"
+  }
+]

@@ -1,0 +1,19 @@
+[
+  {
+    "id": "VD-004",
+    "category": "voltage-drop",
+    "necArticle": "Chapter 9, Tables 8 & 9",
+    "difficulty": "apprentice",
+    "questionText": "A 208V single-phase circuit has a 2.5% voltage drop on the feeder. What is the maximum ADDITIONAL voltage drop permitted on the branch circuit per NEC recommendations?",
+    "options": [
+      "3%",
+      "2.5%",
+      "5%",
+      "2%"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC recommends a maximum total voltage drop of 5% for feeder + branch circuit combined. With 2.5% on the feeder, only 2.5% remains for the branch circuit (5% - 2.5% = 2.5%).",
+    "necReference": "210.19(A) Informational Note No. 4; 215.2(A)(2) Informational Note No. 2",
+    "sparkyTip": "Think of the 5% total as a budget — whatever the feeder uses, the branch circuit gets the rest!"
+  }
+]

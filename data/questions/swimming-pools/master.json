@@ -1,0 +1,87 @@
+[
+  {
+    "id": "SP-011",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "master",
+    "questionText": "Per NEC 680.26(B)(2), the equipotential bonding grid must extend how far horizontally from the inside walls of a permanently installed pool?",
+    "options": [
+      "12 inches",
+      "18 inches",
+      "3 feet",
+      "5 feet"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 680.26(B)(2) requires that the perimeter surface bonding extend for 3 feet horizontally beyond the inside walls of the pool. This ensures that anyone standing near the pool edge is on bonded surfaces, reducing the risk of shock from voltage differences.",
+    "necReference": "680.26(B)(2)",
+    "sparkyTip": "3 feet out from the pool wall for the bonding grid. Think of it as creating a \"safety zone\" of equal potential around the entire pool perimeter."
+  },
+  {
+    "id": "SP-012",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "master",
+    "questionText": "Per NEC 680.44, what protection is required for all electrical equipment associated with a permanently installed indoor spa or hot tub, including the outlet supplying it?",
+    "options": [
+      "AFCI protection",
+      "GFCI protection for all 125V and 240V outlets",
+      "Surge protection",
+      "An equipment grounding conductor only"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.44 requires GFCI protection for all electrical equipment associated with a permanently installed indoor spa or hot tub. This includes the receptacle outlet supplying power, regardless of the voltage (125V or 240V), providing essential protection against electric shock in a wet environment.",
+    "necReference": "680.44",
+    "sparkyTip": "Indoor spas and hot tubs need GFCI on everything — even 240V circuits. This catches many people off guard since GFCI is often associated only with 120V receptacles."
+  },
+  {
+    "id": "SP-013",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "master",
+    "questionText": "Per NEC 680.51 and 680.52, what are the two key electrical safety requirements for a permanently installed fountain?",
+    "options": [
+      "AFCI protection and surge protection",
+      "GFCI protection for all circuits and bonding of all metal parts",
+      "Only a disconnect switch within sight",
+      "Only double insulation on all conductors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.51 requires GFCI protection for all electrical equipment associated with fountains, and NEC 680.52 requires bonding of all metal piping and metal parts of the fountain that are in contact with the water. Together these two requirements ensure both shock protection and equipotential bonding.",
+    "necReference": "680.51, 680.52",
+    "sparkyTip": "Fountains get the same treatment as pools: GFCI everything + bond all metal. People wade in fountains too, so the NEC treats them seriously."
+  },
+  {
+    "id": "SP-014",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "master",
+    "questionText": "Per NEC 680.12, where must the disconnecting means for a pool motor be located?",
+    "options": [
+      "Inside the house panel only",
+      "Within sight from the pool motor and at least 5 feet from the inside wall of the pool",
+      "Anywhere within 50 feet of the pool",
+      "Adjacent to the pool pump with no minimum distance"
+    ],
+    "correctAnswer": 1,
+    "explanation": "NEC 680.12 requires that the disconnecting means for pool motors be within sight of the equipment it controls AND located at least 5 feet from the inside wall of the pool. \"Within sight\" means visible and not more than 50 feet away. This ensures a technician can see the equipment while operating the disconnect.",
+    "necReference": "680.12",
+    "sparkyTip": "Two rules for the pool motor disconnect: (1) within sight of the motor, and (2) at least 5 feet from the pool edge. Both must be satisfied — one without the other is a code violation."
+  },
+  {
+    "id": "SP-015",
+    "category": "swimming-pools",
+    "necArticle": "Article 680",
+    "difficulty": "master",
+    "questionText": "Per NEC 680.8(A), what is the minimum clearance required for utility supply conductors (0-750V to ground, not insulated) above a pool?",
+    "options": [
+      "14.5 feet",
+      "22.5 feet",
+      "25 feet",
+      "27 feet"
+    ],
+    "correctAnswer": 2,
+    "explanation": "NEC 680.8(A) requires that all conductors of any type (other than those specifically permitted in 680.8(B)) maintain a minimum 25-foot clearance over the maximum water level, diving structures, and observation areas. Insulated service drop cables get a reduced clearance of 22.5 feet, but bare or uninsulated utility conductors require the full 25 feet.",
+    "necReference": "680.8(A)",
+    "sparkyTip": "25 feet for bare/uninsulated utility lines over a pool, 22.5 feet for insulated service drops. The exam loves to test which clearance goes with which conductor type."
+  }
+]

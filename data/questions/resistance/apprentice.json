@@ -1,0 +1,342 @@
+[
+  {
+    "id": "res-scen-011",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "apprentice",
+    "questionText": "If you double the length of a conductor, what happens to its total resistance?",
+    "options": [
+      "It doubles",
+      "It stays the same",
+      "It is cut in half",
+      "It becomes zero"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Resistance is directly proportional to length. If the road is twice as long, there is twice as much friction.",
+    "necReference": "Electrical Theory",
+    "sparkyTip": "Length and Resistance are best friends—they go up and down together!"
+  },
+  {
+    "id": "res-scen-012",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "apprentice",
+    "questionText": "What is the standard 'K' value (specific resistance) used for Copper conductors in standard NEC calculations?",
+    "options": [
+      "12.9",
+      "21.2",
+      "1.732",
+      "1000"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The standard approximation for Copper is 12.9. Aluminum is 21.2.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "C is for Copper, which is closer to 12. A is for Aluminum, which is way up at 21."
+  },
+  {
+    "id": "res-scen-013",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "apprentice",
+    "questionText": "Using Ohm's Law (R = E / I), what is the resistance of a circuit with 120 Volts pushing 10 Amps?",
+    "options": [
+      "12 ohms",
+      "1200 ohms",
+      "0.083 ohms",
+      "10 ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "120 Volts divided by 10 Amps equals 12 Ohms.",
+    "necReference": "Ohm's Law",
+    "sparkyTip": "Just drop the zero! 120 / 10 = 12."
+  },
+  {
+    "id": "res-scen-014",
+    "category": "resistance",
+    "necArticle": "Article 100",
+    "difficulty": "apprentice",
+    "questionText": "Which unit is used to measure electrical resistance?",
+    "options": [
+      "Ohms",
+      "Amps",
+      "Volts",
+      "Watts"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Resistance is measured in Ohms. Amps measure current, Volts measure pressure, and Watts measure power.",
+    "necReference": "Article 100 - Definitions",
+    "sparkyTip": "The Omega symbol (Ω) represents Ohms. It looks like a horseshoe—resistance is the 'whoa' on the horse!"
+  },
+  {
+    "id": "res-scen-015",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "apprentice",
+    "questionText": "A 100-foot coil of wire has a resistance of 1 Ohm. If you cut the coil exactly in half to use 50 feet, what is the new resistance of that piece?",
+    "options": [
+      "0.5 Ohms",
+      "2 Ohms",
+      "1 Ohm",
+      "0.25 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Since resistance is based on length, cutting the length in half cuts the resistance in half. 1 Ohm / 2 = 0.5 Ohms.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Half the wire, half the work for the electrons to get through."
+  },
+  {
+    "id": "res-scen-016",
+    "category": "resistance",
+    "necArticle": "Article 100",
+    "difficulty": "apprentice",
+    "questionText": "Which of the following materials is considered the best conductor among common electrical wires?",
+    "options": [
+      "Copper",
+      "Aluminum",
+      "Plastic",
+      "Rubber"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Copper has a lower specific resistance (K=12.9) compared to Aluminum (K=21.2), making it a better conductor.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Copper is King! It flows easier than Aluminum."
+  },
+  {
+    "id": "res-scen-017",
+    "category": "resistance",
+    "necArticle": "General Knowledge",
+    "difficulty": "apprentice",
+    "questionText": "What happens to the resistance of a standard copper conductor as its temperature rises?",
+    "options": [
+      "The resistance increases",
+      "The resistance decreases",
+      "The resistance stays exactly the same",
+      "The resistance becomes zero"
+    ],
+    "correctAnswer": 0,
+    "explanation": "As conductors get hotter, the atoms vibrate more, making it harder for electrons to pass through. This increases resistance.",
+    "necReference": "Chapter 9, Table 8 (Note 2)",
+    "sparkyTip": "Heat is the enemy! Hot wires are harder to push current through."
+  },
+  {
+    "id": "res-scen-018",
+    "category": "resistance",
+    "necArticle": "General Safety",
+    "difficulty": "apprentice",
+    "questionText": "When using a digital multimeter to measure resistance (Ohms), the circuit must be:",
+    "options": [
+      "De-energized (Turned Off)",
+      "Energized (Turned On)",
+      "Under full load",
+      "Connected to a high voltage source"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Ohmeters send their own small current through the component to measure it. If the circuit is live, you can blow the meter's fuse or damage the tool.",
+    "necReference": "Safe Work Practices",
+    "sparkyTip": "Never measure Ohms on a live wire! You'll let the magic smoke out of your meter."
+  },
+  {
+    "id": "res-scen-019",
+    "category": "resistance",
+    "necArticle": "General Knowledge",
+    "difficulty": "apprentice",
+    "questionText": "What is the symbol used to represent 'Ohms'?",
+    "options": [
+      "Ω (Omega)",
+      "A (Ampere)",
+      "V (Volt)",
+      "W (Watt)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The Greek letter Omega (Ω) is the standard symbol for resistance.",
+    "necReference": "Standard Symbols",
+    "sparkyTip": "It looks like a horseshoe. Resistance is what holds the horses (current) back!"
+  },
+  {
+    "id": "res-scen-020",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "apprentice",
+    "questionText": "If a resistor has a value of 1.5 kΩ (kilo-ohms), how many Ohms is that?",
+    "options": [
+      "1,500 Ohms",
+      "150 Ohms",
+      "15,000 Ohms",
+      "15 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The prefix 'kilo' means 1,000. So, 1.5 * 1,000 = 1,500 Ohms.",
+    "necReference": "Metric Prefixes",
+    "sparkyTip": "Kilo = Thousand. Just move the decimal point 3 spots to the right."
+  },
+  {
+    "id": "res-scen-021",
+    "category": "resistance",
+    "necArticle": "Series Circuits",
+    "difficulty": "apprentice",
+    "questionText": "Two 10-Ohm resistors are connected in series (end-to-end). What is the total resistance?",
+    "options": [
+      "20 Ohms",
+      "5 Ohms",
+      "10 Ohms",
+      "100 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In a series circuit, resistances simply add up. R_total = R1 + R2. 10 + 10 = 20.",
+    "necReference": "Series Circuit Theory",
+    "sparkyTip": "Series is like a one-lane road with two speed bumps. You have to go over both, so they add up."
+  },
+  {
+    "id": "res-scen-022",
+    "category": "resistance",
+    "necArticle": "Parallel Circuits",
+    "difficulty": "apprentice",
+    "questionText": "Two 10-Ohm resistors are connected in parallel (side-by-side). What is the total resistance?",
+    "options": [
+      "5 Ohms",
+      "20 Ohms",
+      "10 Ohms",
+      "0 Ohms"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In a parallel circuit with identical resistors, the total resistance is the value of one resistor divided by the number of paths. 10 / 2 = 5 Ohms.",
+    "necReference": "Parallel Circuit Theory",
+    "sparkyTip": "Two lanes are better than one! Resistance goes DOWN in parallel."
+  },
+  {
+    "id": "res-scen-023",
+    "category": "resistance",
+    "necArticle": "General Knowledge",
+    "difficulty": "apprentice",
+    "questionText": "Which of the following describes an 'Open Circuit'?",
+    "options": [
+      "Infinite Resistance (No current flow)",
+      "Zero Resistance (Maximum current flow)",
+      "Low Resistance",
+      "Normal Resistance"
+    ],
+    "correctAnswer": 0,
+    "explanation": "An open circuit means the path is broken (like a switch turned off). Air is a great insulator, so resistance is effectively infinite.",
+    "necReference": "Circuit Theory",
+    "sparkyTip": "Open circuit = Bridge is out. No cars (electrons) can cross."
+  },
+  {
+    "id": "res-scen-024",
+    "category": "resistance",
+    "necArticle": "General Knowledge",
+    "difficulty": "apprentice",
+    "questionText": "Which of the following describes a 'Short Circuit'?",
+    "options": [
+      "Zero or very low Resistance",
+      "Infinite Resistance",
+      "High Voltage",
+      "Broken Connection"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A short circuit occurs when current bypasses the load through a path of very low resistance, causing amperage to spike.",
+    "necReference": "Circuit Theory",
+    "sparkyTip": "Electricity is lazy—it takes the shortcut! If there's no resistance to stop it, it goes boom."
+  },
+  {
+    "id": "res-scen-025",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "apprentice",
+    "questionText": "Which wire size has the LEAST resistance per 1,000 feet?",
+    "options": [
+      "500 kcmil",
+      "#12 AWG",
+      "#10 AWG",
+      "1/0 AWG"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The larger the wire (Circular Mils), the lower the resistance. 500 kcmil is the largest option listed.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "Think of a wide pipe vs. a skinny straw. The wide pipe (500 kcmil) lets water flow easier."
+  },
+  {
+    "id": "res-scen-026",
+    "category": "resistance",
+    "necArticle": "Article 100",
+    "difficulty": "apprentice",
+    "questionText": "A material that prevents the flow of electric current is called a:",
+    "options": [
+      "Insulator",
+      "Conductor",
+      "Semiconductor",
+      "Inductor"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Insulators have extremely high resistance and are used to contain electricity (e.g., the plastic coating on a wire).",
+    "necReference": "Article 100",
+    "sparkyTip": "Insulators insulate. They keep the spicy electricity inside the wire."
+  },
+  {
+    "id": "res-scen-027",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "apprentice",
+    "questionText": "If you have a 12-Volt battery and a 6-Ohm light bulb, how many Amps will flow?",
+    "options": [
+      "2 Amps",
+      "0.5 Amps",
+      "72 Amps",
+      "6 Amps"
+    ],
+    "correctAnswer": 0,
+    "explanation": "I = E / R. 12 Volts / 6 Ohms = 2 Amps.",
+    "necReference": "Ohm's Law",
+    "sparkyTip": "12 divided by 6. Keep it simple!"
+  },
+  {
+    "id": "res-scen-028",
+    "category": "resistance",
+    "necArticle": "Chapter 9, Table 8",
+    "difficulty": "apprentice",
+    "questionText": "What does 'kcmil' stand for?",
+    "options": [
+      "Thousand Circular Mils",
+      "Kilo-Centimeter Length",
+      "Kelvin Circular Meter",
+      "Kinetic Copper Mass"
+    ],
+    "correctAnswer": 0,
+    "explanation": "kcmil is the unit of area for large conductors. 'k' = 1000, 'cmil' = circular mils.",
+    "necReference": "Chapter 9, Table 8",
+    "sparkyTip": "It used to be called MCM (Roman numeral M for 1000), but now we use 'k' for kilo."
+  },
+  {
+    "id": "res-scen-029",
+    "category": "resistance",
+    "necArticle": "General Knowledge",
+    "difficulty": "apprentice",
+    "questionText": "Which component is designed specifically to add resistance to a circuit?",
+    "options": [
+      "Resistor",
+      "Capacitor",
+      "Battery",
+      "Switch"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A resistor is a passive component used to limit current or divide voltage.",
+    "necReference": "Circuit Theory",
+    "sparkyTip": "It's in the name! A resistor... resists."
+  },
+  {
+    "id": "res-scen-030",
+    "category": "resistance",
+    "necArticle": "Ohm's Law",
+    "difficulty": "apprentice",
+    "questionText": "If resistance stays the same but voltage doubles, what happens to the current?",
+    "options": [
+      "The current doubles",
+      "The current is cut in half",
+      "The current stays the same",
+      "The current stops"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Current is directly proportional to Voltage. If you push twice as hard (Volts), you get twice the flow (Amps).",
+    "necReference": "Ohm's Law",
+    "sparkyTip": "More pressure = more flow."
+  }
+]

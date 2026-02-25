@@ -1,0 +1,70 @@
+[
+  {
+    "id": "TC-010",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.15(B)(1)",
+    "difficulty": "apprentice",
+    "questionText": "A Mineral Insulated (MI) cable is installed in a boiler room with an ambient temperature of 55°C (131°F). If the cable is rated for 90°C, what is the correction factor that must be applied to its ampacity?",
+    "options": [
+      "0.76",
+      "0.82",
+      "0.67",
+      "0.50"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Looking at Table 310.15(B)(1)(1) under the 90°C column, for an ambient temperature range of 51-55°C, the correction factor is 0.76.",
+    "necReference": "Table 310.15(B)(1)(1)",
+    "sparkyTip": "Boiler rooms and industrial furnaces are where correction factors become a matter of life and death for the cable jacket. Always check the high-range of the table."
+  },
+  {
+    "id": "TC-016",
+    "category": "temperature-correction",
+    "necArticle": "310.15",
+    "difficulty": "apprentice",
+    "questionText": "Which statement about temperature correction factors for conductors buried in the earth is correct?",
+    "options": [
+      "Correction factors never apply to underground conductors",
+      "Correction factors apply based on earth ambient temperature",
+      "Underground conductors are always rated at 30°C ambient",
+      "Only direct-buried cables require correction factors"
+    ],
+    "correctAnswer": 1,
+    "explanation": "False. 310.15 states correction factors apply to the ambient temperature. For underground, the 'ambient' is the earth temperature, typically assumed at 20°C, but correction is required if conditions differ.",
+    "necReference": "310.15",
+    "sparkyTip": "People assume dirt is always 30°C. In many places, it's cooler, allowing for more ampacity, but in the desert, it can be much hotter."
+  },
+  {
+    "id": "TC-018",
+    "category": "temperature-correction",
+    "necArticle": "Table 310.15(B)(1)",
+    "difficulty": "apprentice",
+    "questionText": "Based on Table 310.15(B)(1), at what ambient Celsius temperature range is the correction factor 1.00 (requiring no adjustment to conductor ampacity)?",
+    "options": [
+      "21-25°C",
+      "26-30°C",
+      "31-35°C",
+      "16-20°C"
+    ],
+    "correctAnswer": 1,
+    "explanation": "The ampacity values in Table 310.16 are based on an ambient temperature of 30°C (86°F). Per Table 310.15(B)(1), the 26-30°C range represents this baseline, resulting in a multiplier of 1.00.",
+    "necReference": "Table 310.15(B)(1)",
+    "sparkyTip": "Think of 86°F (30°C) as the 'room temperature' of the NEC. By the way, 26-30°C is equal to 78-86°F—if the weather is in that sweet spot, your wires can carry their full rated current!"
+  },
+  {
+    "id": "TC-020",
+    "category": "temperature-correction",
+    "necArticle": "310.15(C)(1)",
+    "difficulty": "apprentice",
+    "questionText": "Ten current-carrying conductors are in a conduit. The base ampacity must be adjusted by what percentage?",
+    "options": [
+      "80%",
+      "70%",
+      "50%",
+      "45%"
+    ],
+    "correctAnswer": 2,
+    "explanation": "Table 310.15(C)(1) specifies an adjustment factor of 50% for 10-20 current-carrying conductors.",
+    "necReference": "Table 310.15(C)(1)",
+    "sparkyTip": "The jump from 9 conductors (70%) to 10 conductors (50%) is the most brutal 'cliff' in the code book. Avoid 10 conductors in a pipe if you can!"
+  }
+]
