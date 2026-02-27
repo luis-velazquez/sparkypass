@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "MH-001",
+      "id": "MH-A001",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -15,10 +15,14 @@
       "correctAnswer": 1,
       "explanation": "NEC Article 550 specifically covers mobile homes, manufactured homes, and mobile home parks. Article 545 covers manufactured buildings, Article 551 covers recreational vehicles, and Article 555 covers marinas and boatyards.",
       "necReference": "550.1",
-      "sparkyTip": "Remember the 550s: 550 = mobile homes, 551 = RVs, 555 = marinas. Each Chapter 5 article covers a different type of special occupancy!"
+      "sparkyTip": "Remember the 550s: 550 = mobile homes, 551 = RVs, 555 = marinas. Each Chapter 5 article covers a different type of special occupancy!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-002",
+      "id": "MH-A002",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -32,10 +36,14 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.10(C), the attachment plug cap for a mobile home power-supply cord must be a 125/250-volt, 3-pole, 4-wire, grounding type rated 50 amperes.",
       "necReference": "550.10(C)",
-      "sparkyTip": "Mobile home plugs are always 50A \u2014 same size as a range outlet. If you see a 4-prong 50A plug, think mobile home or electric range!"
+      "sparkyTip": "Mobile home plugs are always 50A — same size as a range outlet. If you see a 4-prong 50A plug, think mobile home or electric range!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-003",
+      "id": "MH-A003",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -49,10 +57,14 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.30, the secondary electrical distribution system for mobile home parks to mobile home lots must be single-phase, 120/240-volt, nominal.",
       "necReference": "550.30",
-      "sparkyTip": "Mobile homes are residential \u2014 they always get single-phase 120/240V, just like a regular house!"
+      "sparkyTip": "Mobile homes are residential — they always get single-phase 120/240V, just like a regular house!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-004",
+      "id": "MH-A004",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -66,10 +78,14 @@
       "correctAnswer": 1,
       "explanation": "Per NEC 550.10(C), the plug cap must be a 3-pole, 4-wire, grounding type. The 4 wires consist of 2 ungrounded (hot) conductors, 1 grounded (neutral) conductor, and 1 equipment grounding conductor.",
       "necReference": "550.10(C)",
-      "sparkyTip": "3 poles = 2 hots + 1 neutral. The 4th wire is the equipment ground \u2014 that's what makes it a 'grounding type' connector."
+      "sparkyTip": "3 poles = 2 hots + 1 neutral. The 4th wire is the equipment ground — that's what makes it a 'grounding type' connector.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-005",
+      "id": "MH-A005",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -83,12 +99,16 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.31, park electrical wiring systems shall be calculated on the basis of not less than 16,000 volt-amperes for each mobile home lot.",
       "necReference": "550.31",
-      "sparkyTip": "16,000 VA per lot is the baseline for every mobile home park calculation. Even if the actual home uses less, you calculate with 16,000 VA minimum."
+      "sparkyTip": "16,000 VA per lot is the baseline for every mobile home park calculation. Even if the actual home uses less, you calculate with 16,000 VA minimum.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
     {
-      "id": "MH-001",
+      "id": "MH-J001",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -97,15 +117,19 @@
         "21 feet",
         "25 feet",
         "30 feet",
-        "36\u00bd feet"
+        "36½ feet"
       ],
       "correctAnswer": 3,
-      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36\u00bd feet (11.0 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
+      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36½ feet (11.0 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
       "necReference": "550.10(D)",
-      "sparkyTip": "Max cord = 36\u00bd feet, min = 21 feet. The cord needs to reach the pedestal but not be so long it creates a hazard."
+      "sparkyTip": "Max cord = 36½ feet, min = 21 feet. The cord needs to reach the pedestal but not be so long it creates a hazard.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-002",
+      "id": "MH-J002",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -119,10 +143,14 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.16(A), the grounded (neutral) conductor and the equipment grounding conductor must be kept separate in a mobile home. The neutral-to-ground bond is made at the service disconnecting means (the outdoor pedestal), not inside the mobile home.",
       "necReference": "550.16(A)",
-      "sparkyTip": "A mobile home panelboard works like a sub-panel \u2014 neutral and ground stay separate! The bond happens at the outdoor disconnect."
+      "sparkyTip": "A mobile home panelboard works like a sub-panel — neutral and ground stay separate! The bond happens at the outdoor disconnect.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-003",
+      "id": "MH-J003",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -136,10 +164,14 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.32(A), mobile home service equipment must not be mounted in or on the mobile home. It must be located in a readily accessible outdoor location and within sight from the mobile home it serves.",
       "necReference": "550.32(A)",
-      "sparkyTip": "Service equipment goes OUTSIDE and within sight \u2014 think of the familiar power pedestal standing next to the home. Never inside or under the unit!"
+      "sparkyTip": "Service equipment goes OUTSIDE and within sight — think of the familiar power pedestal standing next to the home. Never inside or under the unit!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-004",
+      "id": "MH-J004",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -153,10 +185,14 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.10(D), the power-supply cord must be not less than 21 feet (6.4 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
       "necReference": "550.10(D)",
-      "sparkyTip": "Min 21 feet, max 36\u00bd feet. The minimum ensures you can reach the disconnect pedestal from most lot configurations."
+      "sparkyTip": "Min 21 feet, max 36½ feet. The minimum ensures you can reach the disconnect pedestal from most lot configurations.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-005",
+      "id": "MH-J005",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -170,12 +206,16 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.10(B), the power-supply cord must be permanently connected to the distribution panelboard or to a junction box permanently connected to the panelboard, with both located inside the mobile home.",
       "necReference": "550.10(B)",
-      "sparkyTip": "The cord connects inside to the panel \u2014 it is a permanent connection, not a plug-in. The only plug is at the other end, at the lot pedestal."
+      "sparkyTip": "The cord connects inside to the panel — it is a permanent connection, not a plug-in. The only plug is at the other end, at the lot pedestal.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
     {
-      "id": "MH-001",
+      "id": "MH-M001",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "master",
@@ -187,12 +227,16 @@
         "32,000 VA"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Total connected load = 2 lots \u00d7 16,000 VA = 32,000 VA. Step 2: Apply Table 550.31 demand factor for 2 lots = 55%. Step 3: 32,000 VA \u00d7 0.55 = 17,600 VA demand load.",
+      "explanation": "Step 1: Total connected load = 2 lots × 16,000 VA = 32,000 VA. Step 2: Apply Table 550.31 demand factor for 2 lots = 55%. Step 3: 32,000 VA × 0.55 = 17,600 VA demand load.",
       "necReference": "Table 550.31",
-      "sparkyTip": "Always multiply first (lots \u00d7 VA), then apply the demand factor. The demand factor accounts for diversity \u2014 not all homes peak at the same time."
+      "sparkyTip": "Always multiply first (lots × VA), then apply the demand factor. The demand factor accounts for diversity — not all homes peak at the same time.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-002",
+      "id": "MH-M002",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "master",
@@ -204,12 +248,16 @@
         "146.7 amperes"
       ],
       "correctAnswer": 2,
-      "explanation": "For a single-phase 120/240V service: I = VA \u00f7 V = 17,600 VA \u00f7 240V = 73.3 amperes. This is the calculated demand current used for sizing the park service conductors and overcurrent protection.",
+      "explanation": "For a single-phase 120/240V service: I = VA ÷ V = 17,600 VA ÷ 240V = 73.3 amperes. This is the calculated demand current used for sizing the park service conductors and overcurrent protection.",
       "necReference": "Table 550.31",
-      "sparkyTip": "Single-phase amps = VA \u00f7 240V. Don't accidentally divide by 120V (that would double your answer) or use the three-phase formula."
+      "sparkyTip": "Single-phase amps = VA ÷ 240V. Don't accidentally divide by 120V (that would double your answer) or use the three-phase formula.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-003",
+      "id": "MH-M003",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "master",
@@ -223,41 +271,53 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.16(A), the neutral and equipment grounding conductors must be kept separate in the mobile home. The neutral-to-ground bond must be made at the service disconnecting means (outdoor pedestal), not at the mobile home panelboard. The mobile home panel is a sub-panel fed from the service equipment outside.",
       "necReference": "550.16(A)",
-      "sparkyTip": "The mobile home panel is a sub-panel. The bond goes at the main disconnect outside \u2014 bonding inside would create parallel neutral current paths on the grounding conductor, which is a shock hazard."
+      "sparkyTip": "The mobile home panel is a sub-panel. The bond goes at the main disconnect outside — bonding inside would create parallel neutral current paths on the grounding conductor, which is a shock hazard.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-004",
+      "id": "MH-M004",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "master",
       "questionText": "A mobile home power-supply cord is measured at 38 feet from the attachment plug cap to the point of entrance. Which NEC requirement does this violate?",
       "options": [
-        "550.10(A) \u2014 cord must be listed for 50 amperes",
-        "550.10(B) \u2014 cord must connect to the panelboard",
-        "550.10(C) \u2014 plug cap must be 3-pole, 4-wire",
-        "550.10(D) \u2014 maximum cord length is 36\u00bd feet"
+        "550.10(A) — cord must be listed for 50 amperes",
+        "550.10(B) — cord must connect to the panelboard",
+        "550.10(C) — plug cap must be 3-pole, 4-wire",
+        "550.10(D) — maximum cord length is 36½ feet"
       ],
       "correctAnswer": 3,
-      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36\u00bd feet (11.0 m) in length. At 38 feet, this cord exceeds the maximum by 1\u00bd feet and must be replaced with a compliant cord.",
+      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36½ feet (11.0 m) in length. At 38 feet, this cord exceeds the maximum by 1½ feet and must be replaced with a compliant cord.",
       "necReference": "550.10(D)",
-      "sparkyTip": "550.10 has four parts: (A) = supply type, (B) = connection point, (C) = plug configuration, (D) = cord length. Master-level questions often ask you to cite the specific subsection!"
+      "sparkyTip": "550.10 has four parts: (A) = supply type, (B) = connection point, (C) = plug configuration, (D) = cord length. Master-level questions often ask you to cite the specific subsection!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "MH-005",
+      "id": "MH-M005",
       "category": "mobile-homes",
       "necArticle": "Article 550",
       "difficulty": "master",
       "questionText": "A mobile home's calculated load per 550.18 is 13,500 VA at 120/240V. Can the standard 50-ampere power-supply cord serve this home?",
       "options": [
-        "Yes \u2014 the 50A cord can supply up to 15,000 VA",
-        "Yes \u2014 demand factors reduce the load below 50A",
-        "No \u2014 a permanently installed feeder is required",
-        "No \u2014 a 60A power-supply cord must be used instead"
+        "Yes — the 50A cord can supply up to 15,000 VA",
+        "Yes — demand factors reduce the load below 50A",
+        "No — a permanently installed feeder is required",
+        "No — a 60A power-supply cord must be used instead"
       ],
       "correctAnswer": 2,
-      "explanation": "The current draw is 13,500 VA \u00f7 240V = 56.25 amperes, which exceeds the 50-ampere cord rating. Per 550.10(A), when the calculated load exceeds the cord capacity, a permanently installed feeder rated not less than the calculated load must be used instead of a power-supply cord.",
+      "explanation": "The current draw is 13,500 VA ÷ 240V = 56.25 amperes, which exceeds the 50-ampere cord rating. Per 550.10(A), when the calculated load exceeds the cord capacity, a permanently installed feeder rated not less than the calculated load must be used instead of a power-supply cord.",
       "necReference": "550.10(A)",
-      "sparkyTip": "A 50A cord at 240V maxes out at 12,000 VA (50 \u00d7 240). If the calculated load exceeds that, the Code requires a permanent feeder \u2014 there is no 60A cord option for mobile homes."
+      "sparkyTip": "A 50A cord at 240V maxes out at 12,000 VA (50 × 240). If the calculated load exceeds that, the Code requires a permanent feeder — there is no 60A cord option for mobile homes.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

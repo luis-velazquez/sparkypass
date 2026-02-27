@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "TN-001",
+      "id": "TN-A001",
       "category": "textbook-navigation",
       "necArticle": "Article 110",
       "difficulty": "apprentice",
@@ -15,10 +15,14 @@
       "correctAnswer": 2,
       "explanation": "Article 110 contains general requirements for electrical installations.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Article 110 is the first stop for general installation rules."
+      "sparkyTip": "Article 110 is the first stop for general installation rules.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-002",
+      "id": "TN-A002",
       "category": "textbook-navigation",
       "necArticle": "Chapter 4",
       "difficulty": "apprentice",
@@ -32,10 +36,14 @@
       "correctAnswer": 2,
       "explanation": "Chapter 4 covers equipment for general use.",
       "necReference": "90.3",
-      "sparkyTip": "Equipment rules start in Chapter 4."
+      "sparkyTip": "Equipment rules start in Chapter 4.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-003",
+      "id": "TN-A003",
       "category": "textbook-navigation",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
@@ -49,10 +57,14 @@
       "correctAnswer": 0,
       "explanation": "Article 300 provides general requirements for wiring methods.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Article 300 is the gateway to wiring method rules."
+      "sparkyTip": "Article 300 is the gateway to wiring method rules.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-004",
+      "id": "TN-A004",
       "category": "textbook-navigation",
       "necArticle": "Article 90",
       "difficulty": "apprentice",
@@ -66,10 +78,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 90.1(C) explicitly states that the Code is not intended as a design specification or an instruction manual for untrained persons.",
       "necReference": "NEC 90.1(C)",
-      "sparkyTip": "Not a design spec. Not a how-to guide."
+      "sparkyTip": "Not a design spec. Not a how-to guide.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-005",
+      "id": "TN-A005",
       "category": "textbook-navigation",
       "necArticle": "Article 210",
       "difficulty": "apprentice",
@@ -83,27 +99,35 @@
       "correctAnswer": 3,
       "explanation": "NEC 210.8(A) specifically lists Kitchens, Basements, and Garages as areas requiring GFCI protection. Bedrooms typically require AFCI protection (210.12) but do not require GFCI protection unless a receptacle is within 6 feet of a sink.",
       "necReference": "NEC 210.8(A)",
-      "sparkyTip": "Water = GFCI (Kitchen, Garage, Basement). Sleeping = AFCI (Bedroom)."
+      "sparkyTip": "Water = GFCI (Kitchen, Garage, Basement). Sleeping = AFCI (Bedroom).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-006",
+      "id": "TN-A006",
       "category": "textbook-navigation",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
       "questionText": "When boring holes in wood members for cable or raceway installation, what is the minimum distance from the nearest edge required to avoid using a steel plate?",
       "options": [
         "At least 1 inch",
-        "At least 1\u00bc inches",
-        "At least 1\u00bd inches",
-        "At least \u00be inch"
+        "At least 1¼ inches",
+        "At least 1½ inches",
+        "At least ¾ inch"
       ],
       "correctAnswer": 1,
-      "explanation": "NEC 300.4(A)(1) requires that holes bored in wood members be at least **1\u00bc inches** from the nearest edge. If the distance is less than 1\u00bc inches, a 1/16-inch thick steel plate (nail plate) is required.",
+      "explanation": "NEC 300.4(A)(1) requires that holes bored in wood members be at least **1¼ inches** from the nearest edge. If the distance is less than 1¼ inches, a 1/16-inch thick steel plate (nail plate) is required.",
       "necReference": "NEC 300.4(A)(1)",
-      "sparkyTip": "1\u00bc\" is the magic number. Less than that = Nail Plate."
+      "sparkyTip": "1¼\" is the magic number. Less than that = Nail Plate.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-007",
+      "id": "TN-A007",
       "category": "textbook-navigation",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
@@ -117,10 +141,14 @@
       "correctAnswer": 2,
       "explanation": "PVC is a 'Nonmetallic Raceway.' Therefore, it falls under Column 3 ('Nonmetallic Raceways Listed for Direct Burial...'). Column 2 is strictly for Metal Conduit (RMC/IMC), and Column 1 is for Cables (UF).",
       "necReference": "NEC Table 300.5",
-      "sparkyTip": "Metal Pipe = Col 2. Plastic Pipe = Col 3."
+      "sparkyTip": "Metal Pipe = Col 2. Plastic Pipe = Col 3.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-008",
+      "id": "TN-A008",
       "category": "textbook-navigation",
       "necArticle": "Article 210",
       "difficulty": "apprentice",
@@ -134,10 +162,14 @@
       "correctAnswer": 0,
       "explanation": "Article 210 contains branch-circuit requirements.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Branch circuits = Article 210."
+      "sparkyTip": "Branch circuits = Article 210.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-009",
+      "id": "TN-A009",
       "category": "textbook-navigation",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
@@ -151,10 +183,14 @@
       "correctAnswer": 1,
       "explanation": "Article 314 covers boxes and conduit bodies.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Boxes and conduit bodies = 314."
+      "sparkyTip": "Boxes and conduit bodies = 314.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-010",
+      "id": "TN-A010",
       "category": "textbook-navigation",
       "necArticle": "Article 400",
       "difficulty": "apprentice",
@@ -168,10 +204,14 @@
       "correctAnswer": 0,
       "explanation": "Article 400 covers flexible cords and cables.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Flex cords = Article 400."
+      "sparkyTip": "Flex cords = Article 400.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-011",
+      "id": "TN-A011",
       "category": "textbook-navigation",
       "necArticle": "Article 404",
       "difficulty": "apprentice",
@@ -185,10 +225,14 @@
       "correctAnswer": 0,
       "explanation": "Article 404 covers switches.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Switches = Article 404."
+      "sparkyTip": "Switches = Article 404.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-012",
+      "id": "TN-A012",
       "category": "textbook-navigation",
       "necArticle": "Article 406",
       "difficulty": "apprentice",
@@ -202,10 +246,14 @@
       "correctAnswer": 1,
       "explanation": "Article 406 covers receptacles and cord connectors.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Receptacles = Article 406."
+      "sparkyTip": "Receptacles = Article 406.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-013",
+      "id": "TN-A013",
       "category": "textbook-navigation",
       "necArticle": "Article 408",
       "difficulty": "apprentice",
@@ -219,10 +267,14 @@
       "correctAnswer": 2,
       "explanation": "Article 408 covers switchboards, switchgear, and panelboards.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Panels = Article 408."
+      "sparkyTip": "Panels = Article 408.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-014",
+      "id": "TN-A014",
       "category": "textbook-navigation",
       "necArticle": "Article 410",
       "difficulty": "apprentice",
@@ -236,10 +288,14 @@
       "correctAnswer": 0,
       "explanation": "Article 410 covers luminaires, lampholders, and lamps.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Lighting fixtures = Article 410."
+      "sparkyTip": "Lighting fixtures = Article 410.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-015",
+      "id": "TN-A015",
       "category": "textbook-navigation",
       "necArticle": "Article 422",
       "difficulty": "apprentice",
@@ -253,10 +309,14 @@
       "correctAnswer": 0,
       "explanation": "Article 422 covers appliances.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Appliances = Article 422."
+      "sparkyTip": "Appliances = Article 422.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-016",
+      "id": "TN-A016",
       "category": "textbook-navigation",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
@@ -270,10 +330,14 @@
       "correctAnswer": 1,
       "explanation": "Article 430 covers motors and motor circuits.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Motors = Article 430."
+      "sparkyTip": "Motors = Article 430.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-017",
+      "id": "TN-A017",
       "category": "textbook-navigation",
       "necArticle": "Article 440",
       "difficulty": "apprentice",
@@ -287,12 +351,16 @@
       "correctAnswer": 1,
       "explanation": "Article 440 covers air-conditioning and refrigeration equipment.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "A/C and refrigeration = Article 440."
+      "sparkyTip": "A/C and refrigeration = Article 440.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
     {
-      "id": "TN-001",
+      "id": "TN-J001",
       "category": "textbook-navigation",
       "necArticle": "Article 90",
       "difficulty": "journeyman",
@@ -306,10 +374,14 @@
       "correctAnswer": 0,
       "explanation": "Article 90 explains the arrangement and scope of the NEC, including chapter application rules.",
       "necReference": "Article 90",
-      "sparkyTip": "Start in Article 90 when you need to understand how the Code is organized."
+      "sparkyTip": "Start in Article 90 when you need to understand how the Code is organized.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-002",
+      "id": "TN-J002",
       "category": "textbook-navigation",
       "necArticle": "Article 100",
       "difficulty": "journeyman",
@@ -323,10 +395,14 @@
       "correctAnswer": 1,
       "explanation": "Article 100 contains NEC definitions used across the Code.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "When a word seems specific, check Article 100 before guessing."
+      "sparkyTip": "When a word seems specific, check Article 100 before guessing.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-003",
+      "id": "TN-J003",
       "category": "textbook-navigation",
       "necArticle": "Chapter 1",
       "difficulty": "journeyman",
@@ -340,10 +416,14 @@
       "correctAnswer": 0,
       "explanation": "Chapters 1-4 contain general rules applicable to most installations.",
       "necReference": "90.3",
-      "sparkyTip": "Default to Chapters 1-4 before jumping to special rules."
+      "sparkyTip": "Default to Chapters 1-4 before jumping to special rules.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-004",
+      "id": "TN-J004",
       "category": "textbook-navigation",
       "necArticle": "Chapter 5",
       "difficulty": "journeyman",
@@ -357,10 +437,14 @@
       "correctAnswer": 0,
       "explanation": "Chapter 5 contains special occupancies that supplement or modify Chapters 1-4.",
       "necReference": "90.3",
-      "sparkyTip": "Special occupancies live in Chapter 5."
+      "sparkyTip": "Special occupancies live in Chapter 5.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-005",
+      "id": "TN-J005",
       "category": "textbook-navigation",
       "necArticle": "Chapter 6",
       "difficulty": "journeyman",
@@ -374,10 +458,14 @@
       "correctAnswer": 0,
       "explanation": "Chapter 6 covers special equipment and contains rules that modify or supplement general rules.",
       "necReference": "90.3",
-      "sparkyTip": "Special equipment = Chapter 6."
+      "sparkyTip": "Special equipment = Chapter 6.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-006",
+      "id": "TN-J006",
       "category": "textbook-navigation",
       "necArticle": "Chapter 7",
       "difficulty": "journeyman",
@@ -391,10 +479,14 @@
       "correctAnswer": 0,
       "explanation": "Chapter 7 covers special conditions and modifies or supplements Chapters 1-4.",
       "necReference": "90.3",
-      "sparkyTip": "Emergency/standby systems are in Chapter 7."
+      "sparkyTip": "Emergency/standby systems are in Chapter 7.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-007",
+      "id": "TN-J007",
       "category": "textbook-navigation",
       "necArticle": "Chapter 8",
       "difficulty": "journeyman",
@@ -408,10 +500,14 @@
       "correctAnswer": 2,
       "explanation": "Chapter 8 addresses communications systems and only uses Chapters 1-7 when specifically referenced.",
       "necReference": "90.3",
-      "sparkyTip": "Chapter 8 stands on its own unless it points back to other chapters."
+      "sparkyTip": "Chapter 8 stands on its own unless it points back to other chapters.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-008",
+      "id": "TN-J008",
       "category": "textbook-navigation",
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
@@ -425,10 +521,14 @@
       "correctAnswer": 2,
       "explanation": "Chapter 9 contains tables used when referenced in other NEC sections.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "If you need a table, check Chapter 9 first."
+      "sparkyTip": "If you need a table, check Chapter 9 first.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-009",
+      "id": "TN-J009",
       "category": "textbook-navigation",
       "necArticle": "Annex",
       "difficulty": "journeyman",
@@ -442,10 +542,14 @@
       "correctAnswer": 1,
       "explanation": "Annexes are informational and not enforceable requirements.",
       "necReference": "90.3",
-      "sparkyTip": "Annexes are helpful guidance, not rules."
+      "sparkyTip": "Annexes are helpful guidance, not rules.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-010",
+      "id": "TN-J010",
       "category": "textbook-navigation",
       "necArticle": "Article 90",
       "difficulty": "journeyman",
@@ -459,10 +563,14 @@
       "correctAnswer": 1,
       "explanation": "Special occupancy rules in Chapters 5-7 modify or supplement the general rules.",
       "necReference": "90.3",
-      "sparkyTip": "Special rules override general ones when they apply."
+      "sparkyTip": "Special rules override general ones when they apply.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-011",
+      "id": "TN-J011",
       "category": "textbook-navigation",
       "necArticle": "Chapter 3",
       "difficulty": "journeyman",
@@ -476,10 +584,14 @@
       "correctAnswer": 2,
       "explanation": "Chapter 3 covers wiring methods and materials.",
       "necReference": "90.3",
-      "sparkyTip": "Wiring methods and materials live in Chapter 3."
+      "sparkyTip": "Wiring methods and materials live in Chapter 3.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-012",
+      "id": "TN-J012",
       "category": "textbook-navigation",
       "necArticle": "Chapter 2",
       "difficulty": "journeyman",
@@ -493,10 +605,14 @@
       "correctAnswer": 1,
       "explanation": "Chapter 2 covers wiring and protection, including branch circuits and overcurrent protection.",
       "necReference": "90.3",
-      "sparkyTip": "Branch circuits and OCPD rules are in Chapter 2."
+      "sparkyTip": "Branch circuits and OCPD rules are in Chapter 2.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-013",
+      "id": "TN-J013",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -510,10 +626,14 @@
       "correctAnswer": 2,
       "explanation": "Article 250 covers grounding and bonding.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Remember: 250 = grounding and bonding."
+      "sparkyTip": "Remember: 250 = grounding and bonding.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-014",
+      "id": "TN-J014",
       "category": "textbook-navigation",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
@@ -527,10 +647,14 @@
       "correctAnswer": 1,
       "explanation": "Article 220 contains load calculation rules and demand factors.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Load calcs live in Article 220."
+      "sparkyTip": "Load calcs live in Article 220.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-015",
+      "id": "TN-J015",
       "category": "textbook-navigation",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -544,10 +668,14 @@
       "correctAnswer": 1,
       "explanation": "Article 230 contains service rules.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Service = Article 230."
+      "sparkyTip": "Service = Article 230.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-016",
+      "id": "TN-J016",
       "category": "textbook-navigation",
       "necArticle": "Article 310",
       "difficulty": "journeyman",
@@ -561,10 +689,14 @@
       "correctAnswer": 1,
       "explanation": "Article 310 contains conductor ampacity and insulation requirements.",
       "necReference": "NEC Table of Contents",
-      "sparkyTip": "Think 310 for conductor ampacity."
+      "sparkyTip": "Think 310 for conductor ampacity.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-017",
+      "id": "TN-J017",
       "category": "textbook-navigation",
       "necArticle": "Article 90",
       "difficulty": "journeyman",
@@ -578,10 +710,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 90.3 explains the Code arrangement: Chapters 1-4 apply generally, but Chapters 5, 6, and 7 apply to special occupancies/equipment and can modify or supplement the rules in Chapters 1-4. Therefore, the Special rule wins.",
       "necReference": "NEC 90.3",
-      "sparkyTip": "Special rules (Ch 5-7) overrule General rules (Ch 1-4)."
+      "sparkyTip": "Special rules (Ch 5-7) overrule General rules (Ch 1-4).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-018",
+      "id": "TN-J018",
       "category": "textbook-navigation",
       "necArticle": "Article 90",
       "difficulty": "journeyman",
@@ -595,10 +731,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 90.4 grants the AHJ the responsibility to enforce the Code, make interpretations of the rules, and grant approval for equipment, materials, and installation methods.",
       "necReference": "NEC 90.4",
-      "sparkyTip": "AHJ = Enforce, Interpret, Approve."
+      "sparkyTip": "AHJ = Enforce, Interpret, Approve.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-019",
+      "id": "TN-J019",
       "category": "textbook-navigation",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -612,10 +752,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 230.71 limits the number of service disconnecting means to a maximum of six switches or sets of circuit breakers (often called the 'six-handle rule').",
       "necReference": "NEC 230.71",
-      "sparkyTip": "The classic 'six-handle rule': Max 6 disconnects per service."
+      "sparkyTip": "The classic 'six-handle rule': Max 6 disconnects per service.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-020",
+      "id": "TN-J020",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -629,10 +773,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 250.52(A)(1) permits a metal underground water pipe in direct contact with the earth for 10 feet or more to be used as an electrode. Gas piping and aluminum electrodes are specifically prohibited.",
       "necReference": "NEC 250.52(A)",
-      "sparkyTip": "Water pipe = Good electrode (if 10ft+). Gas pipe = Never."
+      "sparkyTip": "Water pipe = Good electrode (if 10ft+). Gas pipe = Never.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-021",
+      "id": "TN-J021",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -646,10 +794,14 @@
       "correctAnswer": 0,
       "explanation": "NEC 250.70 prohibits connecting more than ONE conductor to the grounding electrode by a single clamp or fitting, unless the device is specifically listed for multiple conductors.",
       "necReference": "NEC 250.70",
-      "sparkyTip": "One clamp = One wire (unless listed otherwise)."
+      "sparkyTip": "One clamp = One wire (unless listed otherwise).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-022",
+      "id": "TN-J022",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -663,10 +815,14 @@
       "correctAnswer": 3,
       "explanation": "NEC 250.118 lists 14 different types of acceptable EGCs, including copper/aluminum wire, RMC, IMC, and EMT. (Note: Gas piping is never an EGC).",
       "necReference": "NEC 250.118",
-      "sparkyTip": "Wire, RMC, and EMT are all valid grounds."
+      "sparkyTip": "Wire, RMC, and EMT are all valid grounds.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-023",
+      "id": "TN-J023",
       "category": "textbook-navigation",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
@@ -680,10 +836,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 300.11(B)(2) allows a raceway to support Class 2/3 cables ONLY if those cables control the equipment that the raceway supplies power to (e.g., a thermostat wire strapped to a furnace power conduit).",
       "necReference": "NEC 300.11(B)(2)",
-      "sparkyTip": "You can strap the stat wire to the furnace flex."
+      "sparkyTip": "You can strap the stat wire to the furnace flex.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-024",
+      "id": "TN-J024",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -697,10 +857,14 @@
       "correctAnswer": 1,
       "explanation": "The System Bonding Jumper (SBJ) performs the bonding function for a Separately Derived System (like a transformer). The Main Bonding Jumper (MBJ) does this at the Service.",
       "necReference": "NEC 250.30(A)(1)",
-      "sparkyTip": "Service = Main (MBJ). Transformer = System (SBJ)."
+      "sparkyTip": "Service = Main (MBJ). Transformer = System (SBJ).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-025",
+      "id": "TN-J025",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -714,10 +878,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 250.52(A)(4) requires a ground ring to be a bare copper conductor not smaller than 2 AWG, to encircle the building or structure, and to be at least 20 feet (6.0 m) in length.",
       "necReference": "NEC 250.52(A)(4)",
-      "sparkyTip": "Ground Ring = #2 Copper, 20 feet min."
+      "sparkyTip": "Ground Ring = #2 Copper, 20 feet min.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-026",
+      "id": "TN-J026",
       "category": "textbook-navigation",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
@@ -731,10 +899,14 @@
       "correctAnswer": 1,
       "explanation": "Row 1 of Table 300.5 ('All locations not specified below') requires 24 inches of cover for direct-buried cables (Column 1) but only 18 inches for listed nonmetallic raceways (Column 3).",
       "necReference": "NEC Table 300.5",
-      "sparkyTip": "Top Row: Cable = 24 inches. Pipe = 18 inches."
+      "sparkyTip": "Top Row: Cable = 24 inches. Pipe = 18 inches.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "TN-027",
+      "id": "TN-J027",
       "category": "textbook-navigation",
       "necArticle": "Article 110",
       "difficulty": "journeyman",
@@ -748,12 +920,16 @@
       "correctAnswer": 1,
       "explanation": "NEC 110.26(A)(2) states that the width of the working space shall be the width of the equipment or 30 inches, whichever is greater. (Note: The door must also be able to open at least 90 degrees).",
       "necReference": "NEC 110.26(A)(2)",
-      "sparkyTip": "30 inches OR Equipment Width (Pick the bigger one)."
+      "sparkyTip": "30 inches OR Equipment Width (Pick the bigger one).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
     {
-      "id": "TN-001",
+      "id": "TN-M001",
       "category": "textbook-navigation",
       "necArticle": "Article 250",
       "difficulty": "master",
@@ -767,7 +943,11 @@
       "correctAnswer": 0,
       "explanation": "Supply-side bonding jumpers are sized per Table 250.102(C)(1).",
       "necReference": "Article 250",
-      "sparkyTip": "Supply-side bonding jumper sizing = 250.102(C)(1)."
+      "sparkyTip": "Supply-side bonding jumper sizing = 250.102(C)(1).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

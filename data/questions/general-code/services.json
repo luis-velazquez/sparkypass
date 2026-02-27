@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "SV-001",
+      "id": "SV-A001",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -15,10 +15,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.71(A) limits the number of service disconnecting means to a maximum of 6 switches or circuit breakers, mounted in a single enclosure or grouped together.",
       "necReference": "230.71(A)",
-      "sparkyTip": "Six throws max to turn off the service - remember the 'rule of six!'"
+      "sparkyTip": "Six throws max to turn off the service - remember the 'rule of six!'",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-002",
+      "id": "SV-A002",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -32,10 +36,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.79(C) requires a minimum 100-ampere, 3-wire service for a single-family dwelling with an initial installation of more than two 2-wire branch circuits.",
       "necReference": "230.79(C)",
-      "sparkyTip": "100 amps minimum for homes - the modern standard for residential service!"
+      "sparkyTip": "100 amps minimum for homes - the modern standard for residential service!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-003",
+      "id": "SV-A003",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -49,10 +57,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.42(A)(1) requires service entrance conductors to have an ampacity not less than 100% of the maximum load to be served after applying demand factors.",
       "necReference": "230.42(A)(1)",
-      "sparkyTip": "Service conductors at 100% of calculated load - after demand factors are applied!"
+      "sparkyTip": "Service conductors at 100% of calculated load - after demand factors are applied!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-004",
+      "id": "SV-A004",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -66,10 +78,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 230.70(A)(1) requires the service disconnecting means to be installed at a readily accessible location either outside the building or inside nearest the point of entrance.",
       "necReference": "230.70(A)(1)",
-      "sparkyTip": "Service disconnect near the entry point - firefighters need quick access!"
+      "sparkyTip": "Service disconnect near the entry point - firefighters need quick access!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-005",
+      "id": "SV-A005",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -83,12 +99,16 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.54(F) requires service entrance conductors to have a drip loop to prevent water from entering the service raceway or equipment. Water runs down and drips off the loop.",
       "necReference": "230.54(F)",
-      "sparkyTip": "Drip loops keep water out - always form that loop below the weatherhead!"
+      "sparkyTip": "Drip loops keep water out - always form that loop below the weatherhead!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
     {
-      "id": "SV-001",
+      "id": "SV-J001",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -102,10 +122,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.24(B)(1) requires service drop conductors to have a minimum vertical clearance of 12 feet over residential driveways and commercial areas not subject to truck traffic.",
       "necReference": "230.24(B)(1)",
-      "sparkyTip": "12 feet over driveways - enough clearance for most vehicles to pass safely!"
+      "sparkyTip": "12 feet over driveways - enough clearance for most vehicles to pass safely!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-002",
+      "id": "SV-J002",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -119,10 +143,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.24(B)(1) requires a minimum clearance of 10 feet from final grade for service drop conductors installed over areas accessible to pedestrians only.",
       "necReference": "230.24(B)(1)",
-      "sparkyTip": "10 feet above walking areas - high enough to stay safe from contact!"
+      "sparkyTip": "10 feet above walking areas - high enough to stay safe from contact!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-003",
+      "id": "SV-J003",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -136,10 +164,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 230.24(B)(4) requires a minimum clearance of 18 feet for service drop conductors over public streets, alleys, roads, and parking areas subject to truck traffic.",
       "necReference": "230.24(B)(4)",
-      "sparkyTip": "18 feet over streets - tall trucks need tall clearances!"
+      "sparkyTip": "18 feet over streets - tall trucks need tall clearances!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-004",
+      "id": "SV-J004",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -153,10 +185,14 @@
       "correctAnswer": 3,
       "explanation": "NEC 300.5 provides the burial depth requirements for underground conductors, which varies based on the type of wiring method and location. Service laterals follow these same requirements.",
       "necReference": "230.32, Table 300.5",
-      "sparkyTip": "Underground burial = Table 300.5. The depth depends on what you're burying and where!"
+      "sparkyTip": "Underground burial = Table 300.5. The depth depends on what you're burying and where!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-005",
+      "id": "SV-J005",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -170,10 +206,14 @@
       "correctAnswer": 1,
       "explanation": "NEC Article 100 defines the service point as the point of connection between the facilities of the serving utility and the premises wiring. The location is determined by the utility.",
       "necReference": "Article 100 Definitions",
-      "sparkyTip": "Service point = where utility responsibility ends and yours begins!"
+      "sparkyTip": "Service point = where utility responsibility ends and yours begins!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-006",
+      "id": "SV-J006",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -187,10 +227,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 225.32 requires a disconnecting means to be installed at each building or structure supplied by a feeder. This allows the power to be shut off locally for safety.",
       "necReference": "225.32",
-      "sparkyTip": "One disconnect per building - safety requires local shutoff capability!"
+      "sparkyTip": "One disconnect per building - safety requires local shutoff capability!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-007",
+      "id": "SV-J007",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -204,10 +248,14 @@
       "correctAnswer": 1,
       "explanation": "When conductors are installed in parallel, the overcurrent protection is sized based on the total ampacity of the parallel conductors. Two 200A sets can be protected at 400A.",
       "necReference": "230.90(A), 310.10(G)",
-      "sparkyTip": "Parallel conductors = combined ampacity for overcurrent protection!"
+      "sparkyTip": "Parallel conductors = combined ampacity for overcurrent protection!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-008",
+      "id": "SV-J008",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -221,10 +269,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.54(C) requires service entrance cables to be supported within 12 inches of the service head (weatherhead) and at intervals not exceeding 30 inches.",
       "necReference": "230.54(C)",
-      "sparkyTip": "12 inches from weatherhead - keep that cable secure at the top!"
+      "sparkyTip": "12 inches from weatherhead - keep that cable secure at the top!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-009",
+      "id": "SV-J009",
       "category": "services",
       "necArticle": "Article 110.26(A)(1)",
       "difficulty": "journeyman",
@@ -238,10 +290,14 @@
       "correctAnswer": 1,
       "explanation": "This falls under NEC Table 110.26(A)(1), Condition 2 (Exposed live parts on one side, grounded parts on the other). For 151-600 Volts, the minimum depth is 3 feet 6 inches (3.5 feet).",
       "necReference": "Table 110.26(A)(1)",
-      "sparkyTip": "Concrete walls count as 'Grounded'! If you have 480V and a concrete wall behind you, you need that extra 6 inches (3.5 ft total)."
+      "sparkyTip": "Concrete walls count as 'Grounded'! If you have 480V and a concrete wall behind you, you need that extra 6 inches (3.5 ft total).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-010",
+      "id": "SV-J010",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -255,10 +311,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.85 (added in 2020) requires an emergency disconnect for one- and two-family dwellings to be installed outdoors at a readily accessible location.",
       "necReference": "230.85",
-      "sparkyTip": "Emergency disconnect outside - first responders can cut power without entering!"
+      "sparkyTip": "Emergency disconnect outside - first responders can cut power without entering!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-011",
+      "id": "SV-J011",
       "category": "services",
       "necArticle": "Article 230.70(A)(1)",
       "difficulty": "journeyman",
@@ -272,10 +332,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 230.70(A)(1) states that the service disconnecting means shall be installed either outside the building or inside nearest the point of entrance of the service conductors. The NEC does not specify a maximum distance in feet.",
       "necReference": "NEC 230.70(A)(1)",
-      "sparkyTip": "The NEC is vague here! It just says 'Nearest the point of entrance.' Check your LOCAL city code\u2014they often set a strict limit (like 6ft or 10ft)."
+      "sparkyTip": "The NEC is vague here! It just says 'Nearest the point of entrance.' Check your LOCAL city code—they often set a strict limit (like 6ft or 10ft).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-012",
+      "id": "SV-J012",
       "category": "services",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
@@ -289,12 +353,16 @@
       "correctAnswer": 1,
       "explanation": "Refer to Table 220.55, Column C. The demand for one range not over 12 kW is 8 kW. Note 1 states that for ranges over 12 kW but not over 27 kW, the maximum demand in Column C shall be increased by 5% for each kilowatt or major fraction thereof by which the rating exceeds 12 kW. The range is 2 kW over 12 kW. 2 x 5% = 10% increase. 8 kW x 1.10 = 8.8 kVA.",
       "necReference": "NEC Table 220.55 Note 1",
-      "sparkyTip": "For ranges over 12 kW, start with the 8 kW base from Column C and add 5% per extra kW. A 14 kW range is 2 kW over, so that's a 10% bump."
+      "sparkyTip": "For ranges over 12 kW, start with the 8 kW base from Column C and add 5% per extra kW. A 14 kW range is 2 kW over, so that's a 10% bump.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
     {
-      "id": "SV-001",
+      "id": "SV-M001",
       "category": "services",
       "necArticle": "Article 220",
       "difficulty": "master",
@@ -308,10 +376,14 @@
       "correctAnswer": 2,
       "explanation": "First, calculate the line demand. The 14 kW range exceeds 12 kW by 2 kW, so the base 8 kW is increased by 10% (5% per kW) to 8.8 kVA. The dryer is calculated at 5.0 kVA (Table 220.54). The total line demand is 13.8 kVA. NEC 220.61(B)(1) permits a 70% demand factor for the neutral of ranges and dryers. Therefore: 13.8 kVA x 0.70 = 9.66 kVA.",
       "necReference": "NEC 220.61(B)(1)",
-      "sparkyTip": "Ranges and dryers get a 70% neutral demand factor. Calculate the full line demand first, then multiply by 0.70 for the neutral."
+      "sparkyTip": "Ranges and dryers get a 70% neutral demand factor. Calculate the full line demand first, then multiply by 0.70 for the neutral.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SV-002",
+      "id": "SV-M002",
       "category": "services",
       "necArticle": "Article 310; 110.14(C)",
       "difficulty": "master",
@@ -323,9 +395,13 @@
         "4/0 AWG"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Calculate amperage: I = VA \u00f7 (V \u00d7 \u221a3) = 90,000 \u00f7 (208 \u00d7 1.732) = 90,000 \u00f7 360.25 = 249.8A. Step 2: Select conductor from NEC Table 310.16, Aluminum 75\u00b0C column (even though XHHW-2 is rated 90\u00b0C, terminations are limited to 75\u00b0C per 110.14(C)). 300 kcmil Al at 75\u00b0C = 230A (too small). 350 kcmil Al at 75\u00b0C = 250A (sufficient for 249.8A).",
+      "explanation": "Step 1: Calculate amperage: I = VA ÷ (V × √3) = 90,000 ÷ (208 × 1.732) = 90,000 ÷ 360.25 = 249.8A. Step 2: Select conductor from NEC Table 310.16, Aluminum 75°C column (even though XHHW-2 is rated 90°C, terminations are limited to 75°C per 110.14(C)). 300 kcmil Al at 75°C = 230A (too small). 350 kcmil Al at 75°C = 250A (sufficient for 249.8A).",
       "necReference": "NEC Table 310.16; 110.14(C)",
-      "sparkyTip": "Don't get tricked by the 90\u00b0C insulation rating! Terminations limit you to the 75\u00b0C column per 110.14(C). Always size aluminum conductors from that column \u2014 350 kcmil Al = 250A at 75\u00b0C."
+      "sparkyTip": "Don't get tricked by the 90°C insulation rating! Terminations limit you to the 75°C column per 110.14(C). Always size aluminum conductors from that column — 350 kcmil Al = 250A at 75°C.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

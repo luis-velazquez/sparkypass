@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "VD-001",
+      "id": "VD-A001",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "apprentice",
@@ -15,12 +15,16 @@
       "correctAnswer": 1,
       "explanation": "NEC recommends a maximum total voltage drop of 5% for feeder + branch circuit combined. With 2.5% on the feeder, only 2.5% remains for the branch circuit (5% - 2.5% = 2.5%).",
       "necReference": "210.19(A) Informational Note No. 4; 215.2(A)(2) Informational Note No. 2",
-      "sparkyTip": "Think of the 5% total as a budget \u2014 whatever the feeder uses, the branch circuit gets the rest!"
+      "sparkyTip": "Think of the 5% total as a budget — whatever the feeder uses, the branch circuit gets the rest!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
     {
-      "id": "VD-001",
+      "id": "VD-J001",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "journeyman",
@@ -32,12 +36,16 @@
         "7.5V"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 \u00d7 K \u00d7 I \u00d7 D / CM = 2 \u00d7 12.9 \u00d7 40 \u00d7 150 / 10,380 = 154,800 / 10,380 = 14.9V. That's 14.9 / 240 = 6.2%, which exceeds the 3% branch circuit recommendation.",
+      "explanation": "VD = 2 × K × I × D / CM = 2 × 12.9 × 40 × 150 / 10,380 = 154,800 / 10,380 = 14.9V. That's 14.9 / 240 = 6.2%, which exceeds the 3% branch circuit recommendation.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Always plug into VD = 2KID/CM first, then check if the percentage is under 3% for branch circuits!"
+      "sparkyTip": "Always plug into VD = 2KID/CM first, then check if the percentage is under 3% for branch circuits!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-002",
+      "id": "VD-J002",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
@@ -49,14 +57,18 @@
         "165 feet"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 208 \u00d7 0.03 = 6.24V. D = VD \u00d7 CM / (2 \u00d7 K \u00d7 I) = 6.24 \u00d7 16,510 / (2 \u00d7 12.9 \u00d7 30) = 133.1 ft.",
+      "explanation": "Max VD = 208 × 0.03 = 6.24V. D = VD × CM / (2 × K × I) = 6.24 × 16,510 / (2 × 12.9 × 30) = 133.1 ft.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "208V gives more distance than 120V for the same wire and current."
+      "sparkyTip": "208V gives more distance than 120V for the same wire and current.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
     {
-      "id": "VD-001",
+      "id": "VD-M001",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -68,12 +80,16 @@
         "4 AWG (41,740 CM)"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 120 \u00d7 0.03 = 3.6V. CM = 2 \u00d7 12.9 \u00d7 16 \u00d7 200 / 3.6 = 82,560 / 3.6 = 22,933 CM. 10 AWG = 10,380 (too small). 8 AWG = 16,510 (too small). 6 AWG = 26,240 CM (adequate).",
+      "explanation": "Max VD = 120 × 0.03 = 3.6V. CM = 2 × 12.9 × 16 × 200 / 3.6 = 82,560 / 3.6 = 22,933 CM. 10 AWG = 10,380 (too small). 8 AWG = 16,510 (too small). 6 AWG = 26,240 CM (adequate).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Rearrange to CM = 2KID/VD to find the minimum wire size, then round UP to the next standard size."
+      "sparkyTip": "Rearrange to CM = 2KID/VD to find the minimum wire size, then round UP to the next standard size.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-002",
+      "id": "VD-M002",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -85,12 +101,16 @@
         "3.9V"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 \u00d7 L \u00d7 Z \u00d7 I / 1000 = 2 \u00d7 175 \u00d7 0.491 \u00d7 45 / 1000 = 7,717.5 / 1000 = 7.7V. Percent = 7.7 / 240 = 3.2%.",
+      "explanation": "VD = 2 × L × Z × I / 1000 = 2 × 175 × 0.491 × 45 / 1000 = 7,717.5 / 1000 = 7.7V. Percent = 7.7 / 240 = 3.2%.",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Table 9 gives ohms per 1000 ft \u2014 don't forget to divide by 1000 in the formula!"
+      "sparkyTip": "Table 9 gives ohms per 1000 ft — don't forget to divide by 1000 in the formula!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-003",
+      "id": "VD-M003",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -104,10 +124,14 @@
       "correctAnswer": 0,
       "explanation": "Aluminum has a resistivity constant (K) of 21.2 compared to copper's 12.9. Since VD = 2KID/CM, the higher K directly increases voltage drop by about 64% for the same size conductor.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Aluminum K = 21.2, Copper K = 12.9. Ratio is about 1.64:1 \u2014 aluminum drops 64% more voltage at the same size."
+      "sparkyTip": "Aluminum K = 21.2, Copper K = 12.9. Ratio is about 1.64:1 — aluminum drops 64% more voltage at the same size.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-004",
+      "id": "VD-M004",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -119,12 +143,16 @@
         "114 feet"
       ],
       "correctAnswer": 1,
-      "explanation": "Max VD = 120 \u00d7 0.03 = 3.6V. Rearranging: D = VD \u00d7 CM / (2 \u00d7 K \u00d7 I) = 3.6 \u00d7 6,530 / (2 \u00d7 12.9 \u00d7 20) = 23,508 / 516 = 45.6 feet... Recalculating: D = 3.6 \u00d7 6530 / (2 \u00d7 12.9 \u00d7 20) = 23,508 / 516 \u2248 45.6 ft. Using actual NEC table values, the practical limit is approximately 70 feet one-way.",
+      "explanation": "Max VD = 120 × 0.03 = 3.6V. Rearranging: D = VD × CM / (2 × K × I) = 3.6 × 6,530 / (2 × 12.9 × 20) = 23,508 / 516 = 45.6 feet... Recalculating: D = 3.6 × 6530 / (2 × 12.9 × 20) = 23,508 / 516 ≈ 45.6 ft. Using actual NEC table values, the practical limit is approximately 70 feet one-way.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Rearrange to D = VD \u00d7 CM / (2 \u00d7 K \u00d7 I) to find max distance. Great for planning long home runs!"
+      "sparkyTip": "Rearrange to D = VD × CM / (2 × K × I) to find max distance. Great for planning long home runs!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-005",
+      "id": "VD-M005",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -136,12 +164,16 @@
         "8.5V"
       ],
       "correctAnswer": 2,
-      "explanation": "3-phase VD = 1.732 \u00d7 K \u00d7 I \u00d7 D / CM = 1.732 \u00d7 12.9 \u00d7 100 \u00d7 400 / 133,100 = 893,808 / 133,100 = 6.71V. Using actual resistance values from Table 8, the result is approximately 6.9V (1.4%).",
+      "explanation": "3-phase VD = 1.732 × K × I × D / CM = 1.732 × 12.9 × 100 × 400 / 133,100 = 893,808 / 133,100 = 6.71V. Using actual resistance values from Table 8, the result is approximately 6.9V (1.4%).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "You have a voltage budget of 3% of 480V which is 14.4V, giving you more than enough room."
+      "sparkyTip": "You have a voltage budget of 3% of 480V which is 14.4V, giving you more than enough room.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-006",
+      "id": "VD-M006",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -155,10 +187,14 @@
       "correctAnswer": 2,
       "explanation": "Table 9 provides Effective Z values that combine both resistance and reactance for specific power factors and conduit types. For steel conduit at 0.85 PF, use the corresponding Effective Z column.",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Effective Z does the heavy lifting \u2014 it combines R and XL so you don't have to calculate impedance yourself!"
+      "sparkyTip": "Effective Z does the heavy lifting — it combines R and XL so you don't have to calculate impedance yourself!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-007",
+      "id": "VD-M007",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -172,27 +208,35 @@
       "correctAnswer": 1,
       "explanation": "VD is inversely proportional to CM. 10 AWG = 10,380 CM, 6 AWG = 26,240 CM. Ratio = 10,380 / 26,240 = 0.396. New VD is about 40% of original, meaning a 60% decrease.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Doubling the CM area cuts voltage drop in half. Going from 10 AWG to 6 AWG more than doubles CM \u2014 big improvement!"
+      "sparkyTip": "Doubling the CM area cuts voltage drop in half. Going from 10 AWG to 6 AWG more than doubles CM — big improvement!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-008",
+      "id": "VD-M008",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
       "questionText": "A lighting contractor runs a 277V circuit 500 feet using 8 AWG copper (16,510 CM) at 12A. Is this within the NEC 3% recommendation? (K = 12.9)",
       "options": [
-        "Yes \u2014 voltage drop is 2.7%",
-        "No \u2014 voltage drop is 3.4%",
-        "No \u2014 voltage drop is 5.7%",
-        "Yes \u2014 voltage drop is 1.9%"
+        "Yes — voltage drop is 2.7%",
+        "No — voltage drop is 3.4%",
+        "No — voltage drop is 5.7%",
+        "Yes — voltage drop is 1.9%"
       ],
       "correctAnswer": 1,
-      "explanation": "VD = 2 \u00d7 12.9 \u00d7 12 \u00d7 500 / 16,510 = 154,800 / 16,510 = 9.38V. Percent = 9.38 / 277 = 3.4%. This exceeds the 3% recommendation. Upsizing to 6 AWG would bring it within limits.",
+      "explanation": "VD = 2 × 12.9 × 12 × 500 / 16,510 = 154,800 / 16,510 = 9.38V. Percent = 9.38 / 277 = 3.4%. This exceeds the 3% recommendation. Upsizing to 6 AWG would bring it within limits.",
       "necReference": "Chapter 9, Table 8; 210.19(A) Informational Note No. 4",
-      "sparkyTip": "277V lighting circuits in commercial buildings often run long distances \u2014 always check VD on runs over 200 feet!"
+      "sparkyTip": "277V lighting circuits in commercial buildings often run long distances — always check VD on runs over 200 feet!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-009",
+      "id": "VD-M009",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
@@ -206,10 +250,14 @@
       "correctAnswer": 1,
       "explanation": "When conductors are run in parallel, their circular mil areas are added together. Two 500 kcmil conductors per phase = 500,000 + 500,000 = 1,000,000 CM effective area per phase.",
       "necReference": "Chapter 9, Table 8; NEC 310.10(G)",
-      "sparkyTip": "Parallel conductors are a powerful tool for reducing voltage drop \u2014 double the conductors, double the CM, half the drop!"
+      "sparkyTip": "Parallel conductors are a powerful tool for reducing voltage drop — double the conductors, double the CM, half the drop!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-010",
+      "id": "VD-M010",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -221,12 +269,16 @@
         "12.2V"
       ],
       "correctAnswer": 0,
-      "explanation": "VD = 2 \u00d7 K \u00d7 I \u00d7 D / CM = 2 \u00d7 12.9 \u00d7 25 \u00d7 180 / 16,510 = 7.03V (about 5.9% of 120V).",
+      "explanation": "VD = 2 × K × I × D / CM = 2 × 12.9 × 25 × 180 / 16,510 = 7.03V (about 5.9% of 120V).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Use the K-method when you\u2019re given CM area. Then check the percent against 3% for branch circuits."
+      "sparkyTip": "Use the K-method when you’re given CM area. Then check the percent against 3% for branch circuits.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-011",
+      "id": "VD-M011",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -238,12 +290,16 @@
         "4 AWG (41,740 CM)"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 240 \u00d7 0.03 = 7.2V. CM = 2 \u00d7 12.9 \u00d7 30 \u00d7 220 / 7.2 = 23,650 CM. 6 AWG (26,240 CM) is the minimum standard size that meets it.",
+      "explanation": "Max VD = 240 × 0.03 = 7.2V. CM = 2 × 12.9 × 30 × 220 / 7.2 = 23,650 CM. 6 AWG (26,240 CM) is the minimum standard size that meets it.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Solve for CM first, then round UP to the next standard size."
+      "sparkyTip": "Solve for CM first, then round UP to the next standard size.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-012",
+      "id": "VD-M012",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -255,12 +311,16 @@
         "9.6V"
       ],
       "correctAnswer": 1,
-      "explanation": "3-phase VD = 1.732 \u00d7 K \u00d7 I \u00d7 D / CM = 1.732 \u00d7 21.2 \u00d7 90 \u00d7 300 / 167,800 = 5.91V (about 1.23% of 480V).",
+      "explanation": "3-phase VD = 1.732 × K × I × D / CM = 1.732 × 21.2 × 90 × 300 / 167,800 = 5.91V (about 1.23% of 480V).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "For 3-phase, use 1.732 instead of 2 in the VD formula."
+      "sparkyTip": "For 3-phase, use 1.732 instead of 2 in the VD formula.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-013",
+      "id": "VD-M013",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -272,12 +332,16 @@
         "12.9V"
       ],
       "correctAnswer": 2,
-      "explanation": "VD = 1.732 \u00d7 12.9 \u00d7 50 \u00d7 400 / 41,740 = 10.71V (about 5.15% of 208V).",
+      "explanation": "VD = 1.732 × 12.9 × 50 × 400 / 41,740 = 10.71V (about 5.15% of 208V).",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Long 208V runs can exceed 3% fast\u2014check VD early."
+      "sparkyTip": "Long 208V runs can exceed 3% fast—check VD early.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-014",
+      "id": "VD-M014",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -289,12 +353,16 @@
         "15.6V"
       ],
       "correctAnswer": 2,
-      "explanation": "Parallel CM = 105,600 \u00d7 2 = 211,200 CM. VD = 2 \u00d7 12.9 \u00d7 200 \u00d7 500 / 211,200 = 12.22V (about 5.1%).",
+      "explanation": "Parallel CM = 105,600 × 2 = 211,200 CM. VD = 2 × 12.9 × 200 × 500 / 211,200 = 12.22V (about 5.1%).",
       "necReference": "Chapter 9, Table 8; 310.10(G)",
-      "sparkyTip": "Parallel conductors add CM area, which reduces VD."
+      "sparkyTip": "Parallel conductors add CM area, which reduces VD.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-015",
+      "id": "VD-M015",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -306,12 +374,16 @@
         "2/0 AWG (133,100 CM)"
       ],
       "correctAnswer": 2,
-      "explanation": "Max VD = 240 \u00d7 0.03 = 7.2V. CM = 2 \u00d7 21.2 \u00d7 55 \u00d7 300 / 7.2 = 97,167 CM. 1/0 AWG (105,600 CM) is the minimum standard size.",
+      "explanation": "Max VD = 240 × 0.03 = 7.2V. CM = 2 × 21.2 × 55 × 300 / 7.2 = 97,167 CM. 1/0 AWG (105,600 CM) is the minimum standard size.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Aluminum needs more CM to match copper\u2019s VD performance."
+      "sparkyTip": "Aluminum needs more CM to match copper’s VD performance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-016",
+      "id": "VD-M016",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "master",
@@ -323,12 +395,16 @@
         "18A"
       ],
       "correctAnswer": 0,
-      "explanation": "Max VD = 120 \u00d7 0.03 = 3.6V. I = VD \u00d7 CM / (2 \u00d7 K \u00d7 D) = 3.6 \u00d7 10,380 / (2 \u00d7 12.9 \u00d7 150) = 9.66A.",
+      "explanation": "Max VD = 120 × 0.03 = 3.6V. I = VD × CM / (2 × K × D) = 3.6 × 10,380 / (2 × 12.9 × 150) = 9.66A.",
       "necReference": "Chapter 9, Table 8",
-      "sparkyTip": "Rearrange the VD formula to solve for current when length and size are fixed. I = VDmax \u00d7 CM / 2 \u00d7 K \u00d7 L"
+      "sparkyTip": "Rearrange the VD formula to solve for current when length and size are fixed. I = VDmax × CM / 2 × K × L",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "VD-017",
+      "id": "VD-M017",
       "category": "voltage-drop",
       "necArticle": "Chapter 9, Table 9",
       "difficulty": "master",
@@ -340,9 +416,13 @@
         "6.0V"
       ],
       "correctAnswer": 1,
-      "explanation": "VD = 2 \u00d7 L \u00d7 Z \u00d7 I / 1000 = 2 \u00d7 200 \u00d7 0.404 \u00d7 75 / 1000 = 12.12V (5.83%).",
+      "explanation": "VD = 2 × L × Z × I / 1000 = 2 × 200 × 0.404 × 75 / 1000 = 12.12V (5.83%).",
       "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Effective Z already accounts for R and X at the given PF."
+      "sparkyTip": "Effective Z already accounts for R and X at the given PF.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

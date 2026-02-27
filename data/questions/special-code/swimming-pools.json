@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "SP-001",
+      "id": "SP-A001",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -15,10 +15,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.22(A) requires that all 125-volt, single-phase receptacles rated 30 amperes or less and located within 20 feet of the inside walls of a pool shall be protected by a ground-fault circuit interrupter (GFCI). This includes receptacles supplying pool pump motors.",
       "necReference": "680.22(A)",
-      "sparkyTip": "GFCI is the golden rule near water. Any 125V receptacle within 20 feet of the pool edge needs it \u2014 no exceptions for pool pump receptacles!"
+      "sparkyTip": "GFCI is the golden rule near water. Any 125V receptacle within 20 feet of the pool edge needs it — no exceptions for pool pump receptacles!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-002",
+      "id": "SP-A002",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -32,10 +36,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.22(A)(5) requires receptacles to be located not less than 6 feet from the inside walls of the pool. At least one 125-volt receptacle must be located between 6 and 20 feet from the pool.",
       "necReference": "680.22(A)(5)",
-      "sparkyTip": "Think of it as the \"6-20 rule\" \u2014 receptacles must be at least 6 feet away, but at least one must be within 20 feet so pool equipment can be plugged in."
+      "sparkyTip": "Think of it as the \"6-20 rule\" — receptacles must be at least 6 feet away, but at least one must be within 20 feet so pool equipment can be plugged in.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-003",
+      "id": "SP-A003",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -49,10 +57,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.26(B) requires bonding of all metal parts of the pool structure, including the reinforcing steel, metal fittings within or attached to the pool, forming shells, mounting brackets, and metal parts of the pool cover mechanism. This equipotential bonding grid reduces voltage gradients in the pool area.",
       "necReference": "680.26(B)",
-      "sparkyTip": "Think \"bond everything metal\" near the pool. The equipotential bonding grid ties all metal together so there is no voltage difference that could shock a swimmer."
+      "sparkyTip": "Think \"bond everything metal\" near the pool. The equipotential bonding grid ties all metal together so there is no voltage difference that could shock a swimmer.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-004",
+      "id": "SP-A004",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -66,10 +78,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 680.10 specifies that underground wiring shall not be installed under the pool or within 5 feet horizontally of the pool unless necessary to supply pool equipment. The burial depth must comply with Table 300.5, which generally requires 18 inches minimum for direct-burial cables.",
       "necReference": "680.10",
-      "sparkyTip": "Pool underground wiring follows Table 300.5 for burial depth. For most residential pool installations with direct-burial cable, that means 18 inches minimum."
+      "sparkyTip": "Pool underground wiring follows Table 300.5 for burial depth. For most residential pool installations with direct-burial cable, that means 18 inches minimum.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-005",
+      "id": "SP-A005",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -83,12 +99,16 @@
       "correctAnswer": 2,
       "explanation": "NEC 680.7 prohibits the use of flexible cords and extension cords for pool pump motors and other fixed pool equipment. All pool equipment must be hard-wired or connected via a suitable cord-and-plug connection as permitted for specific equipment.",
       "necReference": "680.7",
-      "sparkyTip": "Extension cords + pools = never allowed. This is a safety no-brainer. Pool equipment gets a permanent wiring connection, period."
+      "sparkyTip": "Extension cords + pools = never allowed. This is a safety no-brainer. Pool equipment gets a permanent wiring connection, period.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
     {
-      "id": "SP-001",
+      "id": "SP-J001",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -102,10 +122,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 680.8 Table requires that insulated supply or service drop cables (0-750V to ground) maintain a minimum clearance of 22.5 feet above the maximum water level of the pool, the diving structure, or the observation stand/tower/platform.",
       "necReference": "680.8",
-      "sparkyTip": "The 22.5-foot clearance above pool water applies to insulated service drop cables. All other overhead conductors (not voltage-limited) require even more \u2014 25 feet."
+      "sparkyTip": "The 22.5-foot clearance above pool water applies to insulated service drop cables. All other overhead conductors (not voltage-limited) require even more — 25 feet.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-002",
+      "id": "SP-J002",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -119,10 +143,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.26(B)(1) requires that the equipotential bonding grid use a minimum 8 AWG solid copper conductor. This conductor connects all metal parts and creates a grid that equalizes the voltage potential around the pool.",
       "necReference": "680.26(B)(1)",
-      "sparkyTip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded \u2014 solid copper holds up better when buried in concrete or soil."
+      "sparkyTip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded — solid copper holds up better when buried in concrete or soil.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-003",
+      "id": "SP-J003",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -136,10 +164,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.23(A)(3) requires that a GFCI shall protect all luminaires operating at more than the low voltage contact limit that are installed in the walls of pools. This provides a critical layer of safety for underwater lighting.",
       "necReference": "680.23(A)(3)",
-      "sparkyTip": "Underwater lights above low voltage contact limit (15V) MUST have GFCI protection. This is non-negotiable \u2014 electricity and water right next to swimmers."
+      "sparkyTip": "Underwater lights above low voltage contact limit (15V) MUST have GFCI protection. This is non-negotiable — electricity and water right next to swimmers.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-004",
+      "id": "SP-J004",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -153,10 +185,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.23(A)(5) limits luminaires installed in pools to a maximum of 150 volts between conductors. This voltage limitation helps reduce the risk of electric shock to swimmers in the event of a luminaire failure.",
       "necReference": "680.23(A)(5)",
-      "sparkyTip": "150 volts max for pool lights. Most pool luminaires actually operate at 12V via a transformer, but the NEC caps it at 150V as an absolute maximum."
+      "sparkyTip": "150 volts max for pool lights. Most pool luminaires actually operate at 12V via a transformer, but the NEC caps it at 150V as an absolute maximum.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-005",
+      "id": "SP-J005",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -170,12 +206,16 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.21(A) requires that wiring methods within 5 feet of the inside wall of the pool use rigid metal conduit (RMC), intermediate metal conduit (IMC), liquidtight flexible nonmetallic conduit, or a rigid nonmetallic conduit system. NM cable and MC cable are generally not permitted within this zone.",
       "necReference": "680.21(A)",
-      "sparkyTip": "Within 5 feet of the pool wall, think rigid raceways only. No Romex, no standard MC cable. The pool zone demands heavy-duty wiring protection."
+      "sparkyTip": "Within 5 feet of the pool wall, think rigid raceways only. No Romex, no standard MC cable. The pool zone demands heavy-duty wiring protection.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
     {
-      "id": "SP-001",
+      "id": "SP-M001",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "master",
@@ -189,10 +229,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 680.26(B)(2) requires that the perimeter surface bonding extend for 3 feet horizontally beyond the inside walls of the pool. This ensures that anyone standing near the pool edge is on bonded surfaces, reducing the risk of shock from voltage differences.",
       "necReference": "680.26(B)(2)",
-      "sparkyTip": "3 feet out from the pool wall for the bonding grid. Think of it as creating a \"safety zone\" of equal potential around the entire pool perimeter."
+      "sparkyTip": "3 feet out from the pool wall for the bonding grid. Think of it as creating a \"safety zone\" of equal potential around the entire pool perimeter.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-002",
+      "id": "SP-M002",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "master",
@@ -206,10 +250,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.44 requires GFCI protection for all electrical equipment associated with a permanently installed indoor spa or hot tub. This includes the receptacle outlet supplying power, regardless of the voltage (125V or 240V), providing essential protection against electric shock in a wet environment.",
       "necReference": "680.44",
-      "sparkyTip": "Indoor spas and hot tubs need GFCI on everything \u2014 even 240V circuits. This catches many people off guard since GFCI is often associated only with 120V receptacles."
+      "sparkyTip": "Indoor spas and hot tubs need GFCI on everything — even 240V circuits. This catches many people off guard since GFCI is often associated only with 120V receptacles.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-003",
+      "id": "SP-M003",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "master",
@@ -223,10 +271,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.51 requires GFCI protection for all electrical equipment associated with fountains, and NEC 680.52 requires bonding of all metal piping and metal parts of the fountain that are in contact with the water. Together these two requirements ensure both shock protection and equipotential bonding.",
       "necReference": "680.51, 680.52",
-      "sparkyTip": "Fountains get the same treatment as pools: GFCI everything + bond all metal. People wade in fountains too, so the NEC treats them seriously."
+      "sparkyTip": "Fountains get the same treatment as pools: GFCI everything + bond all metal. People wade in fountains too, so the NEC treats them seriously.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-004",
+      "id": "SP-M004",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "master",
@@ -240,10 +292,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.12 requires that the disconnecting means for pool motors be within sight of the equipment it controls AND located at least 5 feet from the inside wall of the pool. \"Within sight\" means visible and not more than 50 feet away. This ensures a technician can see the equipment while operating the disconnect.",
       "necReference": "680.12",
-      "sparkyTip": "Two rules for the pool motor disconnect: (1) within sight of the motor, and (2) at least 5 feet from the pool edge. Both must be satisfied \u2014 one without the other is a code violation."
+      "sparkyTip": "Two rules for the pool motor disconnect: (1) within sight of the motor, and (2) at least 5 feet from the pool edge. Both must be satisfied — one without the other is a code violation.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SP-005",
+      "id": "SP-M005",
       "category": "swimming-pools",
       "necArticle": "Article 680",
       "difficulty": "master",
@@ -257,7 +313,11 @@
       "correctAnswer": 2,
       "explanation": "NEC 680.8(A) requires that all conductors of any type (other than those specifically permitted in 680.8(B)) maintain a minimum 25-foot clearance over the maximum water level, diving structures, and observation areas. Insulated service drop cables get a reduced clearance of 22.5 feet, but bare or uninsulated utility conductors require the full 25 feet.",
       "necReference": "680.8(A)",
-      "sparkyTip": "25 feet for bare/uninsulated utility lines over a pool, 22.5 feet for insulated service drops. The exam loves to test which clearance goes with which conductor type."
+      "sparkyTip": "25 feet for bare/uninsulated utility lines over a pool, 22.5 feet for insulated service drops. The exam loves to test which clearance goes with which conductor type.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

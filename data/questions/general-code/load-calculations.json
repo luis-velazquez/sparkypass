@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "LC-001",
+      "id": "LC-A001",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -15,10 +15,14 @@
       "correctAnswer": 1,
       "explanation": "NEC Table 220.12 specifies 3 VA per square foot for general lighting loads in dwelling units. This value is used to calculate the minimum branch circuit load for lighting.",
       "necReference": "Table 220.12",
-      "sparkyTip": "Remember: 3 VA for dwelling units - think of it as '3 rooms in a home' to help you remember!"
+      "sparkyTip": "Remember: 3 VA for dwelling units - think of it as '3 rooms in a home' to help you remember!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-002",
+      "id": "LC-A002",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -32,10 +36,14 @@
       "correctAnswer": 0,
       "explanation": "NEC 220.52(A) requires a minimum of two 20-ampere small-appliance branch circuits, and 220.52(A)(1) specifies each circuit shall be calculated at 1,500 VA.",
       "necReference": "220.52(A)",
-      "sparkyTip": "Small appliance circuits = 1,500 VA each. Easy to remember: 15 amps \u00d7 100 = 1,500!"
+      "sparkyTip": "Small appliance circuits = 1,500 VA each. Easy to remember: 15 amps × 100 = 1,500!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-003",
+      "id": "LC-A003",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -49,10 +57,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 220.82(B) applies 40% to the portion of general loads exceeding 10 kVA. This simplified method often results in smaller service sizes than the standard method.",
       "necReference": "220.82(B)",
-      "sparkyTip": "40% after 10 kVA in the optional method - that's why customers love it: smaller service = savings!"
+      "sparkyTip": "40% after 10 kVA in the optional method - that's why customers love it: smaller service = savings!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-004",
+      "id": "LC-A004",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -66,10 +78,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 220.52(B) requires at least one 20-ampere laundry branch circuit, and it shall be calculated at 1,500 VA.",
       "necReference": "220.52(B)",
-      "sparkyTip": "Laundry circuit = 1,500 VA, just like small appliance circuits. Consistency is key!"
+      "sparkyTip": "Laundry circuit = 1,500 VA, just like small appliance circuits. Consistency is key!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-005",
+      "id": "LC-A005",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -83,10 +99,14 @@
       "correctAnswer": 0,
       "explanation": "Table 220.55, Column C shows that one household range rated not more than 12 kW has a maximum demand of 8 kW. This significant reduction recognizes that all elements rarely operate simultaneously at full power.",
       "necReference": "Table 220.55, Column C",
-      "sparkyTip": "One range up to 12 kW = 8 kW demand. The NEC knows your stove isn't cooking everything at once!"
+      "sparkyTip": "One range up to 12 kW = 8 kW demand. The NEC knows your stove isn't cooking everything at once!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-006",
+      "id": "LC-A006",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -100,10 +120,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 210.20(A) requires that branch circuits supplying continuous loads shall have an ampacity of at least 125% of the continuous load (plus 100% of non-continuous loads).",
       "necReference": "210.20(A)",
-      "sparkyTip": "Continuous loads = 125%. Add that extra 25% for loads running 3+ hours!"
+      "sparkyTip": "Continuous loads = 125%. Add that extra 25% for loads running 3+ hours!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-007",
+      "id": "LC-A007",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -117,10 +141,14 @@
       "correctAnswer": 0,
       "explanation": "NEC Table 220.54 shows that for 12 dryers, the demand factor is 47%. The demand factor decreases as the number of dryers increases because they won't all operate simultaneously.",
       "necReference": "Table 220.54",
-      "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!"
+      "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-008",
+      "id": "LC-A008",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -134,10 +162,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 210.11(C)(1) requires a minimum of two 20-ampere small-appliance branch circuits to supply receptacle outlets in the kitchen, pantry, breakfast room, and dining room.",
       "necReference": "210.11(C)(1)",
-      "sparkyTip": "Two small appliance circuits minimum - one for each side of the kitchen counter!"
+      "sparkyTip": "Two small appliance circuits minimum - one for each side of the kitchen counter!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-009",
+      "id": "LC-A009",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -151,12 +183,16 @@
       "correctAnswer": 0,
       "explanation": "Demand=10,000 VA + 40% of 2000 VA = 10800 VA.",
       "necReference": "220.82(B)",
-      "sparkyTip": "Optional method is 100% for the first 10 kVA, then 40%."
+      "sparkyTip": "Optional method is 100% for the first 10 kVA, then 40%.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
     {
-      "id": "LC-001",
+      "id": "LC-J001",
       "category": "load-calculations",
       "necArticle": "Article 210.19(A)(1)",
       "difficulty": "journeyman",
@@ -170,10 +206,14 @@
       "correctAnswer": 1,
       "explanation": "Step 1: Find total Amps. I = P / E. 14,000VA / 120V = 116.67 Amps. Step 2: Apply Continuous Load factor. Commercial lighting is continuous (>3 hours). 116.67 * 1.25 = 145.83 Amps required capacity. Step 3: Divide by circuit size. 145.83A / 20A = 7.29 circuits. Step 4: Round up. You need 8 circuits.",
       "necReference": "Article 210.19(A)(1)",
-      "sparkyTip": "Retail = Continuous! If you didn't multiply by 1.25, you would have gotten 5.8 (6 circuits), which is WRONG and dangerous."
+      "sparkyTip": "Retail = Continuous! If you didn't multiply by 1.25, you would have gotten 5.8 (6 circuits), which is WRONG and dangerous.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-002",
+      "id": "LC-J002",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
@@ -187,10 +227,14 @@
       "correctAnswer": 1,
       "explanation": "NEC 220.54 states that the load for household clothes dryers shall be either 5,000 watts (volt-amperes) or the nameplate rating, whichever is larger.",
       "necReference": "220.54",
-      "sparkyTip": "5,000 watts minimum for dryers - think of it as 'high five' for your dryer load!"
+      "sparkyTip": "5,000 watts minimum for dryers - think of it as 'high five' for your dryer load!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-003",
+      "id": "LC-J003",
       "category": "load-calculations",
       "necArticle": "Table 220.42",
       "difficulty": "journeyman",
@@ -204,10 +248,14 @@
       "correctAnswer": 0,
       "explanation": "NEC Table 220.42 specifies that for dwelling units, the first 3,000 VA of general lighting load is calculated at 100%. The remainder (up to 120,000 VA) is calculated at 35%.",
       "necReference": "Table 220.42",
-      "sparkyTip": "Standard Method = 3,000 VA breakpoint. Optional Method = 10,000 VA breakpoint. Don't mix them up!"
+      "sparkyTip": "Standard Method = 3,000 VA breakpoint. Optional Method = 10,000 VA breakpoint. Don't mix them up!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-004",
+      "id": "LC-J004",
       "category": "load-calculations",
       "necArticle": "Table 220.42",
       "difficulty": "journeyman",
@@ -221,10 +269,14 @@
       "correctAnswer": 2,
       "explanation": "Per NEC Table 220.42, when calculating dwelling unit lighting loads using the Standard Method, the first 3,000 VA is calculated at 100%. The remaining load between 3,001 VA and 120,000 VA is calculated at a 35% demand factor.",
       "necReference": "Table 220.42",
-      "sparkyTip": "Do not mix up your calculation methods! Standard Method = first 3,000 VA at 100%, remainder at 35%. Optional Method = first 10 kVA at 100%, remainder at 40%. Keep those two rules in separate compartments in your brain!"
+      "sparkyTip": "Do not mix up your calculation methods! Standard Method = first 3,000 VA at 100%, remainder at 35%. Optional Method = first 10 kVA at 100%, remainder at 40%. Keep those two rules in separate compartments in your brain!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-005",
+      "id": "LC-J005",
       "category": "load-calculations",
       "necArticle": "Table 220.55",
       "difficulty": "journeyman",
@@ -236,12 +288,16 @@
         "16 kW"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Determine the column. Since 5 kW falls between 3.5 kW and 8.75 kW, we use Column B. Step 2: Find the demand factor. According to Column B, the demand factor for 4 appliances is 50%. Step 3: Calculate total connected load (4 ovens \u00d7 5 kW = 20 kW). Step 4: Apply the demand factor (20 kW \u00d7 0.50 = 10 kW).",
+      "explanation": "Step 1: Determine the column. Since 5 kW falls between 3.5 kW and 8.75 kW, we use Column B. Step 2: Find the demand factor. According to Column B, the demand factor for 4 appliances is 50%. Step 3: Calculate total connected load (4 ovens × 5 kW = 20 kW). Step 4: Apply the demand factor (20 kW × 0.50 = 10 kW).",
       "necReference": "Table 220.55 (Column B)",
-      "sparkyTip": "Table 220.55 is a beast! Always check the wattage first to pick your column. Because these were 5 kW, they landed in Column B, where you use percentages instead of a flat kW value."
+      "sparkyTip": "Table 220.55 is a beast! Always check the wattage first to pick your column. Because these were 5 kW, they landed in Column B, where you use percentages instead of a flat kW value.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-006",
+      "id": "LC-J006",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
@@ -255,10 +311,14 @@
       "correctAnswer": 2,
       "explanation": "NEC 220.53 allows a 75% demand factor for four or more fastened-in-place appliances (other than cooking equipment, dryers, and heating/AC). This includes appliances like water heaters, dishwashers, and disposals.",
       "necReference": "220.53",
-      "sparkyTip": "Four or more fixed appliances? Take 75%. Not everything runs at once!"
+      "sparkyTip": "Four or more fixed appliances? Take 75%. Not everything runs at once!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-007",
+      "id": "LC-J007",
       "category": "load-calculations",
       "necArticle": "220.41",
       "difficulty": "journeyman",
@@ -270,12 +330,16 @@
         "8,000 VA"
       ],
       "correctAnswer": 2,
-      "explanation": "Per NEC 220.41 (in the 2023 edition), the minimum unit load for a dwelling unit is calculated at 3 VA per square foot. Calculation: 2,000 sq ft \u00d7 3 VA/sq ft = 6,000 VA.",
+      "explanation": "Per NEC 220.41 (in the 2023 edition), the minimum unit load for a dwelling unit is calculated at 3 VA per square foot. Calculation: 2,000 sq ft × 3 VA/sq ft = 6,000 VA.",
       "necReference": "220.41",
-      "sparkyTip": "Code change alert! Dwelling unit lighting moved from Table 220.12 (2017), to 220.14(J) (2020), and is now officially in 220.41 (2023). Remember: Square footage \u00d7 3 = lighting VA. It's the quickest math you'll do all day."
+      "sparkyTip": "Code change alert! Dwelling unit lighting moved from Table 220.12 (2017), to 220.14(J) (2020), and is now officially in 220.41 (2023). Remember: Square footage × 3 = lighting VA. It's the quickest math you'll do all day.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-008",
+      "id": "LC-J008",
       "category": "load-calculations",
       "necArticle": "Table 220.12",
       "difficulty": "journeyman",
@@ -289,10 +353,14 @@
       "correctAnswer": 1,
       "explanation": "Per modern NEC Table 220.12 (2020 and 2023 cycles), the general lighting load for an office building is 1.3 VA per square foot. The NEC drastically lowered this value from older cycles to reflect the modern energy efficiency of LED lighting.",
       "necReference": "Table 220.12",
-      "sparkyTip": "Code Update Trap! If you are using old study guides from the journeyman guys at work, you might have memorized 3.5 VA/sq ft for offices. That is dead wrong on a modern exam! The LED revolution dropped offices all the way down to 1.3 VA/sq ft."
+      "sparkyTip": "Code Update Trap! If you are using old study guides from the journeyman guys at work, you might have memorized 3.5 VA/sq ft for offices. That is dead wrong on a modern exam! The LED revolution dropped offices all the way down to 1.3 VA/sq ft.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-009",
+      "id": "LC-J009",
       "category": "load-calculations",
       "necArticle": "Table 220.42",
       "difficulty": "journeyman",
@@ -304,12 +372,16 @@
         "4350 VA"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Find total connected load. Lighting: 1700 sq ft \u00d7 3 VA = 5100 VA (220.14(J)). Small Appliance: 2 \u00d7 1500 VA = 3000 VA. Laundry: 1 \u00d7 1500 VA = 1500 VA. Total = 9600 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (9600 - 3000 = 6600 VA) is calculated at 35% (6600 \u00d7 0.35 = 2310 VA). Step 3: Add them together. 3000 + 2310 = 5310 VA.",
+      "explanation": "Step 1: Find total connected load. Lighting: 1700 sq ft × 3 VA = 5100 VA (220.14(J)). Small Appliance: 2 × 1500 VA = 3000 VA. Laundry: 1 × 1500 VA = 1500 VA. Total = 9600 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (9600 - 3000 = 6600 VA) is calculated at 35% (6600 × 0.35 = 2310 VA). Step 3: Add them together. 3000 + 2310 = 5310 VA.",
       "necReference": "220.14(J), 220.52(A)&(B), Table 220.42",
-      "sparkyTip": "Don't confuse the Standard Method with the Optional Method! For the Standard Method, your magic number is 3,000 VA at 100%, then 35% for the rest. If you just multiply the whole 9600 by 35%, you hit the trap answer!"
+      "sparkyTip": "Don't confuse the Standard Method with the Optional Method! For the Standard Method, your magic number is 3,000 VA at 100%, then 35% for the rest. If you just multiply the whole 9600 by 35%, you hit the trap answer!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-010",
+      "id": "LC-J010",
       "category": "load-calculations",
       "necArticle": "430.22",
       "difficulty": "journeyman",
@@ -321,12 +393,16 @@
         "60 A"
       ],
       "correctAnswer": 0,
-      "explanation": "Per NEC 430.22, branch-circuit conductors supplying a single continuous-duty motor must have an ampacity of not less than 125% of the motor's full-load current (FLC) rating. Calculation: 40 A \u00d7 1.25 = 50 A.",
+      "explanation": "Per NEC 430.22, branch-circuit conductors supplying a single continuous-duty motor must have an ampacity of not less than 125% of the motor's full-load current (FLC) rating. Calculation: 40 A × 1.25 = 50 A.",
       "necReference": "430.22",
-      "sparkyTip": "Vocabulary check! Always use the NEC Table FLC (Full-Load Current) to size your wires. Only use the motor's nameplate FLA (Full-Load Amperes) to size your overloads!"
+      "sparkyTip": "Vocabulary check! Always use the NEC Table FLC (Full-Load Current) to size your wires. Only use the motor's nameplate FLA (Full-Load Amperes) to size your overloads!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-011",
+      "id": "LC-J011",
       "category": "load-calculations",
       "necArticle": "Article 210",
       "difficulty": "journeyman",
@@ -340,10 +416,14 @@
       "correctAnswer": 0,
       "explanation": "Voltage drop = 2 x I x R x D / 1000 = 7.58 V.",
       "necReference": "210.19(A) Informational Note",
-      "sparkyTip": "Use 2 x distance for single-phase voltage drop."
+      "sparkyTip": "Use 2 x distance for single-phase voltage drop.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-012",
+      "id": "LC-J012",
       "category": "load-calculations",
       "necArticle": "Article 215",
       "difficulty": "journeyman",
@@ -357,10 +437,14 @@
       "correctAnswer": 0,
       "explanation": "Voltage drop = 1.732 x I x R x D / 1000 = 3.07 V.",
       "necReference": "215.2(A) Informational Note",
-      "sparkyTip": "3-phase voltage drop uses 1.732 x I x R x D / 1000."
+      "sparkyTip": "3-phase voltage drop uses 1.732 x I x R x D / 1000.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-013",
+      "id": "LC-J013",
       "category": "load-calculations",
       "necArticle": "Electrical Theory",
       "difficulty": "journeyman",
@@ -374,10 +458,14 @@
       "correctAnswer": 1,
       "explanation": "Because the physical heating element doesn't change, its resistance stays the same. When voltage drops, power drops exponentially.\n\nMethod 1 (The Short Way): Square the voltage ratio. (208V / 240V)^2 = 0.751. Multiply by original power: 12 kW * 0.751 = 9.01 kW.\n\nMethod 2 (The Long Way): First, find the element's fixed resistance using R = E^2 / P. (240V)^2 / 12,000W = 4.8 ohms. Now, apply the new voltage to that resistance using P = E^2 / R. (208V)^2 / 4.8 ohms = 9,013 Watts (9.0 kW).",
       "necReference": "Ohm's / Watt's Law",
-      "sparkyTip": "Did you pick 10.4 kW? You fell for the trap! You can't just use a straight percentage because power is based on the SQUARE of the voltage. Master those two formulas: R = E^2 / P and P = E^2 / R."
+      "sparkyTip": "Did you pick 10.4 kW? You fell for the trap! You can't just use a straight percentage because power is based on the SQUARE of the voltage. Master those two formulas: R = E^2 / P and P = E^2 / R.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-014",
+      "id": "LC-J014",
       "category": "load-calculations",
       "necArticle": "Ohm's Law",
       "difficulty": "journeyman",
@@ -391,29 +479,37 @@
       "correctAnswer": 0,
       "explanation": "1. Determine the resistance of the element: R = E / I = 240V / 40A = 6 Ohms. 2. Calculate the power at the new voltage: P = E^2 / R = (208)^2 / 6 = 43,264 / 6 = 7,210.67 Watts. 3. Convert to kW: 7.21 kW.",
       "necReference": "Ohm's Law (P = E^2 / R)",
-      "sparkyTip": "Find resistance first with R = E/I using the original values, then plug the new voltage into P = E^2/R. Don't forget to convert watts to kilowatts at the end."
+      "sparkyTip": "Find resistance first with R = E/I using the original values, then plug the new voltage into P = E^2/R. Don't forget to convert watts to kilowatts at the end.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-015",
+      "id": "LC-J015",
       "category": "load-calculations",
       "necArticle": "110.14(C)(1)(b)",
       "difficulty": "journeyman",
       "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of NEC Table 310.16?",
       "options": [
-        "60\u00b0C Column",
-        "75\u00b0C Column",
-        "90\u00b0C Column",
+        "60°C Column",
+        "75°C Column",
+        "90°C Column",
         "The column corresponding to the insulation rating"
       ],
       "correctAnswer": 1,
-      "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75\u00b0C. Therefore, conductor ampacity must not exceed the 75\u00b0C column value, even if the wire insulation is rated for 90\u00b0C (like THHN).",
+      "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75°C. Therefore, conductor ampacity must not exceed the 75°C column value, even if the wire insulation is rated for 90°C (like THHN).",
       "necReference": "NEC 110.14(C)(1)(b)",
-      "sparkyTip": "Over 100A = 75\u00b0C column. Under 100A = 60\u00b0C column. The insulation rating doesn't matter for sizing \u2014 it's the termination temperature that governs. THHN is 90\u00b0C wire, but you still size it at 75\u00b0C!"
+      "sparkyTip": "Over 100A = 75°C column. Under 100A = 60°C column. The insulation rating doesn't matter for sizing — it's the termination temperature that governs. THHN is 90°C wire, but you still size it at 75°C!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
     {
-      "id": "LC-001",
+      "id": "LC-M001",
       "category": "load-calculations",
       "necArticle": "Article 220",
       "difficulty": "master",
@@ -427,10 +523,14 @@
       "correctAnswer": 0,
       "explanation": "NEC 220.82(B) specifies 100% of the first 10 kVA when using the optional calculation method for dwelling units. Loads over 10 kVA use 40%.",
       "necReference": "220.82(B)",
-      "sparkyTip": "Optional method: 100% for first 10kVA, then 40% for the rest. Simple two-tier calculation!"
+      "sparkyTip": "Optional method: 100% for first 10kVA, then 40% for the rest. Simple two-tier calculation!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-002",
+      "id": "LC-M002",
       "category": "load-calculations",
       "necArticle": "220.51, 220.60",
       "difficulty": "master",
@@ -444,10 +544,14 @@
       "correctAnswer": 0,
       "explanation": "Step 1: Compare the loads. Per NEC 220.60 (Noncoincident Loads), because heating and cooling do not run simultaneously, you only calculate the larger of the two (10 kW Heat vs 5 kW AC). Drop the 5 kW AC. Step 2: Apply the Standard Method demand factor. Per NEC 220.51, fixed electric space heating must be calculated at 100% of the total connected load. Therefore, the load used is 10 kW.",
       "necReference": "220.51, 220.60",
-      "sparkyTip": "Did you pick 6.5 kW? You just fell for the Optional Method trap! The 65% demand factor for heating ONLY applies when using the Optional Method (220.82). For the Standard Method, heat is always calculated at a full 100%."
+      "sparkyTip": "Did you pick 6.5 kW? You just fell for the Optional Method trap! The 65% demand factor for heating ONLY applies when using the Optional Method (220.82). For the Standard Method, heat is always calculated at a full 100%.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-003",
+      "id": "LC-M003",
       "category": "load-calculations",
       "necArticle": "Table 220.42",
       "difficulty": "master",
@@ -459,12 +563,16 @@
         "4673 VA"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Total connected load. Lighting: 2450 sq ft \u00d7 3 VA = 7350 VA (220.41). Small Appliance: 3 \u00d7 1500 = 4500 VA. Laundry: 1 \u00d7 1500 = 1500 VA. Total = 13350 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (13350 - 3000 = 10350 VA) is calculated at 35% (10350 \u00d7 0.35 = 3622.5 VA). Step 3: Add them together. 3000 + 3622.5 = 6622.5 VA (rounds to 6623 VA).",
+      "explanation": "Step 1: Total connected load. Lighting: 2450 sq ft × 3 VA = 7350 VA (220.41). Small Appliance: 3 × 1500 = 4500 VA. Laundry: 1 × 1500 = 1500 VA. Total = 13350 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (13350 - 3000 = 10350 VA) is calculated at 35% (10350 × 0.35 = 3622.5 VA). Step 3: Add them together. 3000 + 3622.5 = 6622.5 VA (rounds to 6623 VA).",
       "necReference": "220.41, 220.52, Table 220.42",
-      "sparkyTip": "Beware the Frankenstein rule! Never mix 10,000 VA with 35%. For the Standard Method general load, ALWAYS use the first 3,000 VA at 100%, and the rest at 35%. I left the 'Frankenstein' math (11172 VA) in the options as a trap!"
+      "sparkyTip": "Beware the Frankenstein rule! Never mix 10,000 VA with 35%. For the Standard Method general load, ALWAYS use the first 3,000 VA at 100%, and the rest at 35%. I left the 'Frankenstein' math (11172 VA) in the options as a trap!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-004",
+      "id": "LC-M004",
       "category": "load-calculations",
       "necArticle": "Article 430",
       "difficulty": "master",
@@ -478,10 +586,14 @@
       "correctAnswer": 0,
       "explanation": "Feeder ampacity = 125% of largest (28 A) + 100% of others = 65 A.",
       "necReference": "430.24",
-      "sparkyTip": "Largest motor at 125%, all others at 100%."
+      "sparkyTip": "Largest motor at 125%, all others at 100%.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-005",
+      "id": "LC-M005",
       "category": "load-calculations",
       "necArticle": "430.52(C)(1) Ex. 1; 240.6(A)",
       "difficulty": "master",
@@ -493,12 +605,16 @@
         "80 A"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Calculate the maximum rating. 25 A \u00d7 2.50 = 62.5 A. Step 2: Apply the exception. Per 430.52(C)(1) Exception No. 1, because 62.5 A is not a standard size, you are permitted to go up to the next standard size overcurrent device. Step 3: Find the standard size. Per 240.6(A), the next standard size above 60 A is 70 A.",
+      "explanation": "Step 1: Calculate the maximum rating. 25 A × 2.50 = 62.5 A. Step 2: Apply the exception. Per 430.52(C)(1) Exception No. 1, because 62.5 A is not a standard size, you are permitted to go up to the next standard size overcurrent device. Step 3: Find the standard size. Per 240.6(A), the next standard size above 60 A is 70 A.",
       "necReference": "430.52(C)(1) Ex. 1, Table 240.6(A)",
-      "sparkyTip": "Motors break all the rules! A 62.5A calculation means you get to jump up to a 70A breaker. Test writers will always put the exact math answer (62.5A) and the 'round down' answer (60A) in the options to trick you. Always check your standard sizes in 240.6(A)!"
+      "sparkyTip": "Motors break all the rules! A 62.5A calculation means you get to jump up to a 70A breaker. Test writers will always put the exact math answer (62.5A) and the 'round down' answer (60A) in the options to trick you. Always check your standard sizes in 240.6(A)!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-006",
+      "id": "LC-M006",
       "category": "load-calculations",
       "necArticle": "Article 210",
       "difficulty": "master",
@@ -512,10 +628,14 @@
       "correctAnswer": 0,
       "explanation": "Voltage drop = 2 x I x R x D / 1000 = 2.7 V.",
       "necReference": "210.19(A) Informational Note",
-      "sparkyTip": "Use 2 x distance for single-phase voltage drop."
+      "sparkyTip": "Use 2 x distance for single-phase voltage drop.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-007",
+      "id": "LC-M007",
       "category": "load-calculations",
       "necArticle": "Article 215",
       "difficulty": "master",
@@ -529,10 +649,14 @@
       "correctAnswer": 0,
       "explanation": "Voltage drop = 1.732 x I x R x D / 1000 = 6.14 V.",
       "necReference": "215.2(A) Informational Note",
-      "sparkyTip": "3-phase voltage drop uses 1.732 x I x R x D / 1000."
+      "sparkyTip": "3-phase voltage drop uses 1.732 x I x R x D / 1000.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-008",
+      "id": "LC-M008",
       "category": "load-calculations",
       "necArticle": "Article 334; Table 310.16",
       "difficulty": "master",
@@ -544,12 +668,16 @@
         "#3 AWG"
       ],
       "correctAnswer": 2,
-      "explanation": "EV charging is a continuous load, requiring the circuit to be sized at 125% of the load (48A x 1.25 = 60A). Per NEC 334.80, NM-B cable must be sized using the 60\u00b0C column of Table 310.16. Since #6 NM-B is only rated for 55A, you must step up to #4 NM-B, which is rated for 70A.",
+      "explanation": "EV charging is a continuous load, requiring the circuit to be sized at 125% of the load (48A x 1.25 = 60A). Per NEC 334.80, NM-B cable must be sized using the 60°C column of Table 310.16. Since #6 NM-B is only rated for 55A, you must step up to #4 NM-B, which is rated for 70A.",
       "necReference": "210.19(A)(1); 334.80; Table 310.16",
-      "sparkyTip": "Watch out for NM cable! Even though the wire inside is 90\u00b0C, the Code forces you to use the 60\u00b0C column. This is why #6 THHN is okay for 60A, but #6 Romex is NOT."
+      "sparkyTip": "Watch out for NM cable! Even though the wire inside is 90°C, the Code forces you to use the 60°C column. This is why #6 THHN is okay for 60A, but #6 Romex is NOT.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-009",
+      "id": "LC-M009",
       "category": "load-calculations",
       "necArticle": "Table 310.16; Chapter 9, Table 8",
       "difficulty": "master",
@@ -563,10 +691,14 @@
       "correctAnswer": 1,
       "explanation": "Step 1: Use the formula VD = (2 x L x R x I) / 1000. (2 x 150ft x 0.491 x 48A) / 1000 = 7.07V. Step 2: 7.07V / 240V = 2.95%. NEC Informational Notes in 210.19(A) recommend a maximum 3% drop for branch circuits, so this installation is compliant but at the limit.",
       "necReference": "210.19(A) Informational Note No. 4",
-      "sparkyTip": "At 150 feet, you're flirting with the 3% limit. If you have to go to 200 feet, you better pull #4 AWG to keep the charger happy and efficient!"
+      "sparkyTip": "At 150 feet, you're flirting with the 3% limit. If you have to go to 200 feet, you better pull #4 AWG to keep the charger happy and efficient!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-010",
+      "id": "LC-M010",
       "category": "load-calculations",
       "necArticle": "625.41, Table 310.16",
       "difficulty": "master",
@@ -578,12 +710,16 @@
         "#8 AWG; 3.1% drop"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Ampacity. Per 625.41, EV chargers are continuous loads (48A \u00d7 1.25 = 60A). Per Table 310.16, #6 THHN copper is rated for 65A at 75\u00b0C, satisfying the 60A requirement. Step 2: Voltage Drop. Using Chapter 9, Table 8, #6 copper has a resistance of 0.491 ohms/1000ft. VD = (2 \u00d7 80ft \u00d7 0.491\u03a9 \u00d7 48A) / 1000 = 3.77V. Percentage drop = 3.77V / 240V = 1.57% (rounds to 1.6%). This is well within the 3% recommended limit.",
+      "explanation": "Step 1: Ampacity. Per 625.41, EV chargers are continuous loads (48A × 1.25 = 60A). Per Table 310.16, #6 THHN copper is rated for 65A at 75°C, satisfying the 60A requirement. Step 2: Voltage Drop. Using Chapter 9, Table 8, #6 copper has a resistance of 0.491 ohms/1000ft. VD = (2 × 80ft × 0.491Ω × 48A) / 1000 = 3.77V. Percentage drop = 3.77V / 240V = 1.57% (rounds to 1.6%). This is well within the 3% recommended limit.",
       "necReference": "625.41, Table 310.16, Chapter 9 Table 8",
-      "sparkyTip": "The Romex Trap! If you ran NM-B (Romex) instead of THHN in conduit, you'd be stuck in the 60\u00b0C column. #6 NM-B is only good for 55A, which fails the 60A requirement. You'd be forced to buy expensive #4 NM-B. THHN in pipe saves the day!"
+      "sparkyTip": "The Romex Trap! If you ran NM-B (Romex) instead of THHN in conduit, you'd be stuck in the 60°C column. #6 NM-B is only good for 55A, which fails the 60A requirement. You'd be forced to buy expensive #4 NM-B. THHN in pipe saves the day!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-011",
+      "id": "LC-M011",
       "category": "load-calculations",
       "necArticle": "Article 630",
       "difficulty": "master",
@@ -597,10 +733,14 @@
       "correctAnswer": 0,
       "explanation": "First, identify the welder type. A 'transformer-type' welder is a Non-motor-generator welder. Refer to Table 630.11(A) under the column 'Non-motor-generator'. For a 50% Duty Cycle, the multiplier is 0.71. Multiply the nameplate rating by this factor: 50A x 0.71 = 35.5A.",
       "necReference": "NEC 630.11(A) & Table 630.11(A)",
-      "sparkyTip": "Transformer-type = non-motor-generator. Find the duty cycle in Table 630.11(A), grab the multiplier, and multiply by nameplate amps. For 50% duty cycle, that's 0.71."
+      "sparkyTip": "Transformer-type = non-motor-generator. Find the duty cycle in Table 630.11(A), grab the multiplier, and multiply by nameplate amps. For 50% duty cycle, that's 0.71.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-012",
+      "id": "LC-M012",
       "category": "load-calculations",
       "necArticle": "Table 220.56",
       "difficulty": "master",
@@ -612,12 +752,16 @@
         "150 Amperes"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Total connected load = 10 + 12 + 8 + 9 = 39 kW. Step 2: Apply demand factor per Table 220.56 \u2014 for 4 units of kitchen equipment, the demand factor is 80%. 39 kW \u00d7 0.80 = 31.2 kW. Step 3: Calculate 3-phase amperage: I = W \u00f7 (V \u00d7 \u221a3) = 31,200 \u00f7 (208 \u00d7 1.732) = 31,200 \u00f7 360.25 = 86.6A \u2248 87A.",
+      "explanation": "Step 1: Total connected load = 10 + 12 + 8 + 9 = 39 kW. Step 2: Apply demand factor per Table 220.56 — for 4 units of kitchen equipment, the demand factor is 80%. 39 kW × 0.80 = 31.2 kW. Step 3: Calculate 3-phase amperage: I = W ÷ (V × √3) = 31,200 ÷ (208 × 1.732) = 31,200 ÷ 360.25 = 86.6A ≈ 87A.",
       "necReference": "NEC Table 220.56",
-      "sparkyTip": "Table 220.56 demand factors by equipment count: 1-2 = 100%, 3 = 90%, 4 = 80%, 5 = 70%, 6+ = 65%. Count the pieces of equipment first, then multiply the total connected load by the factor."
+      "sparkyTip": "Table 220.56 demand factors by equipment count: 1-2 = 100%, 3 = 90%, 4 = 80%, 5 = 70%, 6+ = 65%. Count the pieces of equipment first, then multiply the total connected load by the factor.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-013",
+      "id": "LC-M013",
       "category": "load-calculations",
       "necArticle": "220.83(B)",
       "difficulty": "master",
@@ -629,12 +773,16 @@
         "No, the total load is 208A, exceeding the service by 8A."
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: Find total connected 'other' loads. House (26,000 VA) + Shop Lighting (7,200 VA) + Compressor (28A \u00d7 240V = 6,720 VA) = 39,920 VA. Step 2: Apply 220.83(B) demand. The first 8 kVA is at 100% (8,000 VA). The remainder (31,920 VA) is at 40% (12,768 VA). Total general = 20,768 VA. Step 3: Compare HVAC. Shop Heat (10,000 VA) is larger than House AC (5,000 VA), so keep 10,000 VA at 100%. Step 4: Total Load = 20,768 VA + 10,000 VA = 30,768 VA. Step 5: Convert to Amps. 30,768 VA / 240V = 128.2A. The 200A service handles it easily!",
+      "explanation": "Step 1: Find total connected 'other' loads. House (26,000 VA) + Shop Lighting (7,200 VA) + Compressor (28A × 240V = 6,720 VA) = 39,920 VA. Step 2: Apply 220.83(B) demand. The first 8 kVA is at 100% (8,000 VA). The remainder (31,920 VA) is at 40% (12,768 VA). Total general = 20,768 VA. Step 3: Compare HVAC. Shop Heat (10,000 VA) is larger than House AC (5,000 VA), so keep 10,000 VA at 100%. Step 4: Total Load = 20,768 VA + 10,000 VA = 30,768 VA. Step 5: Convert to Amps. 30,768 VA / 240V = 128.2A. The 200A service handles it easily!",
       "necReference": "220.83(B)",
-      "sparkyTip": "Watch out for the traps! When using the Optional Method for an EXISTING dwelling addition (220.83), your magic number is 8 kVA at 100%, not 10 kVA. Also, unlike other calculations, you do not add an extra 25% to the largest motor here. Just use the straight FLC and drop it in the pot!"
+      "sparkyTip": "Watch out for the traps! When using the Optional Method for an EXISTING dwelling addition (220.83), your magic number is 8 kVA at 100%, not 10 kVA. Also, unlike other calculations, you do not add an extra 25% to the largest motor here. Just use the straight FLC and drop it in the pot!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-014",
+      "id": "LC-M014",
       "category": "load-calculations",
       "necArticle": "220.82",
       "difficulty": "master",
@@ -646,12 +794,16 @@
         "117A"
       ],
       "correctAnswer": 0,
-      "explanation": "Step 1: General load = (1,800 + 2,400) sq ft \u00d7 3 VA = 12,600 VA. Step 2: Required circuits = (2 small appliance + 1 laundry *implicit requirement*) \u00d7 1,500 VA = 4,500 VA. Step 3: Appliances = 12,000 (range) + 5,000 (dryer) + 6,720 (motor: 28A \u00d7 240V) = 23,720 VA. Step 4: Total general = 12,600 + 4,500 + 23,720 = 40,820 VA. Step 5: Apply 220.82(B) demand \u2014 first 10,000 VA @ 100% = 10,000 + remainder 30,820 @ 40% = 12,328 \u2192 total = 22,328 VA. Step 6: HVAC per 220.82(C) \u2014 heating 10,000 @ 65% = 6,500 VA vs AC 30A \u00d7 240V = 7,200 VA @ 100% \u2192 use larger = 7,200 VA. Step 7: Final = 22,328 + 7,200 = 29,528 VA \u00f7 240V = 123A.",
+      "explanation": "Step 1: General load = (1,800 + 2,400) sq ft × 3 VA = 12,600 VA. Step 2: Required circuits = (2 small appliance + 1 laundry *implicit requirement*) × 1,500 VA = 4,500 VA. Step 3: Appliances = 12,000 (range) + 5,000 (dryer) + 6,720 (motor: 28A × 240V) = 23,720 VA. Step 4: Total general = 12,600 + 4,500 + 23,720 = 40,820 VA. Step 5: Apply 220.82(B) demand — first 10,000 VA @ 100% = 10,000 + remainder 30,820 @ 40% = 12,328 → total = 22,328 VA. Step 6: HVAC per 220.82(C) — heating 10,000 @ 65% = 6,500 VA vs AC 30A × 240V = 7,200 VA @ 100% → use larger = 7,200 VA. Step 7: Final = 22,328 + 7,200 = 29,528 VA ÷ 240V = 123A.",
       "necReference": "220.82(B), 220.82(C), 220.52(B)",
-      "sparkyTip": "Did you catch the trap? The question didn't mention a laundry circuit, but the NEC requires one (1,500 VA) for dwelling units! Also, remember the Optional Method HVAC rule: compare the heat (at 65%) to the AC (at 100%) and only keep the larger of the two."
+      "sparkyTip": "Did you catch the trap? The question didn't mention a laundry circuit, but the NEC requires one (1,500 VA) for dwelling units! Also, remember the Optional Method HVAC rule: compare the heat (at 65%) to the AC (at 100%) and only keep the larger of the two.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "LC-015",
+      "id": "LC-M015",
       "category": "load-calculations",
       "necArticle": "630.11(A) and (B)",
       "difficulty": "master",
@@ -663,9 +815,13 @@
         "330 Amps"
       ],
       "correctAnswer": 2,
-      "explanation": "Step 1: Apply Table 630.11(A). The multiplier for a nonmotor generator arc welder at a 50% duty cycle is 0.71. Calculate the effective ampacity for each welder: W1 (100A \u00d7 0.71 = 71A), W2 (80A \u00d7 0.71 = 56.8A), W3 (60A \u00d7 0.71 = 42.6A), W4 (50A \u00d7 0.71 = 35.5A), W5 (40A \u00d7 0.71 = 28.4A). \n\nStep 2: Apply 630.11(B) Group Demand Factors. Stack them from largest to smallest and multiply: \n1st Largest (71A \u00d7 1.0) = 71A \n2nd Largest (56.8A \u00d7 1.0) = 56.8A \n3rd Largest (42.6A \u00d7 0.85) = 36.21A \n4th Largest (35.5A \u00d7 0.70) = 24.85A \n5th Largest (28.4A \u00d7 0.60) = 17.04A. \n\nStep 3: Add them up. 71 + 56.8 + 36.21 + 24.85 + 17.04 = 205.9 Amps (rounds to 206A).",
+      "explanation": "Step 1: Apply Table 630.11(A). The multiplier for a nonmotor generator arc welder at a 50% duty cycle is 0.71. Calculate the effective ampacity for each welder: W1 (100A × 0.71 = 71A), W2 (80A × 0.71 = 56.8A), W3 (60A × 0.71 = 42.6A), W4 (50A × 0.71 = 35.5A), W5 (40A × 0.71 = 28.4A). \n\nStep 2: Apply 630.11(B) Group Demand Factors. Stack them from largest to smallest and multiply: \n1st Largest (71A × 1.0) = 71A \n2nd Largest (56.8A × 1.0) = 56.8A \n3rd Largest (42.6A × 0.85) = 36.21A \n4th Largest (35.5A × 0.70) = 24.85A \n5th Largest (28.4A × 0.60) = 17.04A. \n\nStep 3: Add them up. 71 + 56.8 + 36.21 + 24.85 + 17.04 = 205.9 Amps (rounds to 206A).",
       "necReference": "Article 630",
-      "sparkyTip": "Order of operations is everything! You MUST shrink the individual welders based on their duty cycle FIRST. Then you take those new, smaller numbers, stack them from largest to smallest, and apply the 100/100/85/70/60% group discounts. If you do it backwards, your math falls apart!"
+      "sparkyTip": "Order of operations is everything! You MUST shrink the individual welders based on their duty cycle FIRST. Then you take those new, smaller numbers, stack them from largest to smallest, and apply the 100/100/85/70/60% group discounts. If you do it backwards, your math falls apart!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

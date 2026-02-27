@@ -1,0 +1,911 @@
+{
+  "apprentice": [
+    {
+      "id": "BF-A001",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "What is the volume allowance for a #14 AWG conductor in a box fill calculation?",
+      "options": [
+        "1.5 cubic inches",
+        "2.0 cubic inches",
+        "2.25 cubic inches",
+        "2.5 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(B), a #14 AWG conductor has a volume allowance of 2.0 cubic inches.",
+      "necReference": "Table 314.16(B)",
+      "sparkyTip": "Remember: #14 = 2.0 cu in, #12 = 2.25 cu in, #10 = 2.5 cu in. The gauge goes down, volume goes up!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A002",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "How many volume allowances must be counted for a single-gang device yoke (switch or receptacle)?",
+      "options": [
+        "One based on the largest conductor connected to that device",
+        "Two based on the largest conductor connected to that device",
+        "One for each conductor connected",
+        "None - devices don't count"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(B)(4), for each yoke or strap containing one or more devices, a double volume allowance based on the largest conductor connected to that device shall be made.",
+      "necReference": "314.16(B)(4)",
+      "sparkyTip": "Devices count DOUBLE! One switch or receptacle = 2x the largest wire size connected to it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A003",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum volume for a standard 4-inch square box that is 1-1/2 inches deep?",
+      "options": [
+        "18.0 cubic inches",
+        "21.0 cubic inches",
+        "24.0 cubic inches",
+        "30.3 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(A), a 4 × 1-1/2 inch square box has a volume of 21.0 cubic inches.",
+      "necReference": "Table 314.16(A)",
+      "sparkyTip": "Know your common box sizes! 4-inch square at 1-1/2 deep = 21 cubic inches.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A004",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "A 4-inch square box with a single-gang plaster ring has what total volume?",
+      "options": [
+        "The box volume alone",
+        "The box volume plus the ring's marked volume",
+        "The box volume minus the ring thickness",
+        "Always 21 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(A), the volume of plaster rings, extension rings, or raised covers shall be added to the box volume if they are marked with their volume or if their dimensions allow calculation.",
+      "necReference": "314.16(A)",
+      "sparkyTip": "Add the ring volume to the box volume! Rings give you extra fill space.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A005",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum depth for outlet boxes in walls or ceilings?",
+      "options": [
+        "1/2 inch",
+        "1-1/4 inches",
+        "1-1/2 inches",
+        "2 inches"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Per NEC 314.24 (A), outlet boxes shall have a minimum internal depth of 1/2 inch (12.7 mm).",
+      "necReference": "314.24",
+      "sparkyTip": "Minimum box depth is 1/2 inch, but deeper is usually better for working room!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A006",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "What is the volume allowance for a #8 AWG conductor?",
+      "options": [
+        "2.5 cubic inches",
+        "3.0 cubic inches",
+        "4.0 cubic inches",
+        "5.0 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(B), a #8 AWG conductor has a volume allowance of 3.0 cubic inches.",
+      "necReference": "Table 314.16(B)",
+      "sparkyTip": "#8 AWG = 3.0 cubic inches. As wires get bigger, so does the volume needed!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A007",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum volume for a 3 × 2 × 2-1/2 inch device box?",
+      "options": [
+        "10.5 cubic inches",
+        "12.5 cubic inches",
+        "14.0 cubic inches",
+        "18.0 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(A), a 3 × 2 × 2-1/2 inch device box has a volume of 12.5 cubic inches.",
+      "necReference": "Table 314.16(A)",
+      "sparkyTip": "Standard single-gang boxes are around 12-14 cubic inches. Know your common sizes!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A009",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(1)",
+      "difficulty": "apprentice",
+      "questionText": "When calculating box fill, how many conductor volume allowances must you count for a short 'pigtail' wire that originates from a wire nut and terminates on a receptacle within the exact same box?",
+      "options": [
+        "Zero (0)",
+        "One (1)",
+        "Two (2)",
+        "One-half (0.5)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "According to NEC 314.16(B)(1), a conductor that does not leave the box (meaning it originates and terminates entirely within the same enclosure) is not counted when calculating box fill.",
+      "necReference": "NEC 314.16(B)(1)",
+      "sparkyTip": "Pigtails are free! If a wire never actually leaves the box, you do not count it in your volume allowance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A010",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(5)",
+      "difficulty": "apprentice",
+      "questionText": "You are making up a junction box that contains three 12 AWG bare copper equipment grounding conductors (EGCs). According to 314.16(B)(5), how many total conductor volume allowances must you count for these three ground wires combined?",
+      "options": [
+        "Zero (0)",
+        "One (1)",
+        "Two (2)",
+        "Three (3)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 314.16(B)(5) states that where up to four equipment grounding conductors enter a box, they are counted as a single volume allowance based on the largest equipment grounding conductor in the box.",
+      "necReference": "NEC 314.16(B)(5)",
+      "sparkyTip": "Grounds get a group discount! The first 4 ground wires in the box only cost you 1 volume allowance total. (Just remember that starting with the 5th ground wire, you have to add an extra 1/4 allowance for each one).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A011",
+      "category": "box-fill",
+      "necArticle": "314.16(B)",
+      "difficulty": "journeyman",
+      "questionText": "When calculating box fill volume allowances, which of the following items is NOT required to be counted?",
+      "options": [
+        "Luminaire hickeys",
+        "Internal cable clamps",
+        "Terminal blocks and devices",
+        "Lock rings and bushings"
+      ],
+      "correctAnswer": 3,
+      "explanation": "According to NEC 314.16(B), volume allowances must be made for conductors, internal cable clamps, support fittings (like hickeys or studs), devices/equipment, and equipment grounding conductors. Standard small fittings like lock rings, locknuts, wire connectors (wire nuts), and bushings are exempt and do not require a volume allowance deduction.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Small hardware gets a free pass! Lock rings, locknuts, wire nuts, and bushings don't cost you any box space. You only need to count the core items: wires, internal clamps, support fittings, devices, and grounds.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-A012",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(4)",
+      "difficulty": "apprentice",
+      "questionText": "When calculating box fill, how many conductor volume allowances must you deduct for a standard single device, such as a light switch or duplex receptacle, mounted on a single yoke or strap?",
+      "options": [
+        "Zero (0)",
+        "One (1)",
+        "Two (2)",
+        "Three (3)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "According to NEC 314.16(B)(4), for each yoke or strap containing one or more devices, a double volume allowance must be made. This means a single switch or receptacle counts as two conductors, based on the largest conductor connected to that specific device.",
+      "necReference": "NEC 314.16(B)(4)",
+      "sparkyTip": "Every switch or plug costs you TWO wires! It doesn't matter if it's a simple single-pole switch or a bulky GFCI receptacle; if it sits on one mounting strap, it counts as two conductor allowances.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ],
+  "journeyman": [
+    {
+      "id": "BF-J001",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "questionText": "When counting conductors for box fill, how are conductors that pass through the box without splice counted?",
+      "options": [
+        "They don't count",
+        "Count as one conductor",
+        "Count as two conductors",
+        "Count as half a conductor"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(B)(1), conductors that pass through a box without splice or termination count as one conductor.",
+      "necReference": "314.16(B)(1)",
+      "sparkyTip": "Pass-through wires count as ONE, not two! They enter and exit but only take up one conductor's worth of space.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J002",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "questionText": "What is the volume allowance for internal cable clamps in a box?",
+      "options": [
+        "One volume allowance for each clamp",
+        "A single volume allowance for all clamps combined",
+        "No volume allowance required",
+        "Two volume allowances for all clamps"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(B)(2), a single volume allowance based on the largest conductor in the box shall be made for all cable clamps combined, whether one or more.",
+      "necReference": "314.16(B)(2)",
+      "sparkyTip": "All clamps together = just ONE volume allowance. Doesn't matter if you have 1 clamp or 5!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J003",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "questionText": "Pigtails (short conductors for splicing) originating and terminating within the box are counted as:",
+      "options": [
+        "One conductor each",
+        "Not counted",
+        "Half a conductor each",
+        "Two conductors each"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(B)(1), conductors that originate within the box and do not leave (such as pigtails) are not counted for box fill.",
+      "necReference": "314.16(B)(1)",
+      "sparkyTip": "Pigtails are FREE! If it starts AND ends inside the box, it doesn't count toward fill.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J004",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "questionText": "Luminaire (fixture) wires that enter a box from a domed canopy are:",
+      "options": [
+        "Counted the same as branch circuit conductors",
+        "Not counted if 6 inches or less in length",
+        "Always counted as #18 AWG",
+        "Counted at double volume"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(B)(1) Exception, fixture wires from a domed luminaire or similar canopy are not counted if they are 6 inches or less in length.",
+      "necReference": "314.16(B)(1) Exception",
+      "sparkyTip": "Short fixture wires (6 inches or less) from domed canopies get a free pass - no fill count!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J005",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "questionText": "How many #12 AWG conductors can fit in an 18 cubic inch box with no devices, clamps, or grounds?",
+      "options": [
+        "6 conductors",
+        "8 conductors",
+        "9 conductors",
+        "10 conductors"
+      ],
+      "correctAnswer": 1,
+      "explanation": "18 cubic inches ÷ 2.25 cubic inches per #12 conductor = 8 conductors maximum.",
+      "necReference": "Table 314.16(B)",
+      "sparkyTip": "Simple division: Box volume ÷ conductor volume = max conductors. 18 ÷ 2.25 = 8!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J006",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "questionText": "A box contains 6 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. Using 2.25 cu in per 12 AWG conductor, what is the minimum required box volume?",
+      "options": [
+        "22.5 cu in",
+        "23.5 cu in",
+        "21.5 cu in",
+        "24.5 cu in"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Count conductors: 6 + grounds(1) + clamp(1) + device yoke(2) = 10 equivalents. Volume = 10 x 2.25 = 22.5 cu in.",
+      "necReference": "314.16(B)",
+      "sparkyTip": "All grounds count as one; device yokes count as two.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J007",
+      "category": "box-fill",
+      "necArticle": "314.16(C)(2)",
+      "difficulty": "journeyman",
+      "questionText": "An electrician installs a 3/4-inch Type C conduit body in the middle of a long straight run of EMT. Under what condition is the electrician permitted to make wire splices inside this conduit body?",
+      "options": [
+        "Only if the conduit body is supported within 3 feet.",
+        "Only if the manufacturer has durably marked the cubic-inch capacity on the conduit body.",
+        "Splices are never permitted in a conduit body; they are strictly for pulling.",
+        "Only if the conductors are 4 AWG or larger."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(C)(2), conduit bodies are allowed to contain splices, taps, or devices ONLY if the manufacturer has durably and legibly marked the cubic-inch capacity on the interior or exterior of the fitting. You must then calculate the box fill to ensure the splices don't exceed that stamped volume.",
+      "necReference": "314.16(C)(2)",
+      "sparkyTip": "Not all condulets are created equal! If you buy a cheap conduit body that doesn't have a volume stamp on the inside, it is legally just a pull-point. If you bury a wire nut in there, the inspector will make you rip it out!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J008",
+      "category": "box-fill",
+      "necArticle": "Article 314.28",
+      "difficulty": "journeyman",
+      "questionText": "Standard box fill calculations (cubic inch volume) are used for conductors size 6 AWG and smaller. Which NEC Article governs the minimum sizing requirements for junction boxes containing conductors 4 AWG and larger?",
+      "options": [
+        "Article 314.16(B)",
+        "Article 314.28",
+        "Article 312.6",
+        "Article 376.22"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 314.16 applies to boxes containing conductors 6 AWG and smaller (volume calculations). When conductors are 4 AWG or larger, the box sizing must comply with NEC 314.28, which dictates minimum length and width based on the size of the raceways (8x and 6x rules) to ensure proper wire bending space.",
+      "necReference": "NEC 314.28(A)",
+      "sparkyTip": "Remember the cutoff: 6 AWG and smaller = cubic inch volume (314.16), 4 AWG and larger = 8x and 6x raceway rules (314.28).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J009",
+      "category": "box-fill",
+      "necArticle": "Article 314.28",
+      "difficulty": "journeyman",
+      "questionText": "At what minimum conductor size does the NEC require pull and junction boxes to be sized according to the dimensional calculations of Article 314.28 (such as the 8x and 6x rules) rather than the volume calculations of Article 314.16?",
+      "options": [
+        "6 AWG",
+        "4 AWG",
+        "1/0 AWG",
+        "2 AWG"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 314.28(A) states that the minimum dimensions for pull or junction boxes apply 'for raceways containing conductors of 4 AWG or larger.' Conductors 6 AWG and smaller are governed by the volume requirements of 314.16.",
+      "necReference": "NEC 314.28(A)",
+      "sparkyTip": "The magic number is 4 AWG. That's when you switch from counting cubic inches (314.16) to measuring raceway multiples (314.28).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J010",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(1)",
+      "difficulty": "journeyman",
+      "questionText": "A 12 AWG solid conductor enters a junction box and loops through without being spliced or terminated to any device. The total length of this unbroken loop inside the box measures 14 inches. When calculating the total box fill, how many conductor volume allowances must be counted for this specific wire?",
+      "options": [
+        "Zero (0)",
+        "One (1)",
+        "Two (2)",
+        "Three (3)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 300.14 requires a minimum of 6 inches for free conductors. NEC 314.16(B)(1) dictates that each loop or coil of unbroken conductor not less than twice this minimum length (which would be 12 inches) shall be counted twice. Because the unbroken loop is 14 inches, it meets this threshold and must be counted as two conductors.",
+      "necReference": "NEC 314.16(B)(1); NEC 300.14",
+      "sparkyTip": "Measure those loops! A standard straight pull-through only counts as 1 wire. But if you leave a long service loop (12 inches or more) inside the box, the Code penalizes you and makes you count it as 2 wires.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J011",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(5)",
+      "difficulty": "journeyman",
+      "questionText": "A junction box contains six 12 AWG equipment grounding conductors (EGCs). According to 314.16(B)(5), how many total conductor volume allowances must be counted for these ground wires?",
+      "options": [
+        "1 allowance",
+        "1.25 allowances",
+        "1.5 allowances",
+        "2 allowances"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 314.16(B)(5) dictates that up to four EGCs entering a box count as a single (1) volume allowance. For every EGC beyond the first four, you must add a 1/4 (0.25) volume allowance. For six EGCs: The first four = 1 allowance. The 5th and 6th = 0.5 allowance (0.25 x 2). Total = 1.5 volume allowances.",
+      "necReference": "NEC 314.16(B)(5)",
+      "sparkyTip": "Grounds get a group discount, but the free ride ends at four! The first 4 grounds cost you 1 full allowance. Every ground wire after that adds an extra 1/4 allowance. And remember, it is always based on the largest ground wire in the box!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J012",
+      "category": "box-fill",
+      "necArticle": "314.16(A)",
+      "difficulty": "journeyman",
+      "questionText": "When calculating the available volume of a junction box in accordance with 314.16(A), what is the minimum volume allowance that must be deducted for the installation of a metal barrier?",
+      "options": [
+        "0 cubic inches",
+        "1/2 cubic inch",
+        "1.0 cubic inch",
+        "2.0 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "According to NEC 314.16(A), where a metal barrier is installed in a box, its volume must be apportioned based on its thickness, but the allowance shall not be less than 1/2 cubic inch (8.2 cm³) of the box's volume. For comparison, a nonmetallic barrier requires a minimum 1.0 cubic inch deduction.",
+      "necReference": "NEC 314.16(A)",
+      "sparkyTip": "Metal is thin, plastic is thick! A metal barrier costs you 1/2 cubic inch of box space, while a nonmetallic barrier costs you a full 1 cubic inch.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J013",
+      "category": "box-fill",
+      "necArticle": "314.16(B)",
+      "difficulty": "journeyman",
+      "questionText": "Three conduits enter a junction box containing the following: six 12 AWG conductors, three 12 AWG equipment grounding conductors, three splices, three 12 AWG pigtails, three lock rings, and one duplex receptacle. According to 314.16(B), what is the total conductor volume allowance count (equivalent number of wires) for this box?",
+      "options": [
+        "8",
+        "9",
+        "11",
+        "14"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Six 12 AWG conductors count as 1 each (6 allowances). Step 2: Up to four ground wires count as a single volume allowance (1 allowance). Step 3: Splice connectors (wire nuts) are considered small fittings and are exempt (0 allowances). Step 4: Pigtails originate and terminate in the box, making them exempt (0 allowances). Step 5: Lock rings are small fittings and are exempt (0 allowances). Step 6: One receptacle counts as a double volume allowance (2 allowances). Total: 6 + 1 + 0 + 0 + 0 + 2 = 9 equivalent conductor volume allowances.",
+      "necReference": "NEC 314.16(B)(1) through (B)(5)",
+      "sparkyTip": "Ignore the noise! Exams love to throw pigtails, splices (wire nuts), and lock rings at you to see if you'll bite. Only count the incoming/outgoing wires, the device (x2), and the grounds (first 4 = 1 allowance).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J014",
+      "category": "box-fill",
+      "necArticle": "314.16(B)",
+      "difficulty": "journeyman",
+      "questionText": "A junction box contains four 10 AWG conductors, six 12 AWG conductors, and five 12 AWG equipment grounding conductors. According to 314.16(B), what is the total minimum volume required for this box in cubic inches?",
+      "options": [
+        "25.75 cu in",
+        "26.31 cu in",
+        "28.00 cu in",
+        "34.75 cu in"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Calculate 10 AWG volume (4 conductors x 2.50 cu in = 10.0 cu in). Step 2: Calculate 12 AWG current-carrying volume (6 conductors x 2.25 cu in = 13.5 cu in). Step 3: Calculate the ground wire allowance. Per 314.16(B)(5), the first four EGCs count as 1 allowance, and the 5th counts as 1/4 (0.25) allowance. Total ground allowances = 1.25. Multiply by the volume of a 12 AWG wire (1.25 x 2.25 cu in = 2.8125 cu in). Step 4: Add the totals together (10.0 + 13.5 + 2.8125 = 26.3125 cu in).",
+      "necReference": "NEC 314.16(B)(1) & (B)(5); Table 314.16(B)",
+      "sparkyTip": "When you have mixed wire sizes, you can no longer just count 'wires'—you must convert everything to cubic inches! Also, notice how option 'A' (25.75) is the trap answer for guys who forget to add the extra 1/4 allowance for the 5th ground wire.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J015",
+      "category": "box-fill",
+      "necArticle": "314.16(A)",
+      "difficulty": "journeyman",
+      "questionText": "A 4-inch square box that is 2-1/8 inches deep is installed with an extension ring. The extension ring is stamped with a marked volume of 21.0 cubic inches. According to the NEC, what is the total available volume of this assembled enclosure?",
+      "options": [
+        "30.3 cu in",
+        "42.0 cu in",
+        "51.3 cu in",
+        "60.6 cu in"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: Look up the standard volume for a 4 x 2-1/8 inch square box in Table 314.16(A), which is 30.3 cu in. Step 2: According to 314.16(A), the total volume of a wiring enclosure is the sum of the assembled sections, including the space provided by extension rings or domed covers that are marked with their volume. Step 3: Add the box volume to the extension ring volume (30.3 + 21.0 = 51.3 cu in).",
+      "necReference": "NEC 314.16(A); Table 314.16(A)",
+      "sparkyTip": "Mud rings and extension rings give you free space! Always look up your base box in Table 314.16(A) first, then add the stamped volume of whatever ring or domed cover you bolt onto it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ],
+  "master": [
+    {
+      "id": "BF-M001",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A box contains 8 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. What is the minimum required box volume?",
+      "options": [
+        "27.0 cu in",
+        "28.0 cu in",
+        "26.0 cu in",
+        "29.0 cu in"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Count conductors: 8 + grounds(1) + clamp(1) + device yoke(2) = 12 equivalents. Volume = 12 x 2.25 = 27.0 cu in.",
+      "necReference": "314.16(B)",
+      "sparkyTip": "All grounds count as one; device yokes count as two.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M002",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A device box contains two 12/2 NM cables with ground, internal cable clamps, and one duplex receptacle. What is the minimum required box volume?",
+      "options": [
+        "15.75 cubic inches",
+        "18.0 cubic inches",
+        "20.25 cubic inches",
+        "22.5 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors: Four #12 hot/neutral wires (4 × 2.25) = 9.0 cu in. Clamps: 1 allowance = 2.25 cu in. Device: 2 allowances (2 × 2.25) = 4.5 cu in. Grounds: Because there are 4 or fewer grounds, they equal 1 allowance = 2.25 cu in. Total = 9.0 + 2.25 + 4.5 + 2.25 = 18.0 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Two 12/2 cables = 4 wires. Clamps = 1 allowance. Receptacle = 2 allowances. Grounds (if 4 or fewer) = 1 allowance. Multiply everything by 2.25!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M003",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A 4-11/16 inch square box (2-1/8 inches deep) contains: 8 #12 conductors, 4 #12 EGCs, internal clamps, and two single-gang device yokes with receptacles. Is this installation compliant?",
+      "options": [
+        "Yes, with 10.5 cubic inches to spare",
+        "Yes, with 1.5 cubic inches to spare",
+        "No, it exceeds fill by 2.25 cubic inches",
+        "No, it exceeds fill by 4.5 cubic inches"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Calculation: 8 conductors (8 × 2.25 = 18.0) + 1 for EGCs (2.25) + 1 for clamps (2.25) + 4 for two devices (4 × 2.25 = 9.0) Total: 18 + 2.25 + 2.25 + 9 = 31.5. Remaining: 42 - 31.5 = 10.5 cubic inches.",
+      "necReference": "314.16(B)",
+      "sparkyTip": "Always add up each category: conductors + grounds + clamps + devices. Then compare to box volume!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M004",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A device box contains two 12/2 NM cables and one 12/3 NM cable. All equipment grounds are present, internal cable clamps are used, and one GFCI receptacle is installed. What is the minimum required box volume?",
+      "options": [
+        "20.25 cubic inches",
+        "22.50 cubic inches",
+        "24.75 cubic inches",
+        "27.00 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Calculation (based on 2.25 cu in per #12 wire): 7 insulated conductors (4 from the 12/2s + 3 from the 12/3) = 15.75 cu in. Internal clamps (1 allowance) = 2.25 cu in. Equipment grounds (3 grounds = 1 allowance) = 2.25 cu in. One device yoke (2 allowances × 2.25) = 4.50 cu in. Total Volume = 15.75 + 2.25 + 2.25 + 4.50 = 24.75 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Code trap! Even though a GFCI is physically bulky, it still mounts on a single yoke, meaning it only takes up TWO volume allowances—just like a standard receptacle.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M005",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A box contains two #8 conductors, three #12 conductors, two #10 equipment grounding conductors, and internal clamps. What is the minimum required box volume?",
+      "options": [
+        "16.75 cubic inches",
+        "18.25 cubic inches",
+        "20.0 cubic inches",
+        "21.5 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors: (2 × 3.0) + (3 × 2.25) = 6.0 + 6.75 = 12.75. Grounds = 1 × 2.5 = 2.5 (largest EGC is #10). Clamps use largest conductor in box (#8) → 3.0. Total = 18.25 cu in.",
+      "necReference": "314.16(B)(2)",
+      "sparkyTip": "Clamps use the largest conductor in the box. Grounds use the largest EGC present.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M006",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A 2-gang box has three 14/2 NM cables and one 14/3 NM cable. All equipment grounds are present, internal clamps are used, and two single-pole switches are installed. What is the minimum required box volume?",
+      "options": [
+        "26.0 cubic inches",
+        "30.0 cubic inches",
+        "32.0 cubic inches",
+        "34.0 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors: (3 × 2) + 3 = 9 conductors → 9 × 2.0 = 18.0. Grounds = 2.0. Clamps = 2.0. Two device yokes = 4 × 2.0 = 8.0. Total = 30.0 cu in.",
+      "necReference": "314.16(B)",
+      "sparkyTip": "Each device yoke counts as two conductor allowances.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M007",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A box contains four #12 conductors, all #12 equipment grounds, internal clamps, and one internal support fitting. What is the minimum required box volume?",
+      "options": [
+        "13.5 cubic inches",
+        "15.75 cubic inches",
+        "18.0 cubic inches",
+        "20.25 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors: 4 × 2.25 = 9.0. Grounds = 2.25. Clamps = 2.25. Internal support = 2.25. Total = 15.75 cu in.",
+      "necReference": "314.16(B)(2)",
+      "sparkyTip": "Internal support fittings count as one conductor allowance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M008",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A 4-inch square, 1-1/2 inch deep box contains four 14/2 NM cables (each with a bare ground), internal cable clamps, and one duplex receptacle. By how much does the calculated fill exceed the allowed box volume?",
+      "options": [
+        "2.0 cubic inches",
+        "3.0 cubic inches",
+        "4.5 cubic inches",
+        "5.5 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Calculated Fill: 8 insulated conductors × 2.0 = 16.0 cu in. Internal clamps (1 allowance) = 2.0 cu in. One device yoke (2 allowances × 2.0) = 4.0 cu in. Under NEC 314.16(B)(5), the four EGCs calculate as: 1 full allowance (2.0) + 3 additional quarter allowances (3 × 0.5) = 3.5 cu in. Total Fill = 25.5 cu in. Box volume is 21.0 cu in. 25.5 - 21.0 = 4.5 cu in overage.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Watch out for the modern EGC rule! The largest ground counts fully, but every additional ground in the box adds 1/4 of a volume allowance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M009",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A device box contains six #10 conductors, two #12 conductors, 4 #12 EGCs, internal clamps, and one receptacle connected to #10 conductors. What is the minimum required box volume?",
+      "options": [
+        "27.0 cubic inches",
+        "29.25 cubic inches",
+        "32.0 cubic inches",
+        "34.5 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors: (6 × 2.5) + (2 × 2.25) = 15.0 + 4.5 = 19.5. Grounds = 2.5. Clamps = 2.5. Device yoke = 2 × 2.5 = 5.0. Total = 29.5 cu in.",
+      "necReference": "314.16(B)",
+      "sparkyTip": "Device yokes use the largest conductor connected to that device.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M010",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A box contains three #6 conductors, one #10 equipment grounding conductor and internal clamps. What is the minimum required box volume?",
+      "options": [
+        "22.5 cubic inches",
+        "25.0 cubic inches",
+        "27.5 cubic inches",
+        "30.0 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Conductors: (3 × 5.0) + (1 × 2.5) = 15.0 + 2.5 = 17.5. Grounds = 5.0. Clamps = 5.0. Total = 27.5 cu in.",
+      "necReference": "314.16(B)(2)",
+      "sparkyTip": "Large conductors quickly increase box fill.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M011",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A box contains four unbroken #12 AWG conductors passing through, four #12 AWG conductors terminating in splices or on a device, four #12 AWG equipment grounding conductors, internal cable clamps, and one duplex receptacle. What is the minimum required box volume?",
+      "options": [
+        "22.5 cubic inches",
+        "24.75 cubic inches",
+        "27.0 cubic inches",
+        "29.25 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Calculation (based on 2.25 cu in per #12 wire): 4 pass-through + 4 terminating = 8 allowances. Clamps = 1 allowance. Receptacle = 2 allowances. Grounds (up to four) = 1 allowance. Total allowances = 12. Volume = 12 × 2.25 = 27.0 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Count your allowances first! 8 wires + 1 clamp + 2 for the device + 1 for the grounds = 12 total allowances. 12 × 2.25 makes the math much faster.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M012",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A ceiling box contains three #12 branch-circuit conductors, all #12 equipment grounds, internal clamps, and two fixture wires from a domed canopy that are 6 inches or less. What is the minimum required box volume?",
+      "options": [
+        "9.0 cubic inches",
+        "11.25 cubic inches",
+        "13.5 cubic inches",
+        "15.75 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Fixture wires from a domed canopy 6 inches or less do not count. Conductors: 3 × 2.25 = 6.75. Grounds = 2.25. Clamps = 2.25. Total = 11.25 cu in.",
+      "necReference": "314.16(B)(1) Exception",
+      "sparkyTip": "Short fixture wires from a domed canopy are excluded from fill.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M013",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A box contains four #14 AWG insulated conductors, two #14 AWG equipment grounding conductors, internal cable clamps, and one duplex switch on a single yoke. What is the minimum required box volume?",
+      "options": [
+        "12.0 cubic inches",
+        "14.0 cubic inches",
+        "16.0 cubic inches",
+        "18.0 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Calculation (based on 2.0 cu in per #14 wire): 4 insulated conductors (4 × 2.0) = 8.0 cu in. Internal clamps (1 allowance) = 2.0 cu in. Equipment grounds (2 grounds = 1 allowance) = 2.0 cu in. One yoke/device (2 allowances × 2.0) = 4.0 cu in. Total Volume = 8.0 + 2.0 + 2.0 + 4.0 = 16.0 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "A duplex switch (two switches on one strap) is still just one yoke! Any single yoke counts as exactly two volume allowances based on the largest wire connected to it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M014",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A 4-inch x 1-1/2 deep octagon box contains two 14/2 NM cables and one 14/3 NM cable. All grounds are present, internal clamps are used, and one internal support fitting is installed. By how much does it exceed the allowed fill?",
+      "options": [
+        "2.5 cubic inches",
+        "3.5 cubic inches",
+        "4.5 cubic inches",
+        "5.5 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Conductors: (2 × 2) + 3 = 7 conductors → 7 × 2.0 = 14.0. Grounds = 2.0. Clamps = 2.0. Support = 2.0. Total = 20.0. Box volume 15.5 → exceeds by 4.5 cu in.",
+      "necReference": "314.16(B)",
+      "sparkyTip": "Octagon boxes fill up fast—don’t forget internal supports.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M015",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "A junction box contains six #8 AWG insulated conductors, one #10 AWG equipment grounding conductor, and internal cable clamps. What is the minimum required box volume?",
+      "options": [
+        "20.5 cubic inches",
+        "21.0 cubic inches",
+        "23.5 cubic inches",
+        "27.0 cubic inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Conductors: 6 × 3.0 cu in (for #8) = 18.0 cu in. Internal clamps: 1 allowance based on the largest conductor in the box (#8) = 3.0 cu in. Equipment Ground: 1 allowance based on the largest ground (#10) = 2.5 cu in. Total Volume = 18.0 + 3.0 + 2.5 = 23.5 cubic inches.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Code trap! Clamp volume is based on the largest conductor present (#8), but ground volume is based solely on the largest ground conductor present (#10).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M016",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(1)",
+      "difficulty": "master",
+      "questionText": "A junction box contains the following 12 AWG conductors: Four conductors passing straight through without a splice. Two conductors entering the box and terminating on a wire nut. One unbroken conductor forming a 14-inch loop inside the box. Three pigtails originating from the wire nut and terminating on a receptacle within the same box. What is the total conductor volume allowance count for these specific wires?",
+      "options": [
+        "7",
+        "8",
+        "9",
+        "10"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Four pass-through conductors count as 1 each (4 total). Two terminating conductors count as 1 each (2 total). An unbroken loop not less than twice the minimum length required for free conductors (2 x 6 inches = 12 inches per 300.14) counts as 2 (2 total). Pigtails originating and terminating entirely within the box are not counted (0 total). Total: 4 + 2 + 2 + 0 = 8.",
+      "necReference": "NEC 314.16(B)(1); NEC 300.14",
+      "sparkyTip": "Pigtails are free! If a wire never leaves the box, ignore it for the count. But watch out for those unbroken loops—if it is 12 inches or longer, you must count it twice.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-M017",
+      "category": "box-fill",
+      "necArticle": "314.16(A) & (B)",
+      "difficulty": "master",
+      "questionText": "Three 3-1/2 inch deep masonry boxes are ganged together to form a 3-gang box. The box will contain three single-pole switches. What is the maximum number of 12 AWG conductors permitted in this ganged assembly?",
+      "options": [
+        "20",
+        "22",
+        "25",
+        "28"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Find the volume of a single 3-1/2 inch masonry box in Table 314.16(A), which is 21.0 cu in. Step 2: Multiply by 3 to find the total ganged volume (21.0 x 3 = 63.0 cu in). Step 3: Calculate the device allowance per 314.16(B)(4). Three switches count as double the volume of the connected conductor (3 switches x 2 allowances = 6 allowances). Step 4: Find the volume of a 12 AWG conductor in Table 314.16(B), which is 2.25 cu in. Calculate total device volume (6 allowances x 2.25 = 13.5 cu in). Step 5: Subtract the device volume from the total volume (63.0 - 13.5 = 49.5 cu in). Step 6: Divide the remaining volume by the 12 AWG conductor volume (49.5 / 2.25 = 22 conductors).",
+      "necReference": "NEC Table 314.16(A); 314.16(B)",
+      "sparkyTip": "Beware the asterisk (*) at the top of Table 314.16(A)! The moment you add a switch, receptacle, internal clamp, or ground wire to a box, those pre-calculated shortcut columns are voided and you must do the full cubic-inch math.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ]
+}

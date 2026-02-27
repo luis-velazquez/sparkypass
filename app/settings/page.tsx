@@ -40,8 +40,6 @@ interface ProfileData {
   city: string | null;
   state: string | null;
   showHintsOnMaster: boolean;
-  questionsPerQuiz: number;
-  focusMode: string | null;
   necYear: string;
   subscriptionStatus: string | null;
   trialEndsAt: string | null;
@@ -83,8 +81,6 @@ function SettingsContent() {
 
   // Quiz preferences state
   const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
-  const [questionsPerQuiz, setQuestionsPerQuiz] = useState(0);
-  const [focusMode, setFocusMode] = useState<string | null>(null);
   const [necYear, setNecYear] = useState("2023");
   const [quizPrefSaving, setQuizPrefSaving] = useState(false);
   const [quizPrefSuccess, setQuizPrefSuccess] = useState("");
@@ -121,8 +117,6 @@ function SettingsContent() {
         setState(data.state || "");
         setOriginalState(data.state || "");
         setShowHintsOnHard(data.showHintsOnMaster ?? false);
-        setQuestionsPerQuiz(data.questionsPerQuiz ?? 0);
-        setFocusMode(data.focusMode || null);
         setNecYear(data.necYear || "2023");
       }
     } catch (error) {
@@ -274,7 +268,7 @@ function SettingsContent() {
     }
   };
 
-  const saveQuizPreference = async (data: { showHintsOnMaster?: boolean; questionsPerQuiz?: number; focusMode?: string | null; necYear?: string }) => {
+  const saveQuizPreference = async (data: { showHintsOnMaster?: boolean; necYear?: string }) => {
     setQuizPrefSaving(true);
     setQuizPrefError("");
     setQuizPrefSuccess("");
@@ -292,8 +286,6 @@ function SettingsContent() {
       }
 
       if (data.showHintsOnMaster !== undefined) setShowHintsOnHard(data.showHintsOnMaster);
-      if (data.questionsPerQuiz !== undefined) setQuestionsPerQuiz(data.questionsPerQuiz);
-      if (data.focusMode !== undefined) setFocusMode(data.focusMode ?? null);
       if (data.necYear !== undefined) {
         setNecYear(data.necYear);
         window.dispatchEvent(new CustomEvent("nec-year-updated", { detail: data.necYear }));
@@ -554,33 +546,6 @@ function SettingsContent() {
                 </div>
               </div>
 
-              {/* Questions per quiz */}
-              <div className="space-y-2">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-foreground">
-                    Questions per quiz
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Choose how many questions you want in each quiz session.
-                  </p>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {[5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 0].map((val) => (
-                    <button
-                      key={val}
-                      onClick={() => saveQuizPreference({ questionsPerQuiz: val })}
-                      disabled={quizPrefSaving}
-                      className={`px-3 py-1.5 rounded-full text-sm font-medium border transition-all disabled:opacity-50 ${
-                        questionsPerQuiz === val
-                          ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
-                          : "bg-muted/50 dark:bg-stone-800/50 text-muted-foreground border-border dark:border-stone-700 hover:border-amber/50 dark:hover:border-sparky-green/50 hover:text-foreground"
-                      }`}
-                    >
-                      {val === 0 ? "All" : val}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
               {/* Hints toggle */}
               <div className="flex items-center justify-between gap-4 pt-1">
@@ -609,59 +574,6 @@ function SettingsContent() {
                 </button>
               </div>
 
-              {/* Journeyman Focus Mode toggle */}
-              <div className="flex items-center justify-between gap-4 pt-1">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-foreground">
-                    Journeyman Focus Mode
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Only show Journeyman difficulty questions. Apprentice and Master will be hidden.
-                  </p>
-                </div>
-                <button
-                  onClick={() => saveQuizPreference({ focusMode: focusMode === "journeyman" ? null : "journeyman" })}
-                  disabled={quizPrefSaving}
-                  className={`relative inline-flex items-center !h-[18px] !min-h-0 w-[48px] md:!h-6 md:!min-h-0 md:w-11 flex-shrink-0 cursor-pointer rounded-full p-[3px] md:p-0 md:border-2 md:border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
-                    focusMode === "journeyman" ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
-                  }`}
-                  role="switch"
-                  aria-checked={focusMode === "journeyman"}
-                >
-                  <span
-                    className={`pointer-events-none block h-[16px] w-[16px] md:h-5 md:w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      focusMode === "journeyman" ? "translate-x-[26px] md:translate-x-5" : "translate-x-0"
-                    }`}
-                  />
-                </button>
-              </div>
-
-              {/* Master Focus Mode toggle */}
-              <div className="flex items-center justify-between gap-4 pt-1">
-                <div className="space-y-1">
-                  <p className="text-sm font-medium text-foreground">
-                    Master Focus Mode
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    Only show Master difficulty questions. Apprentice and Journeyman will be hidden.
-                  </p>
-                </div>
-                <button
-                  onClick={() => saveQuizPreference({ focusMode: focusMode === "master" ? null : "master" })}
-                  disabled={quizPrefSaving}
-                  className={`relative inline-flex items-center !h-[18px] !min-h-0 w-[48px] md:!h-6 md:!min-h-0 md:w-11 flex-shrink-0 cursor-pointer rounded-full p-[3px] md:p-0 md:border-2 md:border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-amber/50 dark:focus:ring-sparky-green/50 focus:ring-offset-2 disabled:opacity-50 ${
-                    focusMode === "master" ? "bg-amber dark:bg-sparky-green" : "bg-muted dark:bg-stone-800"
-                  }`}
-                  role="switch"
-                  aria-checked={focusMode === "master"}
-                >
-                  <span
-                    className={`pointer-events-none block h-[16px] w-[16px] md:h-5 md:w-5 rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                      focusMode === "master" ? "translate-x-[26px] md:translate-x-5" : "translate-x-0"
-                    }`}
-                  />
-                </button>
-              </div>
 
               {/* Tip of the Day toggle */}
               <div className="flex items-center justify-between gap-4 pt-1">

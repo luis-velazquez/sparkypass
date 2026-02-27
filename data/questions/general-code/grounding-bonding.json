@@ -1,0 +1,1074 @@
+{
+  "apprentice": [
+    {
+      "id": "GB-A001",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "In a main service panel, the Grounding Electrode Conductor (the main wire coming from the ground rod or water pipe) must connect directly to the:",
+      "options": [
+        "Subpanel ground bar",
+        "Equipment grounding bus",
+        "Grounded service conductor (Neutral bar)",
+        "Main breaker enclosure"
+      ],
+      "correctAnswer": 2,
+      "explanation": " \n\nNEC Article 250 uses very specific language. The 'Grounding Electrode' is the physical item in the earth (like a ground rod). The 'Grounding Electrode Conductor' (GEC) is the wire connecting that rod to your electrical system. According to 250.24(A), this GEC must land on the grounded conductor (the neutral bar) at the very first point of disconnect (the service equipment).",
+      "necReference": "NEC 250.24(A)",
+      "sparkyTip": "Code language sounds like a tongue twister! Just remember: 'Electrode' = the rod in the dirt. 'Conductor' = the wire. At the main service, that wire from the dirt always marries the Neutral.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A002",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "The main bonding jumper at service equipment connects the neutral bus to the:",
+      "options": [
+        "Circuit breaker",
+        "Equipment grounding bus",
+        "Service conductors",
+        "Load center cover"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.28 requires the main bonding jumper to connect the grounded conductor (neutral) to the equipment grounding conductor and the equipment enclosure at the service.",
+      "necReference": "250.28",
+      "sparkyTip": "Main bonding jumper bridges neutral to ground at service - the only place they should meet!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A003",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "What color is required for insulated equipment grounding conductors?",
+      "options": [
+        "White",
+        "Gray",
+        "Green or green with yellow stripes",
+        "Any color with green tape"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 250.119 requires equipment grounding conductors to be identified by a continuous green color or green with one or more yellow stripes.",
+      "necReference": "250.119",
+      "sparkyTip": "Green for ground - it's easy to remember: G for Green, G for Ground!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A004",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "When multiple grounding electrodes are present, what is required for 2023 NEC?",
+      "options": [
+        "Use only the lowest resistance electrode",
+        "Bond all electrodes together to form a grounding electrode system",
+        "Disconnect supplementary electrodes",
+        "Bond only to the metal water pipe"
+      ],
+      "correctAnswer": 1,
+      "explanation": "All available electrodes must be bonded together to form a grounding electrode system.",
+      "necReference": "250.50",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A005",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "If a metal underground water pipe is used as an electrode, what else is required?",
+      "options": [
+        "Nothing else is required",
+        "It must be supplemented by another electrode",
+        "It must be isolated from other electrodes",
+        "It must be coated"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A metal underground water pipe electrode must be supplemented by another electrode.",
+      "necReference": "250.53(D)(2)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A006",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "In a separately derived system, where is the system bonding jumper installed for 2023 NEC?",
+      "options": [
+        "At every panelboard",
+        "At the separately derived system or first disconnect as required",
+        "Only at the service disconnect",
+        "At the last branch circuit"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The system bonding jumper is installed at the SDS as specified in 250.30(A)(1).",
+      "necReference": "250.30(A)(1)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A007",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "Which statement best describes the function of an equipment grounding conductor (EGC)?",
+      "options": [
+        "It carries normal load current",
+        "It provides a low-impedance fault path to clear ground faults",
+        "It replaces the grounded conductor",
+        "It reduces voltage drop"
+      ],
+      "correctAnswer": 1,
+      "explanation": "EGCs provide a low-impedance path for fault current to operate OCPDs.",
+      "necReference": "250.4(A)(5)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A008",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "What is one primary purpose of the grounding electrode system?",
+      "options": [
+        "Carry normal load current",
+        "Stabilize the system to earth and limit voltage from lightning or surges",
+        "Replace overcurrent protection",
+        "Eliminate the need for bonding"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Grounding electrodes stabilize the system to earth and limit voltage surges.",
+      "necReference": "250.4(A)(1)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A009",
+      "category": "grounding-bonding",
+      "necArticle": "Article 100 & 250",
+      "difficulty": "apprentice",
+      "questionText": "Your journeyman tells you to 'pigtail the grounds' at every receptacle. When you look up the rules for this specific bare copper or green wire in the NEC, it is officially referred to as the EGC. What does EGC stand for, and what is its primary job?",
+      "options": [
+        "Earth Grounding Cable; it connects the panel directly to the dirt.",
+        "Equipment Grounding Conductor; it connects metal equipment parts back to the panel to trip the breaker during a fault.",
+        "Electrical Grounding Connection; it connects the neutral wire to the ground rod.",
+        "Emergency Grounding Conductor; it provides backup power to the receptacle."
+      ],
+      "correctAnswer": 1,
+      "explanation": "\n\nIn the field, we just call it the 'ground.' But in NEC Article 100, EGC stands for Equipment Grounding Conductor. Its main purpose is to connect the non-current-carrying metal parts of equipment (like the metal yoke of a receptacle) back to the system. This creates a low-impedance path to safely clear ground faults and trip the breaker if a hot wire ever shorts to the metal.",
+      "necReference": "NEC Article 100 (Definitions); NEC 250.4(A)(3)",
+      "sparkyTip": "Code language vs. Field language! When the guys on site say 'run a ground to that plug,' the Code book calls it an Equipment Grounding Conductor (EGC). Remember: 'E' is for Equipment!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A010",
+      "category": "grounding-bonding",
+      "necArticle": "Article 100 & 250",
+      "difficulty": "apprentice",
+      "questionText": "You are installing a heavy bare copper wire from the neutral bar in the main service panel out to a ground rod driven into the yard. In the NEC, what is the acronym for this specific wire?",
+      "options": [
+        "EGC (Equipment Grounding Conductor)",
+        "GEC (Grounding Electrode Conductor)",
+        "MBJ (Main Bonding Jumper)",
+        "SSJ (System Supply Jumper)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "According to NEC Article 100, this wire is the Grounding Electrode Conductor (GEC). It connects the system grounded conductor (neutral) or the equipment directly to a grounding electrode (like a ground rod, concrete-encased electrode, or metal water pipe). Its main job is to direct high-voltage surges, such as lightning, safely into the earth.",
+      "necReference": "NEC Article 100 (Definitions); NEC 250.24(A)",
+      "sparkyTip": "Remember: 'GEC' goes to the Ground! It connects the main electrical system to the earth (the electrode). It deals with lightning, while the EGC deals with tripped breakers.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A011",
+      "category": "grounding-bonding",
+      "necArticle": "250.12",
+      "difficulty": "apprentice",
+      "questionText": "Your journeyman hands you a grounding terminal bar and asks you to bolt it inside a painted dry-type transformer enclosure. According to NEC 250.12, what must you do to the enclosure surface before installing the bar to ensure it is Code-compliant?",
+      "options": [
+        "Spray the contact area with cold galvanizing compound.",
+        "Apply a thick layer of dielectric grease over the paint.",
+        "Install a rubber isolation pad behind the terminal bar.",
+        "Scrape or sand off the paint to expose bare metal."
+      ],
+      "correctAnswer": 3,
+      "explanation": "\n\nNEC 250.12 dictates that nonconductive coatings (such as paint, lacquer, and enamel) on equipment to be grounded must be removed from contact surfaces to ensure good electrical continuity. Bolting a ground bar directly over factory paint introduces resistance, which can prevent a breaker from tripping during a ground fault.",
+      "necReference": "NEC 250.12",
+      "sparkyTip": "Paint is an insulator! Always break out the wire brush, scraper, or sandpaper and get down to bare, shiny metal before you bolt down a ground lug or terminal bar.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A012",
+      "category": "grounding-bonding",
+      "necArticle": "250.64(G)",
+      "difficulty": "apprentice",
+      "questionText": "When routing a Grounding Electrode Conductor (GEC) into an equipment enclosure such as a dry-type transformer, which of the following represents the approved installation method(s)?",
+      "options": [
+        "Through a hole made by the installer",
+        "Through an approved conduit or raceway",
+        "Through the factory ventilation openings",
+        "Both the first and second options are approved"
+      ],
+      "correctAnswer": 3,
+      "explanation": "According to NEC 250.64(G), grounding electrode conductors shall not be installed through a ventilation opening of an enclosure. Routing the wire through a factory knockout, a hole drilled by the installer, or an approved conduit are all acceptable methods. Shoving the wire through the ventilation grates restricts engineered airflow and is a direct Code violation.",
+      "necReference": "NEC 250.64(G)",
+      "sparkyTip": "Never use the vent grates as a shortcut! You must use a proper knockout, drill a new hole, or use conduit. Blocking those louvers can cause the equipment to overheat and fail.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A013",
+      "category": "grounding-bonding",
+      "necArticle": "517.13(A) & (B)",
+      "difficulty": "apprentice",
+      "questionText": "While roughing-in a patient care room at a hospital, your journeyman notices you used standard Type MC cable and tells you to swap it out for Type MCI-A (Hospital Grade) cable. Why is standard MC cable prohibited in this specific location?",
+      "options": [
+        "Standard MC cable is not fire-rated for use in hospitals.",
+        "The interlocking armor of standard MC cable is not a 'qualified' grounding path on its own.",
+        "Standard MC cable does not have enough current-carrying conductors for hospital equipment.",
+        "Hospitals require aluminum armor, and standard MC is always made of steel."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 517.13 requires 'redundant grounding' in patient care spaces, meaning you need two separate ground paths. Path 1 must be the metal raceway or armor, and Path 2 must be an insulated green wire. Standard MC cable armor is not considered a qualified grounding path because its resistance is too high. MCI-A cable has an internal bonding strip that makes the armor 'qualified,' providing the second path required by Code.",
+      "necReference": "NEC 517.13(A) & (B); 250.118",
+      "sparkyTip": "Standard MC = 1 ground path (the wire). MCI-A = 2 ground paths (the armor + the wire). Hospitals are 'Belt and Suspenders' territory—you always need that second path!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A014",
+      "category": "grounding-bonding",
+      "necArticle": "406.3(D) & 250.146(D)",
+      "difficulty": "apprentice",
+      "questionText": "Your journeyman hands you a receptacle with an orange triangle stamped on the face and tells you to install it for a 'clean power' computer rack. Inside the wall box, you find two grounding wires: one solid green and one green with a yellow stripe. To install this correctly, what must you do with these two wires?",
+      "options": [
+        "Connect both the solid green and the green/yellow wires to the green grounding screw on the receptacle.",
+        "Cap off the green wire with the yellow stripe, and use the solid green wire for the receptacle.",
+        "Cap off the solid green wire (or ensure it only bonds the metal box), and connect ONLY the green wire with the yellow stripe directly to the receptacle.",
+        "Splice both wires together with a pigtail and land the single pigtail on the receptacle."
+      ],
+      "correctAnswer": 2,
+      "explanation": "\n\nAn orange triangle identifies an Isolated Ground (IG) receptacle per NEC 406.3(D). Its grounding terminal is purposely isolated from its metal mounting strap. The solid green wire is the standard Equipment Grounding Conductor (EGC) and is only there to bond the metal wall box—it must be capped off and kept away from the device. The green wire with the yellow stripe is the Isolated Ground conductor. It must connect directly to the receptacle's ground screw to provide a 'clean' return path straight to the panel, free of building noise.",
+      "necReference": "NEC 406.3(D); 250.146(D)",
+      "sparkyTip": "Keep them separated! The solid green wire is the 'dirty' ground for the metal box—cap it off and tuck it away. ONLY the green wire with the yellow stripe (the 'clean' ground) lands on the green screw of that triangle plug.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ],
+  "journeyman": [
+    {
+      "id": "GB-J001",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250.66",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum size Copper Grounding Electrode Conductor (GEC) required for a standard residential 200-Ampere service supplied by 2/0 AWG Copper service-entrance conductors?",
+      "options": [
+        "#8 AWG",
+        "#6 AWG",
+        "#4 AWG",
+        "#2 AWG"
+      ],
+      "correctAnswer": 2,
+      "explanation": "First, refer to NEC Table 310.12 (Residential Services): A 200A service typically uses 2/0 AWG Copper conductors. Second, refer to NEC Table 250.66: For ungrounded service-entrance conductors sized 'Over 1/0 through 3/0 AWG Copper', the required Grounding Electrode Conductor is #4 AWG Copper.",
+      "necReference": "Table 250.66 & Table 310.12",
+      "sparkyTip": "Don't guess based on the breaker! Size the GEC based on the service WIRE size. 200A = 2/0 Cu Wire = #4 Cu Ground.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J002",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "When a single ground rod has a resistance greater than 25 ohms, what is required?",
+      "options": [
+        "Install a larger rod",
+        "Add a supplemental electrode",
+        "Use a different location",
+        "Nothing additional required"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.53(A)(2) requires that if a single rod electrode has a resistance to earth greater than 25 ohms, it shall be augmented by one additional electrode.",
+      "necReference": "250.53(A)(2)",
+      "sparkyTip": "Over 25 ohms? Add another rod! Two rods are the solution to high resistance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J003",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum spacing between two ground rods?",
+      "options": [
+        "4 feet",
+        "6 feet",
+        "8 feet",
+        "10 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.53(A)(3) requires that when more than one rod electrode is used, they shall be spaced not less than 6 feet apart.",
+      "necReference": "250.53(A)(3)",
+      "sparkyTip": "6 feet between rods minimum - give them room to do their job effectively!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J004",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "The minimum size of a copper bonding jumper for a 2-inch trade size rigid metal conduit used for service-entrance conductors is determined by which basis?",
+      "options": [
+        "The length of the conduit per Table 250.66",
+        "The size of the largest service-entrance conductor per Table 250.102(C)(1)",
+        "The ampacity of the conductors per Table 310.16",
+        "The rating of the overcurrent device per Table 250.122"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Since this is on the supply side (service), NEC 250.102(C)(1) requires the bonding jumper to be sized based on the largest ungrounded service-entrance conductor, not the conduit size itself.",
+      "necReference": "250.102(C)(1)",
+      "sparkyTip": "If it's ahead of the main breaker, use 250.102(C)(1). If it's after the breaker, use 250.122!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J005",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum size equipment grounding conductor for a 60-ampere circuit?",
+      "options": [
+        "#14 AWG",
+        "#12 AWG",
+        "#10 AWG",
+        "#8 AWG"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC Table 250.122 specifies a minimum #10 AWG copper equipment grounding conductor for overcurrent devices rated 60 amperes.",
+      "necReference": "Table 250.122",
+      "sparkyTip": "Table 250.122 is your EGC sizing guide - match the breaker size to find your wire!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J006",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "At what point must the grounded conductor (neutral) and equipment grounding conductor be bonded together?",
+      "options": [
+        "At every panel",
+        "Only at the service equipment",
+        "At the first disconnect",
+        "At each subpanel"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.24(A)(5) and 250.142(B) prohibit connecting the grounded conductor to equipment grounding conductors or equipment on the load side of the service disconnecting means, except in specific circumstances.",
+      "necReference": "250.142(B)",
+      "sparkyTip": "Neutral-ground bond ONLY at service! In subpanels, keep them separate.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J007",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "What is the diameter of a standard ground rod?",
+      "options": [
+        "½ inch",
+        "⅝ inch",
+        "¾ inch",
+        "1 inch"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.52(A)(5) requires rod electrodes to have a minimum diameter of ⅝ inch (15.87 mm) for standard ground rods. Stainless steel or nonferrous rods can be ½ inch.",
+      "necReference": "250.52(A)(5)",
+      "sparkyTip": "Standard ground rod = ⅝ inch diameter. It's the industry standard!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J008",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "Which table is used to size the main bonding jumper for service equipment for 2023 NEC?",
+      "options": [
+        "Table 250.66",
+        "Table 250.122",
+        "Table 250.102(C)(1)",
+        "Table 310.16"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Main bonding jumper sizing is in Table 250.102(C)(1).",
+      "necReference": "Article 250",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J009",
+      "category": "grounding-bonding",
+      "necArticle": "250.24(B)",
+      "difficulty": "journeyman",
+      "questionText": "On the load side of the service disconnect, how must the grounded (neutral) conductor and equipment grounding conductors be treated?",
+      "options": [
+        "They must be bonded together in every junction box",
+        "They must be kept separate and not connected to each other",
+        "They must be connected only in subpanels",
+        "The neutral must be used as the grounding path for all motors"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.24(B) prohibits the connection of the grounded conductor to the grounding conductor or to equipment enclosures on the load side of the service disconnect to prevent objectionable current on metal parts.",
+      "necReference": "250.24(B)",
+      "sparkyTip": "Bonded at the Main, Separated at the Sub. If you bond them twice, you're inviting the current to ride the conduit!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J010",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "If building steel qualifies as a grounding electrode, what must be done?",
+      "options": [
+        "Ignore it",
+        "Bond it into the grounding electrode system",
+        "Isolate it from other electrodes",
+        "Use it only for communications"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Qualifying building steel must be bonded into the grounding electrode system.",
+      "necReference": "250.52(A)(2); 250.50",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J011",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum burial depth for a ground rod?",
+      "options": [
+        "6 feet",
+        "8 feet",
+        "10 feet",
+        "4 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.53(G) requires rod electrodes to be installed so that at least 8 feet (2.44 m) of length is in contact with the soil.",
+      "necReference": "250.53(G)",
+      "sparkyTip": "Ground rods need 8 feet in the earth - think 'great 8' for ground rods!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J012",
+      "category": "grounding-bonding",
+      "necArticle": "250.52(A)(1)",
+      "difficulty": "journeyman",
+      "questionText": "To qualify as a grounding electrode, a metal underground water pipe must be in direct contact with the earth for a minimum distance of:",
+      "options": [
+        "5 feet",
+        "8 feet",
+        "10 feet",
+        "20 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 250.52(A)(1), a metal underground water pipe in direct contact with the earth for 10 feet (3.0 m) or more is considered a grounding electrode. However, remember that NEC 250.53(D)(2) requires that this water pipe electrode MUST be supplemented by an additional electrode (like a ground rod) regardless of its length.",
+      "necReference": "250.52(A)(1); 250.53(D)(2)",
+      "sparkyTip": "10 feet is the magic number to BE an electrode. But here is the real-world trap: Even if you have 100 feet of pipe, the NEC doesn't trust it! You ALWAYS have to add a supplemental ground rod just in case the utility company swaps the water meter for plastic later.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J013",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "The intersystem bonding termination device must be capable of terminating how many conductors?",
+      "options": [
+        "2 conductors",
+        "3 conductors",
+        "4 conductors",
+        "6 conductors"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.94 requires an intersystem bonding termination that provides connection capacity for at least 3 intersystem bonding conductors (for cable, telephone, etc.).",
+      "necReference": "250.94",
+      "sparkyTip": "Intersystem bonding = 3 terminations minimum. One for each utility that might need it!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J014",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "Where is the system grounding connection typically made for a grounded electrical system?",
+      "options": [
+        "At the transformer secondary",
+        "At the service entrance equipment",
+        "At the first panelboard",
+        "At the meter base"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.24(A)(1) requires the grounding electrode conductor connection to be made at any accessible point from the load end of the service drop to the service disconnecting means.",
+      "necReference": "250.24(A)(1)",
+      "sparkyTip": "System ground connects at the service - that's home base for your grounding!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J015",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "Which table is used to size equipment grounding conductors (EGCs) based on overcurrent device rating?",
+      "options": [
+        "Table 250.66",
+        "Table 250.122",
+        "Table 250.102(C)(1)",
+        "Table 310.16"
+      ],
+      "correctAnswer": 1,
+      "explanation": "EGC sizing is based on the rating of the overcurrent device per Table 250.122.",
+      "necReference": "Article 250",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J016",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "A rod electrode has 18 ohms resistance. What is required by the NEC? (select the best answer)",
+      "options": [
+        "No supplemental electrode required",
+        "Add a supplemental electrode",
+        "Install a ground ring",
+        "Bond to gas piping"
+      ],
+      "correctAnswer": 0,
+      "explanation": "At 25 ohms or less, no supplemental electrode is required by 250.53(A)(2).",
+      "necReference": "250.53(A)(2)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J017",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "Which of the following is a grounding electrode type listed in 250.52 for 2023 NEC?",
+      "options": [
+        "Plastic water pipe",
+        "Concrete-encased electrode",
+        "Painted metal raceway",
+        "Flexible cord"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Concrete-encased electrodes are listed in 250.52(A)(3).",
+      "necReference": "250.52(A)(3)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J018",
+      "category": "grounding-bonding",
+      "necArticle": "450.12(A)(4)",
+      "difficulty": "journeyman",
+      "questionText": "You are terminating conductors inside a dry-type transformer enclosure. Due to congestion from multiple supply-side bonding jumpers and equipment grounding conductors, you install two separate terminal bars. This is permitted ONLY if the terminal bars are interconnected with a bonding jumper. How must this interconnecting bonding jumper be sized?",
+      "options": [
+        "Not less than the equivalent size of the main bonding jumper (MBJ).",
+        "Not less than 1/0 AWG copper or 3/0 AWG aluminum.",
+        "Not less than the largest conductor connected to either interconnected terminal bar.",
+        "Based on the rating of the secondary overcurrent protective device using Table 250.122."
+      ],
+      "correctAnswer": 2,
+      "explanation": "\n\nIn a significant change for the 2026 NEC, the grounding and bonding rules for dry-type transformers were moved from 450.10(A) to 450.12(A). Section 450.12(A)(4) now explicitly permits the use of multiple terminal bars within the enclosure to alleviate wire congestion. However, to maintain a single bonded assembly, they must be tied together with a bonding jumper that has a cross-sectional area not less than the largest single conductor connected to either of the terminal bars.",
+      "necReference": "NEC 450.12(A)(4)",
+      "sparkyTip": "2026 Code Update! You can finally add a second ground bar in that crowded transformer. Just make sure the jumper connecting them is at least as fat as the biggest wire landed on either bar!",
+      "necVersions": [
+        "2026"
+      ]
+    }
+  ],
+  "master": [
+    {
+      "id": "GB-M001",
+      "category": "grounding-bonding",
+      "necArticle": "250.104(B), Table 250.122",
+      "difficulty": "master",
+      "questionText": "What is the minimum size copper bonding jumper required for an indoor metal gas piping system, where the specific branch circuit likely to energize the piping is rated at 100 amperes?",
+      "options": [
+        "#10 AWG",
+        "#8 AWG",
+        "#6 AWG",
+        "#4 AWG"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 250.104(B), 'other metal piping' (which includes standard gas pipe) must be bonded using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping. For a 100A overcurrent device, Table 250.122 requires a minimum #8 AWG copper conductor.",
+      "necReference": "250.104(B), Table 250.122",
+      "sparkyTip": "Exam vs. Real World! On the NEC exam, standard gas pipe is bonded using Table 250.122 based on the circuit likely to energize it (100A = #8 AWG). But in the field, if you see flexible yellow CSST gas pipe, the manufacturer and Fuel Gas Code usually demand a minimum #6 AWG bond back to the service. Keep your exam brain and your field brain separate!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M002",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(5), Table 250.66",
+      "difficulty": "master",
+      "questionText": "A 112.5 kVA separately derived system (transformer) is installed using 500 kcmil copper secondary phase conductors. According to NEC 250.30(A)(5), what is the minimum required size for the copper grounding electrode conductor (GEC)?",
+      "options": [
+        "#2 AWG",
+        "1/0 AWG",
+        "3/0 AWG",
+        "#4 AWG"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 250.30(A)(5), the grounding electrode conductor for a single separately derived system must be sized in accordance with Table 250.66, based on the derived ungrounded (secondary phase) conductors. According to Table 250.66, a 500 kcmil copper conductor requires a minimum 1/0 AWG copper GEC.",
+      "necReference": "250.30(A)(5), Table 250.66",
+      "sparkyTip": "Transformers = Table 250.66! But remember the golden rule of transformers: you size the GEC based on the SECONDARY (derived) conductors, never the primary conductors feeding the transformer!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M003",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "master",
+      "questionText": "Per the 2023 NEC, the bonding jumper for a metal gas piping system shall be sized using which table and basis?",
+      "options": [
+        "Table 250.66 based on the size of the largest service-entrance conductor",
+        "Table 250.122 based on the rating of the circuit likely to energize the piping",
+        "Table 250.102(C)(1) based on the size of the largest service-entrance conductor",
+        "Table 310.16 based on the allowable ampacity of the conductors"
+      ],
+      "correctAnswer": 1,
+      "explanation": "According to NEC 250.104(B), 'other metal piping' systems, including gas piping, must be bonded to the service equipment enclosure or grounding electrode system using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping.",
+      "necReference": "250.104(B)",
+      "sparkyTip": "Think of gas pipe bonding as 'equipment protection'—that’s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M004",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "master",
+      "questionText": "What is the primary purpose of bonding in grounding and bonding systems?",
+      "options": [
+        "Prevent all voltage drop",
+        "Provide a low-impedance fault path to facilitate OCPD operation",
+        "Eliminate the need for grounding electrodes",
+        "Increase insulation resistance"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Bonding provides an effective fault current path to operate OCPDs.",
+      "necReference": "250.4(A)(5)",
+      "sparkyTip": "Anchor the rule to its NEC section before you size or bond anything.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M005",
+      "category": "grounding-bonding",
+      "necArticle": "517.13(A) & (B)",
+      "difficulty": "master",
+      "questionText": "Per the redundant grounding requirements for patient care spaces, which of the following must be provided for all branch circuits serving receptacles and fixed electrical equipment?",
+      "options": [
+        "A bare copper equipment grounding conductor and a nonmetallic raceway system.",
+        "An insulated aluminum equipment grounding conductor and a metal raceway system.",
+        "An insulated copper equipment grounding conductor and a metal raceway system that qualifies as an equipment grounding conductor.",
+        "A redundant path consisting of two separate insulated copper equipment grounding conductors in any approved raceway."
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 517.13(A) and (B) require two grounding paths for patient care spaces. The first path must be a metal raceway system or a metal cable armor that is itself a qualified equipment grounding conductor (per 250.118). The second path must be a dedicated, insulated copper equipment grounding conductor. Both paths must be present to satisfy the Code's safety standards for these environments.",
+      "necReference": "NEC 517.13(A); 517.13(B)(1)",
+      "sparkyTip": "Don't get tripped up by the number of wires! It’s not just about having two grounds; it’s about the TYPE. You need an insulated copper wire AND a metal path (pipe or armor) that is also listed to carry fault current.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M006",
+      "category": "grounding-bonding",
+      "necArticle": "250.6(D)",
+      "difficulty": "master",
+      "questionText": "A listed isolator device is permitted to be installed in the equipment grounding conductor path to reduce objectionable current. For this installation to be Code-compliant, the device must maintain which of the following?",
+      "options": [
+        "A minimum resistance of 25 ohms at all times.",
+        "An effective ground-fault current path under fault conditions.",
+        "A total isolation of the grounded conductor from the earth.",
+        "A maximum leakage current of 5mA to the building steel."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.6(D) allows for the use of listed isolator devices specifically designed to reduce objectionable current. However, the rule explicitly states that these devices must be installed such that an effective ground-fault current path is maintained. In the event of a fault, the device must allow current to flow unimpeded to ensure the overcurrent protective device (breaker) trips.",
+      "necReference": "NEC 250.6(D)",
+      "sparkyTip": "Think of an isolator like a 'smart fuse' for your ground. It blocks the small, annoying currents that mess up your electronics, but it stays ready to 'turn on' and save your life if a real short-circuit happens."
+    },
+    {
+      "id": "GB-M007",
+      "category": "grounding-bonding",
+      "necArticle": "408.40 Exception",
+      "difficulty": "master",
+      "questionText": "Under the exception to NEC 408.40, an isolated equipment grounding bus is permitted inside a panelboard to reduce electromagnetic interference for sensitive equipment. Which of the following describes the Code-compliant installation of the conductors connected to this isolated bus?",
+      "options": [
+        "They must be bonded to the local panelboard enclosure using a system bonding jumper.",
+        "They must be connected to a separate, dedicated ground rod that is isolated from the building's grounding electrode system.",
+        "They must pass through the panelboard without connecting to the enclosure and terminate at the applicable derived system or service grounding terminal.",
+        "They must be spliced directly to the standard equipment grounding conductors within the panelboard cabinet."
+      ],
+      "correctAnswer": 2,
+      "explanation": " \n\nThe exception to NEC 408.40 allows an isolated ground bus that is physically insulated from the metal panelboard enclosure. This is designed for Isolated Ground (IG) circuits. Per the rules it references (250.146(D) and 250.96(B)), these isolated equipment grounding conductors must not bond to the local subpanel; instead, they act as an insulated 'home run,' passing through the panel and running all the way back to the grounding terminal of the applicable separately derived system or main service equipment.",
+      "necReference": "NEC 408.40 Exception; 250.146(D)",
+      "sparkyTip": "An Isolated Ground (IG) bus in a subpanel is like an express lane. The wires land on the insulated bus, and the feeder IG wire takes them straight back to the main service or transformer. It never touches the local panel's metal enclosure, keeping the 'dirty' current out!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M008",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(5)",
+      "difficulty": "master",
+      "questionText": "You are verifying the installation of a 480V to 208Y/120V dry-type transformer (a separately derived system). The installer chose to locate the system bonding jumper (SBJ) at the first disconnecting means (the secondary panelboard) rather than inside the transformer enclosure. According to NEC 250.30(A), where MUST the grounding electrode conductor (GEC) be connected to the grounded system conductor?",
+      "options": [
+        "Inside the transformer enclosure, directly to the X0 terminal.",
+        "At the exact same point where the system bonding jumper is installed (the secondary panelboard).",
+        "At both the transformer enclosure and the first disconnecting means to ensure redundancy.",
+        "It can be connected at any accessible point on the separately derived system from the source to the first disconnect."
+      ],
+      "correctAnswer": 1,
+      "explanation": "\n\nNEC 250.30(A)(5) strictly dictates that the grounding electrode conductor (GEC) must connect to the grounded conductor (neutral) of the separately derived system at the exact same point where the system bonding jumper (SBJ) is installed. If the SBJ is located in the secondary panelboard, the GEC must also land there. Splitting them up (e.g., SBJ at the panel, GEC at the transformer) creates parallel paths for normal neutral return current over the equipment grounding conductors and metal raceways, which is a major Code violation.",
+      "necReference": "NEC 250.30(A)(5)",
+      "sparkyTip": "Keep the family together! Wherever you decide to marry the neutral to the ground (the SBJ), that is the exact same box where your wire to the dirt (the GEC) must land. Never split them between the transformer and the panel.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M009",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(2) & 250.102(C)(2)",
+      "difficulty": "master",
+      "questionText": "You are installing a wire-type supply-side bonding jumper (SSBJ) from a 480V transformer to a secondary panelboard. The ungrounded secondary conductors consist of three parallel sets of 4/0 AWG copper installed in three separate nonmetallic conduits. According to NEC 250.30(A) and 250.102(C), what is the minimum required size of the copper SSBJ installed in *each* individual conduit?",
+      "options": [
+        "2 AWG",
+        "1/0 AWG",
+        "2/0 AWG",
+        "3/0 AWG"
+      ],
+      "correctAnswer": 0,
+      "explanation": "\n\nNEC 250.30(A)(2) requires the SSBJ to be sized according to 250.102(C). When conductors are paralleled in separate raceways, 250.102(C)(2) dictates that the bonding jumper in each raceway is sized based ONLY on the ungrounded conductors in that specific raceway. Using Table 250.102(C)(1), a 4/0 AWG copper phase conductor requires a 2 AWG copper bonding jumper. \n\n(The Trap: Many test-takers choose 1/0 AWG because 250.122(F) requires a minimum 1/0 AWG for parallel grounding conductors. However, that rule applies to Equipment Grounding Conductors on the load side of a breaker, NOT Supply-Side Bonding Jumpers on the line side!)",
+      "necReference": "NEC 250.30(A)(2); 250.102(C)(2)",
+      "sparkyTip": "The Parallel Trap! If you are sizing an SSBJ (before the main breaker) in parallel pipes, just use the Table based on the wire in THAT pipe. You only trigger the 'minimum 1/0' rule when pulling parallel EGCs (after the breaker).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M010",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(6)",
+      "difficulty": "master",
+      "questionText": "A commercial building contains multiple separately derived systems (dry-type transformers). The installer chooses to install a common grounding electrode conductor (GEC) rather than running individual GECs to the building steel for each transformer. According to NEC 250.30(A)(6), what is the minimum required size for this common GEC if it is made of copper?",
+      "options": [
+        "4/0 AWG",
+        "250 kcmil",
+        "3/0 AWG",
+        "Sized based on the sum of the circular mil area of all derived ungrounded conductors."
+      ],
+      "correctAnswer": 2,
+      "explanation": "\n\nAccording to NEC 250.30(A)(6)(a), when a common grounding electrode conductor is used for multiple separately derived systems, it must not be smaller than 3/0 AWG copper or 250 kcmil aluminum. This common conductor acts as a grounding trunk line, and the individual transformers connect to it using GEC taps sized according to 250.66 based on their respective derived ungrounded conductors.",
+      "necReference": "NEC 250.30(A)(6)(a)",
+      "sparkyTip": "Think of the common GEC like a water main. The Code sets a hard floor: 3/0 Copper or 250 kcmil Aluminum minimum. Taps run off of it to each transformer.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M011",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(3) & 310.10(G)",
+      "difficulty": "master",
+      "questionText": "A 480V to 208Y/120V transformer has its system bonding jumper installed at the first disconnecting means. The secondary conductors consist of three parallel sets of 350 kcmil copper installed in three separate nonmetallic conduits. Because the bonding is at the disconnect, a grounded conductor (neutral) must be routed to the disconnect. What is the minimum required size of the copper grounded conductor installed in EACH conduit?",
+      "options": [
+        "2 AWG",
+        "1/0 AWG",
+        "3/0 AWG",
+        "250 kcmil"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.30(A)(3) requires the grounded conductor to be sized per Table 250.102(C)(1), which would normally permit a 2 AWG copper wire for a 350 kcmil phase conductor. However, because the conductors are installed in parallel in separate raceways, NEC 310.10(G) strictly prohibits paralleling any conductor smaller than 1/0 AWG. Therefore, the minimum size must be bumped up to 1/0 AWG in each conduit.",
+      "necReference": "NEC 250.30(A)(3); 250.102(C)(2); 310.10(G)",
+      "sparkyTip": "The Parallel Minimum Trap! Table 250.102(C)(1) might tell you 2 AWG is big enough for the neutral, but the absolute rule of paralleling wire (310.10) says you can never parallel a wire smaller than 1/0 AWG. Always check the floor limit!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M012",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(1) Exception No. 2",
+      "difficulty": "master",
+      "questionText": "Generally, NEC 250.30(A)(1) strictly prohibits installing a system bonding jumper at both the transformer enclosure and the secondary panelboard to prevent parallel neutral current paths. Under which of the following specific conditions does Exception No. 2 permit bonding at BOTH locations?",
+      "options": [
+        "When the secondary conductors are 500 kcmil or larger.",
+        "When a ground-fault relay is installed on the secondary main breaker.",
+        "When the installation uses a nonmetallic raceway and no parallel path for neutral current is established.",
+        "When the transformer is rated over 112.5 kVA and feeds a single motor load."
+      ],
+      "correctAnswer": 2,
+      "explanation": "\n\nNEC 250.30(A)(1) Exception No. 2 allows a system bonding jumper at both the source and the first disconnect ONLY if doing so does not establish a parallel path for the grounded conductor (neutral) current. This is typically only possible if the raceway between the equipment is nonmetallic (like PVC) and there is no separate equipment grounding conductor connecting the two enclosures.",
+      "necReference": "NEC 250.30(A)(1) Exception No. 2",
+      "sparkyTip": "The only way to legally 'double-bond' a transformer is if you use PVC pipe and don't pull a ground wire. If you use metal pipe, the pipe itself becomes a parallel path for neutral current, turning the enclosure into a shock hazard!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M013",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(C)",
+      "difficulty": "master",
+      "questionText": "A separately derived system (such as a standby generator) is installed outdoors and supplies a building. Where must the grounding electrode connection for this outdoor source be made?",
+      "options": [
+        "Only at the first disconnecting means inside the building.",
+        "At the source, to one or more grounding electrodes installed at the outdoor location.",
+        "At the main service grounding electrode system of the building being served.",
+        "Inside the transfer switch enclosure, regardless of its location."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.30(C) dictates that if a separately derived system is located outdoors, a grounding electrode connection must be made at the source location to one or more grounding electrodes. This ensures that lightning strikes or high-voltage surges affecting the outdoor equipment are driven into the earth immediately, rather than traveling along the secondary conductors into the building.",
+      "necReference": "NEC 250.30(C)",
+      "sparkyTip": "If the source is outside, it needs its own dirt connection outside! You cannot rely solely on the building's ground rod when the generator or transformer is sitting in the yard exposed to lightning.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M014",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(8) & 250.104(D)",
+      "difficulty": "master",
+      "questionText": "A 75kVA dry-type transformer is installed in an electrical room on the 4th floor of a building. It serves isolated loads in the adjacent rooms. An exposed metal water piping system exists in the area served by this separately derived system. Which of the following describes the Code requirement for bonding this water pipe?",
+      "options": [
+        "It must be bonded to the building's main service neutral, not the transformer.",
+        "It must be bonded to the grounded conductor of the separately derived system, sized per Table 250.104(D).",
+        "It requires no bonding because it is not part of the primary structural steel.",
+        "It must be bonded directly to the primary supply equipment grounding conductor."
+      ],
+      "correctAnswer": 1,
+      "explanation": "According to NEC 250.30(A)(8), if an exposed metal water piping system is present in the area served by a separately derived system, it must be bonded to the grounded conductor of that separately derived system (at the same point where the grounding electrode conductor is connected). The bonding jumper is sized using Table 250.104(D) based on the size of the largest ungrounded derived conductor.",
+      "necReference": "NEC 250.30(A)(8); 250.104(D)",
+      "sparkyTip": "Transformers create brand new electrical systems. If that new system serves an area with metal water pipes, those pipes must be bonded to the new system's ground, ensuring everything in that specific area stays at the same potential.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M015",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(4)",
+      "difficulty": "master",
+      "questionText": "When selecting a grounding electrode for an indoor separately derived system, NEC 250.30(A)(4) establishes a strict hierarchy. If present and accessible, which of the following grounding electrodes MUST be used before resorting to a driven ground rod?",
+      "options": [
+        "A concrete-encased electrode (Ufer ground) located at the main service.",
+        "The metal structural frame of the building.",
+        "A buried copper ring encircling the transformer.",
+        "A 3/4-inch copper water pipe located in an adjacent bathroom."
+      ],
+      "correctAnswer": 1,
+      "explanation": "\n\nNEC 250.30(A)(4) requires the grounding electrode for a separately derived system to be as near as practicable to the system location. Furthermore, it mandates that the metal structural frame of the building or a metal underground water pipe must be used if they are present and meet the qualifications of an electrode. You cannot bypass building steel right next to the transformer to pull a wire all the way down to a ground rod.",
+      "necReference": "NEC 250.30(A)(4)",
+      "sparkyTip": "Building steel is the king of electrodes for indoor transformers! The Code wants the grounding connection to be as short and straight as possible. If an I-beam is nearby and qualified, use it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M016",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(2)(b)",
+      "difficulty": "master",
+      "questionText": "A separately derived system feeds two separate secondary disconnecting means housed in individual enclosures. The supply-side bonding jumper (SSBJ) for each enclosure is routed with the phase conductors from the source. How is the SSBJ installed in each respective raceway sized?",
+      "options": [
+        "Based on the total combined circular mil area of all ungrounded conductors leaving the transformer.",
+        "Based on the size of the ungrounded secondary conductors enclosing that specific SSBJ, using Table 250.102(C)(1).",
+        "It must be a minimum of 1/0 AWG for all parallel installations, regardless of phase conductor size.",
+        "Based on the overcurrent protective device rating at the primary of the transformer."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.30(A)(2)(b) deals with multiple enclosures. It states that when a separately derived system supplies multiple disconnects, the supply-side bonding jumper in each raceway is sized strictly based on the largest ungrounded derived conductor in THAT specific raceway or cable, using Table 250.102(C)(1). You do not sum the conductors across different enclosures.",
+      "necReference": "NEC 250.30(A)(2)(b)",
+      "sparkyTip": "When piping to multiple disconnects from one transformer, treat each pipe like its own island. Size the bonding jumper inside based ONLY on the phase wires running right next to it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M017",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(1) & 250.28(A)",
+      "difficulty": "master",
+      "questionText": "An installer is fabricating a system bonding jumper (SBJ) to connect the X0 terminal of a transformer to the equipment grounding bus. According to NEC 250.28, which of the following is an APPROVED material or method for this system bonding jumper?",
+      "options": [
+        "A stranded aluminum wire, provided it is treated with anti-oxidant compound.",
+        "A braided steel strap attached with self-tapping sheet metal screws.",
+        "A copper bus, screw, or wire properly sized according to 250.102(C).",
+        "Both the first and third options are approved."
+      ],
+      "correctAnswer": 3,
+      "explanation": "NEC 250.30(A)(1) points to 250.28 for the material requirements of the system bonding jumper. 250.28(A) states the jumper shall be copper, aluminum, copper-clad aluminum, or other corrosion-resistant material. It can be a wire, bus, screw, or similar suitable conductor. Therefore, both a properly terminated aluminum wire and a copper bus/screw are perfectly legal.",
+      "necReference": "NEC 250.28(A); 250.30(A)(1)",
+      "sparkyTip": "The SBJ doesn't have to be a piece of wire! Often, manufacturers provide a thick copper busbar or a specialized green bonding screw. As long as the material meets 250.28 and is sized correctly, it’s Code compliant.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M018",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(B)",
+      "difficulty": "master",
+      "questionText": "An industrial facility utilizes an ungrounded 480V, 3-phase delta dry-type transformer (a separately derived system) to maintain operations during a single ground fault. According to NEC 250.30(B), where must the grounding electrode conductor (GEC) for this ungrounded system terminate?",
+      "options": [
+        "To the X0 terminal of the secondary winding.",
+        "To the metal enclosure of the separately derived system.",
+        "To the neutral bus of the primary supplying equipment.",
+        "Ungrounded systems do not require a grounding electrode conductor."
+      ],
+      "correctAnswer": 1,
+      "explanation": "\n\nEven though the system conductors (phases) are intentionally left ungrounded, NEC 250.30(B) strictly requires the metal enclosure of the separately derived system to be connected to a grounding electrode. The GEC must terminate directly to the metal enclosure to stabilize the voltage to ground and provide a path for lightning or high-voltage surges.",
+      "necReference": "NEC 250.30(B)(1)",
+      "sparkyTip": "Ungrounded means the wires don't touch the dirt, but the box still must! The transformer enclosure still needs a GEC to deal with lightning and static, even on an ungrounded delta system.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M019",
+      "category": "grounding-bonding",
+      "necArticle": "250.30(A)(5) & 250.64(C)",
+      "difficulty": "master",
+      "questionText": "During a commercial remodel, a separately derived system is relocated. The existing grounding electrode conductor (GEC) is too short to reach the new transformer location. Under what conditions does the NEC permit splicing the GEC to extend it?",
+      "options": [
+        "It may be spliced using a standard split-bolt connector, provided it remains accessible.",
+        "It may be spliced using an irreversible compression-type connector listed for the purpose or by the exothermic welding process.",
+        "It may be spliced inside a junction box using a standard mechanical terminal block.",
+        "The GEC is never permitted to be spliced; a continuous conductor must be pulled from the transformer to the electrode."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.30(A)(5) requires the GEC to be installed per 250.64. NEC 250.64(C) states that grounding electrode conductors must generally be installed in one continuous length without a splice or joint. However, it specifically permits splicing if done by irreversible compression-type connectors listed for the purpose or by the exothermic welding (Cadweld) process.",
+      "necReference": "NEC 250.64(C)(1)",
+      "sparkyTip": "You can't just wire-nut or split-bolt a Grounding Electrode Conductor! If it doesn't reach, you have two choices: pull a brand new continuous wire, or use an irreversible crimp/Cadweld to extend it. No loose connections allowed on the lightning path!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ]
+}

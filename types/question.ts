@@ -2,6 +2,8 @@
 
 export type Difficulty = "apprentice" | "journeyman" | "master";
 
+export type NecVersion = "2023" | "2026";
+
 export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "mobile-homes" | "swimming-pools" | "termination-derating";
 
 export interface Category {
@@ -22,6 +24,7 @@ export interface Question {
   explanation: string;
   necReference: string;
   sparkyTip: string;
+  necVersions: NecVersion[];
 }
 
 // Category definitions

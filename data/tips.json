@@ -87,6 +87,22 @@
       ],
       "necReference": "NEC 240.4(B), 240.4(C), 430.52, 430.62",
       "sparkyBottomLine": "Memorize this rhyme: 'If it starts a load, give it room (Up). If it feeds a panel, seal the doom (Down).'"
+    },
+    {
+      "id": "TIP-007",
+      "type": "tip-of-the-day",
+      "title": "The 'Green Stripe' Secret: Redundant Grounding",
+      "category": "Special Occupancies",
+      "difficulty": "apprentice",
+      "content": "In hospitals and patient care areas, safety is doubled up. To prevent electric shock to patients, the NEC requires **Redundant Grounding** via two separate paths back to the panel.\n\n\n\n**Path 1 (The Armor):** Hospital-grade MC (MCI-A) has a bare aluminum bonding strip that stays in contact with the metal armor, making the armor itself a 'qualified' ground path.\n\n**Path 2 (The Wire):** A dedicated, insulated green copper equipment grounding conductor (EGC) pulled inside that same cable.",
+      "rulesToRemember": [
+        "Patient Care Spaces: Require two ground paths (517.13)",
+        "The Aluminum Strip: Stays in contact with the armor to lower impedance",
+        "MCI-A Identification: Usually marked with a green stripe on the outside armor",
+        "Termination: The aluminum strip is NOT a conductor; cut it flush or fold it back"
+      ],
+      "necReference": "NEC 517.13(A) & (B), 250.118(10)",
+      "sparkyBottomLine": "Think of it as 'Belt and Suspenders.' If the green wire fails, the armor is already bonded and ready to trip the breaker."
     }
   ]
 }

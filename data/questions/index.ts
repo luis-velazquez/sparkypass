@@ -1,18 +1,23 @@
-import boxFill from "./box-fill.json";
-import chapter9Tables from "./chapter-9-tables.json";
-import conduitFill from "./conduit-fill.json";
-import groundingBonding from "./grounding-bonding.json";
-import loadCalculations from "./load-calculations.json";
-import mobileHomes from "./mobile-homes.json";
-import motorCalculations from "./motor-calculations.json";
-import resistance from "./resistance.json";
-import services from "./services.json";
-import swimmingPools from "./swimming-pools.json";
-import temperatureCorrection from "./temperature-correction.json";
-import terminationDerating from "./termination-derating.json";
-import textbookNavigation from "./textbook-navigation.json";
-import transformerSizing from "./transformer-sizing.json";
-import voltageDrop from "./voltage-drop.json";
+// General Code (Chapters 1–4)
+import boxFill from "./general-code/box-fill.json";
+import groundingBonding from "./general-code/grounding-bonding.json";
+import loadCalculations from "./general-code/load-calculations.json";
+import motorCalculations from "./general-code/motor-calculations.json";
+import services from "./general-code/services.json";
+import temperatureCorrection from "./general-code/temperature-correction.json";
+import terminationDerating from "./general-code/termination-derating.json";
+import textbookNavigation from "./general-code/textbook-navigation.json";
+import transformerSizing from "./general-code/transformer-sizing.json";
+
+// Tables (Chapter 9)
+import chapter9Tables from "./tables/chapter-9-tables.json";
+import conduitFill from "./tables/conduit-fill.json";
+import resistance from "./tables/resistance.json";
+import voltageDrop from "./tables/voltage-drop.json";
+
+// Special Code (Chapters 5–7)
+import mobileHomes from "./special-code/mobile-homes.json";
+import swimmingPools from "./special-code/swimming-pools.json";
 
 import type { Question } from "@/types/question";
 

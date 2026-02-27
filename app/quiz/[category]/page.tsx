@@ -103,7 +103,11 @@ const STREAK_BROKEN_MESSAGES = [
   "Hey, streaks are made to be broken... and rebuilt! You're still making progress!",
 ];
 
-const DEFAULT_QUESTIONS_PER_QUIZ = 60;
+const QUESTIONS_PER_DIFFICULTY: Record<Difficulty, number> = {
+  apprentice: 10,
+  journeyman: 15,
+  master: 20,
+};
 const SESSION_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour
 const SESSION_WARNING_MS = 5 * 60 * 1000; // 5 minutes before timeout
 const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
@@ -384,8 +388,7 @@ export default function QuizTakingPage() {
   // User quiz preferences
   const { status: authStatus } = useSession();
   const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
-  const [questionsPerQuiz, setQuestionsPerQuiz] = useState(DEFAULT_QUESTIONS_PER_QUIZ);
-  const [focusMode, setFocusMode] = useState<string | null>(null);
+  const [profileQuizLength, setProfileQuizLength] = useState<number | null>(null);
 
   // Resume prompt state
   const [showResumePrompt, setShowResumePrompt] = useState(false);
@@ -507,11 +510,8 @@ export default function QuizTakingPage() {
         if (data?.showHintsOnMaster !== undefined) {
           setShowHintsOnHard(data.showHintsOnMaster);
         }
-        if (data?.questionsPerQuiz !== undefined) {
-          setQuestionsPerQuiz(data.questionsPerQuiz);
-        }
-        if (data?.focusMode !== undefined) {
-          setFocusMode(data.focusMode || null);
+        if (data?.questionsPerQuiz > 0) {
+          setProfileQuizLength(data.questionsPerQuiz);
         }
       })
       .catch(() => {});
@@ -598,16 +598,19 @@ export default function QuizTakingPage() {
   // Handle starting fresh
   const handleStartFresh = useCallback(() => {
     clearSavedProgress();
-    setQuizState(createInitialState(categorySlug, selectedDifficulty ?? undefined, questionsPerQuiz));
+    const diff = selectedDifficulty ?? "apprentice";
+    const count = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[diff];
+    setQuizState(createInitialState(categorySlug, selectedDifficulty ?? undefined, count));
     setShowResumePrompt(false);
     setSavedProgress(null);
-  }, [categorySlug, selectedDifficulty, questionsPerQuiz, clearSavedProgress]);
+  }, [categorySlug, selectedDifficulty, profileQuizLength, clearSavedProgress]);
 
   // Handle difficulty selection
   const handleDifficultySelect = useCallback((difficulty: Difficulty) => {
     setSelectedDifficulty(difficulty);
-    setQuizState(createInitialState(categorySlug, difficulty, questionsPerQuiz));
-  }, [categorySlug, questionsPerQuiz]);
+    const count = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[difficulty];
+    setQuizState(createInitialState(categorySlug, difficulty, count));
+  }, [categorySlug, profileQuizLength]);
 
   // Auto-save progress when quiz state changes
   useEffect(() => {
@@ -1251,11 +1254,13 @@ export default function QuizTakingPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {DIFFICULTY_CONFIG.map((diff) => {
-                const count = getQuestionCountByCategoryAndDifficulty(categorySlug, diff.value);
+                const poolCount = getQuestionCountByCategoryAndDifficulty(categorySlug, diff.value);
+                const quizLength = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[diff.value];
+                const actualCount = Math.min(quizLength, poolCount);
+                const isCustom = profileQuizLength !== null;
                 const unlockInfo = unlocks[diff.value];
                 const isLocked = authStatus === "authenticated" && !unlocksLoading && unlockInfo && !unlockInfo.unlocked;
-                const isFocusBlocked = focusMode !== null && diff.value !== focusMode;
-                const isDisabled = count === 0 || isLocked || unlocksLoading || isFocusBlocked;
+                const isDisabled = poolCount === 0 || isLocked || unlocksLoading;
                 const previousDifficulty = diff.value === "journeyman" ? "Apprentice" : diff.value === "master" ? "Journeyman" : null;
                 const previousBest = diff.value === "journeyman"
                   ? unlocks["apprentice"]?.bestPercentage
@@ -1276,13 +1281,9 @@ export default function QuizTakingPage() {
                         {isLocked && <Lock className="h-4 w-4" />}
                         {diff.label}
                       </span>
-                      {isFocusBlocked && !isLocked ? (
-                        <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground">
-                          Focus Mode
-                        </span>
-                      ) : !isLocked ? (
+                      {!isLocked ? (
                         <span className={`text-xs px-2 py-0.5 rounded-full ${diff.bg} ${diff.color}`}>
-                          {count} questions
+                          {actualCount} questions{isCustom && " · Custom"}
                         </span>
                       ) : (
                         previousBest !== null && previousBest !== undefined && (
