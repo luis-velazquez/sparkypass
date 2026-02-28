@@ -20,6 +20,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
+import { useNecVersion, getNecReference, getExplanation } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
 
 interface ExamResults {
@@ -40,6 +41,7 @@ export default function ExamResultsPage() {
   const router = useRouter();
   const params = useParams();
   const examId = params.examId as string;
+  const { necVersion } = useNecVersion();
 
   const [results, setResults] = useState<ExamResults | null>(null);
   const [showDetails, setShowDetails] = useState(false);
@@ -336,11 +338,11 @@ export default function ExamResultsPage() {
                   {question.explanation && (
                     <div className="mt-3 p-3 bg-muted/50 dark:bg-stone-800/50 rounded-lg">
                       <p className="text-sm text-muted-foreground">
-                        <strong>Explanation:</strong> {question.explanation}
+                        <strong>Explanation:</strong> {getExplanation(question, necVersion)}
                       </p>
                       {question.necReference && (
                         <p className="text-xs text-purple dark:text-purple-light mt-1">
-                          Reference: {question.necReference}
+                          Reference: {getNecReference(question, necVersion)}
                         </p>
                       )}
                     </div>

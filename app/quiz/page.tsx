@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BookOpen, Zap, Shield, ChevronRight, Navigation, Table, Box, CircleDot, TrendingDown, Cog, Thermometer, Omega, GitBranch, Trophy, Lock, Library, TableProperties, HardHat, Radio, Home, Waves, Flame } from "lucide-react";
+import { BookOpen, Zap, Shield, ChevronRight, Table, Box, CircleDot, TrendingDown, Cog, Thermometer, Omega, GitBranch, Trophy, Lock, Library, TableProperties, HardHat, Radio, Home, Waves, Flame, Cable } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
 import { CATEGORIES, PARENT_CATEGORIES, type Category } from "@/types/question";
 import { getCategoryCounts } from "@/lib/questions";
+import { useNecVersion } from "@/lib/nec-version";
 
 interface QuizResultData {
   score: number;
@@ -24,8 +25,7 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   "load-calculations": BookOpen,
   "grounding-bonding": Shield,
   services: Zap,
-  "textbook-navigation": Navigation,
-  "chapter-9-tables": Table,
+"chapter-9-tables": Table,
   "box-fill": Box,
   "conduit-fill": CircleDot,
   "voltage-drop": TrendingDown,
@@ -36,6 +36,7 @@ const categoryIcons: Record<string, React.ComponentType<{ className?: string }>>
   "mobile-homes": Home,
   "swimming-pools": Waves,
   "termination-derating": Flame,
+  "wiring-methods": Cable,
 };
 
 // Map category slugs to colors
@@ -55,12 +56,7 @@ const categoryColors = {
     bg: "bg-amber/10",
     border: "hover:border-amber/50",
   },
-  "textbook-navigation": {
-    icon: "text-blue-500 dark:text-blue-400",
-    bg: "bg-blue-500/10",
-    border: "hover:border-blue-500/50",
-  },
-  "chapter-9-tables": {
+"chapter-9-tables": {
     icon: "text-orange-500 dark:text-orange-400",
     bg: "bg-orange-500/10",
     border: "hover:border-orange-500/50",
@@ -115,6 +111,11 @@ const categoryColors = {
     bg: "bg-orange-600/10",
     border: "hover:border-orange-600/50",
   },
+  "wiring-methods": {
+    icon: "text-lime-600 dark:text-lime-400",
+    bg: "bg-lime-600/10",
+    border: "hover:border-lime-600/50",
+  },
 };
 
 // Map parent category slugs to icons
@@ -128,7 +129,8 @@ const parentCategoryIcons: Record<string, React.ComponentType<{ className?: stri
 const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
 
 export default function QuizPage() {
-  const categoryCounts = getCategoryCounts();
+  const { necVersion } = useNecVersion();
+  const categoryCounts = getCategoryCounts(necVersion);
   const [lastScores, setLastScores] = useState<Record<string, QuizResultData>>({});
   const [inProgressCategories, setInProgressCategories] = useState<Set<string>>(new Set());
 

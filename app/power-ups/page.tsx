@@ -1,0 +1,190 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { ChevronLeft, Loader2, Zap, Package } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { SparkyMessage } from "@/components/sparky";
+import { PowerUpShelf, ActivePowerUpBanner } from "@/components/power-ups";
+import type { PowerUpTypeValue } from "@/lib/db/schema";
+
+interface ActivePowerUp {
+  id: string;
+  type: PowerUpTypeValue;
+  purchasedAt: string | null;
+  expiresAt: string | null;
+}
+
+interface InventoryItem {
+  id: string;
+  type: PowerUpTypeValue;
+  purchasedAt: string | null;
+}
+
+export default function PowerUpsPage() {
+  const { status } = useSession();
+  const router = useRouter();
+  const [wattsBalance, setWattsBalance] = useState(0);
+  const [active, setActive] = useState<ActivePowerUp[]>([]);
+  const [inventory, setInventory] = useState<InventoryItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
+  const fetchPowerUps = useCallback(() => {
+    fetch("/api/power-ups")
+      .then((res) => res.json())
+      .then((data) => {
+        setWattsBalance(data.wattsBalance || 0);
+        setActive(data.active || []);
+        setInventory(data.inventory || []);
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+    fetchPowerUps();
+  }, [status, fetchPowerUps]);
+
+  const handlePurchase = async (type: PowerUpTypeValue) => {
+    try {
+      const res = await fetch("/api/power-ups/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setWattsBalance(data.wattsBalance);
+        window.dispatchEvent(new CustomEvent("watts-updated", { detail: { balance: data.wattsBalance } }));
+        fetchPowerUps();
+      }
+    } catch {
+      // Silently fail
+    }
+  };
+
+  const handleActivate = async (purchaseId: string) => {
+    try {
+      const res = await fetch("/api/power-ups/activate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ purchaseId }),
+      });
+      if (res.ok) {
+        fetchPowerUps();
+      }
+    } catch {
+      // Silently fail
+    }
+  };
+
+  if (status === "loading" || loading) {
+    return (
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-amber" />
+        </div>
+      </main>
+    );
+  }
+
+  return (
+    <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+      <div
+        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }}
+      />
+      <div className="container mx-auto px-4 py-8 relative z-10">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-6"
+        >
+          <div className="flex items-center gap-2 mb-2">
+            <Link
+              href="/dashboard"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Link>
+            <h1 className="text-2xl md:text-3xl font-bold font-display text-foreground">
+              <span className="text-amber dark:text-sparky-green">Power-Ups</span>
+            </h1>
+          </div>
+          <div className="flex items-center justify-between">
+            <p className="text-muted-foreground">
+              Spend your Watts on study power-ups.
+            </p>
+            <div className="flex items-center gap-1 text-lg font-bold text-amber dark:text-sparky-green">
+              <Zap className="h-5 w-5 fill-current" />
+              {wattsBalance.toLocaleString()}W
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Sparky message */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="mb-6"
+        >
+          <SparkyMessage
+            size="medium"
+            message="Use your hard-earned Watts to buy power-ups! Protect your streak with a Fuse, reveal formulas with a Formula Sheet, or instantly reset a tripped breaker."
+          />
+        </motion.div>
+
+        {/* Active power-ups */}
+        {active.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-6"
+          >
+            <Card className="border-amber/30 dark:border-sparky-green/20 bg-amber/5 dark:bg-sparky-green/5">
+              <CardContent className="p-4">
+                <h2 className="text-sm font-bold text-foreground mb-2 flex items-center gap-2">
+                  <Package className="h-4 w-4 text-amber dark:text-sparky-green" />
+                  Active Power-Ups
+                </h2>
+                <ActivePowerUpBanner activePowerUps={active} />
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {/* Power-up shop */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+        >
+          <PowerUpShelf
+            wattsBalance={wattsBalance}
+            inventory={inventory}
+            onPurchase={handlePurchase}
+            onActivate={handleActivate}
+          />
+        </motion.div>
+      </div>
+    </main>
+  );
+}

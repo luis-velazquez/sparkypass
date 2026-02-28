@@ -11,7 +11,8 @@ import {
   ClipboardCheck,
   Calendar,
   Flame,
-  Star,
+  Zap,
+  Activity,
   TrendingUp,
   AlertTriangle,
   CheckCircle2,
@@ -22,13 +23,23 @@ import {
   ChevronDown,
   ChevronRight,
   Play,
+  ShieldAlert,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { ExamCountdown } from "@/components/exam";
-import { getLevelTitle, getXPProgress } from "@/lib/levels";
+import { getTierTitle, getTierVoltage } from "@/lib/levels";
+import { getAmpsLabel } from "@/lib/amps";
+import {
+  getDashboardGreeting,
+  getDecayWarning,
+  getStreakCelebration,
+  getReviewReminder,
+} from "@/lib/sparky-messages";
+import type { SparkyVariant } from "@/components/sparky/SparkyAvatar";
 import { CATEGORIES } from "@/types/question";
+import type { VoltageTier } from "@/types/reward-system";
 import { SubscriptionBanner } from "@/components/subscription/SubscriptionBanner";
 import { TrialStatusHeader } from "@/components/subscription/TrialStatusHeader";
 import { DailyChallengeBanner } from "@/components/daily";
@@ -56,8 +67,10 @@ interface SavedQuestion {
 interface UserData {
   name: string;
   username: string | null;
-  xp: number;
-  level: number;
+  wattsBalance: number;
+  wattsLifetime: number;
+  voltageTier: VoltageTier;
+  currentAmps: number;
   studyStreak: number;
   targetExamDate: string | null;
   hasSeenOnboarding: boolean;
@@ -79,7 +92,7 @@ interface RecentSession {
   questionsCorrect: number | null;
   startedAt: string | null;
   endedAt: string | null;
-  xpEarned: number;
+  wattsEarned: number;
 }
 
 interface SavedQuizProgress {
@@ -100,13 +113,15 @@ interface ProgressStats {
   answeredToday: number;
   categoryStats: CategoryStat[];
   recentSessions: RecentSession[];
-  xp: number;
-  level: number;
+  wattsBalance: number;
+  wattsLifetime: number;
+  voltageTier: VoltageTier;
+  currentAmps: number;
   studyStreak: number;
   bestStudyStreak: number;
   dailyChallengeCompleted: boolean;
-  dailyChallengeXpEarned: number;
-  dailyChallengeXpReward: number;
+  dailyChallengeWattsEarned: number;
+  dailyChallengeWattsReward: number;
 }
 
 const features = [
@@ -155,10 +170,39 @@ const features = [
     bg: "bg-orange-500/10 group-hover:bg-orange-500/20 dark:bg-orange-500/15 dark:group-hover:bg-orange-500/25",
     tourId: "feature-daily-challenge",
   },
+  {
+    title: "Circuit Breaker",
+    description: "High-stakes mode — 2 wrong answers trips the breaker!",
+    icon: ShieldAlert,
+    href: "/circuit-breaker",
+    color: "text-red-500 dark:text-red-400",
+    bg: "bg-red-500/10 group-hover:bg-red-500/20 dark:bg-red-500/15 dark:group-hover:bg-red-500/25",
+    tourId: "feature-circuit-breaker",
+  },
 ];
 
-function getSparkyMessage(daysUntilExam: number | null, weakAreas: string[]): string {
-  // First priority: weak areas suggestion
+function getSparkyReaction(
+  daysUntilExam: number | null,
+  weakAreas: string[],
+  voltageTier: VoltageTier,
+  currentAmps: number,
+  studyStreak: number,
+  dueReviewCount: number,
+): { message: string; variant: SparkyVariant } {
+  // Priority 1: Streak celebration (exact milestone hit)
+  const streakReaction = getStreakCelebration(studyStreak);
+  if (streakReaction) return streakReaction;
+
+  // Priority 2: Decay warning (low amps)
+  const decayReaction = getDecayWarning(currentAmps);
+  if (decayReaction) return decayReaction;
+
+  // Priority 3: Review reminder (many due)
+  if (dueReviewCount >= 10) {
+    return getReviewReminder(dueReviewCount);
+  }
+
+  // Priority 4: Weak areas
   if (weakAreas.length > 0) {
     const categoryNames = weakAreas.map(slug => {
       const cat = CATEGORIES.find(c => c.slug === slug);
@@ -166,45 +210,38 @@ function getSparkyMessage(daysUntilExam: number | null, weakAreas: string[]): st
     });
 
     if (weakAreas.length === 1) {
-      return `I notice ${categoryNames[0]} could use some extra attention. Let's strengthen that area together! Practice makes perfect.`;
+      return { message: `I notice ${categoryNames[0]} could use some extra attention. Let's strengthen that area together! Practice makes perfect.`, variant: "thinking" };
     }
-    return `Your weak spots are ${categoryNames.join(" and ")}. Don't worry - focusing on these areas will boost your overall score significantly!`;
+    return { message: `Your weak spots are ${categoryNames.join(" and ")}. Don't worry - focusing on these areas will boost your overall score significantly!`, variant: "thinking" };
   }
 
-  // Second priority: exam countdown
-  if (daysUntilExam === null) {
-    return "Welcome back! Set your target exam date to get personalized study recommendations and countdown!";
+  // Priority 5: Exam countdown
+  if (daysUntilExam !== null) {
+    if (daysUntilExam < 0) {
+      return { message: "Your exam date has passed! How did it go? Update your target date if you're planning to retake or celebrate your success!", variant: "default" };
+    }
+    if (daysUntilExam === 0) {
+      return { message: "Today's the day! You've put in the work, now trust yourself. Take deep breaths, read each question carefully, and remember - you've got this!", variant: "excited" };
+    }
+    if (daysUntilExam === 1) {
+      return { message: "One more day! Get a good night's sleep, eat a solid breakfast tomorrow, and arrive early. You're as ready as you'll ever be!", variant: "excited" };
+    }
+    if (daysUntilExam <= 3) {
+      return { message: "The final stretch! Focus on reviewing your bookmarked questions and weak areas. Light study only - no cramming!", variant: "thinking" };
+    }
+    if (daysUntilExam <= 7) {
+      return { message: "One week to go! This is a great time to take a full mock exam and review any trouble spots. You're doing great!", variant: "default" };
+    }
+    if (daysUntilExam <= 14) {
+      return { message: "Two weeks out! Keep up your daily practice and focus on understanding the 'why' behind code requirements. Consistency is key!", variant: "default" };
+    }
+    if (daysUntilExam <= 30) {
+      return { message: "A month to go - plenty of time to sharpen your skills! Make sure you're covering all the major NEC articles in your study plan.", variant: "default" };
+    }
   }
 
-  if (daysUntilExam < 0) {
-    return "Your exam date has passed! How did it go? Update your target date if you're planning to retake or celebrate your success!";
-  }
-
-  if (daysUntilExam === 0) {
-    return "Today's the day! You've put in the work, now trust yourself. Take deep breaths, read each question carefully, and remember - you've got this!";
-  }
-
-  if (daysUntilExam === 1) {
-    return "One more day! Get a good night's sleep, eat a solid breakfast tomorrow, and arrive early. You're as ready as you'll ever be!";
-  }
-
-  if (daysUntilExam <= 3) {
-    return "The final stretch! Focus on reviewing your bookmarked questions and weak areas. Light study only - no cramming!";
-  }
-
-  if (daysUntilExam <= 7) {
-    return "One week to go! This is a great time to take a full mock exam and review any trouble spots. You're doing great!";
-  }
-
-  if (daysUntilExam <= 14) {
-    return "Two weeks out! Keep up your daily practice and focus on understanding the 'why' behind code requirements. Consistency is key!";
-  }
-
-  if (daysUntilExam <= 30) {
-    return "A month to go - plenty of time to sharpen your skills! Make sure you're covering all the major NEC articles in your study plan.";
-  }
-
-  return "Great job staying consistent with your studies! Remember, every question you practice brings you closer to that Master license!";
+  // Priority 6: Tier-appropriate greeting
+  return getDashboardGreeting(voltageTier);
 }
 
 function formatTimeAgo(dateString: string | null): string {
@@ -227,8 +264,7 @@ const CATEGORY_COLORS: Record<string, string> = {
   "load-calculations": "#8B5CF6",
   "grounding-bonding": "#10B981",
   "services": "#F59E0B",
-  "textbook-navigation": "#3B82F6",
-  "chapter-9-tables": "#F97316",
+"chapter-9-tables": "#F97316",
   "box-fill": "#06B6D4",
   "conduit-fill": "#F43F5E",
   "voltage-drop": "#EAB308",
@@ -422,6 +458,8 @@ export default function DashboardPage() {
   const [questionsExpanded, setQuestionsExpanded] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showTour, setShowTour] = useState(false);
+  const [dueReviewCount, setDueReviewCount] = useState(0);
+  const [powerGridSummary, setPowerGridSummary] = useState<{ energized: number; brownedOut: number; flickering: number; deEnergized: number; overallProgress: number } | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -460,14 +498,16 @@ export default function DashboardPage() {
         setSavedQuizProgressList(found);
       }
 
-      // Fetch user data, progress stats, bookmarks, and flashcard bookmarks in parallel
+      // Fetch user data, progress stats, bookmarks, flashcard bookmarks, and due reviews in parallel
       Promise.all([
         fetch("/api/user").then((res) => res.json()),
         fetch("/api/progress/stats").then((res) => res.json()),
         fetch("/api/bookmarks").then((res) => res.json()),
         fetch("/api/flashcard-bookmarks").then((res) => res.json()),
+        fetch("/api/review/due?limit=1").then((res) => res.json()).catch(() => ({ totalDue: 0 })),
+        fetch("/api/power-grid").then((res) => res.json()).catch(() => null),
       ])
-        .then(([user, stats, bookmarksData, flashcardBookmarksData]) => {
+        .then(([user, stats, bookmarksData, flashcardBookmarksData, dueData, powerGridData]) => {
           setUserData(user);
           setProgressStats(stats);
           // Transform question bookmarks to match expected format
@@ -481,6 +521,18 @@ export default function DashboardPage() {
           setSavedQuestions(questions);
           // Set flashcard bookmarks
           setSavedFlashcards(flashcardBookmarksData.bookmarks || []);
+          // Set due review count
+          setDueReviewCount(dueData.totalDue || 0);
+          // Set power grid summary
+          if (powerGridData?.categories) {
+            setPowerGridSummary({
+              energized: powerGridData.energizedCount || 0,
+              brownedOut: powerGridData.brownedOutCount || 0,
+              flickering: powerGridData.flickeringCount || 0,
+              deEnergized: powerGridData.deEnergizedCount || 0,
+              overallProgress: powerGridData.overallProgress || 0,
+            });
+          }
           setLoading(false);
 
           // Onboarding / tour flow
@@ -559,19 +611,22 @@ export default function DashboardPage() {
   };
 
   const displayName = userData?.username || userData?.name || session?.user?.name || "Electrician";
-  const xp = progressStats?.xp ?? userData?.xp ?? 0;
-  const level = progressStats?.level ?? userData?.level ?? 1;
+  const wattsBalance = progressStats?.wattsBalance ?? userData?.wattsBalance ?? 0;
+  const wattsLifetime = progressStats?.wattsLifetime ?? userData?.wattsLifetime ?? 0;
+  const voltageTier = (progressStats?.voltageTier ?? userData?.voltageTier ?? 1) as VoltageTier;
+  const currentAmps = progressStats?.currentAmps ?? userData?.currentAmps ?? 0;
   const studyStreak = progressStats?.studyStreak ?? userData?.studyStreak ?? 0;
   const bestStudyStreak = progressStats?.bestStudyStreak ?? 0;
   const dailyChallengeCompleted = progressStats?.dailyChallengeCompleted ?? false;
-  const dailyChallengeXpEarned = progressStats?.dailyChallengeXpEarned ?? 0;
-  const dailyChallengeXpReward = progressStats?.dailyChallengeXpReward ?? 25;
+  const dailyChallengeWattsEarned = progressStats?.dailyChallengeWattsEarned ?? 0;
+  const dailyChallengeWattsReward = progressStats?.dailyChallengeWattsReward ?? 30;
   const targetExamDate = userData?.targetExamDate
     ? new Date(userData.targetExamDate)
     : null;
 
-  const xpProgress = getXPProgress(xp, level);
-  const levelTitle = getLevelTitle(level);
+  const tierTitle = getTierTitle(voltageTier);
+  const tierVoltage = getTierVoltage(voltageTier);
+  const ampsLabel = getAmpsLabel(currentAmps);
 
   const daysUntilExam = targetExamDate
     ? Math.ceil(
@@ -584,7 +639,7 @@ export default function DashboardPage() {
     .filter((cat) => cat.answered > 0 && cat.accuracy < 70)
     .map((cat) => cat.slug);
 
-  const sparkyMessage = getSparkyMessage(daysUntilExam, weakAreas);
+  const sparkyReaction = getSparkyReaction(daysUntilExam, weakAreas, voltageTier, currentAmps, studyStreak, dueReviewCount);
 
   const totalAnswered = progressStats?.totalAnswered ?? 0;
   const uniqueQuestionsAnswered = progressStats?.uniqueQuestionsAnswered ?? 0;
@@ -646,10 +701,44 @@ export default function DashboardPage() {
             completed={dailyChallengeCompleted}
             studyStreak={studyStreak}
             bestStudyStreak={bestStudyStreak}
-            xpReward={dailyChallengeXpReward}
-            xpEarned={dailyChallengeXpEarned}
+            wattsReward={dailyChallengeWattsReward}
+            wattsEarned={dailyChallengeWattsEarned}
           />
         </div>
+
+        {/* Due Reviews Banner */}
+        {dueReviewCount > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05 }}
+            className="mb-6"
+          >
+            <Link href="/review">
+              <div className="relative overflow-hidden rounded-xl border border-purple/40 dark:border-purple/30 bg-gradient-to-r from-purple/10 via-purple/5 to-transparent dark:from-purple/10 dark:via-purple/5 dark:to-transparent p-5 group hover:border-purple/60 hover:shadow-[0_0_24px_rgba(139,92,246,0.12)] transition-all cursor-pointer pressable">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-purple/20 dark:bg-stone-800 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
+                      <Clock className="h-6 w-6 text-purple dark:text-purple-light" />
+                    </div>
+                    <div>
+                      <p className="text-base font-bold text-foreground">
+                        {dueReviewCount} question{dueReviewCount !== 1 ? "s" : ""} due for review
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Spaced repetition keeps your knowledge fresh
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2 text-purple dark:text-purple-light font-semibold text-sm">
+                    <span className="hidden sm:inline">Start Review</span>
+                    <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        )}
 
         {/* Continue Where You Left Off Banner */}
         {savedQuizProgressList.length > 0 && (() => {
@@ -724,7 +813,7 @@ export default function DashboardPage() {
           <h2 className="text-xl font-semibold text-foreground mb-4 font-display">
             Start Studying
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
@@ -763,32 +852,42 @@ export default function DashboardPage() {
             <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                  <Star className="h-4 w-4 text-amber dark:text-amber-light" />
-                  Level & XP
+                  <Zap className="h-4 w-4 text-amber dark:text-sparky-green fill-current" />
+                  Voltage & Watts
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="flex items-baseline gap-2 mb-2">
-                  <span className="text-3xl font-bold text-foreground">
-                    Level {level}
+                <div className="flex items-baseline gap-2 mb-1">
+                  <span className="text-3xl font-bold text-amber dark:text-sparky-green">
+                    {tierVoltage}
                   </span>
                   <span className="text-sm text-muted-foreground">
-                    {levelTitle}
+                    {tierTitle}
                   </span>
                 </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">
-                      {xp.toLocaleString()} XP
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="flex items-center gap-1 text-sm font-semibold text-amber dark:text-sparky-green">
+                    <Zap className="h-3.5 w-3.5 fill-current" />
+                    {wattsBalance.toLocaleString()}W
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    ({wattsLifetime.toLocaleString()}W lifetime)
+                  </span>
+                </div>
+
+                {/* Amps gauge */}
+                <div className="mb-1">
+                  <div className="flex items-center justify-between text-sm mb-1">
+                    <span className="flex items-center gap-1 text-muted-foreground">
+                      <Activity className="h-3.5 w-3.5" />
+                      {currentAmps.toFixed(1)}A
                     </span>
-                    <span className="text-muted-foreground">
-                      {xpProgress.current} / {xpProgress.needed} to next level
-                    </span>
+                    <span className="text-xs text-muted-foreground">{ampsLabel}</span>
                   </div>
-                  <div className="h-3 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
+                  <div className="h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${xpProgress.percentage}%` }}
+                      animate={{ width: `${Math.min((currentAmps / 100) * 100, 100)}%` }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="h-full bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark rounded-full"
                     />
@@ -862,8 +961,8 @@ export default function DashboardPage() {
                     <p className="text-xs text-muted-foreground">today</p>
                   </div>
                   <div className="p-2 rounded-lg bg-muted/50 dark:bg-stone-800/50 text-center">
-                    <p className="text-lg font-bold text-foreground">{xp.toLocaleString()}</p>
-                    <p className="text-xs text-muted-foreground">total XP</p>
+                    <p className="text-lg font-bold text-foreground">{wattsLifetime.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">total Watts</p>
                   </div>
                 </div>
 
@@ -936,8 +1035,76 @@ export default function DashboardPage() {
           transition={{ duration: 0.5, delay: 0.5 }}
           className="mb-8"
         >
-          <SparkyMessage size="medium" message={sparkyMessage} />
+          <SparkyMessage size="medium" message={sparkyReaction.message} variant={sparkyReaction.variant} />
         </motion.div>
+
+        {/* Mini Power Grid Widget */}
+        {powerGridSummary && !isNewUser && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.55 }}
+            className="mb-8"
+          >
+            <Link href="/power-grid">
+              <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:border-emerald/30 dark:hover:border-sparky-green/20 transition-all pressable cursor-pointer">
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <Activity className="h-4 w-4 text-emerald dark:text-sparky-green" />
+                      <span className="text-sm font-bold text-foreground">Power Grid</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <span>View all</span>
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </div>
+                  </div>
+                  {/* Progress bar */}
+                  <div className="h-2 rounded-full bg-stone-200 dark:bg-stone-800 overflow-hidden mb-3">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${powerGridSummary.overallProgress}%` }}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                      className={`h-full rounded-full ${
+                        powerGridSummary.overallProgress >= 75
+                          ? "bg-emerald dark:bg-sparky-green"
+                          : powerGridSummary.overallProgress >= 50
+                            ? "bg-amber"
+                            : "bg-stone-400 dark:bg-stone-600"
+                      }`}
+                    />
+                  </div>
+                  {/* Status chips */}
+                  <div className="flex flex-wrap gap-2">
+                    {powerGridSummary.energized > 0 && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green font-medium">
+                        {powerGridSummary.energized} Energized
+                      </span>
+                    )}
+                    {powerGridSummary.brownedOut > 0 && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-amber/10 text-amber font-medium">
+                        {powerGridSummary.brownedOut} Browned Out
+                      </span>
+                    )}
+                    {powerGridSummary.flickering > 0 && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-amber/10 text-amber font-medium animate-pulse">
+                        {powerGridSummary.flickering} Flickering
+                      </span>
+                    )}
+                    {powerGridSummary.deEnergized > 0 && (
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-muted text-muted-foreground font-medium">
+                        {powerGridSummary.deEnergized} De-energized
+                      </span>
+                    )}
+                    <span className="text-xs text-muted-foreground ml-auto font-mono">
+                      {powerGridSummary.overallProgress}% overall
+                    </span>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
+          </motion.div>
+        )}
 
         {/* Saved for Later Section */}
         {(savedFlashcards.length > 0 || savedQuestions.length > 0) && (

@@ -4,7 +4,7 @@ export type Difficulty = "apprentice" | "journeyman" | "master";
 
 export type NecVersion = "2023" | "2026";
 
-export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "textbook-navigation" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "mobile-homes" | "swimming-pools" | "termination-derating";
+export type CategorySlug = "load-calculations" | "grounding-bonding" | "services" | "chapter-9-tables" | "box-fill" | "conduit-fill" | "voltage-drop" | "motor-calculations" | "temperature-correction" | "resistance" | "transformer-sizing" | "mobile-homes" | "swimming-pools" | "termination-derating" | "wiring-methods";
 
 export interface Category {
   slug: CategorySlug;
@@ -16,7 +16,7 @@ export interface Category {
 export interface Question {
   id: string;
   category: CategorySlug;
-  necArticle: string;
+  necArticle?: string;
   difficulty: Difficulty;
   questionText: string;
   options: string[];
@@ -25,6 +25,10 @@ export interface Question {
   necReference: string;
   sparkyTip: string;
   necVersions: NecVersion[];
+  // Optional version-specific overrides (only when content differs by year)
+  necReferences?: Partial<Record<NecVersion, string>>;
+  explanations?: Partial<Record<NecVersion, string>>;
+  sparkyTips?: Partial<Record<NecVersion, string>>;
 }
 
 // Category definitions
@@ -47,13 +51,7 @@ export const CATEGORIES: Category[] = [
     necArticle: "Article 230",
     description: "Service entrance equipment, conductors, and disconnecting means",
   },
-  {
-    slug: "textbook-navigation",
-    name: "Textbook Navigation",
-    necArticle: "Article 90",
-    description: "How to navigate the NEC code book, chapter organization, and finding rules",
-  },
-  {
+{
     slug: "chapter-9-tables",
     name: "Chapter 9 Tables",
     necArticle: "Chapter 9",
@@ -119,6 +117,12 @@ export const CATEGORIES: Category[] = [
     necArticle: "110.14(C) & 310.15",
     description: "Terminal temperature limitations, conductor derating for bundling, and ampacity adjustment calculations",
   },
+  {
+    slug: "wiring-methods",
+    name: "Wiring Methods",
+    necArticle: "Articles 300–398",
+    description: "Raceways, cables, and installation rules for NM, MC, EMT, RMC, and other wiring methods",
+  },
 ];
 
 // Helper to get category by slug
@@ -143,7 +147,7 @@ export const PARENT_CATEGORIES: ParentCategory[] = [
     name: "General Code",
     necChapters: "Chapters 1–4",
     description: "Core NEC requirements covering installations, wiring methods, equipment, and general-use circuits",
-    categorySlugs: ["load-calculations", "grounding-bonding", "services", "textbook-navigation", "box-fill", "motor-calculations", "temperature-correction", "termination-derating", "transformer-sizing"],
+    categorySlugs: ["load-calculations", "grounding-bonding", "services", "box-fill", "motor-calculations", "temperature-correction", "termination-derating", "transformer-sizing", "wiring-methods"],
   },
   {
     slug: "tables",

@@ -13,7 +13,7 @@ export const DASHBOARD_TOUR_STEPS: Step[] = [
     target: '[data-tour="feature-quiz"]',
     title: "Quiz Mode",
     content:
-      "Practice NEC questions across 12 categories. Earn XP for correct answers!",
+      "Practice NEC questions across 15 categories. Earn Watts for correct answers!",
     placement: "bottom",
     disableBeacon: true,
   },
@@ -45,15 +45,15 @@ export const DASHBOARD_TOUR_STEPS: Step[] = [
     target: '[data-tour="feature-daily-challenge"]',
     title: "Daily Challenge",
     content:
-      "Complete daily challenges to build your streak and earn bonus XP!",
+      "Complete daily challenges to build your streak and earn bonus Watts!",
     placement: "bottom",
     disableBeacon: true,
   },
   {
     target: '[data-tour="stat-level-xp"]',
-    title: "Level & XP",
+    title: "Voltage & Watts",
     content:
-      "Track your level, XP, accuracy, and SparkyBank coins here.",
+      "Track your voltage tier, Watts earned, amps level, and accuracy here. P = V × I!",
     placement: "top",
     disableBeacon: true,
   },
@@ -61,7 +61,7 @@ export const DASHBOARD_TOUR_STEPS: Step[] = [
     target: '[data-tour="stat-study-streak"]',
     title: "Study Streak",
     content:
-      "See your streak and which topics need the most attention.",
+      "See your streak and which topics need the most attention. Streaks boost your Amps!",
     placement: "top",
     disableBeacon: true,
   },

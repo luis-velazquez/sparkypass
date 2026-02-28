@@ -13,8 +13,7 @@ import {
   Zap,
   Filter,
   Play,
-  Navigation,
-  Table,
+Table,
   Box,
   CircleDot,
   Activity,
@@ -25,6 +24,7 @@ import {
   Home,
   Waves,
   Flame,
+  Cable,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -38,6 +38,7 @@ import {
 import { SparkyMessage } from "@/components/sparky";
 import { CATEGORIES, type CategorySlug, type Question } from "@/types/question";
 import { getQuestionById } from "@/lib/questions";
+import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 
 interface Bookmark {
   id: string;
@@ -54,8 +55,7 @@ const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
   "load-calculations": BookOpen,
   "grounding-bonding": Shield,
   services: Zap,
-  "textbook-navigation": Navigation,
-  "chapter-9-tables": Table,
+"chapter-9-tables": Table,
   "box-fill": Box,
   "conduit-fill": CircleDot,
   "voltage-drop": Activity,
@@ -66,6 +66,7 @@ const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
   "mobile-homes": Home,
   "swimming-pools": Waves,
   "termination-derating": Flame,
+  "wiring-methods": Cable,
 };
 
 // Map category slugs to colors
@@ -85,12 +86,7 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     bg: "bg-amber/10",
     badge: "bg-amber/10 text-amber",
   },
-  "textbook-navigation": {
-    icon: "text-blue-500",
-    bg: "bg-blue-500/10",
-    badge: "bg-blue-500/10 text-blue-500",
-  },
-  "chapter-9-tables": {
+"chapter-9-tables": {
     icon: "text-orange-500",
     bg: "bg-orange-500/10",
     badge: "bg-orange-500/10 text-orange-500",
@@ -145,10 +141,16 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     bg: "bg-orange-600/10",
     badge: "bg-orange-600/10 text-orange-600",
   },
+  "wiring-methods": {
+    icon: "text-lime-600",
+    bg: "bg-lime-600/10",
+    badge: "bg-lime-600/10 text-lime-600",
+  },
 };
 
 export default function BookmarksPage() {
   const router = useRouter();
+  const { necVersion } = useNecVersion();
   const [bookmarks, setBookmarks] = useState<BookmarkWithQuestion[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -508,10 +510,10 @@ export default function BookmarksPage() {
                                 Explanation:
                               </h4>
                               <p className="text-sm text-muted-foreground">
-                                {question.explanation}
+                                {getExplanation(question, necVersion)}
                               </p>
                               <p className="text-xs text-purple mt-2">
-                                Reference: {question.necReference}
+                                Reference: {getNecReference(question, necVersion)}
                               </p>
                             </div>
 
@@ -521,7 +523,7 @@ export default function BookmarksPage() {
                                 Sparky&apos;s Tip:
                               </h4>
                               <p className="text-sm text-foreground">
-                                {question.sparkyTip}
+                                {getSparkyTip(question, necVersion)}
                               </p>
                             </div>
                           </div>

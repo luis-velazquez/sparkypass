@@ -6,8 +6,8 @@ import motorCalculations from "./general-code/motor-calculations.json";
 import services from "./general-code/services.json";
 import temperatureCorrection from "./general-code/temperature-correction.json";
 import terminationDerating from "./general-code/termination-derating.json";
-import textbookNavigation from "./general-code/textbook-navigation.json";
 import transformerSizing from "./general-code/transformer-sizing.json";
+import wiringMethods from "./general-code/wiring-methods.json";
 
 // Tables (Chapter 9)
 import chapter9Tables from "./tables/chapter-9-tables.json";
@@ -68,15 +68,15 @@ export const questions: Question[] = [
 
   ...(terminationDerating.master as Question[]),
 
-  ...(textbookNavigation.apprentice as Question[]),
-  ...(textbookNavigation.journeyman as Question[]),
-  ...(textbookNavigation.master as Question[]),
-
-  ...(transformerSizing.apprentice as Question[]),
+...(transformerSizing.apprentice as Question[]),
   ...(transformerSizing.journeyman as Question[]),
   ...(transformerSizing.master as Question[]),
 
   ...(voltageDrop.apprentice as Question[]),
   ...(voltageDrop.journeyman as Question[]),
   ...(voltageDrop.master as Question[]),
+
+  ...(wiringMethods.apprentice as Question[]),
+  ...(wiringMethods.journeyman as Question[]),
+  ...(wiringMethods.master as Question[]),
 ];

@@ -40,7 +40,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "220.53(A)"
+      }
     },
     {
       "id": "LC-A003",
@@ -82,7 +85,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "220.53(B)"
+      }
     },
     {
       "id": "LC-A005",
@@ -103,7 +109,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "Table 220.56, Column C"
+      }
     },
     {
       "id": "LC-A006",
@@ -145,7 +154,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "Table 220.55"
+      }
     },
     {
       "id": "LC-A008",
@@ -231,7 +243,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "220.55"
+      }
     },
     {
       "id": "LC-J003",
@@ -294,7 +309,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "Table 220.56 (Column B)"
+      }
     },
     {
       "id": "LC-J006",
@@ -315,7 +333,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "220.54"
+      }
     },
     {
       "id": "LC-J007",
@@ -374,6 +395,9 @@
       "correctAnswer": 0,
       "explanation": "Step 1: Find total connected load. Lighting: 1700 sq ft × 3 VA = 5100 VA (220.14(J)). Small Appliance: 2 × 1500 VA = 3000 VA. Laundry: 1 × 1500 VA = 1500 VA. Total = 9600 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (9600 - 3000 = 6600 VA) is calculated at 35% (6600 × 0.35 = 2310 VA). Step 3: Add them together. 3000 + 2310 = 5310 VA.",
       "necReference": "220.14(J), 220.52(A)&(B), Table 220.42",
+      "necReferences": {
+        "2026": "220.14(J), 220.53(A)&(B), Table 220.42"
+      },
       "sparkyTip": "Don't confuse the Standard Method with the Optional Method! For the Standard Method, your magic number is 3,000 VA at 100%, then 35% for the rest. If you just multiply the whole 9600 by 35%, you hit the trap answer!",
       "necVersions": [
         "2023",
@@ -565,6 +589,9 @@
       "correctAnswer": 0,
       "explanation": "Step 1: Total connected load. Lighting: 2450 sq ft × 3 VA = 7350 VA (220.41). Small Appliance: 3 × 1500 = 4500 VA. Laundry: 1 × 1500 = 1500 VA. Total = 13350 VA. Step 2: Apply Table 220.42 demand factors. The first 3000 VA is calculated at 100% (3000 VA). The remainder (13350 - 3000 = 10350 VA) is calculated at 35% (10350 × 0.35 = 3622.5 VA). Step 3: Add them together. 3000 + 3622.5 = 6622.5 VA (rounds to 6623 VA).",
       "necReference": "220.41, 220.52, Table 220.42",
+      "necReferences": {
+        "2026": "220.41, 220.53, Table 220.42"
+      },
       "sparkyTip": "Beware the Frankenstein rule! Never mix 10,000 VA with 35%. For the Standard Method general load, ALWAYS use the first 3,000 VA at 100%, and the rest at 35%. I left the 'Frankenstein' math (11172 VA) in the options as a trap!",
       "necVersions": [
         "2023",
@@ -758,7 +785,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "NEC Table 220.57"
+      }
     },
     {
       "id": "LC-M013",
@@ -796,6 +826,9 @@
       "correctAnswer": 0,
       "explanation": "Step 1: General load = (1,800 + 2,400) sq ft × 3 VA = 12,600 VA. Step 2: Required circuits = (2 small appliance + 1 laundry *implicit requirement*) × 1,500 VA = 4,500 VA. Step 3: Appliances = 12,000 (range) + 5,000 (dryer) + 6,720 (motor: 28A × 240V) = 23,720 VA. Step 4: Total general = 12,600 + 4,500 + 23,720 = 40,820 VA. Step 5: Apply 220.82(B) demand — first 10,000 VA @ 100% = 10,000 + remainder 30,820 @ 40% = 12,328 → total = 22,328 VA. Step 6: HVAC per 220.82(C) — heating 10,000 @ 65% = 6,500 VA vs AC 30A × 240V = 7,200 VA @ 100% → use larger = 7,200 VA. Step 7: Final = 22,328 + 7,200 = 29,528 VA ÷ 240V = 123A.",
       "necReference": "220.82(B), 220.82(C), 220.52(B)",
+      "necReferences": {
+        "2026": "220.82(B), 220.82(C), 220.53(B)"
+      },
       "sparkyTip": "Did you catch the trap? The question didn't mention a laundry circuit, but the NEC requires one (1,500 VA) for dwelling units! Also, remember the Optional Method HVAC rule: compare the heat (at 65%) to the AC (at 100%) and only keep the larger of the two.",
       "necVersions": [
         "2023",

@@ -1,0 +1,293 @@
+{
+  "apprentice": [
+    {
+      "id": "TN-A006",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "apprentice",
+      "questionText": "When boring holes in wood members for cable or raceway installation, what is the minimum distance from the nearest edge required to avoid using a steel plate?",
+      "options": [
+        "At least 1 inch",
+        "At least 1¼ inches",
+        "At least 1½ inches",
+        "At least ¾ inch"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 300.4(A)(1) requires that holes bored in wood members be at least **1¼ inches** from the nearest edge. If the distance is less than 1¼ inches, a 1/16-inch thick steel plate (nail plate) is required.",
+      "necReference": "NEC 300.4(A)(1)",
+      "sparkyTip": "1¼\" is the magic number. Less than that = Nail Plate.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "TN-A007",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "apprentice",
+      "questionText": "In NEC Table 300.5, which column determines the cover depth for Rigid Polyvinyl Chloride Conduit (PVC) approved for direct burial?",
+      "options": [
+        "Column 1 (Direct Burial Cables)",
+        "Column 2 (Rigid Metal Conduit)",
+        "Column 3 (Nonmetallic Raceways)",
+        "Column 4 (Residential Branch Circuits)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "PVC is a 'Nonmetallic Raceway.' Therefore, it falls under Column 3 ('Nonmetallic Raceways Listed for Direct Burial...'). Column 2 is strictly for Metal Conduit (RMC/IMC), and Column 1 is for Cables (UF).",
+      "necReference": "NEC Table 300.5",
+      "sparkyTip": "Metal Pipe = Col 2. Plastic Pipe = Col 3.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "TN-A009",
+      "category": "wiring-methods",
+      "necArticle": "Article 314",
+      "difficulty": "apprentice",
+      "questionText": "Rules for boxes and conduit bodies are primarily found in which article?",
+      "options": [
+        "Article 312",
+        "Article 314",
+        "Article 320",
+        "Article 330"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Article 314 covers boxes and conduit bodies.",
+      "necReference": "NEC Table of Contents",
+      "sparkyTip": "Boxes and conduit bodies = 314.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ],
+  "journeyman": [
+    {
+      "id": "WM-J001",
+      "category": "wiring-methods",
+      "necArticle": "Article 334",
+      "difficulty": "journeyman",
+      "questionText": "NM cable (Romex) is NOT permitted in which of the following locations?",
+      "options": [
+        "One- and two-family dwellings",
+        "Buildings exceeding three floors above grade",
+        "Multifamily dwellings up to three floors",
+        "Wood-frame storage buildings"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 334.12(A), NM cable is not permitted in structures exceeding three floors above grade. It is permitted in one- and two-family dwellings and multifamily dwellings of three floors or fewer. The floor limitation is a key restriction for Type NM cable use.",
+      "necReference": "334.10, 334.12",
+      "sparkyTip": "Three floors and no more — that's the NM cable rule. Once you go above three stories, you need a different wiring method like MC cable or conduit. Think of it as Romex's altitude limit!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "TN-J023",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "journeyman",
+      "questionText": "Is it permitted to use a raceway containing power supply conductors to support Class 2 control cables?",
+      "options": [
+        "No, raceways can never support other cables.",
+        "Yes, but only if the raceway is Rigid Metal Conduit (RMC).",
+        "Yes, if the Class 2 cables are solely for the control of the equipment powered by that raceway.",
+        "Yes, provided the Class 2 cables are secured with metal straps only."
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 300.11(B)(2) allows a raceway to support Class 2/3 cables ONLY if those cables control the equipment that the raceway supplies power to (e.g., a thermostat wire strapped to a furnace power conduit).",
+      "necReference": "NEC 300.11(B)(2)",
+      "sparkyTip": "You can strap the stat wire to the furnace flex.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "TN-J026",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "journeyman",
+      "questionText": "Under the location 'All locations not specified below' (such as a standard backyard), what is the minimum cover depth for a Direct Buried Cable vs. a Nonmetallic Raceway (PVC)?",
+      "options": [
+        "Both require 18 inches of cover.",
+        "Cable requires 24 inches; PVC requires 18 inches.",
+        "Cable requires 18 inches; PVC requires 12 inches.",
+        "Both require 24 inches of cover."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Row 1 of Table 300.5 ('All locations not specified below') requires 24 inches of cover for direct-buried cables (Column 1) but only 18 inches for listed nonmetallic raceways (Column 3).",
+      "necReference": "NEC Table 300.5",
+      "sparkyTip": "Top Row: Cable = 24 inches. Pipe = 18 inches.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "WM-J006-RIBBON",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are installing underground residential service conductors in a trench that is 24 inches deep, and the conductors are not encased in concrete. To warn future excavators, the NEC requires a warning ribbon to be placed in the trench. What is the minimum required distance this warning ribbon must be placed above the underground installation?",
+      "options": [
+        "6 inches",
+        "8 inches",
+        "12 inches",
+        "18 inches"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2023": "300.5(D)(3)",
+        "2026": "300.7(D)(3)"
+      },
+      "explanations": {
+        "default": "\n\nWhen service conductors are buried 18 inches or deeper and are not encased in concrete, the NEC mandates the installation of a warning ribbon. This ribbon must be placed at least 12 inches (300 mm) above the underground installation. This spacing is critical because it gives machine operators or workers digging by hand a physical warning well before their shovel or bucket actually hits the energized service cables."
+      },
+      "sparkyTip": "The 12-inch warning rule! Backfill your trench with at least a foot of dirt over the pipe or wire before you roll out the red tape. If you put the tape right on top of the wire, the backhoe operator will rip them both up at the exact same time."
+    }
+  ],
+  "master": [
+    {
+      "id": "WM-M001",
+      "category": "wiring-methods",
+      "necArticle": "Article 358",
+      "difficulty": "master",
+      "questionText": "What is the maximum trade size of EMT (Electrical Metallic Tubing) permitted by the NEC?",
+      "options": [
+        "2 inches",
+        "3 inches",
+        "4 inches",
+        "6 inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 358.20(A) limits EMT to a maximum trade size of 4 inches (metric designator 103). EMT is a thin-walled raceway that cannot be threaded, so larger sizes would compromise structural integrity. For trade sizes above 4 inches, rigid metal conduit (RMC) or intermediate metal conduit (IMC) must be used.",
+      "necReference": "358.20(A)",
+      "sparkyTip": "EMT tops out at 4-inch trade size. Need bigger? Step up to rigid or IMC. EMT is light and easy to work with, but it has its limits — literally!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "TN-M002",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "master",
+      "questionText": "According to the 2026 NEC, what is the minimum required separation distance for electrical wiring methods and materials installed under a roof, measured from the nearest surface of the roof?",
+      "options": [
+        "7/8 inch",
+        "1-1/4 inches",
+        "1-1/2 inches",
+        "2 inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "In the 2026 NEC, the rules for protecting wiring from roofing fasteners were relocated to 300.6(E) and expanded to include ANY roof type, not just corrugated metal. The Code mandates a minimum separation of 1-1/2 inches (38 mm) from the nearest surface of the roof to prevent raceways and cables from being pierced by nails or screws during roofing installations.",
+      "necReference": "NEC 300.6(E)",
+      "sparkyTip": "Always remember the 1-1/2 inch rule for roofs! Whether it's a flat roof, a pitched wood deck, or metal panels, keep your pipes and wires at least an inch and a half away from the decking so the roofers don't nail right through your work.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "TN-M003",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "master",
+      "questionText": "Generally, the NEC requires a minimum of 1-1/2 inches of separation between electrical wiring methods and the lowest surface of a roof. Under what condition are you permitted to install cables without this spacing?",
+      "options": [
+        "When installed under metal decking covered with a minimum 2-inch thick concrete slab.",
+        "When using Schedule 80 PVC.",
+        "When strapped to structural wood trusses.",
+        "When the roof is pitched and uses asphalt shingles."
+      ],
+      "correctAnswer": 0,
+      "explanation": "Concrete provides an impenetrable barrier against roofing fasteners, making the 1-1/2 inch drop unnecessary if the slab is at least 2 inches thick.",
+      "necReference": "300.4(E) Exception No. 2",
+      "sparkyTip": "Concrete is your shield! 2 inches of poured concrete means you can strap right against the deck.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "300.6(E) Exception No. 2"
+      }
+    },
+    {
+      "id": "TN-M004",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "master",
+      "questionText": "You are roughing in a standard wall box that measures less than 8 inches in any dimension. According to the NEC, what is the minimum length that the free conductors must extend OUTSIDE the physical opening of the box to allow for device termination?",
+      "options": [
+        "At least 2 inches",
+        "At least 3 inches",
+        "At least 6 inches",
+        "At least 8 inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "While the NEC generally requires a minimum of 6 inches of free conductor measured from where the wire emerges from the raceway or cable sheath, there is a specific physical requirement for smaller enclosures. When the box opening is less than 8 inches in any dimension (which covers almost all standard switch and receptacle boxes), the conductors must be left long enough to extend at least 3 inches outside the opening. This ensures the installer has enough workable wire to safely splice or terminate devices.",
+      "necReference": "NEC 300.14",
+      "sparkyTip": "The golden rule of rough-in: '6 inches in the box, and 3 inches out the front!' If your wires are cut flush with the drywall or mud ring, you are already in violation.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "NEC 300.16(B)(2)"
+      }
+    },
+    {
+      "id": "TN-M005",
+      "category": "wiring-methods",
+      "necArticle": "Article 312",
+      "difficulty": "master",
+      "questionText": "While re-installing the dead front cover of a panelboard, you notice one of the factory screws is missing. You decide to use a field-installed screw from your tool pouch. Assuming the screw is not located within 3/8 inch of the enclosure wall, what type of screw must be used and what is the maximum distance it is permitted to extend into the wiring space?",
+      "options": [
+        "A self-tapping sheet metal screw extending no more than 3/8 inch.",
+        "A machine-type screw with a blunt end extending no more than 1/4 inch.",
+        "A standard wood screw extending no more than 1/2 inch.",
+        "Any screw type is permitted as long as it extends no more than 1/4 inch."
+      ],
+      "correctAnswer": 1,
+      "explanation": "To prevent damage to conductor insulation, the NEC strictly regulates field-installed fasteners entering the wiring space of cabinets, cutout boxes, and meter socket enclosures. They must be machine-type screws with blunt ends—meaning you cannot use sharp sheet metal or wood screws. Furthermore, they generally cannot extend into the enclosure by more than 1/4 inch (6 mm). An exception allows up to a 7/16 inch protrusion only if the screw is located right up against the enclosure wall (within 3/8 inch).",
+      "necReference": "NEC 312.10",
+      "sparkyTip": "Keep the sharp points away from the wire! If you lose a panel cover screw, you can't just zip a drywall or self-tapping screw in there. It must have machine threads, a flat bottom, and stick out no more than a 1/4 inch so it doesn't pierce the wire insulation behind the dead front.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "NEC 312.13"
+      }
+    },
+    {
+      "id": "TN-M006",
+      "category": "wiring-methods",
+      "necArticle": "Article 314",
+      "difficulty": "master",
+      "questionText": "You are installing a listed underground handhole enclosure for a set of landscape lighting circuits. You are generally not allowed to bury the enclosure under earth or paving. However, an exception permits the enclosure to be covered by certain materials IF its location is effectively described and accessible for excavation. Which of the following materials is PERMITTED to cover the enclosure under this exception?",
+      "options": [
+        "Concrete paving not exceeding 2 inches in thickness.",
+        "Asphalt or compacted cohesive clay soil.",
+        "Gravel, light aggregate, or noncohesive granulated soil.",
+        "Decorative landscaping boulders and structural fill dirt."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Underground boxes and handhole enclosures must generally remain accessible without having to excavate sidewalks, paving, or earth. However, the exception to 314.29(B) recognizes that in many landscaping or hardscaping situations, a flush cover is undesirable. It allows listed boxes to be covered—but ONLY by easily removable materials like gravel, light aggregate, or noncohesive granulated soil (like loose sand). You cannot bury them under concrete, asphalt, or dense cohesive soils (like clay). Additionally, the exact location must be effectively described and made available to those who will access or maintain the wiring.",
+      "necReference": "NEC 314.29(B) Exception",
+      "sparkyTip": "You can hide a ground box under the landscaping rocks, but you can't pave over it! Remember: if a shovel or your hands can easily scoop it away without heavy digging, the Code usually allows it, as long as you leave a map or description for the next guy.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    }
+  ]
+}

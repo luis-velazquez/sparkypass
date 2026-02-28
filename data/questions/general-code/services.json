@@ -357,7 +357,10 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "necReferences": {
+        "2026": "NEC Table 220.56 Note 1"
+      }
     }
   ],
   "master": [

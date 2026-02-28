@@ -4,6 +4,8 @@ import { db, users, userProgress, studySessions } from "@/lib/db";
 import { eq, sql, count, and, gte, countDistinct, isNotNull } from "drizzle-orm";
 import { getTotalQuestionCount, getQuestionById } from "@/lib/questions";
 import { CATEGORIES } from "@/types/question";
+import { calculateAmps, getDaysIdle } from "@/lib/amps";
+import type { VoltageTier } from "@/types/reward-system";
 
 export async function GET() {
   try {
@@ -43,7 +45,7 @@ export async function GET() {
 
     // Check if today's daily challenge is completed
     const [dailyStatus] = await db
-      .select({ id: studySessions.id, xpEarned: studySessions.xpEarned })
+      .select({ id: studySessions.id, wattsEarned: studySessions.wattsEarned })
       .from(studySessions)
       .where(and(
         eq(studySessions.userId, userId),
@@ -53,11 +55,11 @@ export async function GET() {
       ))
       .limit(1);
 
-    // Daily challenge XP reward schedule (Sun=0 → Day 1, Sat=6 → Day 7)
-    const dailyXpSchedule = [25, 30, 30, 30, 50, 75, 100];
-    const dailyChallengeXpReward = dailyXpSchedule[new Date().getDay()];
+    // Daily challenge Watts reward schedule (Sun=0 → Day 1, Sat=6 → Day 7)
+    const dailyWattsSchedule = [30, 35, 35, 35, 50, 75, 100];
+    const dailyChallengeWattsReward = dailyWattsSchedule[new Date().getDay()];
 
-    // Get category breakdown - we'll extract category from questionId prefix
+    // Get category breakdown
     const categoryProgress = await db
       .select({
         questionId: userProgress.questionId,
@@ -99,25 +101,43 @@ export async function GET() {
         questionsCorrect: studySessions.questionsCorrect,
         startedAt: studySessions.startedAt,
         endedAt: studySessions.endedAt,
-        xpEarned: studySessions.xpEarned,
+        wattsEarned: studySessions.wattsEarned,
       })
       .from(studySessions)
       .where(eq(studySessions.userId, userId))
       .orderBy(sql`${studySessions.startedAt} DESC`)
       .limit(5);
 
-    // Get user XP and level
+    // Get user data
     const [user] = await db
       .select({
-        xp: users.xp,
+        wattsBalance: users.wattsBalance,
+        wattsLifetime: users.wattsLifetime,
         level: users.level,
-        coins: users.coins,
         studyStreak: users.studyStreak,
         bestStudyStreak: users.bestStudyStreak,
+        lastStudyDate: users.lastStudyDate,
       })
       .from(users)
       .where(eq(users.id, userId))
       .limit(1);
+
+    // Calculate current amps
+    const daysIdle = getDaysIdle(user?.lastStudyDate || null);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const [volumeResult] = await db
+      .select({ count: count() })
+      .from(userProgress)
+      .where(
+        sql`${userProgress.userId} = ${userId} AND ${userProgress.answeredAt} >= ${sevenDaysAgo.getTime() / 1000}`
+      );
+
+    const ampsState = calculateAmps({
+      streakDays: user?.studyStreak || 0,
+      questionsLast7Days: volumeResult?.count || 0,
+      daysIdle,
+    });
 
     const totalAnswered = overallStats?.totalAnswered || 0;
     const uniqueQuestionsAnswered = overallStats?.uniqueQuestionsAnswered || 0;
@@ -149,16 +169,17 @@ export async function GET() {
         questionsCorrect: s.questionsCorrect ?? null,
         startedAt: s.startedAt?.toISOString() || null,
         endedAt: s.endedAt?.toISOString() || null,
-        xpEarned: s.xpEarned,
+        wattsEarned: s.wattsEarned,
       })),
-      xp: user?.xp || 0,
-      level: user?.level || 1,
-      coins: user?.coins || 0,
+      wattsBalance: user?.wattsBalance || 0,
+      wattsLifetime: user?.wattsLifetime || 0,
+      voltageTier: (user?.level || 1) as VoltageTier,
+      currentAmps: ampsState.totalAmps,
       studyStreak: user?.studyStreak || 0,
       bestStudyStreak: user?.bestStudyStreak || 0,
       dailyChallengeCompleted: !!dailyStatus,
-      dailyChallengeXpEarned: dailyStatus?.xpEarned ?? 0,
-      dailyChallengeXpReward,
+      dailyChallengeWattsEarned: dailyStatus?.wattsEarned ?? 0,
+      dailyChallengeWattsReward,
     });
   } catch (error) {
     console.error("Error fetching progress stats:", error);

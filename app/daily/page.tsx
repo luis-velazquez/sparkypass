@@ -21,7 +21,6 @@ import {
   Zap,
   Trophy,
   Calendar,
-  Coins,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -39,8 +38,9 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SparkyMessage } from "@/components/sparky";
 import { getRandomQuestionsAll, getQuestionById } from "@/lib/questions";
+import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
-import { COIN_REWARDS } from "@/lib/levels";
+import { WATTS_REWARDS } from "@/lib/levels";
 
 const DAILY_PROGRESS_KEY = "sparkypass-daily-challenge-progress";
 
@@ -257,6 +257,7 @@ interface ResultsData {
 export default function DailyChallengePage() {
   const { status: authStatus } = useSession();
   const router = useRouter();
+  const { necVersion } = useNecVersion();
 
   const [phase, setPhase] = useState<PagePhase>("loading");
   const [completionData, setCompletionData] = useState<CompletionData | null>(null);
@@ -380,7 +381,7 @@ export default function DailyChallengePage() {
     }
 
     async function startQuiz() {
-      const dailyQuestions = getRandomQuestionsAll(DAILY_QUESTION_COUNT);
+      const dailyQuestions = getRandomQuestionsAll(DAILY_QUESTION_COUNT, necVersion);
 
       // Create session and fetch bookmarks in parallel
       try {
@@ -443,7 +444,8 @@ export default function DailyChallengePage() {
     }
 
     initialize();
-  }, [authStatus]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authStatus, necVersion]);
 
   const handleSelectAnswer = useCallback((answerIndex: number) => {
     haptic("tap");
@@ -515,8 +517,8 @@ export default function DailyChallengePage() {
       });
       if (progressRes.ok) {
         const data = await progressRes.json();
-        if (typeof data.totalCoins === "number") {
-          window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+        if (typeof data.wattsBalance === "number") {
+          window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
         }
       }
     } catch (error) {
@@ -618,8 +620,8 @@ export default function DailyChallengePage() {
           });
           if (sessionRes.ok) {
             const data = await sessionRes.json();
-            if (typeof data.totalCoins === "number") {
-              window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+            if (typeof data.wattsBalance === "number") {
+              window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
             }
           }
         } catch {
@@ -867,11 +869,11 @@ export default function DailyChallengePage() {
                   </div>
                 </div>
 
-                {/* Coins earned */}
+                {/* Watts earned */}
                 <div className="flex items-center justify-center gap-2 p-3 bg-amber/10 rounded-lg">
-                  <Coins className="h-5 w-5 text-amber" />
+                  <Zap className="h-5 w-5 text-amber fill-current" />
                   <span className="text-lg font-bold text-amber">
-                    +{resultsData.score * COIN_REWARDS.CORRECT_ANSWER + COIN_REWARDS.QUIZ_COMPLETE} coins earned
+                    +{resultsData.score * WATTS_REWARDS.CORRECT_ANSWER + WATTS_REWARDS.SESSION_COMPLETE}W earned
                   </span>
                 </div>
 
@@ -1132,7 +1134,7 @@ export default function DailyChallengePage() {
                             <div>
                               <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">NEC Reference</p>
                               <p className="text-sm font-semibold text-purple">
-                                {currentQuestion.necReference}
+                                {getNecReference(currentQuestion, necVersion)}
                               </p>
                             </div>
                           </motion.div>
@@ -1364,8 +1366,8 @@ export default function DailyChallengePage() {
                           transition={{ duration: 0.5, type: "spring", bounce: 0.4, delay: 0.15 }}
                           className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold"
                         >
-                          <Coins className="h-5 w-5" />
-                          +{COIN_REWARDS.CORRECT_ANSWER}
+                          <Zap className="h-5 w-5 fill-current" />
+                          +{WATTS_REWARDS.CORRECT_ANSWER}W
                         </motion.span>
                       )}
                       {correctStreak >= STREAK_THRESHOLD && (
@@ -1413,19 +1415,19 @@ export default function DailyChallengePage() {
                             Explanation
                           </h4>
                           <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                            {currentQuestion.explanation}
+                            {getExplanation(currentQuestion, necVersion)}
                           </p>
                           <p className="text-sm text-purple font-medium">
-                            📖 Reference: {currentQuestion.necReference}
+                            📖 Reference: {getNecReference(currentQuestion, necVersion)}
                           </p>
                         </div>
 
                         {/* Sparky Tip */}
-                        {currentQuestion.sparkyTip && (
+                        {getSparkyTip(currentQuestion, necVersion) && (
                           <div className="mt-3 p-3 bg-amber/10 dark:bg-sparky-green/10 rounded-lg border border-amber/30 dark:border-sparky-green/30">
                             <p className="text-sm text-foreground">
                               <span className="font-medium text-amber dark:text-sparky-green">💡 Sparky&apos;s Tip:</span>{" "}
-                              {currentQuestion.sparkyTip}
+                              {getSparkyTip(currentQuestion, necVersion)}
                             </p>
                           </div>
                         )}

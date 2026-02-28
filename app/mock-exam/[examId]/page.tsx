@@ -27,6 +27,7 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { getAllQuestions, getQuestionsByDifficulty } from "@/lib/questions";
+import { useNecVersion } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
 
 interface ExamConfig {
@@ -73,6 +74,7 @@ export default function ExamSessionPage() {
   const router = useRouter();
   const params = useParams();
   const examId = params.examId as string;
+  const { necVersion } = useNecVersion();
 
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -92,12 +94,12 @@ export default function ExamSessionPage() {
       return;
     }
 
-    // Get questions based on exam type
+    // Get questions based on exam type, filtered by NEC version
     let availableQuestions: Question[];
     if (examConfig.difficulty === "challenging") {
-      availableQuestions = getQuestionsByDifficulty("master");
+      availableQuestions = getQuestionsByDifficulty("master", necVersion);
     } else {
-      availableQuestions = getAllQuestions();
+      availableQuestions = getAllQuestions(necVersion);
     }
 
     // Shuffle and select the required number of questions
@@ -107,7 +109,7 @@ export default function ExamSessionPage() {
     setQuestions(selectedQuestions);
     setTimeRemaining(examConfig.timeLimit * 60); // Convert to seconds
     setIsLoading(false);
-  }, [examConfig, router]);
+  }, [examConfig, router, necVersion]);
 
   // Timer countdown
   useEffect(() => {

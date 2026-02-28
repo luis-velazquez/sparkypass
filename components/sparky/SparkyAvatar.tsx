@@ -19,7 +19,7 @@ const sparkyAvatarVariants = cva(
   }
 );
 
-export type SparkyVariant = "default" | "calm" | "sad";
+export type SparkyVariant = "default" | "calm" | "sad" | "excited" | "warning" | "thinking" | "proud";
 
 export interface SparkyAvatarProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -33,8 +33,17 @@ export function SparkyAvatar({
   className,
   ...props
 }: SparkyAvatarProps) {
-  if (variant === "calm" || variant === "sad") {
-    const src = variant === "sad" ? "/sad-sparky.svg" : "/calm-sparky.svg";
+  const svgVariants: Record<string, string> = {
+    calm: "/calm-sparky.svg",
+    sad: "/sad-sparky.svg",
+    excited: "/streak-sparky.svg",
+    warning: "/shocked-sparky.svg",
+    thinking: "/thinking-sparky.svg",
+    proud: "/king-sparky.svg",
+  };
+
+  if (variant in svgVariants) {
+    const src = svgVariants[variant];
     const alt = `Sparky the electrician mascot - ${variant}`;
     return (
       <div

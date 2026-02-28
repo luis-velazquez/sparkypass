@@ -1,25 +1,37 @@
 import { questions } from "@/data/questions";
-import type { Question, CategorySlug, Difficulty } from "@/types/question";
+import type { Question, CategorySlug, Difficulty, NecVersion } from "@/types/question";
+
+/** Filter a question list by NEC version when provided. */
+function filterByVersion(qs: Question[], necVersion?: NecVersion): Question[] {
+  if (!necVersion) return qs;
+  return qs.filter((q) => q.necVersions?.includes(necVersion));
+}
 
 /**
  * Get all questions
  */
-export function getAllQuestions(): Question[] {
-  return questions;
+export function getAllQuestions(necVersion?: NecVersion): Question[] {
+  return filterByVersion(questions, necVersion);
 }
 
 /**
  * Get questions by category
  */
-export function getQuestionsByCategory(category: CategorySlug): Question[] {
-  return questions.filter((q) => q.category === category);
+export function getQuestionsByCategory(category: CategorySlug, necVersion?: NecVersion): Question[] {
+  return filterByVersion(
+    questions.filter((q) => q.category === category),
+    necVersion,
+  );
 }
 
 /**
  * Get questions by difficulty
  */
-export function getQuestionsByDifficulty(difficulty: Difficulty): Question[] {
-  return questions.filter((q) => q.difficulty === difficulty);
+export function getQuestionsByDifficulty(difficulty: Difficulty, necVersion?: NecVersion): Question[] {
+  return filterByVersion(
+    questions.filter((q) => q.difficulty === difficulty),
+    necVersion,
+  );
 }
 
 /**
@@ -27,18 +39,22 @@ export function getQuestionsByDifficulty(difficulty: Difficulty): Question[] {
  */
 export function getQuestionsByCategoryAndDifficulty(
   category: CategorySlug,
-  difficulty: Difficulty
+  difficulty: Difficulty,
+  necVersion?: NecVersion,
 ): Question[] {
-  return questions.filter((q) => q.category === category && q.difficulty === difficulty);
+  return filterByVersion(
+    questions.filter((q) => q.category === category && q.difficulty === difficulty),
+    necVersion,
+  );
 }
 
 /**
  * Get a random selection of questions from a category, optionally filtered by difficulty
  */
-export function getRandomQuestions(category: CategorySlug, count: number = 15, difficulty?: Difficulty): Question[] {
+export function getRandomQuestions(category: CategorySlug, count: number = 15, difficulty?: Difficulty, necVersion?: NecVersion): Question[] {
   const categoryQuestions = difficulty
-    ? getQuestionsByCategoryAndDifficulty(category, difficulty)
-    : getQuestionsByCategory(category);
+    ? getQuestionsByCategoryAndDifficulty(category, difficulty, necVersion)
+    : getQuestionsByCategory(category, necVersion);
   // Fisher-Yates shuffle for uniform randomization
   const shuffled = [...categoryQuestions];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -51,15 +67,16 @@ export function getRandomQuestions(category: CategorySlug, count: number = 15, d
 /**
  * Get question count by category and difficulty
  */
-export function getQuestionCountByCategoryAndDifficulty(category: CategorySlug, difficulty: Difficulty): number {
-  return getQuestionsByCategoryAndDifficulty(category, difficulty).length;
+export function getQuestionCountByCategoryAndDifficulty(category: CategorySlug, difficulty: Difficulty, necVersion?: NecVersion): number {
+  return getQuestionsByCategoryAndDifficulty(category, difficulty, necVersion).length;
 }
 
 /**
  * Get a random selection of questions from ALL categories
  */
-export function getRandomQuestionsAll(count: number = 5): Question[] {
-  const shuffled = [...questions];
+export function getRandomQuestionsAll(count: number = 5, necVersion?: NecVersion): Question[] {
+  const pool = filterByVersion(questions, necVersion);
+  const shuffled = [...pool];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -68,7 +85,7 @@ export function getRandomQuestionsAll(count: number = 5): Question[] {
 }
 
 /**
- * Get a single question by ID
+ * Get a single question by ID (unfiltered — needed for bookmarks/saved progress)
  */
 export function getQuestionById(id: string): Question | undefined {
   return questions.find((q) => q.id === id);
@@ -77,36 +94,36 @@ export function getQuestionById(id: string): Question | undefined {
 /**
  * Get question count by category
  */
-export function getQuestionCountByCategory(category: CategorySlug): number {
-  return getQuestionsByCategory(category).length;
+export function getQuestionCountByCategory(category: CategorySlug, necVersion?: NecVersion): number {
+  return getQuestionsByCategory(category, necVersion).length;
 }
 
 /**
  * Get question counts for all categories
  */
-export function getCategoryCounts(): Record<CategorySlug, number> {
+export function getCategoryCounts(necVersion?: NecVersion): Record<CategorySlug, number> {
   return {
-    "load-calculations": getQuestionCountByCategory("load-calculations"),
-    "grounding-bonding": getQuestionCountByCategory("grounding-bonding"),
-    services: getQuestionCountByCategory("services"),
-    "textbook-navigation": getQuestionCountByCategory("textbook-navigation"),
-    "chapter-9-tables": getQuestionCountByCategory("chapter-9-tables"),
-    "box-fill": getQuestionCountByCategory("box-fill"),
-    "conduit-fill": getQuestionCountByCategory("conduit-fill"),
-    "voltage-drop": getQuestionCountByCategory("voltage-drop"),
-    "motor-calculations": getQuestionCountByCategory("motor-calculations"),
-    "temperature-correction": getQuestionCountByCategory("temperature-correction"),
-    "resistance": getQuestionCountByCategory("resistance"),
-    "transformer-sizing": getQuestionCountByCategory("transformer-sizing"),
-    "mobile-homes": getQuestionCountByCategory("mobile-homes"),
-    "swimming-pools": getQuestionCountByCategory("swimming-pools"),
-    "termination-derating": getQuestionCountByCategory("termination-derating"),
+    "load-calculations": getQuestionCountByCategory("load-calculations", necVersion),
+    "grounding-bonding": getQuestionCountByCategory("grounding-bonding", necVersion),
+    services: getQuestionCountByCategory("services", necVersion),
+"chapter-9-tables": getQuestionCountByCategory("chapter-9-tables", necVersion),
+    "box-fill": getQuestionCountByCategory("box-fill", necVersion),
+    "conduit-fill": getQuestionCountByCategory("conduit-fill", necVersion),
+    "voltage-drop": getQuestionCountByCategory("voltage-drop", necVersion),
+    "motor-calculations": getQuestionCountByCategory("motor-calculations", necVersion),
+    "temperature-correction": getQuestionCountByCategory("temperature-correction", necVersion),
+    "resistance": getQuestionCountByCategory("resistance", necVersion),
+    "transformer-sizing": getQuestionCountByCategory("transformer-sizing", necVersion),
+    "mobile-homes": getQuestionCountByCategory("mobile-homes", necVersion),
+    "swimming-pools": getQuestionCountByCategory("swimming-pools", necVersion),
+    "termination-derating": getQuestionCountByCategory("termination-derating", necVersion),
+    "wiring-methods": getQuestionCountByCategory("wiring-methods", necVersion),
   };
 }
 
 /**
  * Get total question count
  */
-export function getTotalQuestionCount(): number {
-  return questions.length;
+export function getTotalQuestionCount(necVersion?: NecVersion): number {
+  return filterByVersion(questions, necVersion).length;
 }

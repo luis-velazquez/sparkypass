@@ -23,11 +23,12 @@ import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { LevelUpModal, getRandomLevelUpMessage } from "@/components/level";
 import { getQuestionById } from "@/lib/questions";
+import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { CATEGORIES, type Question } from "@/types/question";
-import { XP_REWARDS, checkLevelUp } from "@/lib/levels";
+import { WATTS_REWARDS } from "@/lib/levels";
 
-const XP_PER_CORRECT_ANSWER = XP_REWARDS.CORRECT_ANSWER;
-const XP_QUIZ_COMPLETION_BONUS = XP_REWARDS.QUIZ_COMPLETE;
+const WATTS_PER_CORRECT_ANSWER = WATTS_REWARDS.CORRECT_ANSWER;
+const WATTS_SESSION_BONUS = WATTS_REWARDS.SESSION_COMPLETE;
 
 // Sparky messages based on score percentage
 const CELEBRATION_MESSAGES = [
@@ -83,6 +84,7 @@ interface IncorrectQuestion {
 
 export default function BookmarkReviewResultsPage() {
   const router = useRouter();
+  const { necVersion } = useNecVersion();
 
   const [resultData, setResultData] = useState<ReviewResultData | null>(null);
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
@@ -156,8 +158,8 @@ export default function BookmarkReviewResultsPage() {
       totalQuestions > 0
         ? Math.round((correctCount / totalQuestions) * 100)
         : 0;
-    const correctXP = correctCount * XP_PER_CORRECT_ANSWER;
-    const totalXP = correctXP + XP_QUIZ_COMPLETION_BONUS;
+    const correctXP = correctCount * WATTS_PER_CORRECT_ANSWER;
+    const totalXP = correctXP + WATTS_SESSION_BONUS;
 
     return {
       correctCount,
@@ -192,20 +194,8 @@ export default function BookmarkReviewResultsPage() {
 
     setShowXpAnimation(true);
 
-    if (previousUserXP !== null) {
-      const newXP = previousUserXP + results.totalXP;
-      const levelUpResult = checkLevelUp(previousUserXP, newXP);
-
-      if (levelUpResult) {
-        setLevelUpInfo({
-          ...levelUpResult,
-          message: getRandomLevelUpMessage(),
-        });
-        setTimeout(() => {
-          setShowLevelUpModal(true);
-        }, 2000);
-      }
-    }
+    // Voltage tier advancement is checked via /api/voltage
+    // Level-up modal no longer triggered from XP threshold
   }, [results, previousUserXP]);
 
   const toggleQuestionExpand = (questionId: string) => {
@@ -378,7 +368,7 @@ export default function BookmarkReviewResultsPage() {
                       <CheckCircle2 className="h-5 w-5" />+{results.correctXP} XP
                     </span>
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple dark:bg-sparky-green/15 dark:text-sparky-green rounded-full text-lg font-bold">
-                      <Star className="h-5 w-5" />+{XP_QUIZ_COMPLETION_BONUS}{" "}
+                      <Star className="h-5 w-5" />+{WATTS_SESSION_BONUS}{" "}
                       Completion Bonus
                     </span>
                   </div>
@@ -441,7 +431,7 @@ export default function BookmarkReviewResultsPage() {
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <span className="text-xs text-purple font-medium">
-                                {question.necReference}
+                                {getNecReference(question, necVersion)}
                               </span>
                               <span className="text-xs text-muted-foreground">
                                 {category?.name}
@@ -494,7 +484,7 @@ export default function BookmarkReviewResultsPage() {
                                   Explanation
                                 </div>
                                 <p className="text-sm text-muted-foreground leading-relaxed">
-                                  {question.explanation}
+                                  {getExplanation(question, necVersion)}
                                 </p>
                               </div>
 
@@ -503,7 +493,7 @@ export default function BookmarkReviewResultsPage() {
                                   <span className="font-medium text-amber">
                                     Sparky&apos;s Tip:
                                   </span>{" "}
-                                  {question.sparkyTip}
+                                  {getSparkyTip(question, necVersion)}
                                 </p>
                               </div>
                             </div>

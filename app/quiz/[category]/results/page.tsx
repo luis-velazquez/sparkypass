@@ -17,15 +17,16 @@ import {
   CheckCircle2,
   XCircle,
   Flame,
-  Coins,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
-import { LevelUpModal, getRandomLevelUpMessage } from "@/components/level";
+import { VoltageUpModal, getRandomVoltageUpMessage } from "@/components/reward-system";
 import { getQuestionById } from "@/lib/questions";
+import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty } from "@/types/question";
-import { getXPRewardsForDifficulty, getCoinRewardsForDifficulty, checkLevelUp } from "@/lib/levels";
+import { getWattsRewardsForDifficulty } from "@/lib/levels";
 
 // Sparky messages based on score percentage
 const CELEBRATION_MESSAGES = [
@@ -183,14 +184,14 @@ export default function QuizResultsPage() {
   const params = useParams();
   const router = useRouter();
   const categorySlug = params.category as CategorySlug;
+  const { necVersion } = useNecVersion();
 
   const [resultData, setResultData] = useState<QuizResultData | null>(null);
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
   const [sparkyMessage, setSparkyMessage] = useState("");
   const [showXpAnimation, setShowXpAnimation] = useState(false);
-  const [showLevelUpModal, setShowLevelUpModal] = useState(false);
-  const [levelUpInfo, setLevelUpInfo] = useState<{ newLevel: number; newTitle: string; message: string } | null>(null);
-  const [previousUserXP, setPreviousUserXP] = useState<number | null>(null);
+  const [showVoltageUpModal, setShowVoltageUpModal] = useState(false);
+  const [voltageUpInfo, setVoltageUpInfo] = useState<{ newTier: number; newTitle: string; newVoltage: string; message: string } | null>(null);
   const [showFireAnimation, setShowFireAnimation] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const [difficulty, setDifficulty] = useState<string | null>(null);
@@ -215,7 +216,6 @@ export default function QuizResultsPage() {
     const questionIdsStr = sessionStorage.getItem("quizQuestionIds");
     const storedCategorySlug = sessionStorage.getItem("quizCategory");
     const bookmarkedStr = sessionStorage.getItem("bookmarkedQuestions");
-    const preQuizXPStr = sessionStorage.getItem("preQuizXP");
     const bestStreakStr = sessionStorage.getItem("bestStreak");
     const difficultyStr = sessionStorage.getItem("quizDifficulty");
     if (difficultyStr) setDifficulty(difficultyStr);
@@ -224,11 +224,6 @@ export default function QuizResultsPage() {
       // No quiz data found or category mismatch - redirect to quiz selection
       router.replace("/quiz");
       return;
-    }
-
-    // Set the pre-quiz XP if available
-    if (preQuizXPStr) {
-      setPreviousUserXP(parseInt(preQuizXPStr, 10));
     }
 
     const data: QuizResultData = {
@@ -264,31 +259,22 @@ export default function QuizResultsPage() {
 
     const totalQuestions = questions.length;
     const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
-    const rewards = getXPRewardsForDifficulty(difficulty);
-    const xpPerAnswer = rewards.CORRECT_ANSWER;
-    const completionBonus = rewards.QUIZ_COMPLETE;
-    const correctXP = correctCount * xpPerAnswer;
-    const totalXP = correctXP + completionBonus;
 
-    // Coin calculations
-    const coinRewards = getCoinRewardsForDifficulty(difficulty);
-    const coinsPerAnswer = coinRewards.CORRECT_ANSWER;
-    const coinCompletionBonus = coinRewards.QUIZ_COMPLETE;
-    const correctCoins = correctCount * coinsPerAnswer;
-    const totalCoins = correctCoins + coinCompletionBonus;
+    // Watts calculations
+    const wattsRewards = getWattsRewardsForDifficulty(difficulty);
+    const wattsPerAnswer = wattsRewards.CORRECT_ANSWER;
+    const wattsCompletionBonus = wattsRewards.SESSION_COMPLETE;
+    const correctWatts = correctCount * wattsPerAnswer;
+    const totalWatts = correctWatts + wattsCompletionBonus;
 
     return {
       correctCount,
       totalQuestions,
       percentage,
-      correctXP,
-      xpPerAnswer,
-      completionBonus,
-      totalXP,
-      coinsPerAnswer,
-      coinCompletionBonus,
-      correctCoins,
-      totalCoins,
+      wattsPerAnswer,
+      wattsCompletionBonus,
+      correctWatts,
+      totalWatts,
       incorrectQuestions,
     };
   }, [resultData, difficulty]);
@@ -357,24 +343,7 @@ export default function QuizResultsPage() {
       })
       .catch((err) => console.error("Failed to save/fetch quiz result:", err));
 
-    // Check for level-up if we have previous XP
-    if (previousUserXP !== null) {
-      const newXP = previousUserXP + results.totalXP;
-      const levelUpResult = checkLevelUp(previousUserXP, newXP);
-
-      if (levelUpResult) {
-        // Generate the message here, outside of render
-        setLevelUpInfo({
-          ...levelUpResult,
-          message: getRandomLevelUpMessage(),
-        });
-        // Show level-up modal after a delay to let the user see results first
-        setTimeout(() => {
-          setShowLevelUpModal(true);
-        }, 2000);
-      }
-    }
-  }, [results, resultData, previousUserXP]);
+  }, [results, resultData]);
 
   const toggleQuestionExpand = (questionId: string) => {
     setExpandedQuestions((prev) => {
@@ -561,7 +530,7 @@ export default function QuizResultsPage() {
                 </motion.p>
               </div>
 
-              {/* XP Display */}
+              {/* Watts Display */}
               {showXpAnimation && (
                 <motion.div
                   initial={{ opacity: 0, y: 20, scale: 0.8 }}
@@ -577,36 +546,21 @@ export default function QuizResultsPage() {
                         ? "text-red-500"
                         : "text-amber"
                     }`}>
-                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ({results.xpPerAnswer} XP/answer)
+                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ({results.wattsPerAnswer} W/answer)
                     </p>
                   )}
                   <div className="flex items-center gap-4 justify-center flex-wrap">
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green rounded-full text-lg font-bold">
-                      <CheckCircle2 className="h-5 w-5" />
-                      {results.correctCount} x {results.xpPerAnswer} = +{results.correctXP} XP
-                    </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-purple/20 text-purple dark:bg-sparky-green/15 dark:text-sparky-green rounded-full text-lg font-bold">
-                      <Star className="h-5 w-5" />
-                      +{results.completionBonus} Completion Bonus
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground mt-2">
-                    Total: <span className="font-bold text-foreground">{results.totalXP} XP</span>
-                  </p>
-
-                  {/* Coin breakdown */}
-                  <div className="flex items-center gap-4 justify-center flex-wrap mt-3">
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold">
-                      <Coins className="h-5 w-5" />
-                      {results.correctCount} x {results.coinsPerAnswer} = +{results.correctCoins} coins
+                      <Zap className="h-5 w-5" />
+                      {results.correctCount} x {results.wattsPerAnswer} = +{results.correctWatts} W
                     </span>
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber/10 text-amber rounded-full text-lg font-bold">
-                      <Coins className="h-5 w-5" />
-                      +{results.coinCompletionBonus} Coin Bonus
+                      <Zap className="h-5 w-5" />
+                      +{results.wattsCompletionBonus} W Completion Bonus
                     </span>
                   </div>
                   <p className="text-muted-foreground mt-2">
-                    Total: <span className="font-bold text-amber">{results.totalCoins} coins</span>
+                    Total: <span className="font-bold text-amber">{results.totalWatts} W</span>
                   </p>
                 </motion.div>
               )}
@@ -766,7 +720,7 @@ export default function QuizResultsPage() {
                       >
                         <div className="flex-1">
                           <span className="text-xs text-purple font-medium">
-                            {question.necReference}
+                            {getNecReference(question, necVersion)}
                           </span>
                           <p className="text-sm text-foreground mt-1 line-clamp-2">
                             {question.questionText}
@@ -810,7 +764,7 @@ export default function QuizResultsPage() {
                                 Explanation
                               </div>
                               <p className="text-sm text-muted-foreground leading-relaxed">
-                                {question.explanation}
+                                {getExplanation(question, necVersion)}
                               </p>
                             </div>
 
@@ -818,7 +772,7 @@ export default function QuizResultsPage() {
                             <div className="p-3 bg-amber/10 dark:bg-sparky-green/10 rounded-lg border border-amber/30 dark:border-sparky-green/30">
                               <p className="text-sm text-foreground">
                                 <span className="font-medium text-amber dark:text-sparky-green">💡 Sparky&apos;s Tip:</span>{" "}
-                                {question.sparkyTip}
+                                {getSparkyTip(question, necVersion)}
                               </p>
                             </div>
                           </div>
@@ -870,14 +824,15 @@ export default function QuizResultsPage() {
         </Button>
       </motion.div>
 
-      {/* Level Up Modal */}
-      {levelUpInfo && (
-        <LevelUpModal
-          isOpen={showLevelUpModal}
-          onClose={() => setShowLevelUpModal(false)}
-          newLevel={levelUpInfo.newLevel}
-          newTitle={levelUpInfo.newTitle}
-          message={levelUpInfo.message}
+      {/* Voltage Up Modal */}
+      {voltageUpInfo && (
+        <VoltageUpModal
+          isOpen={showVoltageUpModal}
+          onClose={() => setShowVoltageUpModal(false)}
+          newTier={voltageUpInfo.newTier as 1 | 2 | 3 | 4 | 5 | 6 | 7}
+          newTitle={voltageUpInfo.newTitle}
+          newVoltage={voltageUpInfo.newVoltage}
+          message={voltageUpInfo.message}
         />
       )}
       </div>

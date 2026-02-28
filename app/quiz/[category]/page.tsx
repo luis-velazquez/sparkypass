@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { useParams, useRouter, useSearchParams, notFound } from "next/navigation";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { haptic } from "@/lib/haptics";
@@ -24,6 +25,7 @@ import {
   Zap,
   Lock,
   Trophy,
+  ShieldAlert,
 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { useSessionTimeout } from "@/hooks/useSessionTimeout";
@@ -43,9 +45,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SparkyMessage } from "@/components/sparky";
 import { getRandomQuestions, getQuestionById, getQuestionCountByCategoryAndDifficulty } from "@/lib/questions";
-import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty } from "@/types/question";
-import { getXPRewardsForDifficulty, getCoinRewardsForDifficulty, DIFFICULTY_XP_REWARDS, DIFFICULTY_COIN_REWARDS, STREAK_COIN_BONUSES } from "@/lib/levels";
-import { Coins } from "lucide-react";
+import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
+import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty, type NecVersion } from "@/types/question";
+import { getWattsRewardsForDifficulty, DIFFICULTY_WATTS_REWARDS, STREAK_BONUSES } from "@/lib/levels";
+import { getScaffolding } from "@/lib/voltage";
+import { formatCooldown } from "@/lib/circuit-breaker";
+import type { VoltageTier } from "@/types/reward-system";
 
 // Sparky congratulation messages for correct answers
 const CORRECT_MESSAGES = [
@@ -326,9 +331,9 @@ interface SavedQuizProgress {
   timestamp: number;
 }
 
-function createInitialState(categorySlug: CategorySlug, difficulty?: Difficulty, count?: number): QuizState {
+function createInitialState(categorySlug: CategorySlug, difficulty?: Difficulty, count?: number, necVersion?: NecVersion): QuizState {
   const questionCount = count && count > 0 ? count : 9999;
-  const questions = getRandomQuestions(categorySlug, questionCount, difficulty);
+  const questions = getRandomQuestions(categorySlug, questionCount, difficulty, necVersion);
   return {
     questions,
     currentQuestionIndex: 0,
@@ -387,8 +392,19 @@ export default function QuizTakingPage() {
 
   // User quiz preferences
   const { status: authStatus } = useSession();
+  const { necVersion } = useNecVersion();
   const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
   const [profileQuizLength, setProfileQuizLength] = useState<number | null>(null);
+
+  // Voltage tier for scaffolding
+  const [voltageTier, setVoltageTier] = useState<VoltageTier>(1);
+
+  // Formula sheet power-up active
+  const [formulaSheetActive, setFormulaSheetActive] = useState(false);
+
+  // Circuit breaker tripped state
+  const [breakerTripped, setBreakerTripped] = useState(false);
+  const [breakerCooldown, setBreakerCooldown] = useState(0);
 
   // Resume prompt state
   const [showResumePrompt, setShowResumePrompt] = useState(false);
@@ -427,6 +443,10 @@ export default function QuizTakingPage() {
   // Refs for answer button positions (particle burst)
   const answerButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [particleBurst, setParticleBurst] = useState<{ x: number; y: number; id: number } | null>(null);
+
+  // Safety briefing (fast answer detection)
+  const questionStartTimeRef = useRef<number>(Date.now());
+  const [safetyBriefing, setSafetyBriefing] = useState<string | null>(null);
 
   // Milestone celebration state
   const [milestoneBanner, setMilestoneBanner] = useState<number | null>(null);
@@ -600,17 +620,17 @@ export default function QuizTakingPage() {
     clearSavedProgress();
     const diff = selectedDifficulty ?? "apprentice";
     const count = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[diff];
-    setQuizState(createInitialState(categorySlug, selectedDifficulty ?? undefined, count));
+    setQuizState(createInitialState(categorySlug, selectedDifficulty ?? undefined, count, necVersion));
     setShowResumePrompt(false);
     setSavedProgress(null);
-  }, [categorySlug, selectedDifficulty, profileQuizLength, clearSavedProgress]);
+  }, [categorySlug, selectedDifficulty, profileQuizLength, clearSavedProgress, necVersion]);
 
   // Handle difficulty selection
   const handleDifficultySelect = useCallback((difficulty: Difficulty) => {
     setSelectedDifficulty(difficulty);
     const count = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[difficulty];
-    setQuizState(createInitialState(categorySlug, difficulty, count));
-  }, [categorySlug, profileQuizLength]);
+    setQuizState(createInitialState(categorySlug, difficulty, count, necVersion));
+  }, [categorySlug, profileQuizLength, necVersion]);
 
   // Auto-save progress when quiz state changes
   useEffect(() => {
@@ -638,10 +658,46 @@ export default function QuizTakingPage() {
           }),
         ]);
 
-        // Store pre-quiz XP for level-up detection
+        // Store pre-quiz XP for level-up detection and get voltage tier for scaffolding
         if (userResponse.ok) {
           const userData = await userResponse.json();
           sessionStorage.setItem("preQuizXP", String(userData.xp || 0));
+          if (userData.voltageTier) {
+            setVoltageTier(userData.voltageTier as VoltageTier);
+          }
+        }
+
+        // Check circuit breaker status for this category
+        try {
+          const breakerRes = await fetch("/api/circuit-breaker/status");
+          if (breakerRes.ok) {
+            const breakerData = await breakerRes.json();
+            const catBreaker = breakerData.breakers?.find(
+              (b: { categorySlug: string }) => b.categorySlug === categorySlug
+            );
+            if (catBreaker?.isTripped) {
+              setBreakerTripped(true);
+              setBreakerCooldown(catBreaker.cooldownRemaining || 0);
+            }
+          }
+        } catch {
+          // Silently fail
+        }
+
+        // Check for active formula sheet power-up
+        try {
+          const powerUpRes = await fetch("/api/power-ups");
+          if (powerUpRes.ok) {
+            const powerUpData = await powerUpRes.json();
+            const hasFormulaSheet = powerUpData.active?.some(
+              (p: { type: string }) => p.type === "formula_sheet"
+            );
+            if (hasFormulaSheet) {
+              setFormulaSheetActive(true);
+            }
+          }
+        } catch {
+          // Silently fail
         }
 
         // Load bookmarks from database
@@ -677,8 +733,8 @@ export default function QuizTakingPage() {
         correctCount++;
       }
     });
-    const xpPerAnswer = getXPRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-    const xpEarned = correctCount * xpPerAnswer;
+    const wattsPerAnswer = getWattsRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+    const wattsEarned = correctCount * wattsPerAnswer;
 
     // End the study session
     const sessionId = sessionStorage.getItem("currentSessionId");
@@ -687,12 +743,12 @@ export default function QuizTakingPage() {
         const sessionRes = await fetch("/api/sessions", {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId, xpEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
+          body: JSON.stringify({ sessionId, wattsEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
         });
         if (sessionRes.ok) {
           const data = await sessionRes.json();
-          if (typeof data.totalCoins === "number") {
-            window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+          if (typeof data.wattsBalance === "number") {
+            window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
           }
         }
       } catch {
@@ -808,9 +864,19 @@ export default function QuizTakingPage() {
     const isCorrect = selectedAnswer === question.correctAnswer;
     haptic(isCorrect ? "success" : "error");
 
-    // Detect streak milestone for coin bonus (compute new streak before API call)
-    const newStreak = isCorrect ? quizState.correctStreak + 1 : 0;
-    const streakCoinBonus = isCorrect && STREAK_COIN_BONUSES[newStreak] ? STREAK_COIN_BONUSES[newStreak] : 0;
+    // Safety briefing: detect fast answers (under 3 seconds)
+    const answerTimeMs = Date.now() - questionStartTimeRef.current;
+    if (answerTimeMs < 3000) {
+      const briefings = [
+        "Whoa, that was fast! On the real exam, take a moment to read each question carefully.",
+        "Speed is great, but accuracy matters more! Make sure you're reading the full question.",
+        "Quick draw! Just remember — the exam rewards careful reading, not speed.",
+        "That was lightning fast! Double-check: did you read all the answer choices?",
+      ];
+      setSafetyBriefing(briefings[Math.floor(Math.random() * briefings.length)]);
+    } else {
+      setSafetyBriefing(null);
+    }
 
     // Save progress to database
     try {
@@ -821,13 +887,12 @@ export default function QuizTakingPage() {
           questionId: question.id,
           isCorrect,
           difficulty: selectedDifficulty,
-          streakCoinBonus,
         }),
       });
       if (progressRes.ok) {
         const data = await progressRes.json();
-        if (typeof data.totalCoins === "number") {
-          window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+        if (typeof data.wattsBalance === "number") {
+          window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
         }
       }
     } catch (error) {
@@ -928,8 +993,8 @@ export default function QuizTakingPage() {
           correctCount++;
         }
       });
-      const xpPerAnswer = getXPRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-      const xpEarned = correctCount * xpPerAnswer;
+      const wattsPerAnswer = getWattsRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+      const wattsEarned = correctCount * wattsPerAnswer;
 
       // End the study session
       const sessionId = sessionStorage.getItem("currentSessionId");
@@ -938,12 +1003,12 @@ export default function QuizTakingPage() {
           const sessionRes = await fetch("/api/sessions", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sessionId, xpEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
+            body: JSON.stringify({ sessionId, wattsEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
           });
           if (sessionRes.ok) {
             const data = await sessionRes.json();
-            if (typeof data.totalCoins === "number") {
-              window.dispatchEvent(new CustomEvent("coins-updated", { detail: data.totalCoins }));
+            if (typeof data.wattsBalance === "number") {
+              window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
             }
           }
         } catch {
@@ -987,9 +1052,11 @@ export default function QuizTakingPage() {
           showHint: false,
         };
       });
-      // Clear milestone state for next question
+      // Clear milestone state for next question and reset timer
       setMilestoneBanner(null);
       setMilestoneHit(null);
+      setSafetyBriefing(null);
+      questionStartTimeRef.current = Date.now();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [currentQuestionIndex, totalQuestions, answers, questions, bookmarkedQuestions, bestStreak, categorySlug, router, clearSavedProgress]);
@@ -1242,6 +1309,33 @@ export default function QuizTakingPage() {
             </motion.div>
           )}
 
+          {/* Circuit Breaker tripped warning */}
+          {breakerTripped && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <Card className="border-red-500/50 bg-red-500/5 dark:bg-red-500/10">
+                <CardContent className="pt-4 pb-3 flex items-center gap-3">
+                  <ShieldAlert className="h-5 w-5 text-red-500 flex-shrink-0" />
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-red-500">Circuit Breaker Tripped</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {breakerCooldown > 0
+                        ? `Cooldown: ${formatCooldown(breakerCooldown)} remaining`
+                        : "This category's breaker was tripped"
+                      }
+                      {" — "}
+                      <Link href={`/circuit-breaker/${categorySlug}`} className="underline hover:text-red-500">
+                        view details
+                      </Link>
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber/10 flex items-center justify-center mx-auto mb-4">
@@ -1254,7 +1348,7 @@ export default function QuizTakingPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {DIFFICULTY_CONFIG.map((diff) => {
-                const poolCount = getQuestionCountByCategoryAndDifficulty(categorySlug, diff.value);
+                const poolCount = getQuestionCountByCategoryAndDifficulty(categorySlug, diff.value, necVersion);
                 const quizLength = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[diff.value];
                 const actualCount = Math.min(quizLength, poolCount);
                 const isCustom = profileQuizLength !== null;
@@ -1302,7 +1396,7 @@ export default function QuizTakingPage() {
                         <p className={`text-sm text-muted-foreground ${isLocked ? "opacity-60" : ""}`}>{diff.description}</p>
                         {!isLocked && (
                           <p className={`text-xs font-semibold mt-1 ${diff.color}`}>
-                            {DIFFICULTY_XP_REWARDS[diff.value].CORRECT_ANSWER} XP + {DIFFICULTY_COIN_REWARDS[diff.value].CORRECT_ANSWER} coins/answer
+                            {DIFFICULTY_WATTS_REWARDS[diff.value].CORRECT_ANSWER}W/answer
                           </p>
                         )}
                       </>
@@ -1355,8 +1449,14 @@ export default function QuizTakingPage() {
   // Check if user is on fire (3+ streak)
   const isOnFireStreak = correctStreak >= STREAK_THRESHOLD;
 
-  // Hints are visible unless on hard difficulty with showHintsOnMaster disabled
-  const hintsVisible = selectedDifficulty !== "master" || showHintsOnMaster;
+  // Scaffolding config based on voltage tier (formula sheet overrides to show all)
+  const baseScaffolding = getScaffolding(voltageTier);
+  const scaffolding = formulaSheetActive
+    ? { ...baseScaffolding, showFormulas: true, showNecReferences: true, showHints: true }
+    : baseScaffolding;
+
+  // Hints are visible unless on hard difficulty with showHintsOnMaster disabled, or scaffolding hides them
+  const hintsVisible = scaffolding.showHints && (selectedDifficulty !== "master" || showHintsOnMaster);
 
   return (
     <>
@@ -1598,7 +1698,8 @@ export default function QuizTakingPage() {
                       className="overflow-hidden"
                     >
                       <div className="mt-5 p-4 rounded-xl backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 shadow-xl">
-                        {/* NEC Reference - Staggered Entry */}
+                        {/* NEC Reference - Staggered Entry (hidden by scaffolding at higher tiers) */}
+                        {scaffolding.showNecReferences && (
                         <motion.div
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
@@ -1611,10 +1712,11 @@ export default function QuizTakingPage() {
                           <div>
                             <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">NEC Reference</p>
                             <p className="text-sm font-semibold text-purple">
-                              {currentQuestion.necReference}
+                              {getNecReference(currentQuestion, necVersion)}
                             </p>
                           </div>
                         </motion.div>
+                        )}
 
                       </div>
                     </motion.div>
@@ -1832,10 +1934,12 @@ export default function QuizTakingPage() {
               >
                 {/* XP and Streak badges - persist while on streak */}
                 <div className="flex justify-center gap-3 mb-4 flex-wrap">
-                  {/* XP Animation for correct answers */}
+                  {/* Watts Animation for correct answers */}
                   {isCorrectAnswer && (() => {
-                    const xpAmount = getXPRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-                    const xpColor = selectedDifficulty === "apprentice"
+                    const wattsAmount = getWattsRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
+                    const streakBonus = STREAK_BONUSES[correctStreak] || 0;
+                    const totalWattsAmount = wattsAmount + streakBonus;
+                    const wattsColor = selectedDifficulty === "apprentice"
                       ? "bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green"
                       : selectedDifficulty === "master"
                       ? "bg-red-500/20 text-red-500"
@@ -1847,52 +1951,21 @@ export default function QuizTakingPage() {
                           initial={{ opacity: 0, y: 20, scale: 0.8 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           transition={{ duration: 0.5, type: "spring", bounce: 0.4 }}
-                          className={`inline-flex items-center gap-2 px-4 py-2 ${xpColor} rounded-full text-lg font-bold`}
+                          className={`inline-flex items-center gap-2 px-4 py-2 ${wattsColor} rounded-full text-lg font-bold`}
                         >
-                          <CheckCircle2 className="h-5 w-5" />
-                          +{xpAmount} XP
+                          <Zap className="h-5 w-5" />
+                          +{totalWattsAmount}W{streakBonus > 0 && <span className="text-sm font-normal ml-1">(+{streakBonus} bonus!)</span>}
                         </motion.span>
                         {/* Floating duplicate that rises and fades */}
                         <motion.span
-                          key={`float-xp-${currentQuestionIndex}`}
+                          key={`float-watts-${currentQuestionIndex}`}
                           initial={{ opacity: 1, y: 0, scale: 1.1 }}
                           animate={{ opacity: 0, y: -50, scale: 0.8 }}
                           transition={{ duration: 1, ease: "easeOut" }}
-                          className={`absolute inset-0 inline-flex items-center justify-center gap-2 px-4 py-2 ${xpColor} rounded-full text-lg font-bold pointer-events-none`}
+                          className={`absolute inset-0 inline-flex items-center justify-center gap-2 px-4 py-2 ${wattsColor} rounded-full text-lg font-bold pointer-events-none`}
                         >
-                          <CheckCircle2 className="h-5 w-5" />
-                          +{xpAmount} XP
-                        </motion.span>
-                      </span>
-                    );
-                  })()}
-                  {/* Coin Animation for correct answers */}
-                  {isCorrectAnswer && (() => {
-                    const coinAmount = getCoinRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-                    const streakBonus = STREAK_COIN_BONUSES[correctStreak] || 0;
-                    const totalCoinAmount = coinAmount + streakBonus;
-                    return (
-                      <span className="relative inline-flex">
-                        {/* Static coin badge */}
-                        <motion.span
-                          initial={{ opacity: 0, y: 20, scale: 0.8 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          transition={{ duration: 0.5, type: "spring", bounce: 0.4, delay: 0.15 }}
-                          className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold"
-                        >
-                          <Coins className="h-5 w-5" />
-                          +{totalCoinAmount}{streakBonus > 0 && <span className="text-sm font-normal ml-1">(+{streakBonus} bonus!)</span>}
-                        </motion.span>
-                        {/* Floating coin ghost */}
-                        <motion.span
-                          key={`float-coin-${currentQuestionIndex}`}
-                          initial={{ opacity: 1, y: 0, scale: 1.1 }}
-                          animate={{ opacity: 0, y: -50, scale: 0.8 }}
-                          transition={{ duration: 1, ease: "easeOut", delay: 0.15 }}
-                          className="absolute inset-0 inline-flex items-center justify-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold pointer-events-none"
-                        >
-                          <Coins className="h-5 w-5" />
-                          +{totalCoinAmount}
+                          <Zap className="h-5 w-5" />
+                          +{totalWattsAmount}W
                         </motion.span>
                       </span>
                     );
@@ -1954,7 +2027,25 @@ export default function QuizTakingPage() {
                     </div>
 
                     {/* Sparky Message */}
-                    <SparkyMessage message={sparkyMessage} size="medium" variant={isCorrectAnswer ? "default" : "calm"} className="mb-4" />
+                    <SparkyMessage
+                      message={sparkyMessage}
+                      size="medium"
+                      variant={
+                        showOnFire ? "excited"
+                        : streakBroken ? "sad"
+                        : isCorrectAnswer ? "default"
+                        : "calm"
+                      }
+                      className="mb-4"
+                    />
+
+                    {/* Safety Briefing — fast answer warning */}
+                    {safetyBriefing && (
+                      <div className="mb-4 flex items-start gap-2 p-3 rounded-lg bg-amber/10 dark:bg-amber/5 border border-amber/20 text-sm">
+                        <Lightbulb className="h-4 w-4 text-amber flex-shrink-0 mt-0.5" />
+                        <p className="text-muted-foreground">{safetyBriefing}</p>
+                      </div>
+                    )}
 
                     {/* Explanation */}
                     <div className="mt-4 p-4 bg-muted/50 dark:bg-stone-800/50 rounded-lg">
@@ -1963,20 +2054,24 @@ export default function QuizTakingPage() {
                         Explanation
                       </h4>
                       <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                        {currentQuestion.explanation}
+                        {getExplanation(currentQuestion, necVersion)}
                       </p>
-                      <p className="text-sm text-purple font-medium">
-                        📖 Reference: {currentQuestion.necReference}
-                      </p>
+                      {scaffolding.showNecReferences && (
+                        <p className="text-sm text-purple font-medium">
+                          📖 Reference: {getNecReference(currentQuestion, necVersion)}
+                        </p>
+                      )}
                     </div>
 
-                    {/* Sparky Tip */}
+                    {/* Sparky Tip — hidden at higher voltage tiers (formulas/hints removed) */}
+                    {scaffolding.showFormulas && (
                     <div className="mt-3 p-3 bg-amber/10 dark:bg-sparky-green/10 rounded-lg border border-amber/30 dark:border-sparky-green/30">
                       <p className="text-sm text-foreground">
                         <span className="font-medium text-amber dark:text-sparky-green">💡 Sparky&apos;s Tip:</span>{" "}
-                        {currentQuestion.sparkyTip}
+                        {getSparkyTip(currentQuestion, necVersion)}
                       </p>
                     </div>
+                    )}
 
                     {/* Bookmark suggestion for incorrect answers */}
                     {!isCorrectAnswer && !isBookmarked && (

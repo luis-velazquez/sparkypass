@@ -2,23 +2,23 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Calendar, Flame, CheckCircle2, ChevronRight, Star, Trophy } from "lucide-react";
+import { Calendar, Flame, CheckCircle2, ChevronRight, Zap, Trophy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface DailyChallengeBannerProps {
   completed: boolean;
   studyStreak: number;
   bestStudyStreak: number;
-  xpReward: number;
-  xpEarned: number;
+  wattsReward: number;
+  wattsEarned: number;
 }
 
 export function DailyChallengeBanner({
   completed,
   studyStreak,
   bestStudyStreak,
-  xpReward,
-  xpEarned,
+  wattsReward,
+  wattsEarned,
 }: DailyChallengeBannerProps) {
   if (completed) {
     return (
@@ -39,7 +39,10 @@ export function DailyChallengeBanner({
                     Daily Challenge Complete!
                   </p>
                   <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <span className="text-emerald dark:text-sparky-green font-medium">+{xpEarned} XP earned</span>
+                    <span className="flex items-center gap-1 text-emerald dark:text-sparky-green font-medium">
+                      <Zap className="h-3.5 w-3.5 fill-current" />
+                      +{wattsEarned}W earned
+                    </span>
                     {studyStreak > 0 && (
                       <span className="flex items-center gap-1 text-orange-500 dark:text-orange-400 font-medium">
                         <Flame className="h-3.5 w-3.5" />
@@ -101,8 +104,8 @@ export function DailyChallengeBanner({
                 </span>
               )}
               <span className="flex items-center gap-1 text-sm font-bold text-amber dark:text-sparky-green">
-                <Star className="h-4 w-4" />
-                +{xpReward} XP
+                <Zap className="h-4 w-4 fill-current" />
+                +{wattsReward}W
               </span>
               <Button
                 size="sm"

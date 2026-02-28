@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { SparkyMessage } from "@/components/sparky";
 import { getQuestionById } from "@/lib/questions";
+import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
 
 // Sparky congratulation messages for correct answers
@@ -103,6 +104,7 @@ function createInitialReviewState(): ReviewState {
 // Inner component that handles the actual review quiz
 function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[] }) {
   const router = useRouter();
+  const { necVersion } = useNecVersion();
   const questions = useMemo(() => initialQuestions, [initialQuestions]);
   const [reviewState, setReviewState] = useState<ReviewState>(createInitialReviewState);
   const xpTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -301,7 +303,7 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
               <div className="flex items-center gap-2 mb-4">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-soft dark:bg-purple/10 text-purple text-sm font-medium">
                   <Book className="h-3.5 w-3.5" />
-                  {currentQuestion.necReference}
+                  {getNecReference(currentQuestion, necVersion)}
                 </span>
                 <span className="text-xs text-muted-foreground capitalize px-2 py-0.5 rounded bg-muted dark:bg-stone-800">
                   {currentQuestion.difficulty}
@@ -427,10 +429,10 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
                         Explanation
                       </h4>
                       <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-                        {currentQuestion.explanation}
+                        {getExplanation(currentQuestion, necVersion)}
                       </p>
                       <p className="text-sm text-purple font-medium">
-                        Reference: {currentQuestion.necReference}
+                        Reference: {getNecReference(currentQuestion, necVersion)}
                       </p>
                     </div>
 
@@ -440,7 +442,7 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
                         <span className="font-medium text-amber">
                           Sparky&apos;s Tip:
                         </span>{" "}
-                        {currentQuestion.sparkyTip}
+                        {getSparkyTip(currentQuestion, necVersion)}
                       </p>
                     </div>
                   </CardContent>

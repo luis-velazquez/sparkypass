@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { Coins, LogOut, Moon, Settings, Sun } from "lucide-react";
+import { Zap, LogOut, Moon, Settings, Sun } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -16,7 +16,7 @@ export function UserMenu() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false);
-  const [coins, setCoins] = useState<number | null>(null);
+  const [wattsBalance, setWattsBalance] = useState<number | null>(null);
   const [necYear, setNecYear] = useState<string | null>(null);
 
   useEffect(() => {
@@ -29,25 +29,25 @@ export function UserMenu() {
     fetch("/api/user")
       .then((res) => (res.ok ? res.json() : null))
       .then((data) => {
-        if (data?.coins !== undefined) setCoins(data.coins);
+        if (data?.wattsBalance !== undefined) setWattsBalance(data.wattsBalance);
         if (data?.necYear) setNecYear(data.necYear);
       })
       .catch(() => {});
   }, [status]);
 
   useEffect(() => {
-    const coinsHandler = (e: Event) => {
+    const wattsHandler = (e: Event) => {
       const detail = (e as CustomEvent<number>).detail;
-      if (typeof detail === "number") setCoins(detail);
+      if (typeof detail === "number") setWattsBalance(detail);
     };
     const necHandler = (e: Event) => {
       const detail = (e as CustomEvent<string>).detail;
       if (detail === "2023" || detail === "2026") setNecYear(detail);
     };
-    window.addEventListener("coins-updated", coinsHandler);
+    window.addEventListener("watts-updated", wattsHandler);
     window.addEventListener("nec-year-updated", necHandler);
     return () => {
-      window.removeEventListener("coins-updated", coinsHandler);
+      window.removeEventListener("watts-updated", wattsHandler);
       window.removeEventListener("nec-year-updated", necHandler);
     };
   }, []);
@@ -86,10 +86,10 @@ export function UserMenu() {
               {necYear} NEC
             </span>
           )}
-          {coins !== null && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber/10 text-amber text-xs font-semibold">
-              <Coins className="h-3 w-3" />
-              {coins.toLocaleString()}
+          {wattsBalance !== null && (
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber/10 text-amber dark:bg-sparky-green/10 dark:text-sparky-green text-xs font-semibold">
+              <Zap className="h-3 w-3 fill-current" />
+              {wattsBalance.toLocaleString()}W
             </span>
           )}
         </div>

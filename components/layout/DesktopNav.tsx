@@ -12,92 +12,126 @@ import {
 } from "@/components/ui/popover";
 import { NavTipButton } from "@/components/tip";
 
-const navLinks = [
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+interface NavGroup {
+  label: string;
+  links: NavLink[];
+}
+
+type NavItem = NavLink | NavGroup;
+
+function isGroup(item: NavItem): item is NavGroup {
+  return "links" in item;
+}
+
+const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/quiz", label: "Quiz" },
-  { href: "/flashcards", label: "Flashcards" },
-  { href: "/mock-exam", label: "Mock Exam" },
-  { href: "/daily", label: "Daily Challenge" },
-  { href: "/load-calculator", label: "Load Calculator" },
+  {
+    label: "Study",
+    links: [
+      { href: "/quiz", label: "Quiz" },
+      { href: "/flashcards", label: "Flashcards" },
+      { href: "/mock-exam", label: "Mock Exam" },
+      { href: "/daily", label: "Daily Challenge" },
+    ],
+  },
+  {
+    label: "Progress",
+    links: [
+      { href: "/power-grid", label: "Power Grid" },
+      { href: "/circuit-breaker", label: "Circuit Breaker" },
+      { href: "/leaderboard", label: "Leaderboard" },
+    ],
+  },
+  {
+    label: "Tools",
+    links: [
+      { href: "/load-calculator", label: "Residential Calc" },
+      { href: "/load-calculator/commercial", label: "Commercial Calc" },
+      { href: "/power-ups", label: "Power-Ups" },
+    ],
+  },
+  { href: "/friends", label: "Friends" },
 ];
 
-const calcSubLinks = [
-  { href: "/load-calculator", label: "Residential" },
-  { href: "/load-calculator/commercial", label: "Commercial" },
-];
+function NavDropdown({ group }: { group: NavGroup }) {
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const isActive = group.links.some(
+    (link) => pathname === link.href || pathname.startsWith(link.href + "/")
+  );
+
+  return (
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          className={`flex items-center gap-1 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
+            isActive
+              ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)]"
+              : "text-muted-foreground hover:text-foreground hover:bg-muted"
+          }`}
+        >
+          {group.label}
+          <ChevronDown
+            className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-48 p-1" align="start" sideOffset={8}>
+        {group.links.map((link) => {
+          const linkActive =
+            pathname === link.href || pathname.startsWith(link.href + "/");
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className={`block px-3 py-2 rounded-md text-sm transition-colors ${
+                linkActive
+                  ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)] font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+              }`}
+            >
+              {link.label}
+            </Link>
+          );
+        })}
+      </PopoverContent>
+    </Popover>
+  );
+}
 
 export function DesktopNav() {
   const pathname = usePathname();
-  const [calcOpen, setCalcOpen] = useState(false);
   const { status } = useSession();
 
   if (status !== "authenticated") return null;
 
   return (
     <nav data-tour="nav-desktop" className="hidden xl:flex items-center gap-1">
-      {navLinks.map((link) => {
-        const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
-
-        if (link.href === "/load-calculator") {
-          return (
-            <Popover key={link.href} open={calcOpen} onOpenChange={setCalcOpen}>
-              <div
-                className={`group flex items-center rounded-md transition-colors ${
-                  isActive
-                    ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                }`}
-              >
-                <Link
-                  href={link.href}
-                  className="pl-3 pr-1.5 py-1.5 text-sm font-medium"
-                >
-                  {link.label}
-                </Link>
-                <PopoverTrigger asChild>
-                  <button
-                    className={`pl-1.5 pr-2 py-1.5 border-l ${
-                      isActive ? "border-amber/25 dark:border-sparky-green/25" : "border-transparent group-hover:border-muted-foreground/20"
-                    }`}
-                  >
-                    <ChevronDown className={`h-3.5 w-3.5 transition-transform ${calcOpen ? "rotate-180" : ""}`} />
-                  </button>
-                </PopoverTrigger>
-              </div>
-              <PopoverContent className="w-44 p-1" align="start" sideOffset={8}>
-                {calcSubLinks.map((sub) => {
-                  const subActive = pathname === sub.href;
-                  return (
-                    <Link
-                      key={sub.href}
-                      href={sub.href}
-                      onClick={() => setCalcOpen(false)}
-                      className={`block px-3 py-2 rounded-md text-sm transition-colors ${
-                        subActive
-                          ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)] font-medium"
-                          : "text-muted-foreground hover:text-foreground hover:bg-muted"
-                      }`}
-                    >
-                      {sub.label}
-                    </Link>
-                  );
-                })}
-              </PopoverContent>
-            </Popover>
-          );
+      {navItems.map((item) => {
+        if (isGroup(item)) {
+          return <NavDropdown key={item.label} group={item} />;
         }
+
+        const isActive =
+          pathname === item.href || pathname.startsWith(item.href + "/");
 
         return (
           <Link
-            key={link.href}
-            href={link.href}
+            key={item.href}
+            href={item.href}
             className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
               isActive
                 ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)]"
                 : "text-muted-foreground hover:text-foreground hover:bg-muted"
             }`}
           >
-            {link.label}
+            {item.label}
           </Link>
         );
       })}
