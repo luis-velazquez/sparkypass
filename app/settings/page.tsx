@@ -86,7 +86,7 @@ function SettingsContent() {
   const [quizPrefSuccess, setQuizPrefSuccess] = useState("");
   const [quizPrefError, setQuizPrefError] = useState("");
 
-  // Tip of the Day state
+  // Sparky Tips state
   const [tipEnabled, setTipEnabled] = useState(true);
 
   // Billing state
@@ -575,14 +575,14 @@ function SettingsContent() {
               </div>
 
 
-              {/* Tip of the Day toggle */}
+              {/* Sparky Tips toggle */}
               <div className="flex items-center justify-between gap-4 pt-1">
                 <div className="space-y-1">
                   <p className="text-sm font-medium text-foreground">
-                    Tip of the Day
+                    Sparky Tips
                   </p>
                   <p className="text-xs text-muted-foreground">
-                    Show a daily electrical theory tip on the dashboard and a dialog on your first visit each day.
+                    Show the Sparky Tip button in the navigation to replay previously unlocked tips.
                   </p>
                 </div>
                 <button

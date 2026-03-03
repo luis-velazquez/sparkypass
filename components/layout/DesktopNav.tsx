@@ -33,32 +33,38 @@ const navItems: NavItem[] = [
   {
     label: "Study",
     links: [
-      { href: "/quiz", label: "Quiz" },
       { href: "/flashcards", label: "Flashcards" },
-      { href: "/mock-exam", label: "Mock Exam" },
       { href: "/daily", label: "Daily Challenge" },
+      { href: "/load-calculator", label: "Residential Calc" },
+      { href: "/load-calculator/commercial", label: "Commercial Calc" },
     ],
   },
   {
     label: "Progress",
     links: [
       { href: "/power-grid", label: "Power Grid" },
-      { href: "/circuit-breaker", label: "Circuit Breaker" },
       { href: "/leaderboard", label: "Leaderboard" },
     ],
   },
   {
     label: "Tools",
     links: [
-      { href: "/load-calculator", label: "Residential Calc" },
-      { href: "/load-calculator/commercial", label: "Commercial Calc" },
       { href: "/power-ups", label: "Power-Ups" },
     ],
   },
   { href: "/friends", label: "Friends" },
+  {
+    label: "Challenge Mode",
+    links: [
+      { href: "/quiz", label: "Quiz" },
+      { href: "/circuit-breaker", label: "Circuit Breaker" },
+      { href: "/index-game", label: "Index Game" },
+    ],
+  },
+  { href: "/mock-exam", label: "Mock Exam" },
 ];
 
-function NavDropdown({ group }: { group: NavGroup }) {
+function NavDropdown({ group, suffix }: { group: NavGroup; suffix?: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const isActive = group.links.some(
@@ -100,6 +106,7 @@ function NavDropdown({ group }: { group: NavGroup }) {
             </Link>
           );
         })}
+        {suffix}
       </PopoverContent>
     </Popover>
   );
@@ -115,7 +122,13 @@ export function DesktopNav() {
     <nav data-tour="nav-desktop" className="hidden xl:flex items-center gap-1">
       {navItems.map((item) => {
         if (isGroup(item)) {
-          return <NavDropdown key={item.label} group={item} />;
+          return (
+            <NavDropdown
+              key={item.label}
+              group={item}
+              suffix={item.label === "Study" ? <NavTipButton variant="desktop" /> : undefined}
+            />
+          );
         }
 
         const isActive =
@@ -135,7 +148,6 @@ export function DesktopNav() {
           </Link>
         );
       })}
-      <NavTipButton variant="desktop" autoOpen />
     </nav>
   );
 }

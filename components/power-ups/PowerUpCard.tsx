@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Shield, FileText, RotateCcw, Zap, Loader2 } from "lucide-react";
+import { Shield, FileText, RotateCcw, Lightbulb, Zap, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { PowerUpTypeValue } from "@/lib/db/schema";
@@ -11,6 +11,7 @@ const ICON_MAP: Record<string, typeof Shield> = {
   Shield,
   FileText,
   RotateCcw,
+  Lightbulb,
 };
 
 interface PowerUpCardProps {
@@ -118,7 +119,7 @@ export function PowerUpCard({
                 <>Buy</>
               )}
             </Button>
-            {inventoryCount > 0 && type !== "breaker_reset" && (
+            {inventoryCount > 0 && type !== "breaker_reset" && type !== "sparky_tip" && (
               <Button
                 size="sm"
                 className="flex-1 bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"

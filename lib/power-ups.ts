@@ -34,6 +34,14 @@ export const POWER_UP_DEFINITIONS: Record<PowerUpTypeValue, PowerUpDefinition> =
     duration: "Instant",
     icon: "RotateCcw",
   },
+  sparky_tip: {
+    type: "sparky_tip",
+    name: "Sparky Tip",
+    description: "Unlock a random NEC pro tip from Sparky's vault. Each tip covers a unique exam trap or code nuance.",
+    cost: 50,
+    duration: "Instant",
+    icon: "Lightbulb",
+  },
 };
 
 export const POWER_UP_LIST = Object.values(POWER_UP_DEFINITIONS);

@@ -87,7 +87,7 @@ export const friendshipStatusValues = ["pending", "accepted", "declined", "block
 export type FriendshipStatusValue = (typeof friendshipStatusValues)[number];
 
 // Power-up type enum values
-export const powerUpTypeValues = ["streak_fuse", "formula_sheet", "breaker_reset"] as const;
+export const powerUpTypeValues = ["streak_fuse", "formula_sheet", "breaker_reset", "sparky_tip"] as const;
 export type PowerUpTypeValue = (typeof powerUpTypeValues)[number];
 
 // User progress table - tracks individual question attempts

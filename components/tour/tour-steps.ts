@@ -18,34 +18,18 @@ export const DASHBOARD_TOUR_STEPS: Step[] = [
     disableBeacon: true,
   },
   {
-    target: '[data-tour="feature-flashcards"]',
-    title: "Flashcards",
+    target: '[data-tour="feature-circuit-breaker"]',
+    title: "Circuit Breaker",
     content:
-      "Memorize formulas and code references. Bookmark cards to review later!",
+      "High-stakes mode — 2 wrong answers trips the breaker! Can you keep it going?",
     placement: "bottom",
     disableBeacon: true,
   },
   {
-    target: '[data-tour="feature-load-calculator"]',
-    title: "Load Calculator",
+    target: '[data-tour="feature-index-game"]',
+    title: "Index Game",
     content:
-      "Practice residential and commercial load calculations step by step.",
-    placement: "bottom",
-    disableBeacon: true,
-  },
-  {
-    target: '[data-tour="feature-mock-exam"]',
-    title: "Mock Exam",
-    content:
-      "Simulate the real exam with timed tests to see if you're ready!",
-    placement: "bottom",
-    disableBeacon: true,
-  },
-  {
-    target: '[data-tour="feature-daily-challenge"]',
-    title: "Daily Challenge",
-    content:
-      "Complete daily challenges to build your streak and earn bonus Watts!",
+      "Race to find NEC articles and sharpen your code book navigation speed!",
     placement: "bottom",
     disableBeacon: true,
   },

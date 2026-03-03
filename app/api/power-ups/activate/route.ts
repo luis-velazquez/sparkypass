@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       // Active until used (marked as used when quiz completes)
       // No expiry — consumed on next quiz
       expiresAt = null;
-    } else if (purchase.powerUpType === "breaker_reset") {
+    } else if (purchase.powerUpType === "breaker_reset" || purchase.powerUpType === "sparky_tip") {
       // Instant use — mark as used immediately
       await db
         .update(powerUpPurchases)
@@ -65,7 +65,6 @@ export async function POST(request: Request) {
       return NextResponse.json({
         success: true,
         type: purchase.powerUpType,
-        message: "Breaker reset activated. Use it on the Circuit Breaker page.",
       });
     }
 

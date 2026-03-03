@@ -11,10 +11,12 @@ import {
   Layers,
   ClipboardCheck,
   Calendar,
+  Target,
   Calculator,
   Building2,
   Zap,
   ShieldAlert,
+  Swords,
   Activity,
   Users,
   Trophy,
@@ -55,10 +57,10 @@ const navItems: MobileNavItem[] = [
     label: "Study",
     icon: BookOpen,
     links: [
-      { href: "/quiz", label: "Quiz", icon: BookOpen },
       { href: "/flashcards", label: "Flashcards", icon: Layers },
-      { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },
       { href: "/daily", label: "Daily Challenge", icon: Calendar },
+      { href: "/load-calculator", label: "Residential Calc", icon: Calculator },
+      { href: "/load-calculator/commercial", label: "Commercial Calc", icon: Building2 },
     ],
   },
   {
@@ -66,7 +68,6 @@ const navItems: MobileNavItem[] = [
     icon: Activity,
     links: [
       { href: "/power-grid", label: "Power Grid", icon: Activity },
-      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert },
       { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
     ],
   },
@@ -74,22 +75,32 @@ const navItems: MobileNavItem[] = [
     label: "Tools",
     icon: Calculator,
     links: [
-      { href: "/load-calculator", label: "Residential Calc", icon: Calculator },
-      { href: "/load-calculator/commercial", label: "Commercial Calc", icon: Building2 },
       { href: "/power-ups", label: "Power-Ups", icon: Zap },
     ],
   },
   { href: "/friends", label: "Friends", icon: Users },
+  {
+    label: "Challenge Mode",
+    icon: Swords,
+    links: [
+      { href: "/quiz", label: "Quiz", icon: BookOpen },
+      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert },
+      { href: "/index-game", label: "Index Game", icon: Target },
+    ],
+  },
+  { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },
 ];
 
 function MobileNavSection({
   group,
   pathname,
   onNavigate,
+  suffix,
 }: {
   group: MobileNavGroup;
   pathname: string;
   onNavigate: () => void;
+  suffix?: React.ReactNode;
 }) {
   const isActive = group.links.some(
     (link) => pathname === link.href || pathname.startsWith(link.href + "/")
@@ -147,6 +158,7 @@ function MobileNavSection({
               </Link>
             );
           })}
+          {suffix}
         </div>
       )}
     </div>
@@ -192,6 +204,7 @@ export function MobileNav() {
                     group={item}
                     pathname={pathname}
                     onNavigate={closeSheet}
+                    suffix={item.label === "Study" ? <NavTipButton variant="mobile" /> : undefined}
                   />
                 );
               }
@@ -223,7 +236,6 @@ export function MobileNav() {
                 </Link>
               );
             })}
-            <NavTipButton variant="mobile" onAfterOpen={closeSheet} />
           </nav>
         )}
 

@@ -2,7 +2,7 @@
   "tips": [
     {
       "id": "TIP-001",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "The Tale of Two Formulas: R vs. Z",
       "category": "Electrical Theory & Voltage Drop",
       "difficulty": "journeyman",
@@ -16,7 +16,7 @@
     },
     {
       "id": "TIP-002",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "Gas Pipe Bonding: The Exam vs. The Real World",
       "category": "Grounding & Bonding",
       "difficulty": "journeyman",
@@ -30,7 +30,7 @@
     },
     {
       "id": "TIP-003",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "The Termination Temperature Trap: 60\u00b0C vs. 75\u00b0C",
       "category": "Ampacity & Conductor Sizing",
       "difficulty": "journeyman",
@@ -44,7 +44,7 @@
     },
     {
       "id": "TIP-004",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "The Phase Multiplier: 2 vs. 1.732",
       "category": "Voltage Drop & Circuit Calculations",
       "difficulty": "master",
@@ -58,7 +58,7 @@
     },
     {
       "id": "TIP-005",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "The XHHW Location Trap",
       "category": "Ampacity & Conductor Derating",
       "difficulty": "master",
@@ -73,7 +73,7 @@
     },
     {
       "id": "TIP-006",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "The Elevator Rule: Round Up or Down?",
       "category": "Overcurrent Protection",
       "difficulty": "master",
@@ -90,7 +90,7 @@
     },
     {
       "id": "TIP-007",
-      "type": "tip-of-the-day",
+      "type": "sparky-tip",
       "title": "The 'Green Stripe' Secret: Redundant Grounding",
       "category": "Special Occupancies",
       "difficulty": "apprentice",

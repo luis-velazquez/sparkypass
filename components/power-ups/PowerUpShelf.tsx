@@ -18,7 +18,7 @@ interface PowerUpShelfProps {
 
 export function PowerUpShelf({ wattsBalance, inventory, onPurchase, onActivate }: PowerUpShelfProps) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       {POWER_UP_LIST.map((powerUp, index) => {
         const ownedItems = inventory.filter((i) => i.type === powerUp.type);
         const firstOwned = ownedItems[0];
