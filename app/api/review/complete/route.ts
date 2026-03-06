@@ -1,12 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, studySessions, wattsTransactions } from "@/lib/db";
-import { eq, sql, count } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 import crypto from "crypto";
-import { calculateSessionWatts } from "@/lib/watts";
-import { calculateAmps, getDaysIdle } from "@/lib/amps";
-import { userProgress } from "@/lib/db/schema";
-import type { VoltageTier } from "@/types/reward-system";
+import { getUserClassification, getClassificationTitle } from "@/lib/voltage";
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +14,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { sessionId, questionsReviewed, questionsCorrect } = body;
+    const { sessionId, questionsReviewed, questionsCorrect, wattsEarned = 0 } = body;
 
     if (!sessionId) {
       return NextResponse.json(
@@ -31,45 +28,20 @@ export async function POST(request: Request) {
       .select({
         wattsBalance: users.wattsBalance,
         wattsLifetime: users.wattsLifetime,
-        level: users.level,
-        studyStreak: users.studyStreak,
-        lastStudyDate: users.lastStudyDate,
       })
       .from(users)
       .where(eq(users.id, session.user.id))
       .limit(1);
 
-    const voltageTier = (currentUser?.level || 1) as VoltageTier;
-
-    // Calculate amps
-    const daysIdle = getDaysIdle(currentUser?.lastStudyDate || null);
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const [volumeResult] = await db
-      .select({ count: count() })
-      .from(userProgress)
-      .where(
-        sql`${userProgress.userId} = ${session.user.id} AND ${userProgress.answeredAt} >= ${Math.floor(sevenDaysAgo.getTime() / 1000)}`
-      );
-
-    const ampsState = calculateAmps({
-      streakDays: currentUser?.studyStreak || 0,
-      questionsLast7Days: volumeResult?.count || 0,
-      daysIdle: 0, // Just studied
-    });
-
-    // Award session completion Watts (uses "journeyman" base since review is mixed difficulty)
-    const sessionWatts = calculateSessionWatts("journeyman", voltageTier, ampsState.totalAmps);
-
-    const newBalance = (currentUser?.wattsBalance || 0) + sessionWatts;
-    const newLifetime = (currentUser?.wattsLifetime || 0) + sessionWatts;
+    const newBalance = (currentUser?.wattsBalance || 0) + wattsEarned;
+    const newLifetime = (currentUser?.wattsLifetime || 0) + wattsEarned;
 
     // Update the session record
     await db
       .update(studySessions)
       .set({
         endedAt: new Date(),
-        wattsEarned: sessionWatts,
+        wattsEarned,
         questionsAnswered: questionsReviewed ?? null,
         questionsCorrect: questionsCorrect ?? null,
       })
@@ -82,8 +54,6 @@ export async function POST(request: Request) {
         wattsBalance: newBalance,
         wattsLifetime: newLifetime,
         xp: newLifetime,
-        ampsBase: ampsState.totalAmps,
-        ampsLastCalculated: new Date(),
         updatedAt: new Date(),
       })
       .where(eq(users.id, session.user.id));
@@ -92,19 +62,23 @@ export async function POST(request: Request) {
     await db.insert(wattsTransactions).values({
       id: crypto.randomUUID(),
       userId: session.user.id,
-      type: "session_complete",
-      amount: sessionWatts,
+      type: "review_complete",
+      amount: wattsEarned,
       balanceAfter: newBalance,
-      voltageAtTime: voltageTier,
-      ampsAtTime: ampsState.totalAmps,
+      voltageAtTime: 277,
+      ampsAtTime: questionsCorrect ?? 0,
       description: `Review session complete (${questionsReviewed || 0} questions)`,
     });
 
+    const classification = getUserClassification(newBalance).classification;
+    const classificationTitle = getClassificationTitle(newBalance);
+
     return NextResponse.json({
       success: true,
-      wattsEarned: sessionWatts,
+      wattsEarned,
       wattsBalance: newBalance,
-      currentAmps: ampsState.totalAmps,
+      classification,
+      classificationTitle,
     });
   } catch (error) {
     console.error("Error completing review session:", error);

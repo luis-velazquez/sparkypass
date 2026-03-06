@@ -18,8 +18,7 @@ interface FriendCardProps {
   name: string;
   username: string | null;
   wattsLifetime: number;
-  tierTitle: string;
-  tierVoltage: string;
+  classificationTitle: string;
   studyStreak: number;
   since: string | null;
   onRemove: () => void;
@@ -31,8 +30,7 @@ export function FriendCard({
   name,
   username,
   wattsLifetime,
-  tierTitle,
-  tierVoltage,
+  classificationTitle,
   studyStreak,
   since,
   onRemove,
@@ -86,7 +84,7 @@ export function FriendCard({
           )}
         </div>
         <div className="flex items-center gap-2 mt-0.5 flex-wrap">
-          <span className="text-xs text-muted-foreground">{tierVoltage} {tierTitle}</span>
+          <span className="text-xs text-muted-foreground">{classificationTitle}</span>
           <TierBadge tier={getLeaderboardTier(wattsLifetime)} />
         </div>
       </div>

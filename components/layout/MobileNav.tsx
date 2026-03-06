@@ -13,7 +13,6 @@ import {
   Calendar,
   Target,
   Calculator,
-  Building2,
   Zap,
   ShieldAlert,
   Swords,
@@ -51,6 +50,19 @@ function isMobileGroup(item: MobileNavItem): item is MobileNavGroup {
   return "links" in item;
 }
 
+// Check if a nav link is active, preferring the most specific sibling match
+function isNavLinkActive(pathname: string, href: string, siblingHrefs: string[] = []): boolean {
+  if (pathname === href) return true;
+  if (!pathname.startsWith(href + "/")) return false;
+  // Don't match if a more specific sibling also matches
+  return !siblingHrefs.some(
+    (sibling) =>
+      sibling !== href &&
+      sibling.length > href.length &&
+      (pathname === sibling || pathname.startsWith(sibling + "/"))
+  );
+}
+
 const navItems: MobileNavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   {
@@ -59,8 +71,7 @@ const navItems: MobileNavItem[] = [
     links: [
       { href: "/flashcards", label: "Flashcards", icon: Layers },
       { href: "/daily", label: "Daily Challenge", icon: Calendar },
-      { href: "/load-calculator", label: "Residential Calc", icon: Calculator },
-      { href: "/load-calculator/commercial", label: "Commercial Calc", icon: Building2 },
+      { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
     ],
   },
   {
@@ -72,13 +83,13 @@ const navItems: MobileNavItem[] = [
     ],
   },
   {
-    label: "Tools",
-    icon: Calculator,
+    label: "Shop",
+    icon: Zap,
     links: [
       { href: "/power-ups", label: "Power-Ups", icon: Zap },
+      { href: "/watts", label: "Watts Bank", icon: Activity },
     ],
   },
-  { href: "/friends", label: "Friends", icon: Users },
   {
     label: "Challenge Mode",
     icon: Swords,
@@ -102,8 +113,9 @@ function MobileNavSection({
   onNavigate: () => void;
   suffix?: React.ReactNode;
 }) {
+  const siblingHrefs = group.links.map((l) => l.href);
   const isActive = group.links.some(
-    (link) => pathname === link.href || pathname.startsWith(link.href + "/")
+    (link) => isNavLinkActive(pathname, link.href, siblingHrefs)
   );
   const [expanded, setExpanded] = useState(isActive);
   const Icon = group.icon;
@@ -134,8 +146,7 @@ function MobileNavSection({
         <div className="ml-4 mt-1 flex flex-col gap-1">
           {group.links.map((link) => {
             const SubIcon = link.icon;
-            const linkActive =
-              pathname === link.href || pathname.startsWith(link.href + "/");
+            const linkActive = isNavLinkActive(pathname, link.href, siblingHrefs);
             return (
               <Link
                 key={link.href}
@@ -210,9 +221,7 @@ export function MobileNav() {
               }
 
               const Icon = item.icon;
-              const isActive =
-                pathname === item.href ||
-                pathname.startsWith(item.href + "/");
+              const isActive = isNavLinkActive(pathname, item.href);
 
               return (
                 <Link

@@ -405,9 +405,8 @@ button:not(:disabled),
   }
 }
 
-/* Touch devices */
+/* Touch devices — only buttons, not .pressable (causes scroll glitches) */
 @media (hover: none) and (pointer: coarse) {
-  .pressable:active,
   button:not(:disabled):active,
   [role="button"]:not(:disabled):active {
     opacity: 0.8;

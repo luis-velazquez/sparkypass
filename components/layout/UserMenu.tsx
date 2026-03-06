@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
-import { Zap, LogOut, Moon, Settings, Sun } from "lucide-react";
+import { Zap, LogOut, Moon, Settings, Sun, Users } from "lucide-react";
 import {
   Popover,
   PopoverContent,
@@ -63,7 +63,7 @@ export function UserMenu() {
   const initial = session.user?.name?.charAt(0)?.toUpperCase() || "?";
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={setOpen} modal>
       <PopoverTrigger asChild>
         <button
           className="w-11 h-11 rounded-full bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green font-semibold text-sm flex items-center justify-center hover:bg-amber/20 dark:hover:bg-sparky-green-bg/80 transition-colors cursor-pointer"
@@ -72,7 +72,7 @@ export function UserMenu() {
           {initial}
         </button>
       </PopoverTrigger>
-      <PopoverContent align="end" className="w-64 p-0">
+      <PopoverContent align="end" className="w-64 p-0" onOpenAutoFocus={(e) => e.preventDefault()}>
         {/* Header */}
         <div className="px-4 py-3 border-b border-border">
           <p className="font-semibold text-sm truncate">{session.user?.name}</p>
@@ -87,15 +87,35 @@ export function UserMenu() {
             </span>
           )}
           {wattsBalance !== null && (
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber/10 text-amber dark:bg-sparky-green/10 dark:text-sparky-green text-xs font-semibold">
+            <Link
+              href="/watts"
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber/10 text-amber dark:bg-sparky-green/10 dark:text-sparky-green text-xs font-semibold hover:bg-amber/20 dark:hover:bg-sparky-green/20 transition-colors cursor-pointer"
+            >
               <Zap className="h-3 w-3 fill-current" />
               {wattsBalance.toLocaleString()}W
-            </span>
+            </Link>
           )}
         </div>
 
         {/* Menu items */}
         <div className="py-1">
+          <Link
+            href="/watts"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-muted transition-colors"
+          >
+            <Zap className="h-4 w-4 text-muted-foreground" />
+            Watts Bank
+          </Link>
+          <Link
+            href="/friends"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-muted transition-colors"
+          >
+            <Users className="h-4 w-4 text-muted-foreground" />
+            Friends
+          </Link>
           <Link
             href="/settings"
             onClick={() => setOpen(false)}

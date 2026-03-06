@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, friendships } from "@/lib/db";
 import { eq, and, or } from "drizzle-orm";
-import { getTierTitle, getTierVoltage } from "@/lib/levels";
-import type { VoltageTier } from "@/types/reward-system";
+import { getClassificationTitle } from "@/lib/voltage";
 
 export interface LeaderboardEntry {
   rank: number;
@@ -11,9 +10,7 @@ export interface LeaderboardEntry {
   name: string;
   username: string | null;
   wattsLifetime: number;
-  voltageTier: number;
-  tierTitle: string;
-  tierVoltage: string;
+  classificationTitle: string;
   studyStreak: number;
   leaderboardTier: string;
   isCurrentUser: boolean;
@@ -65,7 +62,7 @@ export async function GET() {
         name: users.name,
         username: users.username,
         wattsLifetime: users.wattsLifetime,
-        level: users.level,
+        wattsBalance: users.wattsBalance,
         studyStreak: users.studyStreak,
       })
       .from(users)
@@ -81,9 +78,7 @@ export async function GET() {
       name: user.name,
       username: user.username,
       wattsLifetime: user.wattsLifetime,
-      voltageTier: user.level,
-      tierTitle: getTierTitle(user.level as VoltageTier),
-      tierVoltage: getTierVoltage(user.level as VoltageTier),
+      classificationTitle: getClassificationTitle(user.wattsBalance),
       studyStreak: user.studyStreak,
       leaderboardTier: getLeaderboardTier(user.wattsLifetime),
       isCurrentUser: user.id === userId,

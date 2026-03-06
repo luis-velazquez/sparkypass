@@ -22,11 +22,11 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
-import { VoltageUpModal, getRandomVoltageUpMessage } from "@/components/reward-system";
+import { VoltageUpModal } from "@/components/reward-system";
 import { getQuestionById } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty } from "@/types/question";
-import { getWattsRewardsForDifficulty } from "@/lib/levels";
+import { PASS_THRESHOLD } from "@/lib/watts";
 
 // Sparky messages based on score percentage
 const CELEBRATION_MESSAGES = [
@@ -191,7 +191,7 @@ export default function QuizResultsPage() {
   const [sparkyMessage, setSparkyMessage] = useState("");
   const [showXpAnimation, setShowXpAnimation] = useState(false);
   const [showVoltageUpModal, setShowVoltageUpModal] = useState(false);
-  const [voltageUpInfo, setVoltageUpInfo] = useState<{ newTier: number; newTitle: string; newVoltage: string; message: string } | null>(null);
+  const [voltageUpInfo, setVoltageUpInfo] = useState<{ newTitle: string; message: string } | null>(null);
   const [showFireAnimation, setShowFireAnimation] = useState(false);
   const [username, setUsername] = useState<string | null>(null);
   const [difficulty, setDifficulty] = useState<string | null>(null);
@@ -260,20 +260,17 @@ export default function QuizResultsPage() {
     const totalQuestions = questions.length;
     const percentage = totalQuestions > 0 ? Math.round((correctCount / totalQuestions) * 100) : 0;
 
-    // Watts calculations
-    const wattsRewards = getWattsRewardsForDifficulty(difficulty);
-    const wattsPerAnswer = wattsRewards.CORRECT_ANSWER;
-    const wattsCompletionBonus = wattsRewards.SESSION_COMPLETE;
-    const correctWatts = correctCount * wattsPerAnswer;
-    const totalWatts = correctWatts + wattsCompletionBonus;
+    // Watts calculations from sessionStorage (pre-calculated by quiz page)
+    const storedFinalWatts = sessionStorage.getItem("quizFinalWatts");
+    const storedPassed = sessionStorage.getItem("quizPassed");
+    const passed = storedPassed === "true" || percentage >= (PASS_THRESHOLD * 100);
+    const totalWatts = storedFinalWatts ? parseInt(storedFinalWatts, 10) : 0;
 
     return {
       correctCount,
       totalQuestions,
       percentage,
-      wattsPerAnswer,
-      wattsCompletionBonus,
-      correctWatts,
+      passed,
       totalWatts,
       incorrectQuestions,
     };
@@ -365,6 +362,9 @@ export default function QuizResultsPage() {
     sessionStorage.removeItem("bookmarkedQuestions");
     sessionStorage.removeItem("bestStreak");
     sessionStorage.removeItem("quizDifficulty");
+    sessionStorage.removeItem("quizAnswerVoltages");
+    sessionStorage.removeItem("quizPassed");
+    sessionStorage.removeItem("quizFinalWatts");
     router.push(`/quiz/${categorySlug}`);
   };
 
@@ -412,6 +412,9 @@ export default function QuizResultsPage() {
     sessionStorage.removeItem("bookmarkedQuestions");
     sessionStorage.removeItem("bestStreak");
     sessionStorage.removeItem("quizDifficulty");
+    sessionStorage.removeItem("quizAnswerVoltages");
+    sessionStorage.removeItem("quizPassed");
+    sessionStorage.removeItem("quizFinalWatts");
     router.push(`/quiz/${categorySlug}`);
   };
 
@@ -546,18 +549,19 @@ export default function QuizResultsPage() {
                         ? "text-red-500"
                         : "text-amber"
                     }`}>
-                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} ({results.wattsPerAnswer} W/answer)
+                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)} · {results.passed ? "Passed" : "Failed"}
                     </p>
                   )}
                   <div className="flex items-center gap-4 justify-center flex-wrap">
                     <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold">
                       <Zap className="h-5 w-5" />
-                      {results.correctCount} x {results.wattsPerAnswer} = +{results.correctWatts} W
+                      {results.correctCount}A × V = +{results.totalWatts}W
                     </span>
-                    <span className="inline-flex items-center gap-2 px-4 py-2 bg-amber/10 text-amber rounded-full text-lg font-bold">
-                      <Zap className="h-5 w-5" />
-                      +{results.wattsCompletionBonus} W Completion Bonus
-                    </span>
+                    {!results.passed && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-red-500/10 text-red-500 rounded-full text-sm font-medium">
+                        ½ watts (below 70%)
+                      </span>
+                    )}
                   </div>
                   <p className="text-muted-foreground mt-2">
                     Total: <span className="font-bold text-amber">{results.totalWatts} W</span>
@@ -829,9 +833,7 @@ export default function QuizResultsPage() {
         <VoltageUpModal
           isOpen={showVoltageUpModal}
           onClose={() => setShowVoltageUpModal(false)}
-          newTier={voltageUpInfo.newTier as 1 | 2 | 3 | 4 | 5 | 6 | 7}
           newTitle={voltageUpInfo.newTitle}
-          newVoltage={voltageUpInfo.newVoltage}
           message={voltageUpInfo.message}
         />
       )}

@@ -94,7 +94,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     highlight: "Sum Loads -> Apply Demand Factors",
     back: "1. Sum the General Lighting + Small-Appliance + Laundry loads.\n2. Apply Table 220.42 demand factors to that total.",
     category: "load-calculations",
-    necReference: "NEC Table 220.12; 220.52; Table 220.42",
+    necReference: "NEC Table 220.42(A); 220.52; Table 220.42",
   },
   {
     id: "lc-step-013",

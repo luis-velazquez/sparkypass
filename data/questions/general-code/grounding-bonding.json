@@ -110,7 +110,7 @@
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "apprentice",
-      "questionText": "In a separately derived system, where is the system bonding jumper installed for 2023 NEC?",
+      "questionText": "In a separately derived system, where is the system bonding jumper installed?",
       "options": [
         "At every panelboard",
         "At the separately derived system or first disconnect as required",
@@ -173,7 +173,7 @@
       "category": "grounding-bonding",
       "necArticle": "Article 100 & 250",
       "difficulty": "apprentice",
-      "questionText": "Your journeyman tells you to 'pigtail the grounds' at every receptacle. When you look up the rules for this specific bare copper or green wire in the NEC, it is officially referred to as the EGC. What does EGC stand for, and what is its primary job?",
+      "questionText": "What does EGC stand for, and what is its primary job?",
       "options": [
         "Earth Grounding Cable; it connects the panel directly to the dirt.",
         "Equipment Grounding Conductor; it connects metal equipment parts back to the panel to trip the breaker during a fault.",

@@ -131,7 +131,7 @@ export function getCategoryBySlug(slug: string): Category | undefined {
 }
 
 // Parent category groupings for the quiz landing page
-export type ParentCategorySlug = "general-code" | "tables" | "special-code" | "communications-code";
+export type ParentCategorySlug = "general-code" | "tables" | "special-code";
 
 export interface ParentCategory {
   slug: ParentCategorySlug;
@@ -162,13 +162,6 @@ export const PARENT_CATEGORIES: ParentCategory[] = [
     necChapters: "Chapters 5–7",
     description: "Special occupancies, special equipment, and special conditions",
     categorySlugs: ["mobile-homes", "swimming-pools"],
-  },
-  {
-    slug: "communications-code",
-    name: "Communications Code",
-    necChapters: "Chapter 8",
-    description: "Communications systems, including network-powered broadband and CATV",
-    categorySlugs: [],
   },
 ];
 

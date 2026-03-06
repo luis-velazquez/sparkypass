@@ -40,7 +40,8 @@ import { SparkyMessage } from "@/components/sparky";
 import { getRandomQuestionsAll, getQuestionById } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
-import { WATTS_REWARDS } from "@/lib/levels";
+import { ACTIVITY_VOLTAGE } from "@/lib/watts";
+import { getStreakBoostedVoltage } from "@/lib/voltage";
 
 const DAILY_PROGRESS_KEY = "sparkypass-daily-challenge-progress";
 
@@ -263,6 +264,7 @@ export default function DailyChallengePage() {
   const [completionData, setCompletionData] = useState<CompletionData | null>(null);
   const [resultsData, setResultsData] = useState<ResultsData | null>(null);
   const [studyStreak, setStudyStreak] = useState(0);
+  const [answerVoltages, setAnswerVoltages] = useState<number[]>([]);
 
   const [quizState, setQuizState] = useState<QuizState>({
     questions: [],
@@ -397,7 +399,7 @@ export default function DailyChallengePage() {
 
         if (userRes.ok) {
           const userData = await userRes.json();
-          sessionStorage.setItem("preQuizXP", String(userData.xp || 0));
+          sessionStorage.setItem("preQuizXP", String(userData.wattsBalance || 0));
         }
 
         let bookmarkedIds = new Set<string>();
@@ -509,18 +511,18 @@ export default function DailyChallengePage() {
     const isCorrect = selectedAnswer === question.correctAnswer;
     haptic(isCorrect ? "success" : "error");
 
+    // Track voltage earned for this correct answer (streak boost applied)
+    if (isCorrect) {
+      const currentVoltage = getStreakBoostedVoltage("journeyman", quizState.correctStreak);
+      setAnswerVoltages((prev) => [...prev, currentVoltage]);
+    }
+
     try {
-      const progressRes = await fetch("/api/progress", {
+      await fetch("/api/progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ questionId: question.id, isCorrect }),
       });
-      if (progressRes.ok) {
-        const data = await progressRes.json();
-        if (typeof data.wattsBalance === "number") {
-          window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
-        }
-      }
     } catch (error) {
       console.error("Failed to save progress:", error);
     }
@@ -595,14 +597,15 @@ export default function DailyChallengePage() {
     const isLast = currentQuestionIndex >= totalQuestions - 1;
 
     if (isLast) {
-      // Calculate results
+      // Calculate results using voltage × amps
       let correctCount = 0;
       questions.forEach((q) => {
         if (answers.get(q.id) === q.correctAnswer) {
           correctCount++;
         }
       });
-      const xpEarned = correctCount * XP_PER_CORRECT_ANSWER;
+      // Daily challenge always passes (no pass/fail penalty)
+      const wattsEarned = answerVoltages.reduce((sum, v) => sum + v, 0);
 
       // End the session
       const sessionId = sessionStorage.getItem("currentSessionId");
@@ -613,7 +616,8 @@ export default function DailyChallengePage() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               sessionId,
-              xpEarned,
+              wattsEarned,
+              activityType: "daily_challenge",
               questionsAnswered: answers.size,
               questionsCorrect: correctCount,
             }),
@@ -633,7 +637,7 @@ export default function DailyChallengePage() {
       setResultsData({
         score: correctCount,
         total: totalQuestions,
-        xpEarned,
+        xpEarned: wattsEarned,
         bestStreak,
       });
       setPhase("results");
@@ -873,7 +877,7 @@ export default function DailyChallengePage() {
                 <div className="flex items-center justify-center gap-2 p-3 bg-amber/10 rounded-lg">
                   <Zap className="h-5 w-5 text-amber fill-current" />
                   <span className="text-lg font-bold text-amber">
-                    +{resultsData.score * WATTS_REWARDS.CORRECT_ANSWER + WATTS_REWARDS.SESSION_COMPLETE}W earned
+                    +{resultsData.xpEarned}W earned
                   </span>
                 </div>
 
@@ -1367,7 +1371,7 @@ export default function DailyChallengePage() {
                           className="inline-flex items-center gap-2 px-4 py-2 bg-amber/20 text-amber rounded-full text-lg font-bold"
                         >
                           <Zap className="h-5 w-5 fill-current" />
-                          +{WATTS_REWARDS.CORRECT_ANSWER}W
+                          +{ACTIVITY_VOLTAGE.daily_challenge}W
                         </motion.span>
                       )}
                       {correctStreak >= STREAK_THRESHOLD && (

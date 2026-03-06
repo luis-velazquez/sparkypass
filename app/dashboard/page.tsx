@@ -27,17 +27,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { ExamCountdown } from "@/components/exam";
-import { getTierTitle, getTierVoltage } from "@/lib/levels";
-import { getAmpsLabel } from "@/lib/amps";
+import { getClassificationTitle, getClassificationProgress } from "@/lib/levels";
 import {
   getDashboardGreeting,
-  getDecayWarning,
   getStreakCelebration,
   getReviewReminder,
 } from "@/lib/sparky-messages";
 import type { SparkyVariant } from "@/components/sparky/SparkyAvatar";
 import { CATEGORIES } from "@/types/question";
-import type { VoltageTier } from "@/types/reward-system";
+import type { UserClassification } from "@/types/reward-system";
 import { SubscriptionBanner } from "@/components/subscription/SubscriptionBanner";
 import { TrialStatusHeader } from "@/components/subscription/TrialStatusHeader";
 import { DailyChallengeBanner } from "@/components/daily";
@@ -67,8 +65,8 @@ interface UserData {
   username: string | null;
   wattsBalance: number;
   wattsLifetime: number;
-  voltageTier: VoltageTier;
-  currentAmps: number;
+  classification: UserClassification;
+  classificationTitle: string;
   studyStreak: number;
   targetExamDate: string | null;
   hasSeenOnboarding: boolean;
@@ -113,8 +111,8 @@ interface ProgressStats {
   recentSessions: RecentSession[];
   wattsBalance: number;
   wattsLifetime: number;
-  voltageTier: VoltageTier;
-  currentAmps: number;
+  classification: UserClassification;
+  classificationTitle: string;
   studyStreak: number;
   bestStudyStreak: number;
   dailyChallengeCompleted: boolean;
@@ -171,8 +169,7 @@ const features = [
 function getSparkyReaction(
   daysUntilExam: number | null,
   weakAreas: string[],
-  voltageTier: VoltageTier,
-  currentAmps: number,
+  classification: UserClassification,
   studyStreak: number,
   dueReviewCount: number,
 ): { message: string; variant: SparkyVariant } {
@@ -180,16 +177,12 @@ function getSparkyReaction(
   const streakReaction = getStreakCelebration(studyStreak);
   if (streakReaction) return streakReaction;
 
-  // Priority 2: Decay warning (low amps)
-  const decayReaction = getDecayWarning(currentAmps);
-  if (decayReaction) return decayReaction;
-
-  // Priority 3: Review reminder (many due)
+  // Priority 2: Review reminder (many due)
   if (dueReviewCount >= 10) {
     return getReviewReminder(dueReviewCount);
   }
 
-  // Priority 4: Weak areas
+  // Priority 3: Weak areas
   if (weakAreas.length > 0) {
     const categoryNames = weakAreas.map(slug => {
       const cat = CATEGORIES.find(c => c.slug === slug);
@@ -202,7 +195,7 @@ function getSparkyReaction(
     return { message: `Your weak spots are ${categoryNames.join(" and ")}. Don't worry - focusing on these areas will boost your overall score significantly!`, variant: "thinking" };
   }
 
-  // Priority 5: Exam countdown
+  // Priority 4: Exam countdown
   if (daysUntilExam !== null) {
     if (daysUntilExam < 0) {
       return { message: "Your exam date has passed! How did it go? Update your target date if you're planning to retake or celebrate your success!", variant: "default" };
@@ -227,8 +220,8 @@ function getSparkyReaction(
     }
   }
 
-  // Priority 6: Tier-appropriate greeting
-  return getDashboardGreeting(voltageTier);
+  // Priority 5: Classification-appropriate greeting
+  return getDashboardGreeting(classification);
 }
 
 function formatTimeAgo(dateString: string | null): string {
@@ -418,6 +411,7 @@ export default function DashboardPage() {
   const [showTour, setShowTour] = useState(false);
   const [dueReviewCount, setDueReviewCount] = useState(0);
   const [powerGridSummary, setPowerGridSummary] = useState<{ energized: number; brownedOut: number; flickering: number; deEnergized: number; overallProgress: number; categories: PowerGridCategoryLocal[] } | null>(null);
+  const [resistancePenalties, setResistancePenalties] = useState<{ type: string; amount: number; description: string }[]>([]);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -493,6 +487,20 @@ export default function DashboardPage() {
             });
           }
           setLoading(false);
+
+          // Check for resistance penalties (missed days / overdue reviews)
+          fetch("/api/resistance/check")
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.penalties && data.penalties.length > 0) {
+                setResistancePenalties(data.penalties);
+                // Update watts balance in UI
+                if (typeof data.newBalance === "number") {
+                  window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.newBalance }));
+                }
+              }
+            })
+            .catch(() => {});
 
           // Onboarding / tour flow
           if (user.hasSeenOnboarding === false) {
@@ -572,8 +580,8 @@ export default function DashboardPage() {
   const displayName = userData?.username || userData?.name || session?.user?.name || "Electrician";
   const wattsBalance = progressStats?.wattsBalance ?? userData?.wattsBalance ?? 0;
   const wattsLifetime = progressStats?.wattsLifetime ?? userData?.wattsLifetime ?? 0;
-  const voltageTier = (progressStats?.voltageTier ?? userData?.voltageTier ?? 1) as VoltageTier;
-  const currentAmps = progressStats?.currentAmps ?? userData?.currentAmps ?? 0;
+  const classification = (progressStats?.classification ?? userData?.classification ?? "watt_apprentice") as UserClassification;
+  const classificationTitle = progressStats?.classificationTitle ?? userData?.classificationTitle ?? getClassificationTitle(wattsBalance);
   const studyStreak = progressStats?.studyStreak ?? userData?.studyStreak ?? 0;
   const bestStudyStreak = progressStats?.bestStudyStreak ?? 0;
   const dailyChallengeCompleted = progressStats?.dailyChallengeCompleted ?? false;
@@ -583,9 +591,7 @@ export default function DashboardPage() {
     ? new Date(userData.targetExamDate)
     : null;
 
-  const tierTitle = getTierTitle(voltageTier);
-  const tierVoltage = getTierVoltage(voltageTier);
-  const ampsLabel = getAmpsLabel(currentAmps);
+  const classificationProgress = getClassificationProgress(wattsBalance);
 
   const daysUntilExam = targetExamDate
     ? Math.ceil(
@@ -598,7 +604,7 @@ export default function DashboardPage() {
     .filter((cat) => cat.answered > 0 && cat.accuracy < 70)
     .map((cat) => cat.slug);
 
-  const sparkyReaction = getSparkyReaction(daysUntilExam, weakAreas, voltageTier, currentAmps, studyStreak, dueReviewCount);
+  const sparkyReaction = getSparkyReaction(daysUntilExam, weakAreas, classification, studyStreak, dueReviewCount);
 
   const totalAnswered = progressStats?.totalAnswered ?? 0;
   const uniqueQuestionsAnswered = progressStats?.uniqueQuestionsAnswered ?? 0;
@@ -837,38 +843,39 @@ export default function DashboardPage() {
               <CardContent>
                 <div className="flex items-baseline gap-2 mb-1">
                   <span className="text-3xl font-bold text-amber dark:text-sparky-green">
-                    {tierVoltage}
-                  </span>
-                  <span className="text-sm text-muted-foreground">
-                    {tierTitle}
+                    {wattsBalance.toLocaleString()}W
                   </span>
                 </div>
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="flex items-center gap-1 text-sm font-semibold text-amber dark:text-sparky-green">
-                    <Zap className="h-3.5 w-3.5 fill-current" />
-                    {wattsBalance.toLocaleString()}W
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-sm font-semibold text-purple dark:text-purple-light">
+                    {classificationTitle}
                   </span>
                   <span className="text-xs text-muted-foreground">
                     ({wattsLifetime.toLocaleString()}W lifetime)
                   </span>
                 </div>
 
-                {/* Amps gauge */}
+                {/* Classification progress */}
                 <div className="mb-1">
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span className="flex items-center gap-1 text-muted-foreground">
-                      <Activity className="h-3.5 w-3.5" />
-                      {currentAmps.toFixed(1)}A
-                    </span>
-                    <span className="text-xs text-muted-foreground">{ampsLabel}</span>
-                  </div>
                   <div className="h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${Math.min((currentAmps / 100) * 100, 100)}%` }}
+                      animate={{ width: `${classificationProgress.percentage}%` }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="h-full bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark rounded-full"
                     />
+                  </div>
+                  <div className="flex justify-between mt-1">
+                    <span className="text-xs text-muted-foreground">
+                      {classificationProgress.percentage}%
+                    </span>
+                    {classificationProgress.next ? (
+                      <span className="text-xs text-muted-foreground">
+                        Next: {classificationProgress.next.title}
+                      </span>
+                    ) : (
+                      <span className="text-xs text-amber dark:text-sparky-green font-medium">Max Classification!</span>
+                    )}
                   </div>
                 </div>
 
@@ -1015,6 +1022,41 @@ export default function DashboardPage() {
         >
           <SparkyMessage size="medium" message={sparkyReaction.message} variant={sparkyReaction.variant} />
         </motion.div>
+
+        {/* Resistance Penalties Banner */}
+        <AnimatePresence>
+          {resistancePenalties.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6"
+            >
+              <Card className="border-red-500/30 dark:border-red-500/20 bg-red-500/5">
+                <CardContent className="py-4">
+                  <div className="flex items-start gap-3">
+                    <AlertTriangle className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-foreground mb-1">Resistance Penalty</p>
+                      {resistancePenalties.map((p, i) => (
+                        <p key={i} className="text-sm text-muted-foreground">
+                          -{p.amount}W — {p.description}
+                        </p>
+                      ))}
+                    </div>
+                    <button
+                      onClick={() => setResistancePenalties([])}
+                      className="p-1 rounded-full hover:bg-muted transition-colors"
+                    >
+                      <X className="h-4 w-4 text-muted-foreground" />
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Mini Power Grid Widget */}
         {powerGridSummary && !isNewUser && (

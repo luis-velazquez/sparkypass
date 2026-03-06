@@ -42,8 +42,8 @@ import { CATEGORIES } from "@/types/question";
 import { getQuestionById } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getScaffolding } from "@/lib/voltage";
+import { ACTIVITY_VOLTAGE } from "@/lib/watts";
 import type { Question } from "@/types/question";
-import type { VoltageTier } from "@/types/reward-system";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -242,29 +242,24 @@ function SRSReviewTab() {
   const [isComplete, setIsComplete] = useState(false);
   const [sparkyMessage, setSparkyMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
-  const [voltageTier, setVoltageTier] = useState<VoltageTier>(1);
   const timerRef = useRef<number>(0);
   const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const nextButtonRef = useRef<HTMLDivElement>(null);
+  const explanationRef = useRef<HTMLDivElement>(null);
+  const lastAnswerCorrectRef = useRef(false);
 
-  const scaffolding = getScaffolding(voltageTier);
+  // Scaffolding based on question difficulty (default journeyman for mixed review)
+  const currentDifficulty = dueQuestions[currentIndex]?.difficulty || "journeyman";
+  const scaffolding = getScaffolding(currentDifficulty);
 
   // Load due questions and user voltage tier
   useEffect(() => {
     async function loadDueQuestions() {
       try {
-        const [dueRes, userRes] = await Promise.all([
-          fetch("/api/review/due?limit=20"),
-          fetch("/api/user"),
-        ]);
+        const dueRes = await fetch("/api/review/due?limit=20");
         if (dueRes.ok) {
           const data = await dueRes.json();
           setDueQuestions(data.questions || []);
-        }
-        if (userRes.ok) {
-          const userData = await userRes.json();
-          if (userData.voltageTier) {
-            setVoltageTier(userData.voltageTier as VoltageTier);
-          }
         }
       } catch (error) {
         console.error("Failed to load due questions:", error);
@@ -325,6 +320,7 @@ function SRSReviewTab() {
     if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
 
     const isCorrect = answerIndex === question.correctAnswer;
+    lastAnswerCorrectRef.current = isCorrect;
     if (isCorrect) {
       setTotalCorrect((prev) => prev + 1);
       setSparkyMessage(getRandomMessage(SRS_CORRECT_MESSAGES));
@@ -338,9 +334,14 @@ function SRSReviewTab() {
       setSparkyMessage(getRandomMessage(SRS_INCORRECT_MESSAGES));
     }
 
+    // Track watts earned (277V per correct answer for review)
+    if (isCorrect) {
+      setTotalWattsEarned((prev) => prev + ACTIVITY_VOLTAGE.review);
+    }
+
     // Submit progress (this updates SRS state on the server)
     try {
-      const res = await fetch("/api/progress", {
+      await fetch("/api/progress", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -350,13 +351,6 @@ function SRSReviewTab() {
           difficulty: dueQ.difficulty,
         }),
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.wattsEarned) {
-          setTotalWattsEarned((prev) => prev + data.wattsEarned);
-          window.dispatchEvent(new Event("watts-updated"));
-        }
-      }
     } catch (error) {
       console.error("Failed to submit progress:", error);
     } finally {
@@ -380,28 +374,37 @@ function SRSReviewTab() {
 
     if (sessionId) {
       try {
-        await fetch("/api/review/complete", {
+        const res = await fetch("/api/review/complete", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             sessionId,
             questionsReviewed: dueQuestions.length,
             questionsCorrect: totalCorrect,
+            wattsEarned: totalWattsEarned,
           }),
         });
-        window.dispatchEvent(new Event("watts-updated"));
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.wattsBalance === "number") {
+            window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
+          }
+        }
       } catch (error) {
         console.error("Failed to complete session:", error);
       }
     }
 
-    // Celebration confetti for completing a review session
-    confetti({
-      particleCount: 120,
-      spread: 70,
-      origin: { x: 0.5, y: 0.5 },
-      colors: ["#F59E0B", "#10B981", "#8B5CF6", "#A3FF00"],
-    });
+    // Celebration confetti only for 70%+ accuracy
+    const accuracy = dueQuestions.length > 0 ? (totalCorrect / dueQuestions.length) * 100 : 0;
+    if (accuracy >= 70) {
+      confetti({
+        particleCount: 120,
+        spread: 70,
+        origin: { x: 0.5, y: 0.5 },
+        colors: ["#F59E0B", "#10B981", "#8B5CF6", "#A3FF00"],
+      });
+    }
   }
 
   if (loading) {
@@ -643,6 +646,7 @@ function SRSReviewTab() {
               {/* Explanation (shown after answer — scaffolding applies) */}
               {isAnswered && (
                 <motion.div
+                  ref={explanationRef}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3, delay: 0.1 }}
@@ -675,9 +679,17 @@ function SRSReviewTab() {
           {/* Sparky Message + Next Button */}
           {isAnswered && (
             <motion.div
+              ref={nextButtonRef}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.2 }}
+              onAnimationComplete={() => {
+                if (lastAnswerCorrectRef.current) {
+                  nextButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                } else {
+                  explanationRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                }
+              }}
               className="space-y-4"
             >
               {sparkyMessage && (

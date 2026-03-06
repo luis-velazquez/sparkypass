@@ -2,29 +2,31 @@
 // Watts are earned on actions and spent on power-ups
 
 import type { Difficulty } from "@/types/question";
-import type { VoltageTier, WattsTransactionType, WattsCalculation, PowerUpType } from "@/types/reward-system";
-import { getVoltageMultiplier } from "./voltage";
-import { getAmpsMultiplier } from "./amps";
+import type { PowerUpType, QuizVoltage } from "@/types/reward-system";
 
-// ─── Base Rewards ────────────────────────────────────────────────────────────
+// ─── Activity Voltages ──────────────────────────────────────────────────────
 
-export const BASE_REWARDS: Record<string, Record<string, number>> = {
-  correct_answer: {
-    apprentice: 10,
-    journeyman: 20,
-    master: 35,
-  },
-  session_complete: {
-    apprentice: 25,
-    journeyman: 40,
-    master: 65,
-  },
-  daily_challenge: { default: 30 },
-  circuit_breaker_clear: { default: 50 },
-  mock_exam_complete: { default: 100 },
+export const ACTIVITY_VOLTAGE: Record<string, QuizVoltage> = {
+  daily_challenge: 277,
+  review: 277,
+  circuit_breaker: 480,
 };
 
-// Streak milestone rewards
+export const INDEX_GAME_WATTS_PER_CORRECT = 12;
+
+// ─── Resistance Penalties ───────────────────────────────────────────────────
+
+export const RESISTANCE_PENALTIES = {
+  no_login: 120, // per missed day
+  missed_review: 120, // once per login if overdue SRS exist
+};
+
+// ─── Pass/Fail ──────────────────────────────────────────────────────────────
+
+export const PASS_THRESHOLD = 0.7;
+
+// ─── Streak milestone rewards ───────────────────────────────────────────────
+
 export const STREAK_WATTS_MILESTONES: Record<number, number> = {
   3: 50,
   7: 100,
@@ -44,73 +46,16 @@ export const POWER_UP_COSTS: Record<PowerUpType, number> = {
 // ─── Watts Calculation ───────────────────────────────────────────────────────
 
 /**
- * Calculate Watts earned for an action.
- * watts_earned = base_reward × voltage_multiplier × amps_multiplier
+ * Calculate total watts from an array of voltages earned per correct answer.
+ * Each correct answer = 1 amp, so watts per answer = voltage × 1 = voltage.
+ * If quiz is failed (<70%), each answer counts as 0.5 amps (half watts).
  */
-export function calculateWattsEarned(params: {
-  type: WattsTransactionType;
-  difficulty?: Difficulty | string | null;
-  voltageTier: VoltageTier;
-  currentAmps: number;
-}): WattsCalculation {
-  const { type, difficulty, voltageTier, currentAmps } = params;
-
-  // Determine base reward
-  let baseReward = 0;
-  const typeRewards = BASE_REWARDS[type];
-  if (typeRewards) {
-    if (difficulty && typeRewards[difficulty]) {
-      baseReward = typeRewards[difficulty];
-    } else if (typeRewards.default !== undefined) {
-      baseReward = typeRewards.default;
-    } else {
-      // Fallback to journeyman
-      baseReward = typeRewards.journeyman || 0;
-    }
-  }
-
-  const voltageMultiplier = getVoltageMultiplier(voltageTier);
-  const ampsMultiplier = getAmpsMultiplier(currentAmps);
-  const wattsEarned = Math.round(baseReward * voltageMultiplier * ampsMultiplier);
-
-  return {
-    baseReward,
-    voltageMultiplier,
-    ampsMultiplier,
-    wattsEarned,
-  };
-}
-
-/**
- * Calculate Watts earned for a correct answer.
- */
-export function calculateAnswerWatts(
-  difficulty: Difficulty | string | null | undefined,
-  voltageTier: VoltageTier,
-  currentAmps: number
+export function calculateQuizTotal(
+  correctVoltages: number[],
+  passed: boolean
 ): number {
-  return calculateWattsEarned({
-    type: "correct_answer",
-    difficulty,
-    voltageTier,
-    currentAmps,
-  }).wattsEarned;
-}
-
-/**
- * Calculate Watts earned for completing a session.
- */
-export function calculateSessionWatts(
-  difficulty: Difficulty | string | null | undefined,
-  voltageTier: VoltageTier,
-  currentAmps: number
-): number {
-  return calculateWattsEarned({
-    type: "session_complete",
-    difficulty,
-    voltageTier,
-    currentAmps,
-  }).wattsEarned;
+  const rawWatts = correctVoltages.reduce((sum, v) => sum + v, 0);
+  return passed ? rawWatts : Math.round(rawWatts * 0.5);
 }
 
 /**
@@ -125,12 +70,4 @@ export function getStreakMilestoneReward(streakDays: number): number | null {
  */
 export function canAffordPowerUp(wattsBalance: number, powerUpType: PowerUpType): boolean {
   return wattsBalance >= POWER_UP_COSTS[powerUpType];
-}
-
-/**
- * Convert old XP + coins to Watts for migration.
- * watts = xp + (coins × 2)
- */
-export function migrateToWatts(xp: number, coins: number): number {
-  return xp + coins * 2;
 }

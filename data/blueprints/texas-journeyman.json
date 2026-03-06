@@ -1,0 +1,21 @@
+{
+  "id": "texas-journeyman",
+  "name": "Texas Journeyman Electrician Exam",
+  "state": "TX",
+  "examLevel": "journeyman",
+  "totalQuestions": 80,
+  "timeLimit": 240,
+  "passingScore": 70,
+  "source": "https://www.tdlr.texas.gov/electricians/elecexam.htm",
+  "sections": [
+    { "name": "General Knowledge of the NEC", "questionCount": 12, "categorySlugs": ["services", "wiring-methods"] },
+    { "name": "Grounding & Bonding", "questionCount": 10, "categorySlugs": ["grounding-bonding"] },
+    { "name": "Branch Circuits, Feeders & Services", "questionCount": 10, "categorySlugs": ["load-calculations", "services"] },
+    { "name": "Wiring Methods & Materials", "questionCount": 10, "categorySlugs": ["wiring-methods", "conduit-fill"] },
+    { "name": "Box & Conduit Fill", "questionCount": 8, "categorySlugs": ["box-fill", "conduit-fill", "chapter-9-tables"] },
+    { "name": "Motors & Transformers", "questionCount": 8, "categorySlugs": ["motor-calculations", "transformer-sizing"] },
+    { "name": "Overcurrent Protection & Conductors", "questionCount": 8, "categorySlugs": ["temperature-correction", "termination-derating"] },
+    { "name": "Calculations (Voltage Drop, Resistance)", "questionCount": 6, "categorySlugs": ["voltage-drop", "resistance"] },
+    { "name": "Special Equipment & Occupancies", "questionCount": 8, "categorySlugs": ["swimming-pools", "mobile-homes"] }
+  ]
+}

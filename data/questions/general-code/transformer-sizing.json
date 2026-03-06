@@ -68,7 +68,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "apprentice",
-      "questionText": "In the context of NEC Table 450.3(A), what defines a \"supervised location\"?",
+      "questionText": "What defines a \"supervised location\"?",
       "options": [
         "A location with security cameras and alarms",
         "A location where only qualified persons monitor and service the installation",

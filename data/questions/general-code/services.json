@@ -361,6 +361,31 @@
       "necReferences": {
         "2026": "NEC Table 220.56 Note 1"
       }
+    },
+    {
+      "id": "SRV-J004-RACEWAY-MIX",
+      "category": "services",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "What is the general rule regarding the installation of feeder or branch-circuit conductors within the exact same raceway as service conductors?",
+      "options": [
+        "They are permitted as long as all conductors share the same insulation voltage rating.",
+        "They are permitted provided the total conductor fill does not exceed 40% of the raceway.",
+        "They are strictly prohibited; conductors other than service conductors shall not be installed in the same service raceway.",
+        "They are permitted only if separated by a listed physical barrier inside the raceway."
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2023": "230.7",
+        "2026": "230.7"
+      },
+      "explanations": {
+        "default": "\n\nNEC 230.7 is very direct: Conductors other than service conductors shall not be installed in the same service raceway or service cable. Because service conductors do not have overcurrent protection ahead of them, a fault between the utility wires and a smaller branch-circuit wire sharing that same pipe would cause catastrophic damage. The only standard exceptions are for grounding conductors and equipment bonding jumpers."
+      },
+      "sparkyTip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway."
     }
   ],
   "master": [

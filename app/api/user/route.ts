@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, userProgress } from "@/lib/db";
-import { eq, sql, count } from "drizzle-orm";
-import { calculateAmps, getDaysIdle } from "@/lib/amps";
-import type { VoltageTier } from "@/types/reward-system";
+import { db, users } from "@/lib/db";
+import { eq } from "drizzle-orm";
+import { getUserClassification, getClassificationTitle } from "@/lib/voltage";
 
 export async function GET() {
   try {
@@ -19,9 +18,7 @@ export async function GET() {
         username: users.username,
         wattsBalance: users.wattsBalance,
         wattsLifetime: users.wattsLifetime,
-        level: users.level,
         studyStreak: users.studyStreak,
-        lastStudyDate: users.lastStudyDate,
         targetExamDate: users.targetExamDate,
         hasSeenOnboarding: users.hasSeenOnboarding,
         hasSeenTour: users.hasSeenTour,
@@ -35,30 +32,16 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Calculate current amps
-    const daysIdle = getDaysIdle(user.lastStudyDate);
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const [volumeResult] = await db
-      .select({ count: count() })
-      .from(userProgress)
-      .where(
-        sql`${userProgress.userId} = ${session.user.id} AND ${userProgress.answeredAt} >= ${sevenDaysAgo.getTime() / 1000}`
-      );
-
-    const ampsState = calculateAmps({
-      streakDays: user.studyStreak,
-      questionsLast7Days: volumeResult?.count || 0,
-      daysIdle,
-    });
+    const classification = getUserClassification(user.wattsBalance).classification;
+    const classificationTitle = getClassificationTitle(user.wattsBalance);
 
     return NextResponse.json({
       name: user.name,
       username: user.username,
       wattsBalance: user.wattsBalance,
       wattsLifetime: user.wattsLifetime,
-      voltageTier: user.level as VoltageTier,
-      currentAmps: ampsState.totalAmps,
+      classification,
+      classificationTitle,
       studyStreak: user.studyStreak,
       targetExamDate: user.targetExamDate?.toISOString() || null,
       hasSeenOnboarding: user.hasSeenOnboarding ?? false,

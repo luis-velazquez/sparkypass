@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, questionSrs, userProgress } from "@/lib/db";
-import { eq, lte, sql, count } from "drizzle-orm";
+import { db, questionSrs } from "@/lib/db";
+import { sql } from "drizzle-orm";
 import { getOverdueDays, calculateReviewPriority } from "@/lib/spaced-repetition";
-import { calculateAmps, getDaysIdle } from "@/lib/amps";
 import { getQuestionById } from "@/lib/questions";
 import { CATEGORIES } from "@/types/question";
-import { users } from "@/lib/db/schema";
 
 export async function GET(request: Request) {
   try {
@@ -31,40 +29,6 @@ export async function GET(request: Request) {
         sql`${questionSrs.userId} = ${userId} AND ${questionSrs.nextReviewDate} <= ${Math.floor(now.getTime() / 1000)}`
       );
 
-    // Get user amps data for category-level prioritization
-    const [user] = await db
-      .select({
-        studyStreak: users.studyStreak,
-        lastStudyDate: users.lastStudyDate,
-      })
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
-
-    const daysIdle = getDaysIdle(user?.lastStudyDate || null);
-
-    // Get questions answered in last 7 days for volume amps
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const [volumeResult] = await db
-      .select({ count: count() })
-      .from(userProgress)
-      .where(
-        sql`${userProgress.userId} = ${userId} AND ${userProgress.answeredAt} >= ${Math.floor(sevenDaysAgo.getTime() / 1000)}`
-      );
-
-    const ampsState = calculateAmps({
-      streakDays: user?.studyStreak || 0,
-      questionsLast7Days: volumeResult?.count || 0,
-      daysIdle,
-    });
-
-    // Build category amps map (simplified — using overall amps as base, could refine per-category)
-    const categoryAmps: Record<string, number> = {};
-    for (const cat of CATEGORIES) {
-      categoryAmps[cat.slug] = ampsState.totalAmps / 10; // Normalize to 0-10 range
-    }
-
     // Calculate priority for each due question and enrich with question data
     const prioritized = dueQuestions
       .map((srs) => {
@@ -75,11 +39,11 @@ export async function GET(request: Request) {
         if (categoryFilter && question.category !== categoryFilter) return null;
 
         const overdueDays = getOverdueDays(srs.nextReviewDate!);
-        const catAmps = categoryAmps[question.category] ?? 5;
 
+        // Simplified priority: overdue days + ease factor weighting
         const priority = calculateReviewPriority({
           overdueDays,
-          categoryAmps: catAmps,
+          categoryAmps: 5, // Neutral value — amps no longer used for prioritization
           easeFactor: srs.easeFactor,
         });
 

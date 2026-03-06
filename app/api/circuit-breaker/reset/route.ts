@@ -4,7 +4,6 @@ import { db, users, circuitBreakerState, wattsTransactions } from "@/lib/db";
 import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 import { RESET_COST, isCooldownExpired } from "@/lib/circuit-breaker";
-import type { VoltageTier } from "@/types/reward-system";
 
 export async function POST(request: Request) {
   try {
@@ -100,7 +99,7 @@ export async function POST(request: Request) {
       type: "power_up_purchase",
       amount: -RESET_COST,
       balanceAfter: newBalance,
-      voltageAtTime: (currentUser.level || 1) as VoltageTier,
+      voltageAtTime: 0,
       ampsAtTime: 0,
       description: `Breaker Reset: ${categorySlug}`,
     });

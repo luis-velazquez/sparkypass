@@ -62,6 +62,125 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "TN-A010",
+      "category": "wiring-methods",
+      "difficulty": "apprentice",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "Your journeyman asks you to strap a run of MC cable above a suspended drop ceiling in a commercial office. According to the NEC, which of the following is an acceptable method for supporting this cable?",
+      "options": [
+        "Zip-tie the MC cable directly to the suspended ceiling grid frame.",
+        "Wrap the MC cable tightly around the ceiling grid's existing support wires.",
+        "Install independent support wires that are distinguishable from the ceiling support wires, and secure the cable to those.",
+        "Lay the MC cable directly on top of the acoustic ceiling tiles so it is supported by the grid."
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2023": "300.11(B)",
+        "2026": "300.11(B)"
+      },
+      "explanations": {
+        "default": "\n\nThe NEC explicitly forbids using the suspended ceiling grid or its support wires as the sole support for electrical wiring methods (like MC cable, EMT, or boxes). The ceiling grid is engineered to hold up the ceiling tiles and lights, not your electrical raceways. You must install independent support wires specifically for the electrical system, and they must be secured at both ends and distinguishable from the ceiling grid wires (often by painting or tagging them)."
+      },
+      "sparkyTip": "Stay off the ceiling guy's wires! Always shoot your own independent wire into the deck for your boxes and cables. If you zip-tie your MC to the ceiling grid wire, the inspector will make you climb right back up that ladder and cut it all down."
+    },
+    {
+      "id": "WM-J007-WIRE-ENDS",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "When installing independent support wires above a suspended ceiling specifically to support electrical raceways and cables, how must these support wires be terminated according to the NEC?",
+      "options": [
+        "They only need to be secured to the structural ceiling deck above.",
+        "They must be secured at both ends.",
+        "They must be secured to the structural ceiling above and left free-hanging at the bottom to allow for flexibility.",
+        "They must be secured to the ceiling grid first, then pulled taut and wrapped around the raceway."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "300.11(B)"
+      },
+      "explanations": {
+        "default": "\n\nAccording to NEC 300.11(B), where independent support wires are used to support electrical wiring methods above a suspended ceiling, they must be secured at both ends. This means you must secure the wire to the building structure above, and also tie off the bottom end to the suspended ceiling framing. This prevents the independent support wire from swinging freely and ensures the cables and raceways are held securely in place during maintenance or seismic events."
+      },
+      "sparkyTip": "Don't just shoot the wire into the deck and let the bottom dangle in the breeze! You have to tie off that bottom end to the ceiling assembly so the wire is tight and secured at both ends."
+    },
+    {
+      "id": "WM-A010-PULL-BOX",
+      "category": "wiring-methods",
+      "difficulty": "apprentice",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "You are installing a long run of conduit and have already made four 90-degree bends. Your journeyman stops you and tells you to install a pull box before continuing the pipe run to the panel. What is the specific NEC limit that requires you to install this pull box?",
+      "options": [
+        "You cannot exceed 100 feet of conduit between pull points.",
+        "You cannot exceed 360 degrees of total bends between pull points.",
+        "You must install a pull box whenever crossing a fire-rated wall.",
+        "You cannot exceed three 90-degree bends in any single conduit run."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "300.24"
+      },
+      "explanations": {
+        "default": "\n\nIn the 2026 NEC, the general rule in 300.24 restricts the total number of bends in a single raceway run to a maximum of 360 degrees (the equivalent of four quarter-bends) between pull points, junction boxes, or conduit bodies. Exceeding this 360-degree limit creates too much friction during the wire pull, which makes the job physically impossible and strips the insulation right off the conductors."
+      },
+      "sparkyTip": "Four 90s and you're done! 4 x 90 = 360. Once you hit that 360-degree mark with your bender, you must set a box so you can safely pull the wire."
+    },
+    {
+      "id": "WM-A011-EXTENSION-RINGS",
+      "category": "wiring-methods",
+      "difficulty": "apprentice",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "How many extension rings are permitted to be installed on an existing box to extend it?",
+      "options": [
+        "Only a single extension ring is permitted per box.",
+        "One or more extension rings are permitted.",
+        "A maximum of two extension rings are permitted.",
+        "Multiple extension rings are permitted, but only on surface-mounted boxes."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "314.22"
+      },
+      "explanations": {
+        "default": "\n\nIn the 2026 NEC, Section 314.22 was explicitly revised to state that surface extensions shall be made by mounting and mechanically securing 'one or more' extension rings over the box. Previously, the Code used the singular phrase 'an extension ring', which led some inspectors to reject stacked rings on job sites. The 2026 update settles the debate and clarifies that multiple extension rings are perfectly legal as long as they are properly secured and grounded."
+      },
+      "sparkyTip": "Don't let anyone tell you that you can't stack extension boxes! The 2026 Code specifically added the words 'one or more' just to settle this exact argument when you are trying to bring a deeply buried box flush with the drywall."
+    },
+    {
+      "id": "WM-A012-SERVICE-LOOP",
+      "category": "wiring-methods",
+      "difficulty": "apprentice",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are roughing in a residential panel with Nonmetallic-Sheathed Cable (Type NM-B) and want to leave a \"service loop\" of extra wire for future modifications. While the cable must be secured within 12 inches of the enclosure, what is the maximum permitted actual cable length between the cable entry and that closest support?",
+      "options": [
+        "12 inches",
+        "18 inches",
+        "24 inches",
+        "There is no limit on the cable loop length as long as the staple is physically secured within 12 inches of the box."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "334.30",
+        "2026": "334.30"
+      },
+      "explanations": {
+        "default": "\n\nNEC 334.30 requires NM cable to be supported and secured within 12 inches of every box, cabinet, or fitting. However, to accommodate electricians who want to leave extra slack (a service loop) for future repairs or box adjustments, the Code specifies that the actual length of the cable between the cable entry and the closest support cannot exceed 18 inches. This ensures you can leave a modest 6-inch loop without creating excessive, sloppy, and unsupported cable runs."
+      },
+      "sparkyTip": "A small loop is a pro move, but a giant loop is a Code violation! You can leave a little slack for the next guy, just make sure your total wire length from the box entry to your first staple doesn't measure more than 18 inches."
     }
   ],
   "journeyman": [
@@ -152,6 +271,200 @@
         "default": "\n\nWhen service conductors are buried 18 inches or deeper and are not encased in concrete, the NEC mandates the installation of a warning ribbon. This ribbon must be placed at least 12 inches (300 mm) above the underground installation. This spacing is critical because it gives machine operators or workers digging by hand a physical warning well before their shovel or bucket actually hits the energized service cables."
       },
       "sparkyTip": "The 12-inch warning rule! Backfill your trench with at least a foot of dirt over the pipe or wire before you roll out the red tape. If you put the tape right on top of the wire, the backhoe operator will rip them both up at the exact same time."
+    },
+    {
+      "id": "WM-J008-COMPLETE-RUN",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are installing a run of Electrical Metallic Tubing (EMT) for a new branch circuit. According to the NEC, at what point in the installation are you permitted to pull the insulated conductors into the raceway?",
+      "options": [
+        "As soon as the raceway is securely fastened to the first junction box.",
+        "Only after the raceway has been installed as a complete system between outlet, junction, or splicing points.",
+        "Whenever making a tight bend requires the wire to be pulled through the conduit body before continuing the run.",
+        "Simultaneously while assembling the conduit joints to save time on long runs."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "300.18(A)",
+        "2026": "300.20(A)"
+      },
+      "explanations": {
+        "default": "\n\nThe NEC strictly requires that raceways be installed as a complete system between outlet, junction, or splicing points prior to the installation of conductors. Attempting to pull wire through a partially built run and then sleeving the remaining conduit over the conductors creates a severe risk of pinching, scraping, or compromising the wire insulation."
+      },
+      "sparkyTip": "Pipe first, pull second! Never try to sleeve a piece of EMT or PVC over wires that are already laid out. Build the entire raceway system, secure it, and then break out the fish tape."
+    },
+    {
+      "id": "CAB-J002-CABLE-SECURE",
+      "category": "cabinets-and-enclosures",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "Generally, when cables enter a cabinet, cutout box, or meter socket enclosure, each cable must be secured to the enclosure. Under what specific condition are these cables NOT required to be secured to the enclosure?",
+      "options": [
+        "When the cables are entirely nonmetallic-sheathed and enter through the top of a flush-mounted panelboard.",
+        "When the cables are installed in a complete raceway system.",
+        "When the enclosure is surface-mounted and the cables are stapled within 8 inches of the connector.",
+        "When the cables contain conductors no larger than 10 AWG and are used for control circuits."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "312.8(C) Exception No. 3"
+      },
+      "explanations": {
+        "default": "\n\nIn the 2026 NEC, the rules for cables entering enclosures were moved from 312.5(C) to 312.8(C), and a practical new Exception No. 3 was added. It states that cables installed in a complete raceway system (in accordance with the free conductor length rules of 300.14) are not required to be individually secured to the enclosure. Because the complete raceway system already provides mechanical protection and strain relief, requiring a separate cable clamp or securement at the enclosure is unnecessary."
+      },
+      "sparkyTip": "The raceway acts as the shield! If you pipe a complete raceway system from box to box and pull your cables through it, you don't need to fight with individual Romex connectors where the pipe enters the panel."
+    },
+    {
+      "id": "CAB-J004-SERVICE-SPLICE",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "According to the 2026 NEC, if service conductors are routed through the wiring space of a cabinet or cutout box, where must any splices or taps to those specific service conductors be located?",
+      "options": [
+        "In any appropriately sized junction box or wireway installed ahead of the service disconnect.",
+        "Within the service equipment enclosure itself.",
+        "In a sealed underground handhole enclosure before entering the building.",
+        "Splicing or tapping of service conductors is strictly prohibited under any circumstances."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "312.11(A)(5)"
+      },
+      "explanations": {
+        "default": "\n\nIn the 2026 NEC, the rules for enclosures were relocated and updated. Section 312.11(A)(5) explicitly states that if service conductors are involved, any splicing or tapping of those conductors must be located within the service equipment enclosure. Because service conductors do not have standard overcurrent protection (a main breaker) ahead of them, a sloppy tap in an intermediate pull box or gutter poses a massive fire hazard. The Code now forces these unprotected connections to happen safely inside the main service equipment."
+      },
+      "sparkyTip": "Keep your line-side taps in the main box! If you are tapping into unfused utility power for a solar or generator installation, you cannot make that connection in a random gutter on the wall. It must happen inside the actual service equipment."
+    },
+    {
+      "id": "WM-J009-RMC-LOCKNUTS",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "When terminating Rigid Metal Conduit (RMC) into an enclosure opening that is not a threaded hub, what is the specific requirement for securing the conduit?",
+      "options": [
+        "A single locknut on the inside is permitted if a metal bushing is used on the outside.",
+        "A single locknut on the outside is permitted if a grounding locknut is used on the inside.",
+        "Double locknuts (paired locknuts) must be used, with one on the outside and one on the inside of the enclosure.",
+        "Locknuts are not required if the RMC is secured within 12 inches of the enclosure."
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2026": "344.29"
+      },
+      "explanations": {
+        "default": "\n\nIn the 2026 NEC, Section 344.29 (Terminations) was explicitly added to clarify the rules for conduit threads entering enclosures. When Rigid Metal Conduit (RMC) enters a box or enclosure through a standard threadless opening (such as a punched knockout), the Code now explicitly mandates the use of paired locknuts (double locknuts)—one on the outside and one on the inside. This ensures a secure mechanical connection and maintains a reliable, low-impedance ground-fault current path."
+      },
+      "sparkyTip": "Sandwich the box! Unless you are screwing the rigid pipe directly into a threaded factory hub, you must use a locknut on both the outside and the inside of the enclosure to lock it down properly."
+    },
+    {
+      "id": "WM-J010-NM-ENTRY",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "What is the minimum distance the outer nonmetallic sheath must extend inside the enclosure beyond the cable clamp or cable entry?",
+      "options": [
+        "At least 1/8 inch.",
+        "At least 1/4 inch.",
+        "At least 1/2 inch.",
+        "The sheath must be stripped completely flush with the clamp."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "334.19",
+        "2026": "334.19"
+      },
+      "explanations": {
+        "default": "\n\nSection 334.19 of the NEC mandates that the outer nonmetallic sheath of NM cable must extend not less than 1/4 inch (6 mm) inside the box and beyond any cable clamp or cable entry point. This fundamental rule provides consistency across all NM cable installations and guarantees that the individual conductor insulation is protected from abrasion against the sharp metal edges of the clamp or the enclosure knockout."
+      },
+      "sparkyTip": "Don't strip your Romex too far back! The inspector always looks to see at least a 1/4 inch of that jacket poking through the connector inside the box to prove the wires are protected from the metal clamp."
+    },
+    {
+      "id": "WM-J011-PVC-EXPANSION",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "When installing a straight run of PVC conduit between securely mounted enclosures, at what anticipated change in length due to thermal expansion and contraction does the NEC strictly require the installation of an expansion fitting?",
+      "options": [
+        "1/8 inch (3 mm) or greater",
+        "1/4 inch (6 mm) or greater",
+        "1/2 inch (13 mm) or greater",
+        "1 inch (25 mm) or greater"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "352.44(A)",
+        "2026": "352.44(A)"
+      },
+      "explanations": {
+        "default": "\n\nSection 352.44(A) of the NEC dictates that expansion fittings must be provided to compensate for thermal expansion and contraction if the conduit's length is expected to change by 1/4 inch (6 mm) or more. Because PVC expands and contracts significantly with temperature changes, calculating this expected movement is critical to prevent the pipe from bowing, snapping, or tearing out of the enclosures during extreme weather shifts."
+      },
+      "sparkyTip": "PVC moves a lot! If you are running a long straight pipe across a sun-baked roof or the side of a building, always do the math. If the temperature swing causes the pipe to grow or shrink by a 1/4 inch, you must throw an expansion coupling in the run."
+    },
+    {
+      "id": "WM-J012-EMT-ALLOWED",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "According to the NEC, Electrical Metallic Tubing (EMT) is a highly versatile wiring method. Based on the 'Uses Permitted' in Section 358.10, in which of the following specific locations is EMT explicitly allowed to be installed?",
+      "options": [
+        "Where it will be subject to severe physical damage during normal facility operation.",
+        "Directly buried in cinder fill subject to permanent moisture, without any additional concrete protection.",
+        "Embedded in poured concrete or in direct contact with the earth, provided it is protected by approved supplementary corrosion protection.",
+        "Used as the sole structural support for heavy luminaires or equipment boxes."
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2023": "358.10(B)",
+        "2026": "358.10(B)"
+      },
+      "explanations": {
+        "default": "\n\nSection 358.10 outlines where EMT is permitted to be installed. While EMT is widely known for standard exposed and concealed indoor work, the Code also permits it to be embedded in concrete, placed in direct contact with the earth, or used in areas subject to severe corrosive influences. However, this is strictly under the condition that the tubing is provided with approved supplementary corrosion protection and judged suitable for the environment. It is not permitted where subject to severe physical damage or in unprotected damp cinder fill."
+      },
+      "sparkyTip": "EMT can go in the dirt or the slab, but it needs a raincoat! If you are burying thin-wall conduit or laying it in a concrete pour, it must have an approved corrosion-resistant coating or wrap applied so the chemicals in the earth or concrete don't rot it away."
+    },
+    {
+      "id": "CON-J001-DWELLING-SERVICE",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "For a single-family dwelling, when calculating the minimum ampacity for ungrounded service-entrance conductors that supply the entire load of the dwelling, the NEC permits these conductors to have an ampacity of not less than what percentage of the service rating?",
+      "options": [
+        "80%",
+        "83%",
+        "100%",
+        "125%"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "310.12(A)",
+        "2026": "310.12(A)"
+      },
+      "explanations": {
+        "default": "\n\nAccording to NEC 310.12(A), the ungrounded service conductors and main feeders that supply the entire load associated with a single-family dwelling are permitted to have an ampacity of not less than 83 percent of the service rating. Because residential loads have a high rate of diversity (meaning not all appliances and lights run at the same time), the Code grants this 83% reduction. For example, a 200A service only requires conductors rated for 166A (200 x 0.83 = 166)."
+      },
+      "sparkyTip": "The residential magic number is 83%! Whenever you are sizing the main wires that feed the entire house, multiply the main breaker size by 0.83 to find your target ampacity, and then head over to the 75°C column of Table 310.16 to pick your wire."
     }
   ],
   "master": [
@@ -288,6 +601,31 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "WM-M015-PVC-SUPPORT",
+      "category": "wiring-methods",
+      "difficulty": "master",
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are routing a 4-inch Schedule 80 PVC conduit along the exterior wall of a commercial facility to feed a new main service. According to the NEC, what is the maximum permitted distance between supports for this specific size of PVC conduit?",
+      "options": [
+        "5 feet",
+        "6 feet",
+        "7 feet",
+        "8 feet"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2023": "Table 352.30(B)",
+        "2026": "Table 352.30(B)"
+      },
+      "explanations": {
+        "default": "\n\nUnlike rigid metal conduit (RMC) which can often be supported every 10 feet, PVC conduit is highly flexible and sags easily, especially when exposed to heat. Because of this, the NEC dictates stricter support spacing based on the diameter of the pipe. According to Table 352.30(B), PVC conduit sizes ranging from 3-1/2 inches up to 5 inches must be securely supported at intervals not exceeding 7 feet."
+      },
+      "sparkyTip": "Fat pipe gets more room, but not much! While 1/2-inch PVC needs a strap every 3 feet to keep from sagging, a heavy 4-inch pipe can span up to 7 feet between supports. Always check the table before laying out your strut straps!"
     }
   ]
 }

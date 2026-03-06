@@ -26,14 +26,22 @@ export {
   getCategoryBySlug,
 } from "./question";
 
+// Re-export mock exam types
+export {
+  type ExamBlueprint,
+  type BlueprintSection,
+  type GeneratedExam,
+  type GenerationReport,
+  type SectionReport,
+} from "./mock-exam";
+
 // Re-export reward system types
 export {
-  type VoltageTier,
-  type VoltageTierConfig,
-  type VoltageTierProgress,
-  type AmpsState,
+  type QuizVoltage,
+  type UserClassification,
+  type QuizWattsResult,
   type WattsTransactionType,
-  type WattsCalculation,
+  type Scaffolding,
   type SRSState,
   type CircuitBreakerState,
   type FriendshipStatus,

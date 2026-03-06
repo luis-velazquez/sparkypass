@@ -38,6 +38,7 @@ export const users = sqliteTable("users", {
   studyStreak: integer("study_streak").notNull().default(0),
   bestStudyStreak: integer("best_study_streak").notNull().default(0),
   lastStudyDate: integer("last_study_date", { mode: "timestamp" }),
+  lastPenaltyDate: integer("last_penalty_date", { mode: "timestamp" }),
   // Subscription fields
   trialEndsAt: integer("trial_ends_at", { mode: "timestamp" }),
   stripeCustomerId: text("stripe_customer_id").unique(),

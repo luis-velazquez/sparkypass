@@ -11,6 +11,7 @@ import {
   ChevronRight,
   CheckCircle2,
   AlertCircle,
+  AlertTriangle,
   Loader2,
   X,
 } from "lucide-react";
@@ -28,7 +29,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { getAllQuestions, getQuestionsByDifficulty } from "@/lib/questions";
 import { useNecVersion } from "@/lib/nec-version";
+import { getBlueprintById } from "@/data/blueprints";
+import { generateMockExam } from "@/lib/mock-exam-generator";
 import type { Question } from "@/types/question";
+import type { ExamBlueprint, GenerationReport } from "@/types/mock-exam";
 
 interface ExamConfig {
   id: string;
@@ -84,32 +88,47 @@ export default function ExamSessionPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [showSubmitDialog, setShowSubmitDialog] = useState(false);
   const [showExitDialog, setShowExitDialog] = useState(false);
+  const [blueprint, setBlueprint] = useState<ExamBlueprint | null>(null);
+  const [generationReport, setGenerationReport] = useState<GenerationReport | null>(null);
 
   const examConfig = EXAM_CONFIGS[examId];
 
   // Initialize exam
   useEffect(() => {
-    if (!examConfig) {
-      router.push("/mock-exam");
+    if (examConfig) {
+      // Existing practice exam path
+      let availableQuestions: Question[];
+      if (examConfig.difficulty === "challenging") {
+        availableQuestions = getQuestionsByDifficulty("master", necVersion);
+      } else {
+        availableQuestions = getAllQuestions(necVersion);
+      }
+
+      const shuffled = [...availableQuestions].sort(() => Math.random() - 0.5);
+      const selectedQuestions = shuffled.slice(0, Math.min(examConfig.questionCount, shuffled.length));
+
+      setQuestions(selectedQuestions);
+      setTimeRemaining(examConfig.timeLimit * 60);
+      setIsLoading(false);
       return;
     }
 
-    // Get questions based on exam type, filtered by NEC version
-    let availableQuestions: Question[];
-    if (examConfig.difficulty === "challenging") {
-      availableQuestions = getQuestionsByDifficulty("master", necVersion);
-    } else {
-      availableQuestions = getAllQuestions(necVersion);
+    // Blueprint exam path
+    const bp = getBlueprintById(examId);
+    if (bp) {
+      const difficulty = bp.examLevel === "master" ? "master" : "journeyman";
+      const generated = generateMockExam(bp, difficulty, necVersion);
+      setBlueprint(bp);
+      setGenerationReport(generated.report);
+      setQuestions(generated.questions);
+      setTimeRemaining(bp.timeLimit * 60);
+      setIsLoading(false);
+      return;
     }
 
-    // Shuffle and select the required number of questions
-    const shuffled = [...availableQuestions].sort(() => Math.random() - 0.5);
-    const selectedQuestions = shuffled.slice(0, Math.min(examConfig.questionCount, shuffled.length));
-
-    setQuestions(selectedQuestions);
-    setTimeRemaining(examConfig.timeLimit * 60); // Convert to seconds
-    setIsLoading(false);
-  }, [examConfig, router, necVersion]);
+    // Neither found
+    router.push("/mock-exam");
+  }, [examConfig, examId, router, necVersion]);
 
   // Timer countdown
   useEffect(() => {
@@ -140,14 +159,15 @@ export default function ExamSessionPage() {
 
     const totalAnswered = Object.values(answers).filter((a) => a !== null).length;
     const score = Math.round((correct / questions.length) * 100);
-    const timeTaken = (examConfig?.timeLimit || 0) * 60 - timeRemaining;
+    const effectiveTimeLimit = examConfig?.timeLimit ?? (blueprint?.timeLimit ?? 0);
+    const timeTaken = effectiveTimeLimit * 60 - timeRemaining;
 
     // Store results in sessionStorage for the results page
     sessionStorage.setItem(
       "examResults",
       JSON.stringify({
         examId,
-        examTitle: examConfig?.title,
+        examTitle: examConfig?.title ?? blueprint?.name ?? "Exam",
         questions,
         answers,
         correct,
@@ -156,11 +176,14 @@ export default function ExamSessionPage() {
         score,
         timeTaken,
         flagged: Array.from(flagged),
+        blueprint: blueprint ?? undefined,
+        generationReport: generationReport ?? undefined,
+        passingScore: blueprint?.passingScore ?? 70,
       })
     );
 
     router.push(`/mock-exam/${examId}/results`);
-  }, [questions, answers, examConfig, timeRemaining, examId, flagged, router]);
+  }, [questions, answers, examConfig, blueprint, generationReport, timeRemaining, examId, flagged, router]);
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -177,7 +200,15 @@ export default function ExamSessionPage() {
     );
   }
 
-  if (!examConfig || questions.length === 0) {
+  const effectiveConfig = examConfig ?? (blueprint ? {
+    id: blueprint.id,
+    title: blueprint.name,
+    questionCount: blueprint.totalQuestions,
+    timeLimit: blueprint.timeLimit,
+    difficulty: "standard" as const,
+  } : null);
+
+  if (!effectiveConfig || questions.length === 0) {
     return (
       <main className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
         <p className="text-muted-foreground">Exam not found</p>
@@ -256,7 +287,7 @@ export default function ExamSessionPage() {
               Exit
             </Button>
             <span className="text-xs text-muted-foreground hidden sm:block">
-              {examConfig.title}
+              {effectiveConfig.title}
             </span>
           </div>
 
@@ -277,6 +308,16 @@ export default function ExamSessionPage() {
           </div>
         </div>
       </div>
+
+      {/* Shortage Warning */}
+      {generationReport && generationReport.warnings.length > 0 && (
+        <div className="relative z-10 mb-4 flex items-start gap-2 rounded-lg border border-amber/30 bg-amber/5 dark:border-sparky-green/30 dark:bg-sparky-green/5 px-3 py-2 text-sm text-amber dark:text-sparky-green">
+          <AlertTriangle className="h-4 w-4 shrink-0 mt-0.5" />
+          <span>
+            {generationReport.totalGenerated} of {generationReport.totalRequested} questions available. Some sections may have fewer questions than the blueprint specifies.
+          </span>
+        </div>
+      )}
 
       {/* Question Navigation Pills */}
       <div className="relative z-10 mb-6 overflow-x-auto pb-2">

@@ -25,10 +25,10 @@ import { LevelUpModal, getRandomLevelUpMessage } from "@/components/level";
 import { getQuestionById } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { CATEGORIES, type Question } from "@/types/question";
-import { WATTS_REWARDS } from "@/lib/levels";
+import { ACTIVITY_VOLTAGE } from "@/lib/watts";
 
-const WATTS_PER_CORRECT_ANSWER = WATTS_REWARDS.CORRECT_ANSWER;
-const WATTS_SESSION_BONUS = WATTS_REWARDS.SESSION_COMPLETE;
+const WATTS_PER_CORRECT_ANSWER = ACTIVITY_VOLTAGE.review; // 277V per correct
+const WATTS_SESSION_BONUS = 0; // No separate session bonus in new system
 
 // Sparky messages based on score percentage
 const CELEBRATION_MESSAGES = [

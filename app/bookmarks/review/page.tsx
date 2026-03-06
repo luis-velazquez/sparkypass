@@ -142,7 +142,7 @@ function BookmarkReviewQuiz({ initialQuestions }: { initialQuestions: Question[]
         const response = await fetch("/api/user");
         if (response.ok) {
           const userData = await response.json();
-          sessionStorage.setItem("preQuizXP", String(userData.xp || 0));
+          sessionStorage.setItem("preQuizXP", String(userData.wattsBalance || 0));
         }
       } catch {
         // Silently fail - level-up detection just won't work

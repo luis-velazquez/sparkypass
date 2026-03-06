@@ -28,6 +28,19 @@ function isGroup(item: NavItem): item is NavGroup {
   return "links" in item;
 }
 
+// Check if a nav link is active, preferring the most specific sibling match
+function isNavLinkActive(pathname: string, href: string, siblingHrefs: string[] = []): boolean {
+  if (pathname === href) return true;
+  if (!pathname.startsWith(href + "/")) return false;
+  // Don't match if a more specific sibling also matches
+  return !siblingHrefs.some(
+    (sibling) =>
+      sibling !== href &&
+      sibling.length > href.length &&
+      (pathname === sibling || pathname.startsWith(sibling + "/"))
+  );
+}
+
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   {
@@ -35,8 +48,7 @@ const navItems: NavItem[] = [
     links: [
       { href: "/flashcards", label: "Flashcards" },
       { href: "/daily", label: "Daily Challenge" },
-      { href: "/load-calculator", label: "Residential Calc" },
-      { href: "/load-calculator/commercial", label: "Commercial Calc" },
+      { href: "/load-calculator", label: "Load Calculator" },
     ],
   },
   {
@@ -47,12 +59,12 @@ const navItems: NavItem[] = [
     ],
   },
   {
-    label: "Tools",
+    label: "Shop",
     links: [
       { href: "/power-ups", label: "Power-Ups" },
+      { href: "/watts", label: "Watts Bank" },
     ],
   },
-  { href: "/friends", label: "Friends" },
   {
     label: "Challenge Mode",
     links: [
@@ -67,8 +79,9 @@ const navItems: NavItem[] = [
 function NavDropdown({ group, suffix }: { group: NavGroup; suffix?: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const siblingHrefs = group.links.map((l) => l.href);
   const isActive = group.links.some(
-    (link) => pathname === link.href || pathname.startsWith(link.href + "/")
+    (link) => isNavLinkActive(pathname, link.href, siblingHrefs)
   );
 
   return (
@@ -89,8 +102,7 @@ function NavDropdown({ group, suffix }: { group: NavGroup; suffix?: React.ReactN
       </PopoverTrigger>
       <PopoverContent className="w-48 p-1" align="start" sideOffset={8}>
         {group.links.map((link) => {
-          const linkActive =
-            pathname === link.href || pathname.startsWith(link.href + "/");
+          const linkActive = isNavLinkActive(pathname, link.href, siblingHrefs);
           return (
             <Link
               key={link.href}
@@ -131,8 +143,7 @@ export function DesktopNav() {
           );
         }
 
-        const isActive =
-          pathname === item.href || pathname.startsWith(item.href + "/");
+        const isActive = isNavLinkActive(pathname, item.href);
 
         return (
           <Link

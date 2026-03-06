@@ -103,6 +103,48 @@
       ],
       "necReference": "NEC 517.13(A) & (B), 250.118(10)",
       "sparkyBottomLine": "Think of it as 'Belt and Suspenders.' If the green wire fails, the armor is already bonded and ready to trip the breaker."
+    },
+    {
+      "id": "TIP-008",
+      "type": "sparky-tip",
+      "title": "SDS Bonding: Winning the Case in Article 250",
+      "category": "Grounding & Bonding",
+      "difficulty": "master",
+      "content": "Think like a law professor: a transformer isn't just equipment; it's a 'Separately Derived System' (SDS). To 'win the case' of a code-compliant installation, you must prove you've satisfied these four mandatory elements:\n\n1. **The System Bonding Jumper (SBJ) [250.30(A)(1)]**: This is your 'Path of Least Resistance.' Without it, the breaker (your star witness) won't 'testify' (trip) during a ground fault. Size it per Table 250.102(C)(1).\n\n2. **The Grounding Electrode Conductor (GEC) [250.30(A)(3)]**: It must connect at the exact same point as the SBJ. If you ground in two different places, you've created a 'Parallel Path'—that's a violation of the statute!\n\n3. **The Grounding Electrode [250.30(A)(4)]**: Use the 'Legal Hierarchy.' You must use the nearest available electrode (Structural Metal or Water Pipe) before looking elsewhere.\n\n4. **The Supply-Side Bonding Jumper [250.30(A)(2)]**: This 'statute' requires a jumper from the source to the first disconnect. Use Table 250.102(C)(1) again.",
+      "tables": [
+        "Table 250.102(C)(1) (For the SBJ and Supply-Side Jumper)",
+        "Table 250.66 (For the GEC to the Electrode)"
+      ],
+      "necReference": "250.30(A)",
+      "sparkyBottomLine": "Treat Article 250 like a courtroom: satisfy every element of the statute (SBJ, GEC, Electrode, and SSBJ) or your installation is 'guilty' of a code violation."
+    },
+    {
+      "id": "TIP-008",
+      "type": "sparky-tip",
+      "title": "The Lawyer’s Method: 4 Rules of Code Interpretation",
+      "category": "Exam Strategy",
+      "difficulty": "master",
+      "content": "To pass the Master's exam, you must stop reading the NEC like a manual and start reading it like a legal statute. Use these four 'Legal Frameworks' to analyze every question:\n\n* **The Burden of Proof (Table 310.16)**: The table value is just your 'Prima Facie' case (e.g., #6 THHN = 75A). However, 'Cross-Examination' (ambient heat or bundling) can suppress that evidence. Never take a table value at face value without checking for 'rebuttals' in the adjustment factors.\n\n* **Hierarchy of Authority (Article 90.3)**: This is the 'Supremacy Clause.' Chapters 1–4 are the 'General Courts.' Chapters 5–7 are 'Special Jurisdictions.' If you are in a Hospital (Art. 517), the special rules there override the general rules. The specific always wins the argument.\n\n* **Jurisdiction (The Scope .1)**: Before applying any rule, check Section .1 of that Article. If your installation (like Class 2 signaling in Art. 725) doesn't fall under that 'Scope,' the general rules of Article 300 are often 'inadmissible.'\n\n* **Terms of Art (Definitions)**: Law relies on precise definitions. 'Readily Accessible' isn't just a phrase; it's a legal standard meaning 'no keys, no tools, no ladders.' 'Identified' doesn't mean you see it; it means it is legally recognized for that specific use.",
+      "tables": [
+        "Article 100 (The Legal Dictionary)",
+        "Article 90.3 (The Hierarchy Map)"
+      ],
+      "necReference": "90.3, 110.2, 310.15",
+      "sparkyBottomLine": "Mastering the Code isn't about memorizing pages; it's about understanding which 'Statute' has jurisdiction over your 'Facts' at any given moment."
+    },
+    {
+      "id": "TIP-009",
+      "type": "sparky-tip",
+      "title": "Readily Accessible: The 4 'No's of the Code",
+      "category": "Definitions",
+      "difficulty": "journeyman",
+      "content": "To satisfy the 'Readily Accessible' statute in Article 100, the installation must pass the '4 No's' test. If you have to do any of these to reach the equipment, you are in violation:\n\n1. **No Ladders**: If it's over 6ft 7in to the center of the grip of the handle, it's a violation.\n2. **No Tools**: You shouldn't need a screwdriver to get to a disconnect.\n3. **No Keys**: The general public/occupant shouldn't need a key to reach a breaker (with rare exceptions).\n4. **No Obstacles**: If a tenant has to move their laundry machine to hit the GFCI reset, the inspector will 'rule' against you.",
+      "tables": [
+        "Article 100 Definitions",
+        "240.24(A) (Breaker Height Rule)"
+      ],
+      "necReference": "Article 100 & 240.24",
+      "sparkyBottomLine": "Think of 'Readily Accessible' as 'Ready for Anyone.' If a grandmother in a hurry can't reach the switch, it's probably not compliant."
     }
   ]
 }

@@ -1,14 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, userProgress, wattsTransactions, questionSrs, circuitBreakerState } from "@/lib/db";
-import { eq, sql, and, count } from "drizzle-orm";
+import { db, users, userProgress, questionSrs, circuitBreakerState } from "@/lib/db";
+import { eq, sql, and } from "drizzle-orm";
 import crypto from "crypto";
-import { calculateAnswerWatts } from "@/lib/watts";
-import { calculateAmps, getDaysIdle } from "@/lib/amps";
 import { deriveQuality, calculateNextReview, createDefaultSRSState } from "@/lib/spaced-repetition";
-import { processAnswer, createDefaultBreakerState, TRIP_THRESHOLD } from "@/lib/circuit-breaker";
+import { processAnswer, createDefaultBreakerState } from "@/lib/circuit-breaker";
 import { getQuestionById } from "@/lib/questions";
-import type { VoltageTier, SRSQuality } from "@/types/reward-system";
+import type { SRSQuality } from "@/types/reward-system";
 
 export async function POST(request: Request) {
   try {
@@ -19,7 +17,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { questionId, isCorrect, timeSpentSeconds, difficulty } = body;
+    const { questionId, isCorrect, timeSpentSeconds } = body;
 
     if (!questionId || typeof isCorrect !== "boolean") {
       return NextResponse.json(
@@ -28,43 +26,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Generate unique ID for progress entry
     const progressId = crypto.randomUUID();
-
-    // Get current user state
-    const [currentUser] = await db
-      .select({
-        wattsBalance: users.wattsBalance,
-        wattsLifetime: users.wattsLifetime,
-        level: users.level,
-        studyStreak: users.studyStreak,
-        lastStudyDate: users.lastStudyDate,
-      })
-      .from(users)
-      .where(eq(users.id, session.user.id))
-      .limit(1);
-
-    const voltageTier = (currentUser?.level || 1) as VoltageTier;
-
-    // Calculate current amps
-    const daysIdle = getDaysIdle(currentUser?.lastStudyDate || null);
-
-    // Get questions answered in last 7 days for volume amps
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const [volumeResult] = await db
-      .select({ count: count() })
-      .from(userProgress)
-      .where(
-        sql`${userProgress.userId} = ${session.user.id} AND ${userProgress.answeredAt} >= ${sevenDaysAgo.getTime() / 1000}`
-      );
-    const questionsLast7Days = volumeResult?.count || 0;
-
-    const ampsState = calculateAmps({
-      streakDays: currentUser?.studyStreak || 0,
-      questionsLast7Days,
-      daysIdle,
-    });
 
     // Insert progress record
     await db.insert(userProgress).values({
@@ -76,46 +38,11 @@ export async function POST(request: Request) {
       answeredAt: new Date(),
     });
 
-    // If correct, award Watts and update user record
-    let wattsEarned = 0;
-
-    if (isCorrect) {
-      wattsEarned = calculateAnswerWatts(difficulty, voltageTier, ampsState.totalAmps);
-
-      const newBalance = (currentUser?.wattsBalance || 0) + wattsEarned;
-      const newLifetime = (currentUser?.wattsLifetime || 0) + wattsEarned;
-
-      await db
-        .update(users)
-        .set({
-          wattsBalance: newBalance,
-          wattsLifetime: newLifetime,
-          xp: newLifetime,
-          ampsBase: ampsState.totalAmps,
-          ampsLastCalculated: new Date(),
-          updatedAt: new Date(),
-        })
-        .where(eq(users.id, session.user.id));
-
-      // Log watts transaction
-      await db.insert(wattsTransactions).values({
-        id: crypto.randomUUID(),
-        userId: session.user.id,
-        type: "correct_answer",
-        amount: wattsEarned,
-        balanceAfter: newBalance,
-        voltageAtTime: voltageTier,
-        ampsAtTime: ampsState.totalAmps,
-        description: `Correct answer (${difficulty || "journeyman"})`,
-      });
-    }
-
     // ─── Update SRS state ──────────────────────────────────────────────────
     let srsUpdated = false;
     try {
       const quality = deriveQuality(isCorrect, timeSpentSeconds ?? null);
 
-      // Find existing SRS record
       const [existingSrs] = await db
         .select()
         .from(questionSrs)
@@ -128,7 +55,6 @@ export async function POST(request: Request) {
         .limit(1);
 
       if (existingSrs) {
-        // Update existing SRS record
         const update = calculateNextReview({
           quality: quality as SRSQuality,
           currentEaseFactor: existingSrs.easeFactor,
@@ -155,7 +81,6 @@ export async function POST(request: Request) {
 
         srsUpdated = true;
       } else {
-        // Create new SRS record
         const defaults = createDefaultSRSState();
         const update = calculateNextReview({
           quality: quality as SRSQuality,
@@ -180,7 +105,6 @@ export async function POST(request: Request) {
         srsUpdated = true;
       }
     } catch (srsError) {
-      // SRS update failure should not block the main response
       console.error("Error updating SRS state:", srsError);
     }
 
@@ -192,7 +116,6 @@ export async function POST(request: Request) {
       if (question) {
         const categorySlug = question.category;
 
-        // Find or create breaker state for this category
         const [existingBreaker] = await db
           .select()
           .from(circuitBreakerState)
@@ -254,30 +177,12 @@ export async function POST(request: Request) {
         breakerJustTripped = result.justTripped;
       }
     } catch (cbError) {
-      // Circuit breaker update failure should not block the main response
       console.error("Error updating circuit breaker state:", cbError);
     }
-
-    // Get updated user state
-    const [updatedUser] = await db
-      .select({
-        wattsBalance: users.wattsBalance,
-        wattsLifetime: users.wattsLifetime,
-        level: users.level,
-      })
-      .from(users)
-      .where(eq(users.id, session.user.id))
-      .limit(1);
 
     return NextResponse.json({
       success: true,
       progressId,
-      wattsEarned,
-      wattsBalance: updatedUser?.wattsBalance || 0,
-      wattsLifetime: updatedUser?.wattsLifetime || 0,
-      voltageTier: (updatedUser?.level || 1) as VoltageTier,
-      currentAmps: ampsState.totalAmps,
-      levelUp: null,
       srsUpdated,
       breakerTripped,
       breakerJustTripped,

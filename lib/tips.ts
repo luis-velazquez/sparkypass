@@ -35,3 +35,7 @@ export function getRandomSeenTip(seenIds: string[]): Tip | null {
   if (seen.length === 0) return null;
   return seen[Math.floor(Math.random() * seen.length)];
 }
+
+export function getAllTips(): Tip[] {
+  return tips;
+}

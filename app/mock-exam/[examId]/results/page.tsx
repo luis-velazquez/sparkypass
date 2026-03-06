@@ -16,12 +16,15 @@ import {
   ChevronUp,
   Flag,
   Loader2,
+  FileText,
+  AlertTriangle,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { useNecVersion, getNecReference, getExplanation } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
+import type { ExamBlueprint, GenerationReport } from "@/types/mock-exam";
 
 interface ExamResults {
   examId: string;
@@ -34,6 +37,44 @@ interface ExamResults {
   score: number;
   timeTaken: number;
   flagged: string[];
+  blueprint?: ExamBlueprint;
+  generationReport?: GenerationReport;
+  passingScore?: number;
+}
+
+interface SectionBreakdown {
+  name: string;
+  correct: number;
+  total: number;
+  percentage: number;
+}
+
+function computeSectionBreakdown(
+  results: ExamResults,
+): SectionBreakdown[] {
+  if (!results.blueprint) return [];
+
+  return results.blueprint.sections.map((section) => {
+    const slugSet = new Set(section.categorySlugs);
+    let correct = 0;
+    let total = 0;
+
+    for (const q of results.questions) {
+      if (slugSet.has(q.category)) {
+        total++;
+        if (results.answers[q.id] === q.correctAnswer) {
+          correct++;
+        }
+      }
+    }
+
+    return {
+      name: section.name,
+      correct,
+      total,
+      percentage: total > 0 ? Math.round((correct / total) * 100) : 0,
+    };
+  });
 }
 
 export default function ExamResultsPage() {
@@ -107,7 +148,9 @@ export default function ExamResultsPage() {
     return "text-red-500";
   };
 
-  const passed = results.score >= 70;
+  const passingScore = results.passingScore ?? 70;
+  const passed = results.score >= passingScore;
+  const sectionBreakdown = computeSectionBreakdown(results);
 
   return (
     <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-8 max-w-3xl">
@@ -155,6 +198,9 @@ export default function ExamResultsPage() {
               <p className="text-muted-foreground mt-2">
                 {passed ? "PASSED" : "Keep Practicing"}
               </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                ({passingScore}% required)
+              </p>
             </div>
 
             <div className="grid grid-cols-3 gap-4 text-center">
@@ -186,11 +232,65 @@ export default function ExamResultsPage() {
         </Card>
       </motion.div>
 
+      {/* Section Breakdown (Blueprint exams only) */}
+      {sectionBreakdown.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="relative z-10 mb-6"
+        >
+          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-base flex items-center gap-2">
+                <FileText className="h-4 w-4 text-purple dark:text-purple-light" />
+                Section Breakdown
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {sectionBreakdown.map((section) => {
+                  const barColor =
+                    section.percentage >= 80
+                      ? "bg-emerald dark:bg-sparky-green"
+                      : section.percentage >= 70
+                      ? "bg-amber"
+                      : "bg-red-500";
+
+                  return (
+                    <div key={section.name}>
+                      <div className="flex items-center justify-between text-sm mb-1">
+                        <span className="text-foreground truncate mr-2">{section.name}</span>
+                        <span className="text-muted-foreground shrink-0">
+                          {section.correct}/{section.total} ({section.percentage}%)
+                        </span>
+                      </div>
+                      <div className="h-2 rounded-full bg-muted dark:bg-stone-800 overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-500 ${barColor}`}
+                          style={{ width: `${section.total > 0 ? section.percentage : 0}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+              {results.generationReport?.hasShortages && (
+                <div className="flex items-start gap-2 mt-4 rounded-lg border border-amber/30 bg-amber/5 dark:border-sparky-green/30 dark:bg-sparky-green/5 px-3 py-2 text-xs text-amber dark:text-sparky-green">
+                  <AlertTriangle className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                  <span>Some sections had fewer questions available than the blueprint specifies.</span>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </motion.div>
+      )}
+
       {/* Stats Summary */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.15 }}
+        transition={{ duration: 0.5, delay: sectionBreakdown.length > 0 ? 0.2 : 0.15 }}
         className="relative z-10 mb-6"
       >
         <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
@@ -228,7 +328,7 @@ export default function ExamResultsPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+        transition={{ duration: 0.5, delay: sectionBreakdown.length > 0 ? 0.25 : 0.2 }}
         className="relative z-10 mb-6"
       >
         <Button
@@ -358,7 +458,7 @@ export default function ExamResultsPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.25 }}
+        transition={{ duration: 0.5, delay: sectionBreakdown.length > 0 ? 0.3 : 0.25 }}
         className="relative z-10 mb-8"
       >
         <SparkyMessage
@@ -375,7 +475,7 @@ export default function ExamResultsPage() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
+        transition={{ duration: 0.5, delay: sectionBreakdown.length > 0 ? 0.35 : 0.3 }}
         className="relative z-10 flex flex-col sm:flex-row gap-3 justify-center"
       >
         <Link href={`/mock-exam/${examId}`}>

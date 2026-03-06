@@ -26,9 +26,9 @@ import { BreakerModeHeader, TripAnimation, CooldownTimer, ResetButton } from "@/
 import { getRandomQuestions, getQuestionById } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getScaffolding } from "@/lib/voltage";
+import { ACTIVITY_VOLTAGE } from "@/lib/watts";
 import { getCategoryBySlug } from "@/types/question";
 import type { Question, CategorySlug, Difficulty } from "@/types/question";
-import type { VoltageTier } from "@/types/reward-system";
 
 const CORRECT_MESSAGES = [
   "Circuit holding! Keep that power flowing! ⚡",
@@ -82,14 +82,17 @@ export default function CircuitBreakerChallengePage() {
   const [totalAnswered, setTotalAnswered] = useState(0);
   const [totalWattsEarned, setTotalWattsEarned] = useState(0);
   const [wattsBalance, setWattsBalance] = useState(0);
-  const [voltageTier, setVoltageTier] = useState<VoltageTier>(1);
   const [isComplete, setIsComplete] = useState(false);
 
   const [loading, setLoading] = useState(true);
   const timerRef = useRef<number>(0);
   const timerIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const nextButtonRef = useRef<HTMLDivElement>(null);
+  const explanationRef = useRef<HTMLDivElement>(null);
+  const lastAnswerCorrectRef = useRef(false);
 
-  const scaffolding = getScaffolding(voltageTier);
+  const currentQuestion = questions[currentIndex];
+  const scaffolding = getScaffolding(currentQuestion?.difficulty || "journeyman");
 
   // Redirect if not authenticated
   useEffect(() => {
@@ -140,9 +143,6 @@ export default function CircuitBreakerChallengePage() {
         if (userRes.ok) {
           const userData = await userRes.json();
           setWattsBalance(userData.wattsBalance || 0);
-          if (userData.voltageTier) {
-            setVoltageTier(userData.voltageTier as VoltageTier);
-          }
         }
       } catch (error) {
         console.error("Failed to initialize:", error);
@@ -183,6 +183,7 @@ export default function CircuitBreakerChallengePage() {
       if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
 
       const isCorrect = answerIndex === question.correctAnswer;
+      lastAnswerCorrectRef.current = isCorrect;
 
       if (isCorrect) {
         setTotalCorrect((prev) => prev + 1);
@@ -222,10 +223,10 @@ export default function CircuitBreakerChallengePage() {
 
         if (res.ok) {
           const data = await res.json();
-          if (data.wattsEarned) {
-            setTotalWattsEarned((prev) => prev + data.wattsEarned);
-            setWattsBalance(data.wattsBalance);
-            window.dispatchEvent(new Event("watts-updated"));
+
+          // Track watts client-side (480V per correct answer)
+          if (isCorrect) {
+            setTotalWattsEarned((prev) => prev + ACTIVITY_VOLTAGE.circuit_breaker);
           }
 
           // Check if breaker just tripped
@@ -253,9 +254,40 @@ export default function CircuitBreakerChallengePage() {
     [isAnswered, submitting, isTripped, questions, currentIndex]
   );
 
-  function handleNext() {
+  async function handleNext() {
     if (currentIndex >= questions.length - 1) {
       setIsComplete(true);
+      // Send watts to server on completion
+      try {
+        const sessionRes = await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sessionType: "quiz", categorySlug }),
+        });
+        if (sessionRes.ok) {
+          const { sessionId } = await sessionRes.json();
+          const patchRes = await fetch("/api/sessions", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              sessionId,
+              wattsEarned: totalWattsEarned,
+              activityType: "circuit_breaker_clear",
+              questionsAnswered: totalAnswered,
+              questionsCorrect: totalCorrect,
+            }),
+          });
+          if (patchRes.ok) {
+            const data = await patchRes.json();
+            if (typeof data.wattsBalance === "number") {
+              setWattsBalance(data.wattsBalance);
+              window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
+            }
+          }
+        }
+      } catch {
+        // Silently fail
+      }
       return;
     }
     setCurrentIndex((prev) => prev + 1);
@@ -287,8 +319,6 @@ export default function CircuitBreakerChallengePage() {
       </main>
     );
   }
-
-  const currentQuestion = questions[currentIndex];
 
   return (
     <main className="relative min-h-screen bg-cream dark:bg-stone-950">
@@ -531,6 +561,7 @@ export default function CircuitBreakerChallengePage() {
                     {/* Explanation */}
                     {isAnswered && (
                       <motion.div
+                        ref={explanationRef}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.3, delay: 0.1 }}
@@ -564,9 +595,17 @@ export default function CircuitBreakerChallengePage() {
                 {/* Sparky + Next */}
                 {isAnswered && !isTripped && (
                   <motion.div
+                    ref={nextButtonRef}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3, delay: 0.2 }}
+                    onAnimationComplete={() => {
+                      if (lastAnswerCorrectRef.current) {
+                        nextButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      } else {
+                        explanationRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+                      }
+                    }}
                     className="space-y-4"
                   >
                     {sparkyMessage && (

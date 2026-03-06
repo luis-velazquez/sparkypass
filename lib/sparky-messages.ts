@@ -1,5 +1,5 @@
 import type { SparkyVariant } from "@/components/sparky/SparkyAvatar";
-import type { VoltageTier } from "@/types/reward-system";
+import type { UserClassification } from "@/types/reward-system";
 
 interface SparkyReaction {
   message: string;
@@ -10,76 +10,34 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// --- Dashboard greetings by voltage tier ---
+// --- Dashboard greetings by classification ---
 
-const DASHBOARD_GREETINGS: Record<number, string[]> = {
-  1: [
+const DASHBOARD_GREETINGS: Record<UserClassification, string[]> = {
+  watt_apprentice: [
     "Welcome back, apprentice! Ready to learn the fundamentals?",
     "Hey there! Let's build a solid foundation today.",
-    "Good to see you! Every question makes you stronger.",
+    "Good to see you! Every correct answer adds watts to your balance.",
   ],
-  2: [
-    "The circuits are humming! Let's keep that momentum going.",
-    "You're making great progress through the code. Keep it up!",
-    "120V and climbing! Time to push deeper into the NEC.",
+  kilowatt_electrician: [
+    "Kilowatt Electrician! The circuits are humming — keep it going.",
+    "You've crossed 1,000W! Your NEC knowledge is building momentum.",
+    "Impressive dedication! Time to push deeper into the code.",
   ],
-  3: [
-    "Journeyman territory! The training wheels are coming off.",
-    "You're wired for success. Let's tackle some tougher material.",
-    "240V — your knowledge is powering through. Stay sharp!",
+  megawatt_electrician: [
+    "Megawatt Electrician! You're handling high-voltage concepts with ease.",
+    "Over a million watts — the exam doesn't stand a chance!",
+    "The NEC is becoming second nature. Keep the current flowing!",
   ],
-  4: [
-    "Journeyman status! The NEC is becoming second nature.",
-    "277V — you're reading the code like a seasoned electrician.",
-    "Impressive progress. Let's keep the current flowing strong.",
-  ],
-  5: [
-    "Master Candidate! You're handling high-voltage concepts with ease.",
-    "480V — the exam doesn't stand a chance against this preparation.",
-    "You're operating at service entrance level. Push for mastery!",
-  ],
-  6: [
-    "Master Electrician caliber! Your NEC knowledge is exceptional.",
-    "600V — you can cite articles in your sleep. Almost there!",
-    "The code is your language now. Let's perfect every detail.",
-  ],
-  7: [
-    "The Transformer! You've reached the pinnacle. Maintain that edge.",
-    "13.8kV — you ARE the code reference. Legendary dedication!",
-    "Maximum voltage achieved. Your mastery is truly electrifying.",
+  gigawatt_electrician: [
+    "Gigawatt Electrician! You ARE the code reference. Legendary!",
+    "Over a billion watts — your mastery is truly electrifying.",
+    "Maximum classification achieved. Maintain that edge!",
   ],
 };
 
-export function getDashboardGreeting(voltageTier: VoltageTier): SparkyReaction {
-  const tier = Math.min(Math.max(voltageTier, 1), 7);
-  const messages = DASHBOARD_GREETINGS[tier] || DASHBOARD_GREETINGS[1];
+export function getDashboardGreeting(classification: UserClassification): SparkyReaction {
+  const messages = DASHBOARD_GREETINGS[classification] || DASHBOARD_GREETINGS.watt_apprentice;
   return { message: pick(messages), variant: "default" };
-}
-
-// --- Decay warnings (low amps) ---
-
-const DECAY_WARNINGS: string[] = [
-  "Your amps are dropping! Study today to keep your momentum up.",
-  "I'm seeing some power loss in your circuit. Let's recharge with a quiz!",
-  "Your activity meter is getting low. Even a quick 5-question set helps!",
-  "Don't let the current die down — a daily challenge will boost your amps.",
-  "Your study momentum is fading. Jump back in before your amps decay further!",
-];
-
-const DECAY_CRITICAL: string[] = [
-  "Power levels critical! Your amps have dropped significantly. Study now to recover!",
-  "Warning: circuit almost de-energized! Your study streak and amps need attention.",
-  "Emergency! Your amps are at minimum levels. Even one quiz session will help restart the flow.",
-];
-
-export function getDecayWarning(currentAmps: number): SparkyReaction | null {
-  if (currentAmps <= 15) {
-    return { message: pick(DECAY_CRITICAL), variant: "warning" };
-  }
-  if (currentAmps <= 30) {
-    return { message: pick(DECAY_WARNINGS), variant: "warning" };
-  }
-  return null;
 }
 
 // --- Streak milestones ---
@@ -178,20 +136,18 @@ export function getReviewReminder(dueCount: number): SparkyReaction {
   };
 }
 
-// --- Voltage tier advancement ---
+// --- Classification advancement ---
 
-export function getTierAdvancementMessage(newTier: VoltageTier): SparkyReaction {
-  const messages: Record<number, string> = {
-    2: "You've advanced to 120V — Apprentice! Hints are still available, but you're proving yourself!",
-    3: "240V — Journeyman Candidate! Hints are now hidden. Trust your knowledge!",
-    4: "277V — Journeyman! Formulas are now hidden too. You know this material inside and out!",
-    5: "480V — Master Candidate! NEC references are gone. You're citing from memory now!",
-    6: "600V — Master Electrician! Article numbers hidden. You're writing the code at this point!",
-    7: "13.8kV — THE TRANSFORMER! Full lockdown mode. You are the ultimate electrician!",
-  };
+const CLASSIFICATION_MESSAGES: Record<UserClassification, string> = {
+  watt_apprentice: "Welcome to SparkyPass! Start studying to earn watts!",
+  kilowatt_electrician: "Kilowatt Electrician! You've crossed 1,000W — your dedication is paying off!",
+  megawatt_electrician: "MEGAWATT ELECTRICIAN! Over a million watts! Your NEC mastery is exceptional!",
+  gigawatt_electrician: "GIGAWATT ELECTRICIAN! A BILLION WATTS! You are the ultimate electrician!",
+};
 
+export function getClassificationAdvancementMessage(classification: UserClassification): SparkyReaction {
   return {
-    message: messages[newTier] || "Voltage tier advanced! Keep pushing higher!",
+    message: CLASSIFICATION_MESSAGES[classification] || "Classification advanced! Keep powering up!",
     variant: "proud",
   };
 }
@@ -212,12 +168,10 @@ export function getSafetyBriefing(): SparkyReaction {
 
 // --- Quiz encouragement by accuracy ---
 
-export function getQuizEncouragement(accuracy: number, voltageTier: VoltageTier): SparkyReaction {
+export function getQuizEncouragement(accuracy: number): SparkyReaction {
   if (accuracy >= 90) {
     return {
-      message: voltageTier >= 5
-        ? "Outstanding performance! You're operating at peak voltage."
-        : "Incredible accuracy! You're ready to step up to a higher difficulty!",
+      message: "Outstanding performance! You're ready to step up to a higher difficulty!",
       variant: "proud",
     };
   }

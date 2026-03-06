@@ -11,40 +11,35 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SparkyAvatar } from "@/components/sparky";
-import { Zap, Trophy, ShieldCheck } from "lucide-react";
-import type { VoltageTier } from "@/types/reward-system";
+import { Zap, ShieldCheck } from "lucide-react";
 
-// Sparky celebration messages for voltage tier advancement
-const VOLTAGE_UP_MESSAGES = [
-  "Your voltage just jumped! You're conducting at a whole new level now!",
-  "Tier up! The current is flowing stronger through your circuits!",
+// Sparky celebration messages for classification advancement
+const CLASSIFICATION_UP_MESSAGES = [
+  "Your power output just jumped! You're conducting at a whole new level now!",
+  "Classification up! The current is flowing stronger through your circuits!",
   "Power surge detected! You've proven your mastery to advance!",
-  "Incredible! You've energized a new voltage tier!",
+  "Incredible! You've energized a new classification!",
   "The grid is buzzing! Your dedication has paid off big time!",
-  "New voltage unlocked! You're becoming a true power conductor!",
+  "New classification unlocked! You're becoming a true power conductor!",
   "Transformer alert! Your electrical knowledge is electrifying!",
-  "Voltage upgrade complete! Keep that current flowing!",
+  "Classification upgrade complete! Keep that current flowing!",
 ];
 
-export function getRandomVoltageUpMessage(): string {
-  return VOLTAGE_UP_MESSAGES[Math.floor(Math.random() * VOLTAGE_UP_MESSAGES.length)];
+export function getRandomClassificationUpMessage(): string {
+  return CLASSIFICATION_UP_MESSAGES[Math.floor(Math.random() * CLASSIFICATION_UP_MESSAGES.length)];
 }
 
 interface VoltageUpModalProps {
   isOpen: boolean;
   onClose: () => void;
-  newTier: VoltageTier;
   newTitle: string;
-  newVoltage: string;
   message: string;
 }
 
 export function VoltageUpModal({
   isOpen,
   onClose,
-  newTier,
   newTitle,
-  newVoltage,
   message,
 }: VoltageUpModalProps) {
   const hasPlayedConfetti = useRef(false);
@@ -92,7 +87,7 @@ export function VoltageUpModal({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-md border-amber/30 dark:border-sparky-green/30 overflow-hidden">
-        <DialogTitle className="sr-only">Voltage Tier Up!</DialogTitle>
+        <DialogTitle className="sr-only">Classification Up!</DialogTitle>
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -130,7 +125,7 @@ export function VoltageUpModal({
                 ))}
               </div>
 
-              {/* Tier Up Badge */}
+              {/* Classification Up Badge */}
               <motion.div
                 initial={{ y: -20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -139,37 +134,25 @@ export function VoltageUpModal({
               >
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-amber to-amber-dark dark:from-sparky-green dark:to-sparky-green-dark text-white dark:text-stone-950 font-bold text-lg">
                   <ShieldCheck className="h-5 w-5" />
-                  VOLTAGE UP!
+                  CLASSIFICATION UP!
                   <Zap className="h-5 w-5" />
                 </div>
               </motion.div>
 
-              {/* Voltage Display */}
+              {/* Classification Display */}
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                className="mb-2"
-              >
-                <div className="w-28 h-28 rounded-full bg-gradient-to-br from-amber via-amber-light to-amber dark:from-sparky-green dark:via-sparky-green dark:to-sparky-green-dark flex items-center justify-center shadow-glow-primary dark:shadow-glow-sparky">
-                  <div className="w-24 h-24 rounded-full bg-background flex flex-col items-center justify-center">
-                    <span className="text-2xl font-bold text-amber dark:text-sparky-green">
-                      {newVoltage}
-                    </span>
-                    <span className="text-xs text-muted-foreground uppercase tracking-wider">
-                      Tier {newTier}
-                    </span>
-                  </div>
-                </div>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
                 className="mb-6"
               >
-                <div className="px-3 py-1 rounded-full bg-purple-soft dark:bg-purple/20 text-purple dark:text-purple-light text-sm font-semibold whitespace-nowrap">
-                  {newTitle}
+                <div className="w-28 h-28 rounded-full bg-gradient-to-br from-amber via-amber-light to-amber dark:from-sparky-green dark:via-sparky-green dark:to-sparky-green-dark flex items-center justify-center shadow-glow-primary dark:shadow-glow-sparky">
+                  <div className="w-24 h-24 rounded-full bg-background flex flex-col items-center justify-center p-2">
+                    <Zap className="h-6 w-6 text-amber dark:text-sparky-green fill-current mb-1" />
+                    <span className="text-sm font-bold text-amber dark:text-sparky-green text-center leading-tight">
+                      {newTitle}
+                    </span>
+                  </div>
                 </div>
               </motion.div>
 

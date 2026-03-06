@@ -1,16 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star } from "lucide-react";
+import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getLevelTitle, getXPProgress } from "@/lib/levels";
+import { getClassificationTitle, getClassificationProgress } from "@/lib/levels";
 
 interface XPProgressBarProps {
-  xp: number;
-  level: number;
-  /** Show the level label above the bar */
+  wattsBalance: number;
+  /** Show the classification label above the bar */
   showLevel?: boolean;
-  /** Show XP numbers below the bar */
+  /** Show watts numbers below the bar */
   showXPNumbers?: boolean;
   /** Size variant */
   size?: "sm" | "md" | "lg";
@@ -21,17 +20,16 @@ interface XPProgressBarProps {
 }
 
 export function XPProgressBar({
-  xp,
-  level,
+  wattsBalance,
   showLevel = true,
   showXPNumbers = true,
   size = "md",
   className,
   animationDuration = 0.8,
 }: XPProgressBarProps) {
-  const xpProgress = getXPProgress(xp, level);
-  const levelTitle = getLevelTitle(level);
-  const isMaxLevel = level >= 10;
+  const classificationTitle = getClassificationTitle(wattsBalance);
+  const progress = getClassificationProgress(wattsBalance);
+  const isMax = !progress.next;
 
   const barHeight = {
     sm: "h-2",
@@ -55,7 +53,7 @@ export function XPProgressBar({
     <div className={cn("w-full", className)}>
       {showLevel && (
         <div className="flex items-center gap-2 mb-2">
-          <Star className={cn(iconSize[size], "text-amber dark:text-sparky-green")} />
+          <Zap className={cn(iconSize[size], "text-amber dark:text-sparky-green fill-current")} />
           <div className="flex items-baseline gap-2">
             <span
               className={cn(
@@ -63,10 +61,10 @@ export function XPProgressBar({
                 size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-2xl"
               )}
             >
-              Level {level}
+              {wattsBalance.toLocaleString()}W
             </span>
             <span className={cn("text-muted-foreground", textSize[size])}>
-              {levelTitle}
+              {classificationTitle}
             </span>
           </div>
         </div>
@@ -76,13 +74,13 @@ export function XPProgressBar({
       <div className={cn("bg-muted dark:bg-stone-800 rounded-full overflow-hidden", barHeight[size])}>
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: `${xpProgress.percentage}%` }}
+          animate={{ width: `${progress.percentage}%` }}
           transition={{ duration: animationDuration, ease: "easeOut" }}
           className="h-full bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark rounded-full"
         />
       </div>
 
-      {/* XP Numbers */}
+      {/* Numbers */}
       {showXPNumbers && (
         <div
           className={cn(
@@ -90,12 +88,12 @@ export function XPProgressBar({
             textSize[size]
           )}
         >
-          <span>{xp.toLocaleString()} XP</span>
-          {isMaxLevel ? (
-            <span className="text-amber dark:text-sparky-green font-medium">Max Level!</span>
+          <span>{wattsBalance.toLocaleString()}W</span>
+          {isMax ? (
+            <span className="text-amber dark:text-sparky-green font-medium">Max Classification!</span>
           ) : (
             <span>
-              {xpProgress.current.toLocaleString()} / {xpProgress.needed.toLocaleString()} to Level {level + 1}
+              {progress.percentage}% to {progress.next!.title}
             </span>
           )}
         </div>

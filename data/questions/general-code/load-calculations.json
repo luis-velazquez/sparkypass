@@ -362,9 +362,9 @@
     {
       "id": "LC-J008",
       "category": "load-calculations",
-      "necArticle": "Table 220.12",
+      "necArticle": "Table 220.42(A)",
       "difficulty": "journeyman",
-      "questionText": "According to NEC Table 220.12, what is the minimum general lighting load per square foot for an office building?",
+      "questionText": "What is the minimum general lighting load per square foot for an office building?",
       "options": [
         "3.5 VA/sq ft",
         "1.3 VA/sq ft",
@@ -372,9 +372,9 @@
         "1.5 VA/sq ft"
       ],
       "correctAnswer": 1,
-      "explanation": "Per modern NEC Table 220.12 (2020 and 2023 cycles), the general lighting load for an office building is 1.3 VA per square foot. The NEC drastically lowered this value from older cycles to reflect the modern energy efficiency of LED lighting.",
-      "necReference": "Table 220.12",
-      "sparkyTip": "Code Update Trap! If you are using old study guides from the journeyman guys at work, you might have memorized 3.5 VA/sq ft for offices. That is dead wrong on a modern exam! The LED revolution dropped offices all the way down to 1.3 VA/sq ft.",
+      "explanation": "Per NEC Table 220.42(A) (formerly Table 220.12 in the 2020 NEC), the general lighting load for an office building is 1.3 VA per square foot. The NEC drastically lowered this value from older cycles to reflect the modern energy efficiency of LED lighting.",
+      "necReference": "Table 220.42(A)",
+      "sparkyTip": "Code Update Trap! This table was 220.12 in the 2020 NEC, became 220.42(A) in the 2023 NEC, and is now 120.42(A) in the 2026 NEC. Also, if you are using old study guides, you might have memorized 3.5 VA/sq ft for offices. That is dead wrong on a modern exam! The LED revolution dropped offices all the way down to 1.3 VA/sq ft.",
       "necVersions": [
         "2023",
         "2026"

@@ -5,10 +5,9 @@ export { XPProgressBar } from "./XPProgressBar";
 // New reward system exports
 export {
   VoltageUpModal,
-  getRandomVoltageUpMessage,
+  getRandomClassificationUpMessage,
   VoltageProgressBar,
   VoltageDisplay,
-  AmpsGauge,
   WattsCounter,
   PowerFormula,
   WattsEarnedToast,

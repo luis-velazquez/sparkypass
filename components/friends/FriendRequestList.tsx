@@ -9,8 +9,7 @@ interface PendingFriend {
   friendshipId: string;
   name: string;
   username: string | null;
-  tierTitle: string;
-  tierVoltage: string;
+  classificationTitle: string;
 }
 
 interface FriendRequestListProps {
@@ -64,7 +63,7 @@ export function FriendRequestList({ incoming, outgoing, onUpdate }: FriendReques
                 <div>
                   <p className="text-sm font-medium text-foreground">{req.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {req.tierVoltage} {req.tierTitle}
+                    {req.classificationTitle}
                   </p>
                 </div>
                 <div className="flex gap-1.5">
@@ -115,7 +114,7 @@ export function FriendRequestList({ incoming, outgoing, onUpdate }: FriendReques
                 <div>
                   <p className="text-sm font-medium text-foreground">{req.name}</p>
                   <p className="text-xs text-muted-foreground">
-                    {req.tierVoltage} {req.tierTitle}
+                    {req.classificationTitle}
                   </p>
                 </div>
                 <span className="flex items-center gap-1 text-xs text-muted-foreground">

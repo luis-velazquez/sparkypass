@@ -17,9 +17,7 @@ interface FriendInfo {
   name: string;
   username: string | null;
   wattsLifetime: number;
-  voltageTier: number;
-  tierTitle: string;
-  tierVoltage: string;
+  classificationTitle: string;
   studyStreak: number;
   since: string | null;
 }
@@ -181,8 +179,7 @@ export default function FriendsPage() {
                   name={friend.name}
                   username={friend.username}
                   wattsLifetime={friend.wattsLifetime}
-                  tierTitle={friend.tierTitle}
-                  tierVoltage={friend.tierVoltage}
+                  classificationTitle={friend.classificationTitle}
                   studyStreak={friend.studyStreak}
                   since={friend.since}
                   onRemove={fetchFriends}

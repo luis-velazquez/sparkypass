@@ -2,18 +2,16 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import type { VoltageTier } from "@/types/reward-system";
 
 interface PowerFormulaProps {
-  voltage: string;
+  voltage: number;
   amps: number;
   watts: number;
-  tier: VoltageTier;
   size?: "sm" | "md" | "lg";
   className?: string;
 }
 
-export function PowerFormula({ voltage, amps, watts, tier, size = "md", className }: PowerFormulaProps) {
+export function PowerFormula({ voltage, amps, watts, size = "md", className }: PowerFormulaProps) {
   const textSize = { sm: "text-xs", md: "text-sm", lg: "text-lg" };
   const numberSize = { sm: "text-sm", md: "text-base", lg: "text-xl" };
 
@@ -28,11 +26,11 @@ export function PowerFormula({ voltage, amps, watts, tier, size = "md", classNam
       </motion.span>
       <span className={cn("text-muted-foreground", textSize[size])}>=</span>
       <span className={cn("text-purple dark:text-purple-light font-semibold", textSize[size])}>
-        {voltage}
+        {voltage}V
       </span>
       <span className={cn("text-muted-foreground", textSize[size])}>×</span>
       <span className={cn("text-sky-500 dark:text-sky-400 font-semibold", textSize[size])}>
-        {amps.toFixed(1)}A
+        {amps}A
       </span>
     </div>
   );

@@ -4,8 +4,7 @@ import { db, users, userProgress, studySessions } from "@/lib/db";
 import { eq, sql, count, and, gte, countDistinct, isNotNull } from "drizzle-orm";
 import { getTotalQuestionCount, getQuestionById } from "@/lib/questions";
 import { CATEGORIES } from "@/types/question";
-import { calculateAmps, getDaysIdle } from "@/lib/amps";
-import type { VoltageTier } from "@/types/reward-system";
+import { getUserClassification, getClassificationTitle } from "@/lib/voltage";
 
 export async function GET() {
   try {
@@ -113,37 +112,21 @@ export async function GET() {
       .select({
         wattsBalance: users.wattsBalance,
         wattsLifetime: users.wattsLifetime,
-        level: users.level,
         studyStreak: users.studyStreak,
         bestStudyStreak: users.bestStudyStreak,
-        lastStudyDate: users.lastStudyDate,
       })
       .from(users)
       .where(eq(users.id, userId))
       .limit(1);
-
-    // Calculate current amps
-    const daysIdle = getDaysIdle(user?.lastStudyDate || null);
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const [volumeResult] = await db
-      .select({ count: count() })
-      .from(userProgress)
-      .where(
-        sql`${userProgress.userId} = ${userId} AND ${userProgress.answeredAt} >= ${sevenDaysAgo.getTime() / 1000}`
-      );
-
-    const ampsState = calculateAmps({
-      streakDays: user?.studyStreak || 0,
-      questionsLast7Days: volumeResult?.count || 0,
-      daysIdle,
-    });
 
     const totalAnswered = overallStats?.totalAnswered || 0;
     const uniqueQuestionsAnswered = overallStats?.uniqueQuestionsAnswered || 0;
     const correctCount = overallStats?.correctCount || 0;
     const accuracy =
       totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
+
+    const classification = getUserClassification(user?.wattsBalance || 0).classification;
+    const classificationTitle = getClassificationTitle(user?.wattsBalance || 0);
 
     return NextResponse.json({
       totalAnswered,
@@ -173,8 +156,8 @@ export async function GET() {
       })),
       wattsBalance: user?.wattsBalance || 0,
       wattsLifetime: user?.wattsLifetime || 0,
-      voltageTier: (user?.level || 1) as VoltageTier,
-      currentAmps: ampsState.totalAmps,
+      classification,
+      classificationTitle,
       studyStreak: user?.studyStreak || 0,
       bestStudyStreak: user?.bestStudyStreak || 0,
       dailyChallengeCompleted: !!dailyStatus,

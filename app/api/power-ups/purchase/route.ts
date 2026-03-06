@@ -25,12 +25,10 @@ export async function POST(request: Request) {
     const cost = getPowerUpCost(powerUpType);
     const name = getPowerUpName(powerUpType);
 
-    // Get user's current balance and tier
+    // Get user's current balance
     const [user] = await db
       .select({
         wattsBalance: users.wattsBalance,
-        level: users.level,
-        ampsBase: users.ampsBase,
       })
       .from(users)
       .where(eq(users.id, userId))
@@ -67,8 +65,8 @@ export async function POST(request: Request) {
       type: "power_up_purchase",
       amount: -cost,
       balanceAfter: newBalance,
-      voltageAtTime: user.level,
-      ampsAtTime: user.ampsBase,
+      voltageAtTime: 0,
+      ampsAtTime: 0,
       description: `Purchased ${name}`,
     });
 

@@ -32,7 +32,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { SparkyMessage } from "@/components/sparky";
-import { getLevelTitle, getXPProgress } from "@/lib/levels";
+import { getClassificationTitle, getClassificationProgress } from "@/lib/levels";
 import { cn } from "@/lib/utils";
 
 interface UserProfile {
@@ -43,8 +43,8 @@ interface UserProfile {
   dateOfBirth: string | null;
   targetExamDate: string | null;
   newsletterOptedIn: boolean;
-  xp: number;
-  level: number;
+  wattsBalance: number;
+  wattsLifetime: number;
   createdAt: string;
 }
 
@@ -206,8 +206,8 @@ export default function ProfilePage() {
     );
   }
 
-  const xpProgress = getXPProgress(profile.xp, profile.level);
-  const levelTitle = getLevelTitle(profile.level);
+  const classificationTitle = getClassificationTitle(profile.wattsBalance);
+  const classificationProgress = getClassificationProgress(profile.wattsBalance);
   const memberSince = profile.createdAt
     ? format(new Date(profile.createdAt), "MMMM d, yyyy")
     : "Unknown";
@@ -449,39 +449,45 @@ export default function ProfilePage() {
                   <span className="text-sm font-medium text-foreground">{memberSince}</span>
                 </div>
 
-                {/* Total XP */}
+                {/* Watts Balance */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Total XP</span>
+                  <span className="text-sm text-muted-foreground">Watts Balance</span>
                   <span className="text-sm font-medium text-amber">
-                    {profile.xp.toLocaleString()} XP
+                    {profile.wattsBalance.toLocaleString()}W
                   </span>
                 </div>
 
-                {/* Current Level */}
+                {/* Classification */}
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Current Level</span>
-                  <span className="text-sm font-medium text-foreground">
-                    Level {profile.level} - {levelTitle}
+                  <span className="text-sm text-muted-foreground">Classification</span>
+                  <span className="text-sm font-medium text-purple dark:text-purple-light">
+                    {classificationTitle}
                   </span>
                 </div>
 
-                {/* XP Progress Bar */}
+                {/* Classification Progress */}
                 <div className="pt-2">
                   <div className="flex justify-between text-xs text-muted-foreground mb-1">
-                    <span>Progress to next level</span>
-                    <span>{xpProgress.percentage}%</span>
+                    <span>Progress to next classification</span>
+                    <span>{classificationProgress.percentage}%</span>
                   </div>
                   <div className="h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${xpProgress.percentage}%` }}
+                      animate={{ width: `${classificationProgress.percentage}%` }}
                       transition={{ duration: 0.8, ease: "easeOut" }}
                       className="h-full bg-gradient-to-r from-amber to-amber-light rounded-full"
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {xpProgress.current} / {xpProgress.needed} XP
-                  </p>
+                  {classificationProgress.next ? (
+                    <p className="text-xs text-muted-foreground mt-1">
+                      Next: {classificationProgress.next.title} at {classificationProgress.next.minWatts.toLocaleString()}W
+                    </p>
+                  ) : (
+                    <p className="text-xs text-amber dark:text-sparky-green mt-1 font-medium">
+                      Max Classification!
+                    </p>
+                  )}
                 </div>
               </CardContent>
             </Card>

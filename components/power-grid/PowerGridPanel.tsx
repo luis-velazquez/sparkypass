@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Zap } from "lucide-react";
 import { ArticleBreaker } from "./ArticleBreaker";
@@ -15,6 +15,26 @@ interface PowerGridPanelProps {
 
 export function PowerGridPanel({ categories, overallProgress }: PowerGridPanelProps) {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const detailRef = useRef<HTMLDivElement>(null);
+  const breakerRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+
+  useEffect(() => {
+    if (selectedCategory && detailRef.current) {
+      setTimeout(() => {
+        detailRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
+    }
+  }, [selectedCategory]);
+
+  const handleClose = useCallback(() => {
+    const slug = selectedCategory;
+    setSelectedCategory(null);
+    if (slug) {
+      setTimeout(() => {
+        breakerRefs.current.get(slug)?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 100);
+    }
+  }, [selectedCategory]);
 
   return (
     <div className="space-y-6">
@@ -69,38 +89,46 @@ export function PowerGridPanel({ categories, overallProgress }: PowerGridPanelPr
       {/* Category breakers grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {categories.map((cat, index) => (
-          <ArticleBreaker
+          <div
             key={cat.slug}
-            slug={cat.slug}
-            name={cat.name}
-            necArticle={cat.necArticle}
-            status={cat.status}
-            accuracy={cat.accuracy}
-            totalAnswered={cat.totalAnswered}
-            srsHealth={cat.srsHealth}
-            srsDue={cat.srsDue}
-            bestStreak={cat.bestStreak}
-            breakerTripped={cat.breakerTripped}
-            onClick={() =>
-              setSelectedCategory(
-                selectedCategory === cat.slug ? null : cat.slug,
-              )
-            }
-            index={index}
-          />
+            ref={(el) => {
+              if (el) breakerRefs.current.set(cat.slug, el);
+            }}
+          >
+            <ArticleBreaker
+              slug={cat.slug}
+              name={cat.name}
+              necArticle={cat.necArticle}
+              status={cat.status}
+              accuracy={cat.accuracy}
+              totalAnswered={cat.totalAnswered}
+              srsHealth={cat.srsHealth}
+              srsDue={cat.srsDue}
+              bestStreak={cat.bestStreak}
+              breakerTripped={cat.breakerTripped}
+              onClick={() =>
+                setSelectedCategory(
+                  selectedCategory === cat.slug ? null : cat.slug,
+                )
+              }
+              index={index}
+            />
+          </div>
         ))}
       </div>
 
       {/* Detail panel */}
-      <AnimatePresence mode="wait">
-        {selectedCategory && (
-          <ArticleDetail
-            key={selectedCategory}
-            categorySlug={selectedCategory}
-            onClose={() => setSelectedCategory(null)}
-          />
-        )}
-      </AnimatePresence>
+      <div ref={detailRef}>
+        <AnimatePresence mode="wait">
+          {selectedCategory && (
+            <ArticleDetail
+              key={selectedCategory}
+              categorySlug={selectedCategory}
+              onClose={handleClose}
+            />
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 }

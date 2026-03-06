@@ -47,10 +47,10 @@ import { SparkyMessage } from "@/components/sparky";
 import { getRandomQuestions, getQuestionById, getQuestionCountByCategoryAndDifficulty } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty, type NecVersion } from "@/types/question";
-import { getWattsRewardsForDifficulty, DIFFICULTY_WATTS_REWARDS, STREAK_BONUSES } from "@/lib/levels";
-import { getScaffolding } from "@/lib/voltage";
+import { getScaffolding, DIFFICULTY_VOLTAGE, getStreakBoostedVoltage } from "@/lib/voltage";
+import { calculateQuizTotal, PASS_THRESHOLD } from "@/lib/watts";
 import { formatCooldown } from "@/lib/circuit-breaker";
-import type { VoltageTier } from "@/types/reward-system";
+import type { QuizVoltage } from "@/types/reward-system";
 
 // Sparky congratulation messages for correct answers
 const CORRECT_MESSAGES = [
@@ -396,8 +396,8 @@ export default function QuizTakingPage() {
   const [showHintsOnMaster, setShowHintsOnHard] = useState(false);
   const [profileQuizLength, setProfileQuizLength] = useState<number | null>(null);
 
-  // Voltage tier for scaffolding
-  const [voltageTier, setVoltageTier] = useState<VoltageTier>(1);
+  // Track voltage earned per correct answer (for watts calculation)
+  const [answerVoltages, setAnswerVoltages] = useState<number[]>([]);
 
   // Formula sheet power-up active
   const [formulaSheetActive, setFormulaSheetActive] = useState(false);
@@ -439,6 +439,8 @@ export default function QuizTakingPage() {
 
   // Ref for feedback section to scroll to
   const feedbackRef = useRef<HTMLDivElement | null>(null);
+  const explanationRef = useRef<HTMLDivElement | null>(null);
+  const nextButtonRef = useRef<HTMLDivElement | null>(null);
 
   // Refs for answer button positions (particle burst)
   const answerButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -658,13 +660,10 @@ export default function QuizTakingPage() {
           }),
         ]);
 
-        // Store pre-quiz XP for level-up detection and get voltage tier for scaffolding
+        // Store pre-quiz watts for classification advancement detection
         if (userResponse.ok) {
           const userData = await userResponse.json();
-          sessionStorage.setItem("preQuizXP", String(userData.xp || 0));
-          if (userData.voltageTier) {
-            setVoltageTier(userData.voltageTier as VoltageTier);
-          }
+          sessionStorage.setItem("preQuizWatts", String(userData.wattsBalance || 0));
         }
 
         // Check circuit breaker status for this category
@@ -726,15 +725,15 @@ export default function QuizTakingPage() {
 
   // Handle session timeout - end session and navigate to results
   const handleSessionTimeout = useCallback(async () => {
-    // Calculate XP earned from correct answers so far
+    // Calculate watts using new voltage × amps system
     let correctCount = 0;
     questions.forEach((q) => {
       if (answers.get(q.id) === q.correctAnswer) {
         correctCount++;
       }
     });
-    const wattsPerAnswer = getWattsRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-    const wattsEarned = correctCount * wattsPerAnswer;
+    const passed = totalQuestions > 0 && (correctCount / totalQuestions) >= PASS_THRESHOLD;
+    const finalWatts = calculateQuizTotal(answerVoltages, passed);
 
     // End the study session
     const sessionId = sessionStorage.getItem("currentSessionId");
@@ -743,7 +742,7 @@ export default function QuizTakingPage() {
         const sessionRes = await fetch("/api/sessions", {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId, wattsEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
+          body: JSON.stringify({ sessionId, wattsEarned: finalWatts, activityType: "quiz_complete", questionsAnswered: answers.size, questionsCorrect: correctCount }),
         });
         if (sessionRes.ok) {
           const data = await sessionRes.json();
@@ -759,21 +758,18 @@ export default function QuizTakingPage() {
     // Navigate to results with current progress
     const answersObject = Object.fromEntries(answers);
     sessionStorage.setItem("quizAnswers", JSON.stringify(answersObject));
-    sessionStorage.setItem(
-      "quizQuestionIds",
-      JSON.stringify(questions.map((q) => q.id))
-    );
+    sessionStorage.setItem("quizQuestionIds", JSON.stringify(questions.map((q) => q.id)));
     sessionStorage.setItem("quizCategory", categorySlug);
-    sessionStorage.setItem(
-      "bookmarkedQuestions",
-      JSON.stringify(Array.from(bookmarkedQuestions))
-    );
+    sessionStorage.setItem("bookmarkedQuestions", JSON.stringify(Array.from(bookmarkedQuestions)));
     sessionStorage.setItem("bestStreak", String(bestStreak));
+    sessionStorage.setItem("quizAnswerVoltages", JSON.stringify(answerVoltages));
+    sessionStorage.setItem("quizPassed", String(passed));
+    sessionStorage.setItem("quizFinalWatts", String(finalWatts));
     if (selectedDifficulty) sessionStorage.setItem("quizDifficulty", selectedDifficulty);
     sessionStorage.setItem("sessionTimedOut", "true");
     clearSavedProgress();
     router.push(`/quiz/${categorySlug}/results`);
-  }, [questions, answers, bookmarkedQuestions, bestStreak, categorySlug, router, clearSavedProgress]);
+  }, [questions, answers, bookmarkedQuestions, bestStreak, categorySlug, router, clearSavedProgress, answerVoltages, totalQuestions]);
 
   // Session timeout hook - 1 hour with 5 minute warning
   const {
@@ -786,17 +782,6 @@ export default function QuizTakingPage() {
     onTimeout: handleSessionTimeout,
     enabled: true,
   });
-
-  const handleSelectAnswer = useCallback((answerIndex: number) => {
-    haptic("tap");
-    setQuizState((prev) => {
-      if (prev.isSubmitted) return prev;
-      return {
-        ...prev,
-        selectedAnswer: answerIndex,
-      };
-    });
-  }, []);
 
   const handleToggleBookmark = useCallback(async () => {
     const question = quizState.questions[quizState.currentQuestionIndex];
@@ -853,9 +838,10 @@ export default function QuizTakingPage() {
     }
   }, [quizState.questions, quizState.currentQuestionIndex, quizState.bookmarkedQuestions]);
 
-  const handleSubmitAnswer = useCallback(async () => {
+  const handleSubmitAnswer = useCallback(async (answerOverride?: number) => {
     // Get current state values
-    const { selectedAnswer, questions, currentQuestionIndex } = quizState;
+    const { questions, currentQuestionIndex } = quizState;
+    const selectedAnswer = answerOverride ?? quizState.selectedAnswer;
     if (selectedAnswer === null) return;
 
     const question = questions[currentQuestionIndex];
@@ -878,9 +864,18 @@ export default function QuizTakingPage() {
       setSafetyBriefing(null);
     }
 
-    // Save progress to database
+    // Track voltage earned for this correct answer (streak boost applied)
+    if (isCorrect) {
+      const currentVoltage = getStreakBoostedVoltage(
+        selectedDifficulty || "journeyman",
+        quizState.correctStreak // streak BEFORE this answer
+      );
+      setAnswerVoltages((prev) => [...prev, currentVoltage]);
+    }
+
+    // Save progress to database (SRS + circuit breaker only, no watts)
     try {
-      const progressRes = await fetch('/api/progress', {
+      await fetch('/api/progress', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -889,12 +884,6 @@ export default function QuizTakingPage() {
           difficulty: selectedDifficulty,
         }),
       });
-      if (progressRes.ok) {
-        const data = await progressRes.json();
-        if (typeof data.wattsBalance === "number") {
-          window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
-        }
-      }
     } catch (error) {
       console.error('Failed to save progress:', error);
     }
@@ -960,9 +949,13 @@ export default function QuizTakingPage() {
         }
       }
 
-      // Scroll to feedback section after a short delay with smooth animation
+      // Scroll to appropriate section after a short delay
       setTimeout(() => {
-        feedbackRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (isCorrect) {
+          nextButtonRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          explanationRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }, 500);
 
       const newBestStreak = Math.max(prev.bestStreak, newStreak);
@@ -982,19 +975,32 @@ export default function QuizTakingPage() {
     });
   }, [quizState]);
 
+  const handleSelectAnswer = useCallback((answerIndex: number) => {
+    if (quizState.isSubmitted) return;
+    haptic("tap");
+    setQuizState((prev) => {
+      if (prev.isSubmitted) return prev;
+      return {
+        ...prev,
+        selectedAnswer: answerIndex,
+      };
+    });
+    handleSubmitAnswer(answerIndex);
+  }, [quizState.isSubmitted, handleSubmitAnswer]);
+
   const handleNextQuestion = useCallback(async () => {
     const isLast = currentQuestionIndex >= totalQuestions - 1;
 
     if (isLast) {
-      // Calculate XP earned from correct answers
+      // Calculate watts using voltage × amps system
       let correctCount = 0;
       questions.forEach((q) => {
         if (answers.get(q.id) === q.correctAnswer) {
           correctCount++;
         }
       });
-      const wattsPerAnswer = getWattsRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-      const wattsEarned = correctCount * wattsPerAnswer;
+      const passed = totalQuestions > 0 && (correctCount / totalQuestions) >= PASS_THRESHOLD;
+      const finalWatts = calculateQuizTotal(answerVoltages, passed);
 
       // End the study session
       const sessionId = sessionStorage.getItem("currentSessionId");
@@ -1003,7 +1009,7 @@ export default function QuizTakingPage() {
           const sessionRes = await fetch("/api/sessions", {
             method: "PATCH",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sessionId, wattsEarned, questionsAnswered: answers.size, questionsCorrect: correctCount, difficulty: selectedDifficulty }),
+            body: JSON.stringify({ sessionId, wattsEarned: finalWatts, activityType: "quiz_complete", questionsAnswered: answers.size, questionsCorrect: correctCount }),
           });
           if (sessionRes.ok) {
             const data = await sessionRes.json();
@@ -1016,19 +1022,16 @@ export default function QuizTakingPage() {
         }
       }
 
-      // Navigate to results - store answers in sessionStorage for the results page
+      // Navigate to results - store answers and voltage data in sessionStorage
       const answersObject = Object.fromEntries(answers);
       sessionStorage.setItem("quizAnswers", JSON.stringify(answersObject));
-      sessionStorage.setItem(
-        "quizQuestionIds",
-        JSON.stringify(questions.map((q) => q.id))
-      );
+      sessionStorage.setItem("quizQuestionIds", JSON.stringify(questions.map((q) => q.id)));
       sessionStorage.setItem("quizCategory", categorySlug);
-      sessionStorage.setItem(
-        "bookmarkedQuestions",
-        JSON.stringify(Array.from(bookmarkedQuestions))
-      );
+      sessionStorage.setItem("bookmarkedQuestions", JSON.stringify(Array.from(bookmarkedQuestions)));
       sessionStorage.setItem("bestStreak", String(bestStreak));
+      sessionStorage.setItem("quizAnswerVoltages", JSON.stringify(answerVoltages));
+      sessionStorage.setItem("quizPassed", String(passed));
+      sessionStorage.setItem("quizFinalWatts", String(finalWatts));
       if (selectedDifficulty) sessionStorage.setItem("quizDifficulty", selectedDifficulty);
       clearSavedProgress();
       router.push(`/quiz/${categorySlug}/results`);
@@ -1396,7 +1399,7 @@ export default function QuizTakingPage() {
                         <p className={`text-sm text-muted-foreground ${isLocked ? "opacity-60" : ""}`}>{diff.description}</p>
                         {!isLocked && (
                           <p className={`text-xs font-semibold mt-1 ${diff.color}`}>
-                            {DIFFICULTY_WATTS_REWARDS[diff.value].CORRECT_ANSWER}W/answer
+                            {DIFFICULTY_VOLTAGE[diff.value]}V per answer
                           </p>
                         )}
                       </>
@@ -1449,8 +1452,8 @@ export default function QuizTakingPage() {
   // Check if user is on fire (3+ streak)
   const isOnFireStreak = correctStreak >= STREAK_THRESHOLD;
 
-  // Scaffolding config based on voltage tier (formula sheet overrides to show all)
-  const baseScaffolding = getScaffolding(voltageTier);
+  // Scaffolding config based on difficulty (formula sheet overrides to show all)
+  const baseScaffolding = getScaffolding(selectedDifficulty || "journeyman");
   const scaffolding = formulaSheetActive
     ? { ...baseScaffolding, showFormulas: true, showNecReferences: true, showHints: true }
     : baseScaffolding;
@@ -1618,21 +1621,9 @@ export default function QuizTakingPage() {
             {isBookmarked ? "Saved" : "Save"}
           </Button>
 
-          {/* Submit/Next - desktop only */}
-          <div className="hidden md:block">
-            {!isSubmitted ? (
-              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                <Button
-                  onClick={handleSubmitAnswer}
-                  disabled={selectedAnswer === null}
-                  size="default"
-                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                >
-                  Submit
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </motion.div>
-            ) : (
+          {/* Next - desktop only, shown after answer */}
+          {isSubmitted && (
+            <div className="hidden md:block">
               <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                 <Button
                   onClick={handleNextQuestion}
@@ -1643,8 +1634,8 @@ export default function QuizTakingPage() {
                   <ArrowRight className="h-4 w-4" />
                 </Button>
               </motion.div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -1783,62 +1774,6 @@ export default function QuizTakingPage() {
             })}
           </div>
 
-          {/* Mobile Submit/Next Button - visible only on small screens */}
-          <div className="flex justify-center mb-6 md:hidden">
-            {!isSubmitted ? (
-              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
-                <Button
-                  onClick={handleSubmitAnswer}
-                  disabled={selectedAnswer === null}
-                  size="lg"
-                  className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                >
-                  Submit
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </motion.div>
-            ) : (
-              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
-                <Button
-                  onClick={handleNextQuestion}
-                  size="lg"
-                  className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                >
-                  {isLastQuestion ? "See Results" : "Next Question"}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </motion.div>
-            )}
-          </div>
-
-          {/* Desktop Submit/Next Button - below answers so user doesn't scroll up */}
-          <div className="hidden md:flex justify-end mb-6">
-            {!isSubmitted ? (
-              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                <Button
-                  onClick={handleSubmitAnswer}
-                  disabled={selectedAnswer === null}
-                  size="default"
-                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                >
-                  Submit
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </motion.div>
-            ) : (
-              <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                <Button
-                  onClick={handleNextQuestion}
-                  size="default"
-                  className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                >
-                  {isLastQuestion ? "See Results" : "Next"}
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </motion.div>
-            )}
-          </div>
-
           {/* Mobile Progress Bar & Nav - visible only on small screens */}
           <div className="md:hidden mb-4">
             {/* Mobile Progress Bar */}
@@ -1936,9 +1871,9 @@ export default function QuizTakingPage() {
                 <div className="flex justify-center gap-3 mb-4 flex-wrap">
                   {/* Watts Animation for correct answers */}
                   {isCorrectAnswer && (() => {
-                    const wattsAmount = getWattsRewardsForDifficulty(selectedDifficulty).CORRECT_ANSWER;
-                    const streakBonus = STREAK_BONUSES[correctStreak] || 0;
-                    const totalWattsAmount = wattsAmount + streakBonus;
+                    const currentVoltage = answerVoltages.length > 0 ? answerVoltages[answerVoltages.length - 1] : DIFFICULTY_VOLTAGE[selectedDifficulty || "journeyman"];
+                    const baseVoltage = DIFFICULTY_VOLTAGE[(selectedDifficulty || "journeyman") as "apprentice" | "journeyman" | "master"];
+                    const isBoosted = currentVoltage > baseVoltage;
                     const wattsColor = selectedDifficulty === "apprentice"
                       ? "bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green"
                       : selectedDifficulty === "master"
@@ -1954,7 +1889,7 @@ export default function QuizTakingPage() {
                           className={`inline-flex items-center gap-2 px-4 py-2 ${wattsColor} rounded-full text-lg font-bold`}
                         >
                           <Zap className="h-5 w-5" />
-                          +{totalWattsAmount}W{streakBonus > 0 && <span className="text-sm font-normal ml-1">(+{streakBonus} bonus!)</span>}
+                          +{currentVoltage}W{isBoosted && <span className="text-sm font-normal ml-1">(streak boost!)</span>}
                         </motion.span>
                         {/* Floating duplicate that rises and fades */}
                         <motion.span
@@ -1965,7 +1900,7 @@ export default function QuizTakingPage() {
                           className={`absolute inset-0 inline-flex items-center justify-center gap-2 px-4 py-2 ${wattsColor} rounded-full text-lg font-bold pointer-events-none`}
                         >
                           <Zap className="h-5 w-5" />
-                          +{totalWattsAmount}W
+                          +{currentVoltage}W
                         </motion.span>
                       </span>
                     );
@@ -2048,7 +1983,7 @@ export default function QuizTakingPage() {
                     )}
 
                     {/* Explanation */}
-                    <div className="mt-4 p-4 bg-muted/50 dark:bg-stone-800/50 rounded-lg">
+                    <div ref={explanationRef} className="mt-4 p-4 bg-muted/50 dark:bg-stone-800/50 rounded-lg">
                       <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
                         <Book className="h-4 w-4 text-purple" />
                         Explanation
@@ -2106,7 +2041,7 @@ export default function QuizTakingPage() {
                 </Card>
 
                 {/* Bottom Next Button */}
-                <div className="flex justify-center mt-6">
+                <div ref={nextButtonRef} className="flex justify-center mt-6">
                   <Button
                     onClick={handleNextQuestion}
                     size="lg"

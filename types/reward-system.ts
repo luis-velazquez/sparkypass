@@ -1,79 +1,58 @@
-// Ohm's Law Reward System Types — P = V × I
+// Resistance & Reward System Types — P = V × I
 
 import type { CategorySlug, Difficulty } from "./question";
 
-// ─── Voltage Tiers (V) ───────────────────────────────────────────────────────
+// ─── Quiz Voltage ───────────────────────────────────────────────────────────
 
-export type VoltageTier = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type QuizVoltage = 120 | 208 | 277 | 480;
 
-export interface VoltageTierConfig {
-  tier: VoltageTier;
-  voltage: string;
-  title: string;
-  multiplier: number;
-  requirements: {
-    categoriesAtApprentice: number;
-    categoriesAtJourneyman: number;
-    categoriesAtMaster: number;
-    totalQuestions: number;
-    mockExams: number;
-  };
-  scaffolding: {
-    showHints: boolean;
-    showFormulas: boolean;
-    showNecReferences: boolean;
-    showArticleNumbers: boolean;
-  };
+// ─── User Classification (replaces 7-tier system) ──────────────────────────
+
+export type UserClassification =
+  | "watt_apprentice"
+  | "kilowatt_electrician"
+  | "megawatt_electrician"
+  | "gigawatt_electrician";
+
+// ─── Quiz Watts Result ─────────────────────────────────────────────────────
+
+export interface QuizWattsResult {
+  totalCorrect: number;
+  totalQuestions: number;
+  passed: boolean;
+  rawWatts: number;
+  finalWatts: number;
+  bestStreak: number;
+  answerVoltages: number[];
 }
 
-export interface VoltageTierProgress {
-  currentTier: VoltageTier;
-  currentVoltage: string;
-  currentTitle: string;
-  nextTier: VoltageTierConfig | null;
-  progress: {
-    categoriesAtApprentice: { current: number; needed: number };
-    categoriesAtJourneyman: { current: number; needed: number };
-    categoriesAtMaster: { current: number; needed: number };
-    totalQuestions: { current: number; needed: number };
-    mockExams: { current: number; needed: number };
-  };
-  overallPercentage: number;
-}
-
-// ─── Amps (I) ────────────────────────────────────────────────────────────────
-
-export interface AmpsState {
-  streakAmps: number;
-  volumeAmps: number;
-  decayFactor: number;
-  totalAmps: number;
-}
-
-export interface AmpsMultiplierBracket {
-  min: number;
-  max: number;
-  multiplier: number;
-}
-
-// ─── Watts (W = V × I) ──────────────────────────────────────────────────────
+// ─── Watts Transaction Types ───────────────────────────────────────────────
 
 export type WattsTransactionType =
+  // New system
+  | "quiz_complete"
+  | "daily_challenge"
+  | "review_complete"
+  | "circuit_breaker_clear"
+  | "index_game"
+  | "streak_milestone"
+  | "resistance_no_login"
+  | "resistance_missed_review"
+  | "power_up_purchase"
+  // Legacy (kept for old DB rows)
   | "correct_answer"
   | "session_complete"
-  | "daily_challenge"
-  | "circuit_breaker_clear"
-  | "streak_milestone"
   | "mock_exam_complete"
-  | "power_up_purchase"
   | "breaker_reset"
   | "migration";
 
-export interface WattsCalculation {
-  baseReward: number;
-  voltageMultiplier: number;
-  ampsMultiplier: number;
-  wattsEarned: number;
+// ─── Scaffolding ───────────────────────────────────────────────────────────
+
+export interface Scaffolding {
+  showHints: boolean;
+  showFormulas: boolean;
+  showNecReferences: boolean;
+  showArticleNumbers: boolean;
 }
 
 // ─── Spaced Repetition (SRS) ────────────────────────────────────────────────
@@ -103,7 +82,6 @@ export interface SRSPriority {
   questionId: string;
   priority: number;
   overdueDays: number;
-  categoryAmps: number;
   easeFactor: number;
 }
 
@@ -166,8 +144,8 @@ export interface LeaderboardEntry {
   userId: string;
   displayName: string;
   wattsLifetime: number;
-  voltageTier: VoltageTier;
-  currentAmps: number;
+  classification: UserClassification;
+  classificationTitle: string;
   leaderboardTier: LeaderboardTier;
   rank: number;
 }
@@ -191,13 +169,9 @@ export interface PowerGridCategory {
 export interface ProgressResponse {
   success: boolean;
   progressId: string;
-  wattsEarned: number;
-  wattsBalance: number;
-  wattsLifetime: number;
-  voltageTier: VoltageTier;
-  currentAmps: number;
-  levelUp: { newTier: VoltageTier; newTitle: string; newVoltage: string } | null;
   srsUpdated: boolean;
+  breakerTripped: boolean;
+  breakerJustTripped: boolean;
 }
 
 export interface SessionCompleteResponse {
@@ -205,8 +179,8 @@ export interface SessionCompleteResponse {
   wattsEarned: number;
   wattsBalance: number;
   newStreak: number;
-  currentAmps: number;
-  voltageTier: VoltageTier;
+  classification: UserClassification;
+  classificationTitle: string;
 }
 
 export interface UserDataResponse {
@@ -214,8 +188,8 @@ export interface UserDataResponse {
   username: string | null;
   wattsBalance: number;
   wattsLifetime: number;
-  voltageTier: VoltageTier;
-  currentAmps: number;
+  classification: UserClassification;
+  classificationTitle: string;
   studyStreak: number;
   targetExamDate: string | null;
   hasSeenOnboarding: boolean;
@@ -248,8 +222,8 @@ export interface StatsResponse {
   }>;
   wattsBalance: number;
   wattsLifetime: number;
-  voltageTier: VoltageTier;
-  currentAmps: number;
+  classification: UserClassification;
+  classificationTitle: string;
   studyStreak: number;
   bestStudyStreak: number;
   dailyChallengeCompleted: boolean;

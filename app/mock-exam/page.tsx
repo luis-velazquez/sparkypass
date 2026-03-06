@@ -13,6 +13,8 @@ import {
   Target,
   XCircle,
   Loader2,
+  FileText,
+  MapPin,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,6 +28,8 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 import { SparkyMessage } from "@/components/sparky";
+import { getAllBlueprints } from "@/data/blueprints";
+import type { ExamBlueprint } from "@/types/mock-exam";
 
 interface ExamOption {
   id: string;
@@ -90,6 +94,8 @@ export default function MockExamPage() {
   const { status } = useSession();
   const router = useRouter();
   const [selectedExam, setSelectedExam] = useState<string | null>(null);
+  const [selectedBlueprint, setSelectedBlueprint] = useState<ExamBlueprint | null>(null);
+  const blueprints = getAllBlueprints();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -137,6 +143,117 @@ export default function MockExamPage() {
           Choose your challenge level and test your knowledge!
         </p>
       </motion.div>
+
+      {/* State Exam Blueprints */}
+      {blueprints.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.05 }}
+          className="relative z-10 mb-8"
+        >
+          <h2 className="text-lg font-semibold font-display text-foreground mb-4">State Exam Blueprints</h2>
+          <div className="space-y-4">
+            {blueprints.map((bp) => (
+              <Card
+                key={bp.id}
+                className="cursor-pointer transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-sparky-green/30 dark:hover:shadow-[0_0_20px_rgba(163,255,0,0.08)] pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50"
+                onClick={() => setSelectedBlueprint(bp)}
+              >
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 rounded-lg bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center shrink-0">
+                      <FileText className="h-6 w-6 text-purple dark:text-purple-light" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                        <h3 className="font-semibold text-foreground">{bp.name}</h3>
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-amber/10 text-amber dark:bg-sparky-green/10 dark:text-sparky-green rounded-full">
+                          <MapPin className="h-3 w-3" />
+                          {bp.state}
+                        </span>
+                        <span className="px-2 py-0.5 text-xs font-medium bg-purple-soft dark:bg-purple/10 text-purple dark:text-purple-light rounded-full">
+                          Blueprint
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-muted-foreground flex-wrap">
+                        <span className="flex items-center gap-1">
+                          <BookOpen className="h-3.5 w-3.5" />
+                          {bp.totalQuestions} questions
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" />
+                          {Math.floor(bp.timeLimit / 60)}h {bp.timeLimit % 60 > 0 ? `${bp.timeLimit % 60}m` : ""}
+                        </span>
+                        <span>{bp.passingScore}% to pass</span>
+                        <span>{bp.sections.length} sections</span>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </motion.div>
+      )}
+
+      {/* Blueprint Confirmation Sheet */}
+      <Sheet open={!!selectedBlueprint} onOpenChange={(open) => !open && setSelectedBlueprint(null)}>
+        <SheetContent side="bottom" showCloseButton={false} className="rounded-t-2xl md:max-w-lg md:left-1/2 md:-translate-x-1/2 md:right-auto md:rounded-2xl md:bottom-4">
+          {selectedBlueprint && (
+            <>
+              <SheetHeader className="text-center">
+                <div className="w-14 h-14 rounded-xl bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center mx-auto transition-all duration-300">
+                  <FileText className="h-7 w-7 text-purple dark:text-purple-light" />
+                </div>
+                <SheetTitle className="text-xl">{selectedBlueprint.name}</SheetTitle>
+                <SheetDescription>
+                  {selectedBlueprint.state} {selectedBlueprint.examLevel.charAt(0).toUpperCase() + selectedBlueprint.examLevel.slice(1)} Exam
+                </SheetDescription>
+              </SheetHeader>
+              <div className="max-h-48 overflow-y-auto my-4 space-y-2 px-1">
+                {selectedBlueprint.sections.map((section) => (
+                  <div key={section.name} className="flex items-center justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
+                    <span className="text-foreground">{section.name}</span>
+                    <span className="text-muted-foreground shrink-0 ml-3">{section.questionCount} Qs</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-center gap-6 py-2">
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <BookOpen className="h-4 w-4" />
+                  <span>{selectedBlueprint.totalQuestions} questions</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Clock className="h-4 w-4" />
+                  <span>{Math.floor(selectedBlueprint.timeLimit / 60)}h {selectedBlueprint.timeLimit % 60 > 0 ? `${selectedBlueprint.timeLimit % 60}m` : ""}</span>
+                </div>
+                <div className="text-sm text-muted-foreground">
+                  {selectedBlueprint.passingScore}% to pass
+                </div>
+              </div>
+              <SheetFooter className="flex-col gap-2 pb-6">
+                <Button
+                  size="lg"
+                  className="bg-amber hover:bg-amber-dark text-white w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 dark:shadow-[0_0_20px_rgba(163,255,0,0.2)]"
+                  onClick={() => handleStartExam(selectedBlueprint.id)}
+                >
+                  <Play className="h-4 w-4 mr-2" />
+                  Start Exam
+                </Button>
+                <SheetClose asChild>
+                  <Button variant="outline" size="lg" className="w-full">
+                    Cancel
+                  </Button>
+                </SheetClose>
+              </SheetFooter>
+            </>
+          )}
+        </SheetContent>
+      </Sheet>
+
+      {/* Practice Tests */}
+      <h2 className="relative z-10 text-lg font-semibold font-display text-foreground mb-4">Practice Tests</h2>
 
       {/* Exam Options Grid */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

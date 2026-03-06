@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, studySessions, userProgress, wattsTransactions } from "@/lib/db";
-import { eq, sql, and, count } from "drizzle-orm";
+import { db, users, studySessions, wattsTransactions } from "@/lib/db";
+import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
-import { calculateSessionWatts, getStreakMilestoneReward } from "@/lib/watts";
-import { calculateAmps, getDaysIdle } from "@/lib/amps";
-import type { VoltageTier } from "@/types/reward-system";
+import { getStreakMilestoneReward } from "@/lib/watts";
+import { getUserClassification, getClassificationTitle, checkClassificationAdvancement } from "@/lib/voltage";
 
 // POST - Create a new study session
 export async function POST(request: Request) {
@@ -51,7 +50,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PATCH - End a study session and award completion bonus
+// PATCH - End a study session and award watts (pre-calculated by client)
 export async function PATCH(request: Request) {
   try {
     const session = await auth();
@@ -61,7 +60,7 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { sessionId, xpEarned, questionsAnswered, questionsCorrect, difficulty } = body;
+    const { sessionId, wattsEarned = 0, activityType = "quiz_complete", questionsAnswered, questionsCorrect } = body;
 
     if (!sessionId) {
       return NextResponse.json(
@@ -75,7 +74,6 @@ export async function PATCH(request: Request) {
       .select({
         wattsBalance: users.wattsBalance,
         wattsLifetime: users.wattsLifetime,
-        level: users.level,
         studyStreak: users.studyStreak,
         bestStudyStreak: users.bestStudyStreak,
         lastStudyDate: users.lastStudyDate,
@@ -85,27 +83,12 @@ export async function PATCH(request: Request) {
       .where(eq(users.id, session.user.id))
       .limit(1);
 
-    const voltageTier = (currentUser?.level || 1) as VoltageTier;
-
-    // Calculate current amps
-    const daysIdle = getDaysIdle(currentUser?.lastStudyDate || null);
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-    const [volumeResult] = await db
-      .select({ count: count() })
-      .from(userProgress)
-      .where(
-        sql`${userProgress.userId} = ${session.user.id} AND ${userProgress.answeredAt} >= ${sevenDaysAgo.getTime() / 1000}`
-      );
-    const questionsLast7Days = volumeResult?.count || 0;
-
     // Calculate study streak using UTC date strings
     const todayUTC = new Date().toISOString().slice(0, 10);
     const yesterdayDate = new Date();
     yesterdayDate.setUTCDate(yesterdayDate.getUTCDate() - 1);
     const yesterdayUTC = yesterdayDate.toISOString().slice(0, 10);
 
-    // Check if streak fuse is active (protects against streak reset)
     const streakFuseActive = currentUser?.streakFuseExpiresAt && currentUser.streakFuseExpiresAt > new Date();
 
     let newStreak = 1;
@@ -116,28 +99,18 @@ export async function PATCH(request: Request) {
       } else if (lastStudyUTC === todayUTC) {
         newStreak = currentUser.studyStreak || 1;
       } else if (streakFuseActive) {
-        // Streak fuse protects: keep current streak + 1 instead of resetting
         newStreak = (currentUser.studyStreak || 0) + 1;
       }
     }
 
     const newBestStreak = Math.max(newStreak, currentUser?.bestStudyStreak || 0);
 
-    // Calculate amps with new streak
-    const ampsState = calculateAmps({
-      streakDays: newStreak,
-      questionsLast7Days,
-      daysIdle: 0, // Just studied
-    });
-
-    // Calculate session completion Watts
-    const sessionWatts = calculateSessionWatts(difficulty, voltageTier, ampsState.totalAmps);
-
     // Check for streak milestone bonus
     const streakBonus = getStreakMilestoneReward(newStreak) || 0;
-    const totalWattsEarned = sessionWatts + streakBonus;
+    const totalWattsEarned = wattsEarned + streakBonus;
 
-    const newBalance = (currentUser?.wattsBalance || 0) + totalWattsEarned;
+    const previousBalance = currentUser?.wattsBalance || 0;
+    const newBalance = previousBalance + totalWattsEarned;
     const newLifetime = (currentUser?.wattsLifetime || 0) + totalWattsEarned;
 
     // Update the session
@@ -145,7 +118,6 @@ export async function PATCH(request: Request) {
       .update(studySessions)
       .set({
         endedAt: new Date(),
-        xpEarned: xpEarned || 0,
         wattsEarned: totalWattsEarned,
         questionsAnswered: questionsAnswered ?? null,
         questionsCorrect: questionsCorrect ?? null,
@@ -164,26 +136,23 @@ export async function PATCH(request: Request) {
         wattsBalance: newBalance,
         wattsLifetime: newLifetime,
         xp: newLifetime,
-        level: voltageTier, // Voltage tier re-calculated elsewhere based on content mastery
         studyStreak: newStreak,
         bestStudyStreak: newBestStreak,
         lastStudyDate: new Date(),
-        ampsBase: ampsState.totalAmps,
-        ampsLastCalculated: new Date(),
         updatedAt: new Date(),
       })
       .where(eq(users.id, session.user.id));
 
-    // Log session completion watts transaction
+    // Log activity watts transaction
     await db.insert(wattsTransactions).values({
       id: crypto.randomUUID(),
       userId: session.user.id,
-      type: "session_complete",
-      amount: sessionWatts,
+      type: activityType,
+      amount: wattsEarned,
       balanceAfter: newBalance - streakBonus,
-      voltageAtTime: voltageTier,
-      ampsAtTime: ampsState.totalAmps,
-      description: `Session complete (${difficulty || "journeyman"})`,
+      voltageAtTime: 0,
+      ampsAtTime: 0,
+      description: `${activityType} (${questionsCorrect ?? 0}/${questionsAnswered ?? 0} correct)`,
     });
 
     // Log streak milestone bonus if applicable
@@ -194,11 +163,17 @@ export async function PATCH(request: Request) {
         type: "streak_milestone",
         amount: streakBonus,
         balanceAfter: newBalance,
-        voltageAtTime: voltageTier,
-        ampsAtTime: ampsState.totalAmps,
+        voltageAtTime: 0,
+        ampsAtTime: 0,
         description: `${newStreak}-day streak milestone!`,
       });
     }
+
+    // Check for classification advancement
+    const advancement = checkClassificationAdvancement(previousBalance, newBalance);
+
+    const classification = getUserClassification(newBalance).classification;
+    const classificationTitle = getClassificationTitle(newBalance);
 
     console.log(`Session complete for user ${session.user.id}: +${totalWattsEarned}W, streak=${newStreak}`);
 
@@ -207,8 +182,9 @@ export async function PATCH(request: Request) {
       wattsEarned: totalWattsEarned,
       wattsBalance: newBalance,
       newStreak,
-      currentAmps: ampsState.totalAmps,
-      voltageTier,
+      classification,
+      classificationTitle,
+      advancement,
     });
   } catch (error) {
     console.error("Error ending session:", error);

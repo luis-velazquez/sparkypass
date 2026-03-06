@@ -55,7 +55,7 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
               </span>
             </div>
             <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-xs text-muted-foreground">{entry.tierVoltage} {entry.tierTitle}</span>
+              <span className="text-xs text-muted-foreground">{entry.classificationTitle}</span>
               {entry.studyStreak > 0 && (
                 <span className="flex items-center gap-0.5 text-xs text-orange-500">
                   <Flame className="h-3 w-3" />

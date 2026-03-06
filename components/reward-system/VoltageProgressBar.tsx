@@ -3,15 +3,14 @@
 import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
-import type { VoltageTier } from "@/types/reward-system";
+import type { ClassificationConfig } from "@/lib/voltage";
 
 interface VoltageProgressBarProps {
-  tier: VoltageTier;
-  voltage: string;
-  title: string;
-  wattsLifetime: number;
-  overallPercentage: number;
-  showTier?: boolean;
+  classificationTitle: string;
+  wattsBalance: number;
+  percentage: number;
+  next: ClassificationConfig | null;
+  showClassification?: boolean;
   showWatts?: boolean;
   size?: "sm" | "md" | "lg";
   className?: string;
@@ -19,18 +18,17 @@ interface VoltageProgressBarProps {
 }
 
 export function VoltageProgressBar({
-  tier,
-  voltage,
-  title,
-  wattsLifetime,
-  overallPercentage,
-  showTier = true,
+  classificationTitle,
+  wattsBalance,
+  percentage,
+  next,
+  showClassification = true,
   showWatts = true,
   size = "md",
   className,
   animationDuration = 0.8,
 }: VoltageProgressBarProps) {
-  const isMaxTier = tier >= 7;
+  const isMax = !next;
 
   const barHeight = { sm: "h-2", md: "h-3", lg: "h-4" };
   const textSize = { sm: "text-xs", md: "text-sm", lg: "text-base" };
@@ -38,7 +36,7 @@ export function VoltageProgressBar({
 
   return (
     <div className={cn("w-full", className)}>
-      {showTier && (
+      {showClassification && (
         <div className="flex items-center gap-2 mb-2">
           <Zap className={cn(iconSize[size], "text-amber dark:text-sparky-green fill-current")} />
           <div className="flex items-baseline gap-2">
@@ -48,10 +46,10 @@ export function VoltageProgressBar({
                 size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-2xl"
               )}
             >
-              {voltage}
+              {wattsBalance.toLocaleString()}W
             </span>
             <span className={cn("text-muted-foreground", textSize[size])}>
-              {title}
+              {classificationTitle}
             </span>
           </div>
         </div>
@@ -61,7 +59,7 @@ export function VoltageProgressBar({
       <div className={cn("bg-muted dark:bg-stone-800 rounded-full overflow-hidden", barHeight[size])}>
         <motion.div
           initial={{ width: 0 }}
-          animate={{ width: `${overallPercentage}%` }}
+          animate={{ width: `${percentage}%` }}
           transition={{ duration: animationDuration, ease: "easeOut" }}
           className="h-full bg-gradient-to-r from-amber to-amber-light dark:from-sparky-green dark:to-sparky-green-dark rounded-full"
         />
@@ -77,13 +75,13 @@ export function VoltageProgressBar({
         >
           <span className="flex items-center gap-1">
             <Zap className="h-3 w-3 text-amber dark:text-sparky-green fill-current" />
-            {wattsLifetime.toLocaleString()} W lifetime
+            {wattsBalance.toLocaleString()}W balance
           </span>
-          {isMaxTier ? (
-            <span className="text-amber dark:text-sparky-green font-medium">Max Voltage!</span>
+          {isMax ? (
+            <span className="text-amber dark:text-sparky-green font-medium">Max Classification!</span>
           ) : (
             <span>
-              {overallPercentage}% to next tier
+              {percentage}% to {next.title}
             </span>
           )}
         </div>
