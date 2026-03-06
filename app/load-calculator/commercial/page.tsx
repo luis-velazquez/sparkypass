@@ -1,43 +1,31 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import confetti from "canvas-confetti";
-import { haptic } from "@/lib/haptics";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Calculator,
-  HelpCircle,
-  Lightbulb,
-  ChevronRight,
   ChevronLeft,
-  ChevronDown,
-  RotateCcw,
-  Save,
   Zap,
   CheckCircle2,
-  XCircle,
   BookOpen,
-  Loader2,
-  Trophy,
-  ArrowRight,
   Plus,
+  Save,
   Store,
   UtensilsCrossed,
   Building2,
   Warehouse,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { SparkyMessage } from "@/components/sparky";
-import { MiniCalculator } from "../mini-calculator";
+import { MiniCalculator } from "../_shared/MiniCalculator";
 import {
   COMMERCIAL_SCENARIOS,
+  ALL_COMMERCIAL_SCENARIOS,
+  BUILDING_TYPES,
   COMMERCIAL_CALCULATION_STEPS,
   COMMERCIAL_SPARKY_MESSAGES,
-  COMMERCIAL_QUICK_REFERENCE,
   COMMERCIAL_TOTAL_VA_STEPS,
   COMMERCIAL_STEP_EQUIPMENT_MAP,
   getRandomMessage,
@@ -45,140 +33,34 @@ import {
   getAccountedEquipmentIds,
   getKitchenEquipmentIds,
   getMotorIds,
+  getCommercialQuickReference,
   isCommercialQuickRefCovered,
   getConductorSize,
+  getAluminumConductorSize,
   getGECSize,
   getServiceAmps,
-  DIFFICULTY_LEVELS,
+  motorToVA,
+  getMotorSubSteps,
+  getHvacMotorSubStep,
+  getHvacRef,
+  resolveSparkyPrompt,
+  resolveFormula,
+  resolveTitle,
+  resolveNecReference,
   type CommercialScenario,
-  type CommercialCalculationStep,
+  type BuildingType,
   type DifficultyLevel,
-} from "../commercial-calculator-data";
-
-interface CalculatorState {
-  difficulty: DifficultyLevel | null;
-  selectedScenario: CommercialScenario | null;
-  currentStepIndex: number;
-  answers: Record<string, number>;
-  userInput: string;
-  showHint: boolean;
-  lastAnswerCorrect: boolean | null;
-  sparkyMessage: string;
-  isComplete: boolean;
-  manualScratchedOff: Set<string>;
-}
-
-interface SavedProgress {
-  difficulty: DifficultyLevel;
-  scenarioId: string;
-  currentStepIndex: number;
-  answers: Record<string, number>;
-  isComplete: boolean;
-}
-
-// Helper to get hint text (handles both string and function hints)
-function getHintText(
-  step: CommercialCalculationStep,
-  scenario: CommercialScenario | null,
-  answers: Record<string, number>
-): string {
-  if (typeof step.hint === "function") {
-    return scenario ? step.hint(scenario, answers) : "";
-  }
-  return step.hint;
-}
-
-// Fire confetti celebration
-function fireConfetti() {
-  haptic("celebration");
-  confetti({
-    particleCount: 100,
-    spread: 70,
-    origin: { x: 0.1, y: 0.6 },
-  });
-  confetti({
-    particleCount: 100,
-    spread: 70,
-    origin: { x: 0.9, y: 0.6 },
-  });
-}
-
-// Format number with commas for display
-function formatNumberWithCommas(value: string): string {
-  const cleaned = value.replace(/[^\d.]/g, "");
-  const parts = cleaned.split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.length > 1 ? `${parts[0]}.${parts[1]}` : parts[0];
-}
-
-// Parse formatted number back to raw value
-function parseFormattedNumber(value: string): number {
-  return parseFloat(value.replace(/,/g, ""));
-}
-
-// Collapsible card component for mobile
-function CollapsibleCard({
-  title,
-  icon,
-  iconColor,
-  children,
-  defaultExpanded = false,
-}: {
-  title: string;
-  icon: React.ReactNode;
-  iconColor: string;
-  children: React.ReactNode;
-  defaultExpanded?: boolean;
-}) {
-  const [isExpanded, setIsExpanded] = useState(defaultExpanded);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const shouldShowContent = !isMobile || isExpanded;
-
-  return (
-    <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-      <CardHeader
-        className={`pb-3 ${isMobile ? "cursor-pointer pressable" : ""}`}
-        onClick={() => isMobile && setIsExpanded(!isExpanded)}
-      >
-        <CardTitle className="text-base flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <span className={iconColor}>{icon}</span>
-            {title}
-          </span>
-          {isMobile && (
-            <motion.div
-              animate={{ rotate: isExpanded ? 180 : 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <ChevronDown className="h-4 w-4 text-muted-foreground" />
-            </motion.div>
-          )}
-        </CardTitle>
-      </CardHeader>
-      <AnimatePresence initial={false}>
-        {shouldShowContent && (
-          <motion.div
-            initial={isMobile ? { height: 0, opacity: 0 } : false}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={isMobile ? { height: 0, opacity: 0 } : undefined}
-            transition={{ duration: 0.2 }}
-            className="overflow-hidden"
-          >
-            <CardContent className="pt-0">{children}</CardContent>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </Card>
-  );
-}
+} from "./calculator-data";
+import { useNecVersion } from "@/lib/nec-version";
+import type { CalculatorState, SavedProgress } from "../_shared/types";
+import { fireConfetti, formatNumberWithCommas, parseFormattedNumber, getHintText } from "../_shared/utils";
+import { CollapsibleCard } from "../_shared/CollapsibleCard";
+import { DifficultySelector } from "../_shared/DifficultySelector";
+import { CompletionScreen } from "../_shared/CompletionScreen";
+import { CompletionSummaryCard } from "../_shared/CompletionSummaryCard";
+import { ResumePromptModal } from "../_shared/ResumePromptModal";
+import { StepInputArea } from "../_shared/StepInputArea";
+import { CalculatorPageLayout } from "../_shared/CalculatorPageLayout";
 
 // Map scenario IDs to icons
 const SCENARIO_ICONS: Record<string, React.ReactNode> = {
@@ -201,12 +83,13 @@ const CATEGORY_ORDER = ["building", "outlets", "kitchen", "hvac", "motors"];
 
 const STORAGE_KEY = "sparkypass-commercial-load-calculator";
 
-export default function CommercialLoadCalculatorPage() {
+export default function CommercialLoadCalculatorPage({ headerExtra }: { headerExtra?: React.ReactNode }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const sessionIdRef = useRef<string | null>(null);
+  const { necVersion } = useNecVersion();
 
-  const [state, setState] = useState<CalculatorState>({
+  const [state, setState] = useState<CalculatorState<CommercialScenario>>({
     difficulty: null,
     selectedScenario: null,
     currentStepIndex: 0,
@@ -217,6 +100,10 @@ export default function CommercialLoadCalculatorPage() {
     sparkyMessage: COMMERCIAL_SPARKY_MESSAGES.welcome,
     isComplete: false,
     manualScratchedOff: new Set(),
+    motorSubStepIndex: 0,
+    motorSubStepAnswers: {},
+    hvacSubStepIndex: 0,
+    hvacMotorVA: undefined,
   });
 
   const [showResumePrompt, setShowResumePrompt] = useState(false);
@@ -252,7 +139,17 @@ export default function CommercialLoadCalculatorPage() {
       try {
         const parsed = JSON.parse(saved) as SavedProgress;
         if (parsed.scenarioId && parsed.difficulty) {
-          const scenario = COMMERCIAL_SCENARIOS.find(s => s.id === parsed.scenarioId);
+          // Legacy ID migration: old saves used "retail"/"restaurant"/"office"/"warehouse"
+          const LEGACY_ID_MAP: Record<string, string> = {
+            retail: "retail-1",
+            restaurant: "restaurant-1",
+            office: "office-1",
+            warehouse: "warehouse-1",
+          };
+          if (LEGACY_ID_MAP[parsed.scenarioId]) {
+            parsed.scenarioId = LEGACY_ID_MAP[parsed.scenarioId];
+          }
+          const scenario = ALL_COMMERCIAL_SCENARIOS.find(s => s.id === parsed.scenarioId);
           if (scenario) {
             setSavedProgress(parsed);
             setShowResumePrompt(true);
@@ -268,18 +165,40 @@ export default function CommercialLoadCalculatorPage() {
   const handleContinueProgress = useCallback(() => {
     if (!savedProgress) return;
 
-    const scenario = COMMERCIAL_SCENARIOS.find(s => s.id === savedProgress.scenarioId);
+    const scenario = ALL_COMMERCIAL_SCENARIOS.find(s => s.id === savedProgress.scenarioId);
     if (scenario) {
+      const stepIndex = savedProgress.currentStepIndex || 0;
+      const currentStepId = COMMERCIAL_CALCULATION_STEPS[stepIndex]?.id;
+      const subStepIndex = savedProgress.motorSubStepIndex || 0;
+
+      const hvacSubIdx = savedProgress.hvacSubStepIndex || 0;
+
+      // If resuming mid sub-step, use the sub-step's sparky prompt
+      let sparkyMessage: string;
+      if (savedProgress.isComplete) {
+        sparkyMessage = COMMERCIAL_SPARKY_MESSAGES.complete;
+      } else if (currentStepId === "hvac" && hvacSubIdx === 0) {
+        const hvacSub = getHvacMotorSubStep(scenario, necVersion);
+        sparkyMessage = hvacSub?.sparkyPrompt || resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[stepIndex], scenario, necVersion);
+      } else if (currentStepId === "convert-motors" && savedProgress.motorSubStepAnswers) {
+        const subSteps = getMotorSubSteps(scenario);
+        sparkyMessage = subSteps[subStepIndex]?.sparkyPrompt || resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[stepIndex], scenario, necVersion);
+      } else {
+        sparkyMessage = resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[stepIndex], scenario, necVersion);
+      }
+
       setState(prev => ({
         ...prev,
         difficulty: savedProgress.difficulty,
         selectedScenario: scenario,
-        currentStepIndex: savedProgress.currentStepIndex || 0,
+        currentStepIndex: stepIndex,
         answers: savedProgress.answers || {},
         isComplete: savedProgress.isComplete || false,
-        sparkyMessage: savedProgress.isComplete
-          ? COMMERCIAL_SPARKY_MESSAGES.complete
-          : COMMERCIAL_CALCULATION_STEPS[savedProgress.currentStepIndex || 0]?.sparkyPrompt || prev.sparkyMessage,
+        sparkyMessage,
+        motorSubStepIndex: subStepIndex,
+        motorSubStepAnswers: savedProgress.motorSubStepAnswers || {},
+        hvacSubStepIndex: hvacSubIdx,
+        hvacMotorVA: savedProgress.hvacMotorVA,
       }));
     }
     setShowResumePrompt(false);
@@ -294,14 +213,18 @@ export default function CommercialLoadCalculatorPage() {
   }, []);
 
   // Save progress to localStorage
-  const saveProgress = useCallback((currentState: CalculatorState) => {
+  const saveProgress = useCallback((currentState: CalculatorState<CommercialScenario>) => {
     if (currentState.selectedScenario && currentState.difficulty) {
-      const toSave = {
+      const toSave: SavedProgress = {
         difficulty: currentState.difficulty,
         scenarioId: currentState.selectedScenario.id,
         currentStepIndex: currentState.currentStepIndex,
         answers: currentState.answers,
         isComplete: currentState.isComplete,
+        motorSubStepIndex: currentState.motorSubStepIndex,
+        motorSubStepAnswers: currentState.motorSubStepAnswers,
+        hvacSubStepIndex: currentState.hvacSubStepIndex,
+        hvacMotorVA: currentState.hvacMotorVA,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     }
@@ -316,9 +239,10 @@ export default function CommercialLoadCalculatorPage() {
     }));
   }, []);
 
-  // Handle scenario selection
-  const handleSelectScenario = useCallback((scenario: CommercialScenario) => {
-    const newState: CalculatorState = {
+  // Handle scenario selection — pick a random variant from the building type
+  const handleSelectScenario = useCallback((bt: BuildingType) => {
+    const scenario = bt.variants[Math.floor(Math.random() * bt.variants.length)];
+    const newState: CalculatorState<CommercialScenario> = {
       difficulty: state.difficulty,
       selectedScenario: scenario,
       currentStepIndex: 0,
@@ -326,9 +250,13 @@ export default function CommercialLoadCalculatorPage() {
       userInput: "",
       showHint: false,
       lastAnswerCorrect: null,
-      sparkyMessage: COMMERCIAL_CALCULATION_STEPS[0].sparkyPrompt,
+      sparkyMessage: resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[0], scenario, necVersion),
       isComplete: false,
       manualScratchedOff: new Set(),
+      motorSubStepIndex: 0,
+      motorSubStepAnswers: {},
+      hvacSubStepIndex: 0,
+      hvacMotorVA: undefined,
     };
     setState(newState);
     saveProgress(newState);
@@ -374,6 +302,99 @@ export default function CommercialLoadCalculatorPage() {
       return;
     }
 
+    // ─── HVAC sub-step branch (220.60 motor conversion) ────────────────────
+    if (currentStep.id === "hvac" && (state.hvacSubStepIndex ?? 0) === 0) {
+      const hvacSub = getHvacMotorSubStep(state.selectedScenario, necVersion);
+      if (hvacSub) {
+        const isCorrect = Math.abs(userAnswer - hvacSub.expectedVA) <= 50;
+        if (isCorrect) {
+          const heatWatts = state.selectedScenario.heatWatts;
+          const newState: CalculatorState<CommercialScenario> = {
+            ...state,
+            userInput: "",
+            showHint: false,
+            lastAnswerCorrect: true,
+            hvacSubStepIndex: 1,
+            hvacMotorVA: userAnswer,
+            sparkyMessage: heatWatts > 0
+              ? `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} The A/C is ${userAnswer.toLocaleString()} VA. Now compare with the ${heatWatts.toLocaleString()} W heating load per ${getHvacRef(necVersion)} and enter the larger value.`
+              : `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} The A/C is ${userAnswer.toLocaleString()} VA. There's no electric heat, so the HVAC load is the A/C value.`,
+          };
+          setState(newState);
+          saveProgress(newState);
+        } else {
+          setState(prev => ({
+            ...prev,
+            lastAnswerCorrect: false,
+            sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.incorrect)} The correct answer is ${hvacSub.expectedVA.toLocaleString()}. Check the hint for details!`,
+            showHint: false,
+          }));
+        }
+        return;
+      }
+    }
+
+    // ─── Motor sub-step branch ───────────────────────────────────────────
+    if (currentStep.id === "convert-motors") {
+      const subSteps = getMotorSubSteps(state.selectedScenario);
+      const subStepIdx = state.motorSubStepIndex ?? 0;
+      const currentSubStep = subSteps[subStepIdx];
+
+      if (!currentSubStep) return;
+
+      const isCorrect = Math.abs(userAnswer - currentSubStep.expectedVA) <= 50;
+
+      if (isCorrect) {
+        const newSubAnswers = { ...state.motorSubStepAnswers, [currentSubStep.equipmentId]: userAnswer };
+        const isLastSubStep = subStepIdx === subSteps.length - 1;
+
+        if (isLastSubStep) {
+          // All motors converted — compute largest VA (include A/C motor from HVAC step)
+          const allMotorVAs = Object.values(newSubAnswers);
+          if (state.hvacMotorVA) allMotorVAs.push(state.hvacMotorVA);
+          const largestVA = Math.max(...allMotorVAs);
+          const newAnswers = { ...state.answers, [currentStep.id]: largestVA };
+          const nextStep = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex + 1];
+          const newState: CalculatorState<CommercialScenario> = {
+            ...state,
+            currentStepIndex: state.currentStepIndex + 1,
+            answers: newAnswers,
+            userInput: "",
+            showHint: false,
+            lastAnswerCorrect: true,
+            sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} ${resolveSparkyPrompt(nextStep, state.selectedScenario, necVersion)}`,
+            motorSubStepIndex: subStepIdx,
+            motorSubStepAnswers: newSubAnswers,
+          };
+          setState(newState);
+          saveProgress(newState);
+        } else {
+          // Advance to next motor sub-step
+          const nextSubStep = subSteps[subStepIdx + 1];
+          const newState: CalculatorState<CommercialScenario> = {
+            ...state,
+            userInput: "",
+            showHint: false,
+            lastAnswerCorrect: true,
+            sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} ${nextSubStep.sparkyPrompt}`,
+            motorSubStepIndex: subStepIdx + 1,
+            motorSubStepAnswers: newSubAnswers,
+          };
+          setState(newState);
+          saveProgress(newState);
+        }
+      } else {
+        setState(prev => ({
+          ...prev,
+          lastAnswerCorrect: false,
+          sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.incorrect)} The correct answer is ${currentSubStep.expectedVA.toLocaleString()}. Check the hint for details!`,
+          showHint: true,
+        }));
+      }
+      return;
+    }
+
+    // ─── Normal step handling ────────────────────────────────────────────
     const expectedAnswer = currentStep.expectedAnswer?.(state.selectedScenario, state.answers) ?? 0;
     const isCorrect = currentStep.validateAnswer?.(userAnswer, expectedAnswer) ?? false;
 
@@ -382,7 +403,7 @@ export default function CommercialLoadCalculatorPage() {
 
     if (isCorrect) {
       if (isLastStep) {
-        const completeState: CalculatorState = {
+        const completeState: CalculatorState<CommercialScenario> = {
           ...state,
           answers: newAnswers,
           lastAnswerCorrect: true,
@@ -409,14 +430,48 @@ export default function CommercialLoadCalculatorPage() {
         }
       } else {
         const nextStep = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex + 1];
-        const newState: CalculatorState = {
+
+        // Auto-skip convert-motors if all motors were already converted (e.g., only A/C motor)
+        if (nextStep.id === "convert-motors" && state.selectedScenario) {
+          const motorSubSteps = getMotorSubSteps(state.selectedScenario);
+          if (motorSubSteps.length === 0 && state.hvacMotorVA) {
+            // Only motor is the A/C, already converted — record largest VA and skip to next step
+            const skipAnswers = { ...newAnswers, "convert-motors": state.hvacMotorVA };
+            const stepAfter = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex + 2];
+            const newState: CalculatorState<CommercialScenario> = {
+              ...state,
+              currentStepIndex: state.currentStepIndex + 2,
+              answers: skipAnswers,
+              userInput: "",
+              showHint: false,
+              lastAnswerCorrect: true,
+              sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} The only motor is the A/C (${state.hvacMotorVA.toLocaleString()} VA), already converted. ${resolveSparkyPrompt(stepAfter, state.selectedScenario!, necVersion)}`,
+              motorSubStepIndex: 0,
+              motorSubStepAnswers: {},
+            };
+            setState(newState);
+            saveProgress(newState);
+            return;
+          }
+        }
+
+        const newState: CalculatorState<CommercialScenario> = {
           ...state,
           currentStepIndex: state.currentStepIndex + 1,
           answers: newAnswers,
           userInput: "",
           showHint: false,
           lastAnswerCorrect: true,
-          sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} ${nextStep.sparkyPrompt}`,
+          sparkyMessage: `${getRandomMessage(COMMERCIAL_SPARKY_MESSAGES.correct)} ${
+            nextStep.id === "hvac" && state.selectedScenario
+              ? (getHvacMotorSubStep(state.selectedScenario, necVersion)?.sparkyPrompt || resolveSparkyPrompt(nextStep, state.selectedScenario, necVersion))
+              : nextStep.id === "convert-motors" && state.selectedScenario
+              ? (getMotorSubSteps(state.selectedScenario)[0]?.sparkyPrompt || resolveSparkyPrompt(nextStep, state.selectedScenario, necVersion))
+              : resolveSparkyPrompt(nextStep, state.selectedScenario!, necVersion)
+          }`,
+          // Reset sub-step state when advancing to hvac or convert-motors
+          ...(nextStep.id === "hvac" ? { hvacSubStepIndex: 0, hvacMotorVA: undefined } : {}),
+          ...(nextStep.id === "convert-motors" ? { motorSubStepIndex: 0, motorSubStepAnswers: {} } : {}),
         };
         setState(newState);
         saveProgress(newState);
@@ -433,25 +488,133 @@ export default function CommercialLoadCalculatorPage() {
 
   // Handle trying again after incorrect answer
   const handleTryAgain = useCallback(() => {
-    setState(prev => ({
-      ...prev,
-      userInput: "",
-      lastAnswerCorrect: null,
-      sparkyMessage: COMMERCIAL_CALCULATION_STEPS[prev.currentStepIndex].sparkyPrompt,
-    }));
+    setState(prev => {
+      const currentStepId = COMMERCIAL_CALCULATION_STEPS[prev.currentStepIndex]?.id;
+      let sparkyMessage: string;
+
+      if (currentStepId === "hvac" && (prev.hvacSubStepIndex ?? 0) === 0 && prev.selectedScenario) {
+        const hvacSub = getHvacMotorSubStep(prev.selectedScenario, necVersion);
+        sparkyMessage = hvacSub?.sparkyPrompt || resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[prev.currentStepIndex], prev.selectedScenario, necVersion);
+      } else if (currentStepId === "convert-motors" && prev.selectedScenario) {
+        const subSteps = getMotorSubSteps(prev.selectedScenario);
+        sparkyMessage = subSteps[prev.motorSubStepIndex ?? 0]?.sparkyPrompt
+          || resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[prev.currentStepIndex], prev.selectedScenario, necVersion);
+      } else {
+        sparkyMessage = resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[prev.currentStepIndex], prev.selectedScenario!, necVersion);
+      }
+
+      return {
+        ...prev,
+        userInput: "",
+        lastAnswerCorrect: null,
+        sparkyMessage,
+      };
+    });
   }, []);
 
   // Handle going to previous step
   const handlePreviousStep = useCallback(() => {
+    const currentStepId = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex]?.id;
+    const subStepIdx = state.motorSubStepIndex ?? 0;
+    const hvacSubIdx = state.hvacSubStepIndex ?? 0;
+
+    // If on HVAC sub-step 1 (comparison), go back to sub-step 0 (motor conversion)
+    if (currentStepId === "hvac" && hvacSubIdx === 1 && state.selectedScenario) {
+      const hvacSub = getHvacMotorSubStep(state.selectedScenario, necVersion);
+      setState(prev => ({
+        ...prev,
+        hvacSubStepIndex: 0,
+        userInput: prev.hvacMotorVA ? prev.hvacMotorVA.toLocaleString() : "",
+        showHint: false,
+        lastAnswerCorrect: null,
+        sparkyMessage: hvacSub?.sparkyPrompt || resolveSparkyPrompt(COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex], state.selectedScenario!, necVersion),
+      }));
+      return;
+    }
+
+    // If on convert-motors sub-step > 0, go to previous sub-step
+    if (currentStepId === "convert-motors" && subStepIdx > 0 && state.selectedScenario) {
+      const subSteps = getMotorSubSteps(state.selectedScenario);
+      const prevSubStep = subSteps[subStepIdx - 1];
+      const prevAnswer = state.motorSubStepAnswers?.[prevSubStep.equipmentId];
+      setState(prev => ({
+        ...prev,
+        motorSubStepIndex: subStepIdx - 1,
+        userInput: prevAnswer ? prevAnswer.toLocaleString() : "",
+        showHint: false,
+        lastAnswerCorrect: null,
+        sparkyMessage: prevSubStep.sparkyPrompt,
+      }));
+      return;
+    }
+
+    // If navigating back FROM largest-motor-25, land on last sub-step of convert-motors
+    if (currentStepId === "largest-motor-25" && state.selectedScenario) {
+      const subSteps = getMotorSubSteps(state.selectedScenario);
+      if (subSteps.length > 0) {
+        const lastSubIdx = subSteps.length - 1;
+        const lastSubStep = subSteps[lastSubIdx];
+        const prevAnswer = state.motorSubStepAnswers?.[lastSubStep.equipmentId];
+        const newAnswers = { ...state.answers };
+        delete newAnswers["convert-motors"];
+        setState(prev => ({
+          ...prev,
+          currentStepIndex: state.currentStepIndex - 1,
+          answers: newAnswers,
+          motorSubStepIndex: lastSubIdx,
+          userInput: prevAnswer ? prevAnswer.toLocaleString() : "",
+          showHint: false,
+          lastAnswerCorrect: null,
+          sparkyMessage: lastSubStep.sparkyPrompt,
+        }));
+        return;
+      }
+      // No motor sub-steps (only A/C, already converted) — skip convert-motors, go back 2 steps
+      const stepBeforeConvert = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex - 2];
+      if (stepBeforeConvert) {
+        const newAnswers = { ...state.answers };
+        delete newAnswers["convert-motors"];
+        delete newAnswers[stepBeforeConvert.id];
+        setState(prev => ({
+          ...prev,
+          currentStepIndex: state.currentStepIndex - 2,
+          answers: newAnswers,
+          userInput: "",
+          showHint: false,
+          lastAnswerCorrect: null,
+          sparkyMessage: resolveSparkyPrompt(stepBeforeConvert, state.selectedScenario!, necVersion),
+        }));
+        return;
+      }
+    }
+
+    // If navigating back to HVAC step, land on sub-step 1 (comparison)
     if (state.currentStepIndex > 0) {
       const prevStep = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex - 1];
-      const newState: CalculatorState = {
+      if (prevStep.id === "hvac") {
+        const newAnswers = { ...state.answers };
+        delete newAnswers["hvac"];
+        setState(prev => ({
+          ...prev,
+          currentStepIndex: state.currentStepIndex - 1,
+          answers: newAnswers,
+          hvacSubStepIndex: 1,
+          userInput: "",
+          showHint: false,
+          lastAnswerCorrect: null,
+          sparkyMessage: resolveSparkyPrompt(prevStep, state.selectedScenario!, necVersion),
+        }));
+        return;
+      }
+
+      // Normal previous behavior
+      const newState: CalculatorState<CommercialScenario> = {
         ...state,
         currentStepIndex: state.currentStepIndex - 1,
         userInput: state.answers[prevStep.id] ? state.answers[prevStep.id].toLocaleString() : "",
         showHint: false,
         lastAnswerCorrect: null,
-        sparkyMessage: prevStep.sparkyPrompt,
+        sparkyMessage: resolveSparkyPrompt(prevStep, state.selectedScenario!, necVersion),
       };
       setState(newState);
     }
@@ -471,6 +634,10 @@ export default function CommercialLoadCalculatorPage() {
       sparkyMessage: COMMERCIAL_SPARKY_MESSAGES.welcome,
       isComplete: false,
       manualScratchedOff: new Set(),
+      motorSubStepIndex: 0,
+      motorSubStepAnswers: {},
+      hvacSubStepIndex: 0,
+      hvacMotorVA: undefined,
     });
   }, []);
 
@@ -480,800 +647,521 @@ export default function CommercialLoadCalculatorPage() {
     const totalVA = state.answers["total-va"] || 0;
     const amps = getServiceAmps(totalVA, state.selectedScenario.voltage, state.selectedScenario.phases);
     const conductor = getConductorSize(amps);
+    const aluminumConductor = getAluminumConductorSize(amps);
     const gec = getGECSize(conductor.size);
     return {
       serviceAmps: state.answers["service-conductor"] || conductor.ampacity,
       conductorSize: conductor.size,
+      aluminumConductorSize: aluminumConductor?.size,
       gecSize: gec,
     };
   }, [state.isComplete, state.selectedScenario, state.answers]);
 
-  if (status === "loading") {
-    return (
-      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
-          <Loader2 className="h-8 w-8 animate-spin text-amber" />
-        </div>
-      </main>
-    );
-  }
-
   // Show resume prompt if there's saved progress
   if (showResumePrompt && savedProgress) {
-    const savedScenario = COMMERCIAL_SCENARIOS.find(s => s.id === savedProgress.scenarioId);
-    const progressPercent = Math.round(
-      ((savedProgress.currentStepIndex + (savedProgress.isComplete ? 1 : 0)) / COMMERCIAL_CALCULATION_STEPS.length) * 100
-    );
-
+    const savedScenario = ALL_COMMERCIAL_SCENARIOS.find(s => s.id === savedProgress.scenarioId);
     return (
-      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="max-w-md w-full"
-        >
-          <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 rounded-full bg-amber/10 dark:shadow-[0_0_15px_rgba(245,158,11,0.35)] flex items-center justify-center mx-auto mb-4 transition-all duration-300">
-                <Save className="h-8 w-8 text-amber dark:text-amber-light" />
-              </div>
-              <CardTitle className="text-xl">Welcome Back!</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="text-center">
-                <p className="text-muted-foreground mb-4">
-                  You have saved progress from a previous session.
-                </p>
-
-                {savedScenario && (
-                  <div className="bg-muted dark:bg-stone-800 rounded-lg p-4 text-left space-y-2">
-                    <div className="flex items-center gap-2">
-                      {SCENARIO_ICONS[savedScenario.id] || <Building2 className="h-4 w-4 text-amber" />}
-                      <span className="font-medium">{savedScenario.name}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Zap className="h-3.5 w-3.5" />
-                      <span>
-                        {savedProgress.difficulty === "beginner" ? "Beginner" : "Intermediate"} Mode
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Calculator className="h-3.5 w-3.5" />
-                      <span>
-                        {savedProgress.isComplete
-                          ? "Completed"
-                          : `Step ${savedProgress.currentStepIndex + 1} of ${COMMERCIAL_CALCULATION_STEPS.length}`}
-                      </span>
-                    </div>
-                    <div className="pt-2">
-                      <div className="h-2 bg-background dark:bg-stone-900 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-amber dark:bg-sparky-green rounded-full transition-all"
-                          style={{ width: `${progressPercent}%` }}
-                        />
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1 text-right">
-                        {progressPercent}% complete
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-3">
-                <Button
-                  onClick={handleContinueProgress}
-                  className="bg-amber hover:bg-amber/90 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                >
-                  <ChevronRight className="h-4 w-4 mr-2" />
-                  Continue Where I Left Off
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleStartFresh}
-                  className="w-full border-border dark:border-stone-700"
-                >
-                  <RotateCcw className="h-4 w-4 mr-2" />
-                  Start a New Calculation
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-        </div>
-      </main>
+      <ResumePromptModal
+        savedProgress={savedProgress}
+        scenarioName={savedScenario?.name || "Unknown"}
+        scenarioIcon={savedScenario ? (SCENARIO_ICONS[savedScenario.buildingType] || <Building2 className="h-4 w-4 text-amber" />) : <Building2 className="h-4 w-4 text-amber" />}
+        totalSteps={COMMERCIAL_CALCULATION_STEPS.length}
+        onContinue={handleContinueProgress}
+        onStartFresh={handleStartFresh}
+      />
     );
   }
 
   const currentStep = state.selectedScenario ? COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex] : null;
-  const progress = state.selectedScenario
-    ? ((state.currentStepIndex + (state.isComplete ? 1 : 0)) / COMMERCIAL_CALCULATION_STEPS.length) * 100
-    : 0;
-
   const completionResults = getCompletionResults();
 
+  // Compute input label based on current step
+  const inputLabel = currentStep?.id === "gec-size"
+    ? "Your Answer (AWG: use 10 for 1/0, 20 for 2/0, 30 for 3/0)"
+    : currentStep?.id === "service-conductor"
+    ? "Your Answer (Ampacity from table)"
+    : "Your Answer (VA)";
+
   return (
-    <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-      <div
-        className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-      <div className="container mx-auto px-4 py-8 relative z-10">
-      {/* Header */}
+    <CalculatorPageLayout
+      isLoading={status === "loading"}
+      subtitle="Learn commercial service load calculations step by step with Sparky!"
+      headerExtra={headerExtra}
+      hasScenario={!!state.selectedScenario}
+      currentStepIndex={state.currentStepIndex}
+      totalSteps={COMMERCIAL_CALCULATION_STEPS.length}
+      isComplete={state.isComplete}
+      onReset={handleReset}
+    >
+      {/* LEFT COLUMN: Equipment + Quick Reference */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-6"
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="lg:col-span-3 space-y-4 order-2 lg:order-1"
       >
-        <div className="flex items-center justify-between flex-wrap gap-4">
-          <div>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="text-left"
-            >
-              <h1 className="text-2xl md:text-3xl font-display font-bold text-foreground mb-2 cursor-pointer hover:opacity-80 transition-opacity">
-                <span className="text-amber dark:text-sparky-green">Load Calculator</span>
-              </h1>
-            </button>
-            <p className="text-muted-foreground">
-              Learn commercial service load calculations step by step with Sparky!
-            </p>
-          </div>
-          {state.selectedScenario && (
-            <Button variant="outline" onClick={handleReset} className="border-border dark:border-stone-700">
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Start Over
-            </Button>
-          )}
-        </div>
+        {/* Equipment List */}
+        {state.selectedScenario && (
+          <CollapsibleCard
+            title={`${state.selectedScenario.name} Equipment`}
+            icon={SCENARIO_ICONS[state.selectedScenario.buildingType] || <Building2 className="h-4 w-4" />}
+            iconColor="text-amber"
+            defaultExpanded={true}
+          >
+            <div className="space-y-1 text-sm">
+              {state.difficulty === "intermediate" && (
+                <p className="text-xs text-muted-foreground italic pb-1 border-b mb-2">
+                  Click items to mark as accounted for
+                </p>
+              )}
+              {(() => {
+                const items = getEquipmentDisplayItems(state.selectedScenario!);
+                const isBeginner = state.difficulty === "beginner";
+                const isIntermediate = state.difficulty === "intermediate";
+                const accountedIds = isBeginner
+                  ? getAccountedEquipmentIds(state.currentStepIndex - 1, state.selectedScenario!)
+                  : new Set<string>();
+                const currentStepId = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex]?.id;
 
-      </motion.div>
+                // Temporarily unscratch motors during largest-motor-25 so student can see all values
+                if (isBeginner && currentStepId === "largest-motor-25") {
+                  accountedIds.delete("ac-motor");
+                  getMotorIds(state.selectedScenario!).forEach(id => accountedIds.delete(id));
+                }
 
-      {/* Progress Bar */}
-      {state.selectedScenario && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="relative z-10 mb-6"
-        >
-          <div className="flex justify-between text-sm text-muted-foreground mb-2">
-            <span>
-              Step {state.currentStepIndex + 1} of {COMMERCIAL_CALCULATION_STEPS.length}
-            </span>
-            <span>{Math.round(progress)}% Complete</span>
-          </div>
-          <div className="h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              className="h-full bg-amber dark:bg-sparky-green rounded-full transition-colors"
-            />
-          </div>
-        </motion.div>
-      )}
+                // Check if motors have been converted (convert-motors step completed)
+                const convertMotorsStepIndex = COMMERCIAL_CALCULATION_STEPS.findIndex(s => s.id === "convert-motors");
+                const motorsConverted = convertMotorsStepIndex !== -1 && state.currentStepIndex > convertMotorsStepIndex;
+                const isOnConvertMotors = currentStepId === "convert-motors";
 
-      {/* Main Content - 3 Column Layout */}
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* LEFT COLUMN: Equipment + Quick Reference */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="lg:col-span-3 space-y-4 order-2 lg:order-1"
-        >
-          {/* Equipment List */}
-          {state.selectedScenario && (
-            <CollapsibleCard
-              title={`${state.selectedScenario.name} Equipment`}
-              icon={SCENARIO_ICONS[state.selectedScenario.id] || <Building2 className="h-4 w-4" />}
-              iconColor="text-amber"
-              defaultExpanded={true}
-            >
-              <div className="space-y-1 text-sm">
-                {state.difficulty === "intermediate" && (
-                  <p className="text-xs text-muted-foreground italic pb-1 border-b mb-2">
-                    Click items to mark as accounted for
-                  </p>
-                )}
-                {(() => {
-                  const items = getEquipmentDisplayItems(state.selectedScenario!);
-                  const isBeginner = state.difficulty === "beginner";
-                  const isIntermediate = state.difficulty === "intermediate";
-                  const accountedIds = isBeginner
-                    ? getAccountedEquipmentIds(state.currentStepIndex - 1, state.selectedScenario!)
-                    : new Set<string>();
-                  const currentStepId = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex]?.id;
+                // Build motor VA lookup: map equipment item id → converted VA
+                const motorVAMap = new Map<string, number>();
+                if (motorsConverted && state.selectedScenario) {
+                  const scenario = state.selectedScenario;
+                  if (scenario.acMotor) {
+                    motorVAMap.set("ac-motor", motorToVA(scenario.acMotor));
+                  }
+                  scenario.otherMotors.forEach((motor, i) => {
+                    motorVAMap.set(`motor-${i}`, motorToVA(motor));
+                  });
+                } else if (isOnConvertMotors && state.motorSubStepAnswers) {
+                  // Show VA for completed sub-steps only
+                  for (const [eqId, va] of Object.entries(state.motorSubStepAnswers)) {
+                    motorVAMap.set(eqId, va);
+                  }
+                }
+                // After HVAC motor conversion sub-step, show the A/C motor's converted VA
+                if (state.hvacMotorVA && !motorVAMap.has("ac-motor")) {
+                  motorVAMap.set("ac-motor", state.hvacMotorVA);
+                }
 
-                  // Get current step equipment for highlighting
-                  const currentStepEquipment = new Set<string>();
-                  if (currentStepId && isBeginner) {
-                    const staticIds = COMMERCIAL_STEP_EQUIPMENT_MAP[currentStepId] || [];
-                    staticIds.forEach(id => currentStepEquipment.add(id));
-                    if (currentStepId === "kitchen-demand") {
-                      getKitchenEquipmentIds(state.selectedScenario!).forEach(id => currentStepEquipment.add(id));
-                    }
-                    if (currentStepId === "largest-motor-25") {
-                      getMotorIds(state.selectedScenario!).forEach(id => currentStepEquipment.add(id));
-                      // Also highlight A/C motor during motor step
-                      if (state.selectedScenario!.acMotor) currentStepEquipment.add("ac-motor");
+                // Get current step equipment for highlighting
+                const currentStepEquipment = new Set<string>();
+                if (currentStepId && isBeginner) {
+                  const staticIds = COMMERCIAL_STEP_EQUIPMENT_MAP[currentStepId] || [];
+                  staticIds.forEach(id => currentStepEquipment.add(id));
+                  if (currentStepId === "kitchen-demand") {
+                    getKitchenEquipmentIds(state.selectedScenario!).forEach(id => currentStepEquipment.add(id));
+                  }
+                  if (currentStepId === "convert-motors") {
+                    // Highlight only the current motor sub-step
+                    const subSteps = getMotorSubSteps(state.selectedScenario!);
+                    const subIdx = state.motorSubStepIndex ?? 0;
+                    if (subSteps[subIdx]) {
+                      currentStepEquipment.add(subSteps[subIdx].equipmentId);
                     }
                   }
+                  if (currentStepId === "largest-motor-25") {
+                    getMotorIds(state.selectedScenario!).forEach(id => currentStepEquipment.add(id));
+                    if (state.selectedScenario!.acMotor) currentStepEquipment.add("ac-motor");
+                  }
+                }
 
-                  // Group items by category
-                  const grouped: Record<string, typeof items> = {};
-                  items.forEach(item => {
-                    if (!grouped[item.category]) grouped[item.category] = [];
-                    grouped[item.category].push(item);
-                  });
+                // Group items by category
+                const grouped: Record<string, typeof items> = {};
+                items.forEach(item => {
+                  if (!grouped[item.category]) grouped[item.category] = [];
+                  grouped[item.category].push(item);
+                });
 
-                  return CATEGORY_ORDER.map(cat => {
-                    const catItems = grouped[cat];
-                    if (!catItems || catItems.length === 0) return null;
-
-                    return (
-                      <div key={cat}>
-                        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2 mb-1">
-                          {CATEGORY_LABELS[cat]}
-                        </p>
-                        {catItems.map(item => {
-                          const isAccountedFor = isBeginner && accountedIds.has(item.id);
-                          const isManuallyScratchedOff = isIntermediate && state.manualScratchedOff.has(item.id);
-                          const isHighlighted = isBeginner && !isAccountedFor && currentStepEquipment.has(item.id);
-
-                          return (
-                            <div
-                              key={item.id}
-                              onClick={isIntermediate ? () => handleToggleScratchOff(item.id) : undefined}
-                              className={`flex justify-between items-center transition-all duration-300 rounded-md px-2 py-0.5 -mx-2 ${
-                                isIntermediate ? "cursor-pointer hover:bg-muted/50 pressable" : ""
-                              } ${
-                                isHighlighted
-                                  ? "bg-amber/20 border border-amber/40"
-                                  : isAccountedFor || isManuallyScratchedOff
-                                  ? "text-muted-foreground/50"
-                                  : "text-muted-foreground"
-                              }`}
-                            >
-                              <span className={`truncate mr-2 flex items-center gap-1.5 ${
-                                isAccountedFor || isManuallyScratchedOff ? "line-through" : ""
-                              } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
-                                {(isAccountedFor || isManuallyScratchedOff) && (
-                                  <CheckCircle2 className="h-3 w-3 text-emerald dark:text-sparky-green flex-shrink-0" />
-                                )}
-                                {isHighlighted && (
-                                  <Plus className="h-3 w-3 text-amber flex-shrink-0" />
-                                )}
-                                {item.name}
-                              </span>
-                              <span className={`font-mono whitespace-nowrap text-xs ${
-                                isHighlighted
-                                  ? "text-amber dark:text-sparky-green font-semibold"
-                                  : isAccountedFor || isManuallyScratchedOff
-                                  ? "text-muted-foreground/50 line-through"
-                                  : "text-foreground"
-                              }`}>
-                                {item.value}
-                              </span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    );
-                  });
-                })()}
-              </div>
-            </CollapsibleCard>
-          )}
-
-          {/* Quick Reference */}
-          {state.selectedScenario && (
-            <CollapsibleCard
-              title="Quick Reference"
-              icon={<BookOpen className="h-4 w-4" />}
-              iconColor="text-purple"
-              defaultExpanded={false}
-            >
-              <div className="space-y-3 text-sm">
-                {COMMERCIAL_QUICK_REFERENCE.map((item) => {
-                  const isBeginner = state.difficulty === "beginner";
-                  const isCovered = isBeginner && isCommercialQuickRefCovered(item.id, state.currentStepIndex);
+                return CATEGORY_ORDER.map(cat => {
+                  const catItems = grouped[cat];
+                  if (!catItems || catItems.length === 0) return null;
 
                   return (
-                    <div
-                      key={item.id}
-                      className={`transition-all duration-300 ${
-                        isCovered ? "opacity-50" : ""
-                      }`}
-                    >
-                      <p className={`font-medium flex items-center gap-2 ${
-                        isCovered ? "text-muted-foreground line-through" : "text-foreground"
-                      }`}>
-                        {isCovered && (
-                          <CheckCircle2 className="h-3.5 w-3.5 text-emerald dark:text-sparky-green flex-shrink-0" />
-                        )}
-                        {item.label}
+                    <div key={cat}>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2 mb-1">
+                        {CATEGORY_LABELS[cat]}
                       </p>
-                      <p className={`${
-                        isCovered ? "text-muted-foreground/50 line-through" : "text-muted-foreground"
-                      }`}>
-                        {item.value}
-                      </p>
+                      {catItems.map(item => {
+                        const isAccountedFor = isBeginner && accountedIds.has(item.id);
+                        const isManuallyScratchedOff = isIntermediate && state.manualScratchedOff.has(item.id);
+                        const isHighlighted = isBeginner && !isAccountedFor && currentStepEquipment.has(item.id);
+
+                        return (
+                          <div
+                            key={item.id}
+                            onClick={isIntermediate ? () => handleToggleScratchOff(item.id) : undefined}
+                            className={`flex justify-between items-start transition-all duration-300 rounded-md px-2 py-0.5 -mx-2 ${
+                              isIntermediate ? "cursor-pointer hover:bg-muted/50 pressable" : ""
+                            } ${
+                              isHighlighted
+                                ? "bg-amber/20 border border-amber/40"
+                                : isAccountedFor || isManuallyScratchedOff
+                                ? "text-muted-foreground/50"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            <span className={`mr-2 min-w-0 flex items-start gap-1.5 ${
+                              isAccountedFor || isManuallyScratchedOff ? "line-through" : ""
+                            } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
+                              {(isAccountedFor || isManuallyScratchedOff) && (
+                                <CheckCircle2 className="h-3 w-3 text-emerald dark:text-sparky-green flex-shrink-0 mt-0.5" />
+                              )}
+                              {isHighlighted && (
+                                <Plus className="h-3 w-3 text-amber flex-shrink-0 mt-0.5" />
+                              )}
+                              {item.name}
+                            </span>
+                            <span className={`font-mono whitespace-nowrap text-xs flex-shrink-0 text-right ${
+                              isHighlighted
+                                ? "text-amber dark:text-sparky-green font-semibold"
+                                : isAccountedFor || isManuallyScratchedOff
+                                ? "text-muted-foreground/50 line-through"
+                                : "text-foreground"
+                            }`}>
+                              {item.value}
+                              {motorVAMap.has(item.id) && (
+                                <div className="text-emerald dark:text-sparky-green">
+                                  = {motorVAMap.get(item.id)!.toLocaleString()} VA
+                                </div>
+                              )}
+                            </span>
+                          </div>
+                        );
+                      })}
                     </div>
                   );
-                })}
-              </div>
-            </CollapsibleCard>
-          )}
-        </motion.div>
+                });
+              })()}
+            </div>
+          </CollapsibleCard>
+        )}
 
-        {/* MIDDLE COLUMN: Questions / Sparky Q&A */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.25 }}
-          className="lg:col-span-6 order-1 lg:order-2"
-        >
-          <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calculator className="h-5 w-5 text-amber" />
-                {state.isComplete ? "Calculation Complete!" : state.selectedScenario ? currentStep?.title : "Select a Scenario"}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Sparky Message */}
-              <div className="mb-6">
-                <SparkyMessage
-                  size="medium"
-                  message={state.sparkyMessage}
-                />
-              </div>
+        {/* Quick Reference — below Equipment in left column */}
+        {state.selectedScenario && (
+          <CollapsibleCard
+            title="Quick Reference"
+            icon={<BookOpen className="h-4 w-4" />}
+            iconColor="text-purple"
+            defaultExpanded={false}
+          >
+            <div className="space-y-3 text-sm">
+              {getCommercialQuickReference(necVersion).map((item) => {
+                const isBeginner = state.difficulty === "beginner";
+                const isCovered = isBeginner && isCommercialQuickRefCovered(item.id, state.currentStepIndex);
 
-              {/* Difficulty Selection */}
-              {!state.difficulty && !state.selectedScenario && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="space-y-4"
-                >
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Choose your difficulty level to get started.
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {DIFFICULTY_LEVELS.map((level) => (
-                      <Card
-                        key={level.id}
-                        className={`cursor-pointer hover:shadow-md transition-all duration-300 pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 ${
-                          level.id === "beginner"
-                            ? "hover:border-emerald/50 dark:hover:border-sparky-green/50"
-                            : "hover:border-amber/50"
-                        } hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]`}
-                        onClick={() => handleSelectDifficulty(level.id)}
-                      >
-                        <CardContent className="pt-6">
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              level.id === "beginner" ? "bg-emerald/10 dark:bg-sparky-green/10" : "bg-amber/10"
-                            }`}>
-                              <Zap className={`h-5 w-5 ${
-                                level.id === "beginner" ? "text-emerald dark:text-sparky-green" : "text-amber"
-                              }`} />
-                            </div>
-                            <div>
-                              <h3 className="font-semibold">{level.name}</h3>
-                              <p className="text-sm text-muted-foreground">
-                                {level.description}
-                              </p>
-                            </div>
-                          </div>
-                          <ul className="text-xs text-muted-foreground space-y-1 mt-3">
-                            {level.features.map((feature, i) => (
-                              <li key={i} className="flex items-center gap-2">
-                                <CheckCircle2 className={`h-3 w-3 ${
-                                  level.id === "beginner" ? "text-emerald dark:text-sparky-green" : "text-amber"
-                                }`} />
-                                {feature}
-                              </li>
-                            ))}
-                          </ul>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Scenario Selection */}
-              {state.difficulty && !state.selectedScenario && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="space-y-4"
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <button
-                      onClick={() => setState(prev => ({ ...prev, difficulty: null }))}
-                      className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                    >
-                      <ChevronLeft className="h-4 w-4" />
-                      Change Difficulty
-                    </button>
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      state.difficulty === "beginner"
-                        ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
-                        : "bg-amber/10 text-amber"
+                return (
+                  <div
+                    key={item.id}
+                    className={`transition-all duration-300 ${
+                      isCovered ? "opacity-50" : ""
+                    }`}
+                  >
+                    <p className={`font-medium flex items-center gap-2 ${
+                      isCovered ? "text-muted-foreground line-through" : "text-foreground"
                     }`}>
-                      {state.difficulty === "beginner" ? "Beginner" : "Intermediate"}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {COMMERCIAL_SCENARIOS.map((scenario) => (
-                      <Card
-                        key={scenario.id}
-                        className="cursor-pointer hover:border-amber/50 hover:shadow-md transition-all duration-300 pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]"
-                        onClick={() => handleSelectScenario(scenario)}
-                      >
-                        <CardContent className="pt-6">
-                          <div className="flex items-center gap-3 mb-3">
-                            <div className="w-10 h-10 rounded-lg bg-amber/10 flex items-center justify-center">
-                              {SCENARIO_ICONS[scenario.id] || <Building2 className="h-5 w-5 text-amber" />}
-                            </div>
-                            <div>
-                              <h3 className="font-semibold">{scenario.name}</h3>
-                              <p className="text-sm text-muted-foreground">
-                                {scenario.squareFootage.toLocaleString()} sq ft — {scenario.phases === 3 ? `${scenario.voltage}V 3Ø` : `${scenario.voltage}V 1Ø`}
-                              </p>
-                            </div>
-                          </div>
-                          <p className="text-sm text-muted-foreground">
-                            {scenario.description}
-                          </p>
-                          <p className="text-xs text-amber mt-2">
-                            {scenario.kitchenEquipment.length > 0
-                              ? `${scenario.kitchenEquipment.length} kitchen items`
-                              : `${scenario.receptacles} receptacles`}
-                            {scenario.otherMotors.length > 0 && ` + ${scenario.otherMotors.length + (scenario.acMotor ? 1 : 0)} motors`}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Active Calculation Step */}
-              {state.selectedScenario && !state.isComplete && currentStep && (
-                <motion.div
-                  key={currentStep.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="space-y-4"
-                >
-                  {/* Formula Display */}
-                  {currentStep.formula && (
-                    <div className="bg-purple-soft dark:bg-purple/10 rounded-lg p-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <BookOpen className="h-4 w-4 text-purple dark:text-purple-light" />
-                        <span className="text-sm font-medium text-purple dark:text-purple-light">Formula</span>
-                      </div>
-                      <p className="text-foreground font-mono">{currentStep.formula}</p>
-                    </div>
-                  )}
-
-                  {/* Answer Input */}
-                  <div className="space-y-3">
-                    <label className="text-sm font-medium">
-                      Your Answer
-                      {currentStep.id === "gec-size"
-                        ? " (AWG: use 10 for 1/0, 20 for 2/0, 30 for 3/0)"
-                        : currentStep.id === "service-conductor"
-                        ? " (Ampacity from table)"
-                        : " (VA)"}
-                    </label>
-                    <div className="flex gap-3">
-                      <Input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="Enter your calculation..."
-                        value={state.userInput}
-                        onChange={(e) => {
-                          const formatted = formatNumberWithCommas(e.target.value);
-                          setState(prev => ({ ...prev, userInput: formatted }));
-                        }}
-                        onKeyDown={(e) => {
-                          const allowedKeys = ["Backspace", "Delete", "Tab", "Escape", "Enter", ".", "ArrowLeft", "ArrowRight", "Home", "End"];
-                          if (allowedKeys.includes(e.key) || (e.ctrlKey || e.metaKey)) {
-                            if (e.key === "Enter" && state.lastAnswerCorrect !== false) {
-                              handleSubmitAnswer();
-                            }
-                            return;
-                          }
-                          if (!/^\d$/.test(e.key)) {
-                            e.preventDefault();
-                          }
-                        }}
-                        disabled={state.lastAnswerCorrect === false}
-                        className="text-lg"
-                      />
-                      {state.lastAnswerCorrect === false ? (
-                        <Button onClick={handleTryAgain} className="bg-amber hover:bg-amber/90 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
-                          Try Again
-                          <RotateCcw className="h-4 w-4 ml-2" />
-                        </Button>
-                      ) : (
-                        <Button onClick={handleSubmitAnswer} className="bg-emerald hover:bg-emerald/90 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
-                          Submit
-                          <ArrowRight className="h-4 w-4 ml-2" />
-                        </Button>
+                      {isCovered && (
+                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald dark:text-sparky-green flex-shrink-0" />
                       )}
-                    </div>
+                      {item.label}
+                    </p>
+                    <p className={`${
+                      isCovered ? "text-muted-foreground/50 line-through" : "text-muted-foreground"
+                    }`}>
+                      {item.value}
+                    </p>
                   </div>
+                );
+              })}
+            </div>
+          </CollapsibleCard>
+        )}
+      </motion.div>
 
-                  {/* Answer Feedback */}
-                  <AnimatePresence>
-                    {state.lastAnswerCorrect !== null && (
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0 }}
-                        className={`flex items-center gap-2 p-3 rounded-lg ${
-                          state.lastAnswerCorrect
-                            ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
-                            : "bg-red-500/10 text-red-500"
-                        }`}
-                      >
-                        {state.lastAnswerCorrect ? (
-                          <CheckCircle2 className="h-5 w-5" />
-                        ) : (
-                          <XCircle className="h-5 w-5" />
-                        )}
-                        <span className="font-medium">
-                          {state.lastAnswerCorrect ? "Correct!" : "Not quite - check the explanation above"}
-                        </span>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+      {/* MIDDLE COLUMN: Questions / Sparky Q&A */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
+        className="lg:col-span-6 order-1 lg:order-2"
+      >
+        <CollapsibleCard
+          title={state.isComplete
+            ? "Calculation Complete!"
+            : state.selectedScenario
+              ? currentStep?.id === "hvac" && (state.hvacSubStepIndex ?? 0) === 0
+                ? "HVAC: Convert A/C Motor"
+                : currentStep?.id === "convert-motors"
+                  ? `Convert Motors: ${getMotorSubSteps(state.selectedScenario)[state.motorSubStepIndex ?? 0]?.motorName ?? ""}`
+                  : currentStep ? resolveTitle(currentStep, necVersion) : "Select a Scenario"
+              : "Select a Scenario"}
+          icon={<Calculator className="h-5 w-5" />}
+          iconColor="text-amber"
+          defaultExpanded={true}
+        >
+            {/* Sparky Message */}
+            <div className="mb-6">
+              <SparkyMessage
+                size="medium"
+                message={state.sparkyMessage}
+              />
+            </div>
 
-                  {/* Hint Toggle */}
-                  <div className="flex items-center gap-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setState(prev => ({ ...prev, showHint: !prev.showHint }))}
-                      className="border-amber text-amber hover:bg-amber/10 dark:border-sparky-green dark:text-sparky-green dark:hover:bg-sparky-green/10"
+            {/* Difficulty Selection */}
+            {!state.difficulty && !state.selectedScenario && (
+              <DifficultySelector onSelect={handleSelectDifficulty} />
+            )}
+
+            {/* Scenario Selection */}
+            {state.difficulty && !state.selectedScenario && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="space-y-4"
+              >
+                <div className="flex items-center justify-between mb-4">
+                  <button
+                    onClick={() => setState(prev => ({ ...prev, difficulty: null }))}
+                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    Change Difficulty
+                  </button>
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    state.difficulty === "beginner"
+                      ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
+                      : "bg-amber/10 text-amber"
+                  }`}>
+                    {state.difficulty === "beginner" ? "Beginner" : "Intermediate"}
+                  </span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {BUILDING_TYPES.map((bt) => (
+                    <Card
+                      key={bt.buildingType}
+                      className="cursor-pointer hover:border-amber/50 hover:shadow-md transition-all duration-300 pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]"
+                      onClick={() => handleSelectScenario(bt)}
                     >
-                      <Lightbulb className="h-4 w-4 mr-2" />
-                      {state.showHint ? "Hide Hint" : "Show Hint"}
-                    </Button>
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <HelpCircle className="h-3 w-3" />
-                      {currentStep.necReference}
-                    </span>
-                  </div>
-
-                  {/* Hint Display */}
-                  <AnimatePresence>
-                    {state.showHint && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="bg-amber/10 border border-amber/30 rounded-lg p-4"
-                      >
-                        <div className="flex items-start gap-2">
-                          <Lightbulb className="h-5 w-5 text-amber flex-shrink-0 mt-0.5" />
+                      <CardContent className="pt-6">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className="w-10 h-10 rounded-lg bg-amber/10 flex items-center justify-center">
+                            {SCENARIO_ICONS[bt.buildingType] || <Building2 className="h-5 w-5 text-amber" />}
+                          </div>
                           <div>
-                            <p className="text-sm font-medium text-amber mb-1">Hint</p>
-                            <p className="text-sm text-foreground whitespace-pre-line">
-                              {getHintText(currentStep, state.selectedScenario, state.answers)}
+                            <h3 className="font-semibold">{bt.name}</h3>
+                            <p className="text-sm text-muted-foreground">
+                              {bt.phases === 3 ? `${bt.voltage}V 3Ø` : `${bt.voltage}V 1Ø`} — {bt.variants.length} variants
                             </p>
                           </div>
                         </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-
-                  {/* Navigation */}
-                  <div className="flex justify-between pt-4 border-t">
-                    <Button
-                      variant="outline"
-                      onClick={handlePreviousStep}
-                      disabled={state.currentStepIndex === 0}
-                      className="border-border dark:border-stone-700"
-                    >
-                      <ChevronLeft className="h-4 w-4 mr-1" />
-                      Previous
-                    </Button>
-                    <span className="text-sm text-muted-foreground self-center">
-                      Step {state.currentStepIndex + 1} / {COMMERCIAL_CALCULATION_STEPS.length}
-                    </span>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Completion Screen */}
-              {state.isComplete && completionResults && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-8"
-                >
-                  <div className="w-20 h-20 rounded-full bg-emerald/10 dark:bg-sparky-green/10 dark:shadow-[0_0_15px_rgba(163,255,0,0.35)] flex items-center justify-center mx-auto mb-4 transition-all duration-300">
-                    <Trophy className="h-10 w-10 text-emerald dark:text-sparky-green" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-foreground mb-4">
-                    Calculation Complete!
-                  </h2>
-
-                  {/* Results Grid */}
-                  <div className="grid grid-cols-3 gap-4 mb-6 max-w-md mx-auto">
-                    <div className="bg-amber/10 rounded-lg p-3">
-                      <p className="text-xs text-muted-foreground mb-1">Service</p>
-                      <p className="text-xl font-bold text-amber dark:text-amber-light">{completionResults.serviceAmps}A</p>
-                    </div>
-                    <div className="bg-emerald/10 rounded-lg p-3">
-                      <p className="text-xs text-muted-foreground mb-1">Conductor</p>
-                      <p className="text-xl font-bold text-emerald dark:text-sparky-green">{completionResults.conductorSize}</p>
-                      <p className="text-xs text-muted-foreground">AWG/kcmil</p>
-                    </div>
-                    <div className="bg-purple/10 rounded-lg p-3">
-                      <p className="text-xs text-muted-foreground mb-1">GEC</p>
-                      <p className="text-xl font-bold text-purple dark:text-purple-light">{completionResults.gecSize}</p>
-                      <p className="text-xs text-muted-foreground">AWG</p>
-                    </div>
-                  </div>
-
-                  <p className="text-muted-foreground mb-6">
-                    You calculated a <span className="text-amber dark:text-sparky-green font-semibold">{completionResults.serviceAmps}A</span> service
-                    with <span className="text-emerald dark:text-sparky-green font-semibold">{completionResults.conductorSize}</span> conductors
-                    and <span className="text-purple dark:text-purple-light font-semibold">{completionResults.gecSize} AWG</span> GEC
-                    for this {state.selectedScenario?.squareFootage.toLocaleString()} sq ft {state.selectedScenario?.name.toLowerCase()}.
-                  </p>
-                  <div className="flex justify-center gap-4">
-                    <Button variant="outline" onClick={handleReset} className="border-border dark:border-stone-700">
-                      <RotateCcw className="h-4 w-4 mr-2" />
-                      Try Another
-                    </Button>
-                  </div>
-                </motion.div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* RIGHT COLUMN: Your Calculations + Calculator */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="lg:col-span-3 space-y-4 order-3"
-        >
-          {/* Running Calculation */}
-          {state.selectedScenario && (
-            <CollapsibleCard
-              title="Your Calculations"
-              icon={<Zap className="h-4 w-4" />}
-              iconColor="text-emerald"
-              defaultExpanded={true}
-            >
-              {Object.keys(state.answers).length > 0 ? (
-                <div className="space-y-2 text-sm">
-                  {COMMERCIAL_CALCULATION_STEPS.map((step) => {
-                    const answer = state.answers[step.id];
-                    if (answer === undefined) return null;
-
-                    const isBeginner = state.difficulty === "beginner";
-                    const currentStepId = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex]?.id;
-                    const isHighlighted = isBeginner && currentStepId === "total-va" && COMMERCIAL_TOTAL_VA_STEPS.includes(step.id);
-
-                    // Format the value appropriately based on step type
-                    let displayValue: string;
-                    if (step.id === "service-conductor") {
-                      const totalVA = state.answers["total-va"] || 0;
-                      const amps = state.selectedScenario
-                        ? getServiceAmps(totalVA, state.selectedScenario.voltage, state.selectedScenario.phases)
-                        : totalVA / 240;
-                      const conductor = getConductorSize(amps);
-                      displayValue = `${conductor.size} AWG (${answer}A)`;
-                    } else if (step.id === "gec-size") {
-                      const gecVal = answer;
-                      let gecLabel: string;
-                      if (gecVal === 10) gecLabel = "1/0";
-                      else if (gecVal === 20) gecLabel = "2/0";
-                      else if (gecVal === 30) gecLabel = "3/0";
-                      else gecLabel = `${gecVal}`;
-                      displayValue = `${gecLabel} AWG`;
-                    } else {
-                      displayValue = `${answer.toLocaleString()} VA`;
-                    }
-
-                    return (
-                      <div
-                        key={step.id}
-                        className={`flex justify-between items-center rounded-md px-2 py-1 -mx-2 transition-all ${
-                          isHighlighted
-                            ? "bg-amber/20 border border-amber/40"
-                            : ""
-                        }`}
-                      >
-                        <span className={`truncate mr-2 flex items-center gap-1 ${
-                          isHighlighted ? "text-amber dark:text-sparky-green font-medium" : "text-muted-foreground"
-                        }`}>
-                          {isHighlighted && <Plus className="h-3 w-3 flex-shrink-0" />}
-                          {step.title.replace(/ \(.*\)/, "")}
-                        </span>
-                        <span className={`font-mono whitespace-nowrap text-xs ${
-                          isHighlighted ? "text-amber dark:text-sparky-green font-semibold" : "text-foreground"
-                        }`}>
-                          {displayValue}
-                        </span>
-                      </div>
-                    );
-                  })}
-
-                  {state.isComplete && completionResults && (
-                    <div className="border-t pt-2 mt-2 space-y-1">
-                      <div className="flex justify-between items-center font-semibold">
-                        <span className="text-foreground">Service Size</span>
-                        <span className="text-emerald dark:text-sparky-green text-lg">
-                          {completionResults.serviceAmps}A
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">Conductor</span>
-                        <span className="text-emerald dark:text-sparky-green font-medium">
-                          {completionResults.conductorSize} AWG/kcmil
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-muted-foreground">GEC</span>
-                        <span className="text-emerald dark:text-sparky-green font-medium">
-                          {completionResults.gecSize} AWG
-                        </span>
-                      </div>
-                    </div>
-                  )}
+                        <p className="text-sm text-muted-foreground">
+                          {bt.description}
+                        </p>
+                        <p className="text-xs text-amber mt-2">
+                          {bt.variants.length} scenario{bt.variants.length !== 1 ? "s" : ""} — random selection each time
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
-              ) : (
-                <p className="text-sm text-muted-foreground text-center py-4">
-                  Your completed calculations will appear here
-                </p>
-              )}
-            </CollapsibleCard>
-          )}
+              </motion.div>
+            )}
 
-          {/* Calculator */}
-          {state.selectedScenario && !state.isComplete && (
-            <CollapsibleCard
-              title="Calculator"
-              icon={<Calculator className="h-4 w-4" />}
-              iconColor="text-amber"
-              defaultExpanded={false}
-            >
-              <MiniCalculator
-                onResult={(value) => setState(prev => ({ ...prev, userInput: formatNumberWithCommas(value) }))}
+            {/* Active Calculation Step */}
+            {state.selectedScenario && !state.isComplete && currentStep && (() => {
+              // HVAC motor sub-step
+              const isHvacMotorSubStep = currentStep.id === "hvac" && (state.hvacSubStepIndex ?? 0) === 0;
+              const hvacSub = isHvacMotorSubStep ? getHvacMotorSubStep(state.selectedScenario!, necVersion) : null;
+
+              // Motor conversion sub-steps
+              const isMotorSubStep = currentStep.id === "convert-motors";
+              const subSteps = isMotorSubStep ? getMotorSubSteps(state.selectedScenario!) : [];
+              const subIdx = state.motorSubStepIndex ?? 0;
+              const currentSubStep = isMotorSubStep ? subSteps[subIdx] : null;
+
+              let stepFormula: string | undefined;
+              let stepNecRef: string;
+              let stepHint: string;
+              let canGoPrev: boolean;
+              let motionKey: string;
+
+              if (hvacSub) {
+                stepFormula = hvacSub.formula;
+                stepNecRef = hvacSub.necReference;
+                stepHint = hvacSub.hint;
+                canGoPrev = state.currentStepIndex > 0;
+                motionKey = `${currentStep.id}-motor`;
+              } else if (isMotorSubStep && currentSubStep) {
+                stepFormula = `${currentSubStep.formula}  (Motor ${subIdx + 1} of ${subSteps.length})`;
+                stepNecRef = currentSubStep.necReference;
+                stepHint = currentSubStep.hint;
+                canGoPrev = subIdx > 0 || state.currentStepIndex > 0;
+                motionKey = `${currentStep.id}-${subIdx}`;
+              } else {
+                stepFormula = resolveFormula(currentStep, state.selectedScenario!, necVersion);
+                stepNecRef = resolveNecReference(currentStep, necVersion);
+                stepHint = getHintText(currentStep, state.selectedScenario!, state.answers, necVersion);
+                canGoPrev = currentStep.id === "hvac" ? true : state.currentStepIndex > 0;
+                motionKey = currentStep.id;
+              }
+
+              return (
+                <motion.div
+                  key={motionKey}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                >
+                  <StepInputArea
+                    formula={stepFormula}
+                    necReference={stepNecRef}
+                    inputLabel={inputLabel}
+                    inputMode="numeric"
+                    placeholder="Enter your calculation..."
+                    allowSlash={false}
+                    rawInput={false}
+                    userInput={state.userInput}
+                    onInputChange={(value) => setState(prev => ({ ...prev, userInput: value }))}
+                    showHint={state.showHint}
+                    onToggleHint={() => setState(prev => ({ ...prev, showHint: !prev.showHint }))}
+                    hintText={stepHint}
+                    lastAnswerCorrect={state.lastAnswerCorrect}
+                    onSubmit={handleSubmitAnswer}
+                    onTryAgain={handleTryAgain}
+                    onPrevious={handlePreviousStep}
+                    canGoPrevious={canGoPrev}
+                    currentStepIndex={state.currentStepIndex}
+                    totalSteps={COMMERCIAL_CALCULATION_STEPS.length}
+                  />
+                </motion.div>
+              );
+            })()}
+
+            {/* Completion Screen */}
+            {state.isComplete && completionResults && (
+              <CompletionScreen
+                results={completionResults}
+                buildingDescription={`${state.selectedScenario?.squareFootage.toLocaleString()} sq ft ${state.selectedScenario?.name.toLowerCase()}`}
+                onReset={handleReset}
               />
-            </CollapsibleCard>
-          )}
+            )}
+        </CollapsibleCard>
+      </motion.div>
 
-          {/* Save Indicator */}
-          {state.selectedScenario && (
-            <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <Save className="h-4 w-4" />
-              Progress saved automatically
-            </div>
-          )}
-        </motion.div>
-      </div>
-      </div>
-    </main>
+      {/* RIGHT COLUMN: Your Calculations + Calculator */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.3 }}
+        className="lg:col-span-3 space-y-4 order-4 lg:order-3"
+      >
+        {/* Running Calculation */}
+        {state.selectedScenario && (
+          <CollapsibleCard
+            title="Your Calculations"
+            icon={<Zap className="h-4 w-4" />}
+            iconColor="text-emerald"
+            defaultExpanded={true}
+          >
+            {Object.keys(state.answers).length > 0 ? (
+              <div className="space-y-2 text-sm">
+                {COMMERCIAL_CALCULATION_STEPS.map((step) => {
+                  const answer = state.answers[step.id];
+                  if (answer === undefined) return null;
+
+                  const isBeginner = state.difficulty === "beginner";
+                  const currentStepId = COMMERCIAL_CALCULATION_STEPS[state.currentStepIndex]?.id;
+                  const isHighlighted = isBeginner && currentStepId === "total-va" && COMMERCIAL_TOTAL_VA_STEPS.includes(step.id);
+
+                  // Format the value appropriately based on step type
+                  let displayValue: string;
+                  if (step.id === "service-conductor") {
+                    const totalVA = state.answers["total-va"] || 0;
+                    const amps = state.selectedScenario
+                      ? getServiceAmps(totalVA, state.selectedScenario.voltage, state.selectedScenario.phases)
+                      : totalVA / 240;
+                    const conductor = getConductorSize(amps);
+                    displayValue = `${conductor.size} AWG (${answer}A)`;
+                  } else if (step.id === "gec-size") {
+                    const gecVal = answer;
+                    let gecLabel: string;
+                    if (gecVal === 10) gecLabel = "1/0";
+                    else if (gecVal === 20) gecLabel = "2/0";
+                    else if (gecVal === 30) gecLabel = "3/0";
+                    else gecLabel = `${gecVal}`;
+                    displayValue = `${gecLabel} AWG`;
+                  } else {
+                    displayValue = `${answer.toLocaleString()} VA`;
+                  }
+
+                  return (
+                    <div
+                      key={step.id}
+                      className={`flex justify-between items-center rounded-md px-2 py-1 -mx-2 transition-all ${
+                        isHighlighted
+                          ? "bg-amber/20 border border-amber/40"
+                          : ""
+                      }`}
+                    >
+                      <span className={`truncate mr-2 flex items-center gap-1 ${
+                        isHighlighted ? "text-amber dark:text-sparky-green font-medium" : "text-muted-foreground"
+                      }`}>
+                        {isHighlighted && <Plus className="h-3 w-3 flex-shrink-0" />}
+                        {resolveTitle(step, necVersion).replace(/ \(.*\)/, "")}
+                      </span>
+                      <span className={`font-mono whitespace-nowrap text-xs ${
+                        isHighlighted ? "text-amber dark:text-sparky-green font-semibold" : "text-foreground"
+                      }`}>
+                        {displayValue}
+                      </span>
+                    </div>
+                  );
+                })}
+
+                {state.isComplete && completionResults && (
+                  <CompletionSummaryCard results={completionResults} />
+                )}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                Your completed calculations will appear here
+              </p>
+            )}
+          </CollapsibleCard>
+        )}
+
+        {/* Calculator */}
+        {state.selectedScenario && !state.isComplete && (
+          <CollapsibleCard
+            title="Calculator"
+            icon={<Calculator className="h-4 w-4" />}
+            iconColor="text-amber"
+            defaultExpanded={false}
+          >
+            <MiniCalculator
+              onResult={(value) => setState(prev => ({ ...prev, userInput: formatNumberWithCommas(value) }))}
+            />
+          </CollapsibleCard>
+        )}
+
+        {/* Save Indicator */}
+        {state.selectedScenario && (
+          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+            <Save className="h-4 w-4" />
+            Progress saved automatically
+          </div>
+        )}
+      </motion.div>
+    </CalculatorPageLayout>
   );
 }
