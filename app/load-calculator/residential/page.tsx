@@ -1,20 +1,19 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo, Suspense } from "react";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import {
   Calculator,
-  ChevronLeft,
   Home,
   Zap,
   CheckCircle2,
   BookOpen,
   Plus,
-  Save,
+  Loader2,
 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { SparkyMessage } from "@/components/sparky";
 import { MiniCalculator } from "../_shared/MiniCalculator";
 import {
@@ -32,36 +31,66 @@ import {
   getDwellingAluminumSize,
   getGECSize,
   conductorCodeToLabel,
-  hpToWatts,
   getHvacMotorSubStep,
+  getFixedMotorSubSteps,
   resolveTitle,
   resolveSparkyPrompt,
   resolveNecReference,
   resolveFormula,
   type HouseScenario,
-  type DifficultyLevel,
 } from "./calculator-data";
 import { useNecVersion } from "@/lib/nec-version";
 import type { CalculatorState, SavedProgress } from "../_shared/types";
 import { fireConfetti, formatNumberWithCommas, parseFormattedNumber, getHintText } from "../_shared/utils";
 import { CollapsibleCard } from "../_shared/CollapsibleCard";
-import { DifficultySelector } from "../_shared/DifficultySelector";
 import { CompletionScreen } from "../_shared/CompletionScreen";
 import { CompletionSummaryCard } from "../_shared/CompletionSummaryCard";
-import { ResumePromptModal } from "../_shared/ResumePromptModal";
 import { StepInputArea } from "../_shared/StepInputArea";
 import { CalculatorPageLayout } from "../_shared/CalculatorPageLayout";
 
+// Category lookup for equipment grouping
+const APPLIANCE_CATEGORY: Record<string, string> = {
+  "small-appliance-1": "required",
+  "small-appliance-2": "required",
+  "laundry": "required",
+  "range": "cooking",
+  "cooktop": "cooking",
+  "wall-oven": "cooking",
+  "dryer": "dryer",
+  "water-heater": "fixed",
+  "dishwasher": "fixed",
+  "disposal": "fixed",
+  "microwave": "fixed",
+  "wine-cooler": "fixed",
+  "pool-pump": "fixed",
+  "hot-tub": "fixed",
+  "ev-charger": "other",
+  "ac": "hvac",
+  "heat": "hvac",
+};
+
+const CATEGORY_LABELS: Record<string, string> = {
+  building: "Building Info",
+  required: "Required Circuits",
+  cooking: "Range / Cooking",
+  dryer: "Dryer",
+  fixed: "Fixed Appliances",
+  hvac: "HVAC",
+  other: "Other Loads",
+};
+
+const CATEGORY_ORDER = ["building", "required", "cooking", "dryer", "fixed", "hvac", "other"];
+
 const STORAGE_KEY = "sparkypass-load-calculator";
 
-export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: React.ReactNode }) {
+function ResidentialCalculatorInner() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const sessionIdRef = useRef<string | null>(null);
   const { necVersion } = useNecVersion();
 
   const [state, setState] = useState<CalculatorState<HouseScenario>>({
-    difficulty: null,
     selectedScenario: null,
     currentStepIndex: 0,
     answers: {},
@@ -70,15 +99,14 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
     lastAnswerCorrect: null,
     sparkyMessage: SPARKY_MESSAGES.welcome,
     isComplete: false,
-    manualScratchedOff: new Set(),
     hvacSubStepIndex: 0,
     hvacMotorVA: undefined,
+    fixedMotorSubStepIndex: 0,
+    fixedMotorVAs: undefined,
   });
 
-  const [showResumePrompt, setShowResumePrompt] = useState(false);
-  const [savedProgress, setSavedProgress] = useState<SavedProgress | null>(null);
-
   const hasPlayedConfetti = useRef(false);
+  const hasInitialized = useRef(false);
 
   // Filter steps based on selected scenario's equipment
   const activeSteps = useMemo(() =>
@@ -103,106 +131,111 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
     }
   }, [state.isComplete]);
 
-  // Check for saved progress from localStorage
+  // Initialize from URL params on mount
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
       return;
     }
+    if (status === "loading" || hasInitialized.current) return;
+    hasInitialized.current = true;
 
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved) as SavedProgress;
-        // Validate saved data
-        if (parsed.scenarioId && parsed.difficulty) {
+    const scenarioParam = searchParams.get("scenario");
+    const resumeParam = searchParams.get("resume");
+
+    if (resumeParam === "true") {
+      // Resume from localStorage
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved) as SavedProgress;
           const scenario = HOUSE_SCENARIOS.find(s => s.id === parsed.scenarioId);
           if (scenario) {
-            // Store saved progress and show the resume prompt
-            setSavedProgress(parsed);
-            setShowResumePrompt(true);
+            const steps = getFilteredSteps(scenario);
+            const stepIndex = parsed.currentStepIndex || 0;
+            const currentStepId = steps[stepIndex]?.id;
+            const hvacSubIdx = parsed.hvacSubStepIndex || 0;
+            const fixedSubIdx = parsed.fixedMotorSubStepIndex || 0;
+
+            let sparkyMessage: string;
+            if (parsed.isComplete) {
+              sparkyMessage = SPARKY_MESSAGES.complete;
+            } else if (currentStepId === "hvac" && hvacSubIdx === 0) {
+              const hvacSub = getHvacMotorSubStep(scenario);
+              sparkyMessage = hvacSub?.sparkyPrompt || (steps[stepIndex] ? resolveSparkyPrompt(steps[stepIndex], scenario, necVersion) : "");
+            } else if (currentStepId === "fixed-appliances") {
+              const fixedSubs = getFixedMotorSubSteps(scenario);
+              if (fixedSubIdx < fixedSubs.length) {
+                sparkyMessage = fixedSubs[fixedSubIdx].sparkyPrompt;
+              } else {
+                sparkyMessage = steps[stepIndex] ? resolveSparkyPrompt(steps[stepIndex], scenario, necVersion) : "";
+              }
+            } else {
+              sparkyMessage = steps[stepIndex] ? resolveSparkyPrompt(steps[stepIndex], scenario, necVersion) : "";
+            }
+
+            setState(prev => ({
+              ...prev,
+              selectedScenario: scenario,
+              currentStepIndex: stepIndex,
+              answers: parsed.answers || {},
+              isComplete: parsed.isComplete || false,
+              sparkyMessage,
+              hvacSubStepIndex: hvacSubIdx,
+              hvacMotorVA: parsed.hvacMotorVA,
+              fixedMotorSubStepIndex: fixedSubIdx,
+              fixedMotorVAs: parsed.fixedMotorVAs,
+            }));
+            return;
           }
-        }
-      } catch {
-        // Invalid saved state, ignore
+        } catch { /* ignore */ }
+      }
+      // Fallback: no valid saved progress
+      router.replace("/load-calculator");
+      return;
+    }
+
+    if (scenarioParam) {
+      const scenario = HOUSE_SCENARIOS.find(s => s.id === scenarioParam);
+      if (scenario) {
+        handleSelectScenarioInternal(scenario);
+        return;
       }
     }
-  }, [status, router]);
 
-  // Handle continuing saved progress
-  const handleContinueProgress = useCallback(() => {
-    if (!savedProgress) return;
-
-    const scenario = HOUSE_SCENARIOS.find(s => s.id === savedProgress.scenarioId);
-    if (scenario) {
-      const steps = getFilteredSteps(scenario);
-      const stepIndex = savedProgress.currentStepIndex || 0;
-      const currentStepId = steps[stepIndex]?.id;
-      const hvacSubIdx = savedProgress.hvacSubStepIndex || 0;
-
-      // If resuming mid HVAC sub-step, use the sub-step's sparky prompt
-      let sparkyMessage: string;
-      if (savedProgress.isComplete) {
-        sparkyMessage = SPARKY_MESSAGES.complete;
-      } else if (currentStepId === "hvac" && hvacSubIdx === 0) {
-        const hvacSub = getHvacMotorSubStep(scenario);
-        sparkyMessage = hvacSub?.sparkyPrompt || (steps[stepIndex] ? resolveSparkyPrompt(steps[stepIndex], scenario, necVersion) : "");
-      } else {
-        sparkyMessage = steps[stepIndex] ? resolveSparkyPrompt(steps[stepIndex], scenario, necVersion) : "";
-      }
-
-      setState(prev => ({
-        ...prev,
-        difficulty: savedProgress.difficulty,
-        selectedScenario: scenario,
-        currentStepIndex: stepIndex,
-        answers: savedProgress.answers || {},
-        isComplete: savedProgress.isComplete || false,
-        sparkyMessage,
-        hvacSubStepIndex: hvacSubIdx,
-        hvacMotorVA: savedProgress.hvacMotorVA,
-      }));
-    }
-    setShowResumePrompt(false);
-    setSavedProgress(null);
-  }, [savedProgress]);
-
-  // Handle starting fresh
-  const handleStartFresh = useCallback(() => {
-    localStorage.removeItem(STORAGE_KEY);
-    setShowResumePrompt(false);
-    setSavedProgress(null);
-  }, []);
+    // No valid params — redirect to landing page
+    router.replace("/load-calculator");
+  }, [status, router, searchParams]);
 
   // Save progress to localStorage
   const saveProgress = useCallback((currentState: CalculatorState<HouseScenario>) => {
-    if (currentState.selectedScenario && currentState.difficulty) {
+    if (currentState.selectedScenario) {
       const toSave: SavedProgress = {
-        difficulty: currentState.difficulty,
         scenarioId: currentState.selectedScenario.id,
         currentStepIndex: currentState.currentStepIndex,
         answers: currentState.answers,
         isComplete: currentState.isComplete,
         hvacSubStepIndex: currentState.hvacSubStepIndex,
         hvacMotorVA: currentState.hvacMotorVA,
+        fixedMotorSubStepIndex: currentState.fixedMotorSubStepIndex,
+        fixedMotorVAs: currentState.fixedMotorVAs,
       };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(toSave));
     }
   }, []);
 
-  // Handle difficulty selection
-  const handleSelectDifficulty = useCallback((difficulty: DifficultyLevel) => {
-    setState(prev => ({
-      ...prev,
-      difficulty,
-      sparkyMessage: SPARKY_MESSAGES.selectScenario,
-    }));
-  }, []);
+  // Save & Exit — saves to localStorage and navigates to landing page
+  const handleSaveAndExit = useCallback(() => {
+    saveProgress(state);
+    router.push("/load-calculator");
+  }, [state, saveProgress, router]);
 
-  const handleSelectScenario = useCallback((scenario: HouseScenario) => {
+  const handleSelectScenarioInternal = useCallback((scenario: HouseScenario) => {
+    // Clear any saved progress when starting a new scenario
+    localStorage.removeItem(STORAGE_KEY);
+
     const steps = getFilteredSteps(scenario);
     const newState: CalculatorState<HouseScenario> = {
-      difficulty: state.difficulty,
       selectedScenario: scenario,
       currentStepIndex: 0,
       answers: {},
@@ -211,12 +244,12 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
       lastAnswerCorrect: null,
       sparkyMessage: resolveSparkyPrompt(steps[0], scenario, necVersion),
       isComplete: false,
-      manualScratchedOff: new Set(),
       hvacSubStepIndex: 0,
       hvacMotorVA: undefined,
+      fixedMotorSubStepIndex: 0,
+      fixedMotorVAs: undefined,
     };
     setState(newState);
-    saveProgress(newState);
 
     // Track session for recent activity
     if (session?.user) {
@@ -229,20 +262,7 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
         .then(data => { sessionIdRef.current = data.sessionId; })
         .catch(() => {});
     }
-  }, [saveProgress, state.difficulty, session?.user]);
-
-  // Toggle manual scratch-off for intermediate mode
-  const handleToggleScratchOff = useCallback((applianceId: string) => {
-    setState(prev => {
-      const newSet = new Set(prev.manualScratchedOff);
-      if (newSet.has(applianceId)) {
-        newSet.delete(applianceId);
-      } else {
-        newSet.add(applianceId);
-      }
-      return { ...prev, manualScratchedOff: newSet };
-    });
-  }, []);
+  }, [session?.user, necVersion]);
 
   // Handle answer submission
   const handleSubmitAnswer = useCallback(() => {
@@ -279,12 +299,46 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
             sparkyMessage: `${getRandomMessage(SPARKY_MESSAGES.correct)} The A/C is ${userAnswer.toLocaleString()} VA. Now multiply by 125% for the motor continuous load factor, compare with the ${heatWatts.toLocaleString()} W heating load, and enter the larger value.`,
           };
           setState(newState);
-          saveProgress(newState);
         } else {
           setState(prev => ({
             ...prev,
             lastAnswerCorrect: false,
             sparkyMessage: `${getRandomMessage(SPARKY_MESSAGES.incorrect)} The correct answer is ${hvacSub.expectedVA.toLocaleString()}. Check the hint for details!`,
+            showHint: false,
+          }));
+        }
+        return;
+      }
+    }
+
+    // ─── Fixed-appliance motor sub-step branch ────────────────────────────
+    if (currentStep.id === "fixed-appliances") {
+      const fixedSubs = getFixedMotorSubSteps(state.selectedScenario);
+      const fixedIdx = state.fixedMotorSubStepIndex ?? 0;
+      if (fixedIdx < fixedSubs.length) {
+        const sub = fixedSubs[fixedIdx];
+        const isCorrect = Math.abs(userAnswer - sub.expectedVA) <= 50;
+        if (isCorrect) {
+          const newVAs = { ...(state.fixedMotorVAs || {}), [sub.motorName]: userAnswer };
+          const nextIdx = fixedIdx + 1;
+          const nextSub = fixedSubs[nextIdx];
+          const newState: CalculatorState<HouseScenario> = {
+            ...state,
+            userInput: "",
+            showHint: false,
+            lastAnswerCorrect: true,
+            fixedMotorSubStepIndex: nextIdx,
+            fixedMotorVAs: newVAs,
+            sparkyMessage: nextSub
+              ? `${getRandomMessage(SPARKY_MESSAGES.correct)} The ${sub.motorName} is ${userAnswer.toLocaleString()} VA. ${nextSub.sparkyPrompt}`
+              : `${getRandomMessage(SPARKY_MESSAGES.correct)} The ${sub.motorName} is ${userAnswer.toLocaleString()} VA. Now add up all the fixed appliances and apply the 75% demand factor if you have 4 or more.`,
+          };
+          setState(newState);
+        } else {
+          setState(prev => ({
+            ...prev,
+            lastAnswerCorrect: false,
+            sparkyMessage: `${getRandomMessage(SPARKY_MESSAGES.incorrect)} The correct answer is ${sub.expectedVA.toLocaleString()}. Check the hint for details!`,
             showHint: false,
           }));
         }
@@ -318,7 +372,6 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
           showHint: false,
         };
         setState(completeState);
-        saveProgress(completeState);
 
         // End session for recent activity tracking
         if (sessionIdRef.current) {
@@ -337,6 +390,15 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
         const nextStep = activeSteps[state.currentStepIndex + 1];
         // If advancing to HVAC step, use the motor sub-step prompt instead
         const hvacSub = nextStep.id === "hvac" && state.selectedScenario ? getHvacMotorSubStep(state.selectedScenario) : null;
+        // If advancing to fixed-appliances step, check for motor sub-steps
+        const fixedSubs = nextStep.id === "fixed-appliances" && state.selectedScenario ? getFixedMotorSubSteps(state.selectedScenario) : [];
+        const firstFixedSub = fixedSubs.length > 0 ? fixedSubs[0] : null;
+
+        let nextSparky: string;
+        if (hvacSub) nextSparky = hvacSub.sparkyPrompt;
+        else if (firstFixedSub) nextSparky = firstFixedSub.sparkyPrompt;
+        else nextSparky = resolveSparkyPrompt(nextStep, state.selectedScenario!, necVersion);
+
         const newState: CalculatorState<HouseScenario> = {
           ...state,
           currentStepIndex: state.currentStepIndex + 1,
@@ -344,11 +406,11 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
           userInput: "",
           showHint: false,
           lastAnswerCorrect: true,
-          sparkyMessage: `${getRandomMessage(SPARKY_MESSAGES.correct)}${storedNote} ${hvacSub ? hvacSub.sparkyPrompt : resolveSparkyPrompt(nextStep, state.selectedScenario!, necVersion)}`,
+          sparkyMessage: `${getRandomMessage(SPARKY_MESSAGES.correct)}${storedNote} ${nextSparky}`,
           ...(nextStep.id === "hvac" ? { hvacSubStepIndex: 0, hvacMotorVA: undefined } : {}),
+          ...(nextStep.id === "fixed-appliances" ? { fixedMotorSubStepIndex: 0, fixedMotorVAs: undefined } : {}),
         };
         setState(newState);
-        saveProgress(newState);
       }
     } else {
       setState(prev => ({
@@ -358,7 +420,7 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
         showHint: true,
       }));
     }
-  }, [state, saveProgress, activeSteps]);
+  }, [state, activeSteps]);
 
   // Handle trying again after incorrect answer
   const handleTryAgain = useCallback(() => {
@@ -369,6 +431,14 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
       if (currentStepId === "hvac" && (prev.hvacSubStepIndex ?? 0) === 0 && prev.selectedScenario) {
         const hvacSub = getHvacMotorSubStep(prev.selectedScenario);
         sparkyMessage = hvacSub?.sparkyPrompt || resolveSparkyPrompt(activeSteps[prev.currentStepIndex], prev.selectedScenario!, necVersion);
+      } else if (currentStepId === "fixed-appliances" && prev.selectedScenario) {
+        const fixedSubs = getFixedMotorSubSteps(prev.selectedScenario);
+        const fixedIdx = prev.fixedMotorSubStepIndex ?? 0;
+        if (fixedIdx < fixedSubs.length) {
+          sparkyMessage = fixedSubs[fixedIdx].sparkyPrompt;
+        } else {
+          sparkyMessage = resolveSparkyPrompt(activeSteps[prev.currentStepIndex], prev.selectedScenario!, necVersion);
+        }
       } else {
         sparkyMessage = resolveSparkyPrompt(activeSteps[prev.currentStepIndex], prev.selectedScenario!, necVersion);
       }
@@ -401,9 +471,51 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
       return;
     }
 
+    // If on a fixed-motor sub-step, go back one sub-step (or to previous main step)
+    if (currentStepId === "fixed-appliances" && state.selectedScenario) {
+      const fixedSubs = getFixedMotorSubSteps(state.selectedScenario);
+      const fixedIdx = state.fixedMotorSubStepIndex ?? 0;
+      if (fixedIdx > 0 && fixedIdx <= fixedSubs.length) {
+        // Go back to previous motor sub-step
+        const prevSub = fixedSubs[fixedIdx - 1];
+        const newVAs = { ...(state.fixedMotorVAs || {}) };
+        delete newVAs[prevSub.motorName];
+        setState(prev => ({
+          ...prev,
+          fixedMotorSubStepIndex: fixedIdx - 1,
+          fixedMotorVAs: newVAs,
+          userInput: "",
+          showHint: false,
+          lastAnswerCorrect: null,
+          sparkyMessage: prevSub.sparkyPrompt,
+        }));
+        return;
+      }
+      // fixedIdx === 0 means we're on the first motor sub-step, fall through to normal previous
+    }
+
     // If navigating back FROM the step after HVAC, land on HVAC sub-step 1
     if (state.currentStepIndex > 0) {
       const prevStep = activeSteps[state.currentStepIndex - 1];
+
+      // If going back to fixed-appliances step, land on the normal (post-motor) sub-step
+      if (prevStep.id === "fixed-appliances") {
+        const fixedSubs = state.selectedScenario ? getFixedMotorSubSteps(state.selectedScenario) : [];
+        const newAnswers = { ...state.answers };
+        delete newAnswers["fixed-appliances"];
+        setState(prev => ({
+          ...prev,
+          currentStepIndex: state.currentStepIndex - 1,
+          answers: newAnswers,
+          fixedMotorSubStepIndex: fixedSubs.length,
+          userInput: "",
+          showHint: false,
+          lastAnswerCorrect: null,
+          sparkyMessage: resolveSparkyPrompt(prevStep, state.selectedScenario!, necVersion),
+        }));
+        return;
+      }
+
       if (prevStep.id === "hvac") {
         const newAnswers = { ...state.answers };
         delete newAnswers["hvac"];
@@ -433,24 +545,11 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
     }
   }, [state, activeSteps]);
 
-  // Reset calculator
+  // Reset calculator — navigate back to landing page
   const handleReset = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
-    setState({
-      difficulty: null,
-      selectedScenario: null,
-      currentStepIndex: 0,
-      answers: {},
-      userInput: "",
-      showHint: false,
-      lastAnswerCorrect: null,
-      sparkyMessage: SPARKY_MESSAGES.welcome,
-      isComplete: false,
-      manualScratchedOff: new Set(),
-      hvacSubStepIndex: 0,
-      hvacMotorVA: undefined,
-    });
-  }, []);
+    router.push("/load-calculator");
+  }, [router]);
 
   // Compute completion results for display
   const getCompletionResults = useCallback(() => {
@@ -469,29 +568,12 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
 
   const completionResults = getCompletionResults();
 
-  // Show resume prompt if there's saved progress
-  if (showResumePrompt && savedProgress) {
-    const savedScenario = HOUSE_SCENARIOS.find(s => s.id === savedProgress.scenarioId);
-    const resumeSteps = savedScenario ? getFilteredSteps(savedScenario) : CALCULATION_STEPS;
-    return (
-      <ResumePromptModal
-        savedProgress={savedProgress}
-        scenarioName={savedScenario?.name || "Unknown"}
-        scenarioIcon={<Home className="h-4 w-4 text-amber" />}
-        totalSteps={resumeSteps.length}
-        onContinue={handleContinueProgress}
-        onStartFresh={handleStartFresh}
-      />
-    );
-  }
-
   const currentStep = state.selectedScenario ? activeSteps[state.currentStepIndex] : null;
 
   return (
     <CalculatorPageLayout
       isLoading={status === "loading"}
       subtitle="Based on the Standard Method — 2023 NEC Article 220 Part III"
-      headerExtra={headerExtra}
       hasScenario={!!state.selectedScenario}
       currentStepIndex={state.currentStepIndex}
       totalSteps={activeSteps.length}
@@ -513,127 +595,122 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
             iconColor="text-amber"
             defaultExpanded={true}
           >
-            <div className="space-y-2 text-sm">
-              {state.difficulty === "intermediate" && (
-                <p className="text-xs text-muted-foreground italic pb-1 border-b mb-2">
-                  Click items to mark as accounted for
-                </p>
-              )}
+            <div className="space-y-1 text-sm">
               {(() => {
-                const isBeginner = state.difficulty === "beginner";
-                const isIntermediate = state.difficulty === "intermediate";
                 const accountedIds = getAccountedApplianceIds(state.currentStepIndex - 1, activeSteps);
-                const isAccountedFor = isBeginner && accountedIds.has("square-footage");
-                const isManuallyScratchedOff = isIntermediate && state.manualScratchedOff.has("square-footage");
                 const currentStepId = activeSteps[state.currentStepIndex]?.id;
                 const currentStepAppliances = currentStepId ? STEP_APPLIANCE_MAP[currentStepId] || [] : [];
-                const isHighlighted = isBeginner && !isAccountedFor && currentStepAppliances.includes("square-footage");
 
-                return (
-                  <div
-                    onClick={isIntermediate ? () => handleToggleScratchOff("square-footage") : undefined}
-                    className={`flex justify-between items-start transition-all duration-300 rounded-md px-2 py-1 -mx-2 ${
-                      isIntermediate ? "cursor-pointer hover:bg-muted/50 pressable" : ""
-                    } ${
-                      isHighlighted
-                        ? "bg-amber/20 border border-amber/40"
-                        : isAccountedFor || isManuallyScratchedOff
-                        ? "text-muted-foreground/50"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    <span className={`mr-2 min-w-0 flex items-start gap-2 ${
-                      isAccountedFor || isManuallyScratchedOff ? "line-through" : ""
-                    } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
-                      {(isAccountedFor || isManuallyScratchedOff) && (
-                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald flex-shrink-0 mt-0.5" />
-                      )}
-                      {isHighlighted && (
-                        <Plus className="h-3 w-3 text-amber flex-shrink-0 mt-0.5" />
-                      )}
-                      Square Footage
-                    </span>
-                    <span className={`font-mono whitespace-nowrap flex-shrink-0 ${
-                      isHighlighted
-                        ? "text-amber dark:text-sparky-green font-semibold"
-                        : isAccountedFor || isManuallyScratchedOff
-                        ? "text-muted-foreground/50 line-through"
-                        : "text-foreground"
-                    }`}>
-                      {state.selectedScenario!.squareFootage.toLocaleString()} sq ft
-                    </span>
-                  </div>
-                );
-              })()}
-              {(() => {
-                return state.selectedScenario!.appliances.map((appliance) => {
-                const isBeginner = state.difficulty === "beginner";
-                const isIntermediate = state.difficulty === "intermediate";
-                const accountedIds = getAccountedApplianceIds(state.currentStepIndex - 1, activeSteps);
-                const isAccountedFor = isBeginner && accountedIds.has(appliance.id);
-                const isManuallyScratchedOff = isIntermediate && state.manualScratchedOff.has(appliance.id);
-                const currentStepId = activeSteps[state.currentStepIndex]?.id;
-                const isMotor = appliance.isMotor && appliance.horsepower;
+                // Temporarily unscratch non-A/C motors during largest-motor-25 so student can see all values
+                // A/C stays scratched off — it was already covered in the HVAC step
+                if (currentStepId === "largest-motor-25") {
+                  state.selectedScenario!.appliances.forEach(a => {
+                    if (a.isMotor && a.id !== "ac") accountedIds.delete(a.id);
+                  });
+                }
 
-                // Show converted VA for A/C motor once student has answered the conversion
-                const convertedVA = isMotor && appliance.id === "ac" && state.hvacMotorVA
-                  ? state.hvacMotorVA
-                  : null;
+                // Build grouped items: square footage goes in "building", appliances go by category
+                type DisplayItem = {
+                  id: string;
+                  name: string;
+                  value: string;
+                  category: string;
+                  isMotor?: boolean;
+                  horsepower?: number;
+                  convertedVA?: number | null;
+                };
 
-                // Highlight appliances relevant to the current step (beginner only)
-                const currentStepAppliances = currentStepId ? STEP_APPLIANCE_MAP[currentStepId] || [] : [];
-                // During largest-motor-25, highlight all motor appliances
-                const isMotorHighlightStep = currentStepId === "largest-motor-25" && isMotor;
-                const isHighlighted = isBeginner && !isAccountedFor && (currentStepAppliances.includes(appliance.id) || isMotorHighlightStep);
+                const items: DisplayItem[] = [
+                  {
+                    id: "square-footage",
+                    name: "Square Footage",
+                    value: `${state.selectedScenario!.squareFootage.toLocaleString()} sq ft`,
+                    category: "building",
+                  },
+                ];
 
-                return (
-                  <div
-                    key={appliance.id}
-                    onClick={isIntermediate ? () => handleToggleScratchOff(appliance.id) : undefined}
-                    className={`flex justify-between items-start transition-all duration-300 rounded-md px-2 py-1 -mx-2 ${
-                      isIntermediate ? "cursor-pointer hover:bg-muted/50 pressable" : ""
-                    } ${
-                      isHighlighted
-                        ? "bg-amber/20 border border-amber/40"
-                        : isAccountedFor || isManuallyScratchedOff
-                        ? "text-muted-foreground/50"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    <span className={`mr-2 min-w-0 flex items-start gap-2 ${
-                      isAccountedFor || isManuallyScratchedOff ? "line-through" : ""
-                    } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
-                      {(isAccountedFor || isManuallyScratchedOff) && (
-                        <CheckCircle2 className="h-3.5 w-3.5 text-emerald flex-shrink-0 mt-0.5" />
-                      )}
-                      {isHighlighted && (
-                        <Plus className="h-3 w-3 text-amber flex-shrink-0 mt-0.5" />
-                      )}
-                      {appliance.name}
-                    </span>
-                    <span className={`font-mono whitespace-nowrap flex-shrink-0 text-right ${
-                      isHighlighted
-                        ? "text-amber dark:text-sparky-green font-semibold"
-                        : isAccountedFor || isManuallyScratchedOff
-                        ? "text-muted-foreground/50 line-through"
-                        : "text-foreground"
-                    }`}>
-                      {isMotor ? (
-                        <>
-                          <span>{appliance.horsepower} HP</span>
-                          {convertedVA !== null && (
-                            <div className="text-emerald dark:text-sparky-green text-xs">
-                              = {convertedVA.toLocaleString()} VA
-                            </div>
-                          )}
-                        </>
-                      ) : (
-                        <span>{appliance.watts.toLocaleString()}W</span>
-                      )}
-                    </span>
-                  </div>
-                );
-              });
+                state.selectedScenario!.appliances.forEach(appliance => {
+                  const isMotor = appliance.isMotor && appliance.horsepower;
+                  let convertedVA: number | null = null;
+                  if (isMotor && appliance.id === "ac" && state.hvacMotorVA) {
+                    convertedVA = state.hvacMotorVA;
+                  } else if (isMotor && state.fixedMotorVAs?.[appliance.name]) {
+                    convertedVA = state.fixedMotorVAs[appliance.name];
+                  }
+                  items.push({
+                    id: appliance.id,
+                    name: appliance.name,
+                    value: isMotor ? `${appliance.horsepower} HP` : `${appliance.watts.toLocaleString()}W`,
+                    category: APPLIANCE_CATEGORY[appliance.id] || "fixed",
+                    isMotor: !!isMotor,
+                    horsepower: appliance.horsepower,
+                    convertedVA,
+                  });
+                });
+
+                // Group by category
+                const grouped: Record<string, DisplayItem[]> = {};
+                items.forEach(item => {
+                  if (!grouped[item.category]) grouped[item.category] = [];
+                  grouped[item.category].push(item);
+                });
+
+                return CATEGORY_ORDER.map(cat => {
+                  const catItems = grouped[cat];
+                  if (!catItems || catItems.length === 0) return null;
+
+                  return (
+                    <div key={cat}>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mt-2 mb-1">
+                        {CATEGORY_LABELS[cat]}
+                      </p>
+                      {catItems.map(item => {
+                        const isAccountedFor = accountedIds.has(item.id);
+                        const isMotorHighlightStep = currentStepId === "largest-motor-25" && item.isMotor;
+                        const isHighlighted = !isAccountedFor && (currentStepAppliances.includes(item.id) || isMotorHighlightStep);
+
+                        return (
+                          <div
+                            key={item.id}
+                            className={`flex justify-between items-start transition-all duration-300 rounded-md px-2 py-0.5 -mx-2 ${
+                              isHighlighted
+                                ? "bg-amber/20 border border-amber/40"
+                                : isAccountedFor
+                                ? "text-muted-foreground/50"
+                                : "text-muted-foreground"
+                            }`}
+                          >
+                            <span className={`mr-2 min-w-0 flex items-start gap-1.5 ${
+                              isAccountedFor ? "line-through" : ""
+                            } ${isHighlighted ? "text-amber dark:text-sparky-green font-medium" : ""}`}>
+                              {isAccountedFor && (
+                                <CheckCircle2 className="h-3 w-3 text-emerald flex-shrink-0 mt-0.5" />
+                              )}
+                              {isHighlighted && (
+                                <Plus className="h-3 w-3 text-amber flex-shrink-0 mt-0.5" />
+                              )}
+                              {item.name}
+                            </span>
+                            <span className={`font-mono whitespace-nowrap text-xs flex-shrink-0 text-right ${
+                              isHighlighted
+                                ? "text-amber dark:text-sparky-green font-semibold"
+                                : isAccountedFor
+                                ? "text-muted-foreground/50 line-through"
+                                : "text-foreground"
+                            }`}>
+                              {item.value}
+                              {item.convertedVA != null && (
+                                <div className="text-emerald dark:text-sparky-green">
+                                  = {item.convertedVA.toLocaleString()} VA
+                                </div>
+                              )}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                });
               })()}
             </div>
           </CollapsibleCard>
@@ -649,8 +726,7 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
           >
             <div className="space-y-3 text-sm">
               {getQuickReferenceItems(necVersion).map((item) => {
-                const isBeginner = state.difficulty === "beginner";
-                const isCovered = isBeginner && state.selectedScenario && isQuickRefCovered(item.id, state.currentStepIndex, activeSteps);
+                const isCovered = state.selectedScenario && isQuickRefCovered(item.id, state.currentStepIndex, activeSteps);
 
                 return (
                   <div
@@ -693,7 +769,17 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
             : state.selectedScenario
               ? currentStep?.id === "hvac" && (state.hvacSubStepIndex ?? 0) === 0
                 ? "HVAC: Convert A/C Motor"
-                : currentStep ? resolveTitle(currentStep, necVersion) : "Select a Scenario"
+                : currentStep?.id === "fixed-appliances" && (() => {
+                    const subs = getFixedMotorSubSteps(state.selectedScenario!);
+                    const idx = state.fixedMotorSubStepIndex ?? 0;
+                    return idx < subs.length ? `Fixed Appliances: Convert ${subs[idx].motorName}` : null;
+                  })()
+                  ? (() => {
+                      const subs = getFixedMotorSubSteps(state.selectedScenario!);
+                      const idx = state.fixedMotorSubStepIndex ?? 0;
+                      return `Fixed Appliances: Convert ${subs[idx].motorName}`;
+                    })()
+                  : currentStep ? resolveTitle(currentStep, necVersion) : "Select a Scenario"
               : "Select a Scenario"}
           icon={<Calculator className="h-5 w-5" />}
           iconColor="text-amber"
@@ -707,79 +793,35 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
               />
             </div>
 
-            {/* Difficulty Selection */}
-            {!state.difficulty && !state.selectedScenario && (
-              <DifficultySelector onSelect={handleSelectDifficulty} />
-            )}
-
-            {/* Scenario Selection */}
-            {state.difficulty && !state.selectedScenario && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="space-y-4"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <button
-                    onClick={() => setState(prev => ({ ...prev, difficulty: null }))}
-                    className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-                  >
-                    <ChevronLeft className="h-4 w-4" />
-                    Change Difficulty
-                  </button>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    state.difficulty === "beginner"
-                      ? "bg-emerald/10 text-emerald dark:bg-sparky-green/10 dark:text-sparky-green"
-                      : "bg-amber/10 text-amber"
-                  }`}>
-                    {state.difficulty === "beginner" ? "Beginner" : "Intermediate"}
-                  </span>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {HOUSE_SCENARIOS.map((scenario) => (
-                    <Card
-                      key={scenario.id}
-                      className="cursor-pointer hover:border-amber/50 hover:shadow-md transition-all duration-300 pressable border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)]"
-                      onClick={() => handleSelectScenario(scenario)}
-                    >
-                      <CardContent className="pt-6">
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className="w-10 h-10 rounded-lg bg-amber/10 flex items-center justify-center">
-                            <Home className="h-5 w-5 text-amber" />
-                          </div>
-                          <div>
-                            <h3 className="font-semibold">{scenario.name}</h3>
-                            <p className="text-sm text-muted-foreground">
-                              {scenario.squareFootage.toLocaleString()} sq ft
-                            </p>
-                          </div>
-                        </div>
-                        <p className="text-sm text-muted-foreground">
-                          {scenario.description}
-                        </p>
-                        <p className="text-xs text-amber mt-2">
-                          {scenario.appliances.length} appliances
-                        </p>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
             {/* Active Calculation Step */}
             {state.selectedScenario && !state.isComplete && currentStep && (() => {
               const isHvacMotorSubStep = currentStep.id === "hvac" && (state.hvacSubStepIndex ?? 0) === 0;
               const hvacSub = isHvacMotorSubStep ? getHvacMotorSubStep(state.selectedScenario!) : null;
 
-              const stepFormula = hvacSub ? hvacSub.formula : resolveFormula(currentStep, state.selectedScenario!, necVersion);
-              const stepNecRef = hvacSub ? hvacSub.necReference : resolveNecReference(currentStep, necVersion);
-              const stepHint = hvacSub ? hvacSub.hint : getHintText(currentStep, state.selectedScenario!, state.answers, necVersion);
-              const canGoPrev = isHvacMotorSubStep ? state.currentStepIndex > 0 : (currentStep.id === "hvac" ? true : state.currentStepIndex > 0);
+              const fixedSubs = currentStep.id === "fixed-appliances" ? getFixedMotorSubSteps(state.selectedScenario!) : [];
+              const fixedIdx = state.fixedMotorSubStepIndex ?? 0;
+              const isFixedMotorSubStep = currentStep.id === "fixed-appliances" && fixedIdx < fixedSubs.length;
+              const fixedSub = isFixedMotorSubStep ? fixedSubs[fixedIdx] : null;
+
+              const activeSub = hvacSub || fixedSub;
+              const stepFormula = activeSub ? activeSub.formula : resolveFormula(currentStep, state.selectedScenario!, necVersion);
+              const stepNecRef = activeSub ? activeSub.necReference : resolveNecReference(currentStep, necVersion);
+              const stepHint = activeSub ? activeSub.hint : getHintText(currentStep, state.selectedScenario!, state.answers, necVersion);
+              const canGoPrev = isHvacMotorSubStep
+                ? state.currentStepIndex > 0
+                : isFixedMotorSubStep
+                  ? fixedIdx > 0 || state.currentStepIndex > 0
+                  : currentStep.id === "hvac" ? true : state.currentStepIndex > 0;
+
+              const motionKey = isHvacMotorSubStep
+                ? `${currentStep.id}-motor`
+                : isFixedMotorSubStep
+                  ? `${currentStep.id}-motor-${fixedIdx}`
+                  : currentStep.id;
 
               return (
                 <motion.div
-                  key={isHvacMotorSubStep ? `${currentStep.id}-motor` : currentStep.id}
+                  key={motionKey}
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                 >
@@ -801,6 +843,7 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
                     onTryAgain={handleTryAgain}
                     onPrevious={handlePreviousStep}
                     canGoPrevious={canGoPrev}
+                    onSaveAndExit={handleSaveAndExit}
                     currentStepIndex={state.currentStepIndex}
                     totalSteps={activeSteps.length}
                   />
@@ -840,9 +883,8 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
                   const answer = state.answers[step.id];
                   if (answer === undefined) return null;
 
-                  const isBeginner = state.difficulty === "beginner";
                   const currentStepId = activeSteps[state.currentStepIndex]?.id;
-                  const isHighlighted = isBeginner && currentStepId === "total-va" && TOTAL_VA_COMPONENT_STEPS.includes(step.id);
+                  const isHighlighted = currentStepId === "total-va" && TOTAL_VA_COMPONENT_STEPS.includes(step.id);
 
                   return (
                     <div
@@ -910,15 +952,21 @@ export default function LoadCalculatorPage({ headerExtra }: { headerExtra?: Reac
             />
           </CollapsibleCard>
         )}
-
-        {/* Save Indicator */}
-        {state.selectedScenario && (
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <Save className="h-4 w-4" />
-            Progress saved automatically
-          </div>
-        )}
       </motion.div>
     </CalculatorPageLayout>
+  );
+}
+
+export default function LoadCalculatorPage() {
+  return (
+    <Suspense fallback={
+      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh]">
+          <Loader2 className="h-8 w-8 animate-spin text-amber" />
+        </div>
+      </main>
+    }>
+      <ResidentialCalculatorInner />
+    </Suspense>
   );
 }

@@ -19,7 +19,7 @@ export interface HouseScenario {
   voltage: 120 | 240;
   appliances: Appliance[];
   description: string;
-  difficulty: "beginner" | "intermediate";
+  difficulty: "beginner" | "intermediate" | "expert";
 }
 
 export interface CalculationStep {

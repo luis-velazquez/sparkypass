@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 export function CalculatorPageLayout({
   isLoading,
   subtitle,
-  headerExtra,
   hasScenario,
   currentStepIndex,
   totalSteps,
@@ -17,7 +16,6 @@ export function CalculatorPageLayout({
 }: {
   isLoading: boolean;
   subtitle: string;
-  headerExtra?: React.ReactNode;
   hasScenario: boolean;
   currentStepIndex: number;
   totalSteps: number;
@@ -72,7 +70,6 @@ export function CalculatorPageLayout({
                 {subtitle}
               </p>
             </div>
-            {!hasScenario && headerExtra}
             {hasScenario && (
               <Button variant="outline" onClick={onReset} className="border-border dark:border-stone-700">
                 <RotateCcw className="h-4 w-4 mr-2" />

@@ -4,7 +4,7 @@ import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Eye, EyeOff, Loader2, CheckCircle, AlertCircle, Lock, Zap } from "lucide-react";
+import { Eye, EyeOff, Loader2, CheckCircle, AlertCircle, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -93,8 +93,7 @@ function ResetPasswordForm() {
             className="inline-flex items-center justify-center gap-2"
           >
             <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
           </Link>
           <div className="flex justify-center">
@@ -142,8 +141,7 @@ function ResetPasswordForm() {
             className="inline-flex items-center justify-center gap-2"
           >
             <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
           </Link>
           <div className="flex justify-center">
@@ -181,8 +179,7 @@ function ResetPasswordForm() {
           className="inline-flex items-center justify-center gap-2"
         >
           <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
         </Link>
         <div className="flex justify-center">
@@ -306,8 +303,7 @@ function ResetPasswordFallback() {
       <CardHeader className="text-center space-y-4">
         <div className="inline-flex items-center justify-center gap-2">
           <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
         </div>
         <CardTitle className="text-2xl font-bold font-display">Reset Password</CardTitle>

@@ -1,6 +1,6 @@
 // Shared types for load calculator
 
-export type DifficultyLevel = "beginner" | "intermediate";
+export type DifficultyLevel = "beginner" | "intermediate" | "expert";
 
 export interface DifficultyOption {
   id: DifficultyLevel;
@@ -13,23 +13,31 @@ export const DIFFICULTY_LEVELS: DifficultyOption[] = [
   {
     id: "beginner",
     name: "Beginner",
-    description: "Learn with full guidance",
+    description: "Learn the basics",
     features: [
-      "Equipment highlighting",
-      "Progress tracking (scratch-off)",
-      "Quick reference tracking",
-      "Step-by-step hints",
+      "Fewer loads & simpler HVAC",
+      "Fewer motors",
+      "Full UI guidance & hints",
     ],
   },
   {
     id: "intermediate",
     name: "Intermediate",
-    description: "Practice without visual aids",
+    description: "More equipment, more challenge",
     features: [
-      "No equipment highlighting",
-      "No progress tracking",
-      "Reference available but not tracked",
-      "Hints available on request",
+      "Larger buildings & more loads",
+      "More motors & multioutlet assemblies",
+      "Full UI guidance & hints",
+    ],
+  },
+  {
+    id: "expert",
+    name: "Expert",
+    description: "Complex real-world scenarios",
+    features: [
+      "Multiple cooking appliances & Note 2",
+      "Tight HVAC comparisons & large motors",
+      "Full UI guidance & hints",
     ],
   },
 ];
@@ -46,7 +54,6 @@ export interface HvacMotorSubStep {
 }
 
 export interface CalculatorState<TScenario> {
-  difficulty: DifficultyLevel | null;
   selectedScenario: TScenario | null;
   currentStepIndex: number;
   answers: Record<string, number>;
@@ -55,15 +62,17 @@ export interface CalculatorState<TScenario> {
   lastAnswerCorrect: boolean | null;
   sparkyMessage: string;
   isComplete: boolean;
-  manualScratchedOff: Set<string>;
   motorSubStepIndex?: number;
   motorSubStepAnswers?: Record<string, number>;
   hvacSubStepIndex?: number;
   hvacMotorVA?: number;
+  fixedMotorSubStepIndex?: number;
+  fixedMotorVAs?: Record<string, number>;
+  outletSubStepIndex?: number;
+  receptacleDemandVA?: number;
 }
 
 export interface SavedProgress {
-  difficulty: DifficultyLevel;
   scenarioId: string;
   currentStepIndex: number;
   answers: Record<string, number>;
@@ -72,6 +81,10 @@ export interface SavedProgress {
   motorSubStepAnswers?: Record<string, number>;
   hvacSubStepIndex?: number;
   hvacMotorVA?: number;
+  fixedMotorSubStepIndex?: number;
+  fixedMotorVAs?: Record<string, number>;
+  outletSubStepIndex?: number;
+  receptacleDemandVA?: number;
 }
 
 export interface CompletionResults {

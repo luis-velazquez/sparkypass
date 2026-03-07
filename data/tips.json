@@ -145,6 +145,50 @@
       ],
       "necReference": "Article 100 & 240.24",
       "sparkyBottomLine": "Think of 'Readily Accessible' as 'Ready for Anyone.' If a grandmother in a hurry can't reach the switch, it's probably not compliant."
+    },
+    {
+      "id": "tip-next-size-up-paradox",
+      "type": "proTip",
+      "title": "The \"Next Size Up\" Paradox",
+      "necReference": "240.4(B)",
+      "content": {
+        "question": "If my calculated load is 370A, my wire is rated for 380A, and I use a 400A breaker... why doesn't the wire burn down if the system draws 395A?",
+        "breakdown": [
+          {
+            "point": "The Magnetic Trip (Short Circuits)",
+            "detail": "If there is a massive fault, the current spikes to thousands of amps. The breaker's internal electromagnet trips instantly, protecting the wire before it even gets warm."
+          },
+          {
+            "point": "The Thermal Trip (Overloads)",
+            "detail": "For slow overloads, the breaker uses a thermal strip that takes time to heat up and trip. Because NEC Article 220 requires calculating continuous loads at 125%, your real-world draw is actually much lower than your calculated maximum."
+          }
+        ],
+        "bottomLine": "The NEC allows rounding up to standard breaker sizes to prevent nuisance tripping. It relies on conservative load calculations and the wire's thermal mass to safely handle temporary overloads while the breaker works."
+      }
+    },
+    {
+      "id": "tip-next-size-up-paradox",
+      "type": "proTip",
+      "title": "The \"Next Size Up\" Paradox & The Transformer Trap",
+      "necReference": "240.4(B), 240.21(C)",
+      "content": {
+        "question": "If my calculated load is 370A, my wire is rated for 380A, and I use a 400A breaker... why doesn't the wire burn down if the system draws 395A?",
+        "breakdown": [
+          {
+            "point": "The Magnetic Trip (Short Circuits)",
+            "detail": "If there is a massive fault, the current spikes to thousands of amps. The breaker's internal electromagnet trips instantly, protecting the wire before it even gets warm."
+          },
+          {
+            "point": "The Thermal Trip (Overloads)",
+            "detail": "For slow overloads, the breaker uses a thermal strip that takes time to heat up and trip. Because NEC Article 220 requires calculating continuous loads at 125%, your real-world draw is actually much lower than your calculated maximum."
+          }
+        ],
+        "theTrap": {
+          "title": "⚠️ THE TRANSFORMER TRAP [NEC 240.21(C)]",
+          "detail": "You CANNOT use the 240.4(B) 'next size up' rule for transformer secondary conductors! Because these are treated as tap conductors unprotected at their source, their ampacity MUST be equal to or greater than the rating of the overcurrent device at their termination. No rounding up allowed."
+        },
+        "bottomLine": "The NEC allows rounding up to standard breaker sizes for services and feeders to prevent nuisance tripping, relying on thermal mass and conservative calculations. But for transformer secondaries, the wire must always match or beat the breaker."
+      }
     }
   ]
 }

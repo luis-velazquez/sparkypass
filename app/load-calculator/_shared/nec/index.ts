@@ -16,3 +16,5 @@ export { applyReceptacleDemand, getReceptacleDemandTableRef } from "./demand-fac
 export { KITCHEN_DEMAND_FACTORS, getKitchenDemandFactor, getKitchenEquipmentTableRef } from "./kitchen-equipment-commercial";
 export { parseConductorInput, conductorSizeToCode, conductorCodeToLabel } from "./conductor-utils";
 export { getOutletLoadsRef, getTotalLoadRef, getMotorLoadRef, getHvacRef } from "./article-220-refs";
+export type { MotorInCalc, LargestMotorResult } from "./largest-motor";
+export { computeLargestMotor25, buildMotor25Prompt, buildMotor25Hint } from "./largest-motor";

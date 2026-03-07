@@ -10,6 +10,7 @@ import {
   XCircle,
   BookOpen,
   ArrowRight,
+  Save,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -33,6 +34,7 @@ export function StepInputArea({
   onTryAgain,
   onPrevious,
   canGoPrevious,
+  onSaveAndExit,
   currentStepIndex,
   totalSteps,
 }: {
@@ -53,6 +55,7 @@ export function StepInputArea({
   onTryAgain: () => void;
   onPrevious: () => void;
   canGoPrevious: boolean;
+  onSaveAndExit?: () => void;
   currentStepIndex: number;
   totalSteps: number;
 }) {
@@ -190,6 +193,12 @@ export function StepInputArea({
           <ChevronLeft className="h-4 w-4 mr-1" />
           Previous
         </Button>
+        {onSaveAndExit && (
+          <Button variant="outline" size="sm" onClick={onSaveAndExit} className="border-border dark:border-stone-700">
+            <Save className="h-4 w-4 mr-1" />
+            Save & Exit
+          </Button>
+        )}
         <span className="text-sm text-muted-foreground self-center">
           Step {currentStepIndex + 1} / {totalSteps}
         </span>

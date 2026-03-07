@@ -198,10 +198,7 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent side="left" className="w-[280px] sm:w-[320px] px-3">
         <SheetTitle className="flex items-center gap-3 mb-8">
-          <Zap className="h-7 w-7 text-amber dark:hidden" />
-          <div className="w-8 h-8 rounded-lg bg-stone-900 hidden dark:flex items-center justify-center">
-            <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-5 h-5" />
-          </div>
+          <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
           <span className="font-bold text-2xl">SparkyPass</span>
         </SheetTitle>
 

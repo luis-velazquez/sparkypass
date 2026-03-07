@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Loader2, CheckCircle, AlertCircle, Zap } from "lucide-react";
+import { Mail, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
@@ -141,8 +141,7 @@ function VerifyEmailContent() {
                 className="inline-flex items-center justify-center gap-2"
               >
                 <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
               </Link>
               <CardTitle className="text-2xl font-bold font-display">
@@ -221,8 +220,7 @@ function VerifyEmailContent() {
               className="inline-flex items-center justify-center gap-2"
             >
               <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
             </Link>
             <div className="flex justify-center">

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Loader2, CheckCircle, ArrowLeft, Zap } from "lucide-react";
+import { Mail, Loader2, CheckCircle, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -81,8 +81,7 @@ export default function ForgotPasswordPage() {
               className="inline-flex items-center justify-center gap-2"
             >
               <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <Zap className="w-7 h-7 text-amber dark:hidden" />
-                <img src="/lightning-bolt.svg" alt="SparkyPass" className="w-7 h-7 hidden dark:block" />
+                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
             </Link>
             {isSubmitted ? (

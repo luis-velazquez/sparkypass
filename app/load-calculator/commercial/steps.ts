@@ -12,20 +12,20 @@ import {
   LIGHTING_DEMAND_TABLE,
   applyLightingDemand,
   getLightingDemandTableRef,
-  applyReceptacleDemand,
   getReceptacleDemandTableRef,
   getKitchenDemandFactor,
   getKitchenEquipmentTableRef,
-  CONDUCTOR_TABLE,
-  getConductorSize,
-  getAluminumConductorSize,
-  getGECSize,
   getOutletLoadsRef,
   getTotalLoadRef,
   getMotorLoadRef,
   getHvacRef,
 } from "../_shared/nec";
-import { isAcMotorInCalc, getNonHvacMotorLoads, getMotorsInCalculation } from "./helpers";
+import {
+  computeLargestMotor25,
+  buildMotor25Prompt,
+  buildMotor25Hint,
+} from "../_shared/nec";
+import { isAcMotorInCalc, getNonHvacMotorLoads, getMotorsInCalculation, toMotorsForCalc } from "./helpers";
 
 export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
   // Step 1: General Lighting Load — table ref is version-aware
@@ -101,7 +101,7 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
 
         let formula: string;
         if (scenario.acMotor.phase === 3) {
-          formula = `${flc} × ${scenario.acMotor.voltage}V × √3 = ${acVA.toLocaleString()} VA`;
+          formula = `${flc} × ${scenario.acMotor.voltage}V × 1.732 = ${acVA.toLocaleString()} VA`;
         } else {
           formula = `${flc} × ${scenario.acMotor.voltage}V = ${acVA.toLocaleString()} VA`;
         }
@@ -132,48 +132,65 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
     },
     validateAnswer: (user, expected) => Math.abs(user - expected) <= 100,
   },
-  // Step 4: Outlet Loads (220.14 / 120.14)
+  // Step 4: Other Loads (220.14 / 120.14) — merged with receptacle demand
+  // Sub-step 0: Receptacle demand (handled in page.tsx via getOutletDemandSubStep)
+  // Sub-step 1: Total other loads (receptacle demand + show windows + lampholders + sign)
   {
     id: "outlet-loads",
-    title: (v) => `Outlet Loads (${getOutletLoadsRef(v)})`,
+    title: (v) => `Other Loads (${getOutletLoadsRef(v)})`,
     sparkyPrompt: (scenario, v = "2023") => {
+      const ref = getOutletLoadsRef(v);
+      const demandRef = getReceptacleDemandTableRef(v);
+
+      // Compute receptacle demand for display in the prompt
+      const standardRecepts = (scenario.receptacles || 0) * 180;
+      const multiOutlet = (scenario.multioutletAssemblyFeet || 0) * 180;
+      const receptacleBaseLoad = standardRecepts + multiOutlet;
+      let receptDemand = receptacleBaseLoad;
+      if (receptacleBaseLoad > 10000) {
+        receptDemand = 10000 + Math.round((receptacleBaseLoad - 10000) * 0.5);
+      }
+
       const details: string[] = [];
-      if (scenario.lampholders > 0) details.push("heavy-duty lampholders are 600 VA each");
-      if (scenario.receptacles > 0) details.push("receptacle outlets are 180 VA each");
-      if (scenario.multioutletAssemblyFeet > 0) details.push("multioutlet assemblies are 180 VA per foot");
-      if (scenario.showWindowFeet > 0) details.push("show window lighting is 200 VA per linear foot");
-      if (scenario.hasSignOutlet) details.push("each required sign outlet is 1,200 VA per 600.5(A)");
-      // Capitalize first item and join with commas + "and"
+      if (receptDemand > 0) details.push(`receptacle demand (${receptDemand.toLocaleString()} VA from ${demandRef})`);
+      if (scenario.showWindowFeet > 0) details.push(`show window lighting at 200 VA/ft`);
+      if (scenario.lampholders > 0) details.push(`heavy-duty lampholders at 600 VA each`);
+      if (scenario.hasSignOutlet) details.push(`sign outlet at 1,200 VA per 600.5(A)`);
+
       if (details.length > 0) {
         details[0] = details[0].charAt(0).toUpperCase() + details[0].slice(1);
       }
       const joined = details.length <= 2
         ? details.join(" and ")
         : details.slice(0, -1).join(", ") + ", and " + details[details.length - 1];
-      return `Calculate the total outlet loads. Per ${getOutletLoadsRef(v)}: ${joined}.`;
+
+      return `Now add together all the other loads: ${joined}. Per ${ref}, non-receptacle loads stay at 100%.`;
     },
     hint: (scenario) => {
+      // Compute receptacle demand
+      const standardRecepts = (scenario.receptacles || 0) * 180;
+      const multiOutlet = (scenario.multioutletAssemblyFeet || 0) * 180;
+      const receptacleBaseLoad = standardRecepts + multiOutlet;
+      let receptDemand = receptacleBaseLoad;
+      if (receptacleBaseLoad > 10000) {
+        receptDemand = 10000 + Math.round((receptacleBaseLoad - 10000) * 0.5);
+      }
+
       const parts: string[] = [];
       let total = 0;
 
-      if (scenario.lampholders > 0) {
-        const val = scenario.lampholders * 600;
-        parts.push(`Lampholders: ${scenario.lampholders} × 600 VA = ${val.toLocaleString()} VA`);
-        total += val;
-      }
-      if (scenario.receptacles > 0) {
-        const recept = scenario.receptacles * 180;
-        parts.push(`Receptacles: ${scenario.receptacles} × 180 VA = ${recept.toLocaleString()} VA`);
-        total += recept;
-      }
-      if (scenario.multioutletAssemblyFeet > 0) {
-        const val = scenario.multioutletAssemblyFeet * 180;
-        parts.push(`Multioutlet Assembly: ${scenario.multioutletAssemblyFeet} ft × 180 VA = ${val.toLocaleString()} VA`);
-        total += val;
+      if (receptDemand > 0) {
+        parts.push(`Receptacle Demand: ${receptDemand.toLocaleString()} VA`);
+        total += receptDemand;
       }
       if (scenario.showWindowFeet > 0) {
         const val = scenario.showWindowFeet * 200;
         parts.push(`Show Window: ${scenario.showWindowFeet} ft × 200 VA = ${val.toLocaleString()} VA`);
+        total += val;
+      }
+      if (scenario.lampholders > 0) {
+        const val = scenario.lampholders * 600;
+        parts.push(`Lampholders: ${scenario.lampholders} × 600 VA = ${val.toLocaleString()} VA`);
         total += val;
       }
       if (scenario.hasSignOutlet) {
@@ -183,83 +200,34 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
 
       return parts.join("\n") + `\n\nTotal: ${total.toLocaleString()} VA`;
     },
-    necReference: (v) => `NEC ${getOutletLoadsRef(v)}, 600.5(A)`,
+    necReference: (v) => `NEC ${getOutletLoadsRef(v)}, ${getReceptacleDemandTableRef(v)}, 600.5(A)`,
     inputType: "calculation",
-    formula: (scenario) => {
+    formula: (scenario, v = "2023") => {
       const parts: string[] = [];
-      if (scenario.lampholders > 0) parts.push("Lampholders×600");
-      if (scenario.receptacles > 0) parts.push("Recepts×180");
-      if (scenario.multioutletAssemblyFeet > 0) parts.push("Multioutlet ft×180");
-      if (scenario.showWindowFeet > 0) parts.push("Show Window ft×200");
+      const standardRecepts = (scenario.receptacles || 0) * 180;
+      const multiOutlet = (scenario.multioutletAssemblyFeet || 0) * 180;
+      if (standardRecepts + multiOutlet > 0) parts.push(`Recept Demand (${getReceptacleDemandTableRef(v)})`);
+      if (scenario.showWindowFeet > 0) parts.push("(Show Window ft × 200)");
+      if (scenario.lampholders > 0) parts.push("(Lampholders × 600)");
       if (scenario.hasSignOutlet) parts.push("Sign 1,200");
       return parts.join(" + ");
     },
     expectedAnswer: (scenario) => {
-      let total = 0;
-      if (scenario.lampholders > 0) total += scenario.lampholders * 600;
-      if (scenario.receptacles > 0) total += scenario.receptacles * 180;
-      if (scenario.multioutletAssemblyFeet > 0) total += scenario.multioutletAssemblyFeet * 180;
-      if (scenario.showWindowFeet > 0) total += scenario.showWindowFeet * 200;
-      if (scenario.hasSignOutlet) total += 1200;
-      return total;
-    },
-    validateAnswer: (user, expected) => Math.abs(user - expected) <= 100,
-  },
-  // Step 5: Receptacle Demand Factor — table ref is version-aware
-  // Per 220.14(F)/600.5(A), sign outlet (1,200 VA) is NOT a receptacle load.
-  // Apply demand only to receptacle-type loads, then add sign at 100%.
-  {
-    id: "receptacle-demand",
-    title: (v) => `Receptacle Demand Factor (${getReceptacleDemandTableRef(v)})`,
-    sparkyPrompt: (scenario, v = "2023") => {
-      const ref = getReceptacleDemandTableRef(v);
-      if (scenario.hasSignOutlet) {
-        return `Apply the demand factors from ${ref}, but note: the sign outlet is required per 600.5(A) and calculated under ${getOutletLoadsRef(v)}(F). Because it is NOT a standard receptacle load, it stays at 100% and is not subject to ${ref} demand. Subtract the sign outlet first, apply the demand factor to the remaining receptacle-type loads, then add the sign outlet back at full value.`;
+      // Receptacle demand
+      const standardRecepts = (scenario.receptacles || 0) * 180;
+      const multiOutlet = (scenario.multioutletAssemblyFeet || 0) * 180;
+      const receptacleBaseLoad = standardRecepts + multiOutlet;
+      let receptDemand = receptacleBaseLoad;
+      if (receptacleBaseLoad > 10000) {
+        receptDemand = 10000 + Math.round((receptacleBaseLoad - 10000) * 0.5);
       }
-      return `Apply the demand factors from ${ref} to the total outlet load. The first 10 kVA is at 100%, and the remainder is at 50%. If the total is under 10 kVA, use 100%.`;
-    },
-    hint: (scenario, prev) => {
-      const outletTotal = prev["outlet-loads"] || 0;
+
+      // Non-receptacle loads at 100%
       const signVA = scenario.hasSignOutlet ? 1200 : 0;
-      const receptacleLoads = outletTotal - signVA;
-      const receptDemand = applyReceptacleDemand(receptacleLoads);
+      const showWindowVA = (scenario.showWindowFeet || 0) * 200;
+      const lampholderVA = (scenario.lampholders || 0) * 600;
 
-      if (scenario.hasSignOutlet) {
-        let hint = `Total outlet load: ${outletTotal.toLocaleString()} VA\n`;
-        hint += `Sign outlet (600.5(A)): −${signVA.toLocaleString()} VA (not a receptacle)\n`;
-        hint += `Receptacle loads: ${receptacleLoads.toLocaleString()} VA\n\n`;
-
-        if (receptacleLoads <= 10000) {
-          hint += `Under 10 kVA → 100%\nReceptacle demand: ${receptacleLoads.toLocaleString()} VA\n`;
-        } else {
-          const remainder = receptacleLoads - 10000;
-          const demandRemainder = Math.round(remainder * 0.5);
-          hint += `First 10,000 VA @ 100% = 10,000 VA\n`;
-          hint += `Remainder: ${remainder.toLocaleString()} VA @ 50% = ${demandRemainder.toLocaleString()} VA\n`;
-          hint += `Receptacle demand: 10,000 + ${demandRemainder.toLocaleString()} = ${receptDemand.toLocaleString()} VA\n`;
-        }
-
-        const total = receptDemand + signVA;
-        hint += `\nAdd sign back: ${receptDemand.toLocaleString()} + ${signVA.toLocaleString()} = ${total.toLocaleString()} VA`;
-        return hint;
-      }
-
-      if (outletTotal <= 10000) {
-        return `Total outlet load: ${outletTotal.toLocaleString()} VA\n\nUnder 10 kVA → 100%\nDemand: ${outletTotal.toLocaleString()} VA`;
-      }
-
-      const remainder = outletTotal - 10000;
-      const demandRemainder = Math.round(remainder * 0.5);
-      const total = 10000 + demandRemainder;
-      return `Total outlet load: ${outletTotal.toLocaleString()} VA\n\nFirst 10,000 VA @ 100% = 10,000 VA\nRemainder: ${remainder.toLocaleString()} VA @ 50% = ${demandRemainder.toLocaleString()} VA\n\nDemand: 10,000 + ${demandRemainder.toLocaleString()} = ${total.toLocaleString()} VA`;
-    },
-    necReference: (v) => `NEC ${getReceptacleDemandTableRef(v)}, 600.5(A)`,
-    inputType: "calculation",
-    formula: (_scenario, v = "2023") => `Subtract sign outlet, apply ${getReceptacleDemandTableRef(v)} to remainder, add sign back`,
-    expectedAnswer: (scenario, prev) => {
-      const outletTotal = prev["outlet-loads"] || 0;
-      const signVA = scenario.hasSignOutlet ? 1200 : 0;
-      return applyReceptacleDemand(outletTotal - signVA) + signVA;
+      return receptDemand + signVA + showWindowVA + lampholderVA;
     },
     validateAnswer: (user, expected) => Math.abs(user - expected) <= 100,
   },
@@ -314,7 +282,7 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
         return "This building has no non-HVAC motors to convert. The A/C motor was already handled in the HVAC step. Enter 0.";
       }
       const heatWon = scenario.acMotor && !isAcMotorInCalc(scenario);
-      let prompt = "Now let's convert the non-HVAC motors from HP to VA. Use Table 430.248 for single-phase motors and Table 430.250 for three-phase motors. Look up the FLC (Full-Load Current), then multiply by voltage (and × √3 for three-phase).";
+      let prompt = "Now let's convert the non-HVAC motors from HP to VA. Use Table 430.248 for single-phase motors and Table 430.250 for three-phase motors. Look up the FLC (Full-Load Current), then multiply by voltage (and × 1.732 for three-phase).";
       if (heatWon) {
         prompt += ` Note: the A/C motor was excluded by ${getHvacRef(v)} (heating was larger), so it's not included here.`;
       } else {
@@ -335,7 +303,7 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
         hint += `\n• ${m.name}: ${m.hp} HP, ${phaseLabel} @ ${m.voltage}V\n`;
         hint += `  Table ${tableNum} (${tableCol}): ${flc} A\n`;
         if (m.phase === 3) {
-          hint += `  ${flc} × ${m.voltage}V × √3 = ${m.va.toLocaleString()} VA\n`;
+          hint += `  ${flc} × ${m.voltage}V × 1.732 = ${m.va.toLocaleString()} VA\n`;
         } else {
           hint += `  ${flc} × ${m.voltage}V = ${m.va.toLocaleString()} VA\n`;
         }
@@ -348,7 +316,7 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
     },
     necReference: "NEC Table 430.248/430.250",
     inputType: "calculation",
-    formula: "FLC (from table) × Voltage (× √3 for 3Ø) → enter total motor VA",
+    formula: "FLC (from table) × Voltage (× 1.732 for 3Ø) → enter total motor VA",
     expectedAnswer: (scenario) => {
       const motors = getNonHvacMotorLoads(scenario);
       if (motors.length === 0) return 0;
@@ -357,40 +325,17 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
     validateAnswer: (user, expected) => Math.abs(user - expected) <= 50,
   },
   // Step 8: Largest Motor +25% (220.50 / 120.50)
-  // Uses getMotorsInCalculation() which includes A/C when it won the HVAC comparison,
-  // and excludes it when heating won.
+  // Uses shared largest-motor logic; A/C included when it won HVAC, excluded when heating won.
   {
     id: "largest-motor-25",
     title: (v) => `Largest Motor +25% (${getMotorLoadRef(v)})`,
     sparkyPrompt: (scenario, v = "2023") => {
-      const motors = getMotorsInCalculation(scenario);
-      if (motors.length === 0) {
-        return "There are no motors in this calculation. Enter 0.";
-      }
-      let prompt = `Per ${getMotorLoadRef(v)} and 430.24, add 25% of the largest motor's VA load to the service calculation. Consider all motors whose loads are included in our total.`;
-      if (scenario.acMotor && isAcMotorInCalc(scenario)) {
-        prompt += ` Remember: the A/C motor (from the HVAC step) won ${getHvacRef(v)}, so its load IS in the calculation — include it when finding the largest motor.`;
-      }
-      return prompt;
+      const hasAcMotor = !!scenario.acMotor;
+      return buildMotor25Prompt(computeLargestMotor25(toMotorsForCalc(scenario), hasAcMotor), v);
     },
-    hint: (scenario) => {
-      const motors = getMotorsInCalculation(scenario);
-      if (motors.length === 0) return "No motors in the calculation — enter 0.";
-
-      let hint = "Motors in the calculation:\n";
-      motors.forEach(m => {
-        const note = (scenario.acMotor && m.name === scenario.acMotor.name && isAcMotorInCalc(scenario))
-          ? " (from HVAC step)"
-          : "";
-        hint += `• ${m.name}${note}: ${m.va.toLocaleString()} VA\n`;
-      });
-
-      const largest = motors.reduce((max, m) => m.va > max.va ? m : max);
-      const addition = Math.round(largest.va * 0.25);
-      hint += `\nLargest: ${largest.name} at ${largest.va.toLocaleString()} VA\n`;
-      hint += `25% of ${largest.va.toLocaleString()} = ${addition.toLocaleString()} VA`;
-
-      return hint;
+    hint: (scenario, _prev, v = "2023") => {
+      const hasAcMotor = !!scenario.acMotor;
+      return buildMotor25Hint(computeLargestMotor25(toMotorsForCalc(scenario), hasAcMotor), v);
     },
     necReference: (v) => `NEC ${getMotorLoadRef(v)}`,
     inputType: "calculation",
@@ -417,19 +362,19 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
     hint: (scenario, prev) => {
       const lightingDemand = prev["lighting-demand"] || 0;
       const hvac = prev["hvac"] || 0;
-      const receptDemand = prev["receptacle-demand"] || 0;
+      const otherLoads = prev["outlet-loads"] || 0;
       const kitchen = prev["kitchen-demand"] || 0;
       const motorLoads = prev["convert-motors"] || 0;
       const motor25 = prev["largest-motor-25"] || 0;
 
       let hint = `Lighting Demand: ${lightingDemand.toLocaleString()} VA\n`;
       hint += `HVAC: ${hvac.toLocaleString()} VA\n`;
-      hint += `Receptacle Demand: ${receptDemand.toLocaleString()} VA\n`;
+      hint += `Other Loads: ${otherLoads.toLocaleString()} VA\n`;
       hint += `Kitchen Equipment: ${kitchen.toLocaleString()} VA\n`;
       hint += `Motor Loads: ${motorLoads.toLocaleString()} VA\n`;
       hint += `Largest Motor 25%: ${motor25.toLocaleString()} VA\n`;
 
-      const total = lightingDemand + hvac + receptDemand + kitchen + motorLoads + motor25;
+      const total = lightingDemand + hvac + otherLoads + kitchen + motorLoads + motor25;
       hint += `\nTotal: ${total.toLocaleString()} VA`;
 
       return hint;
@@ -440,91 +385,42 @@ export const COMMERCIAL_CALCULATION_STEPS: CommercialCalculationStep[] = [
     expectedAnswer: (scenario, prev) => {
       const lightingDemand = prev["lighting-demand"] || 0;
       const hvac = prev["hvac"] || 0;
-      const receptDemand = prev["receptacle-demand"] || 0;
+      const otherLoads = prev["outlet-loads"] || 0;
       const kitchen = prev["kitchen-demand"] || 0;
       const motorLoads = prev["convert-motors"] || 0;
       const motor25 = prev["largest-motor-25"] || 0;
-      return lightingDemand + hvac + receptDemand + kitchen + motorLoads + motor25;
+      return lightingDemand + hvac + otherLoads + kitchen + motorLoads + motor25;
     },
     validateAnswer: (user, expected) => Math.abs(user - expected) <= 500,
   },
-  // Step 10: Service Conductor Sizing (Table 310.16)
+  // Step 10: Service Amps
   {
     id: "service-conductor",
-    title: "Service Conductor (Table 310.16)",
-    sparkyPrompt: (_scenario, v = "2023") => {
+    title: "Service Amps",
+    sparkyPrompt: (scenario, v = "2023") => {
       const ref = getFractionsOfAnAmpereRef(v);
-      return `Divide the total VA by the service voltage to get the minimum ampacity. For three-phase 208V, use 360 as the divisor per NEC Annex D. Round per ${ref}: if the decimal is 0.5 or greater, round up to the next whole number. Then look up the conductor size in Table 310.16 (75°C copper column). Enter the ampacity rating from the table.`;
+      return `Final step! Calculate the service amperage by dividing total VA by the service voltage${scenario.phases === 3 ? " (voltage × 1.732 for three-phase)" : ""}. Round per ${ref}: 0.5 or greater rounds up.`;
     },
     hint: (scenario, prev, v = "2023") => {
       const ref = getFractionsOfAnAmpereRef(v);
       const totalVA = prev["total-va"] || 0;
       const rawAmps = getServiceAmps(totalVA, scenario.voltage, scenario.phases);
       const roundedAmps = roundFractionalAmps(rawAmps);
-      const conductor = getConductorSize(roundedAmps);
-      const aluminumConductor = getAluminumConductorSize(roundedAmps);
 
-      let formula: string;
       if (scenario.phases === 3) {
-        const divisor = scenario.voltage === 208 ? 360 : Math.round(scenario.voltage * Math.sqrt(3) * 10) / 10;
-        formula = `${totalVA.toLocaleString()} VA ÷ ${divisor} = ${rawAmps.toFixed(1)} → ${roundedAmps}A per ${ref}`;
-      } else {
-        formula = `${totalVA.toLocaleString()} VA ÷ ${scenario.voltage}V = ${rawAmps.toFixed(1)} → ${roundedAmps}A per ${ref}`;
+        return `${totalVA.toLocaleString()} VA ÷ (${scenario.voltage} × 1.732) = ${rawAmps.toFixed(1)}A\nPer ${ref}: ${rawAmps.toFixed(1)} → ${roundedAmps}A`;
       }
-
-      let result = `${formula}\n\nTable 310.16 — 75°C Cu:\nMinimum conductor: ${conductor.size} AWG/kcmil\nAmpacity: ${conductor.ampacity}A`;
-      if (aluminumConductor) {
-        result += `\n\nTable 310.16 — 75°C Al:\nMinimum conductor: ${aluminumConductor.size} AWG/kcmil\nAmpacity: ${aluminumConductor.aluminumAmpacity}A`;
-      }
-      result += `\n\nEnter the copper ampacity: ${conductor.ampacity}`;
-      return result;
+      return `${totalVA.toLocaleString()} VA ÷ ${scenario.voltage}V = ${rawAmps.toFixed(1)}A\nPer ${ref}: ${rawAmps.toFixed(1)} → ${roundedAmps}A`;
     },
-    necReference: (v) => `NEC ${getFractionsOfAnAmpereRef(v)}, Table 310.16`,
+    necReference: (v) => `NEC ${getFractionsOfAnAmpereRef(v)}`,
     inputType: "calculation",
-    formula: (_scenario, v = "2023") => `Total VA ÷ 360 (208V 3Ø) → round per ${getFractionsOfAnAmpereRef(v)} → Table 310.16`,
-    expectedAnswer: (scenario, prev) => {
+    formula: (scenario, v = "2023") => scenario.phases === 3
+      ? `Total VA ÷ (${scenario.voltage} × 1.732) → round per ${getFractionsOfAnAmpereRef(v)}`
+      : `Total VA ÷ ${scenario.voltage}V → round per ${getFractionsOfAnAmpereRef(v)}`,
+    expectedAnswer: (_scenario, prev) => {
       const totalVA = prev["total-va"] || 0;
-      const amps = getServiceAmps(totalVA, scenario.voltage, scenario.phases);
-      return getConductorSize(amps).ampacity;
-    },
-    validateAnswer: (user, expected) => {
-      // Accept the exact ampacity from the table
-      const validAmpacities = CONDUCTOR_TABLE.map(c => c.ampacity);
-      return validAmpacities.includes(user) && user >= expected;
-    },
-  },
-  // Step 11: GEC Sizing (Table 250.66)
-  {
-    id: "gec-size",
-    title: "GEC Sizing (Table 250.66)",
-    sparkyPrompt: "Finally, size the Grounding Electrode Conductor (GEC) using Table 250.66. Look up the service conductor size from the previous step and find the required GEC size. Enter the GEC AWG number (use 10 for 1/0, 20 for 2/0, 30 for 3/0).",
-    hint: (scenario, prev) => {
-      const totalVA = prev["total-va"] || 0;
-      const amps = getServiceAmps(totalVA, scenario.voltage, scenario.phases);
-      const conductor = getConductorSize(amps);
-      const gecSize = getGECSize(conductor.size);
-
-      let gecDisplay = gecSize;
-      let gecEntry = gecSize;
-      if (gecSize === "1/0") { gecEntry = "10"; gecDisplay = "1/0 (enter 10)"; }
-      else if (gecSize === "2/0") { gecEntry = "20"; gecDisplay = "2/0 (enter 20)"; }
-      else if (gecSize === "3/0") { gecEntry = "30"; gecDisplay = "3/0 (enter 30)"; }
-
-      return `Service conductor: ${conductor.size} AWG/kcmil (${conductor.ampacity}A)\n\nTable 250.66:\n${conductor.size} conductor → ${gecSize} AWG GEC\n\nEnter: ${gecEntry}`;
-    },
-    necReference: "NEC Table 250.66",
-    inputType: "calculation",
-    formula: "Service conductor size → Table 250.66 → GEC AWG",
-    expectedAnswer: (scenario, prev) => {
-      const totalVA = prev["total-va"] || 0;
-      const amps = getServiceAmps(totalVA, scenario.voltage, scenario.phases);
-      const conductor = getConductorSize(amps);
-      const gecSize = getGECSize(conductor.size);
-      // Convert to numeric: 1/0→10, 2/0→20, 3/0→30, else parse
-      if (gecSize === "1/0") return 10;
-      if (gecSize === "2/0") return 20;
-      if (gecSize === "3/0") return 30;
-      return parseInt(gecSize);
+      const amps = getServiceAmps(totalVA, _scenario.voltage, _scenario.phases);
+      return roundFractionalAmps(amps);
     },
     validateAnswer: (user, expected) => user === expected,
   },

@@ -14,11 +14,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface HistoryEntry {
-  expression: string;
-  result: string;
-}
-
 const OPERATORS = ["+", "−", "×", "÷"];
 const KEY_TO_BUTTON: Record<string, string> = {
   "0": "0", "1": "1", "2": "2", "3": "3", "4": "4",
@@ -60,7 +55,6 @@ export function MiniCalculator({ onResult }: { onResult: (value: string) => void
   const [lastResult, setLastResult] = useState<string | null>(null);
   const [lastExpression, setLastExpression] = useState("");
 
-  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [activeKey, setActiveKey] = useState<string | null>(null);
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -219,15 +213,11 @@ export function MiniCalculator({ onResult }: { onResult: (value: string) => void
 
     if (result === null) return;
 
-    const displayExpr = parts.join(" ");
     const rounded = Math.round(result * 100) / 100;
-    const resultStr = isFinite(rounded) ? rounded.toLocaleString() : "Error";
-
-    setHistory(prev => [...prev.slice(-4), { expression: displayExpr, result: resultStr }]);
 
     if (isFinite(rounded)) {
       setLastResult(String(rounded));
-      setLastExpression(displayExpr);
+      setLastExpression(parts.join(" "));
       setExpression([]);
       setCurrentNumber("");
       setEvaluated(true);
@@ -266,7 +256,6 @@ export function MiniCalculator({ onResult }: { onResult: (value: string) => void
     startFresh();
     setLastResult(null);
     setLastExpression("");
-    setHistory([]);
   }, [startFresh]);
 
   const flashKey = useCallback((buttonId: string) => {
@@ -361,21 +350,6 @@ export function MiniCalculator({ onResult }: { onResult: (value: string) => void
       onBlur={() => setIsFocused(false)}
       className="p-3 rounded-xl outline-none"
     >
-      {/* History */}
-      {history.length > 0 && (
-        <div className="space-y-0.5 max-h-20 overflow-y-auto mb-2">
-          {history.map((entry, i) => (
-            <div
-              key={i}
-              className="text-xs font-mono text-muted-foreground text-right truncate"
-              style={{ opacity: 0.4 + (i / history.length) * 0.6 }}
-            >
-              {entry.expression} = {entry.result}
-            </div>
-          ))}
-        </div>
-      )}
-
       {/* Display */}
       <div className={`rounded-xl border p-3 text-right transition-colors mb-3 ${
         isFocused ? "bg-amber/5 border-amber/20" : "bg-muted border-transparent"

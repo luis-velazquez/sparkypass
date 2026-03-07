@@ -11,13 +11,26 @@ import {
   getGECSize,
   parseConductorInput,
   conductorSizeToCode,
+  getMotorLoadRef,
+  computeLargestMotor25,
+  buildMotor25Prompt,
+  buildMotor25Hint,
 } from "../_shared/nec";
 import {
-  getMotorAppliances,
   getLargestMotorWatts,
+  toMotorsForCalc,
   getFixedAppliances,
   getFixedAppliancesWatts,
 } from "./helpers";
+import { calculateCookingDemand } from "../_shared/table-220-55";
+import type { CookingAppliance } from "../_shared/table-220-55";
+
+/** Extract cooking appliances (range, cooktop) from a scenario */
+function getCookingAppliances(scenario: HouseScenario): CookingAppliance[] {
+  return scenario.appliances
+    .filter(a => a.id === "range" || a.id === "cooktop" || a.id === "wall-oven")
+    .map(a => ({ name: a.name, watts: a.watts }));
+}
 
 export const CALCULATION_STEPS: CalculationStep[] = [
   // Step 1: General Lighting (220.41)
@@ -143,7 +156,7 @@ export const CALCULATION_STEPS: CalculationStep[] = [
   {
     id: "fixed-appliances",
     title: "Fixed Appliances (220.53)",
-    sparkyPrompt: "Now calculate the fixed appliances load. This includes water heater, dishwasher, disposal, microwave, wine cooler, pool pump, etc. Any motor appliances need to be converted from HP to watts using Table 430.248 (amps × voltage). If you have 4 or more fixed appliances, apply a 75% demand factor.",
+    sparkyPrompt: "Now calculate the fixed appliances load. Per 220.53, this includes water heater, dishwasher, disposal, microwave, wine cooler, pool pump, hot tub, etc. — but NOT cooking equipment, dryers, heating/cooling, or EV chargers. Any motor appliances need to be converted from HP to watts using Table 430.248 (amps × voltage). If you have 4 or more fixed appliances, apply a 75% demand factor.",
     hint: (scenario) => {
       const fixedAppliances = getFixedAppliances(scenario);
       if (fixedAppliances.length === 0) return "No fixed appliances - enter 0.";
@@ -205,96 +218,48 @@ export const CALCULATION_STEPS: CalculationStep[] = [
   {
     id: "range",
     title: "Range/Cooking Equipment (Table 220.55)",
-    sparkyPrompt: "Now for cooking equipment using Table 220.55. First, determine which column applies based on the appliance rating: Column A (<3½ kW) or Column B (3½–8¾ kW) use 80% of nameplate. Column C (≥8¾ kW) uses 8 kW max demand for a single range ≤12 kW, with a 5% increase per kW over 12 kW. If there's a separate cooktop and oven, combine them and use Column C per Note 3.",
+    sparkyPrompt: (scenario) => {
+      const cooking = getCookingAppliances(scenario);
+      if (cooking.length === 0) return "No cooking equipment for this dwelling — enter 0.";
+      if (cooking.length === 1) {
+        const w = cooking[0].watts;
+        if (w < 3500) return `Time for cooking equipment! Table 220.55, Column A applies to appliances under 3½ kW. Apply the 80% demand factor to the nameplate rating.`;
+        if (w < 8750) return `Time for cooking equipment! Table 220.55, Column B applies to appliances rated 3½–8¾ kW. Apply the 80% demand factor to the nameplate rating.`;
+        if (w <= 12000) return `Time for cooking equipment! Table 220.55, Column C applies to appliances ≥8¾ kW. For a single range rated ≤12 kW, look up the maximum demand in Column C.`;
+        return `Time for cooking equipment! Table 220.55, Column C applies. This range exceeds 12 kW, so per Note 1, increase the Column C demand by 5% for each kW (or major fraction thereof) that the rating exceeds 12 kW.`;
+      }
+      return `Time for cooking equipment! With ${cooking.length} separate cooking appliances, we use Table 220.55 Note 2 — the averaging method. Step 1: Adjust each appliance to a minimum of 12 kW. Step 2: Average the adjusted ratings. Step 3: Look up Column C for ${cooking.length} appliances. Step 4: If the average exceeds 12 kW, increase by 5% per kW over 12. Step 5: Apply the multiplier to get the final demand.`;
+    },
     hint: (scenario) => {
-      const range = scenario.appliances.find(a => a.id === "range");
-      const cooktop = scenario.appliances.find(a => a.id === "cooktop");
-
-      if (!range && !cooktop) return "No cooking equipment — enter 0.";
-
-      let hint = "";
-
-      // Note 3: Separate cooktop + range → combine and use Column C
-      if (range && cooktop) {
-        const totalWatts = range.watts + cooktop.watts;
-        hint = `Note 3: Combine separate units\nRange: ${range.watts.toLocaleString()} W\nCooktop: ${cooktop.watts.toLocaleString()} W\nCombined: ${totalWatts.toLocaleString()} W\n\n`;
-
-        if (totalWatts <= 12000) {
-          hint += `Column C: 8,000 VA for ≤12 kW`;
-        } else {
-          const overKW = Math.ceil((totalWatts - 12000) / 1000);
-          const demand = Math.round(8000 * (1 + (overKW * 0.05)));
-          hint += `Exceeds 12 kW by ${overKW} kW\n8,000 × ${(1 + overKW * 0.05).toFixed(2)} = ${demand.toLocaleString()} VA`;
-        }
-        return hint;
-      }
-
-      // Single appliance
-      const appliance = range || cooktop;
-      const watts = appliance!.watts;
-      hint = `${appliance!.name}: ${watts.toLocaleString()} W\n\n`;
-
-      if (watts < 3500) {
-        hint += `Column A (<3½ kW): 80% of nameplate\n${watts.toLocaleString()} × 0.80 = ${Math.round(watts * 0.80).toLocaleString()} VA`;
-      } else if (watts < 8750) {
-        hint += `Column B (3½–8¾ kW): 80% of nameplate\n${watts.toLocaleString()} × 0.80 = ${Math.round(watts * 0.80).toLocaleString()} VA`;
-      } else if (watts <= 12000) {
-        hint += `Column C (≥8¾ kW): 8,000 VA for ≤12 kW`;
-      } else {
-        const overKW = Math.ceil((watts - 12000) / 1000);
-        const demand = Math.round(8000 * (1 + (overKW * 0.05)));
-        hint += `Column C: Exceeds 12 kW by ${overKW} kW\n8,000 × ${(1 + overKW * 0.05).toFixed(2)} = ${demand.toLocaleString()} VA`;
-      }
-
-      return hint;
+      const cooking = getCookingAppliances(scenario);
+      return calculateCookingDemand(cooking).hint;
     },
     necReference: "NEC Table 220.55",
     inputType: "calculation",
-    formula: "Table 220.55 (Col A/B: 80% | Col C: 8 kW for ≤12 kW)",
+    formula: (scenario) => {
+      const cooking = getCookingAppliances(scenario);
+      if (cooking.length <= 1) return "Table 220.55 (Col A/B: 80% | Col C: 8 kW for ≤12 kW)";
+      return "Table 220.55 Note 2 — Averaging Method";
+    },
     expectedAnswer: (scenario) => {
-      const range = scenario.appliances.find(a => a.id === "range");
-      const cooktop = scenario.appliances.find(a => a.id === "cooktop");
-
-      if (!range && !cooktop) return 0;
-
-      // Note 3: Separate cooktop + range → combine and use Column C
-      if (range && cooktop) {
-        const totalWatts = range.watts + cooktop.watts;
-        if (totalWatts <= 12000) return 8000;
-        const overKW = Math.ceil((totalWatts - 12000) / 1000);
-        return Math.round(8000 * (1 + (overKW * 0.05)));
-      }
-
-      // Single appliance
-      const watts = (range || cooktop)!.watts;
-      if (watts < 8750) return Math.round(watts * 0.80);
-      if (watts <= 12000) return 8000;
-      const overKW = Math.ceil((watts - 12000) / 1000);
-      return Math.round(8000 * (1 + (overKW * 0.05)));
+      const cooking = getCookingAppliances(scenario);
+      return calculateCookingDemand(cooking).demandVA;
     },
     validateAnswer: (user, expected) => Math.abs(user - expected) <= 200,
   },
-  // Largest Motor +25% (220.50)
+  // Largest Motor +25% (220.50 / 120.50)
   {
     id: "largest-motor-25",
-    title: "Largest Motor +25% (220.50)",
-    sparkyPrompt: "Per 220.50, we must add 25% of the largest motor to the calculation. Convert each motor from HP to watts using Table 430.248 (amps × voltage), find the largest one, and calculate 25% of its load.",
-    hint: (scenario) => {
-      const motors = getMotorAppliances(scenario);
-      if (motors.length === 0) return "No motors - enter 0.";
-
-      const motorLoads = motors.map(m => {
-        const watts = m.horsepower && m.motorVoltage ? hpToWatts(m.horsepower, m.motorVoltage) : m.watts;
-        return { name: m.name, watts };
-      });
-
-      const motorList = motorLoads.map(m => `• ${m.name}: ${m.watts.toLocaleString()} VA`).join("\n");
-      const largest = motorLoads.reduce((max, m) => m.watts > max.watts ? m : max);
-      const addition = Math.round(largest.watts * 0.25);
-
-      return `Motors (converted via Table 430.248):\n${motorList}\n\nLargest: ${largest.name} at ${largest.watts.toLocaleString()} VA\n25% of ${largest.watts.toLocaleString()} = ${addition.toLocaleString()} VA`;
+    title: (v) => `Largest Motor +25% (${getMotorLoadRef(v)})`,
+    sparkyPrompt: (scenario, v = "2023") => {
+      const hasAcMotor = scenario.appliances.some(a => a.id === "ac" && a.isMotor);
+      return buildMotor25Prompt(computeLargestMotor25(toMotorsForCalc(scenario), hasAcMotor), v);
     },
-    necReference: "NEC 220.50",
+    hint: (scenario, _prev, v = "2023") => {
+      const hasAcMotor = scenario.appliances.some(a => a.id === "ac" && a.isMotor);
+      return buildMotor25Hint(computeLargestMotor25(toMotorsForCalc(scenario), hasAcMotor), v);
+    },
+    necReference: (v) => `NEC ${getMotorLoadRef(v)}`,
     inputType: "calculation",
     formula: "Largest motor VA × 25%",
     expectedAnswer: (scenario) => {
@@ -316,10 +281,8 @@ export const CALCULATION_STEPS: CalculationStep[] = [
       const range = prev["range"] || 0;
       const motor25 = prev["largest-motor-25"] || 0;
 
-      // Check for other loads (hot tub, EV charger)
-      const otherLoads = scenario.appliances.filter(a =>
-        ["hot-tub", "ev-charger"].includes(a.id)
-      );
+      // Check for other loads (EV charger — excluded from 220.53 fixed appliance demand)
+      const otherLoads = scenario.appliances.filter(a => a.id === "ev-charger");
       const otherTotal = otherLoads.reduce((sum, a) => sum + a.watts, 0);
 
       let hint = `Lighting Demand: ${lightingDemand.toLocaleString()} VA\n`;
@@ -352,10 +315,8 @@ export const CALCULATION_STEPS: CalculationStep[] = [
       const range = prev["range"] || 0;
       const motor25 = prev["largest-motor-25"] || 0;
 
-      // Add other loads (hot tub, EV charger)
-      const otherLoads = scenario.appliances.filter(a =>
-        ["hot-tub", "ev-charger"].includes(a.id)
-      );
+      // Add other loads (EV charger — excluded from 220.53 fixed appliance demand)
+      const otherLoads = scenario.appliances.filter(a => a.id === "ev-charger");
       const otherTotal = otherLoads.reduce((sum, a) => sum + a.watts, 0);
 
       return lightingDemand + hvac + fixed + dryer + range + motor25 + otherTotal;

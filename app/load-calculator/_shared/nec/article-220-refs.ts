@@ -23,7 +23,7 @@ const HVAC_REF: Record<NecVersion, string> = {
   "2026": "120.60",
 };
 
-/** 220.14 / 120.14 — Outlet loads */
+/** 220.14 / 120.14 — Other loads */
 export function getOutletLoadsRef(version: NecVersion): string {
   return OUTLET_LOADS_REF[version];
 }

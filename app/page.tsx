@@ -203,8 +203,7 @@ export default function Home() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber/20 bg-amber/5 dark:border-stone-700 dark:bg-stone-800/50 mb-8"
               >
                 <div className="w-6 h-6 rounded-md bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                  <Zap className="w-3.5 h-3.5 text-amber dark:hidden" />
-                  <img src="/lightning-bolt.svg" alt="" className="w-4 h-4 hidden dark:block" />
+                  <img src="/sparkypass-icon-orange.svg" alt="" className="w-4 h-4" />
                 </div>
                 <span className="text-amber dark:text-stone-300 text-sm font-medium tracking-wide">
                   Texas Master Electrician Exam Prep

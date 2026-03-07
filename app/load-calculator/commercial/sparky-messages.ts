@@ -1,5 +1,5 @@
 export const COMMERCIAL_SPARKY_MESSAGES = {
-  welcome: "Welcome to the Commercial Service Load Calculator! We'll work through NEC Article 220 for non-dwelling occupancies, including lighting demand, receptacle loads, kitchen equipment, and motor calculations. We'll also size the service conductor and grounding electrode conductor. Let's get started!",
+  welcome: "Welcome to the Commercial Service Load Calculator! We'll work through NEC Article 220 for non-dwelling occupancies, including lighting demand, receptacle loads, kitchen equipment, and motor calculations. Let's get started!",
   selectScenario: "Pick a commercial building type. Each has different equipment and NEC rules. Restaurants test kitchen demand factors, warehouses have special lighting demand, and offices have large receptacle loads.",
   correct: [
     "Excellent work! That's exactly right!",
@@ -19,5 +19,5 @@ export const COMMERCIAL_SPARKY_MESSAGES = {
     "Nice progress! Just a few more steps!",
     "You've got this! Commercial calcs are great exam practice!",
   ],
-  complete: "Outstanding work! You've completed the entire commercial service load calculation, including conductor and GEC sizing! This covers several key NEC articles that appear on the Master Electrician exam.",
+  complete: "Outstanding work! You've completed the entire commercial service load calculation! This covers several key NEC articles that appear on the Master Electrician exam.",
 };

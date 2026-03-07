@@ -20,7 +20,7 @@ export interface CommercialScenario {
   voltage: 208 | 240;
   phases: 1 | 3;
   description: string;
-  difficulty: "beginner" | "intermediate";
+  difficulty: "beginner" | "intermediate" | "expert";
   // Outlet counts
   lampholders: number;
   receptacles: number;
@@ -63,6 +63,15 @@ export interface BuildingType {
   voltage: number;
   phases: number;
   variants: CommercialScenario[];
+}
+
+export interface OutletDemandSubStep {
+  receptacleBaseLoad: number;
+  expectedDemand: number;
+  sparkyPrompt: string;
+  hint: string;
+  formula: string;
+  necReference: string;
 }
 
 export interface MotorSubStep {
