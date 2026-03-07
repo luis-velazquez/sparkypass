@@ -256,11 +256,11 @@ function StudyPulse({
   hasSrsData: boolean;
 }) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-[13px]">
       {/* SRS Reviews Due */}
       {dueReviewCount > 0 ? (
         <Link href="/review">
-          <div className="flex items-center gap-3 p-3 rounded-lg bg-amber/10 dark:bg-amber/15 border border-amber/20 dark:border-amber/30 hover:bg-amber/15 dark:hover:bg-amber/20 transition-colors cursor-pointer">
+          <div className="flex items-center gap-[8px] p-[8px] rounded-lg bg-amber/10 dark:bg-amber/15 border border-amber/20 dark:border-amber/30 hover:bg-amber/15 dark:hover:bg-amber/20 transition-colors cursor-pointer">
             <Clock className="h-5 w-5 text-amber dark:text-amber-light flex-shrink-0" />
             <span className="text-sm font-medium text-foreground">
               {dueReviewCount} review{dueReviewCount !== 1 ? "s" : ""} due
@@ -269,7 +269,7 @@ function StudyPulse({
           </div>
         </Link>
       ) : hasSrsData ? (
-        <div className="flex items-center gap-3 p-3 rounded-lg bg-emerald/10 dark:bg-emerald/15 border border-emerald/20 dark:border-emerald/30">
+        <div className="flex items-center gap-[8px] p-[8px] rounded-lg bg-emerald/10 dark:bg-emerald/15 border border-emerald/20 dark:border-emerald/30">
           <CheckCircle2 className="h-5 w-5 text-emerald dark:text-sparky-green flex-shrink-0" />
           <span className="text-sm font-medium text-emerald-700 dark:text-sparky-green">
             Reviews all caught up!
@@ -280,7 +280,7 @@ function StudyPulse({
       {/* Coverage Gaps */}
       {neverAttempted.length > 0 && (
         <div>
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-[5px]">
             <Target className="h-4 w-4 text-muted-foreground" />
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Coverage Gaps
@@ -289,7 +289,7 @@ function StudyPulse({
               ({neverAttempted.length} never attempted)
             </span>
           </div>
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-[5px]">
             {neverAttempted.map((cat) => (
               <Link key={cat.slug} href={`/quiz/${cat.slug}`}>
                 <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-muted/80 dark:bg-stone-800 text-muted-foreground hover:bg-muted dark:hover:bg-stone-700 hover:text-foreground transition-colors cursor-pointer">
@@ -304,16 +304,16 @@ function StudyPulse({
       {/* Needs Attention */}
       {needsAttention.length > 0 && (
         <div>
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-[5px]">
             <AlertTriangle className="h-4 w-4 text-amber dark:text-amber-light" />
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Needs Attention
             </span>
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-[5px]">
             {needsAttention.map((cat) => (
               <Link key={cat.slug} href={`/quiz/${cat.slug}`} className="block">
-                <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between p-[8px] rounded-lg hover:bg-muted/50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer">
                   <div className="flex items-center gap-2 min-w-0">
                     {cat.breakerTripped ? (
                       <ShieldAlert className="h-4 w-4 text-red-500 flex-shrink-0" />
@@ -338,16 +338,16 @@ function StudyPulse({
       {/* Strongest */}
       {strongest.length > 0 && (
         <div>
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-[5px]">
             <TrendingUp className="h-4 w-4 text-emerald dark:text-sparky-green" />
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Strongest
             </span>
           </div>
-          <div className="space-y-1.5">
+          <div className="space-y-[5px]">
             {strongest.map((cat) => (
               <Link key={cat.slug} href={`/quiz/${cat.slug}`} className="block">
-                <div className="flex items-center justify-between p-2 rounded-lg hover:bg-muted/50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer">
+                <div className="flex items-center justify-between p-[8px] rounded-lg hover:bg-muted/50 dark:hover:bg-stone-800/50 transition-colors cursor-pointer">
                   <span className="text-sm font-medium text-foreground truncate">{cat.name}</span>
                   <div className="flex items-center gap-2 flex-shrink-0">
                     <span className="text-xs font-semibold text-emerald dark:text-sparky-green">
@@ -364,7 +364,7 @@ function StudyPulse({
 
       {/* Overall Mastery */}
       <div>
-        <div className="flex items-center justify-between mb-1.5">
+        <div className="flex items-center justify-between mb-[5px]">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             Overall Mastery
           </span>
@@ -388,7 +388,7 @@ function StudyPulse({
 
       {/* Power Grid Link */}
       <Link href="/power-grid">
-        <div className="flex items-center justify-center gap-2 pt-1 text-sm font-medium text-emerald dark:text-sparky-green hover:underline cursor-pointer">
+        <div className="flex items-center justify-center gap-2 pt-[5px] text-sm font-medium text-emerald dark:text-sparky-green hover:underline cursor-pointer">
           View Full Power Grid
           <ChevronRight className="h-4 w-4" />
         </div>
@@ -518,16 +518,16 @@ export default function DashboardPage() {
   if (status === "loading" || loading) {
     return (
       <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div className="container mx-auto px-4 py-8">
+        <div className="container mx-auto px-5 pt-[55px] pb-[34px]">
           <div className="animate-pulse">
-            <div className="h-10 bg-muted dark:bg-stone-800 rounded w-64 mb-8" />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div className="h-10 bg-muted dark:bg-stone-800 rounded w-64 mb-[34px]" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-[21px] mb-[34px]">
               <div className="h-32 bg-muted dark:bg-stone-800 rounded-xl" />
               <div className="h-32 bg-muted dark:bg-stone-800 rounded-xl" />
               <div className="h-32 bg-muted dark:bg-stone-800 rounded-xl" />
             </div>
-            <div className="h-48 bg-muted dark:bg-stone-800 rounded-xl mb-8" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="h-48 bg-muted dark:bg-stone-800 rounded-xl mb-[34px]" />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-[21px]">
               <div className="h-64 bg-muted dark:bg-stone-800 rounded-xl" />
               <div className="h-64 bg-muted dark:bg-stone-800 rounded-xl" />
             </div>
@@ -660,29 +660,29 @@ export default function DashboardPage() {
         }}
       />
 
-      <div className="container mx-auto px-4 py-8 relative z-10">
+      <div className="container mx-auto px-5 pt-[55px] pb-[34px] relative z-10">
         {/* Welcome Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2 font-display">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-[5px] font-display">
             Welcome back, <span className="text-amber dark:text-sparky-green">{displayName}</span>!
           </h1>
-          <p className="text-muted-foreground mb-8">
+          <p className="text-[15px] text-muted-foreground mb-[34px]">
             Let&apos;s keep the momentum going!
           </p>
         </motion.div>
 
         {/* Trial Status / Subscription Banner */}
-        <div className="mb-6 space-y-3">
+        <div className="mb-[13px] space-y-[8px]">
           <TrialStatusHeader />
           <SubscriptionBanner />
         </div>
 
         {/* Daily Challenge Banner */}
-        <div className="mb-6">
+        <div className="mb-[13px]">
           <DailyChallengeBanner
             completed={dailyChallengeCompleted}
             studyStreak={studyStreak}
@@ -695,11 +695,11 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.05 }}
-            className="mb-6"
+            transition={{ duration: 0.5, delay: 0.06 }}
+            className="mb-[13px]"
           >
             <Link href="/review">
-              <div className="relative overflow-hidden rounded-xl border border-purple/40 dark:border-purple/30 bg-gradient-to-r from-purple/10 via-purple/5 to-transparent dark:from-purple/10 dark:via-purple/5 dark:to-transparent p-5 group hover:border-purple/60 hover:shadow-[0_0_24px_rgba(139,92,246,0.12)] transition-all cursor-pointer">
+              <div className="relative overflow-hidden rounded-xl border border-purple/40 dark:border-purple/30 bg-gradient-to-r from-purple/10 via-purple/5 to-transparent dark:from-purple/10 dark:via-purple/5 dark:to-transparent p-[21px] group hover:border-purple/60 hover:shadow-[0_0_24px_rgba(139,92,246,0.12)] transition-all cursor-pointer">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-full bg-purple/20 dark:bg-stone-800 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
@@ -737,11 +737,11 @@ export default function DashboardPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.05 }}
-              className="mb-6"
+              transition={{ duration: 0.5, delay: 0.12 }}
+              className="mb-[34px]"
             >
               <Link href={`/quiz/${mostRecent.categorySlug}?resume=true`}>
-                <div className="relative overflow-hidden rounded-xl border border-amber/40 dark:border-amber/30 bg-gradient-to-r from-amber/10 via-amber/5 to-transparent dark:from-amber/10 dark:via-amber/5 dark:to-transparent p-5 group hover:border-amber/60 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all cursor-pointer">
+                <div className="relative overflow-hidden rounded-xl border border-amber/40 dark:border-amber/30 bg-gradient-to-r from-amber/10 via-amber/5 to-transparent dark:from-amber/10 dark:via-amber/5 dark:to-transparent p-[21px] group hover:border-amber/60 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all cursor-pointer">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                       <div className="w-12 h-12 rounded-full bg-amber/20 dark:bg-stone-800 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
@@ -792,22 +792,22 @@ export default function DashboardPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
+          className="mb-[34px]"
         >
-          <h2 className="text-xl font-semibold text-foreground mb-4 font-display">
+          <h2 className="text-lg font-semibold text-foreground mb-[13px] font-display">
             Challenge Mode
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[13px]">
             {features.map((feature, index) => (
               <motion.div
                 key={feature.title}
                 data-tour={feature.tourId}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 + index * 0.05 }}
+                transition={{ duration: 0.5, delay: 0.18 + index * 0.06 }}
               >
                 <Link href={feature.href}>
-                  <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-5 cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] dark:hover:border-stone-700 dark:hover:shadow-none">
+                  <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-[21px] cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] dark:hover:border-stone-700 dark:hover:shadow-none">
                     <div className={`w-12 h-12 rounded-lg ${feature.bg} flex items-center justify-center mb-3 transition-all duration-300`}>
                       <feature.icon className={`h-6 w-6 ${feature.color}`} />
                     </div>
@@ -825,13 +825,13 @@ export default function DashboardPage() {
         </motion.div>
 
         {/* Stats Cards - Core Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-[13px] md:gap-[21px] mb-[34px]">
           {/* Level & XP + Overall Accuracy Card */}
           <motion.div
             data-tour="stat-level-xp"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
+            transition={{ duration: 0.5, delay: 0.24 }}
           >
             <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
@@ -917,7 +917,7 @@ export default function DashboardPage() {
             data-tour="stat-study-streak"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
+            transition={{ duration: 0.5, delay: 0.30 }}
           >
             <Card className="h-full border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 transition-all duration-300 hover:border-amber/30 hover:shadow-[0_0_20px_rgba(245,158,11,0.06)] dark:hover:border-stone-700 dark:hover:shadow-none">
               <CardHeader className="pb-2">
@@ -1002,7 +1002,7 @@ export default function DashboardPage() {
             data-tour="stat-exam-countdown"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.36 }}
           >
             <ExamCountdown
               targetExamDate={targetExamDate}
@@ -1017,8 +1017,8 @@ export default function DashboardPage() {
           data-tour="sparky-message"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          className="mb-8"
+          transition={{ duration: 0.5, delay: 0.42 }}
+          className="mb-[21px]"
         >
           <SparkyMessage size="medium" message={sparkyReaction.message} variant={sparkyReaction.variant} />
         </motion.div>
@@ -1031,7 +1031,7 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.5 }}
-              className="mb-6"
+              className="mb-[21px]"
             >
               <Card className="border-red-500/30 dark:border-red-500/20 bg-red-500/5">
                 <CardContent className="py-4">
@@ -1063,12 +1063,12 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.55 }}
-            className="mb-8"
+            transition={{ duration: 0.5, delay: 0.48 }}
+            className="mb-[34px]"
           >
             <Link href="/power-grid">
               <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 hover:border-emerald/30 dark:hover:border-sparky-green/20 transition-all cursor-pointer">
-                <CardContent className="p-4">
+                <CardContent className="p-[13px]">
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-2">
                       <Activity className="h-4 w-4 text-emerald dark:text-sparky-green" />
@@ -1131,8 +1131,8 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.52 }}
-            className="mb-8"
+            transition={{ duration: 0.5, delay: 0.54 }}
+            className="mb-[34px]"
           >
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
@@ -1142,7 +1142,7 @@ export default function DashboardPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[21px]">
                   {/* Saved Flashcards */}
                   {savedFlashcards.length > 0 && (
                     <div>
@@ -1311,12 +1311,12 @@ export default function DashboardPage() {
         )}
 
         {/* Study Pulse and Recent Activity */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[21px] mb-[34px]">
           {/* Study Pulse */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.55 }}
+            transition={{ duration: 0.5, delay: 0.60 }}
           >
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
@@ -1354,7 +1354,7 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
+            transition={{ duration: 0.5, delay: 0.66 }}
           >
             <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
               <CardHeader>
