@@ -9,6 +9,7 @@ import type { PowerUpType, QuizVoltage } from "@/types/reward-system";
 export const ACTIVITY_VOLTAGE: Record<string, QuizVoltage> = {
   daily_challenge: 277,
   review: 277,
+  weak_spots: 120,
   circuit_breaker: 480,
 };
 
@@ -70,4 +71,53 @@ export function getStreakMilestoneReward(streakDays: number): number | null {
  */
 export function canAffordPowerUp(wattsBalance: number, powerUpType: PowerUpType): boolean {
   return wattsBalance >= POWER_UP_COSTS[powerUpType];
+}
+
+// ─── Server-Side Watts Calculation ──────────────────────────────────────────
+
+/** Base voltage per activity type for server-side calculation. */
+const SERVER_ACTIVITY_VOLTAGE: Record<string, number> = {
+  quiz_complete: 208,         // journeyman base (conservative middle)
+  daily_challenge: 277,
+  circuit_breaker_clear: 480,
+  review_complete: 277,
+  weak_spots_complete: 120,
+  mock_exam_complete: 208,
+  index_game: 12,
+};
+
+/**
+ * Calculate watts earned server-side based on activity type and questions correct/answered.
+ * Uses base voltage for the activity type (no client-provided streak boosts).
+ * Applies pass/fail penalty for quiz types (< 70% = half watts).
+ */
+export function calculateWattsServerSide(
+  activityType: string,
+  questionsCorrect: number,
+  questionsAnswered: number
+): number {
+  const safeCorrect = Math.max(0, Math.floor(questionsCorrect || 0));
+  const safeAnswered = Math.max(0, Math.floor(questionsAnswered || 0));
+
+  // Correct count can never exceed answered count
+  const clampedCorrect = Math.min(safeCorrect, safeAnswered);
+
+  if (clampedCorrect === 0 || safeAnswered === 0) {
+    return 0;
+  }
+
+  const voltage = SERVER_ACTIVITY_VOLTAGE[activityType] ?? 208;
+
+  // Raw watts = voltage per correct answer
+  const rawWatts = clampedCorrect * voltage;
+
+  // Quiz-type activities apply pass/fail penalty
+  const quizTypes = ["quiz_complete", "mock_exam_complete"];
+  if (quizTypes.includes(activityType)) {
+    const passed = (clampedCorrect / safeAnswered) >= PASS_THRESHOLD;
+    return passed ? rawWatts : Math.round(rawWatts * 0.5);
+  }
+
+  // Daily challenge, circuit breaker, review — no pass/fail penalty
+  return rawWatts;
 }

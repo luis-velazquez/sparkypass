@@ -31,7 +31,6 @@ import { getClassificationTitle, getClassificationProgress } from "@/lib/levels"
 import {
   getDashboardGreeting,
   getStreakCelebration,
-  getReviewReminder,
 } from "@/lib/sparky-messages";
 import type { SparkyVariant } from "@/components/sparky/SparkyAvatar";
 import { CATEGORIES } from "@/types/question";
@@ -171,18 +170,12 @@ function getSparkyReaction(
   weakAreas: string[],
   classification: UserClassification,
   studyStreak: number,
-  dueReviewCount: number,
 ): { message: string; variant: SparkyVariant } {
   // Priority 1: Streak celebration (exact milestone hit)
   const streakReaction = getStreakCelebration(studyStreak);
   if (streakReaction) return streakReaction;
 
-  // Priority 2: Review reminder (many due)
-  if (dueReviewCount >= 10) {
-    return getReviewReminder(dueReviewCount);
-  }
-
-  // Priority 3: Weak areas
+  // Priority 2: Weak areas
   if (weakAreas.length > 0) {
     const categoryNames = weakAreas.map(slug => {
       const cat = CATEGORIES.find(c => c.slug === slug);
@@ -241,42 +234,18 @@ function formatTimeAgo(dateString: string | null): string {
 }
 
 function StudyPulse({
-  dueReviewCount,
   neverAttempted,
   needsAttention,
   strongest,
   overallMastery,
-  hasSrsData,
 }: {
-  dueReviewCount: number;
   neverAttempted: PowerGridCategoryLocal[];
   needsAttention: PowerGridCategoryLocal[];
   strongest: PowerGridCategoryLocal[];
   overallMastery: number;
-  hasSrsData: boolean;
 }) {
   return (
     <div className="space-y-[13px]">
-      {/* SRS Reviews Due */}
-      {dueReviewCount > 0 ? (
-        <Link href="/review">
-          <div className="flex items-center gap-[8px] p-[8px] rounded-lg bg-amber/10 dark:bg-amber/15 border border-amber/20 dark:border-amber/30 hover:bg-amber/15 dark:hover:bg-amber/20 transition-colors cursor-pointer">
-            <Clock className="h-5 w-5 text-amber dark:text-amber-light flex-shrink-0" />
-            <span className="text-sm font-medium text-foreground">
-              {dueReviewCount} review{dueReviewCount !== 1 ? "s" : ""} due
-            </span>
-            <ChevronRight className="h-4 w-4 text-muted-foreground ml-auto" />
-          </div>
-        </Link>
-      ) : hasSrsData ? (
-        <div className="flex items-center gap-[8px] p-[8px] rounded-lg bg-emerald/10 dark:bg-emerald/15 border border-emerald/20 dark:border-emerald/30">
-          <CheckCircle2 className="h-5 w-5 text-emerald dark:text-sparky-green flex-shrink-0" />
-          <span className="text-sm font-medium text-emerald-700 dark:text-sparky-green">
-            Reviews all caught up!
-          </span>
-        </div>
-      ) : null}
-
       {/* Coverage Gaps */}
       {neverAttempted.length > 0 && (
         <div>
@@ -397,6 +366,23 @@ function StudyPulse({
   );
 }
 
+function getTimeGreeting(): string {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
+}
+
+function TimeGreeting() {
+  const [greeting, setGreeting] = useState("Welcome back");
+
+  useEffect(() => {
+    setGreeting(getTimeGreeting());
+  }, []);
+
+  return <>{greeting}</>;
+}
+
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -409,7 +395,6 @@ export default function DashboardPage() {
   const [questionsExpanded, setQuestionsExpanded] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showTour, setShowTour] = useState(false);
-  const [dueReviewCount, setDueReviewCount] = useState(0);
   const [powerGridSummary, setPowerGridSummary] = useState<{ energized: number; brownedOut: number; flickering: number; deEnergized: number; overallProgress: number; categories: PowerGridCategoryLocal[] } | null>(null);
   const [resistancePenalties, setResistancePenalties] = useState<{ type: string; amount: number; description: string }[]>([]);
 
@@ -456,10 +441,9 @@ export default function DashboardPage() {
         fetch("/api/progress/stats").then((res) => res.json()),
         fetch("/api/bookmarks").then((res) => res.json()),
         fetch("/api/flashcard-bookmarks").then((res) => res.json()),
-        fetch("/api/review/due?limit=1").then((res) => res.json()).catch(() => ({ totalDue: 0 })),
         fetch("/api/power-grid").then((res) => res.json()).catch(() => null),
       ])
-        .then(([user, stats, bookmarksData, flashcardBookmarksData, dueData, powerGridData]) => {
+        .then(([user, stats, bookmarksData, flashcardBookmarksData, powerGridData]) => {
           setUserData(user);
           setProgressStats(stats);
           // Transform question bookmarks to match expected format
@@ -473,8 +457,6 @@ export default function DashboardPage() {
           setSavedQuestions(questions);
           // Set flashcard bookmarks
           setSavedFlashcards(flashcardBookmarksData.bookmarks || []);
-          // Set due review count
-          setDueReviewCount(dueData.totalDue || 0);
           // Set power grid summary
           if (powerGridData?.categories) {
             setPowerGridSummary({
@@ -604,7 +586,7 @@ export default function DashboardPage() {
     .filter((cat) => cat.answered > 0 && cat.accuracy < 70)
     .map((cat) => cat.slug);
 
-  const sparkyReaction = getSparkyReaction(daysUntilExam, weakAreas, classification, studyStreak, dueReviewCount);
+  const sparkyReaction = getSparkyReaction(daysUntilExam, weakAreas, classification, studyStreak);
 
   const totalAnswered = progressStats?.totalAnswered ?? 0;
   const uniqueQuestionsAnswered = progressStats?.uniqueQuestionsAnswered ?? 0;
@@ -668,7 +650,7 @@ export default function DashboardPage() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-[5px] font-display">
-            Welcome back, <span className="text-amber dark:text-sparky-green">{displayName}</span>!
+            <TimeGreeting />, <span className="text-amber dark:text-sparky-green">{displayName}</span>!
           </h1>
           <p className="text-[15px] text-muted-foreground mb-[34px]">
             Let&apos;s keep the momentum going!
@@ -691,39 +673,6 @@ export default function DashboardPage() {
         </div>
 
         {/* Due Reviews Banner */}
-        {dueReviewCount > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.06 }}
-            className="mb-[13px]"
-          >
-            <Link href="/review">
-              <div className="relative overflow-hidden rounded-xl border border-purple/40 dark:border-purple/30 bg-gradient-to-r from-purple/10 via-purple/5 to-transparent dark:from-purple/10 dark:via-purple/5 dark:to-transparent p-[21px] group hover:border-purple/60 hover:shadow-[0_0_24px_rgba(139,92,246,0.12)] transition-all cursor-pointer">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-purple/20 dark:bg-stone-800 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
-                      <Clock className="h-6 w-6 text-purple dark:text-purple-light" />
-                    </div>
-                    <div>
-                      <p className="text-base font-bold text-foreground">
-                        {dueReviewCount} question{dueReviewCount !== 1 ? "s" : ""} due for review
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Spaced repetition keeps your knowledge fresh
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 text-purple dark:text-purple-light font-semibold text-sm">
-                    <span className="hidden sm:inline">Start Review</span>
-                    <ChevronRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </motion.div>
-        )}
-
         {/* Continue Where You Left Off Banner */}
         {savedQuizProgressList.length > 0 && (() => {
           const mostRecent = savedQuizProgressList[0];
@@ -1282,10 +1231,10 @@ export default function DashboardPage() {
                             : `+${savedQuestions.length - 5} more questions`}
                         </button>
                       )}
-                      <div className="flex flex-col sm:flex-row gap-2 mt-3">
+                      <div className="mt-3">
                         <Button
                           size="sm"
-                          className="flex-1 bg-purple hover:bg-purple/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                          className="w-full bg-purple hover:bg-purple/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
                           onClick={() => {
                             const ids = savedQuestions.map((q) => q.questionId);
                             sessionStorage.setItem("bookmarkReviewIds", JSON.stringify(ids));
@@ -1295,12 +1244,6 @@ export default function DashboardPage() {
                           <Play className="h-4 w-4 mr-2" />
                           Quiz Saved Questions ({savedQuestions.length})
                         </Button>
-                        <Link href="/review" className="flex-1">
-                          <Button variant="outline" size="sm" className="w-full border-border dark:border-stone-700">
-                            <Brain className="h-4 w-4 mr-2" />
-                            Review Questions
-                          </Button>
-                        </Link>
                       </div>
                     </div>
                   )}
@@ -1338,12 +1281,10 @@ export default function DashboardPage() {
                   </div>
                 ) : (
                   <StudyPulse
-                    dueReviewCount={dueReviewCount}
                     neverAttempted={neverAttempted}
                     needsAttention={needsAttention}
                     strongest={strongest}
                     overallMastery={overallMastery}
-                    hasSrsData={pgCategories.some((c) => c.srsTotal > 0)}
                   />
                 )}
               </CardContent>

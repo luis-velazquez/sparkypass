@@ -3,8 +3,10 @@ import { Outfit, Nunito, Space_Mono } from "next/font/google";
 import Link from "next/link";
 
 import { Logo } from "@/components/layout/Logo";
-import { DesktopNav } from "@/components/layout/DesktopNav";
 import { MobileNav } from "@/components/layout/MobileNav";
+import { Sidebar } from "@/components/layout/Sidebar";
+import { SidebarProvider } from "@/components/layout/SidebarContext";
+import { SidebarContentWrapper, SidebarTopBar } from "@/components/layout/SidebarContentWrapper";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { AuthButtons } from "@/components/layout/AuthButtons";
@@ -61,59 +63,66 @@ export default function RootLayout({
           disableTransitionOnChange
         >
         <SessionProvider>
-        <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <SidebarProvider>
+
+        {/* Desktop sidebar (xl+) */}
+        <Sidebar />
+
+        {/* Mobile/tablet header (below xl) */}
+        <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 xl:hidden">
           <div className="container mx-auto flex h-16 items-center justify-between px-4">
             <div className="flex items-center gap-1">
-              {/* Mobile Menu (left side) */}
-              <div className="xl:hidden">
-                <MobileNav />
-              </div>
+              <MobileNav />
               <Logo />
             </div>
-
-            {/* Desktop Navigation */}
-            <DesktopNav />
-
-            {/* Desktop Auth Buttons */}
-            <div className="hidden xl:flex items-center gap-2">
+            <div className="flex items-center gap-2">
               <UserMenu />
               <AuthButtons />
-            </div>
-
-            {/* Mobile User Menu */}
-            <div className="xl:hidden">
-              <UserMenu />
             </div>
           </div>
         </header>
 
-        <main className="flex-1">{children}</main>
-
-        <footer className="border-t border-border bg-card">
-          <div className="container mx-auto px-4 py-8">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-              <div className="flex items-center gap-2">
-                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-5 h-5" />
-                <span className="font-semibold">SparkyPass</span>
-              </div>
-              <nav className="flex gap-6 text-sm text-muted-foreground">
-                <Link href="/contact" className="hover:text-foreground">
-                  Contact
-                </Link>
-                <Link href="/privacy" className="hover:text-foreground">
-                  Privacy
-                </Link>
-                <Link href="/terms" className="hover:text-foreground">
-                  Terms
-                </Link>
-              </nav>
-              <p className="text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()} SparkyPass. All rights
-                reserved.
-              </p>
-            </div>
+        {/* Desktop top bar (xl+) — collapse toggle, page title, user controls */}
+        <SidebarTopBar>
+          <div className="flex items-center gap-2">
+            <UserMenu />
+            <AuthButtons />
           </div>
-        </footer>
+        </SidebarTopBar>
+
+        {/* Main content — shifted right on xl+ */}
+        <SidebarContentWrapper>
+          <main className="flex-1">{children}</main>
+
+          {/* Footer — only on mobile/tablet (sidebar has footer on xl+) */}
+          <footer className="border-t border-border bg-card xl:hidden">
+            <div className="container mx-auto px-4 py-8">
+              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-5 h-5" />
+                  <span className="font-semibold">SparkyPass</span>
+                </div>
+                <nav className="flex gap-6 text-sm text-muted-foreground">
+                  <Link href="/contact" className="hover:text-foreground">
+                    Contact
+                  </Link>
+                  <Link href="/privacy" className="hover:text-foreground">
+                    Privacy
+                  </Link>
+                  <Link href="/terms" className="hover:text-foreground">
+                    Terms
+                  </Link>
+                </nav>
+                <p className="text-sm text-muted-foreground">
+                  &copy; {new Date().getFullYear()} SparkyPass. All rights
+                  reserved.
+                </p>
+              </div>
+            </div>
+          </footer>
+        </SidebarContentWrapper>
+
+        </SidebarProvider>
         </SessionProvider>
         </ThemeProvider>
       </body>

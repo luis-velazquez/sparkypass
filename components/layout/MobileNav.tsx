@@ -20,6 +20,7 @@ import {
   Users,
   Trophy,
   ChevronDown,
+  AlertTriangle,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -71,6 +72,7 @@ const navItems: MobileNavItem[] = [
     links: [
       { href: "/flashcards", label: "Flashcards", icon: Layers },
       { href: "/daily", label: "Daily Challenge", icon: Calendar },
+      { href: "/review", label: "Weak Spots", icon: AlertTriangle },
       { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
     ],
   },

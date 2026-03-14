@@ -48,6 +48,7 @@ const navItems: NavItem[] = [
     links: [
       { href: "/flashcards", label: "Flashcards" },
       { href: "/daily", label: "Daily Challenge" },
+      { href: "/review", label: "Weak Spots" },
       { href: "/load-calculator", label: "Load Calculator" },
     ],
   },
