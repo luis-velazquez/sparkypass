@@ -45,16 +45,15 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    const apprenticeBest = bestByDifficulty["apprentice"] ?? null;
     const journeymanBest = bestByDifficulty["journeyman"] ?? null;
 
     return NextResponse.json({
       apprentice: {
         unlocked: true,
-        bestPercentage: apprenticeBest,
+        bestPercentage: bestByDifficulty["apprentice"] ?? null,
       },
       journeyman: {
-        unlocked: apprenticeBest !== null && apprenticeBest >= UNLOCK_THRESHOLD,
+        unlocked: true,
         bestPercentage: journeymanBest,
       },
       master: {

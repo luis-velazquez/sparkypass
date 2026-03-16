@@ -3,6 +3,10 @@ import { db, users, passwordResetTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import crypto from "crypto";
 import { sendPasswordResetEmail } from "@/lib/email";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+
+// 3 forgot-password requests per 15 minutes
+const forgotPasswordLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3 });
 
 // Generate a secure random token
 function generateToken(): string {
@@ -18,6 +22,15 @@ function getTokenExpiry(): Date {
 
 export async function POST(request: Request) {
   try {
+    // Rate limit check
+    const ip = getClientIp(request);
+    const { success, remaining } = forgotPasswordLimiter.check(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many password reset requests. Please try again later." },
+        { status: 429, headers: { "Retry-After": "900", "X-RateLimit-Remaining": String(remaining) } }
+      );
+    }
     const body = await request.json();
     const { email } = body;
 

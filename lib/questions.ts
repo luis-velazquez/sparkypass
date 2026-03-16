@@ -103,20 +103,13 @@ export function getQuestionCountByCategory(category: CategorySlug, necVersion?: 
  */
 export function getCategoryCounts(necVersion?: NecVersion): Record<CategorySlug, number> {
   return {
-    "load-calculations": getQuestionCountByCategory("load-calculations", necVersion),
+    "calculations-and-theory": getQuestionCountByCategory("calculations-and-theory", necVersion),
     "grounding-bonding": getQuestionCountByCategory("grounding-bonding", necVersion),
     services: getQuestionCountByCategory("services", necVersion),
-"chapter-9-tables": getQuestionCountByCategory("chapter-9-tables", necVersion),
-    "box-fill": getQuestionCountByCategory("box-fill", necVersion),
-    "conduit-fill": getQuestionCountByCategory("conduit-fill", necVersion),
-    "voltage-drop": getQuestionCountByCategory("voltage-drop", necVersion),
-    "motor-calculations": getQuestionCountByCategory("motor-calculations", necVersion),
-    "temperature-correction": getQuestionCountByCategory("temperature-correction", necVersion),
-    "resistance": getQuestionCountByCategory("resistance", necVersion),
+"box-fill": getQuestionCountByCategory("box-fill", necVersion),
+    "motors-and-generators": getQuestionCountByCategory("motors-and-generators", necVersion),
     "transformer-sizing": getQuestionCountByCategory("transformer-sizing", necVersion),
-    "mobile-homes": getQuestionCountByCategory("mobile-homes", necVersion),
-    "swimming-pools": getQuestionCountByCategory("swimming-pools", necVersion),
-    "termination-derating": getQuestionCountByCategory("termination-derating", necVersion),
+    "special-occupancies": getQuestionCountByCategory("special-occupancies", necVersion),
     "wiring-methods": getQuestionCountByCategory("wiring-methods", necVersion),
   };
 }

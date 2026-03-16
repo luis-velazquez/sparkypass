@@ -3,6 +3,10 @@ import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import crypto from "crypto";
 import { sendVerificationEmail } from "@/lib/email";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+
+// 3 resend requests per 5 minutes
+const resendLimiter = rateLimit({ windowMs: 5 * 60 * 1000, max: 3 });
 
 // Generate a secure random token
 function generateToken(): string {
@@ -18,6 +22,15 @@ function getTokenExpiry(): Date {
 
 export async function POST(request: Request) {
   try {
+    // Rate limit check
+    const ip = getClientIp(request);
+    const { success, remaining } = resendLimiter.check(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many requests. Please try again in a few minutes." },
+        { status: 429, headers: { "Retry-After": "300", "X-RateLimit-Remaining": String(remaining) } }
+      );
+    }
     const body = await request.json();
     const { email } = body;
 

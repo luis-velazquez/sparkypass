@@ -15,9 +15,7 @@ import {
   CheckCircle2,
   XCircle,
   Flame,
-  ChevronDown,
   Loader2,
-  Lightbulb,
   Zap,
   Trophy,
   Calendar,
@@ -37,6 +35,15 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { SparkyMessage } from "@/components/sparky";
+import { QuestionCard } from "@/components/quiz-engine";
+import {
+  CORRECT_MESSAGES,
+  INCORRECT_MESSAGES,
+  ON_FIRE_MESSAGES,
+  STREAK_BROKEN_MESSAGES,
+  STREAK_THRESHOLD,
+  getRandomMessage,
+} from "@/components/quiz-engine/sparky-messages";
 import { getRandomQuestionsAll, getQuestionById } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import type { Question } from "@/types/question";
@@ -93,57 +100,8 @@ function clearProgress() {
   localStorage.removeItem(DAILY_PROGRESS_KEY);
 }
 
-// Sparky congratulation messages for correct answers
-const CORRECT_MESSAGES = [
-  "Excellent work! You're lighting up the path to success! ⚡",
-  "That's the right answer! Your knowledge is really amping up!",
-  "Perfect! You're wired for success, future Master Electrician!",
-  "Brilliant! That's exactly right - you're on fire! 🔥",
-  "Outstanding! Your understanding is crystal clear!",
-  "You nailed it! Keep that current flowing!",
-  "Correct! You're really charging ahead with these concepts!",
-  "Yes! That's some high-voltage knowledge right there!",
-  "Fantastic! Your electrical expertise is shining bright!",
-  "Spot on! You're grounded in the fundamentals!",
-];
-
-// Sparky encouragement messages for incorrect answers
-const INCORRECT_MESSAGES = [
-  "Not quite, but that's how we learn! Let me help you understand this one.",
-  "Close! This is a tricky one. Let's review it together.",
-  "That's okay! Even master electricians were apprentices once. Here's the key insight:",
-  "Don't worry! This concept trips up a lot of people. Let's break it down.",
-  "Almost there! Understanding this will make you stronger for the exam.",
-  "Learning moment! This is exactly why practice matters. Here's the explanation:",
-  "No worries! These questions help identify areas to strengthen. Let's review:",
-  "That's a tough one! Here's what the NEC says about this:",
-];
-
-// Sparky "on fire" messages for streaks of 3+
-const ON_FIRE_MESSAGES = [
-  "YOU'RE ON FIRE! 🔥 3 in a row! Keep that hot streak going!",
-  "BLAZING HOT! 🔥 You're absolutely crushing it right now!",
-  "UNSTOPPABLE! 🔥 Your knowledge is burning bright!",
-  "ELECTRIC FIRE! ⚡🔥 Nothing can stop you now!",
-  "SCORCHING STREAK! 🔥 You're lighting up this quiz!",
-];
-
-// Sparky messages when streak is broken
-const STREAK_BROKEN_MESSAGES = [
-  "Streak broken, but don't sweat it! Every master electrician has had setbacks. Let's build a new one! 💪",
-  "That streak had a good run! Shake it off and let's start fresh - you've got this!",
-  "No worries about the streak! What matters is you're learning. Ready to fire up a new one? 🔥",
-  "The streak may be gone, but your knowledge isn't! Let's get back on track together.",
-  "Hey, streaks are made to be broken... and rebuilt! You're still making progress!",
-];
-
-const STREAK_THRESHOLD = 3;
 const XP_PER_CORRECT_ANSWER = 25;
 const DAILY_QUESTION_COUNT = 5;
-
-function getRandomMessage(messages: string[]): string {
-  return messages[Math.floor(Math.random() * messages.length)];
-}
 
 function fireConfetti(level: number = 0) {
   haptic("celebration");
@@ -449,60 +407,9 @@ export default function DailyChallengePage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authStatus, necVersion]);
 
-  const handleSelectAnswer = useCallback((answerIndex: number) => {
-    haptic("tap");
-    setQuizState((prev) => {
-      if (prev.isSubmitted) return prev;
-      return { ...prev, selectedAnswer: answerIndex };
-    });
-  }, []);
-
-  const handleToggleBookmark = useCallback(async () => {
-    const question = quizState.questions[quizState.currentQuestionIndex];
-    if (!question) return;
-
-    const isCurrentlyBookmarked = quizState.bookmarkedQuestions.has(question.id);
-
-    setQuizState((prev) => {
-      const newBookmarks = new Set(prev.bookmarkedQuestions);
-      if (isCurrentlyBookmarked) {
-        newBookmarks.delete(question.id);
-      } else {
-        newBookmarks.add(question.id);
-      }
-      return { ...prev, bookmarkedQuestions: newBookmarks };
-    });
-
-    try {
-      if (isCurrentlyBookmarked) {
-        await fetch("/api/bookmarks", {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ questionId: question.id }),
-        });
-      } else {
-        await fetch("/api/bookmarks", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ questionId: question.id }),
-        });
-      }
-    } catch (error) {
-      console.error("Failed to toggle bookmark:", error);
-      setQuizState((prev) => {
-        const newBookmarks = new Set(prev.bookmarkedQuestions);
-        if (isCurrentlyBookmarked) {
-          newBookmarks.add(question.id);
-        } else {
-          newBookmarks.delete(question.id);
-        }
-        return { ...prev, bookmarkedQuestions: newBookmarks };
-      });
-    }
-  }, [quizState.questions, quizState.currentQuestionIndex, quizState.bookmarkedQuestions]);
-
-  const handleSubmitAnswer = useCallback(async () => {
-    const { selectedAnswer, questions, currentQuestionIndex } = quizState;
+  const handleSubmitAnswer = useCallback(async (answerOverride?: number) => {
+    const { questions, currentQuestionIndex } = quizState;
+    const selectedAnswer = answerOverride ?? quizState.selectedAnswer;
     if (selectedAnswer === null) return;
 
     const question = questions[currentQuestionIndex];
@@ -592,6 +499,60 @@ export default function DailyChallengePage() {
       return updatedState;
     });
   }, [quizState]);
+
+  const handleSelectAnswer = useCallback((answerIndex: number) => {
+    if (quizState.isSubmitted) return;
+    haptic("tap");
+    setQuizState((prev) => {
+      if (prev.isSubmitted) return prev;
+      return { ...prev, selectedAnswer: answerIndex };
+    });
+    handleSubmitAnswer(answerIndex);
+  }, [quizState.isSubmitted, handleSubmitAnswer]);
+
+  const handleToggleBookmark = useCallback(async () => {
+    const question = quizState.questions[quizState.currentQuestionIndex];
+    if (!question) return;
+
+    const isCurrentlyBookmarked = quizState.bookmarkedQuestions.has(question.id);
+
+    setQuizState((prev) => {
+      const newBookmarks = new Set(prev.bookmarkedQuestions);
+      if (isCurrentlyBookmarked) {
+        newBookmarks.delete(question.id);
+      } else {
+        newBookmarks.add(question.id);
+      }
+      return { ...prev, bookmarkedQuestions: newBookmarks };
+    });
+
+    try {
+      if (isCurrentlyBookmarked) {
+        await fetch("/api/bookmarks", {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ questionId: question.id }),
+        });
+      } else {
+        await fetch("/api/bookmarks", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ questionId: question.id }),
+        });
+      }
+    } catch (error) {
+      console.error("Failed to toggle bookmark:", error);
+      setQuizState((prev) => {
+        const newBookmarks = new Set(prev.bookmarkedQuestions);
+        if (isCurrentlyBookmarked) {
+          newBookmarks.add(question.id);
+        } else {
+          newBookmarks.delete(question.id);
+        }
+        return { ...prev, bookmarkedQuestions: newBookmarks };
+      });
+    }
+  }, [quizState.questions, quizState.currentQuestionIndex, quizState.bookmarkedQuestions]);
 
   const handleNextQuestion = useCallback(async () => {
     const isLast = currentQuestionIndex >= totalQuestions - 1;
@@ -1049,180 +1010,36 @@ export default function DailyChallengePage() {
                 {isBookmarked ? "Saved" : "Save"}
               </Button>
 
-              <div>
-                {!isSubmitted ? (
-                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                    <Button
-                      onClick={handleSubmitAnswer}
-                      disabled={selectedAnswer === null}
-                      size="default"
-                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                    >
-                      Submit
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </motion.div>
-                ) : (
-                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                    <Button
-                      onClick={handleNextQuestion}
-                      size="default"
-                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                    >
-                      {isLastQuestion ? "See Results" : "Next"}
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </motion.div>
-                )}
-              </div>
+              {isSubmitted && (
+                <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
+                  <Button
+                    onClick={handleNextQuestion}
+                    size="default"
+                    className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                  >
+                    {isLastQuestion ? "See Results" : "Next"}
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </motion.div>
+              )}
             </div>
           </div>
 
-          {/* Question Card */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentQuestion.id}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-            >
-              <Card className="mb-6 border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-                <CardContent className="pt-6">
-                  {/* Hint Button */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <button
-                      onClick={() => setQuizState(prev => ({ ...prev, showHint: !prev.showHint }))}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-all ${
-                        quizState.showHint
-                          ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
-                          : "bg-amber/10 text-amber border-amber/30 hover:bg-amber/20 dark:bg-sparky-green/10 dark:text-sparky-green dark:border-sparky-green/30 dark:hover:bg-sparky-green/20"
-                      }`}
-                    >
-                      <Lightbulb className="h-3.5 w-3.5" />
-                      Hint
-                      <motion.div
-                        animate={{ rotate: quizState.showHint ? 180 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <ChevronDown className="h-3.5 w-3.5" />
-                      </motion.div>
-                    </button>
-                  </div>
+          {/* Question Card + Answer Options */}
+          <QuestionCard
+            question={currentQuestion}
+            selectedAnswer={selectedAnswer}
+            isSubmitted={isSubmitted}
+            onSelectAnswer={handleSelectAnswer}
+            necVersion={necVersion}
+            answerButtonRefs={answerButtonRefs}
+            showHint={quizState.showHint}
+            onToggleHint={() => setQuizState(prev => ({ ...prev, showHint: !prev.showHint }))}
+          />
 
-                  {/* Question Text */}
-                  <h2 className="text-lg md:text-xl font-semibold text-foreground leading-relaxed">
-                    {currentQuestion.questionText}
-                  </h2>
-
-                  {/* Expandable Hint Section */}
-                  <AnimatePresence>
-                    {quizState.showHint && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-5 p-4 rounded-xl backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 shadow-xl">
-                          <motion.div
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.3, delay: 0.1 }}
-                            className="flex items-start gap-3"
-                          >
-                            <div className="p-2 rounded-lg bg-purple/20">
-                              <Book className="h-4 w-4 text-purple" />
-                            </div>
-                            <div>
-                              <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">NEC Reference</p>
-                              <p className="text-sm font-semibold text-purple">
-                                {getNecReference(currentQuestion, necVersion)}
-                              </p>
-                            </div>
-                          </motion.div>
-
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </CardContent>
-              </Card>
-
-              {/* Answer Options */}
-              <div className="grid grid-cols-1 gap-3 mb-6">
-                {currentQuestion.options.map((option, index) => {
-                  const isSelected = selectedAnswer === index;
-                  const isCorrect = index === currentQuestion.correctAnswer;
-                  const showCorrect = isSubmitted && isCorrect;
-                  const showIncorrect = isSubmitted && isSelected && !isCorrect;
-
-                  let optionClasses =
-                    "w-full p-4 text-left rounded-lg border-2 transition-all min-h-[56px] ";
-
-                  if (showCorrect) {
-                    optionClasses +=
-                      "border-emerald bg-emerald/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
-                  } else if (showIncorrect) {
-                    optionClasses +=
-                      "border-red-500 bg-red-500/10 text-foreground";
-                  } else if (isSelected) {
-                    optionClasses +=
-                      "border-amber bg-amber/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
-                  } else if (isSubmitted) {
-                    optionClasses += "border-border bg-muted/50 dark:bg-stone-800/50 text-muted-foreground";
-                  } else {
-                    optionClasses +=
-                      "border-border hover:border-amber/50 dark:hover:border-sparky-green/50 hover:bg-muted/50 dark:hover:bg-stone-800/50 cursor-pointer";
-                  }
-
-                  return (
-                    <motion.button
-                      key={index}
-                      ref={(el) => { answerButtonRefs.current[index] = el; }}
-                      onClick={() => handleSelectAnswer(index)}
-                      disabled={isSubmitted}
-                      whileTap={!isSubmitted ? { scale: 0.97 } : undefined}
-                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                      className={optionClasses}
-                    >
-                      <div className="flex items-start gap-3">
-                        <span
-                          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                            showCorrect
-                              ? "bg-emerald text-white dark:bg-sparky-green dark:text-stone-950"
-                              : showIncorrect
-                              ? "bg-red-500 text-white"
-                              : isSelected
-                              ? "bg-amber text-white dark:bg-sparky-green dark:text-stone-950"
-                              : "bg-muted dark:bg-stone-800 text-muted-foreground"
-                          }`}
-                        >
-                          {String.fromCharCode(65 + index)}
-                        </span>
-                        <span className="pt-1">{option}</span>
-                      </div>
-                    </motion.button>
-                  );
-                })}
-              </div>
-
-              {/* Mobile Submit/Next Button */}
-              <div className="flex justify-center mb-6 md:hidden">
-                {!isSubmitted ? (
-                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
-                    <Button
-                      onClick={handleSubmitAnswer}
-                      disabled={selectedAnswer === null}
-                      size="lg"
-                      className="bg-amber hover:bg-amber/90 text-white gap-2 w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                    >
-                      Submit
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </motion.div>
-                ) : (
+              {/* Mobile Next Button */}
+              {isSubmitted && (
+                <div className="flex justify-center mb-6 md:hidden">
                   <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="w-full">
                     <Button
                       onClick={handleNextQuestion}
@@ -1233,24 +1050,12 @@ export default function DailyChallengePage() {
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </motion.div>
-                )}
-              </div>
+                </div>
+              )}
 
-              {/* Desktop Submit/Next Button - below answers so user doesn't scroll up */}
-              <div className="hidden md:flex justify-end mb-6">
-                {!isSubmitted ? (
-                  <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                    <Button
-                      onClick={handleSubmitAnswer}
-                      disabled={selectedAnswer === null}
-                      size="default"
-                      className="bg-amber hover:bg-amber/90 text-white gap-2 dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-                    >
-                      Submit
-                      <ArrowRight className="h-4 w-4" />
-                    </Button>
-                  </motion.div>
-                ) : (
+              {/* Desktop Next Button - below answers so user doesn't scroll up */}
+              {isSubmitted && (
+                <div className="hidden md:flex justify-end mb-6">
                   <motion.div whileTap={{ scale: 0.97 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                     <Button
                       onClick={handleNextQuestion}
@@ -1261,8 +1066,8 @@ export default function DailyChallengePage() {
                       <ArrowRight className="h-4 w-4" />
                     </Button>
                   </motion.div>
-                )}
-              </div>
+                </div>
+              )}
 
               {/* Mobile Progress Bar & Nav */}
               <div className="md:hidden mb-4">
@@ -1481,8 +1286,6 @@ export default function DailyChallengePage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
-          </AnimatePresence>
         </div>
       </motion.main>
     </>

@@ -18,7 +18,6 @@ import {
   Flame,
   RotateCcw,
   ChevronRight,
-  ChevronDown,
   Save,
   Loader2,
   Lightbulb,
@@ -44,6 +43,17 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { SparkyMessage } from "@/components/sparky";
+import { QuestionCard } from "@/components/quiz-engine";
+import {
+  CORRECT_MESSAGES,
+  INCORRECT_MESSAGES,
+  ON_FIRE_MESSAGES,
+  STREAK_BROKEN_MESSAGES,
+  MILESTONE_MESSAGES,
+  MILESTONES,
+  STREAK_THRESHOLD,
+  getRandomMessage,
+} from "@/components/quiz-engine/sparky-messages";
 import { getRandomQuestions, getQuestionById, getQuestionCountByCategoryAndDifficulty } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty, type NecVersion } from "@/types/question";
@@ -52,64 +62,8 @@ import { calculateQuizTotal, PASS_THRESHOLD } from "@/lib/watts";
 import { formatCooldown } from "@/lib/circuit-breaker";
 import type { QuizVoltage } from "@/types/reward-system";
 
-// Sparky congratulation messages for correct answers
-const CORRECT_MESSAGES = [
-  "Excellent work! You're lighting up the path to success! ⚡",
-  "That's the right answer! Your knowledge is really amping up!",
-  "Perfect! You're wired for success, future Master Electrician!",
-  "Brilliant! That's exactly right - you're on fire! 🔥",
-  "Outstanding! Your understanding is crystal clear!",
-  "You nailed it! Keep that current flowing!",
-  "Correct! You're really charging ahead with these concepts!",
-  "Yes! That's some high-voltage knowledge right there!",
-  "Fantastic! Your electrical expertise is shining bright!",
-  "Spot on! You're grounded in the fundamentals!",
-];
-
-// Sparky encouragement messages for incorrect answers
-const INCORRECT_MESSAGES = [
-  "Not quite, but that's how we learn! Let me help you understand this one.",
-  "Close! This is a tricky one. Let's review it together.",
-  "That's okay! Even master electricians were apprentices once. Here's the key insight:",
-  "Don't worry! This concept trips up a lot of people. Let's break it down.",
-  "Almost there! Understanding this will make you stronger for the exam.",
-  "Learning moment! This is exactly why practice matters. Here's the explanation:",
-  "No worries! These questions help identify areas to strengthen. Let's review:",
-  "That's a tough one! Here's what the NEC says about this:",
-];
-
-// Sparky "on fire" messages for streaks of 3+
-const ON_FIRE_MESSAGES = [
-  "YOU'RE ON FIRE! 🔥 3 in a row! Keep that hot streak going!",
-  "BLAZING HOT! 🔥 You're absolutely crushing it right now!",
-  "UNSTOPPABLE! 🔥 Your knowledge is burning bright!",
-  "ELECTRIC FIRE! ⚡🔥 Nothing can stop you now!",
-  "SCORCHING STREAK! 🔥 You're lighting up this quiz!",
-];
-
-// Milestone messages for big streak celebrations
-const MILESTONE_MESSAGES: Record<number, string[]> = {
-  5:  ["FIVE IN A ROW! You're heating up!", "5 STREAK! Now you're cooking with gas!"],
-  10: ["TEN STREAK! Absolutely unstoppable!", "10 IN A ROW! You're on another level!"],
-  15: ["FIFTEEN! Legendary performance!", "15 STREAK! Are you even human?!"],
-  20: ["TWENTY! Master Electrician status!", "20 STREAK! Flawless!"],
-};
-
-const MILESTONES = [5, 10, 15, 20];
-
-const STREAK_THRESHOLD = 3; // Number of correct answers to trigger "on fire"
-
-// Sparky messages when streak is broken
-const STREAK_BROKEN_MESSAGES = [
-  "Streak broken, but don't sweat it! Every master electrician has had setbacks. Let's build a new one! 💪",
-  "That streak had a good run! Shake it off and let's start fresh - you've got this!",
-  "No worries about the streak! What matters is you're learning. Ready to fire up a new one? 🔥",
-  "The streak may be gone, but your knowledge isn't! Let's get back on track together.",
-  "Hey, streaks are made to be broken... and rebuilt! You're still making progress!",
-];
-
 const QUESTIONS_PER_DIFFICULTY: Record<Difficulty, number> = {
-  apprentice: 10,
+  apprentice: 10, // kept for type compatibility
   journeyman: 15,
   master: 20,
 };
@@ -117,11 +71,6 @@ const SESSION_TIMEOUT_MS = 60 * 60 * 1000; // 1 hour
 const SESSION_WARNING_MS = 5 * 60 * 1000; // 5 minutes before timeout
 const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
 const UNLOCK_THRESHOLD = 70; // percentage needed to unlock next difficulty
-
-// Get a random message from an array
-function getRandomMessage(messages: string[]): string {
-  return messages[Math.floor(Math.random() * messages.length)];
-}
 
 // Fire confetti celebration with intensity levels
 // level 0 = normal (80/side), 1 = streak-5, 2 = streak-10, 3 = streak-15, 4 = streak-20
@@ -353,14 +302,6 @@ function createInitialState(categorySlug: CategorySlug, difficulty?: Difficulty,
 
 const DIFFICULTY_CONFIG: { value: Difficulty; label: string; description: string; color: string; bg: string; border: string }[] = [
   {
-    value: "apprentice",
-    label: "Apprentice",
-    description: "Fundamental concepts and straightforward NEC references",
-    color: "text-emerald dark:text-sparky-green",
-    bg: "bg-emerald/10 dark:bg-sparky-green/10",
-    border: "border-emerald/30 hover:border-emerald/60 dark:border-sparky-green/30 dark:hover:border-sparky-green/60",
-  },
-  {
     value: "journeyman",
     label: "Journeyman",
     description: "Applied knowledge with multi-step calculations",
@@ -414,7 +355,7 @@ export default function QuizTakingPage() {
   // Difficulty unlock state
   const [unlocks, setUnlocks] = useState<Record<string, { unlocked: boolean; bestPercentage: number | null }>>({
     apprentice: { unlocked: true, bestPercentage: null },
-    journeyman: { unlocked: false, bestPercentage: null },
+    journeyman: { unlocked: true, bestPercentage: null },
     master: { unlocked: false, bestPercentage: null },
   });
   const [unlocksLoading, setUnlocksLoading] = useState(true);
@@ -620,7 +561,7 @@ export default function QuizTakingPage() {
   // Handle starting fresh
   const handleStartFresh = useCallback(() => {
     clearSavedProgress();
-    const diff = selectedDifficulty ?? "apprentice";
+    const diff = selectedDifficulty ?? "journeyman";
     const count = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[diff];
     setQuizState(createInitialState(categorySlug, selectedDifficulty ?? undefined, count, necVersion));
     setShowResumePrompt(false);
@@ -1252,16 +1193,6 @@ export default function QuizTakingPage() {
     );
   }
 
-  // Detect newly unlocked difficulty (unlocked but never attempted, excluding apprentice)
-  const newlyUnlockedDifficulty = !unlocksLoading
-    ? (["journeyman", "master"] as const).find(
-        (d) => unlocks[d]?.unlocked && unlocks[d]?.bestPercentage === null
-      )
-    : null;
-  const newlyUnlockedLabel = newlyUnlockedDifficulty
-    ? DIFFICULTY_CONFIG.find((d) => d.value === newlyUnlockedDifficulty)?.label
-    : null;
-
   // Show difficulty selection if not yet chosen
   if (!selectedDifficulty) {
     return (
@@ -1280,38 +1211,6 @@ export default function QuizTakingPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="max-w-md w-full space-y-4"
         >
-          {/* Congratulatory banner for newly unlocked difficulty */}
-          {newlyUnlockedLabel && (
-            <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ type: "spring", damping: 14, stiffness: 180 }}
-            >
-              <Card className="border-amber/50 dark:border-sparky-green/50 bg-gradient-to-br from-amber/5 to-amber/10 dark:from-sparky-green/5 dark:to-sparky-green/10 overflow-hidden">
-                <CardContent className="pt-5 pb-4 flex items-center gap-4">
-                  <motion.img
-                    src="/streak-sparky.svg"
-                    alt="Sparky celebrating"
-                    className="h-16 w-16 flex-shrink-0"
-                    animate={{ rotate: [0, -5, 5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
-                  />
-                  <div>
-                    <p className="font-bold text-amber dark:text-sparky-green text-sm">
-                      New Level Unlocked!
-                    </p>
-                    <p className="text-foreground font-display text-lg">
-                      {newlyUnlockedLabel} is ready!
-                    </p>
-                    <p className="text-muted-foreground text-xs mt-0.5">
-                      Great job scoring {UNLOCK_THRESHOLD}%+ — keep climbing!
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-
           {/* Circuit Breaker tripped warning */}
           {breakerTripped && (
             <motion.div
@@ -1358,10 +1257,8 @@ export default function QuizTakingPage() {
                 const unlockInfo = unlocks[diff.value];
                 const isLocked = authStatus === "authenticated" && !unlocksLoading && unlockInfo && !unlockInfo.unlocked;
                 const isDisabled = poolCount === 0 || isLocked || unlocksLoading;
-                const previousDifficulty = diff.value === "journeyman" ? "Apprentice" : diff.value === "master" ? "Journeyman" : null;
-                const previousBest = diff.value === "journeyman"
-                  ? unlocks["apprentice"]?.bestPercentage
-                  : diff.value === "master"
+                const previousDifficulty = diff.value === "master" ? "Journeyman" : null;
+                const previousBest = diff.value === "master"
                   ? unlocks["journeyman"]?.bestPercentage
                   : null;
                 return (
@@ -1639,140 +1536,19 @@ export default function QuizTakingPage() {
         </div>
       </div>
 
-      {/* Question Card */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentQuestion.id}
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -20 }}
-          transition={{ duration: 0.3 }}
-        >
-          <Card className="mb-6 border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
-            <CardContent className="pt-6">
-              {/* Hint Button */}
-              {hintsVisible && (
-              <div className="flex items-center gap-2 mb-4">
-                <button
-                  onClick={() => setQuizState(prev => ({ ...prev, showHint: !prev.showHint }))}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border transition-all ${
-                    quizState.showHint
-                      ? "bg-amber text-white border-amber dark:bg-sparky-green dark:text-stone-950 dark:border-sparky-green"
-                      : "bg-amber/10 text-amber border-amber/30 hover:bg-amber/20 dark:bg-sparky-green/10 dark:text-sparky-green dark:border-sparky-green/30 dark:hover:bg-sparky-green/20"
-                  }`}
-                >
-                  <Lightbulb className="h-3.5 w-3.5" />
-                  Hint
-                  <motion.div
-                    animate={{ rotate: quizState.showHint ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ChevronDown className="h-3.5 w-3.5" />
-                  </motion.div>
-                </button>
-              </div>
-              )}
-
-              {/* Question Text */}
-              <h2 className="text-lg md:text-xl font-semibold text-foreground leading-relaxed">
-                {currentQuestion.questionText}
-              </h2>
-
-              {/* Expandable Hint Section - Below Question */}
-              <AnimatePresence>
-                {hintsVisible && quizState.showHint && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
-                      className="overflow-hidden"
-                    >
-                      <div className="mt-5 p-4 rounded-xl backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 shadow-xl">
-                        {/* NEC Reference - Staggered Entry (hidden by scaffolding at higher tiers) */}
-                        {scaffolding.showNecReferences && (
-                        <motion.div
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: 0.1 }}
-                          className="flex items-start gap-3"
-                        >
-                          <div className="p-2 rounded-lg bg-purple/20">
-                            <Book className="h-4 w-4 text-purple" />
-                          </div>
-                          <div>
-                            <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">NEC Reference</p>
-                            <p className="text-sm font-semibold text-purple">
-                              {getNecReference(currentQuestion, necVersion)}
-                            </p>
-                          </div>
-                        </motion.div>
-                        )}
-
-                      </div>
-                    </motion.div>
-                )}
-              </AnimatePresence>
-            </CardContent>
-          </Card>
-
-          {/* Answer Options */}
-          <div className="grid grid-cols-1 gap-3 mb-6">
-            {currentQuestion.options.map((option, index) => {
-              const isSelected = selectedAnswer === index;
-              const isCorrect = index === currentQuestion.correctAnswer;
-              const showCorrect = isSubmitted && isCorrect;
-              const showIncorrect = isSubmitted && isSelected && !isCorrect;
-
-              let optionClasses =
-                "w-full p-4 text-left rounded-lg border-2 transition-all min-h-[56px] ";
-
-              if (showCorrect) {
-                optionClasses +=
-                  "border-emerald bg-emerald/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
-              } else if (showIncorrect) {
-                optionClasses +=
-                  "border-red-500 bg-red-500/10 text-foreground";
-              } else if (isSelected) {
-                optionClasses +=
-                  "border-amber bg-amber/10 dark:border-sparky-green dark:bg-sparky-green/10 text-foreground";
-              } else if (isSubmitted) {
-                optionClasses += "border-border bg-muted/50 dark:bg-stone-800/50 text-muted-foreground";
-              } else {
-                optionClasses +=
-                  "border-border hover:border-amber/50 dark:hover:border-sparky-green/50 hover:bg-muted/50 dark:hover:bg-stone-800/50 cursor-pointer";
-              }
-
-              return (
-                <motion.button
-                  key={index}
-                  ref={(el) => { answerButtonRefs.current[index] = el; }}
-                  onClick={() => handleSelectAnswer(index)}
-                  disabled={isSubmitted}
-                  whileTap={!isSubmitted ? { scale: 0.97 } : undefined}
-                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                  className={optionClasses}
-                >
-                  <div className="flex items-start gap-3">
-                    <span
-                      className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                        showCorrect
-                          ? "bg-emerald text-white dark:bg-sparky-green dark:text-stone-950"
-                          : showIncorrect
-                          ? "bg-red-500 text-white"
-                          : isSelected
-                          ? "bg-amber text-white dark:bg-sparky-green dark:text-stone-950"
-                          : "bg-muted dark:bg-stone-800 text-muted-foreground"
-                      }`}
-                    >
-                      {String.fromCharCode(65 + index)}
-                    </span>
-                    <span className="pt-1">{option}</span>
-                  </div>
-                </motion.button>
-              );
-            })}
-          </div>
+      {/* Question Card + Answer Options */}
+      <QuestionCard
+        question={currentQuestion}
+        selectedAnswer={selectedAnswer}
+        isSubmitted={isSubmitted}
+        onSelectAnswer={handleSelectAnswer}
+        necVersion={necVersion}
+        answerButtonRefs={answerButtonRefs}
+        hintsVisible={hintsVisible}
+        showNecReference={scaffolding.showNecReferences}
+        showHint={quizState.showHint}
+        onToggleHint={() => setQuizState(prev => ({ ...prev, showHint: !prev.showHint }))}
+      />
 
           {/* Mobile Progress Bar & Nav - visible only on small screens */}
           <div className="md:hidden mb-4">
@@ -2054,9 +1830,6 @@ export default function QuizTakingPage() {
               </motion.div>
             )}
           </AnimatePresence>
-
-        </motion.div>
-      </AnimatePresence>
 
       {/* Session Timeout Warning */}
       <SessionTimeoutWarning

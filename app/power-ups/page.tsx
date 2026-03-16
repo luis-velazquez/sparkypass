@@ -5,12 +5,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronLeft, Loader2, Zap, Package } from "lucide-react";
+import { ChevronLeft, Loader2, Zap, Package, Crosshair, Languages, Workflow, Lock, Check } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { PowerUpShelf, ActivePowerUpBanner } from "@/components/power-ups";
 import { getRandomUnseenTip, getSeenTipIds, markTipSeen } from "@/lib/tips";
 import type { PowerUpTypeValue } from "@/lib/db/schema";
+import type { PackMeta, GameId } from "@/lib/game-packs";
 
 interface ActivePowerUp {
   id: string;
@@ -33,6 +35,18 @@ export default function PowerUpsPage() {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Game pack state
+  const [packCatalog, setPackCatalog] = useState<Record<GameId, PackMeta[]>>({
+    "index-sniper": [],
+    "translation-engine": [],
+    "formula-builder": [],
+  });
+  const [ownedPacks, setOwnedPacks] = useState<Record<GameId, string[]>>({
+    "index-sniper": ["free"],
+    "translation-engine": ["free"],
+    "formula-builder": ["free"],
+  });
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
@@ -51,10 +65,21 @@ export default function PowerUpsPage() {
       .finally(() => setLoading(false));
   }, []);
 
+  const fetchGamePacks = useCallback(() => {
+    fetch("/api/game-packs")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.catalog) setPackCatalog(data.catalog);
+        if (data.owned) setOwnedPacks(data.owned);
+      })
+      .catch(() => {});
+  }, []);
+
   useEffect(() => {
     if (status !== "authenticated") return;
     fetchPowerUps();
-  }, [status, fetchPowerUps]);
+    fetchGamePacks();
+  }, [status, fetchPowerUps, fetchGamePacks]);
 
   const handlePurchase = async (type: PowerUpTypeValue) => {
     try {
@@ -97,6 +122,34 @@ export default function PowerUpsPage() {
       // Silently fail
     }
   };
+
+  const handlePackPurchase = async (gameId: GameId, packId: string) => {
+    try {
+      const res = await fetch("/api/game-packs/purchase", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gameId, packId }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setWattsBalance(data.wattsBalance);
+        setOwnedPacks((prev) => ({
+          ...prev,
+          [gameId]: [...(prev[gameId] || []), packId],
+        }));
+        window.dispatchEvent(new CustomEvent("watts-updated", { detail: { balance: data.wattsBalance } }));
+      }
+    } catch {}
+  };
+
+  const GAME_SECTIONS: { id: GameId; label: string; icon: typeof Crosshair }[] = [
+    { id: "index-sniper", label: "Index Sniper", icon: Crosshair },
+    { id: "translation-engine", label: "Translation Engine", icon: Languages },
+    { id: "formula-builder", label: "Formula Builder", icon: Workflow },
+  ];
+
+  // Only show games that have purchasable packs
+  const gamesWithPacks = GAME_SECTIONS.filter((g) => packCatalog[g.id].length > 0);
 
   if (status === "loading" || loading) {
     return (
@@ -194,6 +247,100 @@ export default function PowerUpsPage() {
             onActivate={handleActivate}
           />
         </motion.div>
+
+        {/* Game Expansion Packs */}
+        {gamesWithPacks.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-8"
+          >
+            <h2 className="text-lg font-bold font-display text-foreground mb-4 flex items-center gap-2">
+              <Package className="h-5 w-5 text-amber dark:text-sparky-green" />
+              Game Expansion Packs
+            </h2>
+            <p className="text-sm text-muted-foreground mb-4">
+              Unlock new card packs for your favorite games.
+            </p>
+
+            <div className="space-y-6">
+              {gamesWithPacks.map((game) => {
+                const GameIcon = game.icon;
+                const catalog = packCatalog[game.id];
+                const owned = new Set(ownedPacks[game.id] || []);
+
+                return (
+                  <div key={game.id}>
+                    <h3 className="text-sm font-bold text-foreground mb-2 flex items-center gap-2">
+                      <GameIcon className="h-4 w-4 text-amber dark:text-sparky-green" />
+                      {game.label}
+                      <span className="text-xs text-muted-foreground font-normal ml-auto">
+                        {catalog.filter((p) => owned.has(p.id)).length}/{catalog.length} owned
+                      </span>
+                    </h3>
+                    <div className="grid gap-2">
+                      {catalog.map((pack) => {
+                        const isOwned = owned.has(pack.id);
+                        const canAfford = wattsBalance >= pack.cost;
+
+                        return (
+                          <div
+                            key={pack.id}
+                            className={`flex items-center justify-between p-3 rounded-xl border bg-card dark:bg-stone-900/50 transition-all ${
+                              isOwned
+                                ? "border-emerald-500/30 dark:border-sparky-green/30"
+                                : "border-border dark:border-stone-800"
+                            }`}
+                          >
+                            <div className="flex-1 min-w-0 mr-3">
+                              <div className="flex items-center gap-2">
+                                <span className="text-sm font-bold text-foreground truncate">
+                                  {pack.name}
+                                </span>
+                                <span className="text-xs text-muted-foreground shrink-0">
+                                  {pack.cardCount} {pack.cardCount === 1 ? "item" : "items"}
+                                </span>
+                              </div>
+                              <p className="text-xs text-muted-foreground truncate mt-0.5">
+                                {pack.description}
+                              </p>
+                            </div>
+                            {isOwned ? (
+                              <span className="flex items-center gap-1 text-xs font-bold text-emerald-500 dark:text-sparky-green shrink-0">
+                                <Check className="h-3.5 w-3.5" />
+                                Owned
+                              </span>
+                            ) : (
+                              <Button
+                                size="sm"
+                                disabled={!canAfford}
+                                onClick={() => handlePackPurchase(game.id, pack.id)}
+                                className="shrink-0 bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 disabled:opacity-50"
+                              >
+                                {canAfford ? (
+                                  <>
+                                    <Zap className="h-3.5 w-3.5 mr-1" />
+                                    {pack.cost}W
+                                  </>
+                                ) : (
+                                  <>
+                                    <Lock className="h-3.5 w-3.5 mr-1" />
+                                    {pack.cost}W
+                                  </>
+                                )}
+                              </Button>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+        )}
       </div>
 
     </main>

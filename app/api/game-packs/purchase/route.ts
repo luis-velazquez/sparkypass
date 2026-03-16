@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, powerUpPurchases, wattsTransactions } from "@/lib/db";
+import { db, users, gamePackPurchases, wattsTransactions } from "@/lib/db";
 import { eq, and, sql } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
-import { getPowerUpCost, getPowerUpName, POWER_UP_DEFINITIONS } from "@/lib/power-ups";
-import type { PowerUpTypeValue } from "@/lib/db/schema";
+import { getPackCost, getPackMeta, type GameId } from "@/lib/game-packs";
+import { gameIdValues } from "@/lib/db/schema";
 
 export async function POST(request: Request) {
   try {
@@ -13,17 +13,37 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { type } = await request.json();
+    const { gameId, packId } = await request.json();
     const userId = session.user.id;
 
-    // Validate power-up type
-    if (!type || !POWER_UP_DEFINITIONS[type as PowerUpTypeValue]) {
-      return NextResponse.json({ error: "Invalid power-up type" }, { status: 400 });
+    // Validate gameId
+    if (!gameId || !gameIdValues.includes(gameId)) {
+      return NextResponse.json({ error: "Invalid game ID" }, { status: 400 });
     }
 
-    const powerUpType = type as PowerUpTypeValue;
-    const cost = getPowerUpCost(powerUpType);
-    const name = getPowerUpName(powerUpType);
+    // Validate pack exists in catalog
+    const cost = getPackCost(gameId as GameId, packId);
+    if (cost === null) {
+      return NextResponse.json({ error: "Invalid pack ID" }, { status: 400 });
+    }
+
+    const meta = getPackMeta(gameId as GameId, packId)!;
+
+    // Check not already owned
+    const existing = await db
+      .select({ id: gamePackPurchases.id })
+      .from(gamePackPurchases)
+      .where(
+        and(
+          eq(gamePackPurchases.userId, userId),
+          eq(gamePackPurchases.gameId, gameId),
+          eq(gamePackPurchases.packId, packId),
+        )
+      );
+
+    if (existing.length > 0) {
+      return NextResponse.json({ error: "Pack already owned" }, { status: 400 });
+    }
 
     // Atomic deduction — checks sufficient balance and deducts in one query
     const result = await db
@@ -50,36 +70,35 @@ export async function POST(request: Request) {
     const newBalance = result[0].wattsBalance;
 
     // Create the purchase
-    const purchaseId = uuidv4();
-    await db.insert(powerUpPurchases).values({
-      id: purchaseId,
+    await db.insert(gamePackPurchases).values({
+      id: uuidv4(),
       userId,
-      powerUpType,
-      isActive: false,
+      gameId,
+      packId,
+      cost,
     });
 
     // Log transaction
     await db.insert(wattsTransactions).values({
       id: uuidv4(),
       userId,
-      type: "power_up_purchase",
+      type: "game_pack_purchase",
       amount: -cost,
       balanceAfter: newBalance,
       voltageAtTime: 0,
       ampsAtTime: 0,
-      description: `Purchased ${name}`,
+      description: `Purchased ${meta.name} for ${gameId}`,
     });
 
-    // Dispatch watts-updated event via response
     return NextResponse.json({
       success: true,
-      purchaseId,
-      powerUpType,
-      wattsSpent: cost,
       wattsBalance: newBalance,
+      gameId,
+      packId,
+      wattsSpent: cost,
     });
   } catch (error) {
-    console.error("Error purchasing power-up:", error);
+    console.error("Error purchasing game pack:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }

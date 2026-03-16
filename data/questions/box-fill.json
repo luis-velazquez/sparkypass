@@ -148,7 +148,7 @@
       ]
     },
     {
-      "id": "BF-A009",
+      "id": "BF-A008",
       "category": "box-fill",
       "necArticle": "314.16(B)(1)",
       "difficulty": "apprentice",
@@ -169,7 +169,7 @@
       ]
     },
     {
-      "id": "BF-A010",
+      "id": "BF-A009",
       "category": "box-fill",
       "necArticle": "314.16(B)(5)",
       "difficulty": "apprentice",
@@ -190,28 +190,7 @@
       ]
     },
     {
-      "id": "BF-A011",
-      "category": "box-fill",
-      "necArticle": "314.16(B)",
-      "difficulty": "journeyman",
-      "questionText": "When calculating box fill volume allowances, which of the following items is NOT required to be counted?",
-      "options": [
-        "Luminaire hickeys",
-        "Internal cable clamps",
-        "Terminal blocks and devices",
-        "Lock rings and bushings"
-      ],
-      "correctAnswer": 3,
-      "explanation": "According to NEC 314.16(B), volume allowances must be made for conductors, internal cable clamps, support fittings (like hickeys or studs), devices/equipment, and equipment grounding conductors. Standard small fittings like lock rings, locknuts, wire connectors (wire nuts), and bushings are exempt and do not require a volume allowance deduction.",
-      "necReference": "NEC 314.16(B)",
-      "sparkyTip": "Small hardware gets a free pass! Lock rings, locknuts, wire nuts, and bushings don't cost you any box space. You only need to count the core items: wires, internal clamps, support fittings, devices, and grounds.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "BF-A012",
+      "id": "BF-A010",
       "category": "box-fill",
       "necArticle": "314.16(B)(4)",
       "difficulty": "apprentice",
@@ -543,6 +522,27 @@
       "explanation": "Step 1: Look up the standard volume for a 4 x 2-1/8 inch square box in Table 314.16(A), which is 30.3 cu in. Step 2: According to 314.16(A), the total volume of a wiring enclosure is the sum of the assembled sections, including the space provided by extension rings or domed covers that are marked with their volume. Step 3: Add the box volume to the extension ring volume (30.3 + 21.0 = 51.3 cu in).",
       "necReference": "NEC 314.16(A); Table 314.16(A)",
       "sparkyTip": "Mud rings and extension rings give you free space! Always look up your base box in Table 314.16(A) first, then add the stamped volume of whatever ring or domed cover you bolt onto it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J016",
+      "category": "box-fill",
+      "necArticle": "314.16(B)",
+      "difficulty": "journeyman",
+      "questionText": "When calculating box fill volume allowances, which of the following items is NOT required to be counted?",
+      "options": [
+        "Luminaire hickeys",
+        "Internal cable clamps",
+        "Terminal blocks and devices",
+        "Lock rings and bushings"
+      ],
+      "correctAnswer": 3,
+      "explanation": "According to NEC 314.16(B), volume allowances must be made for conductors, internal cable clamps, support fittings (like hickeys or studs), devices/equipment, and equipment grounding conductors. Standard small fittings like lock rings, locknuts, wire connectors (wire nuts), and bushings are exempt and do not require a volume allowance deduction.",
+      "necReference": "NEC 314.16(B)",
+      "sparkyTip": "Small hardware gets a free pass! Lock rings, locknuts, wire nuts, and bushings don't cost you any box space. You only need to count the core items: wires, internal clamps, support fittings, devices, and grounds.",
       "necVersions": [
         "2023",
         "2026"

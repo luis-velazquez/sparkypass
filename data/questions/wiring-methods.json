@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "TN-A006",
+      "id": "WM-A001",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "id": "TN-A007",
+      "id": "WM-A002",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "id": "TN-A009",
+      "id": "WM-A003",
       "category": "wiring-methods",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
@@ -64,7 +64,7 @@
       ]
     },
     {
-      "id": "TN-A010",
+      "id": "WM-A004",
       "category": "wiring-methods",
       "difficulty": "apprentice",
       "validCodeCycles": [
@@ -89,30 +89,7 @@
       "sparkyTip": "Stay off the ceiling guy's wires! Always shoot your own independent wire into the deck for your boxes and cables. If you zip-tie your MC to the ceiling grid wire, the inspector will make you climb right back up that ladder and cut it all down."
     },
     {
-      "id": "WM-J007-WIRE-ENDS",
-      "category": "wiring-methods",
-      "difficulty": "journeyman",
-      "validCodeCycles": [
-        "2026"
-      ],
-      "questionText": "When installing independent support wires above a suspended ceiling specifically to support electrical raceways and cables, how must these support wires be terminated according to the NEC?",
-      "options": [
-        "They only need to be secured to the structural ceiling deck above.",
-        "They must be secured at both ends.",
-        "They must be secured to the structural ceiling above and left free-hanging at the bottom to allow for flexibility.",
-        "They must be secured to the ceiling grid first, then pulled taut and wrapped around the raceway."
-      ],
-      "correctAnswer": 1,
-      "necReferences": {
-        "2026": "300.11(B)"
-      },
-      "explanations": {
-        "default": "\n\nAccording to NEC 300.11(B), where independent support wires are used to support electrical wiring methods above a suspended ceiling, they must be secured at both ends. This means you must secure the wire to the building structure above, and also tie off the bottom end to the suspended ceiling framing. This prevents the independent support wire from swinging freely and ensures the cables and raceways are held securely in place during maintenance or seismic events."
-      },
-      "sparkyTip": "Don't just shoot the wire into the deck and let the bottom dangle in the breeze! You have to tie off that bottom end to the ceiling assembly so the wire is tight and secured at both ends."
-    },
-    {
-      "id": "WM-A010-PULL-BOX",
+      "id": "WM-A005",
       "category": "wiring-methods",
       "difficulty": "apprentice",
       "validCodeCycles": [
@@ -135,7 +112,7 @@
       "sparkyTip": "Four 90s and you're done! 4 x 90 = 360. Once you hit that 360-degree mark with your bender, you must set a box so you can safely pull the wire."
     },
     {
-      "id": "WM-A011-EXTENSION-RINGS",
+      "id": "WM-A006",
       "category": "wiring-methods",
       "difficulty": "apprentice",
       "validCodeCycles": [
@@ -158,7 +135,7 @@
       "sparkyTip": "Don't let anyone tell you that you can't stack extension boxes! The 2026 Code specifically added the words 'one or more' just to settle this exact argument when you are trying to bring a deeply buried box flush with the drywall."
     },
     {
-      "id": "WM-A012-SERVICE-LOOP",
+      "id": "WM-A007",
       "category": "wiring-methods",
       "difficulty": "apprentice",
       "validCodeCycles": [
@@ -206,7 +183,7 @@
       ]
     },
     {
-      "id": "TN-J023",
+      "id": "WM-J002",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
@@ -227,7 +204,7 @@
       ]
     },
     {
-      "id": "TN-J026",
+      "id": "WM-J003",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
@@ -248,7 +225,7 @@
       ]
     },
     {
-      "id": "WM-J006-RIBBON",
+      "id": "WM-J004",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -273,7 +250,7 @@
       "sparkyTip": "The 12-inch warning rule! Backfill your trench with at least a foot of dirt over the pipe or wire before you roll out the red tape. If you put the tape right on top of the wire, the backhoe operator will rip them both up at the exact same time."
     },
     {
-      "id": "WM-J008-COMPLETE-RUN",
+      "id": "WM-J005",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -298,8 +275,8 @@
       "sparkyTip": "Pipe first, pull second! Never try to sleeve a piece of EMT or PVC over wires that are already laid out. Build the entire raceway system, secure it, and then break out the fish tape."
     },
     {
-      "id": "CAB-J002-CABLE-SECURE",
-      "category": "cabinets-and-enclosures",
+      "id": "WM-J006",
+      "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
         "2026"
@@ -321,7 +298,7 @@
       "sparkyTip": "The raceway acts as the shield! If you pipe a complete raceway system from box to box and pull your cables through it, you don't need to fight with individual Romex connectors where the pipe enters the panel."
     },
     {
-      "id": "CAB-J004-SERVICE-SPLICE",
+      "id": "WM-J007",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -344,7 +321,7 @@
       "sparkyTip": "Keep your line-side taps in the main box! If you are tapping into unfused utility power for a solar or generator installation, you cannot make that connection in a random gutter on the wall. It must happen inside the actual service equipment."
     },
     {
-      "id": "WM-J009-RMC-LOCKNUTS",
+      "id": "WM-J008",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -367,7 +344,7 @@
       "sparkyTip": "Sandwich the box! Unless you are screwing the rigid pipe directly into a threaded factory hub, you must use a locknut on both the outside and the inside of the enclosure to lock it down properly."
     },
     {
-      "id": "WM-J010-NM-ENTRY",
+      "id": "WM-J009",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -392,7 +369,7 @@
       "sparkyTip": "Don't strip your Romex too far back! The inspector always looks to see at least a 1/4 inch of that jacket poking through the connector inside the box to prove the wires are protected from the metal clamp."
     },
     {
-      "id": "WM-J011-PVC-EXPANSION",
+      "id": "WM-J010",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -417,7 +394,7 @@
       "sparkyTip": "PVC moves a lot! If you are running a long straight pipe across a sun-baked roof or the side of a building, always do the math. If the temperature swing causes the pipe to grow or shrink by a 1/4 inch, you must throw an expansion coupling in the run."
     },
     {
-      "id": "WM-J012-EMT-ALLOWED",
+      "id": "WM-J011",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -442,7 +419,7 @@
       "sparkyTip": "EMT can go in the dirt or the slab, but it needs a raincoat! If you are burying thin-wall conduit or laying it in a concrete pour, it must have an approved corrosion-resistant coating or wrap applied so the chemicals in the earth or concrete don't rot it away."
     },
     {
-      "id": "CON-J001-DWELLING-SERVICE",
+      "id": "WM-J012",
       "category": "wiring-methods",
       "difficulty": "journeyman",
       "validCodeCycles": [
@@ -465,6 +442,29 @@
         "default": "\n\nAccording to NEC 310.12(A), the ungrounded service conductors and main feeders that supply the entire load associated with a single-family dwelling are permitted to have an ampacity of not less than 83 percent of the service rating. Because residential loads have a high rate of diversity (meaning not all appliances and lights run at the same time), the Code grants this 83% reduction. For example, a 200A service only requires conductors rated for 166A (200 x 0.83 = 166)."
       },
       "sparkyTip": "The residential magic number is 83%! Whenever you are sizing the main wires that feed the entire house, multiply the main breaker size by 0.83 to find your target ampacity, and then head over to the 75°C column of Table 310.16 to pick your wire."
+    },
+    {
+      "id": "WM-J013",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "When installing independent support wires above a suspended ceiling specifically to support electrical raceways and cables, how must these support wires be terminated according to the NEC?",
+      "options": [
+        "They only need to be secured to the structural ceiling deck above.",
+        "They must be secured at both ends.",
+        "They must be secured to the structural ceiling above and left free-hanging at the bottom to allow for flexibility.",
+        "They must be secured to the ceiling grid first, then pulled taut and wrapped around the raceway."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "300.11(B)"
+      },
+      "explanations": {
+        "default": "\n\nAccording to NEC 300.11(B), where independent support wires are used to support electrical wiring methods above a suspended ceiling, they must be secured at both ends. This means you must secure the wire to the building structure above, and also tie off the bottom end to the suspended ceiling framing. This prevents the independent support wire from swinging freely and ensures the cables and raceways are held securely in place during maintenance or seismic events."
+      },
+      "sparkyTip": "Don't just shoot the wire into the deck and let the bottom dangle in the breeze! You have to tie off that bottom end to the ceiling assembly so the wire is tight and secured at both ends."
     }
   ],
   "master": [
@@ -490,7 +490,7 @@
       ]
     },
     {
-      "id": "TN-M002",
+      "id": "WM-M002",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "master",
@@ -510,7 +510,7 @@
       ]
     },
     {
-      "id": "TN-M003",
+      "id": "WM-M003",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "master",
@@ -534,7 +534,7 @@
       }
     },
     {
-      "id": "TN-M004",
+      "id": "WM-M004",
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "master",
@@ -558,7 +558,7 @@
       }
     },
     {
-      "id": "TN-M005",
+      "id": "WM-M005",
       "category": "wiring-methods",
       "necArticle": "Article 312",
       "difficulty": "master",
@@ -582,7 +582,7 @@
       }
     },
     {
-      "id": "TN-M006",
+      "id": "WM-M006",
       "category": "wiring-methods",
       "necArticle": "Article 314",
       "difficulty": "master",
@@ -603,7 +603,7 @@
       ]
     },
     {
-      "id": "WM-M015-PVC-SUPPORT",
+      "id": "WM-M007",
       "category": "wiring-methods",
       "difficulty": "master",
       "validCodeCycles": [

@@ -18,6 +18,9 @@ import {
   ClipboardCheck,
   AlertTriangle,
   Lightbulb,
+  Crosshair,
+  Languages,
+  Gamepad2,
   type LucideIcon,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
@@ -59,6 +62,15 @@ function isNavLinkActive(pathname: string, href: string, siblingHrefs: string[] 
 const navItems: SidebarItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   {
+    label: "Games",
+    links: [
+      { href: "/index-game", label: "Index Game", icon: Target },
+      { href: "/index-sniper", label: "Index Sniper", icon: Crosshair },
+      { href: "/translation-engine", label: "Translation Engine", icon: Languages },
+      // { href: "/formula-builder", label: "Formula Builder", icon: Gamepad2 }, // Beta — hidden until ready
+    ],
+  },
+  {
     label: "Study",
     links: [
       { href: "/flashcards", label: "Flashcards", icon: Layers },
@@ -87,7 +99,6 @@ const navItems: SidebarItem[] = [
     links: [
       { href: "/quiz", label: "Quiz", icon: BookOpen },
       { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert },
-      { href: "/index-game", label: "Index Game", icon: Target },
     ],
   },
   { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },

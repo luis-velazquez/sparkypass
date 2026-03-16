@@ -227,6 +227,22 @@ export const powerUpPurchases = sqliteTable("power_up_purchases", {
 export type PowerUpPurchase = typeof powerUpPurchases.$inferSelect;
 export type NewPowerUpPurchase = typeof powerUpPurchases.$inferInsert;
 
+// Game pack purchases
+export const gameIdValues = ["index-sniper", "translation-engine", "formula-builder"] as const;
+export type GameIdValue = (typeof gameIdValues)[number];
+
+export const gamePackPurchases = sqliteTable("game_pack_purchases", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  gameId: text("game_id", { enum: gameIdValues }).notNull(),
+  packId: text("pack_id").notNull(),
+  cost: integer("cost").notNull(),
+  purchasedAt: integer("purchased_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
+export type GamePackPurchase = typeof gamePackPurchases.$inferSelect;
+export type NewGamePackPurchase = typeof gamePackPurchases.$inferInsert;
+
 // Watts transactions (audit log)
 export const wattsTransactions = sqliteTable("watts_transactions", {
   id: text("id").primaryKey(),

@@ -1,48 +1,6 @@
 {
   "apprentice": [
     {
-      "id": "SV-A001",
-      "category": "services",
-      "necArticle": "Article 230",
-      "difficulty": "apprentice",
-      "questionText": "What is the maximum number of service disconnects allowed for a single service?",
-      "options": [
-        "4",
-        "6",
-        "8",
-        "Unlimited"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC 230.71(A) limits the number of service disconnecting means to a maximum of 6 switches or circuit breakers, mounted in a single enclosure or grouped together.",
-      "necReference": "230.71(A)",
-      "sparkyTip": "Six throws max to turn off the service - remember the 'rule of six!'",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "SV-A002",
-      "category": "services",
-      "necArticle": "Article 230",
-      "difficulty": "apprentice",
-      "questionText": "What is the minimum service size required for a single-family dwelling?",
-      "options": [
-        "60 amperes",
-        "100 amperes",
-        "150 amperes",
-        "200 amperes"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC 230.79(C) requires a minimum 100-ampere, 3-wire service for a single-family dwelling with an initial installation of more than two 2-wire branch circuits.",
-      "necReference": "230.79(C)",
-      "sparkyTip": "100 amps minimum for homes - the modern standard for residential service!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
       "id": "SV-A003",
       "category": "services",
       "necArticle": "Article 230",
@@ -58,27 +16,6 @@
       "explanation": "NEC 230.42(A)(1) requires service entrance conductors to have an ampacity not less than 100% of the maximum load to be served after applying demand factors.",
       "necReference": "230.42(A)(1)",
       "sparkyTip": "Service conductors at 100% of calculated load - after demand factors are applied!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "SV-A004",
-      "category": "services",
-      "necArticle": "Article 230",
-      "difficulty": "apprentice",
-      "questionText": "Where must the service disconnecting means be located?",
-      "options": [
-        "Inside the building only",
-        "At the meter base",
-        "At a readily accessible location nearest the point of entrance",
-        "Anywhere convenient"
-      ],
-      "correctAnswer": 2,
-      "explanation": "NEC 230.70(A)(1) requires the service disconnecting means to be installed at a readily accessible location either outside the building or inside nearest the point of entrance.",
-      "necReference": "230.70(A)(1)",
-      "sparkyTip": "Service disconnect near the entry point - firefighters need quick access!",
       "necVersions": [
         "2023",
         "2026"
@@ -104,6 +41,186 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "SRV-A001",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "As a general rule, how many services is a building or other structure permitted to be supplied by?",
+      "options": [
+        "Only one",
+        "Two, if the building is over 5,000 square feet",
+        "Up to six",
+        "As many as requested by the owner"
+      ],
+      "correctAnswer": 0,
+      "explanation": "According to the NEC, a building or other structure served shall be supplied by only one service, though there are specific special conditions (like fire pumps or emergency systems) where exceptions are allowed.",
+      "necReference": "230.2",
+      "sparkyTip": "Unless you are dealing with a massive commercial facility, a fire pump, or a backup system, always assume one building gets one service.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A002",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum overhead clearance required for service-drop conductors passing over a residential property and driveway?",
+      "options": [
+        "10 feet",
+        "12 feet",
+        "15 feet",
+        "18 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Service-drop conductors must have a minimum clearance of 12 feet over residential property and driveways, and those commercial areas not subject to truck traffic.",
+      "necReference": "230.24(B)(2)",
+      "sparkyTip": "10 feet for pedestrian areas, 12 feet for residential driveways, and 18 feet for public streets. Commit those three numbers to memory!",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A003",
+      "category": "services",
+      "necArticle": "Article 100",
+      "difficulty": "apprentice",
+      "questionText": "What is the NEC definition of the 'Service Point'?",
+      "options": [
+        "The weatherhead where the utility lines connect",
+        "The main breaker inside the electrical panel",
+        "The point of connection between the facilities of the serving utility and the premises wiring",
+        "The meter base housing"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Service Point is strictly defined as the point of connection between the facilities of the serving utility and the premises wiring. This determines where the utility's responsibility ends and the NEC rules begin.",
+      "necReference": "Article 100",
+      "sparkyTip": "The service point is the 'handshake' between the utility company and the electrician. Depending on your local utility, this could be at the weatherhead, the meter, or a transformer.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A004",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum rating permitted for the service disconnecting means for a one-family dwelling?",
+      "options": [
+        "60 Amperes",
+        "100 Amperes",
+        "150 Amperes",
+        "200 Amperes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "For a one-family dwelling, the service disconnecting means shall have a rating of not less than 100 amperes, 3-wire.",
+      "necReference": "230.79(C)",
+      "sparkyTip": "While 200 amps is the modern standard for new residential builds, the NEC absolute legal minimum for a single-family home is 100 amps.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A005",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "Where must the service disconnecting means be installed?",
+      "options": [
+        "In a readily accessible location nearest the point of entrance of the service conductors",
+        "Strictly on the outside of the building",
+        "In the geographical center of the building",
+        "Next to the largest motor load"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The service disconnecting means shall be installed in a readily accessible location either outside of a building or structure or inside nearest the point of entrance of the service conductors.",
+      "necReference": "230.70(A)(1)",
+      "sparkyTip": "Unfused service conductors are dangerous. The NEC wants that disconnect as close to the entry point as possible so those live, unprotected wires aren't running deep into the building.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A006",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "What is the maximum number of service disconnects permitted for a single service?",
+      "options": [
+        "One",
+        "Three",
+        "Six",
+        "Ten"
+      ],
+      "correctAnswer": 2,
+      "explanation": "A service shall have no more than six sets of disconnects. Note that recent NEC cycles require these to be in separate enclosures or compartments rather than a single enclosure.",
+      "necReference": "230.71",
+      "sparkyTip": "This is commonly known as the 'Rule of Six.' First responders need to be able to shut off all power to a building with no more than six hand motions.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A007",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "If multiple service disconnects (up to six) are used, how must they be arranged?",
+      "options": [
+        "Spread out across the building for convenience",
+        "Grouped together",
+        "Alternating between indoor and outdoor locations",
+        "Separated by at least 3 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The two to six disconnects as permitted in 230.71 shall be grouped. Each disconnect shall be marked to indicate the load served.",
+      "necReference": "230.72(A)",
+      "sparkyTip": "If a firefighter needs to kill the power in an emergency, they shouldn't have to go on a scavenger hunt to find the rest of the disconnects.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A008",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "What is the minimum permitted size for copper overhead service-drop conductors?",
+      "options": [
+        "10 AWG",
+        "8 AWG",
+        "6 AWG",
+        "4 AWG"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors shall not be smaller than 8 AWG copper or 6 AWG aluminum or copper-clad aluminum for overhead services.",
+      "necReference": "230.23(B)",
+      "sparkyTip": "Even if the calculated load is tiny (like a single pole light), the wire needs enough physical strength to withstand wind and ice. That's why 8 AWG Cu is the minimum.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A009",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "What is the general minimum clearance for service conductors passing over a flat roof?",
+      "options": [
+        "3 feet",
+        "8 feet",
+        "10 feet",
+        "12 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Service-drop conductors must generally maintain a vertical clearance of 8 feet above the roof surface. Exceptions exist depending on roof slope and conductor voltage.",
+      "necReference": "230.24(A)",
+      "sparkyTip": "Flat roofs are often walked on for maintenance. The 8-foot rule keeps those conductors safely out of reach of someone walking on the roof.",
+      "necVersions": ["2023", "2026"]
+    },
+    {
+      "id": "SRV-A010",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "apprentice",
+      "questionText": "Are service conductors generally permitted to be routed within the same raceway or cable as feeder or branch-circuit conductors?",
+      "options": [
+        "Yes, as long as they have the same insulation rating",
+        "Yes, if separated by a physical barrier",
+        "No, they must be kept separate",
+        "Yes, but only in underground PVC conduit"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Service conductors shall not be installed in the same raceway or cable with feeder or branch-circuit conductors, with a few very specific exceptions.",
+      "necReference": "230.7",
+      "sparkyTip": "Service conductors lack overcurrent protection until they hit the main breaker. Keeping them isolated prevents a fault from jumping into your protected branch circuits.",
+      "necVersions": ["2023", "2026"]
     }
   ],
   "journeyman": [
@@ -363,7 +480,7 @@
       }
     },
     {
-      "id": "SRV-J004-RACEWAY-MIX",
+      "id": "SV-J013",
       "category": "services",
       "difficulty": "journeyman",
       "validCodeCycles": [

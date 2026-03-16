@@ -253,7 +253,7 @@
       ]
     },
     {
-      "id": "GB-A014",
+      "id": "GB-A013",
       "category": "grounding-bonding",
       "necArticle": "406.3(D) & 250.146(D)",
       "difficulty": "apprentice",
@@ -274,7 +274,7 @@
       ]
     },
     {
-      "id": "GB-A015",
+      "id": "GB-A014",
       "category": "grounding-bonding",
       "necArticle": "250.28(A) & 250.8(A)",
       "difficulty": "apprentice",
@@ -699,7 +699,7 @@
       ]
     },
     {
-      "id": "GB-J019",
+      "id": "GB-J020",
       "category": "grounding-bonding",
       "necArticle": "250.94(A)",
       "difficulty": "journeyman",
@@ -720,7 +720,7 @@
       ]
     },
     {
-      "id": "GB-J020",
+      "id": "GB-J021",
       "category": "grounding-bonding",
       "necArticle": "250.118(10)(b)",
       "difficulty": "journeyman",
@@ -741,7 +741,7 @@
       ]
     },
     {
-      "id": "TN-J013",
+      "id": "GB-J022",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -762,7 +762,7 @@
       ]
     },
     {
-      "id": "TN-J020",
+      "id": "GB-J023",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -783,7 +783,7 @@
       ]
     },
     {
-      "id": "TN-J021",
+      "id": "GB-J024",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -804,7 +804,7 @@
       ]
     },
     {
-      "id": "TN-J022",
+      "id": "GB-J025",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -825,7 +825,7 @@
       ]
     },
     {
-      "id": "TN-J024",
+      "id": "GB-J026",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -846,7 +846,7 @@
       ]
     },
     {
-      "id": "TN-J025",
+      "id": "GB-J027",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -1209,7 +1209,7 @@
       ]
     },
     {
-      "id": "GB-M018",
+      "id": "GB-M017",
       "category": "grounding-bonding",
       "necArticle": "250.30(B)",
       "difficulty": "master",
@@ -1230,7 +1230,7 @@
       ]
     },
     {
-      "id": "GB-M019",
+      "id": "GB-M018",
       "category": "grounding-bonding",
       "necArticle": "250.30(A)(5) & 250.64(C)",
       "difficulty": "master",
@@ -1251,7 +1251,7 @@
       ]
     },
     {
-      "id": "TN-M001",
+      "id": "GB-M019",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "master",

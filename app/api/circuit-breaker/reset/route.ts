@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, circuitBreakerState, wattsTransactions } from "@/lib/db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import crypto from "crypto";
 import { RESET_COST, isCooldownExpired } from "@/lib/circuit-breaker";
 
@@ -20,27 +20,6 @@ export async function POST(request: Request) {
     if (!categorySlug) {
       return NextResponse.json(
         { error: "categorySlug is required" },
-        { status: 400 }
-      );
-    }
-
-    // Get user's current balance
-    const [currentUser] = await db
-      .select({
-        wattsBalance: users.wattsBalance,
-        level: users.level,
-      })
-      .from(users)
-      .where(eq(users.id, userId))
-      .limit(1);
-
-    if (!currentUser) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
-    }
-
-    if ((currentUser.wattsBalance || 0) < RESET_COST) {
-      return NextResponse.json(
-        { error: "Insufficient Watts", required: RESET_COST, balance: currentUser.wattsBalance },
         { status: 400 }
       );
     }
@@ -72,6 +51,30 @@ export async function POST(request: Request) {
       );
     }
 
+    // Atomic deduction — checks sufficient balance and deducts in one query
+    const result = await db
+      .update(users)
+      .set({
+        wattsBalance: sql`${users.wattsBalance} - ${RESET_COST}`,
+        updatedAt: new Date(),
+      })
+      .where(
+        and(
+          eq(users.id, userId),
+          sql`${users.wattsBalance} >= ${RESET_COST}`
+        )
+      )
+      .returning({ wattsBalance: users.wattsBalance });
+
+    if (result.length === 0) {
+      return NextResponse.json(
+        { error: "Insufficient Watts", required: RESET_COST },
+        { status: 400 }
+      );
+    }
+
+    const newBalance = result[0].wattsBalance;
+
     // Reset the breaker
     await db
       .update(circuitBreakerState)
@@ -81,16 +84,6 @@ export async function POST(request: Request) {
         cooldownEndsAt: null,
       })
       .where(eq(circuitBreakerState.id, breakerState.id));
-
-    // Deduct Watts
-    const newBalance = (currentUser.wattsBalance || 0) - RESET_COST;
-    await db
-      .update(users)
-      .set({
-        wattsBalance: newBalance,
-        updatedAt: new Date(),
-      })
-      .where(eq(users.id, userId));
 
     // Log transaction
     await db.insert(wattsTransactions).values({

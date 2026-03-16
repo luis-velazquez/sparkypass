@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BookOpen, Zap, Shield, ChevronRight, Table, Box, CircleDot, TrendingDown, Cog, Thermometer, Omega, GitBranch, Trophy, Library, TableProperties, HardHat, Home, Waves, Flame, Cable } from "lucide-react";
+import { BookOpen, Zap, Shield, ChevronRight, Box, Cog, GitBranch, Trophy, HardHat, Cable } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
-import { CATEGORIES, PARENT_CATEGORIES, type Category } from "@/types/question";
+import { CATEGORIES, type Category } from "@/types/question";
 import { getCategoryCounts } from "@/lib/questions";
 import { useNecVersion } from "@/lib/nec-version";
 
@@ -22,26 +22,19 @@ interface QuizResultData {
 
 // Map category slugs to icons
 const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  "load-calculations": BookOpen,
+  "calculations-and-theory": BookOpen,
   "grounding-bonding": Shield,
   services: Zap,
-"chapter-9-tables": Table,
   "box-fill": Box,
-  "conduit-fill": CircleDot,
-  "voltage-drop": TrendingDown,
-  "motor-calculations": Cog,
-  "temperature-correction": Thermometer,
-  "resistance": Omega,
+  "motors-and-generators": Cog,
   "transformer-sizing": GitBranch,
-  "mobile-homes": Home,
-  "swimming-pools": Waves,
-  "termination-derating": Flame,
+  "special-occupancies": HardHat,
   "wiring-methods": Cable,
 };
 
 // Map category slugs to colors
 const categoryColors = {
-  "load-calculations": {
+  "calculations-and-theory": {
     icon: "text-purple dark:text-purple-light",
     bg: "bg-purple-soft dark:bg-purple/10",
     border: "hover:border-purple/50",
@@ -56,73 +49,31 @@ const categoryColors = {
     bg: "bg-amber/10",
     border: "hover:border-amber/50",
   },
-"chapter-9-tables": {
-    icon: "text-orange-500 dark:text-orange-400",
-    bg: "bg-orange-500/10",
-    border: "hover:border-orange-500/50",
-  },
   "box-fill": {
     icon: "text-cyan-500 dark:text-cyan-400",
     bg: "bg-cyan-500/10",
     border: "hover:border-cyan-500/50",
   },
-  "conduit-fill": {
-    icon: "text-rose-500 dark:text-rose-400",
-    bg: "bg-rose-500/10",
-    border: "hover:border-rose-500/50",
-  },
-  "voltage-drop": {
-    icon: "text-yellow-500 dark:text-yellow-400",
-    bg: "bg-yellow-500/10",
-    border: "hover:border-yellow-500/50",
-  },
-  "motor-calculations": {
+  "motors-and-generators": {
     icon: "text-indigo-500 dark:text-indigo-400",
     bg: "bg-indigo-500/10",
     border: "hover:border-indigo-500/50",
-  },
-  "temperature-correction": {
-    icon: "text-red-400 dark:text-red-300",
-    bg: "bg-red-400/10",
-    border: "hover:border-red-400/50",
-  },
-  "resistance": {
-    icon: "text-teal-500 dark:text-teal-400",
-    bg: "bg-teal-500/10",
-    border: "hover:border-teal-500/50",
   },
   "transformer-sizing": {
     icon: "text-sky-500 dark:text-sky-400",
     bg: "bg-sky-500/10",
     border: "hover:border-sky-500/50",
   },
-  "mobile-homes": {
+  "special-occupancies": {
     icon: "text-fuchsia-500 dark:text-fuchsia-400",
     bg: "bg-fuchsia-500/10",
     border: "hover:border-fuchsia-500/50",
-  },
-  "swimming-pools": {
-    icon: "text-blue-400 dark:text-blue-300",
-    bg: "bg-blue-400/10",
-    border: "hover:border-blue-400/50",
-  },
-  "termination-derating": {
-    icon: "text-orange-600 dark:text-orange-400",
-    bg: "bg-orange-600/10",
-    border: "hover:border-orange-600/50",
   },
   "wiring-methods": {
     icon: "text-lime-600 dark:text-lime-400",
     bg: "bg-lime-600/10",
     border: "hover:border-lime-600/50",
   },
-};
-
-// Map parent category slugs to icons
-const parentCategoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  "general-code": Library,
-  "tables": TableProperties,
-  "special-code": HardHat,
 };
 
 const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
@@ -183,104 +134,80 @@ export default function QuizPage() {
         </p>
       </motion.div>
 
-      {/* Grouped Category Sections */}
-      <div className="space-y-6 mb-8">
-        {PARENT_CATEGORIES.map((parent, groupIndex) => {
-          const ParentIcon = parentCategoryIcons[parent.slug];
-          const childCategories = parent.categorySlugs
-            .map((slug) => CATEGORIES.find((c) => c.slug === slug))
-            .filter((c): c is Category => Boolean(c));
+      {/* Category List */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+        className="mb-8"
+      >
+        <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 overflow-hidden divide-y divide-border dark:divide-stone-800">
+          {CATEGORIES.map((category, index) => {
+            const Icon = categoryIcons[category.slug];
+            const colors = categoryColors[category.slug];
+            const questionCount = categoryCounts[category.slug];
+            const lastScore = lastScores[category.slug];
+            const hasInProgress = inProgressCategories.has(category.slug);
 
-          return (
-            <motion.section
-              key={parent.slug}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 + groupIndex * 0.15 }}
-            >
-              {/* Section Header */}
-              <div className="flex items-center gap-2.5 mb-3">
-                <div className="w-8 h-8 rounded-md bg-amber/10 dark:bg-sparky-green/10 flex items-center justify-center">
-                  <ParentIcon className="h-4 w-4 text-amber dark:text-sparky-green" />
-                </div>
-                <div className="flex items-baseline gap-2">
-                  <h2 className="text-base font-bold font-display text-foreground">
-                    {parent.name}
-                  </h2>
-                  <span className="text-xs text-muted-foreground">{parent.necChapters}</span>
-                </div>
-              </div>
+            return (
+              <motion.div
+                key={category.slug}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 + index * 0.04 }}
+              >
+                <Link
+                  href={`/quiz/${category.slug}`}
+                  className={`flex items-center gap-3 px-4 py-3 group transition-colors duration-200 hover:bg-amber/5 dark:hover:bg-sparky-green/5 ${colors.border}`}
+                >
+                  {/* Icon */}
+                  <div
+                    className={`w-9 h-9 rounded-lg ${colors.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <Icon className={`h-4.5 w-4.5 ${colors.icon}`} />
+                  </div>
 
-              <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 overflow-hidden divide-y divide-border dark:divide-stone-800">
-                {childCategories.map((category, index) => {
-                  const Icon = categoryIcons[category.slug];
-                  const colors = categoryColors[category.slug];
-                  const questionCount = categoryCounts[category.slug];
-                  const lastScore = lastScores[category.slug];
-                  const hasInProgress = inProgressCategories.has(category.slug);
+                  {/* Name */}
+                  <span className="font-medium text-sm text-foreground flex-1 min-w-0 truncate">
+                    {category.name}
+                  </span>
 
-                  return (
-                    <motion.div
-                      key={category.slug}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: 0.1 + groupIndex * 0.15 + index * 0.04 }}
-                    >
-                      <Link
-                        href={`/quiz/${category.slug}`}
-                        className={`flex items-center gap-3 px-4 py-3 group transition-colors duration-200 hover:bg-amber/5 dark:hover:bg-sparky-green/5 ${colors.border}`}
-                      >
-                        {/* Icon */}
-                        <div
-                          className={`w-9 h-9 rounded-lg ${colors.bg} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}
-                        >
-                          <Icon className={`h-4.5 w-4.5 ${colors.icon}`} />
-                        </div>
-
-                        {/* Name */}
-                        <span className="font-medium text-sm text-foreground flex-1 min-w-0 truncate">
-                          {category.name}
+                  {/* Badges */}
+                  <div className="flex items-center gap-2 shrink-0">
+                    {hasInProgress && (
+                      <span className="flex items-center gap-1.5 text-xs font-medium text-blue-500 dark:text-blue-400">
+                        <span className="relative flex h-2 w-2">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 dark:bg-blue-400 opacity-75" />
+                          <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 dark:bg-blue-400" />
                         </span>
-
-                        {/* Badges */}
-                        <div className="flex items-center gap-2 shrink-0">
-                          {hasInProgress && (
-                            <span className="flex items-center gap-1.5 text-xs font-medium text-blue-500 dark:text-blue-400">
-                              <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-500 dark:bg-blue-400 opacity-75" />
-                                <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500 dark:bg-blue-400" />
-                              </span>
-                              In Progress
-                            </span>
-                          )}
-                          {lastScore?.highestPassedDifficulty && lastScore.bestScoreAtHighest !== null && (
-                            <span
-                              className={`text-xs font-bold px-1.5 py-0.5 rounded flex items-center gap-1 ${
-                                lastScore.highestPassedDifficulty === "master"
-                                  ? "bg-red-500/15 text-red-500"
-                                  : lastScore.highestPassedDifficulty === "journeyman"
-                                  ? "bg-amber/15 text-amber"
-                                  : "bg-emerald/15 text-emerald dark:bg-sparky-green/15 dark:text-sparky-green"
-                              }`}
-                            >
-                              <Trophy className="h-3 w-3" />
-                              {lastScore.bestScoreAtHighest}%
-                            </span>
-                          )}
-                          <span className="text-xs text-muted-foreground w-16 text-right">
-                            {questionCount} Qs
-                          </span>
-                          <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
-                        </div>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </Card>
-            </motion.section>
-          );
-        })}
-      </div>
+                        In Progress
+                      </span>
+                    )}
+                    {lastScore?.highestPassedDifficulty && lastScore.bestScoreAtHighest !== null && (
+                      <span
+                        className={`text-xs font-bold px-1.5 py-0.5 rounded flex items-center gap-1 ${
+                          lastScore.highestPassedDifficulty === "master"
+                            ? "bg-red-500/15 text-red-500"
+                            : lastScore.highestPassedDifficulty === "journeyman"
+                            ? "bg-amber/15 text-amber"
+                            : "bg-emerald/15 text-emerald dark:bg-sparky-green/15 dark:text-sparky-green"
+                        }`}
+                      >
+                        <Trophy className="h-3 w-3" />
+                        {lastScore.bestScoreAtHighest}%
+                      </span>
+                    )}
+                    <span className="text-xs text-muted-foreground w-16 text-right">
+                      {questionCount} Qs
+                    </span>
+                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+                  </div>
+                </Link>
+              </motion.div>
+            );
+          })}
+        </Card>
+      </motion.div>
 
       {/* Sparky Tip */}
       <motion.div

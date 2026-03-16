@@ -21,6 +21,9 @@ import {
   Trophy,
   ChevronDown,
   AlertTriangle,
+  Crosshair,
+  Languages,
+  Gamepad2,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -67,6 +70,16 @@ function isNavLinkActive(pathname: string, href: string, siblingHrefs: string[] 
 const navItems: MobileNavItem[] = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   {
+    label: "Games",
+    icon: Gamepad2,
+    links: [
+      { href: "/index-game", label: "Index Game", icon: Target },
+      { href: "/index-sniper", label: "Index Sniper", icon: Crosshair },
+      { href: "/translation-engine", label: "Translation Engine", icon: Languages },
+      // { href: "/formula-builder", label: "Formula Builder", icon: Gamepad2 }, // Beta — hidden until ready
+    ],
+  },
+  {
     label: "Study",
     icon: BookOpen,
     links: [
@@ -98,7 +111,6 @@ const navItems: MobileNavItem[] = [
     links: [
       { href: "/quiz", label: "Quiz", icon: BookOpen },
       { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert },
-      { href: "/index-game", label: "Index Game", icon: Target },
     ],
   },
   { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },

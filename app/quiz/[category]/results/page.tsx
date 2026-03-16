@@ -329,7 +329,6 @@ export default function QuizResultsPage() {
         // Check if the next difficulty is now unlocked
         if (unlockData && difficulty) {
           const nextMap: Record<string, { key: Difficulty; label: string }> = {
-            apprentice: { key: "journeyman", label: "Journeyman" },
             journeyman: { key: "master", label: "Master" },
           };
           const next = nextMap[difficulty];

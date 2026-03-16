@@ -14,6 +14,9 @@ export const ACTIVITY_VOLTAGE: Record<string, QuizVoltage> = {
 };
 
 export const INDEX_GAME_WATTS_PER_CORRECT = 12;
+export const INDEX_SNIPER_WATTS_PER_CORRECT = 12;
+export const TRANSLATION_ENGINE_WATTS_PER_CORRECT = 12;
+export const FORMULA_BUILDER_WATTS_PER_CORRECT = 12;
 
 // ─── Resistance Penalties ───────────────────────────────────────────────────
 
@@ -84,6 +87,9 @@ const SERVER_ACTIVITY_VOLTAGE: Record<string, number> = {
   weak_spots_complete: 120,
   mock_exam_complete: 208,
   index_game: 12,
+  index_sniper: 12,
+  translation_engine: 12,
+  formula_builder: 12,
 };
 
 /**

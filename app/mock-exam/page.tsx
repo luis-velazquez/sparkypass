@@ -199,40 +199,77 @@ export default function MockExamPage() {
 
       {/* Blueprint Confirmation Sheet */}
       <Sheet open={!!selectedBlueprint} onOpenChange={(open) => !open && setSelectedBlueprint(null)}>
-        <SheetContent side="bottom" showCloseButton={false} className="rounded-t-2xl md:max-w-lg md:left-1/2 md:-translate-x-1/2 md:right-auto md:rounded-2xl md:bottom-4">
+        <SheetContent side="bottom" showCloseButton={false} className="rounded-t-2xl md:max-w-lg md:left-1/2 md:-translate-x-1/2 md:right-auto md:rounded-2xl md:bottom-4 max-h-[85vh] flex flex-col">
           {selectedBlueprint && (
             <>
-              <SheetHeader className="text-center">
-                <div className="w-14 h-14 rounded-xl bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center mx-auto transition-all duration-300">
-                  <FileText className="h-7 w-7 text-purple dark:text-purple-light" />
-                </div>
-                <SheetTitle className="text-xl">{selectedBlueprint.name}</SheetTitle>
-                <SheetDescription>
-                  {selectedBlueprint.state} {selectedBlueprint.examLevel.charAt(0).toUpperCase() + selectedBlueprint.examLevel.slice(1)} Exam
-                </SheetDescription>
-              </SheetHeader>
-              <div className="max-h-48 overflow-y-auto my-4 space-y-2 px-1">
-                {selectedBlueprint.sections.map((section) => (
-                  <div key={section.name} className="flex items-center justify-between text-sm py-1.5 border-b border-border/50 last:border-0">
-                    <span className="text-foreground">{section.name}</span>
-                    <span className="text-muted-foreground shrink-0 ml-3">{section.questionCount} Qs</span>
+              {/* Fixed header — icon + title + stats */}
+              <div className="px-5 pt-5 pb-2 shrink-0">
+                <SheetHeader className="text-center pb-3">
+                  <div className="w-12 h-12 rounded-xl bg-purple-soft dark:bg-purple/10 dark:shadow-[0_0_15px_rgba(139,92,246,0.35)] flex items-center justify-center mx-auto mb-2">
+                    <FileText className="h-6 w-6 text-purple dark:text-purple-light" />
                   </div>
-                ))}
+                  <SheetTitle className="text-lg">{selectedBlueprint.name}</SheetTitle>
+                  <SheetDescription>
+                    {selectedBlueprint.state} {selectedBlueprint.examLevel.charAt(0).toUpperCase() + selectedBlueprint.examLevel.slice(1)} Exam
+                  </SheetDescription>
+                </SheetHeader>
+
+                {/* Stats row — compact */}
+                <div className="flex items-center justify-center gap-5 py-2">
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-base font-bold text-foreground">{selectedBlueprint.totalQuestions}</span>
+                    <span className="text-[11px] text-muted-foreground">Questions</span>
+                  </div>
+                  <div className="w-px h-7 bg-border dark:bg-stone-700" />
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-base font-bold text-foreground">{Math.floor(selectedBlueprint.timeLimit / 60)}h {selectedBlueprint.timeLimit % 60 > 0 ? `${selectedBlueprint.timeLimit % 60}m` : ""}</span>
+                    <span className="text-[11px] text-muted-foreground">Time Limit</span>
+                  </div>
+                  <div className="w-px h-7 bg-border dark:bg-stone-700" />
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-base font-bold text-foreground">{selectedBlueprint.passingScore}%</span>
+                    <span className="text-[11px] text-muted-foreground">To Pass</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center justify-center gap-6 py-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <BookOpen className="h-4 w-4" />
-                  <span>{selectedBlueprint.totalQuestions} questions</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" />
-                  <span>{Math.floor(selectedBlueprint.timeLimit / 60)}h {selectedBlueprint.timeLimit % 60 > 0 ? `${selectedBlueprint.timeLimit % 60}m` : ""}</span>
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  {selectedBlueprint.passingScore}% to pass
+
+              {/* Scrollable middle — portions + sections */}
+              <div className="flex-1 overflow-y-auto px-5 min-h-0">
+                {/* Portions breakdown */}
+                {selectedBlueprint.portions && selectedBlueprint.portions.length > 0 && (
+                  <div className="grid grid-cols-2 gap-2 mb-3">
+                    {selectedBlueprint.portions.map((portion) => (
+                      <div key={portion.name} className="rounded-lg bg-muted/50 dark:bg-stone-800/50 px-3 py-2">
+                        <p className="text-xs font-semibold text-foreground">{portion.name}</p>
+                        <p className="text-[11px] text-muted-foreground mt-0.5">
+                          {portion.scoredItems} scored &middot; {portion.timeLimit} min
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Section list */}
+                <div>
+                  <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">Sections</p>
+                  <div className="rounded-lg border border-border dark:border-stone-800">
+                    {selectedBlueprint.sections.map((section, i) => (
+                      <div
+                        key={section.name}
+                        className={`flex items-center justify-between px-3 py-1.5 text-sm ${
+                          i !== selectedBlueprint.sections.length - 1 ? "border-b border-border/50 dark:border-stone-800/50" : ""
+                        }`}
+                      >
+                        <span className="text-foreground text-[13px]">{section.name}</span>
+                        <span className="text-muted-foreground shrink-0 ml-3 tabular-nums font-medium text-[13px]">{section.questionCount}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <SheetFooter className="flex-col gap-2 pb-6">
+
+              {/* Fixed footer — buttons */}
+              <SheetFooter className="flex-col gap-2 px-5 pt-3.5 pb-5 shrink-0">
                 <Button
                   size="lg"
                   className="bg-amber hover:bg-amber-dark text-white w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 dark:shadow-[0_0_20px_rgba(163,255,0,0.2)]"
@@ -312,28 +349,36 @@ export default function MockExamPage() {
             const exam = EXAM_OPTIONS.find((e) => e.id === selectedExam);
             if (!exam) return null;
             return (
-              <>
-                <SheetHeader className="text-center">
-                  <div className={`w-14 h-14 rounded-xl ${exam.bgColor} flex items-center justify-center mx-auto transition-all duration-300`}>
-                    <exam.icon className={`h-7 w-7 ${exam.color}`} />
+              <div className="px-5 pt-5 pb-5">
+                {/* Icon + Title */}
+                <SheetHeader className="text-center pb-3">
+                  <div className={`w-12 h-12 rounded-xl ${exam.bgColor} flex items-center justify-center mx-auto mb-2 transition-all duration-300`}>
+                    <exam.icon className={`h-6 w-6 ${exam.color}`} />
                   </div>
-                  <SheetTitle className="text-xl">{exam.title}</SheetTitle>
+                  <SheetTitle className="text-lg">{exam.title}</SheetTitle>
                   <SheetDescription>{exam.description}</SheetDescription>
                 </SheetHeader>
-                <div className="flex items-center justify-center gap-6 py-2">
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <BookOpen className="h-4 w-4" />
-                    <span>{exam.questionCount} questions</span>
+
+                {/* Stats row */}
+                <div className="flex items-center justify-center gap-5 py-2">
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-base font-bold text-foreground">{exam.questionCount}</span>
+                    <span className="text-[11px] text-muted-foreground">Questions</span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <Clock className="h-4 w-4" />
-                    <span>{exam.timeLimit} min</span>
+                  <div className="w-px h-7 bg-border dark:bg-stone-700" />
+                  <div className="flex flex-col items-center gap-0.5">
+                    <span className="text-base font-bold text-foreground">{exam.timeLimit}m</span>
+                    <span className="text-[11px] text-muted-foreground">Time Limit</span>
                   </div>
                 </div>
-                <p className="text-xs text-center text-muted-foreground px-4">
+
+                {/* Disclaimer */}
+                <p className="text-[11px] text-center text-muted-foreground mt-1 px-3">
                   Once you begin, the timer will start. You can pause but not go back to previous questions.
                 </p>
-                <SheetFooter className="flex-col gap-2 pb-6">
+
+                {/* Actions */}
+                <SheetFooter className="flex-col gap-2 mt-5">
                   <Button
                     size="lg"
                     className="bg-amber hover:bg-amber-dark text-white w-full dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 dark:shadow-[0_0_20px_rgba(163,255,0,0.2)]"
@@ -348,7 +393,7 @@ export default function MockExamPage() {
                     </Button>
                   </SheetClose>
                 </SheetFooter>
-              </>
+              </div>
             );
           })()}
         </SheetContent>

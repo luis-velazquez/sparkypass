@@ -1,0 +1,36 @@
+{
+  "id": "texas-master",
+  "name": "Texas Master Electrician Exam",
+  "state": "TX",
+  "examLevel": "master",
+  "totalQuestions": 100,
+  "timeLimit": 320,
+  "passingScore": 70,
+  "source": "https://test-takers.psiexams.com/tdlnrp",
+  "portions": [
+    {
+      "name": "NEC Knowledge",
+      "totalItems": 75,
+      "scoredItems": 70,
+      "timeLimit": 150
+    },
+    {
+      "name": "Calculations",
+      "totalItems": 33,
+      "scoredItems": 30,
+      "timeLimit": 170
+    }
+  ],
+  "sections": [
+    { "name": "Definitions, Theory, and Plans", "questionCount": 9, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman", "master"] },
+    { "name": "Electrical Services, Service Equipment, and Separately Derived Systems", "questionCount": 19, "categorySlugs": ["services", "calculations-and-theory"], "difficulties": ["journeyman", "master"] },
+    { "name": "Electrical Feeders", "questionCount": 7, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman", "master"] },
+    { "name": "Branch Circuit Conductors and Calculations", "questionCount": 15, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman", "master"] },
+    { "name": "Electrical Wiring Methods and Electrical Materials", "questionCount": 9, "categorySlugs": ["wiring-methods"], "difficulties": ["journeyman", "master"] },
+    { "name": "Electrical Equipment and Devices", "questionCount": 10, "categorySlugs": ["box-fill", "calculations-and-theory"], "difficulties": ["journeyman", "master"] },
+    { "name": "Motors and Generators", "questionCount": 13, "categorySlugs": ["motors-and-generators", "transformer-sizing"], "difficulties": ["journeyman", "master"] },
+    { "name": "Electrical Control Devices and Disconnecting Means", "questionCount": 4, "categorySlugs": ["services"], "difficulties": ["journeyman", "master"] },
+    { "name": "Special Occupancies, Equipment, and Conditions", "questionCount": 9, "categorySlugs": ["special-occupancies"], "difficulties": ["journeyman", "master"] },
+    { "name": "Renewable Energy Technologies", "questionCount": 5, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman", "master"] }
+  ]
+}

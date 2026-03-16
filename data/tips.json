@@ -119,7 +119,7 @@
       "sparkyBottomLine": "Treat Article 250 like a courtroom: satisfy every element of the statute (SBJ, GEC, Electrode, and SSBJ) or your installation is 'guilty' of a code violation."
     },
     {
-      "id": "TIP-008",
+      "id": "TIP-010",
       "type": "sparky-tip",
       "title": "The Lawyer’s Method: 4 Rules of Code Interpretation",
       "category": "Exam Strategy",
@@ -167,7 +167,7 @@
       }
     },
     {
-      "id": "tip-next-size-up-paradox",
+      "id": "tip-next-size-up-transformer-trap",
       "type": "proTip",
       "title": "The \"Next Size Up\" Paradox & The Transformer Trap",
       "necReference": "240.4(B), 240.21(C)",

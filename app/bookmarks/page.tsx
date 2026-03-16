@@ -13,16 +13,9 @@ import {
   Zap,
   Filter,
   Play,
-Table,
-  Box,
-  CircleDot,
-  Activity,
+Box,
   Cog,
-  Thermometer,
-  Omega,
   GitBranch,
-  Home,
-  Waves,
   Flame,
   Cable,
 } from "lucide-react";
@@ -52,26 +45,19 @@ interface BookmarkWithQuestion extends Bookmark {
 
 // Map category slugs to icons
 const categoryIcons: Record<CategorySlug, typeof BookOpen> = {
-  "load-calculations": BookOpen,
+  "calculations-and-theory": BookOpen,
   "grounding-bonding": Shield,
   services: Zap,
-"chapter-9-tables": Table,
-  "box-fill": Box,
-  "conduit-fill": CircleDot,
-  "voltage-drop": Activity,
-  "motor-calculations": Cog,
-  "temperature-correction": Thermometer,
-  "resistance": Omega,
+"box-fill": Box,
+  "motors-and-generators": Cog,
   "transformer-sizing": GitBranch,
-  "mobile-homes": Home,
-  "swimming-pools": Waves,
-  "termination-derating": Flame,
+  "special-occupancies": Flame,
   "wiring-methods": Cable,
 };
 
 // Map category slugs to colors
 const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: string }> = {
-  "load-calculations": {
+  "calculations-and-theory": {
     icon: "text-purple",
     bg: "bg-purple-soft dark:bg-purple/10",
     badge: "bg-purple/10 text-purple",
@@ -86,60 +72,25 @@ const categoryColors: Record<CategorySlug, { icon: string; bg: string; badge: st
     bg: "bg-amber/10",
     badge: "bg-amber/10 text-amber",
   },
-"chapter-9-tables": {
-    icon: "text-orange-500",
-    bg: "bg-orange-500/10",
-    badge: "bg-orange-500/10 text-orange-500",
-  },
-  "box-fill": {
+"box-fill": {
     icon: "text-cyan-500",
     bg: "bg-cyan-500/10",
     badge: "bg-cyan-500/10 text-cyan-500",
   },
-  "conduit-fill": {
-    icon: "text-rose-500",
-    bg: "bg-rose-500/10",
-    badge: "bg-rose-500/10 text-rose-500",
-  },
-  "voltage-drop": {
-    icon: "text-yellow-500",
-    bg: "bg-yellow-500/10",
-    badge: "bg-yellow-500/10 text-yellow-500",
-  },
-  "motor-calculations": {
+  "motors-and-generators": {
     icon: "text-indigo-500",
     bg: "bg-indigo-500/10",
     badge: "bg-indigo-500/10 text-indigo-500",
-  },
-  "temperature-correction": {
-    icon: "text-red-500",
-    bg: "bg-red-500/10",
-    badge: "bg-red-500/10 text-red-500",
-  },
-  "resistance": {
-    icon: "text-teal-500",
-    bg: "bg-teal-500/10",
-    badge: "bg-teal-500/10 text-teal-500",
   },
   "transformer-sizing": {
     icon: "text-sky-500",
     bg: "bg-sky-500/10",
     badge: "bg-sky-500/10 text-sky-500",
   },
-  "mobile-homes": {
+  "special-occupancies": {
     icon: "text-fuchsia-500",
     bg: "bg-fuchsia-500/10",
     badge: "bg-fuchsia-500/10 text-fuchsia-500",
-  },
-  "swimming-pools": {
-    icon: "text-blue-400",
-    bg: "bg-blue-400/10",
-    badge: "bg-blue-400/10 text-blue-400",
-  },
-  "termination-derating": {
-    icon: "text-orange-600",
-    bg: "bg-orange-600/10",
-    badge: "bg-orange-600/10 text-orange-600",
   },
   "wiring-methods": {
     icon: "text-lime-600",

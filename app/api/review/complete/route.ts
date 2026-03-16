@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, studySessions, wattsTransactions } from "@/lib/db";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 import { getUserClassification, getClassificationTitle } from "@/lib/voltage";
+import { calculateWattsServerSide } from "@/lib/watts";
 
 export async function POST(request: Request) {
   try {
@@ -14,7 +15,10 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { sessionId, questionsReviewed, questionsCorrect, wattsEarned = 0 } = body;
+    const { sessionId, questionsReviewed, questionsCorrect } = body;
+
+    // Server-side watts calculation — ignore any client-provided wattsEarned
+    const wattsEarned = calculateWattsServerSide("review_complete", questionsCorrect ?? 0, questionsReviewed ?? 0);
 
     if (!sessionId) {
       return NextResponse.json(
@@ -45,7 +49,12 @@ export async function POST(request: Request) {
         questionsAnswered: questionsReviewed ?? null,
         questionsCorrect: questionsCorrect ?? null,
       })
-      .where(eq(studySessions.id, sessionId));
+      .where(
+        and(
+          eq(studySessions.id, sessionId),
+          eq(studySessions.userId, session.user.id)
+        )
+      );
 
     // Update user Watts
     await db

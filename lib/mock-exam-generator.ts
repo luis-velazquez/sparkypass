@@ -37,8 +37,21 @@ function drawQuestions(
   return drawn;
 }
 
-function getFallbackDifficulty(primary: Difficulty): Difficulty {
-  return primary === "journeyman" ? "master" : "journeyman";
+/** Build a shuffled pool of questions for given categories and difficulties. */
+function buildPool(
+  categorySlugs: CategorySlug[],
+  difficulties: Difficulty[],
+  necVersion?: NecVersion,
+): Question[] {
+  const questions: Question[] = [];
+  for (const slug of categorySlugs) {
+    for (const diff of difficulties) {
+      questions.push(
+        ...getQuestionsByCategoryAndDifficulty(slug, diff, necVersion),
+      );
+    }
+  }
+  return shuffle(questions);
 }
 
 // ---------------------------------------------------------------------------
@@ -89,6 +102,13 @@ export function validateBlueprint(
 // Generator
 // ---------------------------------------------------------------------------
 
+/**
+ * Generate a mock exam from a blueprint.
+ *
+ * Each section can define its own `difficulties` array (e.g. ["journeyman"]
+ * or ["journeyman", "master"]). The global `difficulty` param is used as a
+ * fallback for sections that don't specify their own.
+ */
 export function generateMockExam(
   blueprint: ExamBlueprint,
   difficulty: Difficulty,
@@ -102,45 +122,16 @@ export function generateMockExam(
     warnings.push(...errors.map((e) => `Validation: ${e}`));
   }
 
-  // Phase 1: Build category pools (shuffled)
-  const allSlugs = new Set<CategorySlug>();
-  for (const section of blueprint.sections) {
-    for (const slug of section.categorySlugs) {
-      allSlugs.add(slug);
-    }
-  }
-
-  const primaryPools = new Map<CategorySlug, Question[]>();
-  const fallbackPools = new Map<CategorySlug, Question[]>();
-  const fallbackDifficulty = getFallbackDifficulty(difficulty);
-
-  for (const slug of allSlugs) {
-    primaryPools.set(
-      slug,
-      shuffle(getQuestionsByCategoryAndDifficulty(slug, difficulty, necVersion)),
-    );
-    // Only use journeyman/master as fallback, never apprentice
-    if (fallbackDifficulty !== "apprentice") {
-      fallbackPools.set(
-        slug,
-        shuffle(
-          getQuestionsByCategoryAndDifficulty(slug, fallbackDifficulty, necVersion),
-        ),
-      );
-    }
-  }
-
   const usedIds = new Set<string>();
   const sectionResults: {
     questions: Question[];
     report: SectionReport;
   }[] = [];
 
-  // Phase 2: Primary fill
+  // Phase 1: Primary fill — each section uses its own difficulties
   for (const section of blueprint.sections) {
-    const pool = shuffle(
-      section.categorySlugs.flatMap((slug) => primaryPools.get(slug) ?? []),
-    );
+    const sectionDifficulties = section.difficulties ?? [difficulty];
+    const pool = buildPool(section.categorySlugs, sectionDifficulties, necVersion);
     const drawn = drawQuestions(pool, section.questionCount, usedIds);
 
     sectionResults.push({
@@ -157,44 +148,33 @@ export function generateMockExam(
     });
   }
 
-  // Phase 3: Fallback fill
-  for (let i = 0; i < sectionResults.length; i++) {
-    const result = sectionResults[i];
-    if (result.report.shortage <= 0) continue;
-
-    const section = blueprint.sections[i];
-    const pool = shuffle(
-      section.categorySlugs.flatMap((slug) => fallbackPools.get(slug) ?? []),
-    );
-    const drawn = drawQuestions(pool, result.report.shortage, usedIds);
-    result.questions.push(...drawn);
-    result.report.filledFromFallback = drawn.length;
-    result.report.shortage -= drawn.length;
-  }
-
-  // Phase 4: Redistribution
+  // Phase 2: Redistribution — fill shortages from any remaining questions
   const shortSections = sectionResults.filter((r) => r.report.shortage > 0);
   if (shortSections.length > 0) {
-    // Gather all remaining unused questions from any pool
-    const allRemaining: Question[] = [];
-    for (const pool of primaryPools.values()) {
-      for (const q of pool) {
-        if (!usedIds.has(q.id)) allRemaining.push(q);
+    // Collect all difficulties used across the blueprint
+    const allDifficulties = new Set<Difficulty>();
+    for (const section of blueprint.sections) {
+      for (const d of section.difficulties ?? [difficulty]) {
+        allDifficulties.add(d);
       }
     }
-    for (const pool of fallbackPools.values()) {
-      for (const q of pool) {
-        if (!usedIds.has(q.id)) allRemaining.push(q);
+
+    // Gather all remaining unused questions from any category/difficulty
+    const allSlugs = new Set<CategorySlug>();
+    for (const section of blueprint.sections) {
+      for (const slug of section.categorySlugs) {
+        allSlugs.add(slug);
       }
     }
-    const shuffledRemaining = shuffle(allRemaining);
+
+    const remaining = buildPool(
+      [...allSlugs],
+      [...allDifficulties],
+      necVersion,
+    ).filter((q) => !usedIds.has(q.id));
 
     for (const result of shortSections) {
-      const drawn = drawQuestions(
-        shuffledRemaining,
-        result.report.shortage,
-        usedIds,
-      );
+      const drawn = drawQuestions(remaining, result.report.shortage, usedIds);
       result.questions.push(...drawn);
       result.report.filledFromRedistribution = drawn.length;
       result.report.shortage -= drawn.length;
@@ -207,7 +187,7 @@ export function generateMockExam(
     }
   }
 
-  // Phase 5: Shuffle & assemble
+  // Phase 3: Shuffle & assemble
   const allQuestions = shuffle(sectionResults.flatMap((r) => r.questions));
   const totalGenerated = allQuestions.length;
   const hasShortages = sectionResults.some((r) => r.report.shortage > 0);

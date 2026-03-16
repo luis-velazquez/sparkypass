@@ -4,6 +4,7 @@ export interface BlueprintSection {
   name: string;
   questionCount: number;
   categorySlugs: CategorySlug[];
+  difficulties?: Difficulty[];
 }
 
 export interface ExamBlueprint {
@@ -15,6 +16,12 @@ export interface ExamBlueprint {
   timeLimit: number; // minutes
   passingScore: number; // percentage (e.g., 70)
   source?: string;
+  portions?: {
+    name: string;
+    totalItems: number;
+    scoredItems: number;
+    timeLimit: number;
+  }[];
   sections: BlueprintSection[];
 }
 

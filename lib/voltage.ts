@@ -115,7 +115,7 @@ export function getScaffolding(difficulty: Difficulty | string): Scaffolding {
     case "apprentice":
       return { showHints: true, showFormulas: true, showNecReferences: true, showArticleNumbers: true };
     case "journeyman":
-      return { showHints: false, showFormulas: true, showNecReferences: true, showArticleNumbers: true };
+      return { showHints: true, showFormulas: true, showNecReferences: true, showArticleNumbers: true };
     case "master":
       return { showHints: false, showFormulas: false, showNecReferences: false, showArticleNumbers: false };
     default:

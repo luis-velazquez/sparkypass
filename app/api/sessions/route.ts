@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, studySessions, wattsTransactions } from "@/lib/db";
-import { eq, and } from "drizzle-orm";
+import { eq, and, sql } from "drizzle-orm";
 import crypto from "crypto";
-import { getStreakMilestoneReward } from "@/lib/watts";
+import { getStreakMilestoneReward, calculateWattsServerSide } from "@/lib/watts";
 import { getUserClassification, getClassificationTitle, checkClassificationAdvancement } from "@/lib/voltage";
 
 // POST - Create a new study session
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PATCH - End a study session and award watts (pre-calculated by client)
+// PATCH - End a study session and award watts (calculated server-side)
 export async function PATCH(request: Request) {
   try {
     const session = await auth();
@@ -60,7 +60,10 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { sessionId, wattsEarned = 0, activityType = "quiz_complete", questionsAnswered, questionsCorrect } = body;
+    const { sessionId, activityType = "quiz_complete", questionsAnswered, questionsCorrect } = body;
+
+    // Server-side watts calculation — ignore any client-provided wattsEarned
+    const wattsEarned = calculateWattsServerSide(activityType, questionsCorrect ?? 0, questionsAnswered ?? 0);
 
     if (!sessionId) {
       return NextResponse.json(
@@ -110,8 +113,6 @@ export async function PATCH(request: Request) {
     const totalWattsEarned = wattsEarned + streakBonus;
 
     const previousBalance = currentUser?.wattsBalance || 0;
-    const newBalance = previousBalance + totalWattsEarned;
-    const newLifetime = (currentUser?.wattsLifetime || 0) + totalWattsEarned;
 
     // Update the session
     await db
@@ -129,19 +130,22 @@ export async function PATCH(request: Request) {
         )
       );
 
-    // Update user
-    await db
+    // Atomic balance update — prevents lost updates from concurrent requests
+    const [updatedUser] = await db
       .update(users)
       .set({
-        wattsBalance: newBalance,
-        wattsLifetime: newLifetime,
-        xp: newLifetime,
+        wattsBalance: sql`${users.wattsBalance} + ${totalWattsEarned}`,
+        wattsLifetime: sql`${users.wattsLifetime} + ${totalWattsEarned}`,
+        xp: sql`${users.wattsLifetime} + ${totalWattsEarned}`,
         studyStreak: newStreak,
         bestStudyStreak: newBestStreak,
         lastStudyDate: new Date(),
         updatedAt: new Date(),
       })
-      .where(eq(users.id, session.user.id));
+      .where(eq(users.id, session.user.id))
+      .returning({ wattsBalance: users.wattsBalance, wattsLifetime: users.wattsLifetime });
+
+    const newBalance = updatedUser.wattsBalance;
 
     // Log activity watts transaction
     await db.insert(wattsTransactions).values({

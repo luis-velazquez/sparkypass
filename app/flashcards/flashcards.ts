@@ -21,7 +21,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 1: What is the first decision before starting a dwelling load calculation?",
     highlight: "Optional or Standard Method?",
     back: "Choose the calculation method: standard method (Article 220) or optional method (220.82).",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC Article 220; 220.82",
   },
   {
@@ -29,7 +29,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 2: What base load is calculated from floor area?",
     highlight: "3 VA per sq ft",
     back: "General lighting load using 3 VA per sq ft for dwelling units.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC Table 220.41",
   },
   {
@@ -37,7 +37,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 3: What required circuits must be added to the general load?",
     highlight: "(3) 1,500 VA",
     back: "2 Small-appliance circuits at 1,500 VA each and one laundry circuit at 1,500 VA.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 220.52(A), 220.52(B)",
   },
   {
@@ -45,7 +45,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 4: After adding lighting, small-appliance, and laundry loads to a dwelling unit, what comes next (standard method)?",
     highlight: "Lighting Load Demand Factors",
     back: "Apply demand factors: 100% of first 3 kVA, 35% from everything after that up to 120 kVA, and the remainder at 25%.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC Table 220.42",
   },
   {
@@ -53,7 +53,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 5: What dryer load must be included if the nameplate is unknown?",
     highlight: "At least 5kVA",
     back: "Use 5,000 VA minimum per dryer (or nameplate if larger).",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 220.54",
   },
   {
@@ -61,7 +61,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 6: Where do you find demand factors for household ranges?",
     highlight: "220.55",
     back: "Use Table 220.55 for ranges and cooking appliances.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC Table 220.55",
   },
   {
@@ -69,7 +69,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 5: How do you handle four or more fastened-in-place appliances?",
     highlight: "75% demand factor (4+ units)",
     back: "Apply a 75% demand factor to the total nameplate rating of those appliances. (Excludes: Ranges, Clothes Dryers, Space Heating, and A/C).",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 220.53",
   },
   {
@@ -77,7 +77,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 8: When both heating and cooling are present, which load is used for the calculation?",
     highlight: "Use the larger load (omit smaller)",
     back: "Compare the Heating load (at 100%) vs. the A/C load (at 100%). Use the **larger** of the two and omit the smaller one.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 220.60",
   },
   {
@@ -85,7 +85,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 9: What final adjustment is made for the largest motor in the calculation?",
     highlight: "Add 25% of largest motor",
     back: "Add 25% of the largest motor's Full-Load Current (FLC) to the total. (Note: This is an *extra* 25% on top of the 100% included in previous steps).",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 220.50",
   },
   {
@@ -93,7 +93,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 10: What is the correct order for the Standard Method general load calculation?",
     highlight: "Sum Loads -> Apply Demand Factors",
     back: "1. Sum the General Lighting + Small-Appliance + Laundry loads.\n2. Apply Table 220.42 demand factors to that total.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC Table 220.42(A); 220.52; Table 220.42",
   },
   {
@@ -101,7 +101,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 13: What is the main requirement of NEC 220.40 for service calculations?",
     highlight: "Include ALL applicable loads",
     back: "The calculated load must include all applicable loads (lighting, heating, motors, etc.) before determining the size of the service or feeder.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 220.40",
   },
   {
@@ -109,7 +109,7 @@ export const RESIDENTIAL_STEP_CARDS: Flashcard[] = [
     front: "Step 14: After calculating total demand, how do you size the service conductors?",
     highlight: "Ampacity ≥ Calculated Load",
     back: "Service conductors must have an ampacity not less than the calculated load.",
-    category: "load-calculations",
+    category: "calculations-and-theory",
     necReference: "NEC 230.42",
   }
 ];
@@ -362,7 +362,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the maximum conduit fill percentage for ONE conductor?",
     highlight: "53%",
     back: "53% of the conduit's total area.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1",
   },
   {
@@ -370,7 +370,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the maximum conduit fill percentage for TWO conductors?",
     highlight: "31%",
     back: "31% of the conduit's total area.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1",
   },
   {
@@ -378,7 +378,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the maximum conduit fill percentage for THREE or more conductors?",
     highlight: "40%",
     back: "40% of the conduit's total area.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1",
   },
   {
@@ -386,7 +386,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Which Chapter 9 table gives you the INTERNAL AREA of conduit and tubing?",
     highlight: "Table 4",
     back: "Dimensions and Percent Area of Conduit and Tubing.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 4",
   },
   {
@@ -394,7 +394,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Which Chapter 9 table gives you the AREA of individual conductors?",
     highlight: "Table 5",
     back: "Dimensions of Insulated Conductors and Fixture Wires.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 5",
   },
   {
@@ -402,7 +402,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is a circular mil?",
     highlight: "1 mil diameter = 1 CM",
     back: "The area of a circle with a diameter of 1 mil (0.001 inch). Used to express wire cross-sectional area.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -410,7 +410,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Which Chapter 9 table provides DC resistance and circular mil area of conductors?",
     highlight: "Table 8",
     back: "Conductor Properties — DC resistance, circular mil area, and dimensions.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -418,7 +418,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Which Chapter 9 table is used for AC voltage drop calculations?",
     highlight: "Table 9",
     back: "AC Resistance and Reactance for 600-Volt Cables.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 9",
   },
   {
@@ -426,7 +426,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Where do you find pre-calculated conduit fill tables showing how many conductors fit in each conduit size?",
     highlight: "Annex C",
     back: "Conduit and Tubing Fill Tables for Conductors of the Same Size.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Annex C",
   },
   {
@@ -434,7 +434,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the basic formula for conduit fill calculation?",
     highlight: "Conductor area ÷ Fill % = Min conduit area",
     back: "Sum total conductor area, divide by allowable fill percentage, then select conduit from Table 4.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Tables 1, 4, 5",
   },
   {
@@ -442,7 +442,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "For conduit fill with DIFFERENT size conductors, what must you do?",
     highlight: "Table 5 areas → 40% fill → Table 4",
     back: "Add up individual areas from Table 5, then compare to the 40% fill area from Table 4.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Tables 4 & 5",
   },
   {
@@ -450,7 +450,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the area of a 12 AWG THHN conductor?",
     highlight: "0.0133 sq in",
     back: "From Table 5.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 5",
   },
   {
@@ -458,7 +458,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "How many 12 AWG THHN conductors can fit in 3/4\" EMT?",
     highlight: "16",
     back: "From Annex C, Table C.1.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Annex C, Table C.1",
   },
   {
@@ -466,7 +466,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the 40% fill area for 1\" EMT?",
     highlight: "0.346 sq in",
     back: "From Table 4.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 4",
   },
   {
@@ -474,7 +474,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "When using Table 9 for voltage drop, what does 'Effective Z' represent?",
     highlight: "Resistance + Reactance at PF",
     back: "The combined effect of resistance and reactance at a specific power factor, used for AC voltage drop calculations.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 9",
   },
   {
@@ -482,7 +482,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the DC resistance of 500 kcmil copper conductor at 75°C?",
     highlight: "0.027 Ω per 1000 ft",
     back: "From Table 8, uncoated copper.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -490,7 +490,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What does 'kcmil' stand for and what does it mean?",
     highlight: "1 kcmil = 1,000 circular mils",
     back: "Kilo-circular mils. The standard unit for large conductor sizes.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -498,7 +498,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Why is the 40% fill rule used for 3+ conductors instead of a higher percentage?",
     highlight: "Heat dissipation · Pulling ease",
     back: "To allow for heat dissipation and to make pulling conductors through conduit practical without damaging insulation.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1 Notes",
   },
   {
@@ -506,7 +506,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "What is the formula for calculating voltage drop using Table 8 (DC)?",
     highlight: "VD = 2KID / CM",
     back: "K = 12.9 (Cu) or 21.2 (Al), I = amps, D = distance (ft), CM = circular mils.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -514,7 +514,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Equipment grounding conductors in a conduit: Do they count toward conduit fill?",
     highlight: "Yes — all conductors count",
     back: "All conductors including EGCs must be counted when calculating conduit fill.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1 Note 3",
   },
   {
@@ -522,7 +522,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "If the NEC article says “use Chapter 9, Table 1,” what are you finding?",
     highlight: "Fill % by conductor count",
     back: "The allowable conduit fill percentage based on the number of conductors.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1",
   },
   {
@@ -530,7 +530,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "If you know total conductor area, which Chapter 9 table helps you choose the conduit size?",
     highlight: "Table 4",
     back: "Provides conduit internal areas used to select a raceway size.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 4",
   },
   {
@@ -538,7 +538,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Where do you find conductor areas when insulation type changes (THHN vs XHHW, etc.)?",
     highlight: "Table 5",
     back: "Lists conductor areas by insulation type.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 5",
   },
   {
@@ -546,7 +546,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You have a mixed conductor pull. What is the correct Chapter 9 workflow?",
     highlight: "Table 5 → Table 1 → Table 4",
     back: "Sum areas from Table 5, apply Table 1 fill %, then verify conduit area in Table 4.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Tables 1, 4, 5",
   },
   {
@@ -554,7 +554,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "When is Annex C appropriate to use for conduit fill?",
     highlight: "Same size · Same insulation",
     back: "When all conductors are the same size and insulation type and the table applies to the raceway.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Annex C",
   },
   {
@@ -562,7 +562,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "If Annex C doesn’t match your conductor mix, what should you do?",
     highlight: "Tables 1, 4, and 5",
     back: "Use Chapter 9 Tables 1, 4, and 5 to calculate fill directly.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9; Annex C",
   },
   {
@@ -570,7 +570,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You need AC resistance and reactance for voltage drop. Which table is referenced?",
     highlight: "Table 9",
     back: "AC resistance and reactance values for 600-Volt cables.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 9",
   },
   {
@@ -578,7 +578,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You need DC resistance for voltage drop calculations. Which table is referenced?",
     highlight: "Table 8",
     back: "DC resistance and conductor properties.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -586,7 +586,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Where do you confirm the insulation temperature rating for a conductor type?",
     highlight: "Table 310.104(A)",
     back: "Lists insulation types and their temperature ratings.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9; Table 310.104(A)",
   },
   {
@@ -594,7 +594,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "When does Chapter 9 apply by default?",
     highlight: "Only when specifically referenced",
     back: "Only when an NEC article or section specifically references it.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC 90.3",
   },
   {
@@ -602,7 +602,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You need to confirm the internal area for a raceway type. Which table is used?",
     highlight: "Table 4",
     back: "Internal areas for conduit and tubing.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 4",
   },
   {
@@ -610,7 +610,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You are calculating fill for more than two conductors. Which fill percentage applies?",
     highlight: "40%",
     back: "From Table 1 — applies to three or more conductors.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1",
   },
   {
@@ -618,7 +618,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Where do you find conductor area for a specific AWG size?",
     highlight: "Table 5",
     back: "Lists areas by AWG/kcmil and insulation type.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 5",
   },
   {
@@ -626,7 +626,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "If a calculation requires circular mils, where do you find CM values?",
     highlight: "Table 8",
     back: "Lists circular mil areas for each conductor size.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -634,7 +634,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Which table is commonly used with power factor to determine AC voltage drop?",
     highlight: "Table 9",
     back: "Used with power factor to get Effective Z for AC voltage drop calculations.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 9",
   },
   {
@@ -642,7 +642,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You need to size a raceway without Annex C. Which three Chapter 9 tables do you use?",
     highlight: "Table 1 · Table 4 · Table 5",
     back: "Table 1 (fill %), Table 4 (raceway area), and Table 5 (conductor area).",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Tables 1, 4, 5",
   },
   {
@@ -650,7 +650,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Where do you find conductor properties used in voltage drop and heating calculations?",
     highlight: "Table 8",
     back: "Conductor properties and resistance data.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -658,7 +658,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "If a question says “use Table 1 notes,” what is the topic?",
     highlight: "Conduit fill rules & exceptions",
     back: "Conduit fill rules and exceptions tied to Table 1.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1 Notes",
   },
   {
@@ -666,7 +666,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "You need to verify raceway fill for a short nipple. Which table still applies?",
     highlight: "Table 1",
     back: "Still provides fill rules unless the article allows a different allowance.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 1",
   },
   {
@@ -674,7 +674,7 @@ export const CHAPTER_9_TABLES_CARDS: Flashcard[] = [
     front: "Which chapter should you check first when a calculation calls for a table?",
     highlight: "Chapter 9",
     back: "Unless the article points to a different table or annex.",
-    category: "chapter-9-tables",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9",
   },
 ];
@@ -686,7 +686,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the NEC recommended maximum voltage drop for a branch circuit?",
     highlight: "3%",
     back: "3% of the circuit voltage.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC 210.19(A) Informational Note No. 4",
   },
   {
@@ -694,7 +694,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the NEC recommended maximum TOTAL voltage drop for feeder + branch circuit combined?",
     highlight: "5%",
     back: "5% of the source voltage.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC 215.2(A)(2) Informational Note No. 2",
   },
   {
@@ -702,7 +702,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the DC voltage drop formula using the K-factor method?",
     highlight: "VD = 2KID / CM",
     back: "K = resistivity constant, I = current (amps), D = one-way distance (ft), CM = circular mils.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -710,7 +710,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the K-factor value for copper conductors?",
     highlight: "K = 12.9",
     back: "12.9 ohms per mil-foot.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -718,7 +718,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the K-factor value for aluminum conductors?",
     highlight: "K = 21.2",
     back: "21.2 ohms per mil-foot.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -726,7 +726,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "Why is there a factor of 2 in the voltage drop formula?",
     highlight: "2 × one-way distance",
     back: "Current travels out on one conductor and returns on another — the total circuit length is twice the one-way distance.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -734,7 +734,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the AC voltage drop formula using Table 9?",
     highlight: "VD = 2 × L × R × I / 1000",
     back: "L = one-way length (ft), R = effective impedance (Ω per 1000 ft from Table 9), I = current (amps).",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 9",
   },
   {
@@ -742,7 +742,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is 'Effective Z' in Chapter 9, Table 9?",
     highlight: "Resistance + Reactance at PF",
     back: "The combined effect of AC resistance and reactance at a given power factor, used to simplify AC voltage drop calculations.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 9",
   },
   {
@@ -750,7 +750,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "A 120V branch circuit has a calculated voltage drop of 3.6V. What is the percent voltage drop?",
     highlight: "3%",
     back: "3.6V / 120V × 100 = 3%. At the NEC recommended maximum for a branch circuit.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC 210.19(A) Informational Note No. 4",
   },
   {
@@ -758,7 +758,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "A 12 AWG copper conductor has 6,530 circular mils. What is the voltage drop for a 30A load at 100 feet on a 240V circuit?",
     highlight: "11.85V · 4.94%",
     back: "VD = 2 × 12.9 × 30 × 100 / 6,530 = 11.85V. Percent = 11.85 / 240 = 4.94%.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -766,7 +766,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "How can you reduce voltage drop on a circuit?",
     highlight: "Larger wire · Shorter run · Less load",
     back: "Increase conductor size (larger CM), shorten the circuit run, or reduce the load current.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC 210.19(A) Informational Note No. 4",
   },
   {
@@ -774,7 +774,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "Are the NEC voltage drop recommendations (3% and 5%) mandatory requirements?",
     highlight: "No — informational only",
     back: "They are informational notes (recommendations), not enforceable code requirements. However, many AHJs enforce them.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC 210.19(A); 215.2(A)",
   },
   {
@@ -782,7 +782,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "What is the circular mil area of a 10 AWG copper conductor?",
     highlight: "10,380 CM",
     back: "10,380 circular mils.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
   {
@@ -790,7 +790,7 @@ export const VOLTAGE_DROP_CARDS: Flashcard[] = [
     front: "To find the minimum conductor size for a given voltage drop limit, how do you rearrange the formula?",
     highlight: "CM = 2 × K × I × D / VD (max allowable) ",
     back: "Solve for CM, then select the next larger standard conductor size.",
-    category: "voltage-drop",
+    category: "calculations-and-theory",
     necReference: "NEC Chapter 9, Table 8",
   },
 ];
@@ -803,7 +803,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "What is the minimum ampacity for motor branch circuit conductors?",
     highlight: "125% of FLC",
     back: "125% of the motor's Full Load Current from Table 430.250 (3Ø) or 430.248 (1Ø).",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC 430.22(A)",
   },
   {
@@ -811,7 +811,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "What is the maximum size inverse time circuit breaker for a standard squirrel cage motor?",
     highlight: "250% of FLC",
     back: "If that size doesn't hold, you may go to the next standard size per 430.52(C)(1).",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC Table 430.52",
   },
   {
@@ -819,7 +819,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "What is the maximum size dual-element (time-delay) fuse for motor short-circuit protection?",
     highlight: "175% of FLC",
     back: "Round up to the next standard fuse size if needed.",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC Table 430.52",
   },
   {
@@ -827,7 +827,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "What is the overload protection limit for a motor with a service factor of 1.15 or greater?",
     highlight: "125% of nameplate FLA",
     back: "Overloads use nameplate amps, not Table FLC.",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC 430.32(A)(1)",
   },
   {
@@ -835,7 +835,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "What is the overload protection limit for a motor with a service factor less than 1.15?",
     highlight: "115% of nameplate FLA",
     back: "For motors with SF < 1.15 or temp rise not over 40°C.",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC 430.32(A)(1)",
   },
   {
@@ -843,7 +843,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "How do you calculate minimum feeder ampacity for multiple motors?",
     highlight: "125% largest + 100% all others",
     back: "125% of the largest motor FLC + 100% of the sum of all other motor FLCs.",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC 430.24",
   },
   {
@@ -851,7 +851,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "How do you size the feeder overcurrent protection device for multiple motors?",
     highlight: "Largest OCPD + sum of other FLCs",
     back: "Largest motor's branch circuit OCPD rating + sum of FLCs of all other motors.",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC 430.62(A)",
   },
   {
@@ -859,7 +859,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "Where do you find locked rotor code letters and their kVA per HP values?",
     highlight: "Table 430.7(B)",
     back: "Code letters range from A (lowest) to V (highest locked rotor current).",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC Table 430.7(B)",
   },
   {
@@ -867,7 +867,7 @@ export const MOTOR_CALCULATIONS_CARDS: Flashcard[] = [
     front: "A Design B motor uses an instantaneous trip breaker (MCP). What is the maximum setting allowed as a percentage of motor FLC?",
     highlight: "1700% of FLC",
     back: "For Design B motors when permitted by 430.52(C).",
-    category: "motor-calculations",
+    category: "motors-and-generators",
     necReference: "NEC 430.52(C)(1); 430.52(C)(3)",
   },
 ];
@@ -1060,7 +1060,7 @@ export const FLASHCARD_SETS: FlashcardSet[] = [
     cards: VOLTAGE_DROP_CARDS,
   },
   {
-    id: "motor-calculations",
+    id: "motors-and-generators",
     name: "Motor Calculations",
     description: "Article 430 - Motor FLC, conductor sizing, OCPD, and overload protection.",
     cards: MOTOR_CALCULATIONS_CARDS,

@@ -2,9 +2,22 @@ import { NextResponse } from "next/server";
 import { db, users, passwordResetTokens } from "@/lib/db";
 import { eq, and, gt } from "drizzle-orm";
 import { hash } from "bcryptjs";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+
+// 5 reset-password attempts per 15 minutes
+const resetPasswordLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5 });
 
 export async function POST(request: Request) {
   try {
+    // Rate limit check
+    const ip = getClientIp(request);
+    const { success, remaining } = resetPasswordLimiter.check(ip);
+    if (!success) {
+      return NextResponse.json(
+        { error: "Too many password reset attempts. Please try again later." },
+        { status: 429, headers: { "Retry-After": "900", "X-RateLimit-Remaining": String(remaining) } }
+      );
+    }
     const body = await request.json();
     const { token, password } = body;
 

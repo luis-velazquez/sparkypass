@@ -6,16 +6,31 @@
   "totalQuestions": 80,
   "timeLimit": 240,
   "passingScore": 70,
-  "source": "https://www.tdlr.texas.gov/electricians/elecexam.htm",
+  "source": "https://test-takers.psiexams.com/tdlnrp",
+  "portions": [
+    {
+      "name": "NEC Knowledge",
+      "totalItems": 59,
+      "scoredItems": 56,
+      "timeLimit": 130
+    },
+    {
+      "name": "Calculations",
+      "totalItems": 26,
+      "scoredItems": 24,
+      "timeLimit": 110
+    }
+  ],
   "sections": [
-    { "name": "General Knowledge of the NEC", "questionCount": 12, "categorySlugs": ["services", "wiring-methods"] },
-    { "name": "Grounding & Bonding", "questionCount": 10, "categorySlugs": ["grounding-bonding"] },
-    { "name": "Branch Circuits, Feeders & Services", "questionCount": 10, "categorySlugs": ["load-calculations", "services"] },
-    { "name": "Wiring Methods & Materials", "questionCount": 10, "categorySlugs": ["wiring-methods", "conduit-fill"] },
-    { "name": "Box & Conduit Fill", "questionCount": 8, "categorySlugs": ["box-fill", "conduit-fill", "chapter-9-tables"] },
-    { "name": "Motors & Transformers", "questionCount": 8, "categorySlugs": ["motor-calculations", "transformer-sizing"] },
-    { "name": "Overcurrent Protection & Conductors", "questionCount": 8, "categorySlugs": ["temperature-correction", "termination-derating"] },
-    { "name": "Calculations (Voltage Drop, Resistance)", "questionCount": 6, "categorySlugs": ["voltage-drop", "resistance"] },
-    { "name": "Special Equipment & Occupancies", "questionCount": 8, "categorySlugs": ["swimming-pools", "mobile-homes"] }
+    { "name": "Definitions, Theory, and Plans", "questionCount": 5, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman"] },
+    { "name": "Electrical Services, Service Equipment, and Separately Derived Systems", "questionCount": 10, "categorySlugs": ["services", "calculations-and-theory"], "difficulties": ["journeyman"] },
+    { "name": "Electrical Feeders", "questionCount": 6, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman"] },
+    { "name": "Branch Circuits and Conductors", "questionCount": 14, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman"] },
+    { "name": "Electrical Wiring Methods and Electrical Materials", "questionCount": 12, "categorySlugs": ["wiring-methods", "calculations-and-theory"], "difficulties": ["journeyman"] },
+    { "name": "Electrical Equipment and Devices", "questionCount": 12, "categorySlugs": ["box-fill", "calculations-and-theory"], "difficulties": ["journeyman"] },
+    { "name": "Motors and Generators", "questionCount": 7, "categorySlugs": ["motors-and-generators", "transformer-sizing"], "difficulties": ["journeyman"] },
+    { "name": "Electrical Control Devices and Disconnecting Means", "questionCount": 2, "categorySlugs": ["services"], "difficulties": ["journeyman"] },
+    { "name": "Special Occupancies, Equipment, and Conditions", "questionCount": 9, "categorySlugs": ["special-occupancies"], "difficulties": ["journeyman"] },
+    { "name": "Renewable Energy Technologies", "questionCount": 3, "categorySlugs": ["calculations-and-theory"], "difficulties": ["journeyman"] }
   ]
 }
