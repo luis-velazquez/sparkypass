@@ -76,7 +76,7 @@ export async function GET() {
       categoryStats[cat.slug] = { answered: 0, correct: 0 };
     }
 
-    categoryProgress.forEach((p) => {
+    categoryProgress.forEach((p: any) => {
       const question = getQuestionById(p.questionId);
       if (!question) return;
       const category = question.category;
@@ -144,7 +144,7 @@ export async function GET() {
             ? Math.round((stats.correct / stats.answered) * 100)
             : 0,
       })),
-      recentSessions: recentSessions.map((s) => ({
+      recentSessions: recentSessions.map((s: any) => ({
         id: s.id,
         sessionType: s.sessionType,
         categorySlug: s.categorySlug || null,

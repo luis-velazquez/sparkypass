@@ -35,7 +35,7 @@ export async function GET() {
 
     // Collect all friend user IDs
     const friendUserIds = new Set<string>();
-    allFriendships.forEach((f) => {
+    allFriendships.forEach((f: any) => {
       friendUserIds.add(f.requesterId === userId ? f.addresseeId : f.requesterId);
     });
 
@@ -54,7 +54,7 @@ export async function GET() {
           .where(or(...[...friendUserIds].map((id) => eq(users.id, id))))
       : [];
 
-    const userMap = new Map(friendUsers.map((u) => [u.id, u]));
+    const userMap = new Map(friendUsers.map((u: any) => [u.id, u]));
 
     // Categorize friendships
     const accepted: typeof result = [];
@@ -74,9 +74,9 @@ export async function GET() {
 
     const result: FriendInfo[] = [];
 
-    allFriendships.forEach((f) => {
+    allFriendships.forEach((f: any) => {
       const friendId = f.requesterId === userId ? f.addresseeId : f.requesterId;
-      const user = userMap.get(friendId);
+      const user = userMap.get(friendId) as any;
       if (!user) return;
 
       const info: FriendInfo = {

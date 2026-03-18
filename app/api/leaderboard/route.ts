@@ -51,7 +51,7 @@ export async function GET() {
 
     // Collect friend IDs + current user
     const friendIds = new Set<string>([userId]);
-    acceptedFriendships.forEach((f) => {
+    acceptedFriendships.forEach((f: any) => {
       friendIds.add(f.requesterId === userId ? f.addresseeId : f.requesterId);
     });
 
@@ -69,10 +69,10 @@ export async function GET() {
       .where(or(...[...friendIds].map((id) => eq(users.id, id))));
 
     // Sort by watts lifetime descending
-    participants.sort((a, b) => b.wattsLifetime - a.wattsLifetime);
+    participants.sort((a: any, b: any) => b.wattsLifetime - a.wattsLifetime);
 
     // Build leaderboard entries
-    const leaderboard: LeaderboardEntry[] = participants.map((user, index) => ({
+    const leaderboard: LeaderboardEntry[] = participants.map((user: any, index: any) => ({
       rank: index + 1,
       userId: user.id,
       name: user.name,

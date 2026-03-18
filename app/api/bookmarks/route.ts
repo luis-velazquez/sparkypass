@@ -25,7 +25,7 @@ export async function GET() {
       .orderBy(sql`${bookmarks.createdAt} DESC`);
 
     // Enrich bookmarks with full question details
-    const enrichedBookmarks = userBookmarks.map((b) => {
+    const enrichedBookmarks = userBookmarks.map((b: any) => {
       const question = getQuestionById(b.questionId);
       return {
         id: b.id,

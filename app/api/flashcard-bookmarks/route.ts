@@ -36,7 +36,7 @@ export async function GET() {
       .orderBy(sql`${flashcardBookmarks.createdAt} DESC`);
 
     // Enrich bookmarks with flashcard details
-    const enrichedBookmarks = userBookmarks.map((b) => {
+    const enrichedBookmarks = userBookmarks.map((b: any) => {
       const flashcard = getFlashcardById(b.flashcardId);
       return {
         id: b.id,

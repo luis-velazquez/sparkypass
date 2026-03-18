@@ -30,7 +30,7 @@ export async function GET(request: Request) {
 
     // Sort by timesWrong DESC, then lastReviewDate ASC (least recently seen first)
     const sorted = weakSpots
-      .map((srs) => {
+      .map((srs: any) => {
         const question = getQuestionById(srs.questionId);
         if (!question) return null;
 
@@ -44,7 +44,7 @@ export async function GET(request: Request) {
         };
       })
       .filter(Boolean)
-      .sort((a, b) => {
+      .sort((a: any, b: any) => {
         // Primary: timesWrong DESC
         const wrongDiff = b!.timesWrong - a!.timesWrong;
         if (wrongDiff !== 0) return wrongDiff;

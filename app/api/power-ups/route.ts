@@ -34,21 +34,21 @@ export async function GET() {
     // Filter out expired ones and separate active vs inventory
     const now = new Date();
     const active = purchased.filter(
-      (p) => p.isActive && (!p.expiresAt || p.expiresAt > now),
+      (p: any) => p.isActive && (!p.expiresAt || p.expiresAt > now),
     );
     const inventory = purchased.filter(
-      (p) => !p.isActive && (!p.expiresAt || p.expiresAt > now),
+      (p: any) => !p.isActive && (!p.expiresAt || p.expiresAt > now),
     );
 
     return NextResponse.json({
       available: POWER_UP_LIST,
-      active: active.map((p) => ({
+      active: active.map((p: any) => ({
         id: p.id,
         type: p.powerUpType,
         purchasedAt: p.purchasedAt?.toISOString() || null,
         expiresAt: p.expiresAt?.toISOString() || null,
       })),
-      inventory: inventory.map((p) => ({
+      inventory: inventory.map((p: any) => ({
         id: p.id,
         type: p.powerUpType,
         purchasedAt: p.purchasedAt?.toISOString() || null,

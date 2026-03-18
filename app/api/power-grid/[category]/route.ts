@@ -78,18 +78,18 @@ export async function GET(
       getQuestionsByCategory(categorySlug as CategorySlug).map((q) => q.id),
     );
 
-    const categoryProgress = allProgress.filter((p) => categoryQuestionIds.has(p.questionId));
-    const categorySrs = allSrs.filter((s) => categoryQuestionIds.has(s.questionId));
+    const categoryProgress = allProgress.filter((p: any) => categoryQuestionIds.has(p.questionId));
+    const categorySrs = allSrs.filter((s: any) => categoryQuestionIds.has(s.questionId));
 
     // Calculate stats
     const totalAnswered = categoryProgress.length;
-    const totalCorrect = categoryProgress.filter((p) => p.isCorrect).length;
+    const totalCorrect = categoryProgress.filter((p: any) => p.isCorrect).length;
     const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
 
     // SRS stats
     const now = new Date();
-    const srsHealthy = categorySrs.filter((s) => s.interval >= 7).length;
-    const srsDue = categorySrs.filter((s) => s.nextReviewDate && s.nextReviewDate <= now).length;
+    const srsHealthy = categorySrs.filter((s: any) => s.interval >= 7).length;
+    const srsDue = categorySrs.filter((s: any) => s.nextReviewDate && s.nextReviewDate <= now).length;
     const srsHealth = categorySrs.length > 0
       ? Math.round((srsHealthy / categorySrs.length) * 100)
       : 0;
@@ -99,20 +99,20 @@ export async function GET(
     const fourteenDaysAgo = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000);
 
     const recentProgress = categoryProgress.filter(
-      (p) => p.answeredAt && p.answeredAt >= sevenDaysAgo,
+      (p: any) => p.answeredAt && p.answeredAt >= sevenDaysAgo,
     );
     const prevProgress = categoryProgress.filter(
-      (p) => p.answeredAt && p.answeredAt >= fourteenDaysAgo && p.answeredAt < sevenDaysAgo,
+      (p: any) => p.answeredAt && p.answeredAt >= fourteenDaysAgo && p.answeredAt < sevenDaysAgo,
     );
 
     const recentAccuracy = recentProgress.length > 0
       ? Math.round(
-          (recentProgress.filter((p) => p.isCorrect).length / recentProgress.length) * 100,
+          (recentProgress.filter((p: any) => p.isCorrect).length / recentProgress.length) * 100,
         )
       : null;
     const prevAccuracy = prevProgress.length > 0
       ? Math.round(
-          (prevProgress.filter((p) => p.isCorrect).length / prevProgress.length) * 100,
+          (prevProgress.filter((p: any) => p.isCorrect).length / prevProgress.length) * 100,
         )
       : null;
 
@@ -122,7 +122,7 @@ export async function GET(
         : null;
 
     // Per-question mastery breakdown
-    const questionMastery = categorySrs.map((s) => {
+    const questionMastery = categorySrs.map((s: any) => {
       const question = getQuestionById(s.questionId);
       return {
         questionId: s.questionId,
@@ -137,10 +137,10 @@ export async function GET(
     });
 
     const masteryBreakdown = {
-      mastered: questionMastery.filter((q) => q.mastery === "mastered").length,
-      learning: questionMastery.filter((q) => q.mastery === "learning").length,
-      reviewing: questionMastery.filter((q) => q.mastery === "reviewing").length,
-      new: questionMastery.filter((q) => q.mastery === "new").length,
+      mastered: questionMastery.filter((q: any) => q.mastery === "mastered").length,
+      learning: questionMastery.filter((q: any) => q.mastery === "learning").length,
+      reviewing: questionMastery.filter((q: any) => q.mastery === "reviewing").length,
+      new: questionMastery.filter((q: any) => q.mastery === "new").length,
       unattempted: categoryQuestionIds.size - categorySrs.length,
     };
 
@@ -162,7 +162,7 @@ export async function GET(
       prevAccuracy,
       trend,
       masteryBreakdown,
-      recentQuizzes: recentQuizzes.map((q) => ({
+      recentQuizzes: recentQuizzes.map((q: any) => ({
         score: q.score,
         totalQuestions: q.totalQuestions,
         difficulty: q.difficulty,

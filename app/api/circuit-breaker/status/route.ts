@@ -21,11 +21,11 @@ export async function GET() {
       .from(circuitBreakerState)
       .where(eq(circuitBreakerState.userId, userId));
 
-    const stateMap = new Map(states.map((s) => [s.categorySlug, s]));
+    const stateMap = new Map(states.map((s: any) => [s.categorySlug, s]));
 
     // Build response for all categories
     const breakers = CATEGORIES.map((cat) => {
-      const state = stateMap.get(cat.slug);
+      const state = stateMap.get(cat.slug) as any;
 
       if (!state) {
         return {

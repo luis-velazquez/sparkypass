@@ -101,7 +101,7 @@ export async function GET() {
     // Track recent wrong answers (last 24 hours)
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    allProgress.forEach((p) => {
+    allProgress.forEach((p: any) => {
       const question = getQuestionById(p.questionId);
       if (!question) return;
       const cat = question.category;
@@ -120,7 +120,7 @@ export async function GET() {
     const categorySrs: Record<string, { total: number; healthy: number; due: number }> = {};
     const now = new Date();
 
-    allSrs.forEach((s) => {
+    allSrs.forEach((s: any) => {
       const question = getQuestionById(s.questionId);
       if (!question) return;
       const cat = question.category;
@@ -140,7 +140,7 @@ export async function GET() {
 
     // Index breaker states
     const breakerMap: Record<string, { isTripped: boolean; bestStreak: number }> = {};
-    allBreakers.forEach((b) => {
+    allBreakers.forEach((b: any) => {
       breakerMap[b.categorySlug] = {
         isTripped: b.isTripped,
         bestStreak: b.bestStreak,

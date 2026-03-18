@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     // Calculate priority for each due question and enrich with question data
     const prioritized = dueQuestions
-      .map((srs) => {
+      .map((srs: any) => {
         const question = getQuestionById(srs.questionId);
         if (!question) return null;
 
@@ -61,7 +61,7 @@ export async function GET(request: Request) {
         };
       })
       .filter(Boolean)
-      .sort((a, b) => b!.priority - a!.priority)
+      .sort((a: any, b: any) => b!.priority - a!.priority)
       .slice(0, limit);
 
     // Count total due (unfiltered)
@@ -69,7 +69,7 @@ export async function GET(request: Request) {
 
     // Count by category
     const dueByCategoryMap: Record<string, number> = {};
-    dueQuestions.forEach((srs) => {
+    dueQuestions.forEach((srs: any) => {
       const question = getQuestionById(srs.questionId);
       if (!question) return;
       dueByCategoryMap[question.category] = (dueByCategoryMap[question.category] || 0) + 1;

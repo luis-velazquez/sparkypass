@@ -34,7 +34,7 @@ export async function GET() {
 
     return NextResponse.json({
       wattsBalance: user?.wattsBalance ?? 0,
-      transactions: transactions.map((t) => ({
+      transactions: transactions.map((t: any) => ({
         ...t,
         createdAt: t.createdAt?.toISOString() ?? null,
       })),
