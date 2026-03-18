@@ -2,19 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
-  "regions": ["iad1"],
-  "env": {
-    "NEXTAUTH_URL": "@nextauth_url",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "GOOGLE_CLIENT_ID": "@google_client_id",
-    "GOOGLE_CLIENT_SECRET": "@google_client_secret",
-    "FACEBOOK_CLIENT_ID": "@facebook_client_id",
-    "FACEBOOK_CLIENT_SECRET": "@facebook_client_secret",
-    "APPLE_CLIENT_ID": "@apple_client_id",
-    "APPLE_CLIENT_SECRET": "@apple_client_secret",
-    "TURSO_DATABASE_URL": "@turso_database_url",
-    "TURSO_AUTH_TOKEN": "@turso_auth_token",
-    "CONTACT_EMAIL": "@contact_email"
-  }
+  "installCommand": "npm install --legacy-peer-deps",
+  "regions": ["iad1"]
 }
