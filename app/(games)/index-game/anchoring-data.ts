@@ -1,3 +1,8 @@
+import {
+  shuffleArray,
+  getEnergizeLevel as _getEnergizeLevel,
+} from "../game-helpers";
+
 export const ANCHOR_CATEGORIES = [
   "Conductors",
   "Grounding",
@@ -255,22 +260,11 @@ export const ANCHORING_TERMS: AnchoringTerm[] = [
 ];
 
 /** Fisher-Yates shuffle — returns a new array */
-export function shuffleTerms(terms: AnchoringTerm[]): AnchoringTerm[] {
-  const arr = [...terms];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
+export const shuffleTerms = shuffleArray<AnchoringTerm>;
 
-/** Returns energize level 0-4 based on streak */
+/** Returns energize level 0-4 based on streak. Thresholds: 5/10/15/20. */
 export function getEnergizeLevel(streak: number): number {
-  if (streak >= 20) return 4;
-  if (streak >= 15) return 3;
-  if (streak >= 10) return 2;
-  if (streak >= 5) return 1;
-  return 0;
+  return _getEnergizeLevel(streak, [5, 10, 15, 20]);
 }
 
 export const CORRECT_REACTIONS = [

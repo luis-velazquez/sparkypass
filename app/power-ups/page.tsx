@@ -5,12 +5,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronLeft, Loader2, Zap, Package, Crosshair, Languages, Workflow, Lock, Check } from "lucide-react";
+import { ChevronLeft, Loader2, Zap, Package, Crosshair, Languages, Workflow, Lock, Check, Brain, Gamepad2 } from "lucide-react";
+import { toast } from "sonner";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { PowerUpShelf, ActivePowerUpBanner } from "@/components/power-ups";
 import { getRandomUnseenTip, getSeenTipIds, markTipSeen } from "@/lib/tips";
+import { POWER_UP_LIST } from "@/lib/power-ups";
 import type { PowerUpTypeValue } from "@/lib/db/schema";
 import type { PackMeta, GameId } from "@/lib/game-packs";
 
@@ -82,48 +84,42 @@ export default function PowerUpsPage() {
   }, [status, fetchPowerUps, fetchGamePacks]);
 
   const handlePurchase = async (type: PowerUpTypeValue) => {
-    try {
-      const res = await fetch("/api/power-ups/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type }),
-      });
-      const data = await res.json();
-      if (res.ok) {
-        setWattsBalance(data.wattsBalance);
-        window.dispatchEvent(new CustomEvent("watts-updated", { detail: { balance: data.wattsBalance } }));
-        fetchPowerUps();
+    const res = await fetch("/api/power-ups/purchase", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ type }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Purchase failed");
+    }
+    setWattsBalance(data.wattsBalance);
+    window.dispatchEvent(new CustomEvent("watts-updated", { detail: { balance: data.wattsBalance } }));
+    fetchPowerUps();
 
-        if (type === "sparky_tip") {
-          const seenIds = getSeenTipIds();
-          const tip = getRandomUnseenTip(seenIds);
-          if (tip) {
-            markTipSeen(tip.id);
-            router.push("/tips");
-          }
-        }
+    if (type === "sparky_tip") {
+      const seenIds = getSeenTipIds();
+      const tip = getRandomUnseenTip(seenIds);
+      if (tip) {
+        markTipSeen(tip.id);
+        router.push("/tips");
       }
-    } catch {
-      // Silently fail
     }
   };
 
   const handleActivate = async (purchaseId: string) => {
-    try {
-      const res = await fetch("/api/power-ups/activate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ purchaseId }),
-      });
-      if (res.ok) {
-        fetchPowerUps();
-      }
-    } catch {
-      // Silently fail
+    const res = await fetch("/api/power-ups/activate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ purchaseId }),
+    });
+    if (!res.ok) {
+      throw new Error("Activation failed");
     }
+    fetchPowerUps();
   };
 
-  const handlePackPurchase = async (gameId: GameId, packId: string) => {
+  const handlePackPurchase = async (gameId: GameId, packId: string, packName: string, packCost: number) => {
     try {
       const res = await fetch("/api/game-packs/purchase", {
         method: "POST",
@@ -138,8 +134,19 @@ export default function PowerUpsPage() {
           [gameId]: [...(prev[gameId] || []), packId],
         }));
         window.dispatchEvent(new CustomEvent("watts-updated", { detail: { balance: data.wattsBalance } }));
+        toast.success(`${packName} unlocked!`, {
+          description: `−${packCost}W from your balance`,
+        });
+      } else {
+        toast.error("Purchase failed", {
+          description: data.error || "Something went wrong.",
+        });
       }
-    } catch {}
+    } catch {
+      toast.error("Purchase failed", {
+        description: "Something went wrong. Please try again.",
+      });
+    }
   };
 
   const GAME_SECTIONS: { id: GameId; label: string; icon: typeof Crosshair }[] = [
@@ -150,6 +157,10 @@ export default function PowerUpsPage() {
 
   // Only show games that have purchasable packs
   const gamesWithPacks = GAME_SECTIONS.filter((g) => packCatalog[g.id].length > 0);
+
+  // Check if user can afford the cheapest power-up
+  const cheapestCost = Math.min(...POWER_UP_LIST.map((p) => p.cost));
+  const cantAffordAnything = wattsBalance < cheapestCost;
 
   if (status === "loading" || loading) {
     return (
@@ -210,9 +221,70 @@ export default function PowerUpsPage() {
         >
           <SparkyMessage
             size="medium"
-            message="Use your hard-earned Watts to buy power-ups! Protect your streak with a Fuse, reveal formulas with a Formula Sheet, or instantly reset a tripped breaker."
+            message={
+              cantAffordAnything
+                ? "Looks like you need more Watts! Play quizzes, games, or complete daily challenges to earn more. You'll be back shopping in no time!"
+                : "Use your hard-earned Watts to buy power-ups! Protect your streak with a Fuse, reveal formulas with a Formula Sheet, or instantly reset a tripped breaker."
+            }
+            variant={cantAffordAnything ? "sad" : undefined}
           />
         </motion.div>
+
+        {/* Empty state — can't afford anything */}
+        {cantAffordAnything && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mb-6"
+          >
+            <Card className="border-amber/20 dark:border-stone-800 bg-amber/5 dark:bg-stone-900/50">
+              <CardContent className="p-5">
+                <p className="text-sm font-semibold text-foreground mb-3">
+                  Need more Watts? Here&apos;s how to earn:
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {[
+                    {
+                      icon: Brain,
+                      title: "Take a Quiz",
+                      desc: "Up to 208W per correct answer",
+                      href: "/quiz",
+                    },
+                    {
+                      icon: Gamepad2,
+                      title: "Play Games",
+                      desc: "12W per correct in mini-games",
+                      href: "/index-sniper",
+                    },
+                    {
+                      icon: Zap,
+                      title: "Daily Challenge",
+                      desc: "277W per correct + streak bonuses",
+                      href: "/daily",
+                    },
+                  ].map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="flex items-start gap-3 rounded-lg border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-3 hover:border-amber/30 dark:hover:border-sparky-green/20 transition-colors"
+                    >
+                      <item.icon className="h-5 w-5 text-amber dark:text-sparky-green shrink-0 mt-0.5" />
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">
+                          {item.title}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {item.desc}
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
 
         {/* Active power-ups */}
         {active.length > 0 && (
@@ -290,7 +362,7 @@ export default function PowerUpsPage() {
                             className={`flex items-center justify-between p-3 rounded-xl border bg-card dark:bg-stone-900/50 transition-all ${
                               isOwned
                                 ? "border-emerald-500/30 dark:border-sparky-green/30"
-                                : "border-border dark:border-stone-800"
+                                : "border-border dark:border-stone-800 hover:border-amber/20 dark:hover:border-stone-700"
                             }`}
                           >
                             <div className="flex-1 min-w-0 mr-3">
@@ -315,7 +387,9 @@ export default function PowerUpsPage() {
                               <Button
                                 size="sm"
                                 disabled={!canAfford}
-                                onClick={() => handlePackPurchase(game.id, pack.id)}
+                                onClick={() =>
+                                  handlePackPurchase(game.id, pack.id, pack.name, pack.cost)
+                                }
                                 className="shrink-0 bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 disabled:opacity-50"
                               >
                                 {canAfford ? (

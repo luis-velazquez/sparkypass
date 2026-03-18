@@ -15,7 +15,7 @@ import {
   CheckCircle2,
   XCircle,
   Flame,
-  Loader2,
+
   Zap,
   Trophy,
   Calendar,
@@ -49,6 +49,7 @@ import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/
 import type { Question } from "@/types/question";
 import { ACTIVITY_VOLTAGE } from "@/lib/watts";
 import { getStreakBoostedVoltage } from "@/lib/voltage";
+import { ReviewPageShell, ReviewLoadingState, ReviewGridBackground } from "../shared";
 
 const DAILY_PROGRESS_KEY = "sparkypass-daily-challenge-progress";
 
@@ -658,36 +659,14 @@ export default function DailyChallengePage() {
 
   // --- LOADING STATE ---
   if (authStatus === "loading" || phase === "loading") {
-    return (
-      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh] relative z-10">
-          <Loader2 className="h-8 w-8 animate-spin text-amber" />
-        </div>
-      </main>
-    );
+    return <ReviewLoadingState />;
   }
 
   // --- ALREADY COMPLETED TODAY ---
   if (phase === "completed" && completionData) {
     return (
-      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="container mx-auto px-4 py-8 max-w-lg relative z-10">
+      <ReviewPageShell>
+        <div className="max-w-lg mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -745,7 +724,7 @@ export default function DailyChallengePage() {
             </Card>
           </motion.div>
         </div>
-      </main>
+      </ReviewPageShell>
     );
   }
 
@@ -764,16 +743,8 @@ export default function DailyChallengePage() {
       : "Every question is a learning opportunity! Come back tomorrow and show what you've learned!";
 
     return (
-      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="container mx-auto px-4 py-8 max-w-lg relative z-10">
+      <ReviewPageShell>
+        <div className="max-w-lg mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -854,7 +825,7 @@ export default function DailyChallengePage() {
                   <Button
                     variant="outline"
                     onClick={() => router.push("/quiz")}
-                    className="w-full border-border dark:border-stone-700"
+                    className="w-full border-border dark:border-stone-800"
                   >
                     Practice More Questions
                   </Button>
@@ -863,27 +834,13 @@ export default function DailyChallengePage() {
             </Card>
           </motion.div>
         </div>
-      </main>
+      </ReviewPageShell>
     );
   }
 
   // --- QUIZ FLOW ---
   if (phase !== "quiz" || !currentQuestion) {
-    return (
-      <main className="relative min-h-screen bg-cream dark:bg-stone-950">
-        <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="container mx-auto px-4 py-8 flex items-center justify-center min-h-[60vh] relative z-10">
-          <Loader2 className="h-8 w-8 animate-spin text-amber" />
-        </div>
-      </main>
-    );
+    return <ReviewLoadingState />;
   }
 
   return (
@@ -916,15 +873,8 @@ export default function DailyChallengePage() {
         className="relative min-h-screen bg-cream dark:bg-stone-950"
         animate={shakeAnimation}
       >
-        <div
-          className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
-          style={{
-            backgroundImage:
-              "linear-gradient(rgba(245,158,11,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.5) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
-          }}
-        />
-        <div className="container mx-auto px-4 py-6 max-w-4xl relative z-10">
+        <ReviewGridBackground />
+        <div className="max-w-4xl mx-auto px-4 py-6 relative z-10">
           {/* Progress Bar - hidden on mobile */}
           <div className="hidden md:block mb-6">
             <div className={`h-2 bg-muted dark:bg-stone-800 rounded-full overflow-hidden transition-shadow duration-500 ${

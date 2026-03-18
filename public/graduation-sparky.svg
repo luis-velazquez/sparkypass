@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-label="Sparky the electrician mascot - graduation">
+  <defs>
+    <filter id="sparky-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="star-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Celebration sparkles -->
+  <path d="M12 42 L14 38 L16 42 L14 44 Z" fill="#FCD34D" filter="url(#star-glow)" />
+  <path d="M88 38 L90 34 L92 38 L90 40 Z" fill="#A3FF00" filter="url(#star-glow)" />
+  <path d="M20 22 L22 18 L24 22 L22 24 Z" fill="#A3FF00" filter="url(#star-glow)" />
+  <path d="M80 18 L82 14 L84 18 L82 20 Z" fill="#FCD34D" filter="url(#star-glow)" />
+
+  <!-- Diploma in left side -->
+  <g transform="rotate(-20, 18, 72)">
+    <rect x="10" y="68" width="16" height="10" rx="2" fill="#FEF3C7" stroke="#D97706" stroke-width="1" />
+    <line x1="13" y1="71" x2="23" y2="71" stroke="#D97706" stroke-width="0.8" opacity="0.5" />
+    <line x1="13" y1="73" x2="21" y2="73" stroke="#D97706" stroke-width="0.8" opacity="0.5" />
+    <line x1="13" y1="75" x2="23" y2="75" stroke="#D97706" stroke-width="0.8" opacity="0.5" />
+    <!-- Ribbon/seal -->
+    <circle cx="22" cy="76" r="2.5" fill="#EF4444" />
+    <circle cx="22" cy="76" r="1.2" fill="#FCA5A5" />
+  </g>
+
+  <!-- Face -->
+  <circle cx="50" cy="58" r="24" fill="#FBBF24" />
+  <!-- Cheeks - proud blush -->
+  <circle cx="34" cy="63" r="5" fill="#F59E0B" opacity="0.5" />
+  <circle cx="66" cy="63" r="5" fill="#F59E0B" opacity="0.5" />
+
+  <!-- Eyes - happy and proud, slightly teary -->
+  <ellipse cx="40" cy="53" rx="5.5" ry="6" fill="white" />
+  <ellipse cx="60" cy="53" rx="5.5" ry="6" fill="white" />
+  <!-- Star pupils like streak sparky -->
+  <path d="M40 49.5 L41 52 L43.5 52 L41.5 53.5 L42.5 56 L40 54.5 L37.5 56 L38.5 53.5 L36.5 52 L39 52 Z" fill="#292524" />
+  <path d="M60 49.5 L61 52 L63.5 52 L61.5 53.5 L62.5 56 L60 54.5 L57.5 56 L58.5 53.5 L56.5 52 L59 52 Z" fill="#292524" />
+  <!-- Eye shine -->
+  <circle cx="42" cy="51.5" r="1.2" fill="white" />
+  <circle cx="62" cy="51.5" r="1.2" fill="white" />
+  <!-- Proud tear -->
+  <path d="M66 58 Q67 62 66 65 Q64 63 66 58 Z" fill="#60A5FA" opacity="0.4" />
+
+  <!-- Eyebrows - high and proud -->
+  <path d="M33 43 Q40 39 47 43" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round" />
+  <path d="M53 43 Q60 39 67 43" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+  <!-- Mouth - huge proud grin -->
+  <path d="M35 66 Q50 80 65 66" stroke="#92400E" stroke-width="3" fill="#92400E" stroke-linecap="round" />
+  <rect x="42" y="66" width="16" height="5" rx="1" fill="white" />
+
+  <!-- Mortarboard / Graduation Cap -->
+  <!-- Cap board (flat top) -->
+  <polygon points="14,26 50,14 86,26 50,34" fill="#292524" />
+  <!-- Cap board highlight -->
+  <polygon points="20,26 50,16 80,26 50,32" fill="#44403C" opacity="0.3" />
+  <!-- Cap base/band -->
+  <rect x="32" y="32" width="36" height="6" rx="1" fill="#292524" />
+  <rect x="34" y="33" width="32" height="2" rx="0.5" fill="#44403C" opacity="0.3" />
+
+  <!-- Tassel -->
+  <line x1="78" y1="26" x2="82" y2="26" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" />
+  <path d="M82 26 Q84 28 82 42" stroke="#F59E0B" stroke-width="2" fill="none" stroke-linecap="round" />
+  <!-- Tassel end -->
+  <line x1="80" y1="42" x2="80" y2="48" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" />
+  <line x1="82" y1="42" x2="82" y2="49" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" />
+  <line x1="84" y1="42" x2="84" y2="47" stroke="#F59E0B" stroke-width="1.5" stroke-linecap="round" />
+  <!-- Tassel button -->
+  <circle cx="82" cy="26" r="2" fill="#D97706" />
+
+  <!-- Lightning bolt on cap band -->
+  <path d="M51 33 L49 36 L51 36 L49 39 L53 35 L51 35 L53 33 Z" fill="#A3FF00"
+    filter="url(#sparky-glow)" />
+</svg>

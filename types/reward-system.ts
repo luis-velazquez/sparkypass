@@ -40,6 +40,8 @@ export type WattsTransactionType =
   | "resistance_missed_review"
   | "power_up_purchase"
   | "game_pack_purchase"
+  | "game_continue"
+  | "game_hint"
   // Legacy (kept for old DB rows)
   | "correct_answer"
   | "session_complete"

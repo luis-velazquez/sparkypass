@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* ================================================================
    NEC QUEST — UNIFIED DESIGN SYSTEM
    Amber primary · Purple secondary · Warm stone neutrals
@@ -51,23 +55,23 @@
   --error-light: #FEE2E2;
 
   /* === WARM NEUTRALS — Light Mode === */
-  --cream: #FFFBEB;
-  --cream-dark: #FEF3C7;
+  --cream: #FEFCF6;
+  --cream-dark: #F5EFE0;
 
-  --bg-base: #FFFBEB;
+  --bg-base: #FEFCF6;
   --bg-surface: #FFFFFF;
-  --bg-elevated: #FEF3C7;
-  --bg-card: #FFFDF5;
-  --border-subtle: rgba(217, 119, 6, 0.08);
-  --border-medium: rgba(217, 119, 6, 0.15);
-  --border-strong: rgba(217, 119, 6, 0.25);
+  --bg-elevated: #F5EFE0;
+  --bg-card: #FFFFFF;
+  --border-subtle: rgba(168, 162, 158, 0.15);
+  --border-medium: rgba(168, 162, 158, 0.25);
+  --border-strong: rgba(168, 162, 158, 0.4);
 
   --text-primary: #292524;
   --text-secondary: #57534E;
   --text-muted: #A8A29E;
 
   /* === GRADIENTS === */
-  --grad-primary: linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%);
+  --grad-primary: linear-gradient(135deg, #D97706 0%, #F59E0B 100%);
   --grad-secondary: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
   --grad-xp: linear-gradient(135deg, #10B981 0%, #34D399 100%);
   --grad-streak: linear-gradient(135deg, #E8590C 0%, #FB923C 100%);
@@ -75,9 +79,9 @@
   --grad-sparky: linear-gradient(135deg, #A3FF00 0%, #7ACC00 100%);
 
   /* === SHADOWS === */
-  --shadow-sm: 0 1px 3px rgba(41,37,36,0.06), 0 0 0 1px var(--border-subtle);
-  --shadow-card: 0 4px 20px rgba(41,37,36,0.06), 0 0 0 1px var(--border-subtle);
-  --shadow-elevated: 0 8px 32px rgba(41,37,36,0.1), 0 0 0 1px var(--border-medium);
+  --shadow-sm: 0 1px 3px rgba(41,37,36,0.1), 0 0 0 1px var(--border-subtle);
+  --shadow-card: 0 2px 8px rgba(41,37,36,0.08), 0 8px 24px rgba(41,37,36,0.06);
+  --shadow-elevated: 0 4px 12px rgba(41,37,36,0.1), 0 12px 40px rgba(41,37,36,0.08);
   --shadow-glow-primary: 0 4px 20px rgba(245,158,11,0.25);
   --shadow-glow-secondary: 0 4px 16px rgba(139,92,246,0.2);
   --shadow-glow-xp: 0 4px 16px rgba(16,185,129,0.2);
@@ -85,13 +89,13 @@
   --shadow-glow-sparky: 0 4px 16px rgba(163, 255, 0, 0.2);
 
   /* === UI Colors (shadcn/ui compatible) === */
-  --muted: oklch(0.97 0 0);
-  --border: oklch(0.922 0 0);
-  --card: oklch(1 0 0);
+  --muted: #F5F0E8;
+  --border: #E7E0D5;
+  --card: #FFFFFF;
   --destructive: oklch(0.577 0.245 27.325);
   --success: #10B981;
   --radius: 0.625rem;
-  --background: #FFFBEB;
+  --background: #FEFCF6;
   --foreground: #292524;
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -103,8 +107,8 @@
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
+  --input: #E7E0D5;
+  --ring: #D97706;
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -232,6 +236,8 @@
     --border: #44403C;
     --muted: #44403C;
     --muted-foreground: #A8A29E;
+    --input: #44403C;
+    --ring: #F59E0B;
     --cream: #292524;
     --cream-dark: #1C1917;
     --purple-soft: #3B2F63;
@@ -522,4 +528,20 @@ button:not(:disabled),
 /* Monospace text (for NEC references, data, timers) */
 .font-mono-data {
   font-family: var(--font-mono), 'Space Mono', monospace;
+}
+
+/* CTA glow pulse — landing page primary button */
+@keyframes cta-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(217,119,6,0.3), 0 0 60px rgba(217,119,6,0.1); }
+  50% { box-shadow: 0 0 30px rgba(217,119,6,0.45), 0 0 80px rgba(217,119,6,0.18); }
+}
+@keyframes cta-glow-dark {
+  0%, 100% { box-shadow: 0 0 20px rgba(163,255,0,0.15), 0 0 60px rgba(163,255,0,0.05); }
+  50% { box-shadow: 0 0 30px rgba(163,255,0,0.3), 0 0 80px rgba(163,255,0,0.1); }
+}
+.animate-cta-glow {
+  animation: cta-glow 2.5s ease-in-out infinite;
+}
+:is(.dark) .animate-cta-glow {
+  animation: cta-glow-dark 2.5s ease-in-out infinite;
 }

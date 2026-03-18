@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence, Reorder } from "framer-motion";
+import { motion, Reorder } from "framer-motion";
 import { Workflow, AlertTriangle, Check, GripVertical, Shuffle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { haptic } from "@/lib/haptics";
@@ -17,26 +17,29 @@ import {
   GameOverScreen,
   SkipButton,
   MAX_SKIPS,
-  SparkyTip,
-  TripOverlay,
   DifficultyPicker,
   ScoreBar,
   GameHeader,
   QuestionCard,
   fireStreakConfetti,
   finalizeGame,
-  PackShop,
+  CONTINUE_COST,
+  WATTS_PER_CORRECT,
+  getComboMultiplier,
+  checkWildcardEarned,
+  WildcardBar,
+  WildcardEarnedToast,
+  type WildcardType,
+  type WildcardInventory,
 } from "../shared";
 
-import type { PackMeta, GameId } from "@/lib/game-packs";
+import type { GameId } from "@/lib/game-packs";
 
 import {
   type FormulaScenario,
   type FormulaStep,
   shuffleSteps,
   getEnergizeLevel,
-  CORRECT_REACTIONS,
-  TRIP_MESSAGES,
   SCENARIOS,
   getUnlockedScenarios,
 } from "./builder-data";
@@ -74,8 +77,6 @@ function FormulaBuilderContent() {
 
   // Pack shop state
   const [unlockedPacks, setUnlockedPacks] = useState<string[]>(["free"]);
-  const [packCatalog, setPackCatalog] = useState<PackMeta[]>([]);
-  const [packWattsBalance, setPackWattsBalance] = useState(0);
 
   const activeScenarios = useMemo(() => getUnlockedScenarios(unlockedPacks), [unlockedPacks]);
 
@@ -90,28 +91,9 @@ function FormulaBuilderContent() {
       .then((r) => r.json())
       .then((data) => {
         if (data.owned?.[GAME_ID]) setUnlockedPacks(data.owned[GAME_ID]);
-        if (data.catalog?.[GAME_ID]) setPackCatalog(data.catalog[GAME_ID]);
-        if (typeof data.wattsBalance === "number") setPackWattsBalance(data.wattsBalance);
       })
       .catch(() => {});
   }, [status]);
-
-  const handlePurchase = useCallback(async (packId: string) => {
-    try {
-      const res = await fetch("/api/game-packs/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId: GAME_ID, packId }),
-      });
-      if (!res.ok) return;
-      const data = await res.json();
-      if (data.success) {
-        setUnlockedPacks((prev) => [...prev, packId]);
-        setPackWattsBalance(data.wattsBalance);
-        window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
-      }
-    } catch {}
-  }, []);
 
   const [scenarios, setScenarios] = useState<FormulaScenario[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -124,9 +106,8 @@ function FormulaBuilderContent() {
   const [submitted, setSubmitted] = useState(false);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showTrip, setShowTrip] = useState(false);
-  const [showTip, setShowTip] = useState(false);
-  const [tipText, setTipText] = useState("");
-  const [reactionText, setReactionText] = useState("");
+  const [hasContinued, setHasContinued] = useState(false);
+  const [wattsSpent, setWattsSpent] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameOverReason, setGameOverReason] = useState<"complete" | "strikes" | "timeout">("complete");
   const [stats, setStats] = useState<GameStats>({ highScore: 0, totalPlayed: 0, totalCorrect: 0 });
@@ -134,6 +115,9 @@ function FormulaBuilderContent() {
   const [dragItems, setDragItems] = useState<FormulaStep[]>([]);
   const [correctPositions, setCorrectPositions] = useState<Set<number>>(new Set());
 
+  const [wildcards, setWildcards] = useState<WildcardInventory>({ freeze_timer: 0, extra_life: 0 });
+  const [wildcardToast, setWildcardToast] = useState<WildcardType | null>(null);
+  const timerFrozen = useRef(false);
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -150,8 +134,7 @@ function FormulaBuilderContent() {
     setCorrectPositions(new Set());
     setSubmitted(false);
     setIsCorrect(null);
-    setReactionText("");
-  }, [currentIdx, scenarios]); // eslint-disable-line react-hooks/exhaustive-deps
+     }, [currentIdx, scenarios]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const energizeLevel = getEnergizeLevel(streak);
 
@@ -167,27 +150,28 @@ function FormulaBuilderContent() {
   );
 
   useEffect(() => {
-    if (gameOver || scenarios.length === 0 || showTrip || showTip || submitted) return;
+    if (gameOver || scenarios.length === 0 || showTrip || submitted) return;
     setTimeLeft(questionTime);
+    timerFrozen.current = false;
     countdownRef.current = setInterval(() => {
+      if (timerFrozen.current) return;
       setTimeLeft((prev) => { if (prev <= 1) { if (countdownRef.current) clearInterval(countdownRef.current); return 0; } return prev - 1; });
     }, 1000);
     return () => { if (countdownRef.current) clearInterval(countdownRef.current); };
-  }, [currentIdx, gameOver, scenarios.length, showTrip, showTip, questionTime, submitted]);
+  }, [currentIdx, gameOver, scenarios.length, showTrip, questionTime, submitted]);
 
   useEffect(() => {
-    if (timeLeft === 0 && !submitted && !gameOver && scenarios.length > 0 && !showTrip && !showTip) {
+    if (timeLeft === 0 && !submitted && !gameOver && scenarios.length > 0 && !showTrip) {
       haptic("error");
       const newWrong = wrongCount + 1;
-      setWrongCount(newWrong); setStreak(0); setSubmitted(true); setIsCorrect(false); setReactionText("Time\u2019s up!");
-      if (newWrong >= MAX_WRONG) { advanceTimerRef.current = setTimeout(() => { endGame("strikes"); }, 1200); } else { setShowTrip(true); }
+      setWrongCount(newWrong); setStreak(0); setSubmitted(true); setIsCorrect(false);      if (newWrong >= MAX_WRONG) { advanceTimerRef.current = setTimeout(() => { endGame("strikes"); }, 1200); } else { setShowTrip(true); }
     }
-  }, [timeLeft, submitted, gameOver, scenarios.length, showTrip, showTip, wrongCount, endGame]);
+  }, [timeLeft, submitted, gameOver, scenarios.length, showTrip, wrongCount, endGame]);
 
   const advanceToNext = useCallback(() => {
     if (countdownRef.current) clearInterval(countdownRef.current);
     if (currentIdx + 1 >= scenarios.length) { endGame("complete"); } else {
-      setSubmitted(false); setIsCorrect(null); setShowTip(false); setTipText(""); setReactionText(""); setTimeLeft(questionTime); setCorrectPositions(new Set()); setCurrentIdx((prev) => prev + 1);
+      setSubmitted(false); setIsCorrect(null); setTimeLeft(questionTime); setCorrectPositions(new Set()); setCurrentIdx((prev) => prev + 1);
     }
   }, [currentIdx, scenarios.length, endGame, questionTime]);
 
@@ -196,7 +180,7 @@ function FormulaBuilderContent() {
     if (countdownRef.current) clearInterval(countdownRef.current);
     setSkippedCount((prev) => prev + 1); setStreak(0);
     if (currentIdx + 1 >= scenarios.length) { endGame("complete"); } else {
-      setSubmitted(false); setIsCorrect(null); setShowTip(false); setTipText(""); setReactionText(""); setTimeLeft(questionTime); setCorrectPositions(new Set()); setCurrentIdx((prev) => prev + 1);
+      setSubmitted(false); setIsCorrect(null); setTimeLeft(questionTime); setCorrectPositions(new Set()); setCurrentIdx((prev) => prev + 1);
     }
   }, [submitted, currentIdx, scenarios.length, endGame, questionTime]);
 
@@ -212,15 +196,19 @@ function FormulaBuilderContent() {
       haptic("success");
       setCorrectPositions(new Set(correctStepIds.map((_, i) => i)));
       const newStreak = streak + 1;
-      setScore(score + 1); setStreak(newStreak); setTotalCorrect(totalCorrect + 1);
+      setScore(score + getComboMultiplier(newStreak)); setStreak(newStreak); setTotalCorrect(totalCorrect + 1);
       if (newStreak > bestStreak) setBestStreak(newStreak);
-      setReactionText(CORRECT_REACTIONS[Math.floor(Math.random() * CORRECT_REACTIONS.length)]);
       if (newStreak > 0 && newStreak % 3 === 0) fireStreakConfetti();
+      const earned = checkWildcardEarned(newStreak);
+      if (earned) {
+        setWildcards((prev) => ({ ...prev, [earned]: prev[earned] + 1 }));
+        setWildcardToast(earned);
+        setTimeout(() => setWildcardToast(null), 2000);
+      }
       advanceTimerRef.current = setTimeout(() => { advanceToNext(); }, 1500);
     } else {
       haptic("error");
       setWrongCount(wrongCount + 1); setStreak(0);
-      setReactionText(TRIP_MESSAGES[Math.floor(Math.random() * TRIP_MESSAGES.length)]);
       const posSet = new Set<number>();
       correctStepIds.forEach((id, i) => { if (userStepIds[i] === id) posSet.add(i); });
       setCorrectPositions(posSet);
@@ -234,19 +222,49 @@ function FormulaBuilderContent() {
     setDragItems(shuffleArray(allSteps));
   }, [submitted, currentScenario]);
 
+  const handleUseWildcard = useCallback((type: WildcardType) => {
+    if (wildcards[type] <= 0 || submitted) return;
+    setWildcards((prev) => ({ ...prev, [type]: prev[type] - 1 }));
+    if (type === "freeze_timer") {
+      timerFrozen.current = true;
+      haptic("success");
+    } else if (type === "extra_life") {
+      if (wrongCount > 0) { setWrongCount((prev) => prev - 1); haptic("success"); }
+    }
+  }, [wildcards, submitted, wrongCount]);
+
   const handleNewGame = useCallback(() => {
     if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
     if (countdownRef.current) clearInterval(countdownRef.current);
     setScenarios(buildQueue()); setCurrentIdx(0); setScore(0); setStreak(0); setBestStreak(0); setTotalCorrect(0); setWrongCount(0); setSkippedCount(0);
-    setSubmitted(false); setIsCorrect(null); setShowTrip(false); setShowTip(false); setTipText(""); setReactionText(""); setGameOver(false); setGameOverReason("complete"); setTimeLeft(questionTime); setCorrectPositions(new Set()); setDragItems([]);
+    setSubmitted(false); setIsCorrect(null); setShowTrip(false); setHasContinued(false); setWattsSpent(0); setWildcards({ freeze_timer: 0, extra_life: 0 }); setWildcardToast(null); timerFrozen.current = false; setGameOver(false); setGameOverReason("complete"); setTimeLeft(questionTime); setCorrectPositions(new Set()); setDragItems([]);
   }, [questionTime]);
 
   const handleChangeDifficulty = useCallback(() => {
     if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
     if (countdownRef.current) clearInterval(countdownRef.current);
     setScenarios(buildQueue()); setCurrentIdx(0); setScore(0); setStreak(0); setBestStreak(0); setTotalCorrect(0); setWrongCount(0); setSkippedCount(0);
-    setSubmitted(false); setIsCorrect(null); setShowTrip(false); setShowTip(false); setTipText(""); setReactionText(""); setGameOver(false); setGameOverReason("complete"); setTimeLeft(35); setCorrectPositions(new Set()); setDragItems([]); setDifficulty(null);
+    setSubmitted(false); setIsCorrect(null); setShowTrip(false); setHasContinued(false); setWattsSpent(0); setWildcards({ freeze_timer: 0, extra_life: 0 }); setWildcardToast(null); timerFrozen.current = false; setGameOver(false); setGameOverReason("complete"); setTimeLeft(35); setCorrectPositions(new Set()); setDragItems([]); setDifficulty(null);
   }, []);
+
+  const handleContinueGame = useCallback(async () => {
+    try {
+      const res = await fetch("/api/game-continue", { method: "POST" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        setHasContinued(true);
+        setWattsSpent((prev) => prev + CONTINUE_COST);
+        setWrongCount(0);
+        setShowTrip(false);
+        setSubmitted(false);
+        setIsCorrect(null);
+        setTimeLeft(questionTime);
+        setCorrectPositions(new Set());
+        window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
+      }
+    } catch {}
+  }, [questionTime]);
 
   if (status === "loading") return <GameLoadingFallback />;
 
@@ -259,15 +277,6 @@ function FormulaBuilderContent() {
     return (
       <DifficultyPicker icon={Workflow} title="Builder" titleAccent="Formula" subtitle="Drag NEC articles into the correct sequence to solve each calculation scenario." difficulties={difficulties} stats={stats}
         onSelect={(level) => { setDifficulty(level as Difficulty); setTimeLeft(DIFFICULTY_TIME[level as Difficulty]); setScenarios(buildQueue()); }}
-        extraContent={
-          <PackShop
-            gameId={GAME_ID}
-            catalog={packCatalog}
-            ownedPacks={unlockedPacks}
-            wattsBalance={packWattsBalance}
-            onPurchase={handlePurchase}
-          />
-        }
       />
     );
   }
@@ -282,6 +291,7 @@ function FormulaBuilderContent() {
         summarySubtitle={gameOverReason === "strikes" ? `The breaker tripped ${MAX_WRONG} times — builder stalled after ${answered} scenarios` : `You\u2019ve assembled all ${scenarios.length} calculation sequences`}
         sparkyMsg={gameOverReason === "strikes" ? "Too many miswires! Study the NEC calculation procedures and try to nail the sequence next time!" : accuracy >= 80 ? "Master builder status! You really know the order of operations for NEC calculations!" : accuracy >= 50 ? "Good sequencing! Practice makes perfect — try again to tighten your process!" : "NEC calculations follow a strict order. Review the tips and build your step-by-step muscle memory!"}
         score={score} accuracy={accuracy} bestStreak={bestStreak} highScore={stats.highScore} skippedCount={skippedCount} gameOverReason={gameOverReason} maxWrong={MAX_WRONG} onPlayAgain={handleNewGame} onChangeDifficulty={handleChangeDifficulty}
+        wattsEarned={totalCorrect * WATTS_PER_CORRECT} wattsSpent={wattsSpent}
       />
     );
   }
@@ -295,9 +305,13 @@ function FormulaBuilderContent() {
       <div className="container mx-auto px-4 py-8 max-w-2xl relative z-10 flex flex-col">
         <GameHeader titleAccent="Formula" title="Builder" subtitle="Drag NEC articles into the correct sequence to solve the calculation." />
 
-        <ScoreBar score={score} streak={streak} highScore={stats.highScore} timeLeft={timeLeft} maxTime={questionTime} wrongCount={wrongCount} maxWrong={MAX_WRONG} currentIdx={currentIdx} total={scenarios.length} onNewGame={handleNewGame} flameThreshold={2} timerWarning={5} />
+        <ScoreBar score={score} streak={streak} highScore={stats.highScore} timeLeft={timeLeft} maxTime={questionTime} wrongCount={wrongCount} maxWrong={MAX_WRONG} currentIdx={currentIdx} total={scenarios.length} onNewGame={handleNewGame} flameThreshold={2} timerWarning={5} multiplier={getComboMultiplier(streak)} />
 
-        <QuestionCard label="Build the Calculation" energizeLevel={energizeLevel} currentIdx={currentIdx} isCorrect={isCorrect} reactionText={reactionText} className="mb-4 relative order-1 md:order-3">
+        <QuestionCard label="Build the Calculation" energizeLevel={energizeLevel} currentIdx={currentIdx} isCorrect={isCorrect} className="mb-4 relative order-1 md:order-3"
+          flipped={showTrip} tripInfo={currentScenario ? { term: currentScenario.title, tip: currentScenario.explanation, strikeCount: wrongCount, maxStrikes: MAX_WRONG } : undefined}
+          onTripDismiss={() => { setShowTrip(false); if (wrongCount >= MAX_WRONG) { endGame("strikes"); } else { advanceToNext(); } }}
+          canContinue={!hasContinued && wrongCount >= MAX_WRONG} onContinueGame={handleContinueGame}
+        >
           <p className="text-xl md:text-2xl font-bold font-display text-foreground">{currentScenario?.title}</p>
           <p className="text-sm text-muted-foreground mt-2">{currentScenario?.description}</p>
           <p className="text-xs text-muted-foreground/60 mt-1">Arrange the first {correctStepCount} steps in order · {dragItems.length} items total</p>
@@ -340,38 +354,26 @@ function FormulaBuilderContent() {
           </Reorder.Group>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }} className="flex justify-center gap-3 mb-6 order-3 md:order-5">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.25 }} className="flex flex-col items-center gap-2 mb-6 order-3 md:order-5">
           {!submitted && (
             <>
-              <Button variant="outline" onClick={handleReshuffle} className="border-border dark:border-stone-700">
-                <Shuffle className="h-4 w-4 mr-1.5" />Reshuffle
-              </Button>
-              <Button onClick={handleSubmit} className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
-                <Check className="h-4 w-4 mr-1.5" />Submit Order
-              </Button>
-              <SkipButton onClick={handleSkip} remaining={MAX_SKIPS - skippedCount} />
+              <div className="flex justify-center gap-3">
+                <Button variant="outline" onClick={handleReshuffle} className="border-border dark:border-stone-700">
+                  <Shuffle className="h-4 w-4 mr-1.5" />Reshuffle
+                </Button>
+                <Button onClick={handleSubmit} className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950">
+                  <Check className="h-4 w-4 mr-1.5" />Submit Order
+                </Button>
+                <SkipButton onClick={handleSkip} remaining={MAX_SKIPS - skippedCount} />
+              </div>
+              <WildcardBar wildcards={wildcards} onUse={handleUseWildcard} disabled={submitted} />
             </>
           )}
         </motion.div>
 
-        <AnimatePresence>
-          {reactionText && submitted && (
-            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="text-center mb-4 order-4 md:order-6">
-              <span className={`text-sm font-bold ${isCorrect ? "text-emerald dark:text-sparky-green" : "text-red-500"}`}>{reactionText}</span>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <SparkyTip showTip={showTip} tipText={tipText} onContinue={advanceToNext} className="mb-6 order-first md:order-7" />
       </div>
 
-      <AnimatePresence>
-        {showTrip && currentScenario && (
-          <TripOverlay term={currentScenario.title} tip={currentScenario.explanation} strikeCount={wrongCount} maxStrikes={MAX_WRONG}
-            onDismiss={() => { setShowTrip(false); if (wrongCount >= MAX_WRONG) { endGame("strikes"); } else { const correctOrder = currentScenario.steps.map((s) => s.label).join(" → "); setTipText(`Correct order: ${correctOrder}\n\n${currentScenario.explanation}`); setShowTip(true); } }}
-          />
-        )}
-      </AnimatePresence>
+      <WildcardEarnedToast type={wildcardToast} />
     </motion.main>
   );
 }

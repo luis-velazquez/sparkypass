@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Crosshair } from "lucide-react";
 import { haptic } from "@/lib/haptics";
 
@@ -16,8 +16,6 @@ import {
   GameOverScreen,
   SkipButton,
   MAX_SKIPS,
-  SparkyTip,
-  TripOverlay,
   DifficultyPicker,
   ScoreBar,
   GameHeader,
@@ -25,10 +23,21 @@ import {
   AnswerButton,
   fireStreakConfetti,
   finalizeGame,
-  PackShop,
+  CARD_GAME_RULES,
+  CONTINUE_COST,
+  HINT_COST,
+  WATTS_PER_CORRECT,
+  HintButton,
+  getComboMultiplier,
+  checkWildcardEarned,
+  WildcardBar,
+  WildcardEarnedToast,
+  type WildcardType,
+  type WildcardInventory,
+  type CardGameDifficulty,
 } from "../shared";
 
-import type { PackMeta, GameId } from "@/lib/game-packs";
+import type { GameId } from "@/lib/game-packs";
 
 import {
   SNIPER_CARDS,
@@ -36,8 +45,6 @@ import {
   getDistractors,
   getEnergizeLevel,
   getUnlockedCards,
-  CORRECT_REACTIONS,
-  TRIP_MESSAGES,
   type SniperCard,
 } from "./sniper-data";
 
@@ -56,20 +63,15 @@ function IndexSniperContent() {
   const { status } = useSession();
   const router = useRouter();
 
-  const MAX_WRONG = 3;
-  const DIFFICULTY_TIME = { easy: 20, medium: 10, hard: 5 } as const;
-  const DIFFICULTY_OPTIONS = { easy: 4, medium: 8, hard: 12 } as const;
-  type Difficulty = keyof typeof DIFFICULTY_TIME;
+  const { MAX_WRONG, DIFFICULTY_TIME, DIFFICULTY_OPTIONS } = CARD_GAME_RULES;
 
   // Difficulty selection (null = show picker)
-  const [difficulty, setDifficulty] = useState<Difficulty | null>(null);
+  const [difficulty, setDifficulty] = useState<CardGameDifficulty | null>(null);
   const questionTime = difficulty ? DIFFICULTY_TIME[difficulty] : 10;
   const optionCount = difficulty ? DIFFICULTY_OPTIONS[difficulty] : 8;
 
-  // Pack shop state
+  // Pack state
   const [unlockedPacks, setUnlockedPacks] = useState<string[]>(["free"]);
-  const [packCatalog, setPackCatalog] = useState<PackMeta[]>([]);
-  const [packWattsBalance, setPackWattsBalance] = useState(0);
 
   const activeCards = useMemo(() => getUnlockedCards(unlockedPacks), [unlockedPacks]);
 
@@ -80,28 +82,9 @@ function IndexSniperContent() {
       .then((r) => r.json())
       .then((data) => {
         if (data.owned?.[GAME_ID]) setUnlockedPacks(data.owned[GAME_ID]);
-        if (data.catalog?.[GAME_ID]) setPackCatalog(data.catalog[GAME_ID]);
-        if (typeof data.wattsBalance === "number") setPackWattsBalance(data.wattsBalance);
       })
       .catch(() => {});
   }, [status]);
-
-  const handlePurchase = useCallback(async (packId: string) => {
-    try {
-      const res = await fetch("/api/game-packs/purchase", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId: GAME_ID, packId }),
-      });
-      if (!res.ok) return;
-      const data = await res.json();
-      if (data.success) {
-        setUnlockedPacks((prev) => [...prev, packId]);
-        setPackWattsBalance(data.wattsBalance);
-        window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
-      }
-    } catch {}
-  }, []);
 
   // Game state
   const [cards, setCards] = useState<SniperCard[]>([]);
@@ -115,13 +98,17 @@ function IndexSniperContent() {
   const [selected, setSelected] = useState<string | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const [showTrip, setShowTrip] = useState(false);
-  const [showTip, setShowTip] = useState(false);
-  const [tipText, setTipText] = useState("");
-  const [reactionText, setReactionText] = useState("");
+  const [hasContinued, setHasContinued] = useState(false);
+  const [wattsSpent, setWattsSpent] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [gameOverReason, setGameOverReason] = useState<"complete" | "strikes" | "timeout">("complete");
   const [stats, setStats] = useState<GameStats>({ highScore: 0, totalPlayed: 0, totalCorrect: 0 });
   const [timeLeft, setTimeLeft] = useState<number>(questionTime);
+  const [hintUsed, setHintUsed] = useState(false);
+  const [eliminatedOptions, setEliminatedOptions] = useState<Set<string>>(new Set());
+  const [wildcards, setWildcards] = useState<WildcardInventory>({ freeze_timer: 0, extra_life: 0 });
+  const [wildcardToast, setWildcardToast] = useState<WildcardType | null>(null);
+  const timerFrozen = useRef(false);
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -184,14 +171,16 @@ function IndexSniperContent() {
   );
 
   useEffect(() => {
-    if (gameOver || cards.length === 0 || showTrip || showTip) return;
+    if (gameOver || cards.length === 0 || showTrip) return;
     if (selected !== null) {
       if (countdownRef.current) clearInterval(countdownRef.current);
       return;
     }
 
     setTimeLeft(questionTime);
+    timerFrozen.current = false;
     countdownRef.current = setInterval(() => {
+      if (timerFrozen.current) return;
       setTimeLeft((prev) => {
         if (prev <= 1) {
           if (countdownRef.current) clearInterval(countdownRef.current);
@@ -204,7 +193,7 @@ function IndexSniperContent() {
     return () => {
       if (countdownRef.current) clearInterval(countdownRef.current);
     };
-  }, [currentIdx, gameOver, cards.length, selected, showTrip, showTip, questionTime]);
+  }, [currentIdx, gameOver, cards.length, selected, showTrip, questionTime]);
 
   const advanceToNext = useCallback(() => {
     if (countdownRef.current) clearInterval(countdownRef.current);
@@ -213,9 +202,8 @@ function IndexSniperContent() {
     } else {
       setSelected(null);
       setIsCorrect(null);
-      setShowTip(false);
-      setTipText("");
-      setReactionText("");
+      setHintUsed(false);
+      setEliminatedOptions(new Set());
       setTimeLeft(questionTime);
       setCurrentIdx((prev) => prev + 1);
     }
@@ -231,23 +219,19 @@ function IndexSniperContent() {
     } else {
       setSelected(null);
       setIsCorrect(null);
-      setShowTip(false);
-      setTipText("");
-      setReactionText("");
       setTimeLeft(questionTime);
       setCurrentIdx((prev) => prev + 1);
     }
   }, [selected, currentIdx, cards.length, endGame, questionTime]);
 
   useEffect(() => {
-    if (timeLeft === 0 && selected === null && !gameOver && cards.length > 0 && !showTrip && !showTip) {
+    if (timeLeft === 0 && selected === null && !gameOver && cards.length > 0 && !showTrip) {
       haptic("error");
       const newWrong = wrongCount + 1;
       setWrongCount(newWrong);
       setStreak(0);
       setSelected(currentCard?.reference ?? null);
       setIsCorrect(false);
-      setReactionText("Time\u2019s up!");
 
       if (newWrong >= MAX_WRONG) {
         advanceTimerRef.current = setTimeout(() => {
@@ -257,7 +241,7 @@ function IndexSniperContent() {
         setShowTrip(true);
       }
     }
-  }, [timeLeft, selected, gameOver, cards.length, showTrip, showTip, wrongCount, currentCard, endGame]);
+  }, [timeLeft, selected, gameOver, cards.length, showTrip, wrongCount, currentCard, endGame]);
 
   const handleSelect = useCallback(
     (reference: string) => {
@@ -270,17 +254,23 @@ function IndexSniperContent() {
 
       if (correct) {
         haptic("success");
-        const newScore = score + 1;
         const newStreak = streak + 1;
+        const newScore = score + getComboMultiplier(newStreak);
         const newTotalCorrect = totalCorrect + 1;
         setScore(newScore);
         setStreak(newStreak);
         setTotalCorrect(newTotalCorrect);
         if (newStreak > bestStreak) setBestStreak(newStreak);
-        setReactionText(CORRECT_REACTIONS[Math.floor(Math.random() * CORRECT_REACTIONS.length)]);
 
         if (newStreak > 0 && newStreak % 5 === 0) {
           fireStreakConfetti();
+        }
+
+        const earned = checkWildcardEarned(newStreak);
+        if (earned) {
+          setWildcards((prev) => ({ ...prev, [earned]: prev[earned] + 1 }));
+          setWildcardToast(earned);
+          setTimeout(() => setWildcardToast(null), 2000);
         }
 
         advanceTimerRef.current = setTimeout(() => {
@@ -291,12 +281,39 @@ function IndexSniperContent() {
         const newWrong = wrongCount + 1;
         setWrongCount(newWrong);
         setStreak(0);
-        setReactionText(TRIP_MESSAGES[Math.floor(Math.random() * TRIP_MESSAGES.length)]);
         setShowTrip(true);
       }
     },
     [selected, currentCard, score, streak, totalCorrect, bestStreak, wrongCount, advanceToNext]
   );
+
+  const handleHint = useCallback(async () => {
+    if (hintUsed || selected !== null || !currentCard) return;
+    try {
+      const res = await fetch("/api/game-hint", { method: "POST" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        setHintUsed(true);
+        setWattsSpent((prev) => prev + HINT_COST);
+        const wrongOptions = answerOptions.filter((ref) => ref !== currentCard.reference);
+        const toEliminate = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 2);
+        setEliminatedOptions(new Set(toEliminate));
+        window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
+      }
+    } catch {}
+  }, [hintUsed, selected, currentCard, answerOptions]);
+
+  const handleUseWildcard = useCallback((type: WildcardType) => {
+    if (wildcards[type] <= 0 || selected !== null) return;
+    setWildcards((prev) => ({ ...prev, [type]: prev[type] - 1 }));
+    if (type === "freeze_timer") {
+      timerFrozen.current = true;
+      haptic("success");
+    } else if (type === "extra_life") {
+      if (wrongCount > 0) { setWrongCount((prev) => prev - 1); haptic("success"); }
+    }
+  }, [wildcards, selected, wrongCount]);
 
   const handleNewGame = useCallback(() => {
     if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
@@ -312,9 +329,13 @@ function IndexSniperContent() {
     setSelected(null);
     setIsCorrect(null);
     setShowTrip(false);
-    setShowTip(false);
-    setTipText("");
-    setReactionText("");
+    setHasContinued(false);
+    setWattsSpent(0);
+    setHintUsed(false);
+    setEliminatedOptions(new Set());
+    setWildcards({ freeze_timer: 0, extra_life: 0 });
+    setWildcardToast(null);
+    timerFrozen.current = false;
     setGameOver(false);
     setGameOverReason("complete");
     setTimeLeft(questionTime);
@@ -334,14 +355,36 @@ function IndexSniperContent() {
     setSelected(null);
     setIsCorrect(null);
     setShowTrip(false);
-    setShowTip(false);
-    setTipText("");
-    setReactionText("");
+    setHintUsed(false);
+    setEliminatedOptions(new Set());
+    setWildcards({ freeze_timer: 0, extra_life: 0 });
+    setWildcardToast(null);
+    timerFrozen.current = false;
+    setWattsSpent(0);
     setGameOver(false);
     setGameOverReason("complete");
     setTimeLeft(10);
     setDifficulty(null);
+    setHasContinued(false);
   }, []);
+
+  const handleContinueGame = useCallback(async () => {
+    try {
+      const res = await fetch("/api/game-continue", { method: "POST" });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.success) {
+        setHasContinued(true);
+        setWattsSpent((prev) => prev + CONTINUE_COST);
+        setWrongCount(0);
+        setShowTrip(false);
+        setSelected(null);
+        setIsCorrect(null);
+        setTimeLeft(questionTime);
+        window.dispatchEvent(new CustomEvent("watts-updated", { detail: data.wattsBalance }));
+      }
+    } catch {}
+  }, [questionTime]);
 
   if (status === "loading") return <GameLoadingFallback />;
 
@@ -360,19 +403,10 @@ function IndexSniperContent() {
         difficulties={difficulties}
         stats={stats}
         onSelect={(level) => {
-          setDifficulty(level as Difficulty);
-          setTimeLeft(DIFFICULTY_TIME[level as Difficulty]);
+          setDifficulty(level as CardGameDifficulty);
+          setTimeLeft(DIFFICULTY_TIME[level as CardGameDifficulty]);
           setCards(shuffleCards(activeCards));
         }}
-        extraContent={
-          <PackShop
-            gameId={GAME_ID}
-            catalog={packCatalog}
-            ownedPacks={unlockedPacks}
-            wattsBalance={packWattsBalance}
-            onPurchase={handlePurchase}
-          />
-        }
       />
     );
   }
@@ -404,6 +438,8 @@ function IndexSniperContent() {
         maxWrong={MAX_WRONG}
         onPlayAgain={handleNewGame}
         onChangeDifficulty={handleChangeDifficulty}
+        wattsEarned={totalCorrect * WATTS_PER_CORRECT}
+        wattsSpent={wattsSpent}
       />
     );
   }
@@ -421,44 +457,37 @@ function IndexSniperContent() {
       <div className="container mx-auto px-4 py-8 max-w-3xl relative z-10 flex flex-col">
         <GameHeader titleAccent="Index" title="Sniper" subtitle="Match each NEC field term to its exact code reference. Precision is everything." />
 
-        <ScoreBar score={score} streak={streak} highScore={stats.highScore} timeLeft={timeLeft} maxTime={questionTime} wrongCount={wrongCount} maxWrong={MAX_WRONG} currentIdx={currentIdx} total={cards.length} onNewGame={handleNewGame} />
+        <ScoreBar score={score} streak={streak} highScore={stats.highScore} timeLeft={timeLeft} maxTime={questionTime} wrongCount={wrongCount} maxWrong={MAX_WRONG} currentIdx={currentIdx} total={cards.length} onNewGame={handleNewGame} multiplier={getComboMultiplier(streak)} />
 
-        <QuestionCard label="Find the Reference" energizeLevel={energizeLevel} currentIdx={currentIdx} isCorrect={isCorrect} reactionText={reactionText}>
+        <QuestionCard label="Find the Reference" energizeLevel={energizeLevel} currentIdx={currentIdx} isCorrect={isCorrect}
+          flipped={showTrip} tripInfo={currentCard ? { term: currentCard.term, tip: `The correct reference is ${currentCard.reference} — ${currentCard.description}`, strikeCount: wrongCount, maxStrikes: MAX_WRONG } : undefined}
+          onTripDismiss={() => { setShowTrip(false); if (wrongCount >= MAX_WRONG) { endGame("strikes"); } else { advanceToNext(); } }}
+          canContinue={!hasContinued && wrongCount >= MAX_WRONG} onContinueGame={handleContinueGame}
+        >
           <p className="text-2xl md:text-3xl font-bold font-display text-foreground">{currentCard?.term}</p>
           {currentCard?.description && <p className="text-sm text-muted-foreground mt-2">{currentCard.description}</p>}
         </QuestionCard>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="mb-6 order-2 md:order-4">
           <div className={`grid gap-2 ${optionCount <= 4 ? "grid-cols-2" : optionCount <= 8 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-3 sm:grid-cols-4"}`}>
-            {answerOptions.map((ref) => (
+            {answerOptions.filter((ref) => !eliminatedOptions.has(ref)).map((ref) => (
               <AnswerButton key={ref} value={ref} isSelected={selected === ref} isAnswer={currentCard?.reference === ref} isCorrect={isCorrect} hasSelection={selected !== null} onClick={() => handleSelect(ref)} className="font-mono" />
             ))}
           </div>
-          {selected === null && <SkipButton onClick={handleSkip} remaining={MAX_SKIPS - skippedCount} />}
+          {selected === null && (
+            <div className="flex flex-col items-center gap-2 mt-3">
+              <div className="flex items-center gap-2">
+                <SkipButton onClick={handleSkip} remaining={MAX_SKIPS - skippedCount} />
+                {!hintUsed && <HintButton onClick={handleHint} />}
+              </div>
+              <WildcardBar wildcards={wildcards} onUse={handleUseWildcard} disabled={selected !== null} />
+            </div>
+          )}
         </motion.div>
 
-        <SparkyTip showTip={showTip} tipText={tipText} onContinue={advanceToNext} />
       </div>
 
-      <AnimatePresence>
-        {showTrip && currentCard && (
-          <TripOverlay
-            term={currentCard.term}
-            tip={`The correct reference is ${currentCard.reference} — ${currentCard.description}`}
-            strikeCount={wrongCount}
-            maxStrikes={MAX_WRONG}
-            onDismiss={() => {
-              setShowTrip(false);
-              if (wrongCount >= MAX_WRONG) {
-                endGame("strikes");
-              } else {
-                setTipText(`${currentCard.term} → ${currentCard.reference}: ${currentCard.description}`);
-                setShowTip(true);
-              }
-            }}
-          />
-        )}
-      </AnimatePresence>
+      <WildcardEarnedToast type={wildcardToast} />
     </motion.main>
   );
 }

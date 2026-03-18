@@ -135,35 +135,6 @@ interface PowerGridCategoryLocal {
   recentWrong: boolean;
 }
 
-const features = [
-  {
-    title: "Quiz",
-    description: "Practice with NEC-based questions and get instant feedback.",
-    icon: Brain,
-    href: "/quiz",
-    color: "text-purple dark:text-purple-light",
-    bg: "bg-purple/10 group-hover:bg-purple/20 dark:bg-purple/15 dark:group-hover:bg-purple/25",
-    tourId: "feature-quiz",
-  },
-  {
-    title: "Circuit Breaker",
-    description: "High-stakes mode — 2 wrong answers trips the breaker!",
-    icon: ShieldAlert,
-    href: "/circuit-breaker",
-    color: "text-red-500 dark:text-red-400",
-    bg: "bg-red-500/10 group-hover:bg-red-500/20 dark:bg-red-500/15 dark:group-hover:bg-red-500/25",
-    tourId: "feature-circuit-breaker",
-  },
-  {
-    title: "Index Game",
-    description: "Race to find NEC articles — sharpen your code book speed!",
-    icon: Target,
-    href: "/index-game",
-    color: "text-amber dark:text-amber-light",
-    bg: "bg-amber/10 group-hover:bg-amber/20 dark:bg-amber/15 dark:group-hover:bg-amber/25",
-    tourId: "feature-index-game",
-  },
-];
 
 function getSparkyReaction(
   daysUntilExam: number | null,
@@ -735,43 +706,6 @@ export default function DashboardPage() {
             </motion.div>
           );
         })()}
-
-        {/* Start Studying - Feature Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-[34px]"
-        >
-          <h2 className="text-lg font-semibold text-foreground mb-[13px] font-display">
-            Challenge Mode
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[13px]">
-            {features.map((feature, index) => (
-              <motion.div
-                key={feature.title}
-                data-tour={feature.tourId}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.18 + index * 0.06 }}
-              >
-                <Link href={feature.href}>
-                  <div className="h-full rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-[21px] cursor-pointer group transition-all duration-300 hover:border-amber/40 hover:shadow-[0_0_20px_rgba(245,158,11,0.08)] dark:hover:border-stone-700 dark:hover:shadow-none">
-                    <div className={`w-12 h-12 rounded-lg ${feature.bg} flex items-center justify-center mb-3 transition-all duration-300`}>
-                      <feature.icon className={`h-6 w-6 ${feature.color}`} />
-                    </div>
-                    <h3 className="text-lg font-bold text-foreground mb-1">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {feature.description}
-                    </p>
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* Stats Cards - Core Stats */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-[13px] md:gap-[21px] mb-[34px]">

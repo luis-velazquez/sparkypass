@@ -19,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { SparkyMessage } from "@/components/sparky";
+import { validateUsername, sanitizeUsernameInput, getUsernameSuggestions, USERNAME_MAX } from "@/lib/username";
 
 
 // US States list
@@ -143,12 +144,9 @@ export default function ProfileCompletionPage() {
     if (!dateOfBirth) return;
 
     // Format validation
-    if (trimmedUsername.length < 3 || trimmedUsername.length > 30) {
-      showError("Username must be between 3 and 30 characters", ["username"]);
-      return;
-    }
-    if (!/^[a-zA-Z0-9_-]+$/.test(trimmedUsername)) {
-      showError("Username can only contain letters, numbers, underscores, and hyphens", ["username"]);
+    const usernameCheck = validateUsername(trimmedUsername);
+    if (!usernameCheck.valid) {
+      showError(usernameCheck.error!, ["username"]);
       return;
     }
 
@@ -249,20 +247,35 @@ export default function ProfileCompletionPage() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="Choose a username"
+                  placeholder="e.g. VoltageVince"
                   value={username}
                   onChange={(e) => {
-                    setUsername(e.target.value.toLowerCase());
+                    setUsername(sanitizeUsernameInput(e.target.value));
                     clearFieldError("username");
                   }}
                   disabled={isLoading}
                   autoComplete="username"
-                  maxLength={30}
+                  maxLength={USERNAME_MAX}
                   className={fieldErrors.has("username") ? "border-destructive" : ""}
                 />
                 <p className="text-xs text-muted-foreground">
-                  3-30 characters. Letters, numbers, underscores, and hyphens only.
+                  3-20 characters. Must start with a letter. Letters, numbers, underscores, and hyphens.
                 </p>
+                {username.length === 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    <span className="text-xs text-muted-foreground">Try:</span>
+                    {getUsernameSuggestions(3).map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        className="text-xs px-2 py-0.5 rounded-full bg-amber/10 dark:bg-sparky-green/10 text-amber dark:text-sparky-green hover:bg-amber/20 dark:hover:bg-sparky-green/20 transition-colors"
+                        onClick={() => setUsername(s)}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Date of Birth */}

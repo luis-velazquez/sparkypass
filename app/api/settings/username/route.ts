@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users } from "@/lib/db";
 import { eq, and, ne } from "drizzle-orm";
+import { validateUsername, normalizeUsername } from "@/lib/username";
 
 export async function PATCH(request: Request) {
   try {
@@ -32,21 +33,15 @@ export async function PATCH(request: Request) {
       );
     }
 
-    const trimmed = username.trim().toLowerCase();
-
-    if (trimmed.length < 3 || trimmed.length > 30) {
+    const usernameCheck = validateUsername(username);
+    if (!usernameCheck.valid) {
       return NextResponse.json(
-        { error: "Username must be between 3 and 30 characters" },
+        { error: usernameCheck.error },
         { status: 400 }
       );
     }
 
-    if (!/^[a-z0-9_-]+$/.test(trimmed)) {
-      return NextResponse.json(
-        { error: "Username can only contain lowercase letters, numbers, underscores, and hyphens" },
-        { status: 400 }
-      );
-    }
+    const trimmed = normalizeUsername(username);
 
     // Check uniqueness (exclude current user)
     const [existing] = await db

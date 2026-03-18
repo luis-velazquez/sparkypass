@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-label="Sparky the electrician mascot - flexing">
+  <defs>
+    <filter id="sparky-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Left arm flexing -->
+  <path d="M26 62 L16 48 L22 36" stroke="#FBBF24" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Left bicep bulge -->
+  <ellipse cx="18" cy="42" rx="6" ry="4" fill="#FBBF24" transform="rotate(-30, 18, 42)" />
+  <!-- Left fist -->
+  <circle cx="22" cy="34" r="4" fill="#FBBF24" />
+
+  <!-- Right arm flexing -->
+  <path d="M74 62 L84 48 L78 36" stroke="#FBBF24" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Right bicep bulge -->
+  <ellipse cx="82" cy="42" rx="6" ry="4" fill="#FBBF24" transform="rotate(30, 82, 42)" />
+  <!-- Right fist -->
+  <circle cx="78" cy="34" r="4" fill="#FBBF24" />
+
+  <!-- Face -->
+  <circle cx="50" cy="58" r="24" fill="#FBBF24" />
+  <!-- Cheeks - pumped up blush -->
+  <circle cx="34" cy="63" r="5" fill="#F59E0B" opacity="0.5" />
+  <circle cx="66" cy="63" r="5" fill="#F59E0B" opacity="0.5" />
+
+  <!-- Eyes - determined and confident -->
+  <ellipse cx="40" cy="53" rx="5.5" ry="6" fill="white" />
+  <ellipse cx="60" cy="53" rx="5.5" ry="6" fill="white" />
+  <circle cx="41" cy="54" r="3" fill="#292524" />
+  <circle cx="61" cy="54" r="3" fill="#292524" />
+  <!-- Eye shine -->
+  <circle cx="42.5" cy="52" r="1.5" fill="white" />
+  <circle cx="62.5" cy="52" r="1.5" fill="white" />
+
+  <!-- Eyebrows - strong, angled inward -->
+  <path d="M33 46 Q38 43 46 46" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round" />
+  <path d="M54 46 Q62 43 67 46" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+  <!-- Mouth - big determined grin -->
+  <path d="M36 66 Q50 79 64 66" stroke="#92400E" stroke-width="3" fill="#92400E" stroke-linecap="round" />
+  <!-- Teeth -->
+  <rect x="42" y="66" width="16" height="5" rx="1" fill="white" />
+
+  <!-- Hard Hat -->
+  <ellipse cx="50" cy="28" rx="26" ry="12" fill="#F59E0B" />
+  <rect x="26" y="24" width="48" height="14" rx="2" fill="#F59E0B" />
+  <rect x="22" y="36" width="56" height="6" rx="2" fill="#D97706" />
+  <ellipse cx="50" cy="26" rx="16" ry="6" fill="#FCD34D" opacity="0.5" />
+
+  <!-- Lightning bolt badge on hat -->
+  <path d="M52 20 L48 28 L52 28 L48 36 L56 26 L52 26 L56 20 Z" fill="#A3FF00"
+    filter="url(#sparky-glow)" />
+
+  <!-- Power lines radiating from fists -->
+  <line x1="20" y1="30" x2="16" y2="24" stroke="#A3FF00" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+  <line x1="24" y1="31" x2="22" y2="24" stroke="#A3FF00" stroke-width="1.5" stroke-linecap="round" opacity="0.5" />
+  <line x1="80" y1="30" x2="84" y2="24" stroke="#A3FF00" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+  <line x1="76" y1="31" x2="78" y2="24" stroke="#A3FF00" stroke-width="1.5" stroke-linecap="round" opacity="0.5" />
+</svg>

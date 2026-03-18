@@ -44,11 +44,18 @@ function isNavLinkActive(pathname: string, href: string, siblingHrefs: string[] 
 const navItems: NavItem[] = [
   { href: "/dashboard", label: "Dashboard" },
   {
+    label: "Review",
+    links: [
+      { href: "/quiz", label: "Quiz" },
+      { href: "/review", label: "Weak Spots" },
+      { href: "/daily", label: "Daily Challenge" },
+      { href: "/circuit-breaker", label: "Circuit Breaker" },
+    ],
+  },
+  {
     label: "Study",
     links: [
       { href: "/flashcards", label: "Flashcards" },
-      { href: "/daily", label: "Daily Challenge" },
-      { href: "/review", label: "Weak Spots" },
       { href: "/load-calculator", label: "Load Calculator" },
     ],
   },
@@ -64,14 +71,6 @@ const navItems: NavItem[] = [
     links: [
       { href: "/power-ups", label: "Power-Ups" },
       { href: "/watts", label: "Watts Bank" },
-    ],
-  },
-  {
-    label: "Challenge Mode",
-    links: [
-      { href: "/quiz", label: "Quiz" },
-      { href: "/circuit-breaker", label: "Circuit Breaker" },
-      { href: "/index-game", label: "Index Game" },
     ],
   },
   { href: "/mock-exam", label: "Mock Exam" },
@@ -145,6 +144,7 @@ export function DesktopNav() {
         }
 
         const isActive = isNavLinkActive(pathname, item.href);
+        const isMockExam = item.href === "/mock-exam";
 
         return (
           <Link
@@ -153,7 +153,9 @@ export function DesktopNav() {
             className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
               isActive
                 ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)]"
-                : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                : isMockExam
+                  ? "text-foreground hover:bg-muted border border-dashed border-amber/30 dark:border-sparky-green/20"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
             }`}
           >
             {item.label}

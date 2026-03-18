@@ -9,8 +9,10 @@ import { SidebarProvider } from "@/components/layout/SidebarContext";
 import { SidebarContentWrapper, SidebarTopBar } from "@/components/layout/SidebarContentWrapper";
 import { SessionProvider } from "@/components/providers/SessionProvider";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Toaster } from "sonner";
 import { AuthButtons } from "@/components/layout/AuthButtons";
 import { UserMenu } from "@/components/layout/UserMenu";
+import { HideOnMarketing } from "@/components/layout/AppShell";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -30,9 +32,13 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SparkyPass | Texas Master Electrician Exam Prep",
+  title: {
+    default: "SparkyPass | Texas Master Electrician Exam Prep",
+    template: "%s | SparkyPass",
+  },
   description:
-    "Pass your Texas Master Electrician exam with SparkyPass. Interactive quizzes, flashcards, and personalized study plans with Sparky your mentor.",
+    "Pass your Texas Master Electrician exam with SparkyPass. Gamified NEC quizzes, mini-games, flashcards, and personalized study plans with Sparky your mentor.",
+  metadataBase: new URL("https://sparkypass.com"),
 };
 
 export default function RootLayout({
@@ -68,33 +74,38 @@ export default function RootLayout({
         {/* Desktop sidebar (xl+) */}
         <Sidebar />
 
-        {/* Mobile/tablet header (below xl) */}
-        <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 xl:hidden">
-          <div className="container mx-auto flex h-16 items-center justify-between px-4">
-            <div className="flex items-center gap-1">
-              <MobileNav />
-              <Logo />
+        {/* Mobile/tablet header (below xl) — hidden on marketing pages */}
+        <HideOnMarketing>
+          <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 xl:hidden">
+            <div className="container mx-auto flex h-16 items-center justify-between px-4">
+              <div className="flex items-center gap-1">
+                <MobileNav />
+                <Logo />
+              </div>
+              <div className="flex items-center gap-2">
+                <UserMenu />
+                <AuthButtons />
+              </div>
             </div>
+          </header>
+        </HideOnMarketing>
+
+        {/* Desktop top bar (xl+) — hidden on marketing pages */}
+        <HideOnMarketing>
+          <SidebarTopBar>
             <div className="flex items-center gap-2">
               <UserMenu />
               <AuthButtons />
             </div>
-          </div>
-        </header>
-
-        {/* Desktop top bar (xl+) — collapse toggle, page title, user controls */}
-        <SidebarTopBar>
-          <div className="flex items-center gap-2">
-            <UserMenu />
-            <AuthButtons />
-          </div>
-        </SidebarTopBar>
+          </SidebarTopBar>
+        </HideOnMarketing>
 
         {/* Main content — shifted right on xl+ */}
         <SidebarContentWrapper>
           <main className="flex-1">{children}</main>
 
-          {/* Footer — only on mobile/tablet (sidebar has footer on xl+) */}
+          {/* Footer — only on mobile/tablet for app pages (sidebar has footer on xl+) */}
+          <HideOnMarketing>
           <footer className="border-t border-border bg-card xl:hidden">
             <div className="container mx-auto px-4 py-8">
               <div className="flex flex-col md:flex-row justify-between items-center gap-4">
@@ -120,10 +131,12 @@ export default function RootLayout({
               </div>
             </div>
           </footer>
+          </HideOnMarketing>
         </SidebarContentWrapper>
 
         </SidebarProvider>
         </SessionProvider>
+        <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
       </body>
     </html>

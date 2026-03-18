@@ -19,7 +19,24 @@ const sparkyAvatarVariants = cva(
   }
 );
 
-export type SparkyVariant = "default" | "calm" | "sad" | "excited" | "warning" | "thinking" | "proud";
+export type SparkyVariant =
+  | "default"
+  | "calm"
+  | "sad"
+  | "excited"
+  | "warning"
+  | "thinking"
+  | "proud"
+  | "confused"
+  | "cold"
+  | "cowboy"
+  | "skull"
+  | "flexing"
+  | "fire"
+  | "cool"
+  | "sleeping"
+  | "graduation"
+  | "electrified";
 
 export interface SparkyAvatarProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -40,6 +57,16 @@ export function SparkyAvatar({
     warning: "/shocked-sparky.svg",
     thinking: "/thinking-sparky.svg",
     proud: "/king-sparky.svg",
+    confused: "/confused-sparky.svg",
+    cold: "/cold-sparky.svg",
+    cowboy: "/cowboy-sparky.svg",
+    skull: "/skull-sparky.svg",
+    flexing: "/flexing-sparky.svg",
+    fire: "/fire-sparky.svg",
+    cool: "/cool-sparky.svg",
+    sleeping: "/sleeping-sparky.svg",
+    graduation: "/graduation-sparky.svg",
+    electrified: "/electrified-sparky.svg",
   };
 
   if (variant in svgVariants) {

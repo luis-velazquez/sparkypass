@@ -330,6 +330,7 @@ export default function QuizTakingPage() {
 
   // Difficulty selection state
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+  const [codebookDismissed, setCodebookDismissed] = useState(false);
 
   // User quiz preferences
   const { status: authStatus } = useSession();
@@ -1238,6 +1239,62 @@ export default function QuizTakingPage() {
             </motion.div>
           )}
 
+          {/* Code book gate — full prompt before difficulty selection */}
+          {!codebookDismissed ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <Card className="border-amber/30 dark:border-sparky-green/20 bg-card dark:bg-stone-900/50 overflow-hidden">
+                <CardContent className="pt-8 pb-6 px-6 flex flex-col items-center text-center">
+                  {/* Sparky avatar */}
+                  <motion.div
+                    animate={{ y: [0, -6, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="mb-5"
+                  >
+                    <div className="w-20 h-20 rounded-full bg-amber/10 dark:bg-sparky-green/10 flex items-center justify-center">
+                      <img
+                        src="/streak-sparky.svg"
+                        alt="Sparky"
+                        className="w-14 h-14"
+                      />
+                    </div>
+                  </motion.div>
+
+                  <h2 className="text-xl font-bold font-display text-foreground mb-2">
+                    Before You Start...
+                  </h2>
+                  <p className="text-base text-foreground mb-1">
+                    Do you have your{" "}
+                    <span className="font-bold text-amber dark:text-sparky-green">
+                      NEC code book
+                    </span>{" "}
+                    next to you?
+                  </p>
+                  <p className="text-sm text-muted-foreground mb-6 max-w-xs">
+                    The real exam is open-book. Electricians who practice with
+                    their code book build the speed and confidence to pass.
+                  </p>
+
+                  <Button
+                    size="lg"
+                    onClick={() => setCodebookDismissed(true)}
+                    className="bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 font-bold text-base px-8 py-5 animate-cta-glow hover:animate-none"
+                  >
+                    <Book className="h-5 w-5 mr-2" />
+                    I&apos;ve Got My Code Book — Let&apos;s Go!
+                  </Button>
+
+                  <p className="text-xs text-muted-foreground mt-4 flex items-center gap-1.5">
+                    <Zap className="h-3 w-3 text-amber dark:text-sparky-green" />
+                    Practice like a pro, test like a pro
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ) : (
           <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber/10 flex items-center justify-center mx-auto mb-4">
@@ -1327,6 +1384,7 @@ export default function QuizTakingPage() {
               </Button>
             </CardContent>
           </Card>
+          )}
         </motion.div>
         </div>
       </main>

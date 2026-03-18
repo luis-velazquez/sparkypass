@@ -204,9 +204,29 @@ function TipCard({
 
       {expanded && (
         <div className="px-4 pb-4 space-y-4 border-t border-border dark:border-stone-800">
-          <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed pt-4">
-            {tip.content}
-          </p>
+          {typeof tip.content === "string" ? (
+            <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed pt-4">
+              {tip.content}
+            </p>
+          ) : (
+            <div className="pt-4 space-y-3">
+              <p className="text-sm font-medium text-foreground">
+                {tip.content.question}
+              </p>
+              {tip.content.breakdown.map((item, i) => (
+                <div key={i} className="pl-3 border-l-2 border-amber/30 dark:border-sparky-green/30">
+                  <p className="text-sm font-semibold text-foreground">{item.point}</p>
+                  <p className="text-sm text-muted-foreground">{item.detail}</p>
+                </div>
+              ))}
+              {tip.content.theTrap && (
+                <div className="px-3 py-2.5 rounded-lg bg-red-500/10 border border-red-500/20">
+                  <p className="text-sm font-bold text-red-500 dark:text-red-400 mb-1">{tip.content.theTrap.title}</p>
+                  <p className="text-sm text-muted-foreground">{tip.content.theTrap.detail}</p>
+                </div>
+              )}
+            </div>
+          )}
 
           {tip.formulas && tip.formulas.length > 0 && (
             <div className="space-y-2">
@@ -223,12 +243,14 @@ function TipCard({
             </div>
           )}
 
-          <div className="px-3 py-2.5 rounded-lg bg-purple/10 dark:bg-purple/10 border border-purple/20 dark:border-purple/20">
-            <p className="text-sm font-medium text-purple dark:text-purple-light">
-              <span className="font-bold">Sparky&apos;s Bottom Line:</span>{" "}
-              {tip.sparkyBottomLine}
-            </p>
-          </div>
+          {(typeof tip.content === "string" ? tip.sparkyBottomLine : tip.content.bottomLine) && (
+            <div className="px-3 py-2.5 rounded-lg bg-purple/10 dark:bg-purple/10 border border-purple/20 dark:border-purple/20">
+              <p className="text-sm font-medium text-purple dark:text-purple-light">
+                <span className="font-bold">Sparky&apos;s Bottom Line:</span>{" "}
+                {typeof tip.content === "string" ? tip.sparkyBottomLine : tip.content.bottomLine}
+              </p>
+            </div>
+          )}
         </div>
       )}
     </Card>

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
+import { validateUsername, normalizeUsername } from "@/lib/username";
 
 export async function GET() {
   try {
@@ -186,30 +187,24 @@ export async function POST(request: Request) {
     const { username, dateOfBirth, city, state, targetExamDate, newsletterOptedIn } = body;
 
     // Validate username
-    if (!username || typeof username !== "string" || username.trim().length === 0) {
+    if (!username || typeof username !== "string") {
       return NextResponse.json(
         { error: "Username is required" },
         { status: 400 }
       );
     }
 
-    const trimmedUsername = username.trim();
-
-    if (trimmedUsername.length < 3 || trimmedUsername.length > 30) {
+    const usernameCheck = validateUsername(username);
+    if (!usernameCheck.valid) {
       return NextResponse.json(
-        { error: "Username must be between 3 and 30 characters" },
+        { error: usernameCheck.error },
         { status: 400 }
       );
     }
 
-    if (!/^[a-zA-Z0-9_-]+$/.test(trimmedUsername)) {
-      return NextResponse.json(
-        { error: "Username can only contain letters, numbers, underscores, and hyphens" },
-        { status: 400 }
-      );
-    }
+    const trimmedUsername = normalizeUsername(username);
 
-    // Check username uniqueness
+    // Check username uniqueness (case-insensitive)
     const [existingUser] = await db
       .select({ id: users.id })
       .from(users)

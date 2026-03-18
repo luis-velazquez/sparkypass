@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -15,14 +15,14 @@ import {
   Calculator,
   Zap,
   ShieldAlert,
-  Swords,
-  Activity,
-  Users,
+  Grid3X3,
   Trophy,
   ChevronDown,
   AlertTriangle,
   Crosshair,
   Languages,
+  Wallet,
+  TrendingUp,
   Gamepad2,
   type LucideIcon,
 } from "lucide-react";
@@ -40,6 +40,7 @@ interface MobileNavLink {
   href: string;
   label: string;
   icon: LucideIcon;
+  badge?: "daily" | "breaker";
 }
 
 interface MobileNavGroup {
@@ -80,20 +81,28 @@ const navItems: MobileNavItem[] = [
     ],
   },
   {
-    label: "Study",
+    label: "Review",
     icon: BookOpen,
     links: [
-      { href: "/flashcards", label: "Flashcards", icon: Layers },
-      { href: "/daily", label: "Daily Challenge", icon: Calendar },
+      { href: "/quiz", label: "Quiz", icon: BookOpen },
       { href: "/review", label: "Weak Spots", icon: AlertTriangle },
+      { href: "/daily", label: "Daily Challenge", icon: Calendar, badge: "daily" },
+      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert, badge: "breaker" },
+    ],
+  },
+  {
+    label: "Study",
+    icon: Layers,
+    links: [
+      { href: "/flashcards", label: "Flashcards", icon: Layers },
       { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
     ],
   },
   {
     label: "Progress",
-    icon: Activity,
+    icon: TrendingUp,
     links: [
-      { href: "/power-grid", label: "Power Grid", icon: Activity },
+      { href: "/power-grid", label: "Power Grid", icon: Grid3X3 },
       { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
     ],
   },
@@ -102,30 +111,80 @@ const navItems: MobileNavItem[] = [
     icon: Zap,
     links: [
       { href: "/power-ups", label: "Power-Ups", icon: Zap },
-      { href: "/watts", label: "Watts Bank", icon: Activity },
-    ],
-  },
-  {
-    label: "Challenge Mode",
-    icon: Swords,
-    links: [
-      { href: "/quiz", label: "Quiz", icon: BookOpen },
-      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert },
+      { href: "/watts", label: "Watts Bank", icon: Wallet },
     ],
   },
   { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },
 ];
+
+// ─── Badge status hook ──────────────────────────────────────────────────────
+
+function useBadgeStatus() {
+  const { status } = useSession();
+  const [dailyDone, setDailyDone] = useState<boolean | null>(null);
+  const [trippedCount, setTrippedCount] = useState(0);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    fetch("/api/progress/stats")
+      .then((r) => r.json())
+      .then((data) => {
+        if (typeof data.dailyChallengeCompleted === "boolean") {
+          setDailyDone(data.dailyChallengeCompleted);
+        }
+      })
+      .catch(() => {});
+
+    fetch("/api/circuit-breaker/status")
+      .then((r) => r.json())
+      .then((data) => {
+        if (typeof data.trippedCount === "number") {
+          setTrippedCount(data.trippedCount);
+        }
+      })
+      .catch(() => {});
+  }, [status]);
+
+  return { dailyDone, trippedCount };
+}
+
+// ─── Badge components ───────────────────────────────────────────────────────
+
+function MobileDailyBadge({ done }: { done: boolean | null }) {
+  if (done === null) return null;
+  return (
+    <span className={`flex-shrink-0 w-2.5 h-2.5 rounded-full ${
+      done
+        ? "bg-emerald-500 dark:bg-sparky-green"
+        : "bg-amber dark:bg-sparky-green animate-pulse"
+    }`} />
+  );
+}
+
+function MobileBreakerBadge({ count }: { count: number }) {
+  if (count <= 0) return null;
+  return (
+    <span className="flex-shrink-0 flex items-center justify-center w-5 h-5 text-[11px] font-bold rounded-full bg-red-500 text-white">
+      {count}
+    </span>
+  );
+}
 
 function MobileNavSection({
   group,
   pathname,
   onNavigate,
   suffix,
+  dailyDone,
+  trippedCount,
 }: {
   group: MobileNavGroup;
   pathname: string;
   onNavigate: () => void;
   suffix?: React.ReactNode;
+  dailyDone: boolean | null;
+  trippedCount: number;
 }) {
   const siblingHrefs = group.links.map((l) => l.href);
   const isActive = group.links.some(
@@ -179,7 +238,9 @@ function MobileNavSection({
                       : "text-muted-foreground"
                   }`}
                 />
-                {link.label}
+                <span className="flex-1">{link.label}</span>
+                {link.badge === "daily" && <MobileDailyBadge done={dailyDone} />}
+                {link.badge === "breaker" && <MobileBreakerBadge count={trippedCount} />}
               </Link>
             );
           })}
@@ -194,6 +255,7 @@ export function MobileNav() {
   const [open, setOpen] = useState(false);
   const { data: session, status } = useSession();
   const pathname = usePathname();
+  const { dailyDone, trippedCount } = useBadgeStatus();
 
   const closeSheet = () => setOpen(false);
 
@@ -227,12 +289,15 @@ export function MobileNav() {
                     pathname={pathname}
                     onNavigate={closeSheet}
                     suffix={item.label === "Study" ? <NavTipButton variant="mobile" /> : undefined}
+                    dailyDone={dailyDone}
+                    trippedCount={trippedCount}
                   />
                 );
               }
 
               const Icon = item.icon;
               const isActive = isNavLinkActive(pathname, item.href);
+              const isMockExam = item.href === "/mock-exam";
 
               return (
                 <Link
@@ -242,12 +307,14 @@ export function MobileNav() {
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors min-h-[44px] text-lg ${
                     isActive
                       ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)] font-medium border-l-3 border-amber dark:border-sparky-green"
-                      : "text-foreground hover:bg-muted"
+                      : isMockExam
+                        ? "text-foreground hover:bg-muted border border-dashed border-amber/30 dark:border-sparky-green/20 font-medium"
+                        : "text-foreground hover:bg-muted"
                   }`}
                 >
                   <Icon
                     className={`h-6 w-6 flex-shrink-0 ${
-                      isActive
+                      isActive || isMockExam
                         ? "text-amber dark:text-sparky-green"
                         : "text-muted-foreground"
                     }`}

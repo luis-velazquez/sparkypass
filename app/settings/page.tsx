@@ -31,6 +31,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { SparkyMessage } from "@/components/sparky";
 import { TIP_ENABLED_KEY } from "@/lib/tips";
+import { validateUsername, sanitizeUsernameInput, USERNAME_MAX } from "@/lib/username";
 
 interface ProfileData {
   name: string;
@@ -170,7 +171,7 @@ function SettingsContent() {
   };
 
   const handleUsernameChange = (value: string) => {
-    setUsername(value.toLowerCase().replace(/[^a-z0-9_-]/g, ""));
+    setUsername(sanitizeUsernameInput(value));
     setUsernameError("");
     setUsernameSuccess("");
   };
@@ -183,8 +184,9 @@ function SettingsContent() {
     }
 
     const trimmedUsername = username.trim();
-    if (trimmedUsername.length < 3 || trimmedUsername.length > 30) {
-      setUsernameError("Username must be between 3 and 30 characters");
+    const usernameCheck = validateUsername(trimmedUsername);
+    if (!usernameCheck.valid) {
+      setUsernameError(usernameCheck.error!);
       return;
     }
 
@@ -427,11 +429,11 @@ function SettingsContent() {
                   id="username"
                   value={username}
                   onChange={(e) => handleUsernameChange(e.target.value)}
-                  placeholder="your_username"
-                  maxLength={30}
+                  placeholder="e.g. VoltageVince"
+                  maxLength={USERNAME_MAX}
                 />
                 <p className="text-xs text-muted-foreground">
-                  3-30 characters. Lowercase letters, numbers, underscores, and hyphens only.
+                  3-20 characters. Must start with a letter. Letters, numbers, underscores, and hyphens.
                 </p>
               </div>
 

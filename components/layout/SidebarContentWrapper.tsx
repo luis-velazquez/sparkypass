@@ -53,11 +53,15 @@ function getPageTitle(pathname: string): string {
 
 // ─── Components ──────────────────────────────────────────────────────────────
 
+const MARKETING_PATHS = ["/", "/login", "/register", "/pricing"];
+
 export function SidebarContentWrapper({ children }: { children: React.ReactNode }) {
   const { collapsed } = useSidebar();
+  const pathname = usePathname();
+  const isMarketing = MARKETING_PATHS.includes(pathname);
 
   return (
-    <div className={`transition-[padding-left] duration-200 ${collapsed ? "xl:pl-[68px]" : "xl:pl-[240px]"}`}>
+    <div className={`transition-[padding-left] duration-200 ${isMarketing ? "" : collapsed ? "xl:pl-[68px]" : "xl:pl-[240px]"}`}>
       {children}
     </div>
   );

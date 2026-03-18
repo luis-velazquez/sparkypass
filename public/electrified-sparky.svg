@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-label="Sparky the electrician mascot - electrified">
+  <defs>
+    <filter id="sparky-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="zap-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Electric aura around body -->
+  <circle cx="50" cy="55" r="36" fill="none" stroke="#A3FF00" stroke-width="1" opacity="0.15" filter="url(#zap-glow)" />
+  <circle cx="50" cy="55" r="32" fill="none" stroke="#A3FF00" stroke-width="0.8" opacity="0.1" filter="url(#zap-glow)" />
+
+  <!-- Lightning bolts shooting outward -->
+  <!-- Top left -->
+  <path d="M22 30 L26 24 L24 24 L28 16" stroke="#A3FF00" stroke-width="2" fill="none" stroke-linecap="round" filter="url(#zap-glow)" />
+  <!-- Top right -->
+  <path d="M78 30 L74 24 L76 24 L72 16" stroke="#A3FF00" stroke-width="2" fill="none" stroke-linecap="round" filter="url(#zap-glow)" />
+  <!-- Left -->
+  <path d="M16 55 L12 50 L14 50 L8 44" stroke="#FCD34D" stroke-width="1.5" fill="none" stroke-linecap="round" filter="url(#zap-glow)" />
+  <!-- Right -->
+  <path d="M84 55 L88 50 L86 50 L92 44" stroke="#FCD34D" stroke-width="1.5" fill="none" stroke-linecap="round" filter="url(#zap-glow)" />
+  <!-- Bottom left -->
+  <path d="M28 78 L24 82 L26 82 L20 88" stroke="#A3FF00" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6" />
+  <!-- Bottom right -->
+  <path d="M72 78 L76 82 L74 82 L80 88" stroke="#A3FF00" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6" />
+
+  <!-- Face -->
+  <circle cx="50" cy="58" r="24" fill="#FBBF24" />
+  <!-- Cheeks - electric glow -->
+  <circle cx="34" cy="62" r="5" fill="#A3FF00" opacity="0.2" />
+  <circle cx="66" cy="62" r="5" fill="#A3FF00" opacity="0.2" />
+
+  <!-- Eyes - wide, electrified, glowing pupils -->
+  <ellipse cx="40" cy="53" rx="6" ry="7" fill="white" />
+  <ellipse cx="60" cy="53" rx="6" ry="7" fill="white" />
+  <!-- Lightning bolt pupils -->
+  <path d="M41 49 L39 53 L41 53 L39 58 L43 52 L41 52 L43 49 Z" fill="#A3FF00" filter="url(#zap-glow)" />
+  <path d="M61 49 L59 53 L61 53 L59 58 L63 52 L61 52 L63 49 Z" fill="#A3FF00" filter="url(#zap-glow)" />
+
+  <!-- Eyebrows - raised in electrified shock/excitement -->
+  <path d="M32 42 Q40 38 48 42" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round" />
+  <path d="M52 42 Q60 38 68 42" stroke="#92400E" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+  <!-- Mouth - open excited yell -->
+  <path d="M37 66 Q50 79 63 66" stroke="#92400E" stroke-width="2.5" fill="#92400E" stroke-linecap="round" />
+  <rect x="42" y="66" width="16" height="5" rx="1" fill="white" />
+
+  <!-- Hair standing up (no hat!) — spiky electrified hair -->
+  <path d="M30 42 L26 22 L34 36" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M34 38 L32 16 L40 32" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M40 36 L38 10 L46 30" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M46 35 L46 6 L52 30" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M52 35 L54 6 L58 30" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M58 36 L62 10 L64 32" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M64 38 L68 16 L68 36" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+  <path d="M68 42 L74 22 L72 38" fill="#FBBF24" stroke="#D97706" stroke-width="0.5" />
+
+  <!-- Tiny sparks on hair tips -->
+  <circle cx="26" cy="20" r="1.5" fill="#A3FF00" opacity="0.8" filter="url(#zap-glow)" />
+  <circle cx="32" cy="14" r="1.2" fill="#FCD34D" opacity="0.7" />
+  <circle cx="38" cy="8" r="1.5" fill="#A3FF00" opacity="0.8" filter="url(#zap-glow)" />
+  <circle cx="46" cy="4" r="1.2" fill="#FCD34D" opacity="0.7" />
+  <circle cx="54" cy="4" r="1.5" fill="#A3FF00" opacity="0.8" filter="url(#zap-glow)" />
+  <circle cx="62" cy="8" r="1.2" fill="#FCD34D" opacity="0.7" />
+  <circle cx="68" cy="14" r="1.5" fill="#A3FF00" opacity="0.8" filter="url(#zap-glow)" />
+  <circle cx="74" cy="20" r="1.2" fill="#FCD34D" opacity="0.7" />
+</svg>

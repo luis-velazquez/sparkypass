@@ -16,6 +16,9 @@ import {
   Lock,
   Check,
   Package,
+  Lightbulb,
+  Snowflake,
+  Heart,
   type LucideIcon,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,6 +26,120 @@ import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
 import { useSidebar } from "@/components/layout/SidebarContext";
 import { haptic } from "@/lib/haptics";
+
+// ─── Card Game Rules (shared by Index Sniper & Translation Engine) ──────────
+
+export const CARD_GAME_RULES = {
+  MAX_WRONG: 3,
+  DIFFICULTY_TIME: { easy: 20, medium: 10, hard: 5 } as const,
+  DIFFICULTY_OPTIONS: { easy: 4, medium: 8, hard: 12 } as const,
+} as const;
+
+export type CardGameDifficulty = keyof typeof CARD_GAME_RULES.DIFFICULTY_TIME;
+
+// ─── Combo Multiplier ────────────────────────────────────────────────────────
+
+export const COMBO_THRESHOLDS = [
+  { streak: 0, multiplier: 1 },
+  { streak: 5, multiplier: 2 },
+  { streak: 10, multiplier: 3 },
+  { streak: 15, multiplier: 4 },
+] as const;
+
+export function getComboMultiplier(streak: number): number {
+  for (let i = COMBO_THRESHOLDS.length - 1; i >= 0; i--) {
+    if (streak >= COMBO_THRESHOLDS[i].streak) return COMBO_THRESHOLDS[i].multiplier;
+  }
+  return 1;
+}
+
+// ─── Wildcards (earned through streaks) ──────────────────────────────────────
+
+export type WildcardType = "freeze_timer" | "extra_life";
+
+export interface WildcardInventory {
+  freeze_timer: number;
+  extra_life: number;
+}
+
+/** Streaks at which wildcards are awarded */
+export const WILDCARD_AWARDS: { streak: number; type: WildcardType }[] = [
+  { streak: 7, type: "freeze_timer" },
+  { streak: 12, type: "extra_life" },
+  { streak: 18, type: "freeze_timer" },
+  { streak: 25, type: "extra_life" },
+];
+
+/** Check if a new streak just earned a wildcard */
+export function checkWildcardEarned(newStreak: number): WildcardType | null {
+  const award = WILDCARD_AWARDS.find((a) => a.streak === newStreak);
+  return award?.type ?? null;
+}
+
+const WILDCARD_CONFIG: Record<WildcardType, { icon: LucideIcon; label: string; color: string; bg: string }> = {
+  freeze_timer: { icon: Snowflake, label: "Freeze", color: "text-sky-400", bg: "bg-sky-400/10 border-sky-400/30" },
+  extra_life: { icon: Heart, label: "Extra Life", color: "text-pink-400", bg: "bg-pink-400/10 border-pink-400/30" },
+};
+
+export function WildcardBar({
+  wildcards,
+  onUse,
+  disabled,
+}: {
+  wildcards: WildcardInventory;
+  onUse: (type: WildcardType) => void;
+  disabled?: boolean;
+}) {
+  const entries = (Object.entries(wildcards) as [WildcardType, number][]).filter(([, count]) => count > 0);
+  if (entries.length === 0) return null;
+
+  return (
+    <div className="flex items-center gap-2">
+      {entries.map(([type, count]) => {
+        const config = WILDCARD_CONFIG[type];
+        const Icon = config.icon;
+        return (
+          <motion.button
+            key={type}
+            whileHover={!disabled ? { scale: 1.08 } : undefined}
+            whileTap={!disabled ? { scale: 0.92 } : undefined}
+            onClick={() => !disabled && onUse(type)}
+            disabled={disabled}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-bold transition-all cursor-pointer disabled:opacity-40 disabled:cursor-default ${config.bg}`}
+          >
+            <Icon className={`h-3.5 w-3.5 ${config.color}`} />
+            <span className={config.color}>{config.label}</span>
+            {count > 1 && <span className="text-muted-foreground">×{count}</span>}
+          </motion.button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** Toast notification when a wildcard is earned */
+export function WildcardEarnedToast({ type }: { type: WildcardType | null }) {
+  const config = type ? WILDCARD_CONFIG[type] : null;
+
+  return (
+    <AnimatePresence>
+      {type && config && (
+        <motion.div
+          initial={{ opacity: 0, y: 20, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.9 }}
+          transition={{ type: "spring", stiffness: 400, damping: 20 }}
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
+        >
+          <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl border shadow-lg ${config.bg} bg-card dark:bg-stone-900`}>
+            <config.icon className={`h-5 w-5 ${config.color}`} />
+            <span className="text-sm font-bold text-foreground">{config.label} earned!</span>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -69,12 +186,14 @@ export function getEnergizeStyles(level: number): string {
 
 // ─── Award watts helper ─────────────────────────────────────────────────────
 
+export const WATTS_PER_CORRECT = 50;
+
 export async function awardWatts(
   activityType: string,
   answered: number,
   correct: number,
 ) {
-  const wattsEarned = correct * 12;
+  const wattsEarned = correct * WATTS_PER_CORRECT;
   if (wattsEarned <= 0) return;
   try {
     const sessionRes = await fetch("/api/sessions", {
@@ -345,6 +464,7 @@ export function ScoreBar({
   currentIdx,
   total,
   onNewGame,
+  multiplier = 1,
   flameThreshold = 3,
   timerWarning = 3,
 }: {
@@ -358,6 +478,7 @@ export function ScoreBar({
   currentIdx: number;
   total: number;
   onNewGame: () => void;
+  multiplier?: number;
   flameThreshold?: number;
   timerWarning?: number;
 }) {
@@ -402,6 +523,24 @@ export function ScoreBar({
                 </AnimatePresence>
                 <p className="text-xs text-muted-foreground">Score</p>
               </div>
+              {multiplier > 1 && (
+                <AnimatePresence mode="popLayout">
+                  <motion.div
+                    key={multiplier}
+                    initial={{ scale: 1.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 12 }}
+                    className="text-center"
+                  >
+                    <p className={`text-lg font-black font-mono ${
+                      multiplier >= 4 ? "text-red-500" : multiplier >= 3 ? "text-orange-500" : "text-amber dark:text-sparky-green"
+                    }`}>
+                      ×{multiplier}
+                    </p>
+                    <p className="text-xs text-muted-foreground">Combo</p>
+                  </motion.div>
+                </AnimatePresence>
+              )}
               <div className="text-center">
                 <AnimatePresence mode="popLayout">
                   <motion.p
@@ -586,7 +725,17 @@ export function GameHeader({
   );
 }
 
-// ─── Question Card (energize glow + AnimatePresence + CorrectFlash) ─────────
+// ─── Question Card (3D flip with trip feedback on back) ──────────────────────
+
+export interface TripInfo {
+  term: string;
+  tip: string;
+  strikeCount: number;
+  maxStrikes: number;
+}
+
+export const CONTINUE_COST = 1000;
+export const HINT_COST = 100;
 
 export function QuestionCard({
   label,
@@ -594,70 +743,164 @@ export function QuestionCard({
   currentIdx,
   isCorrect,
   children,
-  reactionText,
   className,
+  flipped,
+  tripInfo,
+  onTripDismiss,
+  canContinue,
+  onContinueGame,
 }: {
   label: string;
   energizeLevel: number;
   currentIdx: number;
   isCorrect: boolean | null;
   children: ReactNode;
-  reactionText?: string;
   className?: string;
+  flipped?: boolean;
+  tripInfo?: TripInfo;
+  onTripDismiss?: () => void;
+  canContinue?: boolean;
+  onContinueGame?: () => void;
 }) {
+  const isFinalStrike = tripInfo ? tripInfo.strikeCount >= tripInfo.maxStrikes : false;
+
+  // Haptic on flip
+  useEffect(() => {
+    if (!flipped) return;
+    haptic(isFinalStrike ? "error" : "medium");
+  }, [flipped, isFinalStrike]);
+
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.15 }}
       className={className ?? "mb-6 relative order-1 md:order-3"}
+      style={{ perspective: 900 }}
     >
-      <Card
-        className={`bg-card dark:bg-stone-900/50 transition-all duration-300 ${getEnergizeStyles(energizeLevel)}`}
+      <motion.div
+        animate={{ rotateX: flipped ? 180 : 0 }}
+        transition={{ duration: 0.45, ease: [0.4, 0, 0.2, 1] }}
+        style={{ transformStyle: "preserve-3d" }}
+        className="relative"
       >
-        <CardContent className="p-6 text-center">
-          <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
-            {label}
-          </p>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentIdx}
-              initial={{ opacity: 0, y: 20, scale: 0.97 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35, ease: "easeOut" }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
-          <AnimatePresence>
-            {reactionText && (
-              <motion.p
-                key={reactionText}
-                initial={{ opacity: 0, y: 8, scale: 0.8 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -10, scale: 0.8 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className={`mt-3 text-sm font-bold ${
-                  isCorrect === true
-                    ? "text-emerald-500 dark:text-sparky-green"
-                    : isCorrect === false
-                      ? "text-red-500"
-                      : "text-muted-foreground"
-                }`}
-              >
-                {reactionText}
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </CardContent>
-      </Card>
-      <CorrectFlash show={isCorrect === true} />
+        {/* ── Front face ── */}
+        <div style={{ backfaceVisibility: "hidden" }}>
+          <Card
+            className={`bg-card dark:bg-stone-900/50 transition-all duration-300 ${getEnergizeStyles(energizeLevel)}`}
+          >
+            <CardContent className="p-6 text-center">
+              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-2">
+                {label}
+              </p>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentIdx}
+                  initial={{ opacity: 0, y: 20, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                >
+                  {children}
+                </motion.div>
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+          <CorrectFlash show={isCorrect === true} />
+        </div>
+
+        {/* ── Back face (trip feedback) ── */}
+        <div
+          className="absolute inset-0"
+          style={{ backfaceVisibility: "hidden", transform: "rotateX(180deg)" }}
+        >
+          <Card
+            className={`h-full border-2 ${
+              isFinalStrike
+                ? "border-red-500/60 bg-red-50 dark:bg-red-950/95"
+                : "border-red-500/30 bg-card dark:bg-stone-900/95"
+            }`}
+          >
+            <CardContent className="p-6 text-center">
+              {tripInfo && (
+                <>
+                  {/* Strike dots + label */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-1.5">
+                      <AlertTriangle className="h-4 w-4 text-red-500 shrink-0" />
+                      <span className="text-xs font-bold uppercase tracking-wider text-red-500">
+                        {isFinalStrike ? "Circuit Overload" : "Tripped"}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      {Array.from({ length: tripInfo.maxStrikes }).map((_, i) => (
+                        <div
+                          key={i}
+                          className={`w-2.5 h-2.5 rounded-full border ${
+                            i < tripInfo.strikeCount
+                              ? "bg-red-500 border-red-400 shadow-[0_0_6px_rgba(239,68,68,0.5)]"
+                              : "bg-transparent border-muted-foreground/30"
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Term + tip */}
+                  <p className="text-foreground text-sm font-medium mb-1">
+                    &ldquo;{tripInfo.term}&rdquo;
+                  </p>
+                  <p className="text-muted-foreground text-xs leading-relaxed mb-4">
+                    {tripInfo.tip}
+                  </p>
+
+                  {/* Action buttons */}
+                  {isFinalStrike && canContinue && onContinueGame ? (
+                    <div className="flex gap-2">
+                      <button
+                        onClick={onContinueGame}
+                        className="flex-1 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-amber hover:bg-amber/90 text-white border border-amber dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 dark:border-sparky-green"
+                      >
+                        Continue ({CONTINUE_COST}W)
+                      </button>
+                      <button
+                        onClick={onTripDismiss}
+                        className="flex-1 py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer bg-red-500 hover:bg-red-600 text-white border border-red-600 dark:bg-red-500/20 dark:hover:bg-red-500/30 dark:text-red-400 dark:border-red-500/30"
+                      >
+                        Game Over
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={onTripDismiss}
+                      className={`w-full py-2.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                        isFinalStrike
+                          ? "bg-red-500 hover:bg-red-600 text-white border border-red-600 dark:bg-red-500/20 dark:hover:bg-red-500/30 dark:text-red-400 dark:border-red-500/30"
+                          : "bg-muted hover:bg-muted/80 text-foreground border border-border"
+                      }`}
+                    >
+                      {isFinalStrike ? "Game Over" : "Continue"}
+                    </button>
+                  )}
+                </>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
 
 // ─── Answer Button (correct/wrong styling + shake) ──────────────────────────
+
+function answerTextClass(text: string): string {
+  const len = text.length;
+  if (len > 50) return "text-[10px] sm:text-xs leading-tight";
+  if (len > 30) return "text-[11px] sm:text-xs leading-snug";
+  return "text-xs sm:text-sm";
+}
 
 export function AnswerButton({
   value,
@@ -702,7 +945,7 @@ export function AnswerButton({
     >
       <Button
         variant="outline"
-        className={`w-full min-h-[44px] text-xs sm:text-sm transition-colors ${btnClass} ${className ?? ""}`}
+        className={`w-full min-h-[44px] whitespace-normal text-wrap py-2 px-2.5 transition-colors ${answerTextClass(value)} ${btnClass} ${className ?? ""}`}
         disabled={hasSelection}
         onClick={onClick}
       >
@@ -851,56 +1094,36 @@ export function SkipButton({
 }) {
   if (remaining <= 0) return null;
   return (
-    <div className="flex justify-center mt-3">
-      <Button
-        variant="ghost"
-        size="sm"
-        onClick={onClick}
-        className="text-muted-foreground hover:text-foreground"
-      >
-        <SkipForward className="h-4 w-4 mr-1" />
-        Skip ({remaining})
-      </Button>
-    </div>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={onClick}
+      className="text-muted-foreground hover:text-foreground"
+    >
+      <SkipForward className="h-4 w-4 mr-1" />
+      Skip ({remaining})
+    </Button>
   );
 }
 
-// ─── Sparky tip (shown after wrong answer, before advancing) ────────────────
-
-export function SparkyTip({
-  tipText,
-  showTip,
-  onContinue,
-  className,
+export function HintButton({
+  onClick,
+  disabled,
 }: {
-  tipText: string;
-  showTip: boolean;
-  onContinue: () => void;
-  className?: string;
+  onClick: () => void;
+  disabled?: boolean;
 }) {
   return (
-    <AnimatePresence>
-      {showTip && tipText && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -30, scale: 0.97 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
-          className={className ?? "mb-6 order-first md:order-5"}
-        >
-          <SparkyMessage size="medium" variant="thinking" message={tipText} />
-          <div className="flex justify-center mt-4">
-            <Button
-              onClick={onContinue}
-              className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-            >
-              Continue
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <Button
+      variant="ghost"
+      size="sm"
+      onClick={onClick}
+      disabled={disabled}
+      className="text-amber dark:text-sparky-green hover:text-amber/80 dark:hover:text-sparky-green/80 disabled:opacity-40"
+    >
+      <Lightbulb className="h-4 w-4 mr-1" />
+      Hint ({HINT_COST}W)
+    </Button>
   );
 }
 
@@ -965,6 +1188,8 @@ export function GameOverScreen({
   maxWrong,
   onPlayAgain,
   onChangeDifficulty,
+  wattsEarned = 0,
+  wattsSpent = 0,
 }: {
   summaryTitle: string;
   summarySubtitle: string;
@@ -978,9 +1203,12 @@ export function GameOverScreen({
   maxWrong: number;
   onPlayAgain: () => void;
   onChangeDifficulty: () => void;
+  wattsEarned?: number;
+  wattsSpent?: number;
 }) {
   const countUpDelay = 500;
   const isNewRecord = score >= highScore && score > 0;
+  const wattsNet = wattsEarned - wattsSpent;
 
   return (
     <main className="relative min-h-screen bg-cream dark:bg-stone-950">
@@ -1081,22 +1309,46 @@ export function GameOverScreen({
           </Card>
         </motion.div>
 
-        {/* High score in watts */}
+        {/* Watts earned / spent summary */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 1.4 }}
-          className="flex flex-col items-center mb-6"
+          className="mb-6"
         >
-          <div className="flex items-center gap-2">
-            <Zap className="h-5 w-5 text-amber dark:text-sparky-green" />
-            <span className="text-2xl font-bold font-display tabular-nums text-amber dark:text-sparky-green">
-              <CountUp target={highScore} delay={1500} suffix="W" />
-            </span>
-          </div>
-          <p className="text-xs text-muted-foreground mt-1">
-            {isNewRecord ? "New High Score!" : "High Score"}
-          </p>
+          <Card className="bg-card dark:bg-stone-900/50 border-border dark:border-stone-800">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="text-center">
+                    <p className="text-lg font-bold text-emerald-500 dark:text-sparky-green tabular-nums">
+                      +<CountUp target={wattsEarned} delay={1500} />
+                    </p>
+                    <p className="text-xs text-muted-foreground">Earned</p>
+                  </div>
+                  {wattsSpent > 0 && (
+                    <div className="text-center">
+                      <p className="text-lg font-bold text-red-500 tabular-nums">
+                        −<CountUp target={wattsSpent} delay={1600} />
+                      </p>
+                      <p className="text-xs text-muted-foreground">Spent</p>
+                    </div>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Zap className={`h-5 w-5 ${wattsNet >= 0 ? "text-amber dark:text-sparky-green" : "text-red-500"}`} />
+                  <span className={`text-2xl font-bold font-display tabular-nums ${wattsNet >= 0 ? "text-amber dark:text-sparky-green" : "text-red-500"}`}>
+                    {wattsNet >= 0 ? "+" : "−"}<CountUp target={Math.abs(wattsNet)} delay={1700} suffix="W" />
+                  </span>
+                </div>
+              </div>
+              {isNewRecord && (
+                <p className="text-xs text-amber dark:text-sparky-green font-bold text-center mt-2 pt-2 border-t border-border dark:border-stone-800">
+                  New High Score!
+                </p>
+              )}
+            </CardContent>
+          </Card>
         </motion.div>
 
         {/* Action buttons — appear after stats */}
@@ -1136,352 +1388,3 @@ export function GameOverScreen({
   );
 }
 
-// ─── Trip Overlay (circuit breaker animation on wrong answer) ───────────────
-
-export function TripOverlay({
-  term,
-  tip,
-  strikeCount,
-  maxStrikes,
-  onDismiss,
-}: {
-  term: string;
-  tip: string;
-  strikeCount: number;
-  maxStrikes: number;
-  onDismiss: () => void;
-}) {
-  const isFinalStrike = strikeCount >= maxStrikes;
-  const [resetting, setResetting] = useState(false);
-  const { collapsed } = useSidebar();
-
-  const handleReset = () => {
-    if (resetting) return;
-    if (isFinalStrike) {
-      haptic("error");
-      onDismiss();
-      return;
-    }
-    setResetting(true);
-    haptic("medium");
-    setTimeout(() => {
-      haptic("success");
-      onDismiss();
-    }, 600);
-  };
-
-  // Smoke particles for final strike
-  const smokeParticles = useRef(
-    Array.from({ length: 28 }, (_, i) => ({
-      id: i,
-      startX: (Math.random() - 0.5) * 60,
-      drift: (Math.random() - 0.5) * 60,
-      size: 24 + Math.random() * 36,
-      delay: 0.4 + i * 0.12 + Math.random() * 0.2,
-      duration: 2.5 + Math.random() * 2,
-      riseDistance: -100 - Math.random() * 100,
-      opacity: 0.6 + Math.random() * 0.3,
-    })),
-  ).current;
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
-    >
-      <motion.div
-        initial={{ opacity: 1 }}
-        animate={{ opacity: [1, 0, 1, 0, 0.5, 0] }}
-        transition={{ duration: 0.8, times: [0, 0.1, 0.2, 0.3, 0.5, 0.8] }}
-        className="fixed inset-0 bg-red-500/25 pointer-events-none"
-      />
-
-      <div
-        className={`h-full flex items-center justify-center transition-[padding-left] duration-200 ${collapsed ? "xl:pl-[68px]" : "xl:pl-[240px]"}`}
-      >
-      <motion.div
-        initial={{ y: 50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.15, type: "spring", bounce: 0.35 }}
-        className="text-center p-6 max-w-xs"
-      >
-        {/* Circuit Breaker Icon */}
-        <motion.div
-          initial={{ scale: 0.85, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="relative mx-auto mb-5"
-          style={{ width: 140, height: 200 }}
-        >
-          {/* Smoke particles — final strike only, looping */}
-          {isFinalStrike &&
-            smokeParticles.map((p) => (
-              <motion.div
-                key={p.id}
-                initial={{ opacity: 0, y: 0, x: p.startX, scale: 0.2 }}
-                animate={{
-                  opacity: [0, p.opacity, p.opacity * 0.6, 0],
-                  y: [
-                    0,
-                    p.riseDistance * 0.4,
-                    p.riseDistance * 0.7,
-                    p.riseDistance,
-                  ],
-                  x: [
-                    p.startX,
-                    p.startX + p.drift * 0.3,
-                    p.startX + p.drift * 0.7,
-                    p.startX + p.drift,
-                  ],
-                  scale: [0.2, 0.7, 1.1, 1.6],
-                }}
-                transition={{
-                  delay: p.delay,
-                  duration: p.duration,
-                  ease: "easeOut",
-                  repeat: Infinity,
-                  repeatDelay: 0.3 + Math.random() * 0.5,
-                }}
-                className="absolute left-1/2 top-[10%] -translate-x-1/2 rounded-full pointer-events-none"
-                style={{
-                  width: p.size,
-                  height: p.size,
-                  background: `radial-gradient(circle, rgba(200,195,190,0.8), rgba(160,155,150,0.4) 40%, rgba(120,115,110,0.15) 70%, transparent)`,
-                  filter: "blur(6px)",
-                }}
-              />
-            ))}
-
-          <svg
-            viewBox="0 0 140 200"
-            fill="none"
-            className="w-full h-full drop-shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
-          >
-            <rect
-              x="24"
-              y="12"
-              width="92"
-              height="176"
-              rx="6"
-              className="fill-stone-200 dark:fill-stone-700 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="3"
-            />
-            <rect
-              x="14"
-              y="40"
-              width="14"
-              height="20"
-              rx="2"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="2.5"
-            />
-            <rect
-              x="14"
-              y="140"
-              width="14"
-              height="20"
-              rx="2"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="2.5"
-            />
-            <rect
-              x="112"
-              y="40"
-              width="14"
-              height="20"
-              rx="2"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="2.5"
-            />
-            <rect
-              x="112"
-              y="140"
-              width="14"
-              height="20"
-              rx="2"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="2.5"
-            />
-            <circle
-              cx="52"
-              cy="42"
-              r="10"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-500 dark:stroke-stone-400"
-              strokeWidth="2.5"
-            />
-            <circle
-              cx="52"
-              cy="42"
-              r="4"
-              className="fill-stone-400 dark:fill-stone-500"
-            />
-            <circle
-              cx="88"
-              cy="42"
-              r="10"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-500 dark:stroke-stone-400"
-              strokeWidth="2.5"
-            />
-            <circle
-              cx="88"
-              cy="42"
-              r="4"
-              className="fill-stone-400 dark:fill-stone-500"
-            />
-            <rect
-              x="42"
-              y="70"
-              width="56"
-              height="80"
-              rx="4"
-              className="fill-stone-100 dark:fill-stone-800 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="2"
-            />
-            <rect
-              x="50"
-              y="78"
-              width="40"
-              height="64"
-              rx="3"
-              className="fill-stone-300 dark:fill-stone-600 stroke-stone-400 dark:stroke-stone-500"
-              strokeWidth="1.5"
-            />
-          </svg>
-
-          {/* Toggle handle */}
-          <motion.div
-            initial={{ y: 0 }}
-            animate={resetting ? { y: 0 } : { y: 24 }}
-            transition={
-              resetting
-                ? { duration: 0.15, ease: "easeIn" }
-                : { delay: 0.35, duration: 0.12, ease: "easeIn" }
-            }
-            className="absolute"
-            style={{ left: 52, top: 80, width: 36, height: 32 }}
-          >
-            <div className="w-full h-full rounded-sm bg-gradient-to-b from-stone-50 to-stone-200 dark:from-stone-400 dark:to-stone-500 border-2 border-stone-400 dark:border-stone-300 shadow-[0_2px_6px_rgba(0,0,0,0.3)]">
-              <div className="flex flex-col items-center justify-center h-full gap-1">
-                <div className="w-4 h-0.5 rounded-full bg-stone-400/80 dark:bg-stone-600/80" />
-                <div className="w-4 h-0.5 rounded-full bg-stone-400/80 dark:bg-stone-600/80" />
-                <div className="w-4 h-0.5 rounded-full bg-stone-400/80 dark:bg-stone-600/80" />
-              </div>
-            </div>
-          </motion.div>
-
-          {/* TRIPPED label */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={resetting ? { opacity: 0 } : { opacity: 1 }}
-            transition={
-              resetting ? { duration: 0.1 } : { delay: 0.55, duration: 0.3 }
-            }
-            className="absolute left-0 right-0 bottom-6 text-center"
-          >
-            <span className="text-[11px] font-black tracking-[0.2em] text-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.6)]">
-              TRIPPED
-            </span>
-          </motion.div>
-
-          {/* Spark burst */}
-          {[...Array(6)].map((_, i) => {
-            const angle = i * 60 * (Math.PI / 180);
-            const dist = 40 + Math.random() * 15;
-            return (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
-                animate={{
-                  opacity: [0, 1, 1, 0],
-                  scale: [0, 1.2, 0.8, 0],
-                  x: Math.cos(angle) * dist,
-                  y: Math.sin(angle) * dist,
-                }}
-                transition={{
-                  delay: 0.38,
-                  duration: 0.5,
-                  times: [0, 0.2, 0.6, 1],
-                }}
-                className="absolute left-1/2 top-[45%] w-1.5 h-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber shadow-[0_0_6px_2px_rgba(245,158,11,0.8)]"
-              />
-            );
-          })}
-
-          {/* Arc flash glow */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{
-              opacity: [0, 0.7, 0.3, 0],
-              scale: [0.5, 1.3, 1.1, 0.8],
-            }}
-            transition={{ delay: 0.36, duration: 0.7 }}
-            className="absolute left-1/2 top-[45%] -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full bg-amber/30 blur-xl pointer-events-none"
-          />
-        </motion.div>
-
-        {/* Strike indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="flex items-center justify-center gap-1.5 mb-3"
-        >
-          {Array.from({ length: maxStrikes }).map((_, i) => (
-            <div
-              key={i}
-              className={`w-3 h-3 rounded-full border ${
-                i < strikeCount
-                  ? "bg-red-500 border-red-400 shadow-[0_0_8px_rgba(239,68,68,0.5)]"
-                  : "bg-transparent border-white/30"
-              }`}
-            />
-          ))}
-        </motion.div>
-
-        {isFinalStrike && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7 }}
-            className="text-red-400 text-sm font-bold mb-2"
-          >
-            Breaker tripped too many times!
-          </motion.p>
-        )}
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: isFinalStrike ? 0.85 : 0.7 }}
-          className="text-white/80 text-sm mb-1 font-medium"
-        >
-          &ldquo;{term}&rdquo;
-        </motion.p>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: isFinalStrike ? 1.0 : 0.85 }}
-          className="text-white/55 text-xs leading-relaxed mb-4"
-        >
-          {tip}
-        </motion.p>
-
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: isFinalStrike ? 1.2 : 0.9 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={handleReset}
-          disabled={resetting}
-          className="inline-flex items-center justify-center px-8 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 border border-white/20 text-white text-sm font-bold tracking-wider transition-all cursor-pointer disabled:opacity-50 disabled:cursor-default backdrop-blur-sm"
-        >
-          {isFinalStrike ? "GAME OVER" : "RESET BREAKER"}
-        </motion.button>
-      </motion.div>
-      </div>
-    </motion.div>
-  );
-}

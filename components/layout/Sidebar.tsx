@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -12,7 +13,7 @@ import {
   Calculator,
   Zap,
   ShieldAlert,
-  Activity,
+  Grid3X3,
   Trophy,
   Target,
   ClipboardCheck,
@@ -20,6 +21,8 @@ import {
   Lightbulb,
   Crosshair,
   Languages,
+  Wallet,
+  TrendingUp,
   Gamepad2,
   type LucideIcon,
 } from "lucide-react";
@@ -31,6 +34,7 @@ interface SidebarLink {
   href: string;
   label: string;
   icon: LucideIcon;
+  badge?: "daily" | "breaker";
 }
 
 interface SidebarGroup {
@@ -71,11 +75,18 @@ const navItems: SidebarItem[] = [
     ],
   },
   {
+    label: "Review",
+    links: [
+      { href: "/quiz", label: "Quiz", icon: BookOpen },
+      { href: "/review", label: "Weak Spots", icon: AlertTriangle },
+      { href: "/daily", label: "Daily Challenge", icon: Calendar, badge: "daily" },
+      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert, badge: "breaker" },
+    ],
+  },
+  {
     label: "Study",
     links: [
       { href: "/flashcards", label: "Flashcards", icon: Layers },
-      { href: "/daily", label: "Daily Challenge", icon: Calendar },
-      { href: "/review", label: "Weak Spots", icon: AlertTriangle },
       { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
       { href: "/tips", label: "Sparky Tips", icon: Lightbulb },
     ],
@@ -83,7 +94,7 @@ const navItems: SidebarItem[] = [
   {
     label: "Progress",
     links: [
-      { href: "/power-grid", label: "Power Grid", icon: Activity },
+      { href: "/power-grid", label: "Power Grid", icon: Grid3X3 },
       { href: "/leaderboard", label: "Leaderboard", icon: Trophy },
     ],
   },
@@ -91,24 +102,99 @@ const navItems: SidebarItem[] = [
     label: "Shop",
     links: [
       { href: "/power-ups", label: "Power-Ups", icon: Zap },
-      { href: "/watts", label: "Watts Bank", icon: Activity },
-    ],
-  },
-  {
-    label: "Challenge Mode",
-    links: [
-      { href: "/quiz", label: "Quiz", icon: BookOpen },
-      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert },
+      { href: "/watts", label: "Watts Bank", icon: Wallet },
     ],
   },
   { href: "/mock-exam", label: "Mock Exam", icon: ClipboardCheck },
 ];
 
+// ─── Badge status hook ──────────────────────────────────────────────────────
+
+function useBadgeStatus() {
+  const { status } = useSession();
+  const [dailyDone, setDailyDone] = useState<boolean | null>(null);
+  const [trippedCount, setTrippedCount] = useState(0);
+
+  useEffect(() => {
+    if (status !== "authenticated") return;
+
+    fetch("/api/progress/stats")
+      .then((r) => r.json())
+      .then((data) => {
+        if (typeof data.dailyChallengeCompleted === "boolean") {
+          setDailyDone(data.dailyChallengeCompleted);
+        }
+      })
+      .catch(() => {});
+
+    fetch("/api/circuit-breaker/status")
+      .then((r) => r.json())
+      .then((data) => {
+        if (typeof data.trippedCount === "number") {
+          setTrippedCount(data.trippedCount);
+        }
+      })
+      .catch(() => {});
+  }, [status]);
+
+  return { dailyDone, trippedCount };
+}
+
+// ─── Badge components ───────────────────────────────────────────────────────
+
+function DailyBadge({ done, collapsed }: { done: boolean | null; collapsed: boolean }) {
+  if (done === null) return null;
+  if (done) {
+    return (
+      <span className={`flex-shrink-0 w-2 h-2 rounded-full bg-emerald-500 dark:bg-sparky-green ${collapsed ? "absolute top-0.5 right-0.5" : ""}`} />
+    );
+  }
+  return (
+    <span className={`flex-shrink-0 w-2 h-2 rounded-full bg-amber dark:bg-sparky-green animate-pulse ${collapsed ? "absolute top-0.5 right-0.5" : ""}`} />
+  );
+}
+
+function BreakerBadge({ count, collapsed }: { count: number; collapsed: boolean }) {
+  if (count <= 0) return null;
+  return (
+    <span className={`flex-shrink-0 flex items-center justify-center text-[10px] font-bold rounded-full bg-red-500 text-white ${collapsed ? "absolute -top-0.5 -right-0.5 w-3.5 h-3.5" : "w-4 h-4"}`}>
+      {count}
+    </span>
+  );
+}
+
+// ─── Collapsed Tooltip ──────────────────────────────────────────────────────
+
+function SidebarTooltip({ label, group }: { label: string; group?: string }) {
+  return (
+    <span className="pointer-events-none absolute left-full top-1/2 -translate-y-1/2 ml-2 z-50 opacity-0 group-hover/tip:opacity-100 transition-opacity duration-150 whitespace-nowrap">
+      <span className="flex items-center gap-1.5 rounded-md bg-popover border border-border shadow-md px-2.5 py-1.5 text-xs text-foreground">
+        {group && (
+          <span className="text-muted-foreground font-medium">{group}</span>
+        )}
+        {group && <span className="text-muted-foreground/40">·</span>}
+        <span className="font-medium">{label}</span>
+      </span>
+    </span>
+  );
+}
+
 // ─── Sidebar Group Section ───────────────────────────────────────────────────
 
-function SidebarSection({ group, collapsed }: { group: SidebarGroup; collapsed: boolean }) {
+function SidebarSection({
+  group,
+  collapsed,
+  dailyDone,
+  trippedCount,
+}: {
+  group: SidebarGroup;
+  collapsed: boolean;
+  dailyDone: boolean | null;
+  trippedCount: number;
+}) {
   const pathname = usePathname();
   const siblingHrefs = group.links.map((l) => l.href);
+  const isGroupActive = group.links.some((link) => isNavLinkActive(pathname, link.href, siblingHrefs));
 
   // Collapsed mode — just show the icons
   if (collapsed) {
@@ -123,8 +209,7 @@ function SidebarSection({ group, collapsed }: { group: SidebarGroup; collapsed: 
             <Link
               key={link.href}
               href={link.href}
-              title={link.label}
-              className={`flex items-center justify-center w-10 h-10 rounded-lg mx-auto transition-colors ${
+              className={`group/tip relative flex items-center justify-center w-10 h-10 rounded-lg mx-auto transition-colors ${
                 isActive
                   ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)]"
                   : isTip
@@ -133,6 +218,9 @@ function SidebarSection({ group, collapsed }: { group: SidebarGroup; collapsed: 
               }`}
             >
               <Icon className="h-4.5 w-4.5" />
+              {link.badge === "daily" && <DailyBadge done={dailyDone} collapsed />}
+              {link.badge === "breaker" && <BreakerBadge count={trippedCount} collapsed />}
+              <SidebarTooltip label={link.label} group={group.label} />
             </Link>
           );
         })}
@@ -142,7 +230,9 @@ function SidebarSection({ group, collapsed }: { group: SidebarGroup; collapsed: 
 
   return (
     <div>
-      <div className="px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+      <div className={`px-3 py-1.5 text-xs font-semibold uppercase tracking-wider ${
+        isGroupActive ? "text-amber dark:text-sparky-green" : "text-muted-foreground"
+      }`}>
         {group.label}
       </div>
       <div className="mt-0.5 space-y-0.5">
@@ -170,7 +260,9 @@ function SidebarSection({ group, collapsed }: { group: SidebarGroup; collapsed: 
                     ? "text-amber dark:text-sparky-green"
                     : "text-muted-foreground"
               }`} />
-              {link.label}
+              <span className="flex-1">{link.label}</span>
+              {link.badge === "daily" && <DailyBadge done={dailyDone} collapsed={false} />}
+              {link.badge === "breaker" && <BreakerBadge count={trippedCount} collapsed={false} />}
             </Link>
           );
         })}
@@ -185,6 +277,7 @@ export function Sidebar() {
   const pathname = usePathname();
   const { status } = useSession();
   const { collapsed } = useSidebar();
+  const { dailyDone, trippedCount } = useBadgeStatus();
 
   if (status !== "authenticated") return null;
 
@@ -219,25 +312,36 @@ export function Sidebar() {
       <nav className={`flex-1 overflow-y-auto hide-scrollbar py-2 space-y-3 relative z-10 ${collapsed ? "px-1.5" : "px-3"}`}>
         {navItems.map((item) => {
           if (isSidebarGroup(item)) {
-            return <SidebarSection key={item.label} group={item} collapsed={collapsed} />;
+            return (
+              <SidebarSection
+                key={item.label}
+                group={item}
+                collapsed={collapsed}
+                dailyDone={dailyDone}
+                trippedCount={trippedCount}
+              />
+            );
           }
 
           const Icon = item.icon;
           const isActive = isNavLinkActive(pathname, item.href);
+          const isMockExam = item.href === "/mock-exam";
 
           if (collapsed) {
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                title={item.label}
-                className={`flex items-center justify-center w-10 h-10 rounded-lg mx-auto transition-colors ${
+                className={`group/tip relative flex items-center justify-center w-10 h-10 rounded-lg mx-auto transition-colors ${
                   isActive
                     ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)]"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    : isMockExam
+                      ? "text-muted-foreground hover:text-foreground hover:bg-muted border border-border dark:border-stone-800"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted"
                 }`}
               >
                 <Icon className="h-4.5 w-4.5" />
+                <SidebarTooltip label={item.label} />
               </Link>
             );
           }
@@ -249,13 +353,17 @@ export function Sidebar() {
               className={`flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
                 isActive
                   ? "bg-amber/10 text-amber dark:bg-sparky-green-bg dark:text-sparky-green dark:drop-shadow-[0_0_6px_rgba(163,255,0,0.2)] font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                  : isMockExam
+                    ? "text-foreground hover:bg-muted border border-dashed border-amber/30 dark:border-sparky-green/20 font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
               <Icon className={`h-4 w-4 flex-shrink-0 ${
                 isActive
                   ? "text-amber dark:text-sparky-green"
-                  : "text-muted-foreground"
+                  : isMockExam
+                    ? "text-amber dark:text-sparky-green"
+                    : "text-muted-foreground"
               }`} />
               {item.label}
             </Link>
