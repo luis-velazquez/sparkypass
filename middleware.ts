@@ -15,6 +15,18 @@ const protectedRoutes = [
   "/profile",
   "/load-calculator",
   "/settings",
+  "/circuit-breaker",
+  "/review",
+  "/power-ups",
+  "/power-grid",
+  "/friends",
+  "/leaderboard",
+  "/watts",
+  "/tips",
+  "/index-sniper",
+  "/index-game",
+  "/translation-engine",
+  "/formula-builder",
 ];
 
 // Routes that bypass the subscription check (but still require auth)
