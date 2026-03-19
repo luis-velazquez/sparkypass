@@ -56,8 +56,8 @@ function LoginForm() {
       if (result?.error) {
         setFormError("Invalid email or password");
       } else {
-        // Full page reload to ensure fresh session/JWT from middleware
-        window.location.href = result?.url || callbackUrl;
+        // Full page reload to ensure middleware evaluates fresh JWT
+        window.location.href = "/dashboard";
       }
     } catch {
       setFormError("Something went wrong. Please try again.");
