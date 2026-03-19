@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
+import { sendWelcomeTrialEmail } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -59,6 +60,13 @@ export async function POST(request: Request) {
       .update(users)
       .set({ passwordHash, updatedAt: new Date() })
       .where(eq(users.id, user.id));
+
+    // Send welcome trial email now that account is fully set up
+    try {
+      await sendWelcomeTrialEmail(user.email, user.name);
+    } catch (emailError) {
+      console.error("Failed to send welcome email:", emailError);
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

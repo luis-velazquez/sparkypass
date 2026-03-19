@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
-import { sendVerificationEmail, sendWelcomeTrialEmail } from "@/lib/email";
+import { sendVerificationEmail } from "@/lib/email";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 // 5 registrations per 15 minutes
@@ -107,13 +107,6 @@ export async function POST(request: Request) {
       await sendVerificationEmail(email.toLowerCase(), name.trim(), verificationUrl);
     } catch (emailError) {
       console.error("Failed to send verification email:", emailError);
-    }
-
-    // Send welcome trial email (non-blocking)
-    try {
-      await sendWelcomeTrialEmail(email.toLowerCase(), name.trim());
-    } catch (emailError) {
-      console.error("Failed to send welcome email:", emailError);
     }
 
     if (process.env.NODE_ENV === "development") {
