@@ -136,9 +136,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       return true;
     },
-    async jwt({ token, user }) {
+    async jwt({ token, user, account }) {
       if (user) {
         token.id = user.id;
+        // Mark OAuth users as verified immediately (no need to wait for DB read)
+        if (account?.provider && account.provider !== "credentials") {
+          token.isEmailVerified = true;
+        }
       }
 
       // Fetch fresh user data for profile completion status
@@ -157,6 +161,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           token.subscriptionStatus = (dbUser.subscriptionStatus as "trialing" | "active" | "past_due" | "canceled" | "expired") ?? null;
           token.trialEndsAt = dbUser.trialEndsAt?.toISOString() ?? null;
           token.subscriptionPeriodEnd = dbUser.subscriptionPeriodEnd?.toISOString() ?? null;
+        } else if (!token.isEmailVerified) {
+          // User not found in DB — keep existing token values
+          token.profileComplete = false;
         }
       }
 
