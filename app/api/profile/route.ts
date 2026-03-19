@@ -240,16 +240,9 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!targetExamDate) {
-      return NextResponse.json(
-        { error: "Target exam date is required" },
-        { status: 400 }
-      );
-    }
-
     // Parse and validate dates
     const dob = new Date(dateOfBirth);
-    const examDate = new Date(targetExamDate);
+    const examDate = targetExamDate ? new Date(targetExamDate) : null;
 
     if (isNaN(dob.getTime())) {
       return NextResponse.json(
@@ -258,7 +251,7 @@ export async function POST(request: Request) {
       );
     }
 
-    if (isNaN(examDate.getTime())) {
+    if (examDate && isNaN(examDate.getTime())) {
       return NextResponse.json(
         { error: "Invalid target exam date" },
         { status: 400 }
@@ -275,14 +268,16 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate target exam date (must be in the future)
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    if (examDate < today) {
-      return NextResponse.json(
-        { error: "Target exam date must be in the future" },
-        { status: 400 }
-      );
+    // Validate target exam date (must be in the future, if provided)
+    if (examDate) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      if (examDate < today) {
+        return NextResponse.json(
+          { error: "Target exam date must be in the future" },
+          { status: 400 }
+        );
+      }
     }
 
     // Update user profile
@@ -293,7 +288,7 @@ export async function POST(request: Request) {
         dateOfBirth: dob,
         city: city.trim(),
         state: state.trim(),
-        targetExamDate: examDate,
+        ...(examDate ? { targetExamDate: examDate } : {}),
         newsletterOptedIn: Boolean(newsletterOptedIn),
         updatedAt: new Date(),
       })

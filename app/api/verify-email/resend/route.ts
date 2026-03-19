@@ -53,12 +53,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
-    // Check if already verified
+    // If already verified, return success silently (don't reveal verification status)
     if (user.emailVerified) {
-      return NextResponse.json(
-        { error: "Email is already verified" },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: true });
     }
 
     // Delete any existing verification tokens for this user

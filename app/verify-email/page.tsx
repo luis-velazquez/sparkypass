@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, Loader2, CheckCircle, AlertCircle } from "lucide-react";
@@ -20,6 +20,7 @@ const sparkyTips = [
 
 function VerifyEmailContent() {
   const router = useRouter();
+  const { update } = useSession();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const token = searchParams.get("token");
@@ -66,13 +67,14 @@ function VerifyEmailContent() {
           redirect: false,
         });
 
-        setTimeout(() => {
-          if (signInResult?.ok) {
-            router.push("/register/profile");
-          } else {
-            router.push("/login");
-          }
-        }, 2000);
+        if (signInResult?.ok) {
+          // Refresh session so JWT has updated emailVerified flag
+          await update();
+          // Brief delay so user sees success message
+          setTimeout(() => router.push("/register/profile"), 1500);
+        } else {
+          setTimeout(() => router.push("/login"), 1500);
+        }
       } catch {
         setVerificationError("Something went wrong. Please try again.");
       } finally {
@@ -83,7 +85,7 @@ function VerifyEmailContent() {
     if (token) {
       verifyToken(token);
     }
-  }, [token, router]);
+  }, [token, router, update]);
 
   const handleResendEmail = async () => {
     if (!email) return;

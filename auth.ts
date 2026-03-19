@@ -107,7 +107,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async signIn({ user, account }) {
       if (account?.provider !== "credentials") {
         // Handle OAuth sign-in
-        const email = user.email;
+        const email = user.email?.toLowerCase();
         if (!email) return false;
 
         // Check if user exists
@@ -151,7 +151,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         if (dbUser) {
           token.profileComplete = Boolean(
-            dbUser.username && dbUser.city && dbUser.state && dbUser.dateOfBirth && dbUser.targetExamDate
+            dbUser.username && dbUser.city && dbUser.state && dbUser.dateOfBirth
           );
           token.isEmailVerified = dbUser.emailVerified;
           token.subscriptionStatus = (dbUser.subscriptionStatus as "trialing" | "active" | "past_due" | "canceled" | "expired") ?? null;
