@@ -53,10 +53,12 @@ function isAuthRoute(pathname: string): boolean {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Get JWT token
+  // Get JWT token — secureCookie must match production (HTTPS) cookie prefix
+  const secureCookie = request.nextUrl.protocol === "https:";
   const token = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET,
+    secureCookie,
   });
 
   const isAuthenticated = !!token;

@@ -9,6 +9,7 @@ import { db, users, verificationTokens } from "@/lib/db";
 import { eq, and, gt } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  trustHost: true,
   providers: [
     Google({
       clientId: process.env.GOOGLE_CLIENT_ID!,
