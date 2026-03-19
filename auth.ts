@@ -64,10 +64,11 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
         // Standard email + password login
         if (!credentials?.email || !credentials?.password) {
+          console.log("[auth] Missing email or password");
           return null;
         }
 
-        const email = credentials.email as string;
+        const email = (credentials.email as string).toLowerCase();
         const password = credentials.password as string;
 
         // Find user by email
@@ -78,12 +79,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .limit(1);
 
         if (!user || !user.passwordHash) {
+          console.log("[auth] User not found or no password hash for:", email);
           return null;
         }
 
         // Verify password
-        const isValidPassword = await compare(password, user.passwordHash);
-        if (!isValidPassword) {
+        try {
+          const isValidPassword = await compare(password, user.passwordHash);
+          if (!isValidPassword) {
+            console.log("[auth] Invalid password for:", email);
+            return null;
+          }
+        } catch (err) {
+          console.error("[auth] bcrypt compare error:", err);
           return null;
         }
 
