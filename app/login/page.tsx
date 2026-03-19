@@ -55,8 +55,9 @@ function LoginForm() {
 
       if (result?.error) {
         setFormError("Invalid email or password");
-      } else if (result?.ok) {
-        router.push(callbackUrl);
+      } else {
+        // Full page reload to ensure fresh session/JWT from middleware
+        window.location.href = result?.url || callbackUrl;
       }
     } catch {
       setFormError("Something went wrong. Please try again.");
