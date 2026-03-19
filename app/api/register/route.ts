@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { hash } from "bcryptjs";
 import crypto from "crypto";
 import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
@@ -33,12 +32,12 @@ export async function POST(request: Request) {
       );
     }
     const body = await request.json();
-    const { name, email, password } = body;
+    const { name, email } = body;
 
     // Validate required fields
-    if (!name || !email || !password) {
+    if (!name || !email) {
       return NextResponse.json(
-        { error: "Name, email, and password are required" },
+        { error: "Name and email are required" },
         { status: 400 }
       );
     }
@@ -61,14 +60,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validate password (min 8 characters)
-    if (password.length < 8) {
-      return NextResponse.json(
-        { error: "Password must be at least 8 characters" },
-        { status: 400 }
-      );
-    }
-
     // Check if user already exists
     const [existingUser] = await db
       .select()
@@ -83,16 +74,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Hash password
-    const passwordHash = await hash(password, 10);
-
-    // Create user
+    // Create user without password (password set after email verification)
     const userId = crypto.randomUUID();
     await db.insert(users).values({
       id: userId,
       name: name.trim(),
       email: email.toLowerCase(),
-      passwordHash,
       authProvider: "email",
       emailVerified: false,
       trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),

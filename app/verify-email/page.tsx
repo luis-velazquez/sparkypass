@@ -2,11 +2,13 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Mail, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Loader2, CheckCircle, AlertCircle, Eye, EyeOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
 
@@ -15,12 +17,11 @@ const sparkyTips = [
   "Fun fact: A Master Electrician must have at least 12,000 hours of practical experience in Texas!",
   "Did you know? Article 250 on Grounding & Bonding is one of the most tested areas on the exam.",
   "Pro tip: Load calculations in Article 220 appear frequently on the Master exam.",
-  "Remember: The texas Master Electrician exam has a 26% pass rate - but with SparkyPass, you'll beat those odds!",
+  "Remember: The Texas Master Electrician exam has a 26% pass rate - but with SparkyPass, you'll beat those odds!",
 ];
 
 function VerifyEmailContent() {
   const router = useRouter();
-  const { update } = useSession();
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const token = searchParams.get("token");
@@ -32,24 +33,35 @@ function VerifyEmailContent() {
     () => sparkyTips[Math.floor(Math.random() * sparkyTips.length)]
   );
 
-  // Verification state (when token is present)
+  // Token verification state
   const [isVerifying, setIsVerifying] = useState(false);
-  const [verificationSuccess, setVerificationSuccess] = useState(false);
+  const [tokenValid, setTokenValid] = useState(false);
   const [verificationError, setVerificationError] = useState("");
+  const [verifiedEmail, setVerifiedEmail] = useState("");
 
-  // Handle token verification
+  // Password creation state
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordError, setPasswordError] = useState("");
+  const [setupComplete, setSetupComplete] = useState(false);
+
+  // Step 1: Validate the token exists (lightweight check)
   useEffect(() => {
-    const verifyToken = async (verificationToken: string) => {
+    if (!token) return;
+
+    const checkToken = async () => {
       setIsVerifying(true);
       setVerificationError("");
 
       try {
+        // Verify the token and email — but don't set password yet
         const response = await fetch("/api/verify-email", {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ token: verificationToken }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
         });
 
         const data = await response.json();
@@ -59,22 +71,8 @@ function VerifyEmailContent() {
           return;
         }
 
-        setVerificationSuccess(true);
-
-        // Auto-login using the verification token, then redirect
-        const signInResult = await signIn("credentials", {
-          verificationToken: verificationToken,
-          redirect: false,
-        });
-
-        if (signInResult?.ok) {
-          // Refresh session so JWT has updated emailVerified flag
-          await update();
-          // Brief delay so user sees success message
-          setTimeout(() => router.push("/register/profile"), 1500);
-        } else {
-          setTimeout(() => router.push("/login"), 1500);
-        }
+        setTokenValid(true);
+        setVerifiedEmail(data.email || "");
       } catch {
         setVerificationError("Something went wrong. Please try again.");
       } finally {
@@ -82,10 +80,67 @@ function VerifyEmailContent() {
       }
     };
 
-    if (token) {
-      verifyToken(token);
+    checkToken();
+  }, [token]);
+
+  // Step 2: Submit password
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPasswordError("");
+
+    if (!password) {
+      setPasswordError("Please enter a password");
+      return;
     }
-  }, [token, router, update]);
+
+    if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      // Set password via API (token already verified email, now we just save the password)
+      const response = await fetch("/api/set-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: verifiedEmail, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setPasswordError(data.error || "Failed to set password");
+        return;
+      }
+
+      setSetupComplete(true);
+
+      // Auto-login with the new credentials
+      const signInResult = await signIn("credentials", {
+        email: verifiedEmail,
+        password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        // Login failed but password was set — send to login page
+        setTimeout(() => (window.location.href = "/login"), 1500);
+      } else {
+        // Success — go to profile completion
+        setTimeout(() => (window.location.href = "/register/profile"), 1500);
+      }
+    } catch {
+      setPasswordError("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleResendEmail = async () => {
     if (!email) return;
@@ -97,9 +152,7 @@ function VerifyEmailContent() {
     try {
       const response = await fetch("/api/verify-email/resend", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
 
@@ -118,7 +171,7 @@ function VerifyEmailContent() {
     }
   };
 
-  // If token is present, show verification status
+  // --- Token present: verification + password creation flow ---
   if (token) {
     return (
       <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-b from-cream to-cream-dark dark:from-stone-950 dark:to-stone-950 relative">
@@ -143,44 +196,140 @@ function VerifyEmailContent() {
                 className="inline-flex items-center justify-center gap-2"
               >
                 <div className="w-12 h-12 rounded-xl bg-amber/15 dark:bg-stone-900 flex items-center justify-center">
-                <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
-              </div>
+                  <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
+                </div>
               </Link>
               <CardTitle className="text-2xl font-bold font-display">
                 {isVerifying
                   ? "Verifying Email..."
-                  : verificationSuccess
-                  ? "Email Verified!"
+                  : setupComplete
+                  ? "You're All Set!"
+                  : tokenValid
+                  ? "Create Your Password"
                   : "Verification Failed"}
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6 text-center">
+            <CardContent className="space-y-6">
+              {/* Verifying spinner */}
               {isVerifying && (
                 <div className="flex flex-col items-center gap-4">
                   <Loader2 className="h-12 w-12 animate-spin text-amber" />
-                  <p className="text-muted-foreground">
+                  <p className="text-muted-foreground text-center">
                     Please wait while we verify your email...
                   </p>
                 </div>
               )}
 
-              {verificationSuccess && (
+              {/* Setup complete */}
+              {setupComplete && (
                 <div className="flex flex-col items-center gap-4">
                   <CheckCircle className="h-16 w-16 text-emerald" />
-                  <p className="text-muted-foreground">
-                    Your email has been verified successfully!
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    Signing you in...
+                  <p className="text-muted-foreground text-center">
+                    Your account is ready! Signing you in...
                   </p>
                 </div>
               )}
 
+              {/* Password creation form */}
+              {tokenValid && !setupComplete && (
+                <>
+                  <div className="flex flex-col items-center gap-2">
+                    <CheckCircle className="h-10 w-10 text-emerald" />
+                    <p className="text-sm text-muted-foreground text-center">
+                      Email verified! Now create a password for your account.
+                    </p>
+                  </div>
+
+                  {passwordError && (
+                    <div className="p-3 rounded-md bg-destructive/10 text-destructive text-sm">
+                      {passwordError}
+                    </div>
+                  )}
+
+                  <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="password">Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="password"
+                          type={showPassword ? "text" : "password"}
+                          placeholder="Create a password"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                          disabled={isSubmitting}
+                          autoComplete="new-password"
+                          className="pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                          tabIndex={-1}
+                        >
+                          {showPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                      <p className="text-xs text-muted-foreground">
+                        Must be at least 8 characters
+                      </p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="confirmPassword">Confirm Password</Label>
+                      <div className="relative">
+                        <Input
+                          id="confirmPassword"
+                          type={showConfirmPassword ? "text" : "password"}
+                          placeholder="Re-enter your password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          disabled={isSubmitting}
+                          autoComplete="new-password"
+                          className="pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                          tabIndex={-1}
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff className="h-4 w-4" />
+                          ) : (
+                            <Eye className="h-4 w-4" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Setting up...
+                        </>
+                      ) : (
+                        "Set Password & Continue"
+                      )}
+                    </Button>
+                  </form>
+                </>
+              )}
+
+              {/* Verification error */}
               {verificationError && (
                 <div className="flex flex-col items-center gap-4">
                   <AlertCircle className="h-16 w-16 text-destructive" />
                   <p className="text-destructive">{verificationError}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground text-center">
                     The verification link may have expired or already been
                     used.
                   </p>
@@ -198,7 +347,7 @@ function VerifyEmailContent() {
     );
   }
 
-  // Default: Show "check your email" message
+  // --- No token: "check your email" message ---
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-b from-cream to-cream-dark dark:from-stone-950 dark:to-stone-950 relative">
       <div

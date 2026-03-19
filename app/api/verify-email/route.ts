@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
+import { hash } from "bcryptjs";
 import { db, users, verificationTokens } from "@/lib/db";
 import { eq, and, gt } from "drizzle-orm";
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { token } = body;
+    const { token, password } = body;
 
     if (!token) {
       return NextResponse.json(
@@ -33,18 +34,36 @@ export async function POST(request: Request) {
       );
     }
 
-    // Update user's email verification status
+    // Build update: always verify email
+    const updateData: {
+      emailVerified: boolean;
+      passwordHash?: string;
+      updatedAt: Date;
+    } = {
+      emailVerified: true,
+      updatedAt: new Date(),
+    };
+
+    // If password provided, hash and save it
+    if (password) {
+      if (typeof password !== "string" || password.length < 8) {
+        return NextResponse.json(
+          { error: "Password must be at least 8 characters" },
+          { status: 400 }
+        );
+      }
+      updateData.passwordHash = await hash(password, 10);
+    }
+
+    // Update user
     await db
       .update(users)
-      .set({ emailVerified: true, updatedAt: new Date() })
+      .set(updateData)
       .where(eq(users.id, verificationRecord.userId));
 
-    // Set a short expiry on the token (60s) so it can be used for auto-login
-    const autoLoginExpiry = new Date();
-    autoLoginExpiry.setSeconds(autoLoginExpiry.getSeconds() + 60);
+    // Delete the verification token (one-time use)
     await db
-      .update(verificationTokens)
-      .set({ expiresAt: autoLoginExpiry })
+      .delete(verificationTokens)
       .where(eq(verificationTokens.id, verificationRecord.id));
 
     // Get user email for the frontend

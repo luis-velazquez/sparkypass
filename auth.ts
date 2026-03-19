@@ -5,8 +5,8 @@ import Facebook from "next-auth/providers/facebook";
 import Apple from "next-auth/providers/apple";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { db, users, verificationTokens } from "@/lib/db";
-import { eq, and, gt } from "drizzle-orm";
+import { db, users } from "@/lib/db";
+import { eq } from "drizzle-orm";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
@@ -28,42 +28,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
-        verificationToken: { label: "Verification Token", type: "text" },
       },
       async authorize(credentials) {
-        // Auto-login after email verification (one-time token)
-        const verificationToken = credentials?.verificationToken as string | undefined;
-        if (verificationToken) {
-          const [tokenRecord] = await db
-            .select()
-            .from(verificationTokens)
-            .where(
-              and(
-                eq(verificationTokens.token, verificationToken),
-                gt(verificationTokens.expiresAt, new Date())
-              )
-            )
-            .limit(1);
-
-          if (!tokenRecord) return null;
-
-          const [user] = await db
-            .select()
-            .from(users)
-            .where(eq(users.id, tokenRecord.userId))
-            .limit(1);
-
-          // Delete the token (one-time use)
-          await db
-            .delete(verificationTokens)
-            .where(eq(verificationTokens.id, tokenRecord.id));
-
-          if (!user || !user.emailVerified) return null;
-
-          return { id: user.id, email: user.email, name: user.name };
-        }
-
-        // Standard email + password login
+        // Email + password login
         if (!credentials?.email || !credentials?.password) {
           console.log("[auth] Missing email or password");
           return null;
