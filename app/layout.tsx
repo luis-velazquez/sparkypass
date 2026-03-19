@@ -71,8 +71,10 @@ export default function RootLayout({
         <SessionProvider>
         <SidebarProvider>
 
-        {/* Desktop sidebar (xl+) */}
-        <Sidebar />
+        {/* Desktop sidebar (xl+) — hidden on marketing pages */}
+        <HideOnMarketing>
+          <Sidebar />
+        </HideOnMarketing>
 
         {/* Mobile/tablet header (below xl) — hidden on marketing pages */}
         <HideOnMarketing>
