@@ -82,32 +82,43 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async signIn({ user, account }) {
       if (account?.provider !== "credentials") {
-        // Handle OAuth sign-in
-        const email = user.email?.toLowerCase();
-        if (!email) return false;
+        try {
+          // Handle OAuth sign-in
+          const email = user.email?.toLowerCase();
+          if (!email) {
+            console.error("[auth] OAuth sign-in: no email provided");
+            return false;
+          }
 
-        // Check if user exists
-        const [existingUser] = await db
-          .select()
-          .from(users)
-          .where(eq(users.email, email))
-          .limit(1);
+          // Check if user exists
+          const [existingUser] = await db
+            .select()
+            .from(users)
+            .where(eq(users.email, email))
+            .limit(1);
 
-        if (!existingUser) {
-          // Create new user for OAuth
-          const newUserId = crypto.randomUUID();
-          await db.insert(users).values({
-            id: newUserId,
-            email: email,
-            name: user.name || "User",
-            authProvider: account?.provider as "google" | "facebook" | "apple",
-            emailVerified: true, // OAuth users are considered verified
-            trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-            subscriptionStatus: "trialing",
-          });
-          user.id = newUserId;
-        } else {
-          user.id = existingUser.id;
+          if (!existingUser) {
+            // Create new user for OAuth
+            const newUserId = crypto.randomUUID();
+            console.log("[auth] Creating OAuth user:", email, account?.provider);
+            await db.insert(users).values({
+              id: newUserId,
+              email: email,
+              name: user.name || "User",
+              authProvider: account?.provider as "google" | "facebook" | "apple",
+              emailVerified: true,
+              trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+              subscriptionStatus: "trialing",
+            });
+            user.id = newUserId;
+            console.log("[auth] OAuth user created:", newUserId);
+          } else {
+            user.id = existingUser.id;
+            console.log("[auth] OAuth user exists:", existingUser.id);
+          }
+        } catch (err) {
+          console.error("[auth] OAuth signIn callback error:", err);
+          return false;
         }
       }
       return true;
