@@ -45,6 +45,7 @@ export const users = sqliteTable("users", {
   stripeSubscriptionId: text("stripe_subscription_id"),
   subscriptionStatus: text("subscription_status"),  // trialing | active | past_due | canceled | expired
   subscriptionPeriodEnd: integer("subscription_period_end", { mode: "timestamp" }),
+  betaAgreedAt: integer("beta_agreed_at", { mode: "timestamp" }),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
@@ -258,3 +259,31 @@ export const wattsTransactions = sqliteTable("watts_transactions", {
 
 export type WattsTransaction = typeof wattsTransactions.$inferSelect;
 export type NewWattsTransaction = typeof wattsTransactions.$inferInsert;
+
+// Beta analytics events (first-party, privacy-friendly)
+export const analyticsEvents = sqliteTable("analytics_events", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
+  event: text("event").notNull(),  // page_view, feature_use, session_start, session_end, feedback_prompt, drop_off
+  page: text("page"),
+  metadata: text("metadata"),  // JSON string for extra context (e.g. quiz category, button clicked)
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
+export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
+export type NewAnalyticsEvent = typeof analyticsEvents.$inferInsert;
+
+// Referral tracking
+export const referrals = sqliteTable("referrals", {
+  id: text("id").primaryKey(),
+  referrerId: text("referrer_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  referredUserId: text("referred_user_id").references(() => users.id, { onDelete: "set null" }),
+  code: text("code").notNull().unique(),
+  status: text("status").notNull().default("pending"),  // pending | completed
+  wattsAwarded: integer("watts_awarded").notNull().default(0),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  completedAt: integer("completed_at", { mode: "timestamp" }),
+});
+
+export type Referral = typeof referrals.$inferSelect;
+export type NewReferral = typeof referrals.$inferInsert;

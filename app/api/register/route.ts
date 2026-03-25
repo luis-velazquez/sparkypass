@@ -32,12 +32,20 @@ export async function POST(request: Request) {
       );
     }
     const body = await request.json();
-    const { name, email } = body;
+    const { name, email, ageConfirmed } = body;
 
     // Validate required fields
     if (!name || !email) {
       return NextResponse.json(
         { error: "Name and email are required" },
+        { status: 400 }
+      );
+    }
+
+    // Age verification (must be 18+)
+    if (!ageConfirmed) {
+      return NextResponse.json(
+        { error: "You must confirm that you are at least 18 years old" },
         { status: 400 }
       );
     }
@@ -84,6 +92,7 @@ export async function POST(request: Request) {
       emailVerified: false,
       trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       subscriptionStatus: "trialing",
+      betaAgreedAt: new Date(),
     });
 
     // Generate verification token

@@ -27,6 +27,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -303,7 +304,10 @@ export function Sidebar() {
         <Link href="/dashboard" className="flex items-center gap-2">
           <Image src="/sparkypass-icon-orange.svg" alt="SparkyPass" width={28} height={28} className="flex-shrink-0" />
           {!collapsed && (
-            <span className="text-xl font-bold text-foreground whitespace-nowrap">SparkyPass</span>
+            <>
+              <span className="text-xl font-bold text-foreground whitespace-nowrap">SparkyPass</span>
+              <BetaBadge />
+            </>
           )}
         </Link>
       </div>
@@ -383,6 +387,9 @@ export function Sidebar() {
             </Link>
             <Link href="/terms" className="hover:text-foreground transition-colors">
               Terms
+            </Link>
+            <Link href="/changelog" className="hover:text-foreground transition-colors">
+              Changelog
             </Link>
           </div>
           <p className="text-xs text-muted-foreground mt-1">

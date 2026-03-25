@@ -457,9 +457,9 @@
         "100A",
         "110A"
       ],
-      "correctAnswer": 2,
-      "explanation": "Step 1: Find FLCs in Table 430.250. 20 HP = 27A; 10 HP = 14A. Step 2: Calculate the largest branch-circuit OCPD per 430.52. 27A × 250% = 67.5A. The next standard size is 70A. Step 3: Calculate the feeder maximum per 430.62(A) by adding the largest branch-circuit OCPD (70A) to the FLCs of the other motors. 70A + 27A + 14A = 111A. Step 4: Per 430.62, you must NOT exceed this value, so you must round down to the next standard size of 100A.",
-      "necReference": "430.62(A); Table 430.250; Table 430.52",
+      "correctAnswer": 3,
+      "explanation": "Step 1: Find FLCs in Table 430.250. 20 HP = 27A; 10 HP = 14A. Step 2: Calculate the largest branch-circuit OCPD per 430.52. 27A × 250% = 67.5A. The next standard size is 70A. Step 3: Calculate the feeder maximum per 430.62(A) by adding the largest branch-circuit OCPD (70A) to the FLCs of the *other* motors (one 20 HP and one 10 HP). 70A + 27A + 14A = 111A. Step 4: Per 430.62, you must NOT exceed this value, so you must round down to the next standard size. According to Table 240.6(A), the next standard size down from 111A is 110A.",
+      "necReference": "430.62(A); Table 430.250; Table 430.52; 240.6(A)",
       "sparkyTip": "Here is the golden rule: Branch circuits let you round UP (430.52), but Feeders force you to round DOWN (430.62). If you land on 111A, a 110A breaker is the absolute limit!",
       "necVersions": [
         "2023",
@@ -524,27 +524,6 @@
       "explanation": "This tests the distinction between 'Table FLC' and 'Nameplate FLA'. \n\n1) Conductors (430.6(A)(1)): You MUST use the FLC from Table 430.250. A 15 HP, 460V, 3-phase motor is rated at 21A. The conductor ampacity is 125% of this value: 21A × 1.25 = 26.25A. \n\n2) Overload (430.32(A)(1)): You MUST use the actual Nameplate FLA of 18A. Because the Service Factor is 1.15 and Temp Rise is 40°C, you are permitted to size the overload at 125%: 18A × 1.25 = 22.5A.",
       "necReference": "430.6(A)(1), 430.22, 430.32(A)(1), Table 430.250",
       "sparkyTip": "Remember the mantra: 'Table for Wires, Nameplate for Heaters (Overloads).' If you swap them, you will calculate 22.5A for the wires, which is undersized!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-M008",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430, Article 310",
-      "difficulty": "master",
-      "questionText": "A feeder supplies two 3-phase, 460V motors: one 20 HP and one 10 HP. The feeder will be run using THWN-2 copper conductors in a conduit through an area with an ambient temperature of 52°C. What is the minimum required size for the feeder conductors?",
-      "options": [
-        "#8 AWG",
-        "#6 AWG",
-        "#4 AWG",
-        "#3 AWG"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Step 1: Calculate the required feeder ampacity per 430.24. FLCs from Table 430.250 are 27A (20 HP) and 14A (10 HP). Required ampacity = (1.25 × 27A) + 14A = 33.75A + 14A = 47.75A. Step 2: Find the temperature derating factor. For THWN-2 (a 90°C conductor), the correction factor for an ambient temp of 51-55°C is 0.76 per Table 310.15(B)(1). Step 3: Determine the required conductor ampacity before derating. You need a conductor that, after being derated, can handle at least 47.75A. Required base ampacity = 47.75A / 0.76 = 62.83A. Step 4: Select the conductor from the 90°C column of Table 310.16. A #6 AWG has 75A at 90°C (75A × 0.76 = 57A), which exceeds 47.75A. However, per 110.14(C), terminations rated 75°C require using the 75°C column for ampacity. #6 at 75°C is 65A, derated: 65A × 0.76 = 49.4A, which barely works.",
-      "necReference": "430.24, 310.15(B)(1), Table 310.16, Table 430.250",
-      "sparkyTip": "High ambient temperature is a game-changer. Always calculate your load first, then figure out how big your wire needs to be before derating. It's a two-step process that trips up many electricians.",
       "necVersions": [
         "2023",
         "2026"
@@ -639,7 +618,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
-      "questionText": "A feeder is protected by a 200A breaker. A 20-foot tap is made from this feeder to supply a single 40 HP, 460V, 3-phase motor (FLC 52A). What is the minimum ampacity required for the tap conductors?",
+      "questionText": "A motor feeder utilizes conductors with an ampacity of 200A, protected by a larger inverse-time circuit breaker. A 20-foot tap is made from this feeder to supply a single 40 HP, 460V, 3-phase motor (FLC 52A). What is the minimum ampacity required for the tap conductors?",
       "options": [
         "52A",
         "65A",
@@ -647,9 +626,9 @@
         "81.25A"
       ],
       "correctAnswer": 2,
-      "explanation": "This is a feeder tap between 10 and 25 feet, governed by 430.28(2). The tap conductors must have an ampacity of at least 1/3 of the feeder OCPD (200A / 3 = 66.7A) AND must have an ampacity for the motor load per Part II of Article 430. A single motor requires conductors at 125% of FLC (52A × 1.25 = 65A). The tap must meet BOTH conditions, so it must have an ampacity of at least 66.7A.",
-      "necReference": "430.28(B)(2), 430.22",
-      "sparkyTip": "Feeder taps for motors have multiple conditions. For taps over 10 ft, the conductor must be sized for the load AND meet the 1/3 rule of the feeder protection. You must satisfy the larger of the two.",
+      "explanation": "This is a motor feeder tap between 10 and 25 feet, governed by 430.28(2). The tap conductors must have an ampacity of at least 1/3 of the feeder conductors (200A / 3 = 66.7A) AND must have an ampacity for the motor load per Part II of Article 430. A single motor requires conductors at 125% of FLC (52A × 1.25 = 65A). The tap must meet BOTH conditions, so it must have an ampacity of at least 66.7A.",
+      "necReference": "430.28(2); 430.22",
+      "sparkyTip": "Watch out for the '1/3 Rule' trap! Standard taps (240.21(B)) base the 1/3 calculation on the feeder BREAKER. But motor taps (430.28) base it on the feeder CONDUCTORS. This is because motor breakers are often heavily oversized for inrush current!",
       "necVersions": [
         "2023",
         "2026"

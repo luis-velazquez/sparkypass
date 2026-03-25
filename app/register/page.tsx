@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -17,6 +18,8 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [formError, setFormError] = useState("");
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
+  const [referralCode, setReferralCode] = useState("");
 
   const handleCredentialsSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +43,11 @@ export default function RegisterPage() {
       return;
     }
 
+    if (!ageConfirmed) {
+      setFormError("You must be at least 18 years old to use SparkyPass");
+      return;
+    }
+
     setIsLoading(true);
     try {
       // Register the user via API
@@ -51,6 +59,7 @@ export default function RegisterPage() {
         body: JSON.stringify({
           name: name.trim(),
           email: email.toLowerCase(),
+          ageConfirmed,
         }),
       });
 
@@ -59,6 +68,15 @@ export default function RegisterPage() {
       if (!response.ok) {
         setFormError(data.error || "Registration failed. Please try again.");
         return;
+      }
+
+      // Redeem referral code if provided (non-blocking)
+      if (referralCode.trim() && data.userId) {
+        fetch("/api/referral", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code: referralCode.trim(), referredUserId: data.userId }),
+        }).catch(() => {});
       }
 
       // Redirect to verify-email page
@@ -98,7 +116,7 @@ export default function RegisterPage() {
                 <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
               </div>
             </Link>
-            <CardTitle className="text-2xl font-bold font-display">Start Your Free Trial</CardTitle>
+            <CardTitle className="text-2xl font-bold font-display flex items-center justify-center gap-2">Start Your Free Trial <BetaBadge /></CardTitle>
             <p className="text-muted-foreground">
               7 days of full access — no credit card required
             </p>
@@ -178,6 +196,43 @@ export default function RegisterPage() {
                   disabled={isLoading}
                   autoComplete="email"
                 />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="referral" className="text-muted-foreground">Referral Code <span className="text-xs">(optional)</span></Label>
+                <Input
+                  id="referral"
+                  type="text"
+                  placeholder="e.g. A1B2C3"
+                  value={referralCode}
+                  onChange={(e) => setReferralCode(e.target.value.toUpperCase().slice(0, 6))}
+                  disabled={isLoading}
+                  maxLength={6}
+                  className="uppercase tracking-widest"
+                />
+              </div>
+
+              <div className="flex items-start gap-2.5">
+                <input
+                  id="age-confirm"
+                  type="checkbox"
+                  checked={ageConfirmed}
+                  onChange={(e) => setAgeConfirmed(e.target.checked)}
+                  disabled={isLoading}
+                  className="mt-0.5 h-4 w-4 rounded border-border accent-amber dark:accent-sparky-green cursor-pointer"
+                />
+                <label htmlFor="age-confirm" className="text-xs text-muted-foreground cursor-pointer leading-relaxed">
+                  I confirm that I am at least 18 years old and agree to the{" "}
+                  <Link href="/terms" className="text-amber hover:text-amber-dark underline" target="_blank">
+                    Terms of Service
+                  </Link>,{" "}
+                  <Link href="/privacy" className="text-amber hover:text-amber-dark underline" target="_blank">
+                    Privacy Policy
+                  </Link>, and{" "}
+                  <Link href="/beta-agreement" className="text-amber hover:text-amber-dark underline" target="_blank">
+                    Beta Participation Agreement
+                  </Link>.
+                </label>
               </div>
 
               <Button

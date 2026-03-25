@@ -17,6 +17,12 @@ const MARKETING_PATHS = [
   "/forgot-password",
   "/reset-password",
   "/verify-email",
+  "/beta-agreement",
+  "/changelog",
+  "/known-issues",
+  "/acceptable-use",
+  "/dmca",
+  "/status",
 ];
 
 export function HideOnMarketing({ children }: { children: React.ReactNode }) {

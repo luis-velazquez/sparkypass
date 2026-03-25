@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 export function Logo() {
   const { data: session } = useSession();
@@ -12,6 +13,7 @@ export function Logo() {
     <Link href={href} className="flex items-center gap-2">
       <Image src="/sparkypass-icon-orange.svg" alt="SparkyPass" width={28} height={28} />
       <span className="text-xl font-bold text-foreground">SparkyPass</span>
+      <BetaBadge />
     </Link>
   );
 }

@@ -24,6 +24,7 @@ import {
   Lightbulb,
   CreditCard,
   ExternalLink,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -45,6 +46,7 @@ interface ProfileData {
   subscriptionStatus: string | null;
   trialEndsAt: string | null;
   subscriptionPeriodEnd: string | null;
+  isBetaTester: boolean;
 }
 
 export default function SettingsPage() {
@@ -392,6 +394,12 @@ function SettingsContent() {
               <CardTitle className="text-lg flex items-center gap-2">
                 <User className="h-5 w-5 text-purple" />
                 Profile
+                {profile.isBetaTester && (
+                  <span className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-amber/10 text-amber border border-amber/30 dark:bg-sparky-green/10 dark:text-sparky-green dark:border-sparky-green/30">
+                    <Zap className="h-3 w-3" />
+                    Beta Tester
+                  </span>
+                )}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">

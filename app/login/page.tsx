@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 function LoginForm() {
   const router = useRouter();
@@ -93,7 +94,7 @@ function LoginForm() {
             <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
           </div>
         </Link>
-        <CardTitle className="text-2xl font-bold font-display">Welcome Back!</CardTitle>
+        <CardTitle className="text-2xl font-bold font-display flex items-center justify-center gap-2">Welcome Back! <BetaBadge /></CardTitle>
         <p className="text-muted-foreground">
           Sign in to continue your exam prep journey
         </p>
@@ -238,7 +239,7 @@ function LoginFormFallback() {
             <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-7 h-7" />
           </div>
         </div>
-        <CardTitle className="text-2xl font-bold font-display">Welcome Back!</CardTitle>
+        <CardTitle className="text-2xl font-bold font-display flex items-center justify-center gap-2">Welcome Back! <BetaBadge /></CardTitle>
         <p className="text-muted-foreground">
           Sign in to continue your exam prep journey
         </p>

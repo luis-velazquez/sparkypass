@@ -41,6 +41,7 @@ import { SparkyMessage } from "@/components/sparky";
 import { HeroPreview } from "@/components/landing/HeroPreview";
 import { LandingNav } from "@/components/landing/LandingNav";
 import { LandingFooter } from "@/components/landing/LandingFooter";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 /* ------------------------------------------------------------------ */
 /*  Animated counter — counts up when scrolled into view               */
@@ -389,6 +390,8 @@ export function LandingPage() {
                 <span className="text-amber dark:text-stone-300 text-sm font-medium tracking-wide">
                   Texas Master Electrician Exam Prep
                 </span>
+                <span className="mx-1 text-amber/30 dark:text-stone-600">|</span>
+                <BetaBadge size="md" />
               </motion.div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-[1.1] font-display">

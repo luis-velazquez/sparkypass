@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Flame, Trophy, Medal, Award } from "lucide-react";
+import { Flame, Trophy, Medal, Award, Zap } from "lucide-react";
 import { TierBadge } from "./TierBadge";
 import type { LeaderboardEntry } from "@/app/api/leaderboard/route";
 
@@ -53,6 +53,11 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
                   <span className="text-xs font-normal text-muted-foreground ml-1">(you)</span>
                 )}
               </span>
+              {entry.isBetaTester && (
+                <span className="flex-shrink-0 inline-flex items-center rounded-full bg-amber/10 dark:bg-sparky-green/10 px-1.5 py-0.5" title="Beta Tester">
+                  <Zap className="h-3 w-3 text-amber dark:text-sparky-green" />
+                </span>
+              )}
             </div>
             <div className="flex items-center gap-2 mt-0.5">
               <span className="text-xs text-muted-foreground">{entry.classificationTitle}</span>

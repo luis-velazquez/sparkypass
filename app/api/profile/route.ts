@@ -33,6 +33,7 @@ export async function GET() {
         trialEndsAt: users.trialEndsAt,
         subscriptionStatus: users.subscriptionStatus,
         subscriptionPeriodEnd: users.subscriptionPeriodEnd,
+        betaAgreedAt: users.betaAgreedAt,
       })
       .from(users)
       .where(eq(users.id, session.user.id))
@@ -62,6 +63,7 @@ export async function GET() {
       trialEndsAt: user.trialEndsAt?.toISOString() || null,
       subscriptionStatus: user.subscriptionStatus || null,
       subscriptionPeriodEnd: user.subscriptionPeriodEnd?.toISOString() || null,
+      isBetaTester: !!user.betaAgreedAt,
     });
   } catch (error) {
     console.error("Error fetching profile:", error);

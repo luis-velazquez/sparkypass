@@ -72,10 +72,13 @@ export default function PrivacyPage() {
                 <li><strong>Google, Facebook, Apple</strong> &mdash; for optional OAuth sign-in (we receive your name and email from these providers)</li>
                 <li><strong>Turso</strong> &mdash; for secure database hosting</li>
                 <li><strong>Vercel</strong> &mdash; for application hosting</li>
+                <li><strong>Sentry</strong> &mdash; for error and crash reporting to identify and fix bugs</li>
               </ul>
               <p className="mt-2">
-                We do not use any analytics, advertising, or tracking services. We do not sell,
-                rent, or share your personal information with third parties for marketing purposes.
+                We use first-party analytics to understand how features are used and to improve the
+                platform. This data is stored in our own database and is never shared with third-party
+                analytics or advertising services. We do not sell, rent, or share your personal
+                information with third parties for marketing purposes.
               </p>
             </section>
 

@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { BetaBadge } from "@/components/ui/beta-badge";
+import { BetaBanner } from "@/components/landing/BetaBanner";
 
 const navLinks = [
   { href: "#features", label: "Features" },
@@ -28,18 +30,20 @@ export function LandingNav() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.4 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? "bg-background/90 backdrop-blur-lg border-b border-border/50 dark:border-stone-800/50 shadow-sm"
-            : "bg-transparent"
-        }`}
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex h-14 items-center justify-between">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <BetaBanner />
+        <motion.header
+          initial={{ y: -20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          className={`transition-all duration-300 ${
+            scrolled
+              ? "bg-background/90 backdrop-blur-lg border-b border-border/50 dark:border-stone-800/50 shadow-sm"
+              : "bg-transparent"
+          }`}
+        >
+          <div className="container mx-auto px-4">
+            <div className="flex h-14 items-center justify-between">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <img
@@ -50,6 +54,7 @@ export function LandingNav() {
               <span className="font-bold text-lg text-foreground">
                 SparkyPass
               </span>
+              <BetaBadge />
             </Link>
 
             {/* Desktop nav links */}
@@ -100,7 +105,8 @@ export function LandingNav() {
             </div>
           </div>
         </div>
-      </motion.header>
+        </motion.header>
+      </div>
 
       {/* Mobile dropdown */}
       <AnimatePresence>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BetaBadge } from "@/components/ui/beta-badge";
 
 export function LandingFooter() {
   return (
@@ -14,6 +15,7 @@ export function LandingFooter() {
                 className="w-5 h-5"
               />
               <span className="font-bold text-foreground">SparkyPass</span>
+              <BetaBadge />
             </div>
             <p className="text-xs text-muted-foreground">
               Gamified Texas Master Electrician exam prep
@@ -33,6 +35,12 @@ export function LandingFooter() {
             </Link>
             <Link href="/terms" className="hover:text-foreground transition-colors">
               Terms
+            </Link>
+            <Link href="/changelog" className="hover:text-foreground transition-colors">
+              Changelog
+            </Link>
+            <Link href="/known-issues" className="hover:text-foreground transition-colors">
+              Known Issues
             </Link>
           </nav>
 

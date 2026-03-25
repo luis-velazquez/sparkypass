@@ -13,6 +13,8 @@ import { Toaster } from "sonner";
 import { AuthButtons } from "@/components/layout/AuthButtons";
 import { UserMenu } from "@/components/layout/UserMenu";
 import { HideOnMarketing } from "@/components/layout/AppShell";
+import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
+import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -69,6 +71,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
         <SessionProvider>
+        <AnalyticsProvider />
         <SidebarProvider>
 
         {/* Desktop sidebar (xl+) — hidden on marketing pages */}
@@ -138,6 +141,11 @@ export default function RootLayout({
 
         </SidebarProvider>
         </SessionProvider>
+        {/* Floating feedback widget — app pages only */}
+        <HideOnMarketing>
+          <FeedbackWidget />
+        </HideOnMarketing>
+
         <Toaster position="top-center" richColors closeButton />
         </ThemeProvider>
       </body>

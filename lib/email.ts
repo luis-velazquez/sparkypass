@@ -5,6 +5,9 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 const fromAddress =
   process.env.EMAIL_FROM || "SparkyPass <onboarding@resend.dev>";
 
+const betaFooterHtml = `<p style="color: #999; font-size: 11px; text-align: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #eee;">You are using <strong>SparkyPass Beta</strong>. Features may change based on your feedback.</p>`;
+const betaFooterText = `\n\n---\nYou are using SparkyPass Beta. Features may change based on your feedback.`;
+
 // Escape HTML special characters to prevent XSS in email templates
 function escapeHtml(str: string): string {
   return str
@@ -44,9 +47,10 @@ export async function sendVerificationEmail(
         <p style="color: #999; font-size: 12px; text-align: center;">
           If you didn&#39;t create a SparkyPass account, you can safely ignore this email.
         </p>
+        ${betaFooterHtml}
       </div>
     `,
-    text: `Hi ${name},\n\nThanks for signing up for SparkyPass! Please verify your email and set up your password by visiting:\n\n${verificationUrl}\n\nThis link expires in 24 hours.\n\nIf you didn't create a SparkyPass account, you can safely ignore this email.`,
+    text: `Hi ${name},\n\nThanks for signing up for SparkyPass! Please verify your email and set up your password by visiting:\n\n${verificationUrl}\n\nThis link expires in 24 hours.\n\nIf you didn't create a SparkyPass account, you can safely ignore this email.${betaFooterText}`,
   });
 
   if (error) {
@@ -98,9 +102,10 @@ export async function sendWelcomeTrialEmail(to: string, name: string) {
           Questions? Reply to this email &#8212; we&#39;re happy to help.<br />
           SparkyPass &#8212; Pass the NEC Exam &amp; Master the Code
         </p>
+        <p style="color: #64748b; font-size: 11px; text-align: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #475569;">You are using <strong style="color: #94a3b8;">SparkyPass Beta</strong>. Features may change based on your feedback.</p>
       </div>
     `,
-    text: `Hey ${name},\n\nWelcome to SparkyPass! Your 7-day free trial is now active.\n\nStart here: Take a practice quiz at ${baseUrl}/quiz to see where you stand.\n\nWhat's included:\n- 500+ NEC practice questions\n- Flashcards for key formulas\n- Timed mock exams\n- Load calculator tools\n- Progress tracking & daily challenges\n\nNo credit card was collected. Your trial expires automatically — no surprise charges. Your progress is saved even after the trial ends.\n\nGood luck!\nSparkyPass`,
+    text: `Hey ${name},\n\nWelcome to SparkyPass! Your 7-day free trial is now active.\n\nStart here: Take a practice quiz at ${baseUrl}/quiz to see where you stand.\n\nWhat's included:\n- 500+ NEC practice questions\n- Flashcards for key formulas\n- Timed mock exams\n- Load calculator tools\n- Progress tracking & daily challenges\n\nNo credit card was collected. Your trial expires automatically — no surprise charges. Your progress is saved even after the trial ends.\n\nGood luck!\nSparkyPass${betaFooterText}`,
   });
 
   if (error) {
@@ -138,9 +143,10 @@ export async function sendPasswordResetEmail(
         <p style="color: #999; font-size: 12px; text-align: center;">
           If you didn&#39;t request a password reset, you can safely ignore this email.
         </p>
+        ${betaFooterHtml}
       </div>
     `,
-    text: `Hi ${name},\n\nWe received a request to reset your password. Visit the link below to choose a new password:\n\n${resetUrl}\n\nThis link expires in 1 hour.\n\nIf you didn't request a password reset, you can safely ignore this email.`,
+    text: `Hi ${name},\n\nWe received a request to reset your password. Visit the link below to choose a new password:\n\n${resetUrl}\n\nThis link expires in 1 hour.\n\nIf you didn't request a password reset, you can safely ignore this email.${betaFooterText}`,
   });
 
   if (error) {

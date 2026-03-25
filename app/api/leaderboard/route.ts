@@ -14,6 +14,7 @@ export interface LeaderboardEntry {
   studyStreak: number;
   leaderboardTier: string;
   isCurrentUser: boolean;
+  isBetaTester: boolean;
 }
 
 function getLeaderboardTier(wattsLifetime: number): string {
@@ -64,6 +65,7 @@ export async function GET() {
         wattsLifetime: users.wattsLifetime,
         wattsBalance: users.wattsBalance,
         studyStreak: users.studyStreak,
+        betaAgreedAt: users.betaAgreedAt,
       })
       .from(users)
       .where(or(...[...friendIds].map((id) => eq(users.id, id))));
@@ -82,6 +84,7 @@ export async function GET() {
       studyStreak: user.studyStreak,
       leaderboardTier: getLeaderboardTier(user.wattsLifetime),
       isCurrentUser: user.id === userId,
+      isBetaTester: !!user.betaAgreedAt,
     }));
 
     // Find current user's rank
