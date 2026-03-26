@@ -66,13 +66,13 @@ export async function sendWelcomeTrialEmail(to: string, name: string) {
   const { error } = await resend.emails.send({
     from: fromAddress,
     to,
-    subject: "Welcome to SparkyPass — Your 7-Day Free Trial is Active!",
+    subject: "Welcome to SparkyPass Beta — Your 30-Day Free Trial is Active!",
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #1e293b; color: #e2e8f0;">
         <h1 style="color: #f59e0b; text-align: center;">&#9889; SparkyPass</h1>
-        <h2 style="text-align: center; color: #f8fafc;">Your 7-Day Free Trial is Active!</h2>
+        <h2 style="text-align: center; color: #f8fafc;">Your 30-Day Beta Trial is Active!</h2>
         <p>Hey ${safeName},</p>
-        <p>Welcome to SparkyPass! Your free trial is now active &#8212; you have <strong style="color: #f59e0b;">7 full days</strong> of unlimited access to every study tool on the platform.</p>
+        <p>Welcome to SparkyPass! Your free trial is now active &#8212; you have <strong style="color: #f59e0b;">30 full days</strong> of unlimited access to every study tool on the platform.</p>
 
         <div style="background-color: #334155; border-radius: 8px; padding: 20px; margin: 24px 0; border-left: 4px solid #f59e0b;">
           <h3 style="color: #f59e0b; margin-top: 0;">Start Here: Take a Practice Quiz</h3>
@@ -105,7 +105,7 @@ export async function sendWelcomeTrialEmail(to: string, name: string) {
         <p style="color: #64748b; font-size: 11px; text-align: center; margin-top: 16px; padding-top: 12px; border-top: 1px solid #475569;">You are using <strong style="color: #94a3b8;">SparkyPass Beta</strong>. Features may change based on your feedback.</p>
       </div>
     `,
-    text: `Hey ${name},\n\nWelcome to SparkyPass! Your 7-day free trial is now active.\n\nStart here: Take a practice quiz at ${baseUrl}/quiz to see where you stand.\n\nWhat's included:\n- 500+ NEC practice questions\n- Flashcards for key formulas\n- Timed mock exams\n- Load calculator tools\n- Progress tracking & daily challenges\n\nNo credit card was collected. Your trial expires automatically — no surprise charges. Your progress is saved even after the trial ends.\n\nGood luck!\nSparkyPass${betaFooterText}`,
+    text: `Hey ${name},\n\nWelcome to SparkyPass! Your 30-day beta trial is now active.\n\nStart here: Take a practice quiz at ${baseUrl}/quiz to see where you stand.\n\nWhat's included:\n- 500+ NEC practice questions\n- Flashcards for key formulas\n- Timed mock exams\n- Load calculator tools\n- Progress tracking & daily challenges\n\nNo credit card was collected. Your trial expires automatically — no surprise charges. Your progress is saved even after the trial ends.\n\nGood luck!\nSparkyPass${betaFooterText}`,
   });
 
   if (error) {

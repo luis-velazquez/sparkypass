@@ -90,7 +90,7 @@ export async function POST(request: Request) {
       email: email.toLowerCase(),
       authProvider: "email",
       emailVerified: false,
-      trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      trialEndsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
       subscriptionStatus: "trialing",
       betaAgreedAt: new Date(),
     });

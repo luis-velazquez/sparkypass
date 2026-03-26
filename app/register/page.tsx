@@ -118,7 +118,7 @@ export default function RegisterPage() {
             </Link>
             <CardTitle className="text-2xl font-bold font-display flex items-center justify-center gap-2">Start Your Free Trial <BetaBadge /></CardTitle>
             <p className="text-muted-foreground">
-              7 days of full access — no credit card required
+              30 days of full access — no credit card required
             </p>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -272,7 +272,7 @@ export default function RegisterPage() {
                 </div>
                 <div className="flex items-start gap-2.5">
                   <Clock className="h-4 w-4 text-emerald flex-shrink-0 mt-0.5" />
-                  <p className="text-xs text-muted-foreground">Trial expires automatically after 7 days — no surprise charges.</p>
+                  <p className="text-xs text-muted-foreground">Trial expires automatically after 30 days — no surprise charges.</p>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <BookOpen className="h-4 w-4 text-emerald flex-shrink-0 mt-0.5" />

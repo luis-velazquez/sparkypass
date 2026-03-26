@@ -97,7 +97,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               name: user.name || "User",
               authProvider: account?.provider as "google" | "facebook" | "apple",
               emailVerified: true,
-              trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+              trialEndsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
               subscriptionStatus: "trialing",
             });
             user.id = newUserId;

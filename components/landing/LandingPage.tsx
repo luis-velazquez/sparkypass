@@ -267,7 +267,7 @@ const steps = [
     step: "01",
     title: "Create Your Free Account",
     description:
-      "Sign up in seconds. No credit card required — your 7-day free trial starts immediately with full access to every feature.",
+      "Sign up in seconds. No credit card required — your 30-day free beta trial starts immediately with full access to every feature.",
     icon: UserCheck,
   },
   {
@@ -423,7 +423,7 @@ export function LandingPage() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center">
                 <Button size="lg" className={ctaPrimaryClass} asChild>
                   <Link href="/register">
-                    Start Your 7-Day Free Trial
+                    Start Your Free Beta Trial
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
@@ -897,7 +897,7 @@ export function LandingPage() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button size="lg" className={ctaPrimaryClass} asChild>
                 <Link href="/register">
-                  Start Your 7-Day Free Trial
+                  Start Your Free Beta Trial
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
@@ -923,7 +923,7 @@ export function LandingPage() {
               </span>
               <div className="flex items-center gap-1.5 text-muted-foreground text-sm">
                 <Clock className="h-4 w-4" aria-hidden="true" />
-                <span>7-day free trial</span>
+                <span>30-day free trial</span>
               </div>
               <span
                 aria-hidden="true"
