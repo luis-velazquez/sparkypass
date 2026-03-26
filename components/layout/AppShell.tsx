@@ -10,6 +10,7 @@ const MARKETING_PATHS = [
   "/",
   "/login",
   "/register",
+  "/pricing",
   "/contact",
   "/privacy",
   "/terms",

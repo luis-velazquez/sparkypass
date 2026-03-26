@@ -18,6 +18,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { BetaBadge } from "@/components/ui/beta-badge";
 import { SparkyMessage } from "@/components/sparky";
+import { LandingNav } from "@/components/landing/LandingNav";
+import { LandingFooter } from "@/components/landing/LandingFooter";
 
 const features = [
   { icon: BookOpen, label: "500+ NEC practice questions with explanations" },
@@ -32,7 +34,9 @@ const features = [
 
 export default function PricingPage() {
   return (
-    <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 py-12">
+    <>
+    <LandingNav />
+    <main className="relative bg-cream dark:bg-stone-950 container mx-auto px-4 pt-24 pb-12">
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02] pointer-events-none"
         style={{
@@ -135,5 +139,7 @@ export default function PricingPage() {
         />
       </motion.div>
     </main>
+    <LandingFooter />
+    </>
   );
 }
