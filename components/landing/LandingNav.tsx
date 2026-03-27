@@ -106,18 +106,16 @@ export function LandingNav() {
           </div>
         </div>
         </motion.header>
-      </div>
-
-      {/* Mobile dropdown */}
-      <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
-            className="fixed top-14 left-0 right-0 z-40 bg-background/95 backdrop-blur-lg border-b border-border dark:border-stone-800 md:hidden"
-          >
+        {/* Mobile dropdown — inside fixed container so it flows below banner + nav */}
+        <AnimatePresence>
+          {mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.2 }}
+              className="bg-background/95 backdrop-blur-lg border-b border-border dark:border-stone-800 md:hidden"
+            >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
               {navLinks.map((link) => (
                 <a
@@ -152,9 +150,11 @@ export function LandingNav() {
                 </Button>
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </>
   );
 }
+

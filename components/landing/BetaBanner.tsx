@@ -22,19 +22,19 @@ export function BetaBanner() {
   };
 
   return (
-    <div className="relative z-[60] bg-amber dark:bg-sparky-green text-white dark:text-stone-950 text-center text-sm py-2 px-4">
+    <div className="z-[60] bg-amber dark:bg-sparky-green text-white dark:text-stone-950 text-sm py-2 px-4">
       <div className="container mx-auto flex items-center justify-center gap-2">
-        <Zap className="h-3.5 w-3.5 flex-shrink-0" />
-        <p className="font-medium">
-          You&apos;re viewing SparkyPass Beta &mdash; features may change and
-          your feedback shapes the product.{" "}
+        <Zap className="h-3.5 w-3.5 flex-shrink-0 hidden sm:block" />
+        <p className="font-medium text-center text-xs sm:text-sm pr-6 sm:pr-0">
+          <span className="hidden sm:inline">You&apos;re viewing SparkyPass Beta &mdash; features may change and your feedback shapes the product. </span>
+          <span className="sm:hidden">SparkyPass Beta &mdash; </span>
           <a href="/contact" className="underline underline-offset-2 hover:no-underline font-semibold">
             Give feedback
           </a>
         </p>
         <button
           onClick={handleDismiss}
-          className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md hover:bg-white/20 dark:hover:bg-black/10 transition-colors"
+          className="flex-shrink-0 p-1 rounded-md hover:bg-white/20 dark:hover:bg-black/10 transition-colors"
           aria-label="Dismiss banner"
         >
           <X className="h-3.5 w-3.5" />

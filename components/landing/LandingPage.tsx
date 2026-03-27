@@ -351,7 +351,7 @@ export function LandingPage() {
       {/* ============================================================
           HERO — split layout: text left, preview right on lg+
           ============================================================ */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-cream to-cream-dark dark:from-stone-950 dark:to-stone-950 pt-24 md:pt-32 lg:pt-36 pb-16 md:pb-24 lg:pb-32">
+      <section className="relative overflow-hidden bg-gradient-to-b from-cream to-cream-dark dark:from-stone-950 dark:to-stone-950 pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-24 lg:pb-32">
         {/* Circuit trace background */}
         <CircuitPattern className="inset-0 text-amber dark:text-sparky-green opacity-40 dark:opacity-30" />
         {/* Radial glow */}
