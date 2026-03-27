@@ -87,27 +87,28 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/register/profile", request.url));
     }
 
-    // Subscription check — exempt /pricing and /settings
-    const isExempt = subscriptionExemptRoutes.some(
-      (route) => pathname === route || pathname.startsWith(`${route}/`)
-    );
-
-    if (!isExempt) {
-      const subscriptionStatus = token?.subscriptionStatus as string | null;
-      const trialEndsAt = token?.trialEndsAt as string | null;
-      const periodEnd = token?.subscriptionPeriodEnd as string | null;
-
-      const hasActiveAccess = (() => {
-        if (subscriptionStatus === "active" || subscriptionStatus === "past_due") return true;
-        if (subscriptionStatus === "canceled" && periodEnd && new Date(periodEnd) > new Date()) return true;
-        if (subscriptionStatus === "trialing" && trialEndsAt && new Date(trialEndsAt) > new Date()) return true;
-        return false;
-      })();
-
-      if (!hasActiveAccess) {
-        return NextResponse.redirect(new URL("/pricing", request.url));
-      }
-    }
+    // Subscription check — DISABLED during beta (all features are free)
+    // TODO: Re-enable after beta launch with paid tiers
+    // const isExempt = subscriptionExemptRoutes.some(
+    //   (route) => pathname === route || pathname.startsWith(`${route}/`)
+    // );
+    //
+    // if (!isExempt) {
+    //   const subscriptionStatus = token?.subscriptionStatus as string | null;
+    //   const trialEndsAt = token?.trialEndsAt as string | null;
+    //   const periodEnd = token?.subscriptionPeriodEnd as string | null;
+    //
+    //   const hasActiveAccess = (() => {
+    //     if (subscriptionStatus === "active" || subscriptionStatus === "past_due") return true;
+    //     if (subscriptionStatus === "canceled" && periodEnd && new Date(periodEnd) > new Date()) return true;
+    //     if (subscriptionStatus === "trialing" && trialEndsAt && new Date(trialEndsAt) > new Date()) return true;
+    //     return false;
+    //   })();
+    //
+    //   if (!hasActiveAccess) {
+    //     return NextResponse.redirect(new URL("/pricing", request.url));
+    //   }
+    // }
   }
 
   // /register/profile requires authentication + email verification
@@ -171,19 +172,8 @@ export async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL("/register/profile", request.url));
       }
 
-      // Check subscription before sending to dashboard
-      const subStatus = token?.subscriptionStatus as string | null;
-      const trialEnd = token?.trialEndsAt as string | null;
-      const subEnd = token?.subscriptionPeriodEnd as string | null;
-
-      const hasAccess = (() => {
-        if (subStatus === "active" || subStatus === "past_due") return true;
-        if (subStatus === "canceled" && subEnd && new Date(subEnd) > new Date()) return true;
-        if (subStatus === "trialing" && trialEnd && new Date(trialEnd) > new Date()) return true;
-        return false;
-      })();
-
-      return NextResponse.redirect(new URL(hasAccess ? "/dashboard" : "/pricing", request.url));
+      // During beta, all authenticated users go to dashboard (no subscription check)
+      return NextResponse.redirect(new URL("/dashboard", request.url));
     }
   }
 
