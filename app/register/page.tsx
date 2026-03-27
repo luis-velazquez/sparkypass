@@ -198,6 +198,7 @@ export default function RegisterPage() {
                 />
               </div>
 
+              {/* Referral code — hidden until referral system is active
               <div className="space-y-2">
                 <Label htmlFor="referral" className="text-muted-foreground">Referral Code <span className="text-xs">(optional)</span></Label>
                 <Input
@@ -211,6 +212,7 @@ export default function RegisterPage() {
                   className="uppercase tracking-widest"
                 />
               </div>
+              */}
 
               <div className="flex items-start gap-2.5">
                 <input

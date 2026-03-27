@@ -114,7 +114,7 @@ export function LandingNav() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="bg-background/95 backdrop-blur-lg border-b border-border dark:border-stone-800 md:hidden"
+              className="bg-background/95 backdrop-blur-lg border-b border-border dark:border-stone-800 md:hidden max-h-[calc(100vh-8rem)] overflow-y-auto"
             >
             <div className="container mx-auto px-4 py-4 flex flex-col gap-3">
               {navLinks.map((link) => (

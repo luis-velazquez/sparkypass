@@ -509,16 +509,22 @@ export function LandingPage() {
                   icon: BookOpen,
                   title: "Low Retention",
                   text: "Passive reading doesn't stick. Interactive practice and games build lasting recall.",
+                  color: "text-red-500",
+                  bg: "bg-red-500/10",
                 },
                 {
                   icon: TrendingUp,
                   title: "No Feedback Loop",
                   text: "Without tracking weak spots, you waste time re-studying what you already know.",
+                  color: "text-amber",
+                  bg: "bg-amber/10",
                 },
                 {
                   icon: Flame,
                   title: "Motivation Dies",
                   text: "No streaks, no rewards, no community. Most people quit before they're ready.",
+                  color: "text-orange-500",
+                  bg: "bg-orange-500/10",
                 },
               ].map((item, i) => (
                 <motion.div
@@ -529,7 +535,9 @@ export function LandingPage() {
                   transition={{ duration: 0.4, delay: i * 0.1 }}
                   className="rounded-xl border border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 p-6"
                 >
-                  <item.icon className="h-8 w-8 text-muted-foreground/50 mb-4 mx-auto" />
+                  <div className={`w-14 h-14 rounded-xl ${item.bg} flex items-center justify-center mb-4 mx-auto`}>
+                    <item.icon className={`h-7 w-7 ${item.color}`} />
+                  </div>
                   <h3 className="font-bold text-foreground mb-2">
                     {item.title}
                   </h3>
