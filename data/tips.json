@@ -48,7 +48,7 @@
       "title": "The Phase Multiplier: 2 vs. 1.732",
       "category": "Voltage Drop & Circuit Calculations",
       "difficulty": "master",
-      "content": "Hey SparkyPass crew! Don't let the voltage trick you into the wrong phase. When calculating voltage drop, the multiplier you choose ($2$ vs. $1.732$) depends on the current path, not just the system voltage.\n\nA common Master's exam trap describes a 277V lighting circuit. Students see '277V,' think '480Y/277V Three-Phase System,' and use $1.732$. But a 277V circuit uses one phase and one neutral\u2014it is a single-phase loop. You must use the multiplier 2.\n\nOnly use $\\sqrt{3}$ ($1.732$) when the load is a balanced three-phase load (like a 3-phase motor) where the current is distributed across three phase conductors.",
+      "content": "Hey SparkyPass crew! Don't let the voltage trick you into the wrong phase. When calculating voltage drop, the multiplier you choose (2 vs. 1.732) depends on the current path, not just the system voltage.\n\nA common Master's exam trap describes a 277V lighting circuit. Students see '277V,' think '480Y/277V Three-Phase System,' and use 1.732. But a 277V circuit uses one phase and one neutral\u2014it is a single-phase loop. You must use the multiplier 2.\n\nOnly use \u221a3 (1.732) when the load is a balanced three-phase load (like a 3-phase motor) where the current is distributed across three phase conductors.",
       "rulesToRemember": [
         "Multiplier 2 = Single-Phase / Two-wire loop (120V, 277V, etc.)",
         "Multiplier 1.732 = Balanced Three-Phase loads only"
