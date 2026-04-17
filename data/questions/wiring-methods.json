@@ -71,7 +71,7 @@
         "2023",
         "2026"
       ],
-      "questionText": "Your journeyman asks you to strap a run of MC cable above a suspended drop ceiling in a commercial office. According to the NEC, which of the following is an acceptable method for supporting this cable?",
+      "questionText": "When strapping a run of MC cable above a suspended drop ceiling in a commercial office. Which of the following is an acceptable method for supporting this cable?",
       "options": [
         "Zip-tie the MC cable directly to the suspended ceiling grid frame.",
         "Wrap the MC cable tightly around the ceiling grid's existing support wires.",
@@ -121,7 +121,7 @@
       "questionText": "How many extension rings are permitted to be installed on an existing box to extend it?",
       "options": [
         "Only a single extension ring is permitted per box.",
-        "One or more extension rings are permitted.",
+        "There is no limit to extension rings are permitted.",
         "A maximum of two extension rings are permitted.",
         "Multiple extension rings are permitted, but only on surface-mounted boxes."
       ],
@@ -208,7 +208,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
-      "questionText": "Under the location 'All locations not specified below' (such as a standard backyard), what is the minimum cover depth for a Direct Buried Cable vs. a Nonmetallic Raceway (PVC)?",
+      "questionText": "What is the minimum cover depth for a Direct Buried Cable vs. a Nonmetallic Raceway (PVC)?",
       "options": [
         "Both require 18 inches of cover.",
         "Cable requires 24 inches; PVC requires 18 inches.",
@@ -401,7 +401,7 @@
         "2023",
         "2026"
       ],
-      "questionText": "According to the NEC, Electrical Metallic Tubing (EMT) is a highly versatile wiring method. Based on the 'Uses Permitted' in Section 358.10, in which of the following specific locations is EMT explicitly allowed to be installed?",
+      "questionText": "Electrical Metallic Tubing (EMT) is a highly versatile wiring method. Based on the 'Uses Permitted', in which of the following specific locations is EMT explicitly allowed to be installed?",
       "options": [
         "Where it will be subject to severe physical damage during normal facility operation.",
         "Directly buried in cinder fill subject to permanent moisture, without any additional concrete protection.",

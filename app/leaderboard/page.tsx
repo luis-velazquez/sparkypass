@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronLeft, Loader2, Trophy, Users, Zap } from "lucide-react";
+import { ChevronLeft, Loader2, Trophy, Users, UserCircle2, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SparkyMessage } from "@/components/sparky";
@@ -18,6 +18,7 @@ export default function LeaderboardPage() {
   const [entries, setEntries] = useState<LeaderboardEntry[]>([]);
   const [currentUserRank, setCurrentUserRank] = useState(0);
   const [totalParticipants, setTotalParticipants] = useState(0);
+  const [hasUsername, setHasUsername] = useState(true);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export default function LeaderboardPage() {
         setEntries(data.leaderboard || []);
         setCurrentUserRank(data.currentUserRank || 0);
         setTotalParticipants(data.totalParticipants || 0);
+        setHasUsername(data.currentUserHasUsername !== false);
       })
       .catch(() => {})
       .finally(() => setLoading(false));
@@ -50,11 +52,13 @@ export default function LeaderboardPage() {
     );
   }
 
-  const sparkyMessage = entries.length <= 1
-    ? "Add friends to compete on the leaderboard! It's more fun to study when you can see each other's progress."
-    : currentUserRank === 1
-      ? "You're in first place! Keep those Watts flowing to stay on top!"
-      : `You're ranked #${currentUserRank} out of ${totalParticipants}. Keep studying to climb the ranks!`;
+  const sparkyMessage = !hasUsername
+    ? "Pick a username to claim your spot on the leaderboard! Your real name stays private."
+    : entries.length <= 1
+      ? "You're the first one here! As more electricians join, you'll see them on the leaderboard."
+      : currentUserRank === 1
+        ? "You're in first place! Keep those Watts flowing to stay on top!"
+        : `You're ranked #${currentUserRank} out of ${totalParticipants}. Keep studying to climb the ranks!`;
 
   return (
     <main className="relative min-h-screen bg-cream dark:bg-stone-950">
@@ -135,8 +139,35 @@ export default function LeaderboardPage() {
           </div>
         </motion.div>
 
-        {/* Your rank card */}
-        {entries.length > 1 && (
+        {/* Username CTA — show when current user has no username */}
+        {!hasUsername && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mb-6"
+          >
+            <Card className="border-amber/30 dark:border-sparky-green/20 bg-amber/5 dark:bg-sparky-green/5">
+              <CardContent className="p-4 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <UserCircle2 className="h-6 w-6 text-amber dark:text-sparky-green flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="text-sm font-bold text-foreground">Set a username to appear</p>
+                    <p className="text-xs text-muted-foreground">
+                      Your real name is never shown on the leaderboard.
+                    </p>
+                  </div>
+                </div>
+                <Link href="/settings" className="flex-shrink-0">
+                  <Button size="sm">Set username</Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {/* Your rank card — only when on the board with at least one other person */}
+        {hasUsername && entries.length > 1 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

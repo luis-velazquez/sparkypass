@@ -1,27 +1,6 @@
 {
   "apprentice": [
     {
-      "id": "SC-A001",
-      "category": "special-occupancies",
-      "necArticle": "Article 550",
-      "difficulty": "apprentice",
-      "questionText": "Which NEC article covers the electrical requirements for mobile homes, manufactured homes, and mobile home parks?",
-      "options": [
-        "Article 545",
-        "Article 550",
-        "Article 551",
-        "Article 555"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC Article 550 specifically covers mobile homes, manufactured homes, and mobile home parks. Article 545 covers manufactured buildings, Article 551 covers recreational vehicles, and Article 555 covers marinas and boatyards.",
-      "necReference": "550.1",
-      "sparkyTip": "Remember the 550s: 550 = mobile homes, 551 = RVs, 555 = marinas. Each Chapter 5 article covers a different type of special occupancy!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
       "id": "SC-A002",
       "category": "special-occupancies",
       "necArticle": "Article 550",
@@ -79,27 +58,6 @@
       "explanation": "Per NEC 550.10(C), the plug cap must be a 3-pole, 4-wire, grounding type. The 4 wires consist of 2 ungrounded (hot) conductors, 1 grounded (neutral) conductor, and 1 equipment grounding conductor.",
       "necReference": "550.10(C)",
       "sparkyTip": "3 poles = 2 hots + 1 neutral. The 4th wire is the equipment ground \u2014 that's what makes it a 'grounding type' connector.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "SC-A005",
-      "category": "special-occupancies",
-      "necArticle": "Article 550",
-      "difficulty": "apprentice",
-      "questionText": "What is the minimum calculated load per mobile home lot used for park service and feeder calculations?",
-      "options": [
-        "8,000 VA",
-        "12,000 VA",
-        "16,000 VA",
-        "20,000 VA"
-      ],
-      "correctAnswer": 2,
-      "explanation": "Per NEC 550.31, park electrical wiring systems shall be calculated on the basis of not less than 16,000 volt-amperes for each mobile home lot.",
-      "necReference": "550.31",
-      "sparkyTip": "16,000 VA per lot is the baseline for every mobile home park calculation. Even if the actual home uses less, you calculate with 16,000 VA minimum.",
       "necVersions": [
         "2023",
         "2026"
@@ -213,6 +171,27 @@
   ],
   "journeyman": [
     {
+      "id": "SC-A005",
+      "category": "special-occupancies",
+      "necArticle": "Article 550",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum calculated load per mobile home lot used for park service and feeder calculations?",
+      "options": [
+        "8,000 VA",
+        "12,000 VA",
+        "16,000 VA",
+        "20,000 VA"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per NEC 550.31, park electrical wiring systems shall be calculated on the basis of not less than 16,000 volt-amperes for each mobile home lot.",
+      "necReference": "550.31",
+      "sparkyTip": "16,000 VA per lot is the baseline for every mobile home park calculation. Even if the actual home uses less, you calculate with 16,000 VA minimum.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
       "id": "SC-J001",
       "category": "special-occupancies",
       "necArticle": "Article 550",
@@ -238,7 +217,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
-      "questionText": "In a mobile home, the grounded (neutral) conductor and the equipment grounding conductor must be:",
+      "questionText": "In a mobile home, the grounded conductor and the equipment grounding conductor must be:",
       "options": [
         "Bonded together at the mobile home panelboard",
         "Connected at the power-supply cord plug",

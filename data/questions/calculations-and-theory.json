@@ -17,8 +17,7 @@
       "necReference": "Table 220.12",
       "sparkyTip": "Remember: 3 VA for dwelling units - think of it as '3 rooms in a home' to help you remember!",
       "necVersions": [
-        "2023",
-        "2026"
+        "2023"
       ]
     },
     {
@@ -1208,6 +1207,31 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "LC-A58",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 220",
+      "difficulty": "apprentice",
+      "questionText": "What is the standard load calculation for each 20-ampere small-appliance branch circuit in a dwelling unit?",
+      "options": [
+        "1,500 VA",
+        "1,800 VA",
+        "3,000 VA",
+        "1,200 VA"
+      ],
+      "correctAnswer": 0,
+      "explanation": "According to NEC 220.52(A) (2023) or 220.53(A) (2026), each small-appliance branch circuit required by 210.11(C)(1) must be calculated at 1,500 volt-amperes.",
+      "necReference": "220.52(A)",
+      "sparkyTip": "Always use 1,500 VA per circuit, regardless of how many outlets are on it. For the standard two circuits, that's a 3,000 VA total starting point.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2023": "220.52(A)",
+        "2026": "220.53(A)"
+      }
     }
   ],
   "journeyman": [
@@ -2650,6 +2674,81 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "LC-J069",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "journeyman",
+      "questionText": "According to Chapter 9, Table 1, Note 3, how must grounding or bonding conductors be treated when calculating conduit fill?",
+      "options": [
+        "They are excluded from the total count.",
+        "They are counted as one conductor regardless of size.",
+        "They must be included using their actual dimensions (insulated or bare).",
+        "Only insulated grounding conductors must be included."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Chapter 9, Table 1, Note 3 explicitly states that equipment grounding or bonding conductors shall be included in fill calculations and that their actual dimensions (whether bare or insulated) must be used.",
+      "necReference": "Chapter 9, Table 1, Note 3",
+      "sparkyTip": "Don't forget: If it's a bare conductor, you won't find it in Table 5. You have to flip to Table 8 (Conductor Properties) to get the area for your calculation!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2023": "Chapter 9, Table 1, Note 3",
+        "2026": "Chapter 9, Table 1, Note 3"
+      }
+    },
+    {
+      "id": "LC-C9-N4-LEN",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9, Notes to Tables",
+      "difficulty": "Journeyman",
+      "questionText": "What is the maximum length a conduit or tubing can be to qualify as a nipple and be permitted a 60% fill rate?",
+      "options": [
+        "12 inches",
+        "18 inches",
+        "24 inches",
+        "36 inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Chapter 9, Table 1, Note 4 states that the 60% fill allowance only applies to conduit or tubing nipples that do not exceed 24 inches (600 mm) in length and are installed between boxes, cabinets, or similar enclosures.",
+      "necReference": "Chapter 9, Table 1, Note 4",
+      "sparkyTip": "Just remember: 2 feet = Nipple = 60% fill. If that pipe measures exactly 24.5 inches, it is officially a standard raceway and you must drop back down to the standard 40% fill rule for 3 or more wires!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2023": "Chapter 9, Table 1, Note 4",
+        "2026": "Chapter 9, Table 1, Note 4"
+      }
+    },
+    {
+      "id": "LC-C9-T1-3C",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "Journeyman",
+      "questionText": "What is the maximum permitted conduit or tubing fill percentage when installing three or more conductors?",
+      "options": [
+        "31%",
+        "40%",
+        "53%",
+        "60%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Chapter 9, Table 1 dictates that when installing over two conductors (three or more) in a conduit or tubing, the maximum permitted fill is 40% of the total cross-sectional area.",
+      "necReference": "Chapter 9, Table 1",
+      "sparkyTip": "Memorize the magic numbers for pipe fill: 1 wire = 53%, 2 wires = 31%, and 3+ wires = 40%. You will use the 40% rule for almost every standard circuit pull you do!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2023": "Chapter 9, Table 1",
+        "2026": "Chapter 9, Table 1"
+      }
     }
   ],
   "master": [

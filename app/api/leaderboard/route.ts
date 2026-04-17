@@ -1,20 +1,26 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, friendships } from "@/lib/db";
-import { eq, and, or } from "drizzle-orm";
+import { db, users } from "@/lib/db";
+import { eq, inArray, or } from "drizzle-orm";
 import { getClassificationTitle } from "@/lib/voltage";
 
 export interface LeaderboardEntry {
   rank: number;
   userId: string;
-  name: string;
-  username: string | null;
+  username: string;
   wattsLifetime: number;
   classificationTitle: string;
   studyStreak: number;
   leaderboardTier: string;
   isCurrentUser: boolean;
   isBetaTester: boolean;
+}
+
+export interface LeaderboardResponse {
+  leaderboard: LeaderboardEntry[];
+  totalParticipants: number;
+  currentUserRank: number;
+  currentUserHasUsername: boolean;
 }
 
 function getLeaderboardTier(wattsLifetime: number): string {
@@ -33,51 +39,35 @@ export async function GET() {
 
     const userId = session.user.id;
 
-    // Get all accepted friendships
-    const acceptedFriendships = await db
-      .select({
-        requesterId: friendships.requesterId,
-        addresseeId: friendships.addresseeId,
-      })
-      .from(friendships)
-      .where(
-        and(
-          or(
-            eq(friendships.requesterId, userId),
-            eq(friendships.addresseeId, userId),
-          ),
-          eq(friendships.status, "accepted"),
-        ),
-      );
-
-    // Collect friend IDs + current user
-    const friendIds = new Set<string>([userId]);
-    acceptedFriendships.forEach((f: any) => {
-      friendIds.add(f.requesterId === userId ? f.addresseeId : f.requesterId);
-    });
-
-    // Fetch user data for all participants
+    // Fetch all subscribed users (active or trialing) who have set a username
     const participants = await db
       .select({
         id: users.id,
-        name: users.name,
         username: users.username,
         wattsLifetime: users.wattsLifetime,
         wattsBalance: users.wattsBalance,
         studyStreak: users.studyStreak,
         betaAgreedAt: users.betaAgreedAt,
+        subscriptionStatus: users.subscriptionStatus,
       })
       .from(users)
-      .where(or(...[...friendIds].map((id) => eq(users.id, id))));
+      .where(
+        or(
+          inArray(users.subscriptionStatus, ["active", "trialing"]),
+          eq(users.id, userId),
+        ),
+      );
+
+    // Only users with a username appear on the leaderboard
+    const visible = participants.filter((u: any) => !!u.username);
 
     // Sort by watts lifetime descending
-    participants.sort((a: any, b: any) => b.wattsLifetime - a.wattsLifetime);
+    visible.sort((a: any, b: any) => b.wattsLifetime - a.wattsLifetime);
 
     // Build leaderboard entries
-    const leaderboard: LeaderboardEntry[] = participants.map((user: any, index: any) => ({
+    const leaderboard: LeaderboardEntry[] = visible.map((user: any, index: any) => ({
       rank: index + 1,
       userId: user.id,
-      name: user.name,
       username: user.username,
       wattsLifetime: user.wattsLifetime,
       classificationTitle: getClassificationTitle(user.wattsBalance),
@@ -87,14 +77,18 @@ export async function GET() {
       isBetaTester: !!user.betaAgreedAt,
     }));
 
-    // Find current user's rank
+    const currentUser = participants.find((u: any) => u.id === userId);
+    const currentUserHasUsername = !!currentUser?.username;
     const currentUserRank = leaderboard.find((e) => e.isCurrentUser)?.rank || 0;
 
-    return NextResponse.json({
+    const response: LeaderboardResponse = {
       leaderboard,
       totalParticipants: leaderboard.length,
       currentUserRank,
-    });
+      currentUserHasUsername,
+    };
+
+    return NextResponse.json(response);
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });

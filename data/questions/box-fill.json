@@ -173,7 +173,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(5)",
       "difficulty": "apprentice",
-      "questionText": "You are making up a junction box that contains three 12 AWG bare copper equipment grounding conductors (EGCs). According to 314.16(B)(5), how many total conductor volume allowances must you count for these three ground wires combined?",
+      "questionText": "You are making up a junction box that contains three #12 AWG bare copper equipment grounding conductors (EGCs). How many total conductor volume allowances must you count for these three ground wires combined?",
       "options": [
         "Zero (0)",
         "One (1)",

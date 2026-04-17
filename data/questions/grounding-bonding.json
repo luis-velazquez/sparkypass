@@ -469,7 +469,7 @@
       "category": "grounding-bonding",
       "necArticle": "250.24(B)",
       "difficulty": "journeyman",
-      "questionText": "On the load side of the service disconnect, how must the grounded (neutral) conductor and equipment grounding conductors be treated?",
+      "questionText": "On the load side of the service disconnect, how must the grounded conductor and equipment grounding conductors be treated?",
       "options": [
         "They must be bonded together in every junction box",
         "They must be kept separate and not connected to each other",

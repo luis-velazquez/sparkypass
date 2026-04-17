@@ -48,7 +48,7 @@ export function LeaderboardTable({ entries }: LeaderboardTableProps) {
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2">
               <span className={`font-bold text-sm truncate ${entry.isCurrentUser ? "text-amber dark:text-sparky-green" : "text-foreground"}`}>
-                {entry.name}
+                @{entry.username}
                 {entry.isCurrentUser && (
                   <span className="text-xs font-normal text-muted-foreground ml-1">(you)</span>
                 )}
