@@ -14,6 +14,7 @@ import {
   SkipForward,
   Timer,
   Lock,
+  Unlock,
   Check,
   Package,
   Lightbulb,
@@ -34,6 +35,9 @@ export const CARD_GAME_RULES = {
   DIFFICULTY_TIME: { easy: 20, medium: 10, hard: 5 } as const,
   DIFFICULTY_OPTIONS: { easy: 4, medium: 8, hard: 12 } as const,
 } as const;
+
+/** Streak threshold to unlock the next pack via mastery */
+export const MASTERY_STREAK_THRESHOLD = 10;
 
 export type CardGameDifficulty = keyof typeof CARD_GAME_RULES.DIFFICULTY_TIME;
 
@@ -1175,6 +1179,18 @@ function CountUp({
 
 // ─── Game Over screen ───────────────────────────────────────────────────────
 
+export interface MasteryUnlock {
+  packName: string;
+  cardCount: number;
+}
+
+export interface MasteryProgress {
+  unlockedIndex: number;
+  totalPacks: number;
+  bestStreak: number;
+  threshold: number;
+}
+
 export function GameOverScreen({
   summaryTitle,
   summarySubtitle,
@@ -1190,6 +1206,8 @@ export function GameOverScreen({
   onChangeDifficulty,
   wattsEarned = 0,
   wattsSpent = 0,
+  newUnlock,
+  masteryProgress,
 }: {
   summaryTitle: string;
   summarySubtitle: string;
@@ -1205,6 +1223,8 @@ export function GameOverScreen({
   onChangeDifficulty: () => void;
   wattsEarned?: number;
   wattsSpent?: number;
+  newUnlock?: MasteryUnlock | null;
+  masteryProgress?: MasteryProgress | null;
 }) {
   const countUpDelay = 500;
   const isNewRecord = score >= highScore && score > 0;
@@ -1351,11 +1371,58 @@ export function GameOverScreen({
           </Card>
         </motion.div>
 
+        {/* Pack unlocked banner */}
+        {newUnlock && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 15, delay: 1.6 }}
+            className="mb-6"
+          >
+            <Card className="border-amber/40 dark:border-sparky-green/30 bg-amber/5 dark:bg-sparky-green/5">
+              <CardContent className="p-4 flex items-center gap-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-amber/20 dark:bg-sparky-green/20 shrink-0">
+                  <Unlock className="h-5 w-5 text-amber dark:text-sparky-green" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-bold text-foreground">Pack Unlocked!</p>
+                  <p className="text-xs text-muted-foreground">
+                    <span className="font-medium text-amber dark:text-sparky-green">{newUnlock.packName}</span> — {newUnlock.cardCount} new cards added to your pool
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+
+        {/* Mastery progress bar (when no unlock happened) */}
+        {!newUnlock && masteryProgress && masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: 1.6 }}
+            className="mb-6"
+          >
+            <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
+              <span>Next pack unlock</span>
+              <span className="font-mono font-bold">{masteryProgress.bestStreak}/{masteryProgress.threshold} streak</span>
+            </div>
+            <div className="h-2 bg-muted-foreground/10 rounded-full overflow-hidden">
+              <motion.div
+                className="h-full bg-amber/60 dark:bg-sparky-green/60 rounded-full"
+                initial={{ width: 0 }}
+                animate={{ width: `${Math.min((masteryProgress.bestStreak / masteryProgress.threshold) * 100, 100)}%` }}
+                transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
+              />
+            </div>
+          </motion.div>
+        )}
+
         {/* Action buttons — appear after stats */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 1.6 }}
+          transition={{ duration: 0.4, delay: newUnlock ? 1.8 : 1.6 }}
           className="flex justify-center gap-3"
         >
           <Button

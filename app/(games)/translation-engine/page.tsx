@@ -10,6 +10,8 @@ import { haptic } from "@/lib/haptics";
 import {
   type GameStats,
   type DifficultyConfig,
+  type MasteryUnlock,
+  type MasteryProgress,
   loadStats,
   BlueprintBackground,
   GameLoadingFallback,
@@ -22,11 +24,13 @@ import {
   QuestionCard,
   AnswerButton,
   fireStreakConfetti,
+  fireCompletionConfetti,
   finalizeGame,
   CARD_GAME_RULES,
   CONTINUE_COST,
   HINT_COST,
   WATTS_PER_CORRECT,
+  MASTERY_STREAK_THRESHOLD,
   HintButton,
   getComboMultiplier,
   checkWildcardEarned,
@@ -71,16 +75,19 @@ function TranslationEngineContent() {
 
   // Pack state
   const [unlockedPacks, setUnlockedPacks] = useState<string[]>(["free"]);
+  const [masteryProgress, setMasteryProgress] = useState<MasteryProgress | null>(null);
+  const [newUnlock, setNewUnlock] = useState<MasteryUnlock | null>(null);
 
   const activeCards = useMemo(() => getUnlockedCards(unlockedPacks), [unlockedPacks]);
 
-  // Fetch owned packs
+  // Fetch owned packs + mastery state
   useEffect(() => {
     if (status !== "authenticated") return;
     fetch("/api/game-packs")
       .then((r) => r.json())
       .then((data) => {
         if (data.owned?.[GAME_ID]) setUnlockedPacks(data.owned[GAME_ID]);
+        if (data.mastery?.[GAME_ID]) setMasteryProgress(data.mastery[GAME_ID]);
       })
       .catch(() => {});
   }, [status]);
@@ -165,8 +172,34 @@ function TranslationEngineContent() {
         finalCorrect,
       });
       setStats(newStats);
+
+      // Report mastery progress
+      fetch("/api/game-mastery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gameId: GAME_ID, bestStreak }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.unlocked) {
+            setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
+            fetch("/api/game-packs")
+              .then((r) => r.json())
+              .then((d) => {
+                if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
+                if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
+              })
+              .catch(() => {});
+            fireCompletionConfetti();
+          } else {
+            if (data.bestStreak !== undefined && masteryProgress) {
+              setMasteryProgress((prev) => prev ? { ...prev, bestStreak: data.bestStreak } : prev);
+            }
+          }
+        })
+        .catch(() => {});
     },
-    [totalCorrect, currentIdx, stats, score],
+    [totalCorrect, currentIdx, stats, score, bestStreak, masteryProgress],
   );
 
   useEffect(() => {
@@ -353,10 +386,11 @@ function TranslationEngineContent() {
     setWildcards({ freeze_timer: 0, extra_life: 0 });
     setWildcardToast(null);
     timerFrozen.current = false;
+    setNewUnlock(null);
     setGameOver(false);
     setGameOverReason("complete");
     setTimeLeft(questionTime);
-  }, [questionTime]);
+  }, [questionTime, activeCards]);
 
   const handleChangeDifficulty = useCallback(() => {
     if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
@@ -379,11 +413,12 @@ function TranslationEngineContent() {
     setWildcards({ freeze_timer: 0, extra_life: 0 });
     setWildcardToast(null);
     timerFrozen.current = false;
+    setNewUnlock(null);
     setGameOver(false);
     setGameOverReason("complete");
     setTimeLeft(10);
     setDifficulty(null);
-  }, []);
+  }, [activeCards]);
 
   const handleContinueGame = useCallback(async () => {
     try {
@@ -481,6 +516,8 @@ function TranslationEngineContent() {
         onChangeDifficulty={handleChangeDifficulty}
         wattsEarned={totalCorrect * WATTS_PER_CORRECT}
         wattsSpent={wattsSpent}
+        newUnlock={newUnlock}
+        masteryProgress={masteryProgress}
       />
     );
   }

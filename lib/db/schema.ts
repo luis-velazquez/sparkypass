@@ -244,6 +244,19 @@ export const gamePackPurchases = sqliteTable("game_pack_purchases", {
 export type GamePackPurchase = typeof gamePackPurchases.$inferSelect;
 export type NewGamePackPurchase = typeof gamePackPurchases.$inferInsert;
 
+// Game mastery state (mastery-based pack unlocking)
+export const gameMasteryState = sqliteTable("game_mastery_state", {
+  id: text("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  gameId: text("game_id", { enum: gameIdValues }).notNull(),
+  unlockedPackIndex: integer("unlocked_pack_index").notNull().default(0),
+  bestStreak: integer("best_streak").notNull().default(0),
+  updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
+export type GameMasteryState = typeof gameMasteryState.$inferSelect;
+export type NewGameMasteryState = typeof gameMasteryState.$inferInsert;
+
 // Watts transactions (audit log)
 export const wattsTransactions = sqliteTable("watts_transactions", {
   id: text("id").primaryKey(),

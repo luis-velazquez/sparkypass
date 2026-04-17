@@ -293,6 +293,48 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "GB-A015",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "What is the primary purpose of bonding in an electrical system?",
+      "options": [
+        "To stabilize voltage to earth",
+        "To create a low-impedance fault path to trip the breaker",
+        "To reduce energy consumption",
+        "To increase circuit capacity"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Bonding connects all metal parts together to create a low-impedance path back to the source. This allows sufficient fault current to flow and ensures the overcurrent device trips quickly per NEC 250.4(A)(5).",
+      "necReference": "250.4(A)(5)",
+      "sparkyTip": "Bonding clears faults. No bond = no trip.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-A016",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "apprentice",
+      "questionText": "What is the primary purpose of grounding an electrical system?",
+      "options": [
+        "To trip breakers during faults",
+        "To stabilize voltage and limit surges",
+        "To carry normal return current",
+        "To increase conductor ampacity"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Grounding connects the system to earth to stabilize voltage and limit surges from lightning or accidental contact with higher voltage lines, as described in NEC 250.4(A)(1).",
+      "necReference": "250.4(A)(1)",
+      "sparkyTip": "Grounding stabilizes voltage—not trips breakers.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
@@ -865,6 +907,46 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "GB-J028",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "A hot conductor contacts a metal enclosure. What ensures the breaker trips?",
+      "options": [
+        "The grounding electrode system",
+        "The earth",
+        "The equipment grounding conductor providing a low-impedance path",
+        "The neutral conductor"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The equipment grounding conductor (EGC) provides the effective ground-fault current path required to carry sufficient current back to the source and trip the breaker per NEC 250.4(A)(5).",
+      "necReference": "250.4(A)(5)",
+      "sparkyTip": "The EGC is your fault highway back to the source.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J029",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "True or False: The earth is an effective fault current path for clearing ground faults.",
+      "options": [
+        "True",
+        "False"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The earth is not considered an effective ground-fault current path due to its high impedance. NEC 250.4(A)(5) requires a low-impedance path back to the source to facilitate operation of overcurrent devices.",
+      "necReference": "250.4(A)(5)",
+      "sparkyTip": "Earth won't trip it. Low impedance will.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
@@ -1266,6 +1348,27 @@
       "explanation": "Supply-side bonding jumpers are sized per Table 250.102(C)(1).",
       "necReference": "Article 250",
       "sparkyTip": "Supply-side bonding jumper sizing = 250.102(C)(1).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M020",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "master",
+      "questionText": "Which NEC requirement ensures that overcurrent devices operate during a ground fault?",
+      "options": [
+        "Grounding electrode conductor sizing",
+        "Effective ground-fault current path",
+        "Neutral conductor sizing",
+        "Voltage drop limitations"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.4 requires an effective ground-fault current path that is low impedance and capable of carrying sufficient current to facilitate the operation of overcurrent devices.",
+      "necReference": "250.4(A)(5)",
+      "sparkyTip": "Low impedance path = breaker trips fast.",
       "necVersions": [
         "2023",
         "2026"
