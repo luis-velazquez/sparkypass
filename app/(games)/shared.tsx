@@ -190,7 +190,7 @@ export function getEnergizeStyles(level: number): string {
 
 // ─── Award watts helper ─────────────────────────────────────────────────────
 
-export const WATTS_PER_CORRECT = 50;
+export const WATTS_PER_CORRECT = 12;
 
 export async function awardWatts(
   activityType: string,
@@ -357,7 +357,110 @@ export function DifficultyPicker({
   );
 }
 
-// ─── Pack Shop ─────────────────────────────────────────────────────────────
+// ─── Pack Picker (select a pack before gameplay) ──────────────────────────
+
+export interface PickablePack {
+  id: string;
+  name: string;
+  cardCount: number;
+  locked: boolean;
+}
+
+export function PackPicker({
+  packs,
+  onSelect,
+  onSelectAll,
+  unlockedCount,
+  totalCount,
+}: {
+  packs: PickablePack[];
+  onSelect: (packId: string) => void;
+  onSelectAll: () => void;
+  unlockedCount: number;
+  totalCount: number;
+}) {
+  return (
+    <main className="relative min-h-screen bg-cream dark:bg-stone-950">
+      <BlueprintBackground />
+      <div className="container mx-auto px-4 py-8 max-w-lg relative z-10">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-6"
+        >
+          <Package className="h-10 w-10 text-amber dark:text-sparky-green mx-auto mb-3" />
+          <h2 className="text-xl font-bold font-display text-foreground mb-1">Choose a Pack</h2>
+          <p className="text-sm text-muted-foreground">
+            {unlockedCount}/{totalCount} packs unlocked · Get {MASTERY_CORRECT_THRESHOLD} correct to unlock the next
+          </p>
+        </motion.div>
+
+        {/* All Packs button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="mb-3"
+        >
+          <button
+            onClick={onSelectAll}
+            className="w-full text-left p-4 rounded-xl border border-amber/30 hover:border-amber/60 dark:border-sparky-green/30 dark:hover:border-sparky-green/60 bg-amber/5 dark:bg-sparky-green/5 hover:bg-amber/10 dark:hover:bg-sparky-green/10 transition-all cursor-pointer"
+          >
+            <div className="flex items-center justify-between">
+              <div>
+                <span className="text-sm font-bold text-amber dark:text-sparky-green">All Unlocked Packs</span>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {packs.filter((p) => !p.locked).reduce((sum, p) => sum + p.cardCount, 0)} cards total
+                </p>
+              </div>
+              <ChevronRight className="h-4 w-4 text-amber dark:text-sparky-green" />
+            </div>
+          </button>
+        </motion.div>
+
+        {/* Individual packs */}
+        <div className="space-y-2">
+          {packs.map((pack, i) => (
+            <motion.div
+              key={pack.id}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.3, delay: 0.15 + i * 0.04 }}
+            >
+              <button
+                disabled={pack.locked}
+                onClick={() => onSelect(pack.id)}
+                className={`w-full text-left p-3 rounded-xl border transition-all ${
+                  pack.locked
+                    ? "border-border dark:border-stone-800 opacity-50 cursor-default"
+                    : "border-border dark:border-stone-800 hover:border-amber/40 dark:hover:border-sparky-green/30 bg-card dark:bg-stone-900/50 hover:bg-muted/50 cursor-pointer"
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2.5">
+                    {pack.locked ? (
+                      <Lock className="h-4 w-4 text-muted-foreground shrink-0" />
+                    ) : (
+                      <Check className="h-4 w-4 text-emerald-500 dark:text-sparky-green shrink-0" />
+                    )}
+                    <div>
+                      <span className="text-sm font-bold text-foreground">{pack.name}</span>
+                      <p className="text-xs text-muted-foreground">{pack.cardCount} cards</p>
+                    </div>
+                  </div>
+                  {!pack.locked && <ChevronRight className="h-4 w-4 text-muted-foreground" />}
+                </div>
+              </button>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </main>
+  );
+}
+
+// ─── Pack Shop (Formula Builder only) ─────────────────────────────────────
 
 import type { PackMeta, GameId } from "@/lib/game-packs";
 

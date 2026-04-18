@@ -1,5 +1,5 @@
 export type { TranslationCard, TranslationPack } from "./types";
-export { TRANSLATION_PACKS } from "./packs";
+export { TRANSLATION_PACKS, TRANSLATION_MERGED_PACKS } from "./packs";
 
 import { TRANSLATION_PACKS } from "./packs";
 import type { TranslationCard } from "./types";

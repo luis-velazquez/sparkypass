@@ -1,5 +1,5 @@
 export type { SniperDeck, SniperCard, SniperPack } from "./types";
-export { SNIPER_PACKS } from "./packs";
+export { SNIPER_PACKS, SNIPER_MERGED_PACKS } from "./packs";
 
 import { SNIPER_PACKS } from "./packs";
 import type { SniperCard } from "./types";

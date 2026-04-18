@@ -12,11 +12,13 @@ import {
   type DifficultyConfig,
   type MasteryUnlock,
   type MasteryProgress,
+  type PickablePack,
   loadStats,
   BlueprintBackground,
   GameLoadingFallback,
   GameOverScreen,
   PackUnlockedOverlay,
+  PackPicker,
   SkipButton,
   MAX_SKIPS,
   DifficultyPicker,
@@ -46,6 +48,7 @@ import type { GameId } from "@/lib/game-packs";
 import {
   SNIPER_CARDS,
   SNIPER_PACKS,
+  SNIPER_MERGED_PACKS,
   shuffleCards,
   getDistractors,
   getEnergizeLevel,
@@ -75,6 +78,9 @@ function IndexSniperContent() {
   const questionTime = difficulty ? DIFFICULTY_TIME[difficulty] : 10;
   const optionCount = difficulty ? DIFFICULTY_OPTIONS[difficulty] : 8;
 
+  // Pack selection (null = show pack picker after difficulty is chosen)
+  const [selectedPackId, setSelectedPackId] = useState<string | null>(null);
+
   // Pack / mastery state
   const [unlockedPacks, setUnlockedPacks] = useState<string[]>(["free"]);
   const [masteryProgress, setMasteryProgress] = useState<MasteryProgress | null>(null);
@@ -82,7 +88,33 @@ function IndexSniperContent() {
   const [showUnlockOverlay, setShowUnlockOverlay] = useState(false);
   const unlockCheckedRef = useRef(false);
 
-  const activeCards = useMemo(() => getUnlockedCards(unlockedPacks), [unlockedPacks]);
+  // Build active cards from selected pack(s)
+  const activeCards = useMemo(() => {
+    if (selectedPackId === "all") {
+      // All unlocked merged packs
+      const unlockedSet = new Set(unlockedPacks);
+      return SNIPER_MERGED_PACKS.filter((p) => unlockedSet.has(p.id) || p.id === "free").flatMap((p) => p.cards);
+    }
+    if (selectedPackId) {
+      const pack = SNIPER_MERGED_PACKS.find((p) => p.id === selectedPackId);
+      return pack ? pack.cards : [];
+    }
+    // Fallback: all unlocked from raw packs
+    return getUnlockedCards(unlockedPacks);
+  }, [unlockedPacks, selectedPackId]);
+
+  // Build pickable pack list from merged packs
+  const pickablePacks = useMemo((): PickablePack[] => {
+    // For merged packs, "unlocked" = index <= masteryProgress.unlockedIndex
+    // The free pack is always at index 0. Merged packs start at index 1.
+    const maxUnlocked = masteryProgress?.unlockedIndex ?? 0;
+    return SNIPER_MERGED_PACKS.map((pack, idx) => ({
+      id: pack.id,
+      name: pack.name,
+      cardCount: pack.cards.length,
+      locked: idx > maxUnlocked,
+    }));
+  }, [masteryProgress]);
 
   // Fetch owned packs + mastery state
   useEffect(() => {
@@ -437,6 +469,7 @@ function IndexSniperContent() {
     setGameOverReason("complete");
     setTimeLeft(10);
     setDifficulty(null);
+    setSelectedPackId(null);
     setHasContinued(false);
   }, [activeCards]);
 
@@ -466,7 +499,6 @@ function IndexSniperContent() {
       medium: { label: "Medium", time: "10 seconds", desc: "More references to sort through", extra: "8 choices" },
       hard: { label: "Hard", time: "5 seconds", desc: "Maximum pressure — know your code cold", extra: "12 choices" },
     };
-    const hasMorePacks = masteryProgress && masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1;
 
     return (
       <DifficultyPicker
@@ -479,13 +511,34 @@ function IndexSniperContent() {
         onSelect={(level) => {
           setDifficulty(level as CardGameDifficulty);
           setTimeLeft(DIFFICULTY_TIME[level as CardGameDifficulty]);
-          setCards(shuffleCards(activeCards));
         }}
-        extraContent={hasMorePacks ? (
-          <p className="mt-4 text-center text-xs text-muted-foreground">
-            Get <span className="font-bold text-amber dark:text-sparky-green">{MASTERY_CORRECT_THRESHOLD} correct</span> in a single game to unlock new cards
-          </p>
-        ) : undefined}
+      />
+    );
+  }
+
+  // Pack picker — shown after difficulty is selected, before game starts
+  if (!selectedPackId) {
+    const startGame = (packId: string) => {
+      setSelectedPackId(packId);
+      // activeCards will recompute from the new selectedPackId
+      // We need to defer card shuffle to after state updates
+      setTimeout(() => {
+        const cards = packId === "all"
+          ? SNIPER_MERGED_PACKS.filter((p) => !pickablePacks.find((pp) => pp.id === p.id && pp.locked)).flatMap((p) => p.cards)
+          : SNIPER_MERGED_PACKS.find((p) => p.id === packId)?.cards ?? [];
+        setCards(shuffleCards(cards));
+      }, 0);
+    };
+
+    const unlockedCount = pickablePacks.filter((p) => !p.locked).length;
+
+    return (
+      <PackPicker
+        packs={pickablePacks}
+        onSelect={startGame}
+        onSelectAll={() => startGame("all")}
+        unlockedCount={unlockedCount}
+        totalCount={pickablePacks.length}
       />
     );
   }

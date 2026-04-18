@@ -11,6 +11,7 @@ import { pack9 } from "./pack-9";
 import { pack10 } from "./pack-10";
 import { pack11 } from "./pack-11";
 
+/** Raw individual packs */
 export const TRANSLATION_PACKS: TranslationPack[] = [
   freePack,
   pack1,
@@ -24,3 +25,29 @@ export const TRANSLATION_PACKS: TranslationPack[] = [
   pack10,
   pack11,
 ];
+
+/** Merged packs for the pack picker — every two expansion packs combined into ~20 cards */
+function mergePairs(packs: TranslationPack[]): TranslationPack[] {
+  const expansion = packs.filter((p) => p.id !== "free");
+  const merged: TranslationPack[] = [packs.find((p) => p.id === "free")!];
+  for (let i = 0; i < expansion.length; i += 2) {
+    const a = expansion[i];
+    const b = expansion[i + 1];
+    if (b) {
+      merged.push({
+        id: `merged-${Math.floor(i / 2) + 1}`,
+        name: `Pack ${Math.floor(i / 2) + 1}`,
+        cards: [...a.cards, ...b.cards],
+      });
+    } else {
+      merged.push({
+        id: `merged-${Math.floor(i / 2) + 1}`,
+        name: `Pack ${Math.floor(i / 2) + 1}`,
+        cards: [...a.cards],
+      });
+    }
+  }
+  return merged;
+}
+
+export const TRANSLATION_MERGED_PACKS: TranslationPack[] = mergePairs(TRANSLATION_PACKS);

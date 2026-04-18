@@ -25,6 +25,7 @@ import { pack21 } from "./pack-21";
 import { pack22 } from "./pack-22";
 import { tablesPack } from "./tables";
 
+/** Raw individual packs (used by mastery API for backwards compatibility) */
 export const SNIPER_PACKS: SniperPack[] = [
   freePack,
   pack1,
@@ -51,3 +52,31 @@ export const SNIPER_PACKS: SniperPack[] = [
   pack22,
   tablesPack,
 ];
+
+/** Merged packs for the pack picker — every two expansion packs combined into ~20 cards */
+function mergePairs(packs: SniperPack[]): SniperPack[] {
+  const expansion = packs.filter((p) => p.id !== "free" && p.id !== "tables");
+  const merged: SniperPack[] = [packs.find((p) => p.id === "free")!];
+  for (let i = 0; i < expansion.length; i += 2) {
+    const a = expansion[i];
+    const b = expansion[i + 1];
+    if (b) {
+      merged.push({
+        id: `merged-${Math.floor(i / 2) + 1}`,
+        name: `Pack ${Math.floor(i / 2) + 1}`,
+        cards: [...a.cards, ...b.cards],
+      });
+    } else {
+      merged.push({
+        id: `merged-${Math.floor(i / 2) + 1}`,
+        name: `Pack ${Math.floor(i / 2) + 1}`,
+        cards: [...a.cards],
+      });
+    }
+  }
+  const tables = packs.find((p) => p.id === "tables");
+  if (tables) merged.push(tables);
+  return merged;
+}
+
+export const SNIPER_MERGED_PACKS: SniperPack[] = mergePairs(SNIPER_PACKS);
