@@ -37,7 +37,7 @@ export const CARD_GAME_RULES = {
 } as const;
 
 /** Correct-answer threshold to unlock the next pack via mastery */
-export const MASTERY_CORRECT_THRESHOLD = 15;
+export const MASTERY_CORRECT_THRESHOLD = 10;
 
 export type CardGameDifficulty = keyof typeof CARD_GAME_RULES.DIFFICULTY_TIME;
 

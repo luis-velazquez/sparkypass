@@ -45,6 +45,7 @@ import type { GameId } from "@/lib/game-packs";
 
 import {
   SNIPER_CARDS,
+  SNIPER_PACKS,
   shuffleCards,
   getDistractors,
   getEnergizeLevel,
@@ -295,7 +296,7 @@ function IndexSniperContent() {
           setTimeout(() => setWildcardToast(null), 2000);
         }
 
-        // Check for mastery unlock mid-game
+        // Check for mastery unlock mid-game — show overlay instantly
         if (
           newTotalCorrect === MASTERY_CORRECT_THRESHOLD &&
           !unlockCheckedRef.current &&
@@ -303,35 +304,38 @@ function IndexSniperContent() {
           masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1
         ) {
           unlockCheckedRef.current = true;
+          // Compute next pack from local data for instant feedback
+          const nextPackIdx = masteryProgress.unlockedIndex + 1;
+          const nextPack = SNIPER_PACKS[nextPackIdx];
+          if (nextPack) {
+            setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
+            setShowUnlockOverlay(true);
+            if (countdownRef.current) clearInterval(countdownRef.current);
+            // Optimistically add new pack so activeCards includes it immediately
+            setUnlockedPacks((prev) => [...prev, nextPack.id]);
+          }
+          // Persist to server in background
           fetch("/api/game-mastery", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ gameId: GAME_ID, totalCorrect: newTotalCorrect }),
           })
             .then((r) => r.json())
-            .then((data) => {
-              if (data.unlocked) {
-                setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
-                setShowUnlockOverlay(true);
-                if (countdownRef.current) clearInterval(countdownRef.current);
-                // Re-fetch packs so next game has new cards
-                fetch("/api/game-packs")
-                  .then((r) => r.json())
-                  .then((d) => {
-                    if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
-                    if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
-                  })
-                  .catch(() => {});
-              }
+            .then(() => {
+              fetch("/api/game-packs")
+                .then((r) => r.json())
+                .then((d) => {
+                  if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
+                  if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
+                })
+                .catch(() => {});
             })
             .catch(() => {});
+          return; // Don't auto-advance — overlay dismiss handles it
         }
 
         advanceTimerRef.current = setTimeout(() => {
-          // If overlay just appeared, don't auto-advance — the overlay dismiss will handle it
-          if (!unlockCheckedRef.current || newTotalCorrect !== MASTERY_CORRECT_THRESHOLD) {
-            advanceToNext();
-          }
+          advanceToNext();
         }, 800);
       } else {
         haptic("error");
@@ -462,6 +466,8 @@ function IndexSniperContent() {
       medium: { label: "Medium", time: "10 seconds", desc: "More references to sort through", extra: "8 choices" },
       hard: { label: "Hard", time: "5 seconds", desc: "Maximum pressure — know your code cold", extra: "12 choices" },
     };
+    const hasMorePacks = masteryProgress && masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1;
+
     return (
       <DifficultyPicker
         icon={Crosshair}
@@ -475,6 +481,11 @@ function IndexSniperContent() {
           setTimeLeft(DIFFICULTY_TIME[level as CardGameDifficulty]);
           setCards(shuffleCards(activeCards));
         }}
+        extraContent={hasMorePacks ? (
+          <p className="mt-4 text-center text-xs text-muted-foreground">
+            Get <span className="font-bold text-amber dark:text-sparky-green">{MASTERY_CORRECT_THRESHOLD} correct</span> in a single game to unlock new cards
+          </p>
+        ) : undefined}
       />
     );
   }
