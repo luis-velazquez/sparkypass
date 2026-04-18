@@ -4,7 +4,7 @@ import { db, gameMasteryState } from "@/lib/db";
 import { eq, and } from "drizzle-orm";
 import { SNIPER_PACKS } from "@/app/(games)/index-sniper/sniper-data";
 import { TRANSLATION_PACKS } from "@/app/(games)/translation-engine/translation-data";
-import { MASTERY_STREAK_THRESHOLD } from "@/app/(games)/shared";
+import { MASTERY_CORRECT_THRESHOLD } from "@/app/(games)/shared";
 
 const MASTERY_GAMES = ["index-sniper", "translation-engine"] as const;
 type MasteryGameId = (typeof MASTERY_GAMES)[number];
@@ -22,18 +22,18 @@ export async function POST(req: Request) {
 
     const userId = session.user.id;
     const body = await req.json();
-    const { gameId, bestStreak } = body as { gameId: string; bestStreak: number };
+    const { gameId, totalCorrect } = body as { gameId: string; totalCorrect: number };
 
     if (!MASTERY_GAMES.includes(gameId as MasteryGameId)) {
       return NextResponse.json({ error: "Invalid game" }, { status: 400 });
     }
-    if (typeof bestStreak !== "number" || bestStreak < 0) {
-      return NextResponse.json({ error: "Invalid streak" }, { status: 400 });
+    if (typeof totalCorrect !== "number" || totalCorrect < 0) {
+      return NextResponse.json({ error: "Invalid totalCorrect" }, { status: 400 });
     }
 
     const typedGameId = gameId as MasteryGameId;
     const packs = getPacksForGame(typedGameId);
-    const maxPackIndex = packs.length - 1; // 0 = free pack only
+    const maxPackIndex = packs.length - 1;
 
     // Look up existing mastery row
     const [existing] = await db
@@ -47,19 +47,19 @@ export async function POST(req: Request) {
       );
 
     const currentIndex = existing?.unlockedPackIndex ?? 0;
-    const previousBest = existing?.bestStreak ?? 0;
-    const newBest = Math.max(previousBest, bestStreak);
+    const previousBest = existing?.bestStreak ?? 0; // column stores best correct count
+    const newBest = Math.max(previousBest, totalCorrect);
 
-    // Check if this streak unlocks the next pack
+    // Check if this session unlocks the next pack
     const canUnlock =
-      bestStreak >= MASTERY_STREAK_THRESHOLD && currentIndex < maxPackIndex;
+      totalCorrect >= MASTERY_CORRECT_THRESHOLD && currentIndex < maxPackIndex;
     const newIndex = canUnlock ? currentIndex + 1 : currentIndex;
 
     if (existing) {
       await db
         .update(gameMasteryState)
         .set({
-          bestStreak: newBest,
+          bestStreak: newBest, // repurposed: stores best correct count
           unlockedPackIndex: newIndex,
           updatedAt: new Date(),
         })
@@ -90,14 +90,14 @@ export async function POST(req: Request) {
         newPackName: unlockedPack.name,
         newPackCardCount: cardCount,
         newPackIndex: newIndex,
-        bestStreak: newBest,
+        bestCorrect: newBest,
       });
     }
 
     return NextResponse.json({
       unlocked: false,
       currentPackIndex: newIndex,
-      bestStreak: newBest,
+      bestCorrect: newBest,
     });
   } catch (error) {
     console.error("Error updating game mastery:", error);

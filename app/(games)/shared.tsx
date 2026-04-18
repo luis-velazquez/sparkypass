@@ -36,8 +36,8 @@ export const CARD_GAME_RULES = {
   DIFFICULTY_OPTIONS: { easy: 4, medium: 8, hard: 12 } as const,
 } as const;
 
-/** Streak threshold to unlock the next pack via mastery */
-export const MASTERY_STREAK_THRESHOLD = 10;
+/** Correct-answer threshold to unlock the next pack via mastery */
+export const MASTERY_CORRECT_THRESHOLD = 15;
 
 export type CardGameDifficulty = keyof typeof CARD_GAME_RULES.DIFFICULTY_TIME;
 
@@ -1187,7 +1187,7 @@ export interface MasteryUnlock {
 export interface MasteryProgress {
   unlockedIndex: number;
   totalPacks: number;
-  bestStreak: number;
+  bestCorrect: number;
   threshold: number;
 }
 
@@ -1405,13 +1405,13 @@ export function GameOverScreen({
           >
             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1.5">
               <span>Next pack unlock</span>
-              <span className="font-mono font-bold">{masteryProgress.bestStreak}/{masteryProgress.threshold} streak</span>
+              <span className="font-mono font-bold">{masteryProgress.bestCorrect}/{masteryProgress.threshold} correct</span>
             </div>
             <div className="h-2 bg-muted-foreground/10 rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-amber/60 dark:bg-sparky-green/60 rounded-full"
                 initial={{ width: 0 }}
-                animate={{ width: `${Math.min((masteryProgress.bestStreak / masteryProgress.threshold) * 100, 100)}%` }}
+                animate={{ width: `${Math.min((masteryProgress.bestCorrect / masteryProgress.threshold) * 100, 100)}%` }}
                 transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
               />
             </div>

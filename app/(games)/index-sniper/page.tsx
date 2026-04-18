@@ -30,7 +30,7 @@ import {
   CONTINUE_COST,
   HINT_COST,
   WATTS_PER_CORRECT,
-  MASTERY_STREAK_THRESHOLD,
+  MASTERY_CORRECT_THRESHOLD,
   HintButton,
   getComboMultiplier,
   checkWildcardEarned,
@@ -175,17 +175,16 @@ function IndexSniperContent() {
       setStats(newStats);
 
       // Report mastery progress
-      const sessionBest = Math.max(bestStreak, reason === "complete" ? bestStreak : bestStreak);
+      const sessionCorrect = finalCorrect ?? totalCorrect;
       fetch("/api/game-mastery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId: GAME_ID, bestStreak: sessionBest }),
+        body: JSON.stringify({ gameId: GAME_ID, totalCorrect: sessionCorrect }),
       })
         .then((r) => r.json())
         .then((data) => {
           if (data.unlocked) {
             setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
-            // Re-fetch packs so next game includes new cards
             fetch("/api/game-packs")
               .then((r) => r.json())
               .then((d) => {
@@ -194,15 +193,13 @@ function IndexSniperContent() {
               })
               .catch(() => {});
             fireCompletionConfetti();
-          } else {
-            if (data.bestStreak !== undefined && masteryProgress) {
-              setMasteryProgress((prev) => prev ? { ...prev, bestStreak: data.bestStreak } : prev);
-            }
+          } else if (data.bestCorrect !== undefined && masteryProgress) {
+            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect } : prev);
           }
         })
         .catch(() => {});
     },
-    [totalCorrect, currentIdx, stats, score, bestStreak, masteryProgress]
+    [totalCorrect, currentIdx, stats, score, masteryProgress]
   );
 
   useEffect(() => {

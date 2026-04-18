@@ -30,7 +30,7 @@ import {
   CONTINUE_COST,
   HINT_COST,
   WATTS_PER_CORRECT,
-  MASTERY_STREAK_THRESHOLD,
+  MASTERY_CORRECT_THRESHOLD,
   HintButton,
   getComboMultiplier,
   checkWildcardEarned,
@@ -174,10 +174,11 @@ function TranslationEngineContent() {
       setStats(newStats);
 
       // Report mastery progress
+      const sessionCorrect = finalCorrect ?? totalCorrect;
       fetch("/api/game-mastery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId: GAME_ID, bestStreak }),
+        body: JSON.stringify({ gameId: GAME_ID, totalCorrect: sessionCorrect }),
       })
         .then((r) => r.json())
         .then((data) => {
@@ -191,15 +192,13 @@ function TranslationEngineContent() {
               })
               .catch(() => {});
             fireCompletionConfetti();
-          } else {
-            if (data.bestStreak !== undefined && masteryProgress) {
-              setMasteryProgress((prev) => prev ? { ...prev, bestStreak: data.bestStreak } : prev);
-            }
+          } else if (data.bestCorrect !== undefined && masteryProgress) {
+            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect } : prev);
           }
         })
         .catch(() => {});
     },
-    [totalCorrect, currentIdx, stats, score, bestStreak, masteryProgress],
+    [totalCorrect, currentIdx, stats, score, masteryProgress],
   );
 
   useEffect(() => {

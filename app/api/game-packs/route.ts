@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { GAME_PACK_CATALOG, type GameId } from "@/lib/game-packs";
 import { SNIPER_PACKS } from "@/app/(games)/index-sniper/sniper-data";
 import { TRANSLATION_PACKS } from "@/app/(games)/translation-engine/translation-data";
-import { MASTERY_STREAK_THRESHOLD } from "@/app/(games)/shared";
+import { MASTERY_CORRECT_THRESHOLD } from "@/app/(games)/shared";
 
 /** Ordered pack IDs for mastery games */
 const MASTERY_PACK_IDS: Record<string, string[]> = {
@@ -77,7 +77,7 @@ export async function GET() {
     }
 
     // Build mastery progress info for the client
-    const mastery: Record<string, { unlockedIndex: number; totalPacks: number; bestStreak: number; threshold: number }> = {};
+    const mastery: Record<string, { unlockedIndex: number; totalPacks: number; bestCorrect: number; threshold: number }> = {};
     for (const gameId of ["index-sniper", "translation-engine"] as const) {
       const packOrder = MASTERY_PACK_IDS[gameId];
       const m = masteryMap[gameId];
@@ -86,8 +86,8 @@ export async function GET() {
       mastery[gameId] = {
         unlockedIndex: effectiveIndex,
         totalPacks: packOrder.length,
-        bestStreak: m?.bestStreak ?? 0,
-        threshold: MASTERY_STREAK_THRESHOLD,
+        bestCorrect: m?.bestStreak ?? 0, // column stores best correct count
+        threshold: MASTERY_CORRECT_THRESHOLD,
       };
     }
 
