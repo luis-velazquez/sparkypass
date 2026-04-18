@@ -1177,6 +1177,75 @@ function CountUp({
   );
 }
 
+// ─── Pack Unlocked Overlay (mid-game celebration pause) ─────────────────────
+
+export function PackUnlockedOverlay({
+  packName,
+  cardCount,
+  onContinue,
+}: {
+  packName: string;
+  cardCount: number;
+  onContinue: () => void;
+}) {
+  useEffect(() => {
+    fireCompletionConfetti();
+    const t = setTimeout(() => fireCompletionConfetti(), 600);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+    >
+      <motion.div
+        initial={{ scale: 0.7, opacity: 0, y: 30 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        transition={{ type: "spring", stiffness: 200, damping: 15 }}
+        className="w-full max-w-sm"
+      >
+        <Card className="border-amber/40 dark:border-sparky-green/30 bg-card dark:bg-stone-900 shadow-2xl">
+          <CardContent className="p-6 text-center">
+            <motion.div
+              initial={{ scale: 0, rotate: -20 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.2 }}
+            >
+              <Unlock className="h-14 w-14 text-amber dark:text-sparky-green mx-auto mb-3" />
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.35 }}
+            >
+              <h2 className="text-2xl font-bold font-display text-foreground mb-1">
+                Pack Unlocked!
+              </h2>
+              <p className="text-amber dark:text-sparky-green font-bold text-lg mb-1">
+                {packName}
+              </p>
+              <p className="text-sm text-muted-foreground mb-6">
+                {cardCount} new cards added to your pool
+              </p>
+              <Button
+                onClick={onContinue}
+                className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 w-full"
+              >
+                <ChevronRight className="h-4 w-4 mr-1" />
+                Keep Playing
+              </Button>
+            </motion.div>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ─── Game Over screen ───────────────────────────────────────────────────────
 
 export interface MasteryUnlock {
@@ -1423,22 +1492,35 @@ export function GameOverScreen({
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: newUnlock ? 1.8 : 1.6 }}
-          className="flex justify-center gap-3"
+          className="flex flex-col items-center gap-3"
         >
-          <Button
-            onClick={onPlayAgain}
-            className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
-          >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Play Again
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onChangeDifficulty}
-            className="border-border dark:border-stone-700"
-          >
-            Change Difficulty
-          </Button>
+          {newUnlock && (
+            <Button
+              onClick={onPlayAgain}
+              className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 w-full max-w-xs"
+            >
+              <Package className="h-4 w-4 mr-2" />
+              Play with New Cards
+            </Button>
+          )}
+          <div className="flex gap-3">
+            {!newUnlock && (
+              <Button
+                onClick={onPlayAgain}
+                className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
+              >
+                <RotateCcw className="h-4 w-4 mr-2" />
+                Play Again
+              </Button>
+            )}
+            <Button
+              variant="outline"
+              onClick={onChangeDifficulty}
+              className="border-border dark:border-stone-700"
+            >
+              Change Difficulty
+            </Button>
+          </div>
         </motion.div>
 
         {/* Sparky message */}

@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef, useMemo, Suspense } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Crosshair } from "lucide-react";
 import { haptic } from "@/lib/haptics";
 
@@ -16,6 +16,7 @@ import {
   BlueprintBackground,
   GameLoadingFallback,
   GameOverScreen,
+  PackUnlockedOverlay,
   SkipButton,
   MAX_SKIPS,
   DifficultyPicker,
@@ -24,7 +25,6 @@ import {
   QuestionCard,
   AnswerButton,
   fireStreakConfetti,
-  fireCompletionConfetti,
   finalizeGame,
   CARD_GAME_RULES,
   CONTINUE_COST,
@@ -74,10 +74,12 @@ function IndexSniperContent() {
   const questionTime = difficulty ? DIFFICULTY_TIME[difficulty] : 10;
   const optionCount = difficulty ? DIFFICULTY_OPTIONS[difficulty] : 8;
 
-  // Pack state
+  // Pack / mastery state
   const [unlockedPacks, setUnlockedPacks] = useState<string[]>(["free"]);
   const [masteryProgress, setMasteryProgress] = useState<MasteryProgress | null>(null);
   const [newUnlock, setNewUnlock] = useState<MasteryUnlock | null>(null);
+  const [showUnlockOverlay, setShowUnlockOverlay] = useState(false);
+  const unlockCheckedRef = useRef(false);
 
   const activeCards = useMemo(() => getUnlockedCards(unlockedPacks), [unlockedPacks]);
 
@@ -158,7 +160,7 @@ function IndexSniperContent() {
   }, [currentIdx, optionCount, cards]);
 
   const endGame = useCallback(
-    (reason: "complete" | "strikes" | "timeout", finalCorrect?: number) => {
+    (reason: "complete" | "strikes" | "timeout") => {
       if (countdownRef.current) clearInterval(countdownRef.current);
       setGameOverReason(reason);
       setGameOver(true);
@@ -170,40 +172,28 @@ function IndexSniperContent() {
         score,
         totalCorrect,
         currentIdx,
-        finalCorrect,
       });
       setStats(newStats);
 
-      // Report mastery progress
-      const sessionCorrect = finalCorrect ?? totalCorrect;
-      fetch("/api/game-mastery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ gameId: GAME_ID, totalCorrect: sessionCorrect }),
-      })
-        .then((r) => r.json())
-        .then((data) => {
-          if (data.unlocked) {
-            setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
-            fetch("/api/game-packs")
-              .then((r) => r.json())
-              .then((d) => {
-                if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
-                if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
-              })
-              .catch(() => {});
-            fireCompletionConfetti();
-          } else if (data.bestCorrect !== undefined && masteryProgress) {
-            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect } : prev);
-          }
+      // Report final mastery progress (handles case where unlock wasn't triggered mid-game)
+      if (!unlockCheckedRef.current) {
+        fetch("/api/game-mastery", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ gameId: GAME_ID, totalCorrect }),
         })
-        .catch(() => {});
+          .then((r) => r.json())
+          .then((data) => {
+            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect ?? prev.bestCorrect } : prev);
+          })
+          .catch(() => {});
+      }
     },
-    [totalCorrect, currentIdx, stats, score, masteryProgress]
+    [totalCorrect, currentIdx, stats, score]
   );
 
   useEffect(() => {
-    if (gameOver || cards.length === 0 || showTrip) return;
+    if (gameOver || cards.length === 0 || showTrip || showUnlockOverlay) return;
     if (selected !== null) {
       if (countdownRef.current) clearInterval(countdownRef.current);
       return;
@@ -225,7 +215,7 @@ function IndexSniperContent() {
     return () => {
       if (countdownRef.current) clearInterval(countdownRef.current);
     };
-  }, [currentIdx, gameOver, cards.length, selected, showTrip, questionTime]);
+  }, [currentIdx, gameOver, cards.length, selected, showTrip, showUnlockOverlay, questionTime]);
 
   const advanceToNext = useCallback(() => {
     if (countdownRef.current) clearInterval(countdownRef.current);
@@ -305,8 +295,43 @@ function IndexSniperContent() {
           setTimeout(() => setWildcardToast(null), 2000);
         }
 
+        // Check for mastery unlock mid-game
+        if (
+          newTotalCorrect === MASTERY_CORRECT_THRESHOLD &&
+          !unlockCheckedRef.current &&
+          masteryProgress &&
+          masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1
+        ) {
+          unlockCheckedRef.current = true;
+          fetch("/api/game-mastery", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ gameId: GAME_ID, totalCorrect: newTotalCorrect }),
+          })
+            .then((r) => r.json())
+            .then((data) => {
+              if (data.unlocked) {
+                setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
+                setShowUnlockOverlay(true);
+                if (countdownRef.current) clearInterval(countdownRef.current);
+                // Re-fetch packs so next game has new cards
+                fetch("/api/game-packs")
+                  .then((r) => r.json())
+                  .then((d) => {
+                    if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
+                    if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
+                  })
+                  .catch(() => {});
+              }
+            })
+            .catch(() => {});
+        }
+
         advanceTimerRef.current = setTimeout(() => {
-          advanceToNext();
+          // If overlay just appeared, don't auto-advance — the overlay dismiss will handle it
+          if (!unlockCheckedRef.current || newTotalCorrect !== MASTERY_CORRECT_THRESHOLD) {
+            advanceToNext();
+          }
         }, 800);
       } else {
         haptic("error");
@@ -316,8 +341,13 @@ function IndexSniperContent() {
         setShowTrip(true);
       }
     },
-    [selected, currentCard, score, streak, totalCorrect, bestStreak, wrongCount, advanceToNext]
+    [selected, currentCard, score, streak, totalCorrect, bestStreak, wrongCount, advanceToNext, masteryProgress, showUnlockOverlay]
   );
+
+  const handleUnlockDismiss = useCallback(() => {
+    setShowUnlockOverlay(false);
+    advanceToNext();
+  }, [advanceToNext]);
 
   const handleHint = useCallback(async () => {
     if (hintUsed || selected !== null || !currentCard) return;
@@ -369,6 +399,8 @@ function IndexSniperContent() {
     setWildcardToast(null);
     timerFrozen.current = false;
     setNewUnlock(null);
+    setShowUnlockOverlay(false);
+    unlockCheckedRef.current = false;
     setGameOver(false);
     setGameOverReason("complete");
     setTimeLeft(questionTime);
@@ -395,6 +427,8 @@ function IndexSniperContent() {
     timerFrozen.current = false;
     setWattsSpent(0);
     setNewUnlock(null);
+    setShowUnlockOverlay(false);
+    unlockCheckedRef.current = false;
     setGameOver(false);
     setGameOverReason("complete");
     setTimeLeft(10);
@@ -524,6 +558,16 @@ function IndexSniperContent() {
       </div>
 
       <WildcardEarnedToast type={wildcardToast} />
+
+      <AnimatePresence>
+        {showUnlockOverlay && newUnlock && (
+          <PackUnlockedOverlay
+            packName={newUnlock.packName}
+            cardCount={newUnlock.cardCount}
+            onContinue={handleUnlockDismiss}
+          />
+        )}
+      </AnimatePresence>
     </motion.main>
   );
 }
