@@ -34,6 +34,7 @@ export async function POST(req: Request) {
     const typedGameId = gameId as MasteryGameId;
     const packs = getMergedPacksForGame(typedGameId);
     const maxPackIndex = packs.length - 1;
+    console.log("[mastery-api] gameId:", typedGameId, "packs.length:", packs.length, "maxPackIndex:", maxPackIndex, "totalCorrect:", totalCorrect, "threshold:", MASTERY_CORRECT_THRESHOLD);
 
     // Look up existing mastery row
     const [existing] = await db
@@ -98,6 +99,7 @@ export async function POST(req: Request) {
       unlocked: false,
       currentPackIndex: newIndex,
       bestCorrect: newBest,
+      _debug: { packsLength: packs.length, maxPackIndex, currentIndex, canUnlock, totalCorrect, threshold: MASTERY_CORRECT_THRESHOLD },
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);
