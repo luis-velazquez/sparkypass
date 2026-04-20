@@ -134,6 +134,7 @@ function IndexSniperContent() {
   const [streak, setStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
   const [totalCorrect, setTotalCorrect] = useState(0);
+  const totalCorrectRef = useRef(0);
   const [wrongCount, setWrongCount] = useState(0);
   const [skippedCount, setSkippedCount] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
@@ -196,32 +197,40 @@ function IndexSniperContent() {
       if (countdownRef.current) clearInterval(countdownRef.current);
       setGameOverReason(reason);
       setGameOver(true);
+      const finalCorrect = totalCorrectRef.current;
       const newStats = finalizeGame({
         storageKey: STORAGE_KEY,
         activityType: "index_sniper",
         reason,
         currentStats: stats,
         score,
-        totalCorrect,
+        totalCorrect: finalCorrect,
         currentIdx,
       });
       setStats(newStats);
 
-      // Report final mastery progress (handles case where unlock wasn't triggered mid-game)
-      if (!unlockCheckedRef.current) {
-        fetch("/api/game-mastery", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ gameId: GAME_ID, totalCorrect }),
+      // Always report mastery progress — ensures unlock is persisted even if mid-game fetch failed
+      fetch("/api/game-mastery", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ gameId: GAME_ID, totalCorrect: finalCorrect }),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.unlocked && !newUnlock) {
+            setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
+            setUnlockedPacks((prev) => {
+              const newId = SNIPER_MERGED_PACKS[data.newPackIndex]?.id;
+              return newId && !prev.includes(newId) ? [...prev, newId] : prev;
+            });
+          }
+          if (data.bestCorrect !== undefined) {
+            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect, unlockedIndex: data.newPackIndex ?? data.currentPackIndex ?? prev.unlockedIndex } : prev);
+          }
         })
-          .then((r) => r.json())
-          .then((data) => {
-            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect ?? prev.bestCorrect } : prev);
-          })
-          .catch(() => {});
-      }
+        .catch(() => {});
     },
-    [totalCorrect, currentIdx, stats, score]
+    [currentIdx, stats, score, newUnlock]
   );
 
   useEffect(() => {
@@ -311,6 +320,7 @@ function IndexSniperContent() {
         const newStreak = streak + 1;
         const newScore = score + getComboMultiplier(newStreak);
         const newTotalCorrect = totalCorrect + 1;
+        totalCorrectRef.current = newTotalCorrect;
         setScore(newScore);
         setStreak(newStreak);
         setTotalCorrect(newTotalCorrect);
@@ -329,7 +339,7 @@ function IndexSniperContent() {
 
         // Check for mastery unlock mid-game — show overlay instantly
         if (
-          newTotalCorrect === MASTERY_CORRECT_THRESHOLD &&
+          newTotalCorrect >= MASTERY_CORRECT_THRESHOLD &&
           !unlockCheckedRef.current &&
           masteryProgress &&
           masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1
@@ -421,6 +431,7 @@ function IndexSniperContent() {
     setStreak(0);
     setBestStreak(0);
     setTotalCorrect(0);
+    totalCorrectRef.current = 0;
     setWrongCount(0);
     setSkippedCount(0);
     setSelected(null);
@@ -450,6 +461,7 @@ function IndexSniperContent() {
     setStreak(0);
     setBestStreak(0);
     setTotalCorrect(0);
+    totalCorrectRef.current = 0;
     setWrongCount(0);
     setSkippedCount(0);
     setSelected(null);
