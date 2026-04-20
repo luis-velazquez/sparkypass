@@ -47,7 +47,6 @@ import type { GameId } from "@/lib/game-packs";
 
 import {
   SNIPER_CARDS,
-  SNIPER_PACKS,
   SNIPER_MERGED_PACKS,
   shuffleCards,
   getDistractors,
@@ -338,7 +337,7 @@ function IndexSniperContent() {
           unlockCheckedRef.current = true;
           // Compute next pack from local data for instant feedback
           const nextPackIdx = masteryProgress.unlockedIndex + 1;
-          const nextPack = SNIPER_PACKS[nextPackIdx];
+          const nextPack = SNIPER_MERGED_PACKS[nextPackIdx];
           if (nextPack) {
             setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
             setShowUnlockOverlay(true);

@@ -5,48 +5,6 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
-      "questionText": "A 15 HP, 460V, 3-phase motor has an FLA of 21A. The motor has a 1.15 service factor. What is the maximum overload protection setting?",
-      "options": [
-        "24.15A",
-        "26.25A",
-        "29.4A",
-        "23.1A"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Per NEC 430.32(A)(1), motors with service factor ≥ 1.15 can have overload protection up to 125% of nameplate FLA. Using the formula FLA: 21A × 1.25 = 26.25A.",
-      "necReference": "NEC 430.32(A)(1)",
-      "sparkyTip": "Service factor 1.15+ or 40°C rise = 125% overload. Otherwise it's 115%. This protects the motor windings!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A002",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
-      "difficulty": "apprentice",
-      "questionText": "Where must a disconnecting means for a motor generally be located in relation to the motor location?",
-      "options": [
-        "Within sight (visible and not more than 50 feet away)",
-        "Within 100 feet of the motor",
-        "At the main electrical service panel only",
-        "Next to the distribution transformer"
-      ],
-      "correctAnswer": 0,
-      "explanation": "The NEC requires the disconnecting means to be located in sight from the motor location and the driven machinery location. 'In sight from' means it is visible and not more than 50 feet distant.",
-      "necReference": "430.102(B)(1)",
-      "sparkyTip": "'Within sight' is a critical NEC definition to memorize. It always means visible AND within 50 feet!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A003",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
-      "difficulty": "apprentice",
       "questionText": "When sizing branch-circuit conductors for a single motor, which current value is generally used?",
       "options": [
         "The motor nameplate current rating",
@@ -64,7 +22,7 @@
       ]
     },
     {
-      "id": "MG-A004",
+      "id": "MG-A002",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
@@ -85,28 +43,7 @@
       ]
     },
     {
-      "id": "MG-A005",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
-      "difficulty": "apprentice",
-      "questionText": "For a continuous-duty motor marked with a service factor of 1.15, the separate overload device shall be sized at no more than what percentage of the nameplate full-load current rating?",
-      "options": [
-        "115%",
-        "125%",
-        "130%",
-        "140%"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Motors with a marked service factor of 1.15 or greater, or a temperature rise of 40°C or less, are allowed to have their overload devices sized at 125% of the nameplate full-load current.",
-      "necReference": "430.32(A)(1)",
-      "sparkyTip": "Motors with a 1.15 service factor or 40°C temp rise get 125%. All other typical motors get 115% for overload sizing.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A006",
+      "id": "MG-A003",
       "category": "motors-and-generators",
       "necArticle": "Article 445",
       "difficulty": "apprentice",
@@ -127,7 +64,7 @@
       ]
     },
     {
-      "id": "MG-A007",
+      "id": "MG-A004",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
@@ -143,12 +80,11 @@
       "necReference": "430.2",
       "sparkyTip": "A 'controller' is just the formal NEC term for whatever device—like a contactor or manual motor switch—actually turns the motor on and off.",
       "necVersions": [
-        "2023",
-        "2026"
+        "2023"
       ]
     },
     {
-      "id": "MG-A008",
+      "id": "MG-A005",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
@@ -169,7 +105,7 @@
       ]
     },
     {
-      "id": "MG-A009",
+      "id": "MG-A006",
       "category": "motors-and-generators",
       "necArticle": "Article 445",
       "difficulty": "apprentice",
@@ -184,48 +120,6 @@
       "explanation": "The ampacity of the conductors from the generator to the first overcurrent device shall not be less than 115 percent of the nameplate current rating of the generator.",
       "necReference": "445.13(A)",
       "sparkyTip": "Remember the difference! Generators require 115% for conductor sizing, unlike single continuous-duty motors which use the 125% rule.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A010",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
-      "difficulty": "apprentice",
-      "questionText": "Under which of the following conditions must the frames of stationary motors be grounded?",
-      "options": [
-        "If supplied by metal-enclosed wiring",
-        "If located in a wet location and not isolated",
-        "If operating with any terminal at over 150 volts to ground",
-        "All of the above"
-      ],
-      "correctAnswer": 3,
-      "explanation": "The NEC requires the frames of stationary motors to be grounded under all of these conditions to prevent electrical shock hazards.",
-      "necReference": "430.242",
-      "sparkyTip": "When in doubt, ground it out. The NEC requires equipment grounding for stationary motors in almost all typical industrial and commercial scenarios.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A011",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
-      "difficulty": "apprentice",
-      "questionText": "On a motor nameplate, what does the 'Code Letter' indicate?",
-      "options": [
-        "The motor's NEMA enclosure type",
-        "The locked-rotor kilovolt-amperes (kVA) per horsepower",
-        "The temperature rating of the insulation",
-        "The physical frame size of the motor"
-      ],
-      "correctAnswer": 1,
-      "explanation": "A code letter indicates the motor's locked-rotor kilovolt-amperes (kVA) per horsepower. This helps in determining the required short-circuit and ground-fault protection.",
-      "necReference": "430.7(B)",
-      "sparkyTip": "The code letter helps you calculate the massive inrush current the motor pulls the exact moment it tries to start turning.",
       "necVersions": [
         "2023",
         "2026"
@@ -375,6 +269,111 @@
       "explanation": "Step 1: Check the wire size and location. The wire is 14 AWG and extends beyond the motor control enclosure. Step 2: Use Table 430.72(B)(2). Find the row for 14 AWG. Because the wire leaves the enclosure, you must use Column C, which limits the maximum branch-circuit protective device to 45A. Step 3: Compare. Since the actual motor breaker is 60A (which is larger than 45A), it cannot legally protect the control circuit. Separate inline fuses must be installed.",
       "necReference": "430.72(B)(2), Table 430.72(B)(2)",
       "sparkyTip": "Location is everything! If that 14 AWG wire stayed strictly INSIDE the starter box (like a reset button on the cover), you'd use Column B (100A limit), and the 60A breaker would be perfectly legal without extra fuses. But the second that wire leaves the box, you drop to Column C (45A limit) and have to add fuses to prevent a meltdown!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J008",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "questionText": "A 15 HP, 460V, 3-phase motor has an FLA of 21A. The motor has a 1.15 service factor. What is the maximum overload protection setting?",
+      "options": [
+        "24.15A",
+        "26.25A",
+        "29.4A",
+        "23.1A"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 430.32(A)(1), motors with service factor ≥ 1.15 can have overload protection up to 125% of nameplate FLA. Using the formula FLA: 21A × 1.25 = 26.25A.",
+      "necReference": "NEC 430.32(A)(1)",
+      "sparkyTip": "Service factor 1.15+ or 40°C rise = 125% overload. Otherwise it's 115%. This protects the motor windings!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J009",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "questionText": "Where must a disconnecting means for a motor generally be located in relation to the motor location?",
+      "options": [
+        "Within sight (visible and not more than 50 feet away)",
+        "Within 100 feet of the motor",
+        "At the main electrical service panel only",
+        "Next to the distribution transformer"
+      ],
+      "correctAnswer": 0,
+      "explanation": "The NEC requires the disconnecting means to be located in sight from the motor location and the driven machinery location. 'In sight from' means it is visible and not more than 50 feet distant.",
+      "necReference": "430.102(B)(1)",
+      "sparkyTip": "'Within sight' is a critical NEC definition to memorize. It always means visible AND within 50 feet!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J010",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "questionText": "For a continuous-duty motor marked with a service factor of 1.15, the separate overload device shall be sized at no more than what percentage of the nameplate full-load current rating?",
+      "options": [
+        "115%",
+        "125%",
+        "130%",
+        "140%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Motors with a marked service factor of 1.15 or greater, or a temperature rise of 40°C or less, are allowed to have their overload devices sized at 125% of the nameplate full-load current.",
+      "necReference": "430.32(A)(1)",
+      "sparkyTip": "Motors with a 1.15 service factor or 40°C temp rise get 125%. All other typical motors get 115% for overload sizing.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J011",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "questionText": "Under which of the following conditions must the frames of stationary motors be grounded?",
+      "options": [
+        "If supplied by metal-enclosed wiring",
+        "If located in a wet location and not isolated",
+        "If operating with any terminal at over 150 volts to ground",
+        "All of the above"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The NEC requires the frames of stationary motors to be grounded under all of these conditions to prevent electrical shock hazards.",
+      "necReference": "430.242",
+      "sparkyTip": "When in doubt, ground it out. The NEC requires equipment grounding for stationary motors in almost all typical industrial and commercial scenarios.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J012",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "questionText": "On a motor nameplate, what does the 'Code Letter' indicate?",
+      "options": [
+        "The motor's NEMA enclosure type",
+        "The locked-rotor kilovolt-amperes (kVA) per horsepower",
+        "The temperature rating of the insulation",
+        "The physical frame size of the motor"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A code letter indicates the motor's locked-rotor kilovolt-amperes (kVA) per horsepower. This helps in determining the required short-circuit and ground-fault protection.",
+      "necReference": "430.7(B)",
+      "sparkyTip": "The code letter helps you calculate the massive inrush current the motor pulls the exact moment it tries to start turning.",
       "necVersions": [
         "2023",
         "2026"
@@ -530,7 +529,7 @@
       ]
     },
     {
-      "id": "MG-M009",
+      "id": "MG-M008",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
@@ -551,7 +550,7 @@
       ]
     },
     {
-      "id": "MG-M010",
+      "id": "MG-M009",
       "category": "motors-and-generators",
       "necArticle": "Article 430, Article 440",
       "difficulty": "master",
@@ -572,7 +571,7 @@
       ]
     },
     {
-      "id": "MG-M011",
+      "id": "MG-M010",
       "category": "motors-and-generators",
       "necArticle": "Article 450, Article 240",
       "difficulty": "master",
@@ -593,7 +592,7 @@
       ]
     },
     {
-      "id": "MG-M012",
+      "id": "MG-M011",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
@@ -614,7 +613,7 @@
       ]
     },
     {
-      "id": "MG-M013",
+      "id": "MG-M012",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
@@ -635,7 +634,7 @@
       ]
     },
     {
-      "id": "MG-M014",
+      "id": "MG-M013",
       "category": "motors-and-generators",
       "necArticle": "430.109(C)(2)",
       "difficulty": "master",

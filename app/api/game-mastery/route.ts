@@ -2,15 +2,15 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, gameMasteryState } from "@/lib/db";
 import { eq, and } from "drizzle-orm";
-import { SNIPER_PACKS } from "@/app/(games)/index-sniper/sniper-data";
-import { TRANSLATION_PACKS } from "@/app/(games)/translation-engine/translation-data";
+import { SNIPER_MERGED_PACKS } from "@/app/(games)/index-sniper/sniper-data";
+import { TRANSLATION_MERGED_PACKS } from "@/app/(games)/translation-engine/translation-data";
 import { MASTERY_CORRECT_THRESHOLD } from "@/app/(games)/shared";
 
 const MASTERY_GAMES = ["index-sniper", "translation-engine"] as const;
 type MasteryGameId = (typeof MASTERY_GAMES)[number];
 
-function getPacksForGame(gameId: MasteryGameId) {
-  return gameId === "index-sniper" ? SNIPER_PACKS : TRANSLATION_PACKS;
+function getMergedPacksForGame(gameId: MasteryGameId) {
+  return gameId === "index-sniper" ? SNIPER_MERGED_PACKS : TRANSLATION_MERGED_PACKS;
 }
 
 export async function POST(req: Request) {
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     }
 
     const typedGameId = gameId as MasteryGameId;
-    const packs = getPacksForGame(typedGameId);
+    const packs = getMergedPacksForGame(typedGameId);
     const maxPackIndex = packs.length - 1;
 
     // Look up existing mastery row

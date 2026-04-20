@@ -47,7 +47,6 @@ import type { GameId } from "@/lib/game-packs";
 
 import {
   TRANSLATION_CARDS,
-  TRANSLATION_PACKS,
   TRANSLATION_MERGED_PACKS,
   shuffleCards,
   getDistractors,
@@ -345,7 +344,7 @@ function TranslationEngineContent() {
         ) {
           unlockCheckedRef.current = true;
           const nextPackIdx = masteryProgress.unlockedIndex + 1;
-          const nextPack = TRANSLATION_PACKS[nextPackIdx];
+          const nextPack = TRANSLATION_MERGED_PACKS[nextPackIdx];
           if (nextPack) {
             setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
             setShowUnlockOverlay(true);
