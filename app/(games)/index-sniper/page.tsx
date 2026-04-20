@@ -220,7 +220,7 @@ function IndexSniperContent() {
         .then((r) => {
           console.log("[mastery] API response status:", r.status);
           if (!r.ok) {
-            return r.text().then((t) => { console.error("[mastery] API error:", t); throw new Error(t); });
+            return r.text().then((t) => { console.error("[mastery] API error status:", r.status, "body:", t); throw new Error(t); });
           }
           return r.json();
         })

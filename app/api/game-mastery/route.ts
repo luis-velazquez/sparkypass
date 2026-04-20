@@ -100,9 +100,10 @@ export async function POST(req: Request) {
       bestCorrect: newBest,
     });
   } catch (error) {
-    console.error("Error updating game mastery:", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("Error updating game mastery:", msg, error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", detail: msg },
       { status: 500 },
     );
   }
