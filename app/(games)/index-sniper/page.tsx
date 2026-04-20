@@ -194,6 +194,7 @@ function IndexSniperContent() {
 
   const endGame = useCallback(
     (reason: "complete" | "strikes" | "timeout") => {
+      console.log("[mastery] endGame called, reason:", reason, "totalCorrectRef:", totalCorrectRef.current);
       if (countdownRef.current) clearInterval(countdownRef.current);
       setGameOverReason(reason);
       setGameOver(true);
@@ -210,13 +211,21 @@ function IndexSniperContent() {
       setStats(newStats);
 
       // Single mastery API call per session — persists unlock and progress
+      console.log("[mastery] endGame calling API with totalCorrect:", finalCorrect);
       fetch("/api/game-mastery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ gameId: GAME_ID, totalCorrect: finalCorrect }),
       })
-        .then((r) => r.json())
+        .then((r) => {
+          console.log("[mastery] API response status:", r.status);
+          if (!r.ok) {
+            return r.text().then((t) => { console.error("[mastery] API error:", t); throw new Error(t); });
+          }
+          return r.json();
+        })
         .then((data) => {
+          console.log("[mastery] API response data:", JSON.stringify(data));
           if (data.unlocked && !unlockCheckedRef.current) {
             // Mid-game overlay didn't fire — handle unlock at game over
             setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
@@ -241,7 +250,7 @@ function IndexSniperContent() {
             })
             .catch(() => {});
         })
-        .catch(() => {});
+        .catch((err) => { console.error("[mastery] fetch failed:", err); });
     },
     [currentIdx, stats, score]
   );
