@@ -209,7 +209,7 @@ function IndexSniperContent() {
       });
       setStats(newStats);
 
-      // Always report mastery progress — ensures unlock is persisted even if mid-game fetch failed
+      // Single mastery API call per session — persists unlock and progress
       fetch("/api/game-mastery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -217,7 +217,8 @@ function IndexSniperContent() {
       })
         .then((r) => r.json())
         .then((data) => {
-          if (data.unlocked && !newUnlock) {
+          if (data.unlocked && !unlockCheckedRef.current) {
+            // Mid-game overlay didn't fire — handle unlock at game over
             setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
             setUnlockedPacks((prev) => {
               const newId = SNIPER_MERGED_PACKS[data.newPackIndex]?.id;
@@ -225,12 +226,24 @@ function IndexSniperContent() {
             });
           }
           if (data.bestCorrect !== undefined) {
-            setMasteryProgress((prev) => prev ? { ...prev, bestCorrect: data.bestCorrect, unlockedIndex: data.newPackIndex ?? data.currentPackIndex ?? prev.unlockedIndex } : prev);
+            setMasteryProgress((prev) => prev ? {
+              ...prev,
+              bestCorrect: data.bestCorrect,
+              unlockedIndex: data.newPackIndex ?? data.currentPackIndex ?? prev.unlockedIndex,
+            } : prev);
           }
+          // Re-fetch packs to sync server state
+          fetch("/api/game-packs")
+            .then((r) => r.json())
+            .then((d) => {
+              if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
+              if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
+            })
+            .catch(() => {});
         })
         .catch(() => {});
     },
-    [currentIdx, stats, score, newUnlock]
+    [currentIdx, stats, score]
   );
 
   useEffect(() => {
@@ -337,7 +350,7 @@ function IndexSniperContent() {
           setTimeout(() => setWildcardToast(null), 2000);
         }
 
-        // Check for mastery unlock mid-game — show overlay instantly
+        // Check for mastery unlock mid-game — show overlay instantly (persist at endGame only)
         if (
           newTotalCorrect >= MASTERY_CORRECT_THRESHOLD &&
           !unlockCheckedRef.current &&
@@ -345,33 +358,14 @@ function IndexSniperContent() {
           masteryProgress.unlockedIndex < masteryProgress.totalPacks - 1
         ) {
           unlockCheckedRef.current = true;
-          // Compute next pack from local data for instant feedback
           const nextPackIdx = masteryProgress.unlockedIndex + 1;
           const nextPack = SNIPER_MERGED_PACKS[nextPackIdx];
           if (nextPack) {
             setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
             setShowUnlockOverlay(true);
             if (countdownRef.current) clearInterval(countdownRef.current);
-            // Optimistically add new pack so activeCards includes it immediately
             setUnlockedPacks((prev) => [...prev, nextPack.id]);
           }
-          // Persist to server in background
-          fetch("/api/game-mastery", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ gameId: GAME_ID, totalCorrect: newTotalCorrect }),
-          })
-            .then((r) => r.json())
-            .then(() => {
-              fetch("/api/game-packs")
-                .then((r) => r.json())
-                .then((d) => {
-                  if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
-                  if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
-                })
-                .catch(() => {});
-            })
-            .catch(() => {});
           return; // Don't auto-advance — overlay dismiss handles it
         }
 
