@@ -1484,6 +1484,7 @@ export function PackUnlockedOverlay({
 // ─── Game Over screen ───────────────────────────────────────────────────────
 
 export interface MasteryUnlock {
+  packId: string;
   packName: string;
   cardCount: number;
 }
@@ -1507,6 +1508,7 @@ export function GameOverScreen({
   gameOverReason,
   maxWrong,
   onPlayAgain,
+  onPlayNewCards,
   onChangeDifficulty,
   wattsEarned = 0,
   wattsSpent = 0,
@@ -1524,6 +1526,7 @@ export function GameOverScreen({
   gameOverReason: "complete" | "strikes" | "timeout";
   maxWrong: number;
   onPlayAgain: () => void;
+  onPlayNewCards?: () => void;
   onChangeDifficulty: () => void;
   wattsEarned?: number;
   wattsSpent?: number;
@@ -1729,9 +1732,9 @@ export function GameOverScreen({
           transition={{ duration: 0.4, delay: newUnlock ? 1.8 : 1.6 }}
           className="flex flex-col items-center gap-3"
         >
-          {newUnlock && (
+          {newUnlock && onPlayNewCards && (
             <Button
-              onClick={onPlayAgain}
+              onClick={onPlayNewCards}
               className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 w-full max-w-xs"
             >
               <Package className="h-4 w-4 mr-2" />

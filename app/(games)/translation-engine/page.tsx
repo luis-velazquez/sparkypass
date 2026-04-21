@@ -215,7 +215,7 @@ function TranslationEngineContent() {
           if (data.unlocked && !unlockCheckedRef.current) {
             const nextPack = TRANSLATION_MERGED_PACKS[data.newPackIndex];
             if (nextPack) {
-              setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
+              setNewUnlock({ packId: nextPack.id, packName: nextPack.name, cardCount: nextPack.cards.length });
               setUnlockedPacks((prev) => prev.includes(nextPack.id) ? prev : [...prev, nextPack.id]);
             }
           }
@@ -363,7 +363,7 @@ function TranslationEngineContent() {
           const nextPackIdx = masteryProgress.unlockedIndex + 1;
           const nextPack = TRANSLATION_MERGED_PACKS[nextPackIdx];
           if (nextPack) {
-            setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
+            setNewUnlock({ packId: nextPack.id, packName: nextPack.name, cardCount: nextPack.cards.length });
             setShowUnlockOverlay(true);
             if (countdownRef.current) clearInterval(countdownRef.current);
             setUnlockedPacks((prev) => [...prev, nextPack.id]);
@@ -457,6 +457,40 @@ function TranslationEngineContent() {
     setGameOverReason("complete");
     setTimeLeft(questionTime);
   }, [questionTime, activeCards]);
+
+  const handlePlayNewCards = useCallback(() => {
+    if (!newUnlock) return;
+    const pack = TRANSLATION_MERGED_PACKS.find((p) => p.id === newUnlock.packId);
+    if (!pack) return;
+    if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
+    if (countdownRef.current) clearInterval(countdownRef.current);
+    setSelectedPackId(pack.id);
+    setCards(shuffleCards(pack.cards));
+    setCurrentIdx(0);
+    setScore(0);
+    setStreak(0);
+    setBestStreak(0);
+    setTotalCorrect(0);
+    totalCorrectRef.current = 0;
+    setWrongCount(0);
+    setSkippedCount(0);
+    setSelected(null);
+    setIsCorrect(null);
+    setShowTrip(false);
+    setHasContinued(false);
+    setWattsSpent(0);
+    setHintUsed(false);
+    setEliminatedOptions(new Set());
+    setWildcards({ freeze_timer: 0, extra_life: 0 });
+    setWildcardToast(null);
+    timerFrozen.current = false;
+    setNewUnlock(null);
+    setShowUnlockOverlay(false);
+    unlockCheckedRef.current = false;
+    setGameOver(false);
+    setGameOverReason("complete");
+    setTimeLeft(questionTime);
+  }, [newUnlock, questionTime]);
 
   const handleChangeDifficulty = useCallback(() => {
     if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
@@ -608,6 +642,7 @@ function TranslationEngineContent() {
         highScore={stats.highScore}
         maxWrong={MAX_WRONG}
         onPlayAgain={handleNewGame}
+        onPlayNewCards={newUnlock ? handlePlayNewCards : undefined}
         onChangeDifficulty={handleChangeDifficulty}
         wattsEarned={totalCorrect * WATTS_PER_CORRECT}
         wattsSpent={wattsSpent}
