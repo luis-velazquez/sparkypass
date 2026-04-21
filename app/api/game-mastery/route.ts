@@ -2,16 +2,21 @@ import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, gameMasteryState } from "@/lib/db";
 import { eq, and } from "drizzle-orm";
-import { SNIPER_MERGED_PACKS } from "@/app/(games)/index-sniper/sniper-data";
-import { TRANSLATION_MERGED_PACKS } from "@/app/(games)/translation-engine/translation-data";
-import { MASTERY_CORRECT_THRESHOLD } from "@/app/(games)/shared";
+
+const MASTERY_CORRECT_THRESHOLD = 10;
 
 const MASTERY_GAMES = ["index-sniper", "translation-engine"] as const;
 type MasteryGameId = (typeof MASTERY_GAMES)[number];
 
-function getMergedPacksForGame(gameId: MasteryGameId) {
-  return gameId === "index-sniper" ? SNIPER_MERGED_PACKS : TRANSLATION_MERGED_PACKS;
-}
+/**
+ * Total merged pack count per game (index 0 = free, rest = merged expansion packs).
+ * Index Sniper: free + 11 merged pairs + NEC Tables = 13
+ * Translation Engine: free + 5 merged pairs = 6
+ */
+const MERGED_PACK_COUNT: Record<MasteryGameId, number> = {
+  "index-sniper": 13,
+  "translation-engine": 6,
+};
 
 export async function POST(req: Request) {
   try {
@@ -32,9 +37,8 @@ export async function POST(req: Request) {
     }
 
     const typedGameId = gameId as MasteryGameId;
-    const packs = getMergedPacksForGame(typedGameId);
-    const maxPackIndex = packs.length - 1;
-    console.log("[mastery-api] gameId:", typedGameId, "packs.length:", packs.length, "maxPackIndex:", maxPackIndex, "totalCorrect:", totalCorrect, "threshold:", MASTERY_CORRECT_THRESHOLD);
+    const totalPacks = MERGED_PACK_COUNT[typedGameId];
+    const maxPackIndex = totalPacks - 1;
 
     // Look up existing mastery row
     const [existing] = await db
@@ -78,18 +82,8 @@ export async function POST(req: Request) {
     }
 
     if (canUnlock) {
-      const unlockedPack = packs[newIndex];
-      const cardCount =
-        "cards" in unlockedPack
-          ? (unlockedPack as any).cards.length
-          : "scenarios" in unlockedPack
-            ? (unlockedPack as any).scenarios.length
-            : 0;
-
       return NextResponse.json({
         unlocked: true,
-        newPackName: unlockedPack.name,
-        newPackCardCount: cardCount,
         newPackIndex: newIndex,
         bestCorrect: newBest,
       });
@@ -99,7 +93,6 @@ export async function POST(req: Request) {
       unlocked: false,
       currentPackIndex: newIndex,
       bestCorrect: newBest,
-      _debug: { packsLength: packs.length, maxPackIndex, currentIndex, canUnlock, totalCorrect, threshold: MASTERY_CORRECT_THRESHOLD },
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error);

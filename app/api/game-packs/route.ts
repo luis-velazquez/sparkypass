@@ -3,14 +3,15 @@ import { auth } from "@/auth";
 import { db, gamePackPurchases, gameMasteryState, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { GAME_PACK_CATALOG, type GameId } from "@/lib/game-packs";
-import { SNIPER_MERGED_PACKS } from "@/app/(games)/index-sniper/sniper-data";
-import { TRANSLATION_MERGED_PACKS } from "@/app/(games)/translation-engine/translation-data";
-import { MASTERY_CORRECT_THRESHOLD } from "@/app/(games)/shared";
+const MASTERY_CORRECT_THRESHOLD = 10;
 
-/** Ordered merged pack IDs for mastery games */
+/**
+ * Ordered merged pack IDs for mastery games.
+ * Must match the MERGED_PACKS arrays in each game's data layer.
+ */
 const MASTERY_PACK_IDS: Record<string, string[]> = {
-  "index-sniper": SNIPER_MERGED_PACKS.map((p) => p.id),
-  "translation-engine": TRANSLATION_MERGED_PACKS.map((p) => p.id),
+  "index-sniper": ["free", ...Array.from({ length: 11 }, (_, i) => `merged-${i + 1}`), "tables"],
+  "translation-engine": ["free", ...Array.from({ length: 5 }, (_, i) => `merged-${i + 1}`)],
 };
 
 /** Given legacy purchases, find the highest pack position index */

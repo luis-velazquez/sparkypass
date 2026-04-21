@@ -210,29 +210,25 @@ function TranslationEngineContent() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ gameId: GAME_ID, totalCorrect: finalCorrect }),
       })
-        .then((r) => r.json())
+        .then((r) => r.ok ? r.json() : r.text().then((t) => { throw new Error(t); }))
         .then((data) => {
           if (data.unlocked && !unlockCheckedRef.current) {
-            setNewUnlock({ packName: data.newPackName, cardCount: data.newPackCardCount });
-            setUnlockedPacks((prev) => {
-              const newId = TRANSLATION_MERGED_PACKS[data.newPackIndex]?.id;
-              return newId && !prev.includes(newId) ? [...prev, newId] : prev;
-            });
+            const nextPack = TRANSLATION_MERGED_PACKS[data.newPackIndex];
+            if (nextPack) {
+              setNewUnlock({ packName: nextPack.name, cardCount: nextPack.cards.length });
+              setUnlockedPacks((prev) => prev.includes(nextPack.id) ? prev : [...prev, nextPack.id]);
+            }
           }
-          if (data.bestCorrect !== undefined) {
-            setMasteryProgress((prev) => prev ? {
-              ...prev,
-              bestCorrect: data.bestCorrect,
-              unlockedIndex: data.newPackIndex ?? data.currentPackIndex ?? prev.unlockedIndex,
-            } : prev);
-          }
-          fetch("/api/game-packs")
-            .then((r) => r.json())
-            .then((d) => {
-              if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
-              if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
-            })
-            .catch(() => {});
+          const idx = data.newPackIndex ?? data.currentPackIndex;
+          setMasteryProgress((prev) => prev ? {
+            ...prev,
+            bestCorrect: data.bestCorrect ?? prev.bestCorrect,
+            unlockedIndex: idx ?? prev.unlockedIndex,
+          } : prev);
+          fetch("/api/game-packs").then((r) => r.json()).then((d) => {
+            if (d.owned?.[GAME_ID]) setUnlockedPacks(d.owned[GAME_ID]);
+            if (d.mastery?.[GAME_ID]) setMasteryProgress(d.mastery[GAME_ID]);
+          }).catch(() => {});
         })
         .catch(() => {});
     },

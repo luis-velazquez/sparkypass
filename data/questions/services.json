@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "SV-A003",
+      "id": "SV-A001",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -22,7 +22,7 @@
       ]
     },
     {
-      "id": "SV-A005",
+      "id": "SV-A002",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "id": "SRV-A001",
+      "id": "SV-A003",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -58,28 +58,13 @@
       "explanation": "According to the NEC, a building or other structure served shall be supplied by only one service, though there are specific special conditions (like fire pumps or emergency systems) where exceptions are allowed.",
       "necReference": "230.2",
       "sparkyTip": "Unless you are dealing with a massive commercial facility, a fire pump, or a backup system, always assume one building gets one service.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A002",
-      "category": "services",
-      "necArticle": "Article 230",
-      "difficulty": "apprentice",
-      "questionText": "What is the minimum overhead clearance required for service-drop conductors passing over a residential property and driveway?",
-      "options": [
-        "10 feet",
-        "12 feet",
-        "15 feet",
-        "18 feet"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Service-drop conductors must have a minimum clearance of 12 feet over residential property and driveways, and those commercial areas not subject to truck traffic.",
-      "necReference": "230.24(B)(2)",
-      "sparkyTip": "10 feet for pedestrian areas, 12 feet for residential driveways, and 18 feet for public streets. Commit those three numbers to memory!",
-      "necVersions": ["2023", "2026"]
-    },
-    {
-      "id": "SRV-A003",
+      "id": "SV-A004",
       "category": "services",
       "necArticle": "Article 100",
       "difficulty": "apprentice",
@@ -94,10 +79,13 @@
       "explanation": "The Service Point is strictly defined as the point of connection between the facilities of the serving utility and the premises wiring. This determines where the utility's responsibility ends and the NEC rules begin.",
       "necReference": "Article 100",
       "sparkyTip": "The service point is the 'handshake' between the utility company and the electrician. Depending on your local utility, this could be at the weatherhead, the meter, or a transformer.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A004",
+      "id": "SV-A005",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -112,10 +100,13 @@
       "explanation": "For a one-family dwelling, the service disconnecting means shall have a rating of not less than 100 amperes, 3-wire.",
       "necReference": "230.79(C)",
       "sparkyTip": "While 200 amps is the modern standard for new residential builds, the NEC absolute legal minimum for a single-family home is 100 amps.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A005",
+      "id": "SV-A006",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -130,10 +121,13 @@
       "explanation": "The service disconnecting means shall be installed in a readily accessible location either outside of a building or structure or inside nearest the point of entrance of the service conductors.",
       "necReference": "230.70(A)(1)",
       "sparkyTip": "Unfused service conductors are dangerous. The NEC wants that disconnect as close to the entry point as possible so those live, unprotected wires aren't running deep into the building.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A006",
+      "id": "SV-A007",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -146,12 +140,15 @@
       ],
       "correctAnswer": 2,
       "explanation": "A service shall have no more than six sets of disconnects. Note that recent NEC cycles require these to be in separate enclosures or compartments rather than a single enclosure.",
-      "necReference": "230.71",
+      "necReference": "230.71(B)",
       "sparkyTip": "This is commonly known as the 'Rule of Six.' First responders need to be able to shut off all power to a building with no more than six hand motions.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A007",
+      "id": "SV-A008",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -166,10 +163,13 @@
       "explanation": "The two to six disconnects as permitted in 230.71 shall be grouped. Each disconnect shall be marked to indicate the load served.",
       "necReference": "230.72(A)",
       "sparkyTip": "If a firefighter needs to kill the power in an emergency, they shouldn't have to go on a scavenger hunt to find the rest of the disconnects.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A008",
+      "id": "SV-A009",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -184,28 +184,53 @@
       "explanation": "Conductors shall not be smaller than 8 AWG copper or 6 AWG aluminum or copper-clad aluminum for overhead services.",
       "necReference": "230.23(B)",
       "sparkyTip": "Even if the calculated load is tiny (like a single pole light), the wire needs enough physical strength to withstand wind and ice. That's why 8 AWG Cu is the minimum.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A009",
+      "id": "SV-A010",
       "category": "services",
-      "necArticle": "Article 230",
       "difficulty": "apprentice",
-      "questionText": "What is the general minimum clearance for service conductors passing over a flat roof?",
+      "questionText": "What is the minimum permitted size for aluminum or copper-clad aluminum overhead service conductors?",
+      "options": [
+        "8 AWG",
+        "6 AWG",
+        "4 AWG",
+        "2 AWG"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The Code requires **overhead service conductors** to be not smaller than 8 AWG copper or **6 AWG aluminum** or copper-clad aluminum.",
+      "necReference": "230.23(B)",
+      "sparkyTip": "Remember the rule of physical strength: **aluminum** is softer than copper. Even for a tiny load, it must be upsized to a minimum of **6 AWG** so the overhead line doesn't snap under wind and ice loads.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "SV-A011",
+      "category": "services",
+      "difficulty": "apprentice",
+      "questionText": "What is the general **minimum vertical clearance** for **overhead service conductors** passing over a **roof**?",
       "options": [
         "3 feet",
-        "8 feet",
+        "8 ft 6 in.",
         "10 feet",
         "12 feet"
       ],
       "correctAnswer": 1,
-      "explanation": "Service-drop conductors must generally maintain a vertical clearance of 8 feet above the roof surface. Exceptions exist depending on roof slope and conductor voltage.",
+      "explanation": "The general rule requires **overhead service conductors** to maintain a vertical clearance of **8 ft 6 in.** above the **roof surface**. This clearance must be maintained for a distance of **3 feet** in all directions from the **edge of the roof**.",
       "necReference": "230.24(A)",
-      "sparkyTip": "Flat roofs are often walked on for maintenance. The 8-foot rule keeps those conductors safely out of reach of someone walking on the roof.",
-      "necVersions": ["2023", "2026"]
+      "sparkyTip": "Think about maintenance workers. The **8 ft 6 in.** rule keeps energized lines safely out of reach of an average person walking on the roof, and the extra 6 inches aligns this rule with standard overhead **feeder** clearances.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     },
     {
-      "id": "SRV-A010",
+      "id": "SV-A012",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
@@ -220,7 +245,10 @@
       "explanation": "Service conductors shall not be installed in the same raceway or cable with feeder or branch-circuit conductors, with a few very specific exceptions.",
       "necReference": "230.7",
       "sparkyTip": "Service conductors lack overcurrent protection until they hit the main breaker. Keeping them isolated prevents a fault from jumping into your protected branch circuits.",
-      "necVersions": ["2023", "2026"]
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
@@ -503,6 +531,27 @@
         "default": "\n\nNEC 230.7 is very direct: Conductors other than service conductors shall not be installed in the same service raceway or service cable. Because service conductors do not have overcurrent protection ahead of them, a fault between the utility wires and a smaller branch-circuit wire sharing that same pipe would cause catastrophic damage. The only standard exceptions are for grounding conductors and equipment bonding jumpers."
       },
       "sparkyTip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway."
+    },
+    {
+      "id": "SV-J014",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "journeyman",
+      "questionText": "What is the minimum overhead clearance required for service-drop conductors passing over a residential property and driveway?",
+      "options": [
+        "10 feet",
+        "12 feet",
+        "15 feet",
+        "18 feet"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Service-drop conductors must have a minimum clearance of 12 feet over residential property and driveways, and those commercial areas not subject to truck traffic.",
+      "necReference": "230.24(B)(2)",
+      "sparkyTip": "10 feet for pedestrian areas, 12 feet for residential driveways, and 18 feet for public streets. Commit those three numbers to memory!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
