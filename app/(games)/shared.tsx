@@ -1280,7 +1280,33 @@ function CountUp({
   );
 }
 
-// ─── Pack Unlocked Overlay (mid-game celebration pause) ─────────────────────
+// ─── Voltage Surge Unlock Overlay (mid-game celebration) ────────────────────
+
+function LightningBolt({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 64 128" fill="none" className={className}>
+      <motion.path
+        d="M36 0L16 52H30L24 128L52 48H36L44 0H36Z"
+        fill="currentColor"
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={{ pathLength: 1, opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      />
+    </svg>
+  );
+}
+
+function EnergyRing({ delay, size }: { delay: number; size: number }) {
+  return (
+    <motion.div
+      className="absolute rounded-full border-2 border-amber/40 dark:border-sparky-green/40"
+      style={{ width: size, height: size }}
+      initial={{ scale: 0, opacity: 0.8 }}
+      animate={{ scale: 2.5, opacity: 0 }}
+      transition={{ duration: 1.5, delay, ease: "easeOut" }}
+    />
+  );
+}
 
 export function PackUnlockedOverlay({
   packName,
@@ -1291,10 +1317,25 @@ export function PackUnlockedOverlay({
   cardCount: number;
   onContinue: () => void;
 }) {
+  const [stage, setStage] = useState(0);
+
   useEffect(() => {
-    fireCompletionConfetti();
-    const t = setTimeout(() => fireCompletionConfetti(), 600);
-    return () => clearTimeout(t);
+    // Stage 0: energy pulse (immediate)
+    // Stage 1: lightning strike
+    const t1 = setTimeout(() => setStage(1), 400);
+    // Stage 2: flash + reveal
+    const t2 = setTimeout(() => {
+      setStage(2);
+      haptic("success");
+      // Fire golden/green sparks from center
+      confetti({ particleCount: 80, spread: 360, startVelocity: 30, origin: { x: 0.5, y: 0.45 }, colors: ["#F59E0B", "#A3FF00", "#10B981", "#ffffff"], ticks: 60, scalar: 0.8 });
+    }, 800);
+    // Stage 3: show details + button
+    const t3 = setTimeout(() => {
+      setStage(3);
+      confetti({ particleCount: 50, spread: 80, origin: { y: 0.5 }, colors: ["#F59E0B", "#A3FF00"] });
+    }, 1600);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
   }, []);
 
   return (
@@ -1302,49 +1343,140 @@ export function PackUnlockedOverlay({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
     >
+      {/* Dark backdrop */}
       <motion.div
-        initial={{ scale: 0.7, opacity: 0, y: 30 }}
-        animate={{ scale: 1, opacity: 1, y: 0 }}
-        exit={{ scale: 0.9, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 200, damping: 15 }}
-        className="w-full max-w-sm"
-      >
-        <Card className="border-amber/40 dark:border-sparky-green/30 bg-card dark:bg-stone-900 shadow-2xl">
-          <CardContent className="p-6 text-center">
-            <motion.div
-              initial={{ scale: 0, rotate: -20 }}
-              animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 12, delay: 0.2 }}
-            >
-              <Unlock className="h-14 w-14 text-amber dark:text-sparky-green mx-auto mb-3" />
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-            >
-              <h2 className="text-2xl font-bold font-display text-foreground mb-1">
-                Pack Unlocked!
-              </h2>
-              <p className="text-amber dark:text-sparky-green font-bold text-lg mb-1">
-                {packName}
-              </p>
-              <p className="text-sm text-muted-foreground mb-6">
-                {cardCount} new cards added to your pool
-              </p>
-              <Button
-                onClick={onContinue}
-                className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 w-full"
-              >
-                <ChevronRight className="h-4 w-4 mr-1" />
-                Keep Playing
-              </Button>
-            </motion.div>
-          </CardContent>
-        </Card>
-      </motion.div>
+        className="absolute inset-0 bg-black/70"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* Ambient glow pulse */}
+      <motion.div
+        className="absolute w-80 h-80 rounded-full bg-amber/20 dark:bg-sparky-green/20 blur-3xl"
+        animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* Energy rings radiating from center */}
+      <div className="absolute flex items-center justify-center">
+        <EnergyRing delay={0} size={60} />
+        <EnergyRing delay={0.15} size={100} />
+        <EnergyRing delay={0.3} size={140} />
+      </div>
+
+      {/* Lightning bolt */}
+      <AnimatePresence>
+        {stage >= 1 && stage < 3 && (
+          <motion.div
+            className="absolute"
+            initial={{ opacity: 0, y: -40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 1.5 }}
+            transition={{ duration: 0.15 }}
+          >
+            <LightningBolt className="h-32 w-16 text-amber dark:text-sparky-green drop-shadow-[0_0_20px_rgba(245,158,11,0.8)] dark:drop-shadow-[0_0_20px_rgba(163,255,0,0.8)]" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* White flash on strike */}
+      {stage === 2 && (
+        <motion.div
+          className="absolute inset-0 bg-white dark:bg-sparky-green/30"
+          initial={{ opacity: 0.7 }}
+          animate={{ opacity: 0 }}
+          transition={{ duration: 0.4 }}
+        />
+      )}
+
+      {/* Content card — materializes after lightning */}
+      <AnimatePresence>
+        {stage >= 2 && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 180, damping: 14, delay: 0.1 }}
+            className="relative z-10 w-full max-w-sm px-4"
+          >
+            <Card className="border-amber/50 dark:border-sparky-green/40 bg-card/95 dark:bg-stone-900/95 shadow-[0_0_40px_rgba(245,158,11,0.3)] dark:shadow-[0_0_40px_rgba(163,255,0,0.2)] backdrop-blur-md">
+              <CardContent className="p-6 text-center">
+                {/* Zap icon with electric glow */}
+                <motion.div
+                  initial={{ scale: 0, rotate: -30 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 250, damping: 10, delay: 0.2 }}
+                >
+                  <div className="relative inline-block mb-3">
+                    <Zap className="h-14 w-14 text-amber dark:text-sparky-green" />
+                    <motion.div
+                      className="absolute inset-0 rounded-full bg-amber/30 dark:bg-sparky-green/30 blur-xl"
+                      animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0.8, 0.5] }}
+                      transition={{ duration: 1.5, repeat: Infinity }}
+                    />
+                  </div>
+                </motion.div>
+
+                {/* Title */}
+                <motion.h2
+                  className="text-2xl font-bold font-display text-foreground mb-1"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.35 }}
+                >
+                  Voltage Surge!
+                </motion.h2>
+
+                <motion.p
+                  className="text-xs uppercase tracking-widest text-muted-foreground mb-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.45 }}
+                >
+                  New cards unlocked
+                </motion.p>
+
+                {/* Pack name with shimmer */}
+                <motion.div
+                  className="relative overflow-hidden rounded-lg border border-amber/30 dark:border-sparky-green/20 bg-amber/5 dark:bg-sparky-green/5 py-3 px-4 mb-4"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
+                >
+                  <p className="text-lg font-bold text-amber dark:text-sparky-green">{packName}</p>
+                  <p className="text-sm text-muted-foreground">{cardCount} cards</p>
+                  {/* Electric shimmer sweep */}
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 dark:via-sparky-green/10 to-transparent"
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "200%" }}
+                    transition={{ duration: 1, delay: 0.7, ease: "easeInOut" }}
+                  />
+                </motion.div>
+
+                {/* Continue button */}
+                {stage >= 3 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                  >
+                    <Button
+                      onClick={onContinue}
+                      className="bg-amber hover:bg-amber/90 text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950 w-full"
+                    >
+                      <Zap className="h-4 w-4 mr-1" />
+                      Keep Playing
+                    </Button>
+                  </motion.div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
