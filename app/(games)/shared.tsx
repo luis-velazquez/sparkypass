@@ -1678,7 +1678,7 @@ export function GameOverScreen({
           </Card>
         </motion.div>
 
-        {/* Pack unlocked banner */}
+        {/* Pack unlocked banner — Electric Blueprint style */}
         {newUnlock && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -1686,19 +1686,65 @@ export function GameOverScreen({
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 1.6 }}
             className="mb-6"
           >
-            <Card className="border-amber/40 dark:border-sparky-green/30 bg-amber/5 dark:bg-sparky-green/5">
-              <CardContent className="p-4 flex items-center gap-3">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-amber/20 dark:bg-sparky-green/20 shrink-0">
-                  <Unlock className="h-5 w-5 text-amber dark:text-sparky-green" />
+            <div className="relative overflow-hidden rounded-xl border border-amber/30 dark:border-sparky-green/20 bg-stone-950 dark:bg-stone-950">
+              {/* Blueprint grid background */}
+              <div
+                className="absolute inset-0 opacity-[0.06]"
+                style={{
+                  backgroundImage: "linear-gradient(rgba(245,158,11,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.8) 1px, transparent 1px)",
+                  backgroundSize: "20px 20px",
+                }}
+              />
+              {/* Animated spark dots along top border */}
+              <div className="absolute top-0 left-0 right-0 h-px">
+                <motion.div
+                  className="absolute top-0 w-8 h-px bg-gradient-to-r from-transparent via-amber dark:via-sparky-green to-transparent"
+                  animate={{ left: ["-10%", "110%"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear", repeatDelay: 1 }}
+                />
+              </div>
+              {/* Animated spark along bottom border */}
+              <div className="absolute bottom-0 left-0 right-0 h-px">
+                <motion.div
+                  className="absolute bottom-0 w-8 h-px bg-gradient-to-r from-transparent via-amber dark:via-sparky-green to-transparent"
+                  animate={{ right: ["-10%", "110%"] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear", repeatDelay: 1, delay: 1 }}
+                />
+              </div>
+
+              <div className="relative p-4 flex items-center gap-4">
+                {/* Card count readout */}
+                <div className="flex flex-col items-center justify-center shrink-0 w-16 h-16 rounded-lg border border-amber/20 dark:border-sparky-green/15 bg-amber/5 dark:bg-sparky-green/5">
+                  <motion.span
+                    className="text-2xl font-black font-mono text-amber dark:text-sparky-green leading-none"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 12, delay: 1.8 }}
+                  >
+                    {newUnlock.cardCount}
+                  </motion.span>
+                  <span className="text-[9px] uppercase tracking-widest text-amber/60 dark:text-sparky-green/60 font-bold mt-0.5">
+                    cards
+                  </span>
                 </div>
+
+                {/* Pack info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-foreground">Pack Unlocked!</p>
-                  <p className="text-xs text-muted-foreground">
-                    <span className="font-medium text-amber dark:text-sparky-green">{newUnlock.packName}</span> — {newUnlock.cardCount} new cards added to your pool
+                  <p className="text-[10px] uppercase tracking-widest text-amber/60 dark:text-sparky-green/50 font-bold mb-0.5">
+                    Pack Unlocked
+                  </p>
+                  <p className="text-sm font-bold font-mono text-white truncate">
+                    {newUnlock.packName}
+                  </p>
+                  <p className="text-xs text-stone-400 mt-0.5">
+                    Added to your card pool
                   </p>
                 </div>
-              </CardContent>
-            </Card>
+
+                {/* Glow accent */}
+                <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-amber/10 dark:bg-sparky-green/10 blur-2xl" />
+              </div>
+            </div>
           </motion.div>
         )}
 
