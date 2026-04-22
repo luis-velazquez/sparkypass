@@ -1678,7 +1678,7 @@ export function GameOverScreen({
           </Card>
         </motion.div>
 
-        {/* Pack unlocked banner — Electric Blueprint style */}
+        {/* Pack unlocked banner — Warm Blueprint (light) / Electric Blueprint (dark) */}
         {newUnlock && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -1686,12 +1686,12 @@ export function GameOverScreen({
             transition={{ type: "spring", stiffness: 200, damping: 15, delay: 1.6 }}
             className="mb-6"
           >
-            <div className="relative overflow-hidden rounded-xl border border-amber/30 dark:border-sparky-green/20 bg-stone-950 dark:bg-stone-950">
-              {/* Blueprint grid background */}
+            <div className="relative overflow-hidden rounded-xl border border-amber/40 dark:border-sparky-green/20 bg-amber-50 dark:bg-stone-950">
+              {/* Blueprint grid — amber on cream (light), faint on dark */}
               <div
-                className="absolute inset-0 opacity-[0.06]"
+                className="absolute inset-0 opacity-[0.12] dark:opacity-[0.06]"
                 style={{
-                  backgroundImage: "linear-gradient(rgba(245,158,11,0.8) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.8) 1px, transparent 1px)",
+                  backgroundImage: "linear-gradient(rgba(245,158,11,0.6) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.6) 1px, transparent 1px)",
                   backgroundSize: "20px 20px",
                 }}
               />
@@ -1714,7 +1714,7 @@ export function GameOverScreen({
 
               <div className="relative p-4 flex items-center gap-4">
                 {/* Card count readout */}
-                <div className="flex flex-col items-center justify-center shrink-0 w-16 h-16 rounded-lg border border-amber/20 dark:border-sparky-green/15 bg-amber/5 dark:bg-sparky-green/5">
+                <div className="flex flex-col items-center justify-center shrink-0 w-16 h-16 rounded-lg border border-amber/30 dark:border-sparky-green/15 bg-white/60 dark:bg-sparky-green/5">
                   <motion.span
                     className="text-2xl font-black font-mono text-amber dark:text-sparky-green leading-none"
                     initial={{ opacity: 0, scale: 0.5 }}
@@ -1723,26 +1723,26 @@ export function GameOverScreen({
                   >
                     {newUnlock.cardCount}
                   </motion.span>
-                  <span className="text-[9px] uppercase tracking-widest text-amber/60 dark:text-sparky-green/60 font-bold mt-0.5">
+                  <span className="text-[9px] uppercase tracking-widest text-amber/70 dark:text-sparky-green/60 font-bold mt-0.5">
                     cards
                   </span>
                 </div>
 
                 {/* Pack info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-[10px] uppercase tracking-widest text-amber/60 dark:text-sparky-green/50 font-bold mb-0.5">
+                  <p className="text-[10px] uppercase tracking-widest text-amber/70 dark:text-sparky-green/50 font-bold mb-0.5">
                     Pack Unlocked
                   </p>
-                  <p className="text-sm font-bold font-mono text-white truncate">
+                  <p className="text-sm font-bold font-mono text-stone-800 dark:text-white truncate">
                     {newUnlock.packName}
                   </p>
-                  <p className="text-xs text-stone-400 mt-0.5">
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
                     Added to your card pool
                   </p>
                 </div>
 
                 {/* Glow accent */}
-                <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-amber/10 dark:bg-sparky-green/10 blur-2xl" />
+                <div className="absolute -right-4 -top-4 w-20 h-20 rounded-full bg-amber/15 dark:bg-sparky-green/10 blur-2xl" />
               </div>
             </div>
           </motion.div>
