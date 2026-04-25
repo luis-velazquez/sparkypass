@@ -51,10 +51,13 @@ export function getQuestionsByCategoryAndDifficulty(
 /**
  * Get a random selection of questions from a category, optionally filtered by difficulty
  */
-export function getRandomQuestions(category: CategorySlug, count: number = 15, difficulty?: Difficulty, necVersion?: NecVersion): Question[] {
-  const categoryQuestions = difficulty
+export function getRandomQuestions(category: CategorySlug, count: number = 15, difficulty?: Difficulty, necVersion?: NecVersion, excludeCalculation?: boolean): Question[] {
+  let categoryQuestions = difficulty
     ? getQuestionsByCategoryAndDifficulty(category, difficulty, necVersion)
     : getQuestionsByCategory(category, necVersion);
+  if (excludeCalculation) {
+    categoryQuestions = categoryQuestions.filter((q) => !q.calculation);
+  }
   // Fisher-Yates shuffle for uniform randomization
   const shuffled = [...categoryQuestions];
   for (let i = shuffled.length - 1; i > 0; i--) {

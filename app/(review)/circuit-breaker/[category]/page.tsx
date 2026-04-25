@@ -112,7 +112,7 @@ export default function CircuitBreakerChallengePage() {
     async function initialize() {
       try {
         // Load questions
-        const qs = getRandomQuestions(categorySlug, 50, undefined, necVersion);
+        const qs = getRandomQuestions(categorySlug, 50, undefined, necVersion, true);
         setQuestions(qs);
 
         // Load breaker state and user data
