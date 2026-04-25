@@ -44,7 +44,7 @@ const changelog: ChangelogEntry[] = [
     date: "March 2026",
     changes: [
       { type: "added", description: "Commercial load calculator with retail, restaurant, office, and warehouse scenarios" },
-      { type: "added", description: "Index Sniper game — timed NEC article lookup challenges" },
+      { type: "added", description: "Index Trace game — timed NEC article lookup challenges" },
       { type: "added", description: "Slang to Code game — decode NEC language into plain English" },
       { type: "added", description: "Ohm's Law reward system (Watts, Voltage tiers, Amps)" },
       { type: "added", description: "Circuit Breaker spaced repetition system" },

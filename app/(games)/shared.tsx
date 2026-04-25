@@ -28,7 +28,7 @@ import { SparkyMessage } from "@/components/sparky";
 import { useSidebar } from "@/components/layout/SidebarContext";
 import { haptic } from "@/lib/haptics";
 
-// ─── Card Game Rules (shared by Index Sniper & Slang to Code) ──────────
+// ─── Card Game Rules (shared by Index Trace & Slang to Code) ──────────
 
 export const CARD_GAME_RULES = {
   MAX_WRONG: 3,

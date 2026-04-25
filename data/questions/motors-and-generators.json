@@ -5,6 +5,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "When sizing branch-circuit conductors for a single motor, which current value is generally used?",
       "options": [
         "The motor nameplate current rating",
@@ -26,6 +27,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Branch-circuit conductors supplying a single continuous-duty motor must have an ampacity of not less than what percentage of the motor's full-load current rating?",
       "options": [
         "80%",
@@ -47,6 +49,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 445",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Generators must be equipped with a disconnect that simultaneously opens all associated ungrounded conductors. This disconnect must be...",
       "options": [
         "Lockable in the closed position",
@@ -68,6 +71,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "According to NEC Article 430, what is the definition of a motor controller?",
       "options": [
         "Any switch or device that is normally used to start and stop a motor",
@@ -88,6 +92,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "When calculating the feeder conductor size for multiple motors, you take the sum of the full-load currents of all motors and add what percentage of the highest rated motor in the group?",
       "options": [
         "10%",
@@ -109,6 +114,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 445",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "The ampacity of the conductors from the generator terminals to the first distribution device containing overcurrent protection shall not be less than what percentage of the nameplate current rating of the generator?",
       "options": [
         "100%",
@@ -132,6 +138,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "A 25 HP, 460V, 3-phase squirrel cage motor has a nameplate FLA of 32A. Per NEC Table 430.250, the FLC is 34A. What current value must be used to size the branch circuit conductors?",
       "options": [
         "32A (nameplate FLA)",
@@ -153,6 +160,7 @@
       "category": "motors-and-generators",
       "necArticle": "430.52(C)(3) Ex. 1",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A 50 HP, 460V, 3-phase AC motor has a full-load current of 65A per Table 430.250. It is NOT a Design B energy-efficient or premium efficiency motor. If the starting current causes nuisance tripping at the standard setting, what is the absolute maximum permitted setting for an instantaneous trip circuit breaker (MCP)?",
       "options": [
         "520A",
@@ -174,6 +182,7 @@
       "category": "motors-and-generators",
       "necArticle": "Table 430.7(B)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "A 30 HP, 460V, 3-phase motor has a NEMA Code Letter K stamped on its nameplate. According to NEC Table 430.7(B), what is the maximum locked-rotor current (LRA) for this motor?",
       "options": [
         "301A",
@@ -195,6 +204,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A 7.5 HP, 208V, 3-phase motor has an FLC of 24.2A per Table 430.250. The motor nameplate shows 22A FLA and a service factor of 1.0. What is the maximum overload protection?",
       "options": [
         "25.3A",
@@ -216,6 +226,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430, Article 240",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "What is the maximum size standard inverse-time circuit breaker that can be used for branch-circuit, short-circuit, and ground-fault protection for a 25 HP, 460V, 3-phase, squirrel-cage motor (Design B)?",
       "options": [
         "80A",
@@ -237,6 +248,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A feeder supplies three motors with full-load currents of 44 A, 26 A, and 14 A. Per 430.24, what is the minimum feeder conductor ampacity?",
       "options": [
         "95 A",
@@ -258,6 +270,7 @@
       "category": "motors-and-generators",
       "necArticle": "Table 430.72(B)(2)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "A 60A circuit breaker protects a motor branch circuit. The motor control circuit is tapped from the load side of this breaker using 14 AWG copper wire and runs 20 feet through EMT to a remote Start/Stop push-button station. According to Table 430.72(B)(2), does this 14 AWG control circuit require separate overcurrent protection (inline fuses)?",
       "options": [
         "Yes, because the 60A breaker exceeds the 45A limit for control wires extending beyond the enclosure.",
@@ -279,6 +292,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A 15 HP, 460V, 3-phase motor has an FLA of 21A. The motor has a 1.15 service factor. What is the maximum overload protection setting?",
       "options": [
         "24.15A",
@@ -300,6 +314,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Where must a disconnecting means for a motor generally be located in relation to the motor location?",
       "options": [
         "Within sight (visible and not more than 50 feet away)",
@@ -321,6 +336,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "For a continuous-duty motor marked with a service factor of 1.15, the separate overload device shall be sized at no more than what percentage of the nameplate full-load current rating?",
       "options": [
         "115%",
@@ -342,6 +358,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Under which of the following conditions must the frames of stationary motors be grounded?",
       "options": [
         "If supplied by metal-enclosed wiring",
@@ -363,6 +380,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "On a motor nameplate, what does the 'Code Letter' indicate?",
       "options": [
         "The motor's NEMA enclosure type",
@@ -386,6 +404,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "What is the maximum inverse time circuit breaker size for a 40A FLC squirrel cage motor with no code letter?",
       "options": [
         "70A",
@@ -407,6 +426,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A motor feeder supplies three motors: 28A FLC, 40A FLC, and 14A FLC. What is the minimum feeder ampacity?",
       "options": [
         "82A",
@@ -428,6 +448,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 10 HP, 230V, 3-phase squirrel-cage motor is installed using a dual-element (time-delay) fuse for short-circuit and ground-fault protection. What is the maximum standard size fuse permitted?",
       "options": [
         "35A",
@@ -449,6 +470,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A motor feeder supplies two 20 HP motors and one 10 HP motor, all 460V, 3-phase. If the branch circuits are protected by inverse-time circuit breakers, what is the maximum standard size feeder overcurrent protective device permitted?",
       "options": [
         "70A",
@@ -470,6 +492,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430, Article 220",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 480V feeder supplies a 30 HP, 3-phase, squirrel-cage motor (Design B), a 10 HP, 3-phase, squirrel-cage motor, and a continuous 40A non-motor lighting load. What is the minimum required ampacity for the feeder conductors?",
       "options": [
         "104A",
@@ -491,6 +514,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 460V, 3-phase feeder supplies two 25 HP Design B motors and one 50 HP wound-rotor motor. What is the maximum standard size inverse-time circuit breaker permitted for feeder short-circuit and ground-fault protection?",
       "options": [
         "150A",
@@ -512,6 +536,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "You are installing a 15 HP, 460V, 3-phase high-efficiency motor with a nameplate full-load amperes (FLA) of 18A. The motor has a service factor of 1.15 and a temperature rise of 40°C. What are the minimum required conductor ampacity and the maximum permitted overload protection setting?",
       "options": [
         "Conductors: 22.5A | Overload: 22.5A",
@@ -533,6 +558,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A feeder supplies three identical 25 HP, 460V, 3-phase, Design B motors. Per Table 430.250, the FLC for each is 34A. What is the minimum required ampacity for the feeder conductors?",
       "options": [
         "102A",
@@ -554,6 +580,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430, Article 440",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A hermetic motor-compressor for an A/C unit has a nameplate Rated Load Current (RLC) of 24A and is protected by a separate overload device. What is the maximum permitted trip setting for the overload device?",
       "options": [
         "27.6A (115%)",
@@ -575,6 +602,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 450, Article 240",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 75 kVA, 480V-208V, 3-phase transformer primary supplies a motor control center. What is the maximum standard size primary circuit breaker allowed if secondary protection is not provided at the transformer?",
       "options": [
         "100A",
@@ -596,6 +624,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "A motor control circuit is tapped from a 100A branch circuit inside a motor starter. The control circuit uses #14 AWG copper wire and extends to a remote push-button station. What is the maximum supplementary overcurrent protection required for this control circuit?",
       "options": [
         "15A",
@@ -617,6 +646,7 @@
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A motor feeder utilizes conductors with an ampacity of 200A, protected by a larger inverse-time circuit breaker. A 20-foot tap is made from this feeder to supply a single 40 HP, 460V, 3-phase motor (FLC 52A). What is the minimum ampacity required for the tap conductors?",
       "options": [
         "52A",
@@ -638,6 +668,7 @@
       "category": "motors-and-generators",
       "necArticle": "430.109(C)(2)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "An electrician is installing a 1.5 HP, 120V stationary motor and wants to use a standard 20-ampere, AC-only general-use snap switch as the required disconnecting means. According to the NEC, what is the maximum allowable full-load current (FLC) of the motor to legally use this switch?",
       "options": [
         "10 Amperes",

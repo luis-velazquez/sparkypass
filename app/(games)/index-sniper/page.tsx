@@ -585,7 +585,7 @@ function IndexSniperContent() {
 
     return (
       <GameOverScreen
-        summaryTitle={gameOverReason === "strikes" ? "Circuit Overload!" : "Mission Complete!"}
+        summaryTitle={gameOverReason === "strikes" ? "Circuit Overload!" : "Trace Complete!"}
         summarySubtitle={gameOverReason === "strikes"
           ? `The breaker tripped ${MAX_WRONG} times — circuit shut down after ${answered} references`
           : `You\u2019ve sniped through all ${cards.length} references`}
@@ -625,7 +625,7 @@ function IndexSniperContent() {
     >
       <BlueprintBackground />
       <div className="container mx-auto px-4 py-8 max-w-3xl relative z-10 flex flex-col">
-        <GameHeader titleAccent="Index" title="Sniper" subtitle="Match each NEC field term to its exact code reference. Precision is everything." />
+        <GameHeader titleAccent="Index" title="Trace" subtitle="Match each NEC field term to its exact code reference. Precision is everything." />
 
         <ScoreBar score={score} streak={streak} highScore={stats.highScore} timeLeft={timeLeft} maxTime={questionTime} wrongCount={wrongCount} maxWrong={MAX_WRONG} currentIdx={currentIdx} total={cards.length} onNewGame={handleNewGame} multiplier={getComboMultiplier(streak)} />
 

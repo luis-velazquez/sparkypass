@@ -23,7 +23,7 @@ import { LandingFooter } from "@/components/landing/LandingFooter";
 
 const features = [
   { icon: BookOpen, label: "500+ NEC practice questions with explanations" },
-  { icon: Gamepad2, label: "Interactive games — Index Sniper, Slang to Code, and more" },
+  { icon: Gamepad2, label: "Interactive games — Index Trace, Slang to Code, and more" },
   { icon: Layers, label: "Flashcards for key formulas & code references" },
   { icon: Calendar, label: "Daily challenges and study streaks" },
   { icon: Calculator, label: "Residential & commercial load calculator tools" },

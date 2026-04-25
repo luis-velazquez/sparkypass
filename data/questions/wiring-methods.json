@@ -5,6 +5,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "When boring holes in wood members for cable or raceway installation, what is the minimum distance from the nearest edge required to avoid using a steel plate?",
       "options": [
         "At least 1 inch",
@@ -26,6 +27,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "In NEC Table 300.5, which column determines the cover depth for Rigid Polyvinyl Chloride Conduit (PVC) approved for direct burial?",
       "options": [
         "Column 1 (Direct Burial Cables)",
@@ -47,6 +49,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Rules for boxes and conduit bodies are primarily found in which article?",
       "options": [
         "Article 312",
@@ -67,6 +70,7 @@
       "id": "WM-A004",
       "category": "wiring-methods",
       "difficulty": "apprentice",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -92,6 +96,7 @@
       "id": "WM-A005",
       "category": "wiring-methods",
       "difficulty": "apprentice",
+      "calculation": false,
       "validCodeCycles": [
         "2026"
       ],
@@ -115,6 +120,7 @@
       "id": "WM-A006",
       "category": "wiring-methods",
       "difficulty": "apprentice",
+      "calculation": false,
       "validCodeCycles": [
         "2026"
       ],
@@ -138,6 +144,7 @@
       "id": "WM-A007",
       "category": "wiring-methods",
       "difficulty": "apprentice",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -166,6 +173,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 334",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "NM cable (Romex) is NOT permitted in which of the following locations?",
       "options": [
         "One- and two-family dwellings",
@@ -187,6 +195,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Is it permitted to use a raceway containing power supply conductors to support Class 2 control cables?",
       "options": [
         "No, raceways can never support other cables.",
@@ -208,6 +217,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum cover depth for a Direct Buried Cable vs. a Nonmetallic Raceway (PVC)?",
       "options": [
         "Both require 18 inches of cover.",
@@ -228,6 +238,7 @@
       "id": "WM-J004",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -253,6 +264,7 @@
       "id": "WM-J005",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -278,6 +290,7 @@
       "id": "WM-J006",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2026"
       ],
@@ -301,6 +314,7 @@
       "id": "WM-J007",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2026"
       ],
@@ -324,6 +338,7 @@
       "id": "WM-J008",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2026"
       ],
@@ -347,6 +362,7 @@
       "id": "WM-J009",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -372,6 +388,7 @@
       "id": "WM-J010",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -397,6 +414,7 @@
       "id": "WM-J011",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -422,6 +440,7 @@
       "id": "WM-J012",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -447,6 +466,7 @@
       "id": "WM-J013",
       "category": "wiring-methods",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2026"
       ],
@@ -471,6 +491,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "You are working on a pad-mounted transformer where underground conduits stub up into the enclosure. To accommodate for condensation caused by the temperature difference between the hot transformer and the cooler earth, what is required by the 2026 NEC?",
       "options": [
         "A listed weep hole must be drilled at the lowest point of the underground raceway.",
@@ -491,6 +512,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What must be installed to compensate for the anticipated thermal expansion and contraction?",
       "options": [
         "Heavy-duty stainless steel straps tightened to completely restrict movement.",
@@ -511,6 +533,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "A crew is evaluating the native excavated soil to use as backfill over a newly laid PVC conduit in a trench. Which of the following materials must be explicitly avoided in the backfill to prevent physical damage to the raceway?",
       "options": [
         "Soil with a high moisture content or heavy clay consistency.",
@@ -533,6 +556,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 358",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "What is the maximum trade size of EMT (Electrical Metallic Tubing) permitted by the NEC?",
       "options": [
         "2 inches",
@@ -554,6 +578,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "According to the 2026 NEC, what is the minimum required separation distance for electrical wiring methods and materials installed under a roof, measured from the nearest surface of the roof?",
       "options": [
         "7/8 inch",
@@ -574,6 +599,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "Generally, the NEC requires a minimum of 1-1/2 inches of separation between electrical wiring methods and the lowest surface of a roof. Under what condition are you permitted to install cables without this spacing?",
       "options": [
         "When installed under metal decking covered with a minimum 2-inch thick concrete slab.",
@@ -598,6 +624,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 300",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "You are roughing in a standard wall box that measures less than 8 inches in any dimension. According to the NEC, what is the minimum length that the free conductors must extend OUTSIDE the physical opening of the box to allow for device termination?",
       "options": [
         "At least 2 inches",
@@ -622,6 +649,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 312",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "While re-installing the dead front cover of a panelboard, you notice one of the factory screws is missing. You decide to use a field-installed screw from your tool pouch. Assuming the screw is not located within 3/8 inch of the enclosure wall, what type of screw must be used and what is the maximum distance it is permitted to extend into the wiring space?",
       "options": [
         "A self-tapping sheet metal screw extending no more than 3/8 inch.",
@@ -646,6 +674,7 @@
       "category": "wiring-methods",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "You are installing a listed underground handhole enclosure for a set of landscape lighting circuits. You are generally not allowed to bury the enclosure under earth or paving. However, an exception permits the enclosure to be covered by certain materials IF its location is effectively described and accessible for excavation. Which of the following materials is PERMITTED to cover the enclosure under this exception?",
       "options": [
         "Concrete paving not exceeding 2 inches in thickness.",
@@ -666,6 +695,7 @@
       "id": "WM-M007",
       "category": "wiring-methods",
       "difficulty": "master",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"

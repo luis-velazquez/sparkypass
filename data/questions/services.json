@@ -5,6 +5,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Service entrance conductors must be sized to carry at least what percentage of the calculated load?",
       "options": [
         "80%",
@@ -26,6 +27,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the purpose of a drip loop on service entrance conductors?",
       "options": [
         "To provide slack for repairs",
@@ -47,6 +49,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "As a general rule, how many services is a building or other structure permitted to be supplied by?",
       "options": [
         "Only one",
@@ -68,6 +71,7 @@
       "category": "services",
       "necArticle": "Article 100",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the NEC definition of the 'Service Point'?",
       "options": [
         "The weatherhead where the utility lines connect",
@@ -89,6 +93,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum rating permitted for the service disconnecting means for a one-family dwelling?",
       "options": [
         "60 Amperes",
@@ -110,6 +115,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Where must the service disconnecting means be installed?",
       "options": [
         "In a readily accessible location nearest the point of entrance of the service conductors",
@@ -131,6 +137,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the maximum number of service disconnects permitted for a single service?",
       "options": [
         "One",
@@ -152,6 +159,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "If multiple service disconnects (up to six) are used, how must they be arranged?",
       "options": [
         "Spread out across the building for convenience",
@@ -173,6 +181,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum permitted size for copper overhead service-drop conductors?",
       "options": [
         "10 AWG",
@@ -193,6 +202,7 @@
       "id": "SV-A010",
       "category": "services",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum permitted size for aluminum or copper-clad aluminum overhead service conductors?",
       "options": [
         "8 AWG",
@@ -213,6 +223,7 @@
       "id": "SV-A011",
       "category": "services",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the general **minimum vertical clearance** for **overhead service conductors** passing over a **roof**?",
       "options": [
         "3 feet",
@@ -234,6 +245,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Are service conductors generally permitted to be routed within the same raceway or cable as feeder or branch-circuit conductors?",
       "options": [
         "Yes, as long as they have the same insulation rating",
@@ -257,6 +269,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum height for a service drop over a residential driveway?",
       "options": [
         "10 feet",
@@ -278,6 +291,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum clearance from final grade for service entrance conductors on a building?",
       "options": [
         "8 feet",
@@ -299,6 +313,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum clearance required for service drop conductors over a public street?",
       "options": [
         "12 feet",
@@ -320,6 +335,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Service lateral conductors installed underground must have a minimum burial depth of:",
       "options": [
         "12 inches",
@@ -341,6 +357,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "The service point is defined as the point of connection between:",
       "options": [
         "The meter and the panel",
@@ -362,6 +379,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is required when more than one building is supplied from a single service?",
       "options": [
         "Nothing special required",
@@ -383,6 +401,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "For a 400-ampere service using parallel 200A conductors, what is the maximum overcurrent protection?",
       "options": [
         "200 amperes each set",
@@ -404,6 +423,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Service entrance cables must be supported within how many inches of the service head?",
       "options": [
         "6 inches",
@@ -425,6 +445,7 @@
       "category": "services",
       "necArticle": "Article 110.26(A)(1)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum working clearance required in front of a 480V switchboard where there are exposed live parts on one side and a concrete/block wall (grounded) on the other side?",
       "options": [
         "3 feet",
@@ -446,6 +467,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Emergency disconnects for one- and two-family dwelling units must be located:",
       "options": [
         "Inside the dwelling only",
@@ -467,6 +489,7 @@
       "category": "services",
       "necArticle": "Article 230.70(A)(1)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "According to the NEC, where must the service disconnecting means be installed relative to the service entrance conductors entering the building?",
       "options": [
         "Within 10 feet of the entrance",
@@ -488,6 +511,7 @@
       "category": "services",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "What is the feeder demand load for a single 14 kW household electric range rated at 240 volts?",
       "options": [
         "8.0 kVA",
@@ -511,6 +535,7 @@
       "id": "SV-J013",
       "category": "services",
       "difficulty": "journeyman",
+      "calculation": false,
       "validCodeCycles": [
         "2023",
         "2026"
@@ -537,6 +562,7 @@
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum overhead clearance required for service-drop conductors passing over a residential property and driveway?",
       "options": [
         "10 feet",
@@ -560,6 +586,7 @@
       "category": "services",
       "necArticle": "Article 220",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "You are performing a calculation for a single-family dwelling service. The dwelling contains one 14 kW household electric range (240V) and one 5 kW household electric clothes dryer (240V). What is the calculated feeder neutral demand load for these two appliances?",
       "options": [
         "13.80 kVA",
@@ -581,6 +608,7 @@
       "category": "services",
       "necArticle": "Article 310; 110.14(C)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A commercial building has a calculated demand load of 90,000 VA. The service is 208Y/120-volt, 3-phase, 4-wire. What is the minimum size XHHW-2 Aluminum service entrance conductor required?",
       "options": [
         "250 kcmil",
@@ -602,6 +630,7 @@
       "category": "transformers",
       "necArticle": "Article 240.21(C)(2)",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "What is the maximum permitted length for running transformer secondary conductors without having to make ampacity sizing adjustments relative to the primary overcurrent device rating?",
       "options": [
         "10 feet",
@@ -623,6 +652,7 @@
       "category": "transformers",
       "necArticle": "Article 240.21(C)(4)",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "When bringing power from an outdoor pad-mounted transformer into a building, what is the maximum permitted length for the secondary conductors if they remain outside right up until the point they enter the building?",
       "options": [
         "10 feet",
@@ -644,6 +674,7 @@
       "category": "feeders",
       "necArticle": "Article 240.21(B)(2)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A continuous feeder is protected by a 600-ampere overcurrent protective device. You need to install a tap to this feeder to supply a fused disconnect located 20 feet away. According to the 25-foot feeder tap rule in NEC 240.21(B)(2), what is the minimum allowable ampacity for these tap conductors?",
       "options": [
         "60 Amperes",

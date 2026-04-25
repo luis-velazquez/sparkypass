@@ -5,6 +5,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "NEC Table 450.3(A) provides overcurrent protection requirements for transformers rated over what voltage?",
       "options": [
         "240 volts",
@@ -26,6 +27,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), what is the maximum primary fuse rating for a transformer with impedance not more than 6%, installed at any location?",
       "options": [
         "125% of primary FLC",
@@ -47,6 +49,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), what is the maximum primary circuit breaker setting for a transformer with impedance not more than 6%, installed at any location?",
       "options": [
         "250% of primary FLC",
@@ -68,6 +71,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What defines a \"supervised location\"?",
       "options": [
         "A location with security cameras and alarms",
@@ -89,6 +93,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), in a supervised location with primary-only protection, is secondary overcurrent protection required?",
       "options": [
         "Yes — secondary protection is always required",
@@ -112,6 +117,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), what is the maximum primary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%, installed at any location?",
       "options": [
         "250% of primary FLC",
@@ -133,6 +139,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), what is the maximum primary fuse rating for a supervised location with primary-only protection?",
       "options": [
         "125% of primary FLC",
@@ -154,6 +161,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), what is the maximum secondary fuse rating for a transformer with impedance not more than 6%?",
       "options": [
         "125% of secondary FLC",
@@ -175,6 +183,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), how does increasing transformer impedance from ≤6% to greater than 6% affect the maximum primary circuit breaker setting at any location?",
       "options": [
         "It increases from 400% to 600%",
@@ -196,6 +205,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per Table 450.3(A), what is the maximum secondary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%?",
       "options": [
         "125% of secondary FLC",
@@ -219,6 +229,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A single-phase transformer is rated 50 kVA at 480 V primary. What is the primary full-load current?",
       "options": [
         "104.2 A",
@@ -240,6 +251,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A commercial building has a calculated demand load of 87,500 VA served by a 208V 3-phase system. What is the minimum standard dry-type transformer kVA rating required?",
       "options": [
         "75 kVA",
@@ -261,6 +273,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 150 kVA, 480V delta to 208Y/120V 3-phase transformer is installed in a commercial building. What is the full-load current on the secondary side?",
       "options": [
         "312 amps",
@@ -282,6 +295,7 @@
       "category": "transformer-sizing",
       "necArticle": "Table 450.3(B); 240.6(A)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 75 kVA, 480V to 208Y/120V 3-phase transformer is installed with primary-only overcurrent protection. Per NEC Table 450.3(B), what is the maximum standard overcurrent device rating for the primary?",
       "options": [
         "100 amps",
@@ -303,6 +317,7 @@
       "category": "transformer-sizing",
       "necArticle": "Table 450.3(B)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 45 kVA, 480V to 208Y/120V 3-phase transformer has both primary AND secondary overcurrent protection installed. Per NEC Table 450.3(B), what is the maximum rating for the primary overcurrent device?",
       "options": [
         "70 amps",
@@ -324,6 +339,7 @@
       "category": "transformer-sizing",
       "necArticle": "110.24; Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 75 kVA, 480V to 208Y/120V 3-phase transformer has a nameplate impedance of 5%. Assuming an infinite bus on the primary, what is the maximum available fault current at the transformer secondary?",
       "options": [
         "2,082 amps",
@@ -345,6 +361,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 3-phase transformer has a primary voltage of 480 volts and a secondary voltage of 208Y/120 volts. The secondary side is supplying a balanced load of 100 amperes. Assuming the transformer operates at 96% efficiency, how many kilowatts (kW) are being consumed on the primary side?",
       "options": [
         "36.0 kW",
@@ -366,6 +383,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 1000 kVA, 4160V to 480Y/277V, 3-phase transformer has 5.75% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary fuse rating?",
       "options": [
         "208.2 amperes",
@@ -387,6 +405,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
       "options": [
         "138.8 amperes",
@@ -408,6 +427,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 300 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed at any location. Per Table 450.3(A), what is the maximum secondary fuse rating?",
       "options": [
         "541.3 amperes",
@@ -429,6 +449,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer has 8% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
       "options": [
         "208.2 amperes",
@@ -450,6 +471,7 @@
       "category": "transformer-sizing",
       "necArticle": "Article 450",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 750 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary fuse rating?",
       "options": [
         "208.2 amperes",

@@ -5,6 +5,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the volume allowance for a #14 AWG conductor in a box fill calculation?",
       "options": [
         "1.5 cubic inches",
@@ -26,6 +27,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "How many volume allowances must be counted for a single-gang device yoke (switch or receptacle)?",
       "options": [
         "One based on the largest conductor connected to that device",
@@ -47,6 +49,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum volume for a standard 4-inch square box that is 1-1/2 inches deep?",
       "options": [
         "18.0 cubic inches",
@@ -68,6 +71,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "A 4-inch square box with a single-gang plaster ring has what total volume?",
       "options": [
         "The box volume alone",
@@ -89,6 +93,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum depth for outlet boxes in walls or ceilings?",
       "options": [
         "1/2 inch",
@@ -110,6 +115,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the volume allowance for a #8 AWG conductor?",
       "options": [
         "2.5 cubic inches",
@@ -131,6 +137,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum volume for a 3 × 2 × 2-1/2 inch device box?",
       "options": [
         "10.5 cubic inches",
@@ -152,6 +159,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(1)",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "When calculating box fill, how many conductor volume allowances must you count for a short 'pigtail' wire that originates from a wire nut and terminates on a receptacle within the exact same box?",
       "options": [
         "Zero (0)",
@@ -173,6 +181,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(5)",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "You are making up a junction box that contains three #12 AWG bare copper equipment grounding conductors (EGCs). How many total conductor volume allowances must you count for these three ground wires combined?",
       "options": [
         "Zero (0)",
@@ -194,6 +203,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(4)",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "When calculating box fill, how many conductor volume allowances must you deduct for a standard single device, such as a light switch or duplex receptacle, mounted on a single yoke or strap?",
       "options": [
         "Zero (0)",
@@ -217,6 +227,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "When counting conductors for box fill, how are conductors that pass through the box without splice counted?",
       "options": [
         "They don't count",
@@ -238,6 +249,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the volume allowance for internal cable clamps in a box?",
       "options": [
         "One volume allowance for each clamp",
@@ -259,6 +271,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Pigtails (short conductors for splicing) originating and terminating within the box are counted as:",
       "options": [
         "One conductor each",
@@ -280,6 +293,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Luminaire (fixture) wires that enter a box from a domed canopy are:",
       "options": [
         "Counted the same as branch circuit conductors",
@@ -301,6 +315,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "How many #12 AWG conductors can fit in an 18 cubic inch box with no devices, clamps, or grounds?",
       "options": [
         "6 conductors",
@@ -322,6 +337,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A box contains 6 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. Using 2.25 cu in per 12 AWG conductor, what is the minimum required box volume?",
       "options": [
         "22.5 cu in",
@@ -343,6 +359,7 @@
       "category": "box-fill",
       "necArticle": "314.16(C)(2)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "An electrician installs a 3/4-inch Type C conduit body in the middle of a long straight run of EMT. Under what condition is the electrician permitted to make wire splices inside this conduit body?",
       "options": [
         "Only if the conduit body is supported within 3 feet.",
@@ -364,6 +381,7 @@
       "category": "box-fill",
       "necArticle": "Article 314.28",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Standard box fill calculations (cubic inch volume) are used for conductors size 6 AWG and smaller. Which NEC Article governs the minimum sizing requirements for junction boxes containing conductors 4 AWG and larger?",
       "options": [
         "Article 314.16(B)",
@@ -385,6 +403,7 @@
       "category": "box-fill",
       "necArticle": "Article 314.28",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "At what minimum conductor size does the NEC require pull and junction boxes to be sized according to the dimensional calculations of Article 314.28 (such as the 8x and 6x rules) rather than the volume calculations of Article 314.16?",
       "options": [
         "6 AWG",
@@ -406,6 +425,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(1)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "A 12 AWG solid conductor enters a junction box and loops through without being spliced or terminated to any device. The total length of this unbroken loop inside the box measures 14 inches. When calculating the total box fill, how many conductor volume allowances must be counted for this specific wire?",
       "options": [
         "Zero (0)",
@@ -427,6 +447,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(5)",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A junction box contains six 12 AWG equipment grounding conductors (EGCs). According to 314.16(B)(5), how many total conductor volume allowances must be counted for these ground wires?",
       "options": [
         "1 allowance",
@@ -448,6 +469,7 @@
       "category": "box-fill",
       "necArticle": "314.16(A)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "When calculating the available volume of a junction box in accordance with 314.16(A), what is the minimum volume allowance that must be deducted for the installation of a metal barrier?",
       "options": [
         "0 cubic inches",
@@ -469,6 +491,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "Three conduits enter a junction box containing the following: six 12 AWG conductors, three 12 AWG equipment grounding conductors, three splices, three 12 AWG pigtails, three lock rings, and one duplex receptacle. According to 314.16(B), what is the total conductor volume allowance count (equivalent number of wires) for this box?",
       "options": [
         "8",
@@ -490,6 +513,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A junction box contains four 10 AWG conductors, six 12 AWG conductors, and five 12 AWG equipment grounding conductors. According to 314.16(B), what is the total minimum volume required for this box in cubic inches?",
       "options": [
         "25.75 cu in",
@@ -511,6 +535,7 @@
       "category": "box-fill",
       "necArticle": "314.16(A)",
       "difficulty": "journeyman",
+      "calculation": true,
       "questionText": "A 4-inch square box that is 2-1/8 inches deep is installed with an extension ring. The extension ring is stamped with a marked volume of 21.0 cubic inches. According to the NEC, what is the total available volume of this assembled enclosure?",
       "options": [
         "30.3 cu in",
@@ -532,6 +557,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "When calculating box fill volume allowances, which of the following items is NOT required to be counted?",
       "options": [
         "Luminaire hickeys",
@@ -555,6 +581,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A box contains 8 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. What is the minimum required box volume?",
       "options": [
         "27.0 cu in",
@@ -576,6 +603,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A device box contains two 12/2 NM cables with ground, internal cable clamps, and one duplex receptacle. What is the minimum required box volume?",
       "options": [
         "15.75 cubic inches",
@@ -597,6 +625,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 4-11/16 inch square box (2-1/8 inches deep) contains: 8 #12 conductors, 4 #12 EGCs, internal clamps, and two single-gang device yokes with receptacles. Is this installation compliant?",
       "options": [
         "Yes, with 10.5 cubic inches to spare",
@@ -618,6 +647,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A device box contains two 12/2 NM cables and one 12/3 NM cable. All equipment grounds are present, internal cable clamps are used, and one GFCI receptacle is installed. What is the minimum required box volume?",
       "options": [
         "20.25 cubic inches",
@@ -639,6 +669,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A box contains two #8 conductors, three #12 conductors, two #10 equipment grounding conductors, and internal clamps. What is the minimum required box volume?",
       "options": [
         "16.75 cubic inches",
@@ -660,6 +691,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 2-gang box has three 14/2 NM cables and one 14/3 NM cable. All equipment grounds are present, internal clamps are used, and two single-pole switches are installed. What is the minimum required box volume?",
       "options": [
         "26.0 cubic inches",
@@ -681,6 +713,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A box contains four #12 conductors, all #12 equipment grounds, internal clamps, and one internal support fitting. What is the minimum required box volume?",
       "options": [
         "13.5 cubic inches",
@@ -702,6 +735,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 4-inch square, 1-1/2 inch deep box contains four 14/2 NM cables (each with a bare ground), internal cable clamps, and one duplex receptacle. By how much does the calculated fill exceed the allowed box volume?",
       "options": [
         "2.0 cubic inches",
@@ -723,6 +757,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A device box contains six #10 conductors, two #12 conductors, 4 #12 EGCs, internal clamps, and one receptacle connected to #10 conductors. What is the minimum required box volume?",
       "options": [
         "27.0 cubic inches",
@@ -744,6 +779,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A box contains three #6 conductors, one #10 equipment grounding conductor and internal clamps. What is the minimum required box volume?",
       "options": [
         "22.5 cubic inches",
@@ -765,6 +801,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A box contains four unbroken #12 AWG conductors passing through, four #12 AWG conductors terminating in splices or on a device, four #12 AWG equipment grounding conductors, internal cable clamps, and one duplex receptacle. What is the minimum required box volume?",
       "options": [
         "22.5 cubic inches",
@@ -786,6 +823,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A ceiling box contains three #12 branch-circuit conductors, all #12 equipment grounds, internal clamps, and two fixture wires from a domed canopy that are 6 inches or less. What is the minimum required box volume?",
       "options": [
         "9.0 cubic inches",
@@ -807,6 +845,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A box contains four #14 AWG insulated conductors, two #14 AWG equipment grounding conductors, internal cable clamps, and one duplex switch on a single yoke. What is the minimum required box volume?",
       "options": [
         "12.0 cubic inches",
@@ -828,6 +867,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A 4-inch x 1-1/2 deep octagon box contains two 14/2 NM cables and one 14/3 NM cable. All grounds are present, internal clamps are used, and one internal support fitting is installed. By how much does it exceed the allowed fill?",
       "options": [
         "2.5 cubic inches",
@@ -849,6 +889,7 @@
       "category": "box-fill",
       "necArticle": "Article 314",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A junction box contains six #8 AWG insulated conductors, one #10 AWG equipment grounding conductor, and internal cable clamps. What is the minimum required box volume?",
       "options": [
         "20.5 cubic inches",
@@ -870,6 +911,7 @@
       "category": "box-fill",
       "necArticle": "314.16(B)(1)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A junction box contains the following 12 AWG conductors: Four conductors passing straight through without a splice. Two conductors entering the box and terminating on a wire nut. One unbroken conductor forming a 14-inch loop inside the box. Three pigtails originating from the wire nut and terminating on a receptacle within the same box. What is the total conductor volume allowance count for these specific wires?",
       "options": [
         "7",
@@ -891,6 +933,7 @@
       "category": "box-fill",
       "necArticle": "314.16(A) & (B)",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "Three 3-1/2 inch deep masonry boxes are ganged together to form a 3-gang box. The box will contain three single-pole switches. What is the maximum number of 12 AWG conductors permitted in this ganged assembly?",
       "options": [
         "20",

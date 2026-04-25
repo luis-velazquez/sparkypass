@@ -107,7 +107,7 @@ function GamesPreview() {
       {/* Game header */}
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-bold text-foreground">Index Sniper</p>
+          <p className="text-sm font-bold text-foreground">Index Trace</p>
           <p className="text-xs text-muted-foreground">
             Match the NEC definition
           </p>

@@ -5,6 +5,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the ampere rating for a mobile home power-supply cord attachment plug cap?",
       "options": [
         "30 amperes",
@@ -15,7 +16,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.10(C), the attachment plug cap for a mobile home power-supply cord must be a 125/250-volt, 3-pole, 4-wire, grounding type rated 50 amperes.",
       "necReference": "550.10(C)",
-      "sparkyTip": "Mobile home plugs are always 50A \u2014 same size as a range outlet. If you see a 4-prong 50A plug, think mobile home or electric range!",
+      "sparkyTip": "Mobile home plugs are always 50A — same size as a range outlet. If you see a 4-prong 50A plug, think mobile home or electric range!",
       "necVersions": [
         "2023",
         "2026"
@@ -26,6 +27,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "The secondary electrical distribution system for a mobile home park must be what type?",
       "options": [
         "3-phase, 208Y/120V",
@@ -36,7 +38,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.30, the secondary electrical distribution system for mobile home parks to mobile home lots must be single-phase, 120/240-volt, nominal.",
       "necReference": "550.30",
-      "sparkyTip": "Mobile homes are residential \u2014 they always get single-phase 120/240V, just like a regular house!",
+      "sparkyTip": "Mobile homes are residential — they always get single-phase 120/240V, just like a regular house!",
       "necVersions": [
         "2023",
         "2026"
@@ -47,6 +49,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "The mobile home power-supply cord attachment plug cap must be what configuration?",
       "options": [
         "2-pole, 3-wire",
@@ -57,7 +60,7 @@
       "correctAnswer": 1,
       "explanation": "Per NEC 550.10(C), the plug cap must be a 3-pole, 4-wire, grounding type. The 4 wires consist of 2 ungrounded (hot) conductors, 1 grounded (neutral) conductor, and 1 equipment grounding conductor.",
       "necReference": "550.10(C)",
-      "sparkyTip": "3 poles = 2 hots + 1 neutral. The 4th wire is the equipment ground \u2014 that's what makes it a 'grounding type' connector.",
+      "sparkyTip": "3 poles = 2 hots + 1 neutral. The 4th wire is the equipment ground — that's what makes it a 'grounding type' connector.",
       "necVersions": [
         "2023",
         "2026"
@@ -68,6 +71,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Per NEC 680.22(A), all 125-volt receptacles that supply power to a pool pump motor must have what type of protection?",
       "options": [
         "AFCI protection",
@@ -78,7 +82,7 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.22(A) requires that all 125-volt, single-phase receptacles rated 30 amperes or less and located within 20 feet of the inside walls of a pool shall be protected by a ground-fault circuit interrupter (GFCI). This includes receptacles supplying pool pump motors.",
       "necReference": "680.22(A)",
-      "sparkyTip": "GFCI is the golden rule near water. Any 125V receptacle within 20 feet of the pool edge needs it \u2014 no exceptions for pool pump receptacles!",
+      "sparkyTip": "GFCI is the golden rule near water. Any 125V receptacle within 20 feet of the pool edge needs it — no exceptions for pool pump receptacles!",
       "necVersions": [
         "2023",
         "2026"
@@ -89,6 +93,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "What is the minimum distance a receptacle outlet must be located from the inside wall of a pool per NEC 680.22(A)(5)?",
       "options": [
         "5 feet",
@@ -99,7 +104,7 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.22(A)(5) requires receptacles to be located not less than 6 feet from the inside walls of the pool. At least one 125-volt receptacle must be located between 6 and 20 feet from the pool.",
       "necReference": "680.22(A)(5)",
-      "sparkyTip": "Think of it as the \"6-20 rule\" \u2014 receptacles must be at least 6 feet away, but at least one must be within 20 feet so pool equipment can be plugged in.",
+      "sparkyTip": "Think of it as the \"6-20 rule\" — receptacles must be at least 6 feet away, but at least one must be within 20 feet so pool equipment can be plugged in.",
       "necVersions": [
         "2023",
         "2026"
@@ -110,6 +115,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Which of the following must be included in the equipotential bonding grid for a permanently installed pool per NEC 680.26(B)?",
       "options": [
         "Only the pool water itself",
@@ -131,6 +137,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Per NEC 680.10, what is the minimum burial depth for underground wiring that is not beneath a building, slab, or paving and supplies a pool, spa, or hot tub?",
       "options": [
         "6 inches",
@@ -152,6 +159,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
+      "calculation": false,
       "questionText": "Per NEC 680.7, are extension cords permitted to be used with pool pumps and other pool equipment?",
       "options": [
         "Yes, as long as they are outdoor-rated",
@@ -175,6 +183,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum calculated load per mobile home lot used for park service and feeder calculations?",
       "options": [
         "8,000 VA",
@@ -196,17 +205,18 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the maximum permitted length for a mobile home power-supply cord?",
       "options": [
         "21 feet",
         "25 feet",
         "30 feet",
-        "36\u00bd feet"
+        "36½ feet"
       ],
       "correctAnswer": 3,
-      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36\u00bd feet (11.0 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
+      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36½ feet (11.0 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
       "necReference": "550.10(D)",
-      "sparkyTip": "Max cord = 36\u00bd feet, min = 21 feet. The cord needs to reach the pedestal but not be so long it creates a hazard.",
+      "sparkyTip": "Max cord = 36½ feet, min = 21 feet. The cord needs to reach the pedestal but not be so long it creates a hazard.",
       "necVersions": [
         "2023",
         "2026"
@@ -217,6 +227,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "In a mobile home, the grounded conductor and the equipment grounding conductor must be:",
       "options": [
         "Bonded together at the mobile home panelboard",
@@ -227,7 +238,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.16(A), the grounded (neutral) conductor and the equipment grounding conductor must be kept separate in a mobile home. The neutral-to-ground bond is made at the service disconnecting means (the outdoor pedestal), not inside the mobile home.",
       "necReference": "550.16(A)",
-      "sparkyTip": "A mobile home panelboard works like a sub-panel \u2014 neutral and ground stay separate! The bond happens at the outdoor disconnect.",
+      "sparkyTip": "A mobile home panelboard works like a sub-panel — neutral and ground stay separate! The bond happens at the outdoor disconnect.",
       "necVersions": [
         "2023",
         "2026"
@@ -238,6 +249,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Where must the mobile home service equipment be located?",
       "options": [
         "Inside the mobile home, adjacent to the panelboard",
@@ -248,7 +260,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.32(A), mobile home service equipment must not be mounted in or on the mobile home. It must be located in a readily accessible outdoor location and within sight from the mobile home it serves.",
       "necReference": "550.32(A)",
-      "sparkyTip": "Service equipment goes OUTSIDE and within sight \u2014 think of the familiar power pedestal standing next to the home. Never inside or under the unit!",
+      "sparkyTip": "Service equipment goes OUTSIDE and within sight — think of the familiar power pedestal standing next to the home. Never inside or under the unit!",
       "necVersions": [
         "2023",
         "2026"
@@ -259,6 +271,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum permitted length for a mobile home power-supply cord?",
       "options": [
         "10 feet",
@@ -269,7 +282,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.10(D), the power-supply cord must be not less than 21 feet (6.4 m) in length, measured from the attachment plug cap to the point of entrance to the mobile home.",
       "necReference": "550.10(D)",
-      "sparkyTip": "Min 21 feet, max 36\u00bd feet. The minimum ensures you can reach the disconnect pedestal from most lot configurations.",
+      "sparkyTip": "Min 21 feet, max 36½ feet. The minimum ensures you can reach the disconnect pedestal from most lot configurations.",
       "necVersions": [
         "2023",
         "2026"
@@ -280,6 +293,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "The mobile home power-supply cord must be permanently connected to which component?",
       "options": [
         "An exterior-mounted junction box on the chassis",
@@ -290,7 +304,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.10(B), the power-supply cord must be permanently connected to the distribution panelboard or to a junction box permanently connected to the panelboard, with both located inside the mobile home.",
       "necReference": "550.10(B)",
-      "sparkyTip": "The cord connects inside to the panel \u2014 it is a permanent connection, not a plug-in. The only plug is at the other end, at the lot pedestal.",
+      "sparkyTip": "The cord connects inside to the panel — it is a permanent connection, not a plug-in. The only plug is at the other end, at the lot pedestal.",
       "necVersions": [
         "2023",
         "2026"
@@ -301,6 +315,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per NEC 680.8, what is the minimum clearance for overhead conductors (insulated supply or service drop cables at 0-750V to ground) above the pool water level or diving platform?",
       "options": [
         "10 feet",
@@ -311,7 +326,7 @@
       "correctAnswer": 2,
       "explanation": "NEC 680.8 Table requires that insulated supply or service drop cables (0-750V to ground) maintain a minimum clearance of 22.5 feet above the maximum water level of the pool, the diving structure, or the observation stand/tower/platform.",
       "necReference": "680.8",
-      "sparkyTip": "The 22.5-foot clearance above pool water applies to insulated service drop cables. All other overhead conductors (not voltage-limited) require even more \u2014 25 feet.",
+      "sparkyTip": "The 22.5-foot clearance above pool water applies to insulated service drop cables. All other overhead conductors (not voltage-limited) require even more — 25 feet.",
       "necVersions": [
         "2023",
         "2026"
@@ -322,6 +337,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "What is the minimum size of the solid copper bonding conductor used in the equipotential bonding grid for a pool per NEC 680.26(B)(1)?",
       "options": [
         "6 AWG",
@@ -332,7 +348,7 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.26(B)(1) requires that the equipotential bonding grid use a minimum 8 AWG solid copper conductor. This conductor connects all metal parts and creates a grid that equalizes the voltage potential around the pool.",
       "necReference": "680.26(B)(1)",
-      "sparkyTip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded \u2014 solid copper holds up better when buried in concrete or soil.",
+      "sparkyTip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded — solid copper holds up better when buried in concrete or soil.",
       "necVersions": [
         "2023",
         "2026"
@@ -343,6 +359,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per NEC 680.23(A)(3), what protection is required for all luminaires installed in the walls of a pool that operate at more than the low voltage contact limit?",
       "options": [
         "AFCI protection",
@@ -353,7 +370,7 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.23(A)(3) requires that a GFCI shall protect all luminaires operating at more than the low voltage contact limit that are installed in the walls of pools. This provides a critical layer of safety for underwater lighting.",
       "necReference": "680.23(A)(3)",
-      "sparkyTip": "Underwater lights above low voltage contact limit (15V) MUST have GFCI protection. This is non-negotiable \u2014 electricity and water right next to swimmers.",
+      "sparkyTip": "Underwater lights above low voltage contact limit (15V) MUST have GFCI protection. This is non-negotiable — electricity and water right next to swimmers.",
       "necVersions": [
         "2023",
         "2026"
@@ -364,6 +381,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per NEC 680.23(A)(5), what is the maximum voltage permitted for luminaires installed in a pool?",
       "options": [
         "120 volts",
@@ -385,6 +403,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
+      "calculation": false,
       "questionText": "Per NEC 680.21(A), which wiring method is required within 5 feet of the inside wall of a pool for branch circuits that supply pool equipment?",
       "options": [
         "Any approved wiring method",
@@ -408,6 +427,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A mobile home park has 2 lots, each with the minimum calculated load of 16,000 VA. Using Table 550.31 (55% demand factor for 2 lots), what is the total demand load for the park service?",
       "options": [
         "16,000 VA",
@@ -416,9 +436,9 @@
         "32,000 VA"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Total connected load = 2 lots \u00d7 16,000 VA = 32,000 VA. Step 2: Apply Table 550.31 demand factor for 2 lots = 55%. Step 3: 32,000 VA \u00d7 0.55 = 17,600 VA demand load.",
+      "explanation": "Step 1: Total connected load = 2 lots × 16,000 VA = 32,000 VA. Step 2: Apply Table 550.31 demand factor for 2 lots = 55%. Step 3: 32,000 VA × 0.55 = 17,600 VA demand load.",
       "necReference": "Table 550.31",
-      "sparkyTip": "Always multiply first (lots \u00d7 VA), then apply the demand factor. The demand factor accounts for diversity \u2014 not all homes peak at the same time.",
+      "sparkyTip": "Always multiply first (lots × VA), then apply the demand factor. The demand factor accounts for diversity — not all homes peak at the same time.",
       "necVersions": [
         "2023",
         "2026"
@@ -429,6 +449,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "Using a total demand load of 17,600 VA for a 2-lot mobile home park at 120/240V, what is the calculated service current?",
       "options": [
         "55.0 amperes",
@@ -437,9 +458,9 @@
         "146.7 amperes"
       ],
       "correctAnswer": 2,
-      "explanation": "For a single-phase 120/240V service: I = VA \u00f7 V = 17,600 VA \u00f7 240V = 73.3 amperes. This is the calculated demand current used for sizing the park service conductors and overcurrent protection.",
+      "explanation": "For a single-phase 120/240V service: I = VA ÷ V = 17,600 VA ÷ 240V = 73.3 amperes. This is the calculated demand current used for sizing the park service conductors and overcurrent protection.",
       "necReference": "Table 550.31",
-      "sparkyTip": "Single-phase amps = VA \u00f7 240V. Don't accidentally divide by 120V (that would double your answer) or use the three-phase formula.",
+      "sparkyTip": "Single-phase amps = VA ÷ 240V. Don't accidentally divide by 120V (that would double your answer) or use the three-phase formula.",
       "necVersions": [
         "2023",
         "2026"
@@ -450,6 +471,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "An electrician bonds the neutral bus to the equipment grounding bus at the panelboard inside a new mobile home. Where should this bond be located instead?",
       "options": [
         "At the first disconnect inside the mobile home",
@@ -460,7 +482,7 @@
       "correctAnswer": 2,
       "explanation": "Per NEC 550.16(A), the neutral and equipment grounding conductors must be kept separate in the mobile home. The neutral-to-ground bond must be made at the service disconnecting means (outdoor pedestal), not at the mobile home panelboard. The mobile home panel is a sub-panel fed from the service equipment outside.",
       "necReference": "550.16(A)",
-      "sparkyTip": "The mobile home panel is a sub-panel. The bond goes at the main disconnect outside \u2014 bonding inside would create parallel neutral current paths on the grounding conductor, which is a shock hazard.",
+      "sparkyTip": "The mobile home panel is a sub-panel. The bond goes at the main disconnect outside — bonding inside would create parallel neutral current paths on the grounding conductor, which is a shock hazard.",
       "necVersions": [
         "2023",
         "2026"
@@ -471,15 +493,16 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "A mobile home power-supply cord is measured at 38 feet from the attachment plug cap to the point of entrance. Which NEC requirement does this violate?",
       "options": [
-        "550.10(A) \u2014 cord must be listed for 50 amperes",
-        "550.10(B) \u2014 cord must connect to the panelboard",
-        "550.10(C) \u2014 plug cap must be 3-pole, 4-wire",
-        "550.10(D) \u2014 maximum cord length is 36\u00bd feet"
+        "550.10(A) — cord must be listed for 50 amperes",
+        "550.10(B) — cord must connect to the panelboard",
+        "550.10(C) — plug cap must be 3-pole, 4-wire",
+        "550.10(D) — maximum cord length is 36½ feet"
       ],
       "correctAnswer": 3,
-      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36\u00bd feet (11.0 m) in length. At 38 feet, this cord exceeds the maximum by 1\u00bd feet and must be replaced with a compliant cord.",
+      "explanation": "Per NEC 550.10(D), the power-supply cord must not exceed 36½ feet (11.0 m) in length. At 38 feet, this cord exceeds the maximum by 1½ feet and must be replaced with a compliant cord.",
       "necReference": "550.10(D)",
       "sparkyTip": "550.10 has four parts: (A) = supply type, (B) = connection point, (C) = plug configuration, (D) = cord length. Master-level questions often ask you to cite the specific subsection!",
       "necVersions": [
@@ -492,17 +515,18 @@
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "master",
+      "calculation": true,
       "questionText": "A mobile home's calculated load per 550.18 is 13,500 VA at 120/240V. Can the standard 50-ampere power-supply cord serve this home?",
       "options": [
-        "Yes \u2014 the 50A cord can supply up to 15,000 VA",
-        "Yes \u2014 demand factors reduce the load below 50A",
-        "No \u2014 a permanently installed feeder is required",
-        "No \u2014 a 60A power-supply cord must be used instead"
+        "Yes — the 50A cord can supply up to 15,000 VA",
+        "Yes — demand factors reduce the load below 50A",
+        "No — a permanently installed feeder is required",
+        "No — a 60A power-supply cord must be used instead"
       ],
       "correctAnswer": 2,
-      "explanation": "The current draw is 13,500 VA \u00f7 240V = 56.25 amperes, which exceeds the 50-ampere cord rating. Per 550.10(A), when the calculated load exceeds the cord capacity, a permanently installed feeder rated not less than the calculated load must be used instead of a power-supply cord.",
+      "explanation": "The current draw is 13,500 VA ÷ 240V = 56.25 amperes, which exceeds the 50-ampere cord rating. Per 550.10(A), when the calculated load exceeds the cord capacity, a permanently installed feeder rated not less than the calculated load must be used instead of a power-supply cord.",
       "necReference": "550.10(A)",
-      "sparkyTip": "A 50A cord at 240V maxes out at 12,000 VA (50 \u00d7 240). If the calculated load exceeds that, the Code requires a permanent feeder \u2014 there is no 60A cord option for mobile homes.",
+      "sparkyTip": "A 50A cord at 240V maxes out at 12,000 VA (50 × 240). If the calculated load exceeds that, the Code requires a permanent feeder — there is no 60A cord option for mobile homes.",
       "necVersions": [
         "2023",
         "2026"
@@ -513,6 +537,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "Per NEC 680.26(B)(2), the equipotential bonding grid must extend how far horizontally from the inside walls of a permanently installed pool?",
       "options": [
         "12 inches",
@@ -534,6 +559,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "Per NEC 680.44, what protection is required for all electrical equipment associated with a permanently installed indoor spa or hot tub, including the outlet supplying it?",
       "options": [
         "AFCI protection",
@@ -544,7 +570,7 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.44 requires GFCI protection for all electrical equipment associated with a permanently installed indoor spa or hot tub. This includes the receptacle outlet supplying power, regardless of the voltage (125V or 240V), providing essential protection against electric shock in a wet environment.",
       "necReference": "680.44",
-      "sparkyTip": "Indoor spas and hot tubs need GFCI on everything \u2014 even 240V circuits. This catches many people off guard since GFCI is often associated only with 120V receptacles.",
+      "sparkyTip": "Indoor spas and hot tubs need GFCI on everything — even 240V circuits. This catches many people off guard since GFCI is often associated only with 120V receptacles.",
       "necVersions": [
         "2023",
         "2026"
@@ -555,6 +581,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "Per NEC 680.51 and 680.52, what are the two key electrical safety requirements for a permanently installed fountain?",
       "options": [
         "AFCI protection and surge protection",
@@ -576,6 +603,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "Per NEC 680.12, where must the disconnecting means for a pool motor be located?",
       "options": [
         "Inside the house panel only",
@@ -586,7 +614,7 @@
       "correctAnswer": 1,
       "explanation": "NEC 680.12 requires that the disconnecting means for pool motors be within sight of the equipment it controls AND located at least 5 feet from the inside wall of the pool. \"Within sight\" means visible and not more than 50 feet away. This ensures a technician can see the equipment while operating the disconnect.",
       "necReference": "680.12",
-      "sparkyTip": "Two rules for the pool motor disconnect: (1) within sight of the motor, and (2) at least 5 feet from the pool edge. Both must be satisfied \u2014 one without the other is a code violation.",
+      "sparkyTip": "Two rules for the pool motor disconnect: (1) within sight of the motor, and (2) at least 5 feet from the pool edge. Both must be satisfied — one without the other is a code violation.",
       "necVersions": [
         "2023",
         "2026"
@@ -597,6 +625,7 @@
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "master",
+      "calculation": false,
       "questionText": "Per NEC 680.8(A), what is the minimum clearance required for utility supply conductors (0-750V to ground, not insulated) above a pool?",
       "options": [
         "14.5 feet",

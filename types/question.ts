@@ -18,6 +18,7 @@ export interface Question {
   category: CategorySlug;
   necArticle?: string;
   difficulty: Difficulty;
+  calculation: boolean;
   questionText: string;
   options: string[];
   correctAnswer: number; // Index of correct option (0-3)
