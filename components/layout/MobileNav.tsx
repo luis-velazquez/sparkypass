@@ -77,6 +77,7 @@ const navItems: MobileNavItem[] = [
       // { href: "/index-game", label: "Index Game", icon: Target }, // Hidden — replaced by Index Trace
       { href: "/index-sniper", label: "Index Trace", icon: Crosshair },
       { href: "/translation-engine", label: "Slang to Code", icon: Languages },
+      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert, badge: "breaker" },
       // { href: "/formula-builder", label: "Formula Builder", icon: Gamepad2 }, // Beta — hidden until ready
     ],
   },
@@ -87,7 +88,6 @@ const navItems: MobileNavItem[] = [
       { href: "/quiz", label: "Quiz", icon: BookOpen },
       { href: "/review", label: "Weak Spots", icon: AlertTriangle },
       { href: "/daily", label: "Daily Challenge", icon: Calendar, badge: "daily" },
-      { href: "/circuit-breaker", label: "Circuit Breaker", icon: ShieldAlert, badge: "breaker" },
     ],
   },
   {
