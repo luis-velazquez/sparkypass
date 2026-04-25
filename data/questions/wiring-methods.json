@@ -465,6 +465,66 @@
         "default": "\n\nAccording to NEC 300.11(B), where independent support wires are used to support electrical wiring methods above a suspended ceiling, they must be secured at both ends. This means you must secure the wire to the building structure above, and also tie off the bottom end to the suspended ceiling framing. This prevents the independent support wire from swinging freely and ensures the cables and raceways are held securely in place during maintenance or seismic events."
       },
       "sparkyTip": "Don't just shoot the wire into the deck and let the bottom dangle in the breeze! You have to tie off that bottom end to the ceiling assembly so the wire is tight and secured at both ends."
+    },
+    {
+      "id": "WM-J014",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "journeyman",
+      "questionText": "You are working on a pad-mounted transformer where underground conduits stub up into the enclosure. To accommodate for condensation caused by the temperature difference between the hot transformer and the cooler earth, what is required by the 2026 NEC?",
+      "options": [
+        "A listed weep hole must be drilled at the lowest point of the underground raceway.",
+        "The underground conduits must be upsized by one trade size to allow for natural evaporation.",
+        "The raceways must be sealed or plugged with an approved material that is identified for use with the cable insulation.",
+        "The conduits must be sleeved with rigid metal conduit (RMC) extending 18 inches into the enclosure."
+      ],
+      "correctAnswer": 2,
+      "explanation": "The temperature differential between a hot transformer enclosure and the cooler earth creates a prime environment for condensation to form and travel up the pipe. The 2026 NEC mandates that these raceways be sealed or plugged to prevent moisture from contacting live parts. The sealant used must be chemically compatible with the conductor insulation to prevent degradation.",
+      "necReference": "NEC 300.7(G)",
+      "sparkyTip": "Hot transformers and cold dirt mean sweaty pipes! Seal those stubs so moisture doesn't vaporize straight into the lugs.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "WM-J015",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "journeyman",
+      "questionText": "What must be installed to compensate for the anticipated thermal expansion and contraction?",
+      "options": [
+        "Heavy-duty stainless steel straps tightened to completely restrict movement.",
+        "Expansion, expansion-deflection, or deflection fittings.",
+        "A minimum of two 90-degree offsets to act as thermal breaks.",
+        "Concrete thrust blocks poured and set at every coupling."
+      ],
+      "correctAnswer": 1,
+      "explanation": "You cannot stop thermal expansion, so the Code requires you to accommodate it. NEC 300.9(B) mandates that raceways be provided with expansion, expansion-deflection, or deflection fittings where necessary to compensate for thermal movement. Without these, the changing temperatures will cause the conduit to buckle, snap at the joints, or pull away from enclosures.",
+      "necReference": "NEC 300.9(B)",
+      "sparkyTip": "Physics always wins! If you strap a long run of PVC dead-tight without an expansion fitting, summer heat will turn your straight pipe into a spaghetti noodle.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "WM-J016",
+      "category": "wiring-methods",
+      "necArticle": "Article 300",
+      "difficulty": "journeyman",
+      "questionText": "A crew is evaluating the native excavated soil to use as backfill over a newly laid PVC conduit in a trench. Which of the following materials must be explicitly avoided in the backfill to prevent physical damage to the raceway?",
+      "options": [
+        "Soil with a high moisture content or heavy clay consistency.",
+        "Large rocks, paving materials, or sharply angular substances.",
+        "Pea gravel, stone dust, or screened sand.",
+        "Any native soil that has not been mechanically compacted prior to use."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 300.7(F) explicitly states that backfill containing large rocks, paving materials, cinders, large or sharply angular substances, or corrosive material shall not be placed in an excavation where such materials may damage raceways, cables, or other substructures.",
+      "necReference": "NEC 300.7(F)",
+      "sparkyTip": "Keep the boulders and broken asphalt out of the trench! Heavy rocks create pressure points that will eventually crack or crush your pipe when the ground settles.",
+      "necVersions": [
+        "2026"
+      ]
     }
   ],
   "master": [

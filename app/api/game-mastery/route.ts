@@ -11,7 +11,7 @@ type MasteryGameId = (typeof MASTERY_GAMES)[number];
 /**
  * Total merged pack count per game (index 0 = free, rest = merged expansion packs).
  * Index Sniper: free + 11 merged pairs + NEC Tables = 13
- * Translation Engine: free + 5 merged pairs = 6
+ * Slang to Code: free + 5 merged pairs = 6
  */
 const MERGED_PACK_COUNT: Record<MasteryGameId, number> = {
   "index-sniper": 13,

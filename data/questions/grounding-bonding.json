@@ -947,6 +947,69 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "GB-J030",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "A contractor uses a 5-foot whip of Flexible Metal Conduit (FMC) as the sole equipment grounding conductor (EGC) for a 100-amp transformer feeder. Is this compliant?",
+      "options": [
+        "Yes, it is compliant because the total length in the ground-return path does not exceed 6 feet.",
+        "No, FMC can only serve as an EGC if the circuit is protected at 20 amps or less, and a wire-type EGC is required when installed for flexibility.",
+        "No, FMC used for transformer feeders is restricted to a maximum length of 3 feet.",
+        "Yes, provided bonding jumpers and grounding bushings are installed at both terminations."
+      ],
+      "correctAnswer": 1,
+      "explanation": "While the FMC is under 6 feet, it fails two conditions in NEC 250.118(5). First, FMC as a standalone EGC is limited to circuits protected at 20 amps or less. Second, because it connects to a transformer (installed for flexibility/vibration), a wire-type EGC is explicitly mandatory regardless of length.",
+      "necReference": "250.118(5)(c) and (d)",
+      "sparkyTip": "The 6-foot rule is a trap! If the breaker is over 20A or the flex is used for vibration control, you must pull a green wire.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "ART110-J002",
+      "category": "general-requirements",
+      "necArticle": "Article 110",
+      "difficulty": "journeyman",
+      "questionText": "Does a step-down transformer need to be mechanically anchored to the floor?",
+      "options": [
+        "No, gravity and the weight of the transformer are legally sufficient.",
+        "No, provided it is resting on rated neoprene vibration pads.",
+        "Yes, all electrical equipment must be firmly secured to the mounting surface.",
+        "Yes, but only if the transformer weighs less than 50 pounds."
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 110.13(A) explicitly requires that all electrical equipment be firmly secured to the surface on which it is mounted. Relying solely on gravity or vibration pads without mechanical anchoring is a violation.",
+      "necReference": "110.13(A)",
+      "sparkyTip": "Vibration pads are great for stopping that transformer hum, but they don't replace bolts! You must bolt the transformer to the isolators, and anchor the isolators to the concrete.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J031",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "questionText": "You are mounting a grounding terminal block to the painted metal chassis of a dry-type transformer. What must be done before bolting down the terminal ground lug?",
+      "options": [
+        "Nothing; tightening the mounting bolts provides sufficient contact.",
+        "The paint must be scraped away to bare metal to ensure good electrical continuity.",
+        "A dielectric grease must be applied over the paint before mounting.",
+        "The paint only needs to be removed if the system voltage exceeds 250 volts to ground."
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 250.12 mandates that nonconductive coatings, such as paint, lacquer, or enamel, must be removed from contact surfaces to ensure a low-impedance ground path, unless you are using fittings explicitly designed to make such removal unnecessary.",
+      "necReference": "250.12",
+      "sparkyTip": "Paint is an insulator! If you don't scrape down to bare metal before bolting that lug, you are creating a high-resistance bottleneck that could prevent the breaker from tripping during a fault.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [

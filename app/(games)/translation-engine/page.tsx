@@ -569,8 +569,8 @@ function TranslationEngineContent() {
     return (
       <DifficultyPicker
         icon={Languages}
-        title="Engine"
-        titleAccent="Translation"
+        title="Code"
+        titleAccent="Slang to"
         subtitle="Translate job site slang into official NEC terminology. Speak the code."
         difficulties={difficulties}
         stats={stats}
@@ -618,7 +618,7 @@ function TranslationEngineContent() {
         summaryTitle={
           gameOverReason === "strikes"
             ? "Circuit Overload!"
-            : "Translation Complete!"
+            : "Slang Decoded!"
         }
         summarySubtitle={
           gameOverReason === "strikes"
@@ -664,8 +664,8 @@ function TranslationEngineContent() {
       <BlueprintBackground />
       <div className="container mx-auto px-4 py-8 max-w-3xl relative z-10 flex flex-col">
         <GameHeader
-          titleAccent="Translation"
-          title="Engine"
+          titleAccent="Slang to"
+          title="Code"
           subtitle="Translate job site slang into official NEC terminology. Speak the code."
         />
 

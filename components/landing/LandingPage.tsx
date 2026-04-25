@@ -200,7 +200,7 @@ const features = [
   {
     title: "4 Interactive Mini-Games",
     description:
-      "Index Sniper, Translation Engine, Formula Builder & more — learn NEC concepts through fast-paced gameplay, not boring flashcards.",
+      "Index Sniper, Slang to Code, Formula Builder & more — learn NEC concepts through fast-paced gameplay, not boring flashcards.",
     icon: Gamepad2,
   },
   {

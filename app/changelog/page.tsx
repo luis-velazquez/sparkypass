@@ -45,7 +45,7 @@ const changelog: ChangelogEntry[] = [
     changes: [
       { type: "added", description: "Commercial load calculator with retail, restaurant, office, and warehouse scenarios" },
       { type: "added", description: "Index Sniper game — timed NEC article lookup challenges" },
-      { type: "added", description: "Translation Engine game — decode NEC language into plain English" },
+      { type: "added", description: "Slang to Code game — decode NEC language into plain English" },
       { type: "added", description: "Ohm's Law reward system (Watts, Voltage tiers, Amps)" },
       { type: "added", description: "Circuit Breaker spaced repetition system" },
       { type: "added", description: "Power Grid progress tracking across all NEC categories" },

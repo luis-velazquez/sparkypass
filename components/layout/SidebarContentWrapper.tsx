@@ -25,7 +25,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/circuit-breaker": "Circuit Breaker",
   "/index-game": "Index Game",
   "/index-sniper": "Index Sniper",
-  "/translation-engine": "Translation Engine",
+  "/translation-engine": "Slang to Code",
   "/formula-builder": "Formula Builder",
   "/mock-exam": "Mock Exam",
   "/bookmarks": "Bookmarks",

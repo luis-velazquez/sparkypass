@@ -596,6 +596,69 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "TR-M002",
+      "category": "transformers",
+      "necArticle": "Article 240.21(C)(2)",
+      "difficulty": "master",
+      "questionText": "What is the maximum permitted length for running transformer secondary conductors without having to make ampacity sizing adjustments relative to the primary overcurrent device rating?",
+      "options": [
+        "10 feet",
+        "25 feet",
+        "50 feet",
+        "There is no length limit"
+      ],
+      "correctAnswer": 0,
+      "explanation": "You can run secondary conductors up to 10 feet without overcurrent protection, provided their ampacity is not less than the calculated load and not less than the rating of the termination device[cite: 7, 8]. If you extend the run up to 25 feet, the code requires an adjustment where the conductors must have an ampacity of at least 1/3 of the rating of the primary overcurrent device, multiplied by the voltage ratio[cite: 11, 12].",
+      "necReference": "NEC 240.21(C)(2); 240.21(C)(6)",
+      "sparkyTip": "Keep the run to 10 feet or under, and you just size for the load and the device it terminates into[cite: 7, 8]! If you push it to 25 feet, you have to break out the calculator for the 1/3 primary rating rule[cite: 11, 12].",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "TR-M003",
+      "category": "transformers",
+      "necArticle": "Article 240.21(C)(4)",
+      "difficulty": "master",
+      "questionText": "When bringing power from an outdoor pad-mounted transformer into a building, what is the maximum permitted length for the secondary conductors if they remain outside right up until the point they enter the building?",
+      "options": [
+        "10 feet",
+        "25 feet",
+        "50 feet",
+        "There is no length limit"
+      ],
+      "correctAnswer": 3,
+      "explanation": "If your transformer is located outside and the secondary conductors remain outside (right up until the point they enter the building), the code allows you to run them with no length limit[cite: 45]. They must, however, meet strict conditions: they must be protected from physical damage [cite: 46], terminate at a single circuit breaker or set of fuses [cite: 47], have the overcurrent device located at the point of entry [cite: 48], and include a readily accessible disconnecting means[cite: 49].",
+      "necReference": "NEC 240.21(C)(4)",
+      "sparkyTip": "The beauty of this rule is the unlimited length outside[cite: 45]! But whenever you are applying any of the rules in 240.21(C) for secondary conductors, you have to remember to immediately flip your codebook over to Article 250.30[cite: 50]. Proper bonding and grounding is required because the transformer creates a separately derived system[cite: 51].",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "FD-M001",
+      "category": "feeders",
+      "necArticle": "Article 240.21(B)(2)",
+      "difficulty": "master",
+      "questionText": "A continuous feeder is protected by a 600-ampere overcurrent protective device. You need to install a tap to this feeder to supply a fused disconnect located 20 feet away. According to the 25-foot feeder tap rule in NEC 240.21(B)(2), what is the minimum allowable ampacity for these tap conductors?",
+      "options": [
+        "60 Amperes",
+        "200 Amperes",
+        "300 Amperes",
+        "600 Amperes"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Under NEC 240.21(B)(2) for feeder taps not over 25 feet (7.5 m) long, the ampacity of the tap conductors must not be less than one-third (1/3) of the rating of the overcurrent device protecting the feeder conductors. Since the feeder is protected by a 600A device, the minimum tap conductor ampacity is 600A ÷ 3 = 200A. Additionally, the tap conductors must terminate in a single circuit breaker or set of fuses, and be protected from physical damage by an approved raceway.",
+      "necReference": "NEC 240.21(B)(2)",
+      "sparkyTip": "Don't confuse the 25-foot feeder tap rule with the 10-foot rule! For 25 feet, always grab your calculator and divide the primary feeder overcurrent device by 3. If your tap wire ampacity is less than that number, you'll be ripping it out and buying the wire twice.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ]
 }

@@ -54,7 +54,7 @@ export async function GET() {
       masteryMap[m.gameId] = { unlockedPackIndex: m.unlockedPackIndex, bestStreak: m.bestStreak };
     }
 
-    // Build owned map — mastery-based for Index Sniper & Translation Engine, purchase-based for Formula Builder
+    // Build owned map — mastery-based for Index Sniper & Slang to Code, purchase-based for Formula Builder
     const owned: Record<GameId, string[]> = {
       "index-sniper": ["free"],
       "translation-engine": ["free"],
