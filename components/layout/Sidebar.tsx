@@ -69,7 +69,7 @@ const navItems: SidebarItem[] = [
   {
     label: "Games",
     links: [
-      { href: "/index-game", label: "Index Game", icon: Target },
+      // { href: "/index-game", label: "Index Game", icon: Target }, // Hidden — replaced by Index Sniper
       { href: "/index-sniper", label: "Index Sniper", icon: Crosshair },
       { href: "/translation-engine", label: "Slang to Code", icon: Languages },
       // { href: "/formula-builder", label: "Formula Builder", icon: Gamepad2 }, // Beta — hidden until ready
