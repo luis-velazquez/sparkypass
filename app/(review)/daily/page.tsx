@@ -342,7 +342,7 @@ export default function DailyChallengePage() {
     }
 
     async function startQuiz() {
-      const dailyQuestions = getRandomQuestionsAll(DAILY_QUESTION_COUNT, necVersion);
+      const dailyQuestions = getRandomQuestionsAll(DAILY_QUESTION_COUNT, necVersion, true);
 
       // Create session and fetch bookmarks in parallel
       try {

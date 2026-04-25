@@ -77,8 +77,11 @@ export function getQuestionCountByCategoryAndDifficulty(category: CategorySlug, 
 /**
  * Get a random selection of questions from ALL categories
  */
-export function getRandomQuestionsAll(count: number = 5, necVersion?: NecVersion): Question[] {
-  const pool = filterByVersion(questions, necVersion);
+export function getRandomQuestionsAll(count: number = 5, necVersion?: NecVersion, excludeCalculation?: boolean): Question[] {
+  let pool = filterByVersion(questions, necVersion);
+  if (excludeCalculation) {
+    pool = pool.filter((q) => !q.calculation);
+  }
   const shuffled = [...pool];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
