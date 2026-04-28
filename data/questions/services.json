@@ -468,7 +468,7 @@
       "necArticle": "Article 230",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Emergency disconnects for one- and two-family dwelling units must be located:",
+      "questionText": "Emergency disconnects for one and two-family dwelling units must be located:",
       "options": [
         "Inside the dwelling only",
         "At or near the service equipment outdoors",
@@ -476,11 +476,31 @@
         "Anywhere accessible"
       ],
       "correctAnswer": 1,
-      "explanation": "NEC 230.85 (added in 2020) requires an emergency disconnect for one- and two-family dwellings to be installed outdoors at a readily accessible location.",
+      "explanation": "NEC 230.85 (added in 2020) requires an emergency disconnect for one and two-family dwellings to be installed outdoors at a readily accessible location.",
       "necReference": "230.85",
       "sparkyTip": "Emergency disconnect outside - first responders can cut power without entering!",
       "necVersions": [
-        "2023",
+        "2023"
+      ]
+    },
+    {
+      "id": "SV-J001",
+      "category": "services",
+      "necArticle": "Article 230",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "Where must the service disconnecting means for a one or two family dwelling be installed?",
+      "options": [
+        "Inside the dwelling, nearest the point of entrance of the service conductors.",
+        "In a readily accessible outdoor location.",
+        "In a secured electrical room accessible only to qualified personnel.",
+        "Mounted directly on the utility pole or transformer pad."
+      ],
+      "correctAnswer": 1,
+      "explanation": "In the 2026 NEC, the emergency disconnect requirements were consolidated to streamline the code. NEC 230.70(A)(1) now mandates that the service disconnecting means for one- and two-family dwellings be installed in a readily accessible outdoor location, making a separate 'emergency disconnect' rule redundant.",
+      "necReference": "230.70(A)(1)",
+      "sparkyTip": "Say goodbye to 230.85! The 2026 code simplified things by just forcing the main service disconnect outside. If it's outside and accessible, first responders can easily kill the power in an emergency, which was the whole point of the old rule.",
+      "necVersions": [
         "2026"
       ]
     },

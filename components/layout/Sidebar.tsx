@@ -24,6 +24,7 @@ import {
   Wallet,
   TrendingUp,
   Gamepad2,
+  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
@@ -90,6 +91,13 @@ const navItems: SidebarItem[] = [
       { href: "/flashcards", label: "Flashcards", icon: Layers },
       { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
       { href: "/tips", label: "Sparky Tips", icon: Lightbulb },
+    ],
+  },
+  {
+    label: "Apprentice",
+    links: [
+      { href: "/apprentice/quiz", label: "Apprentice Quiz", icon: GraduationCap },
+      { href: "/apprentice/flashcards", label: "Apprentice Flashcards", icon: Layers },
     ],
   },
   {

@@ -24,6 +24,7 @@ import {
   Wallet,
   TrendingUp,
   Gamepad2,
+  GraduationCap,
   type LucideIcon,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -96,6 +97,14 @@ const navItems: MobileNavItem[] = [
     links: [
       { href: "/flashcards", label: "Flashcards", icon: Layers },
       { href: "/load-calculator", label: "Load Calculator", icon: Calculator },
+    ],
+  },
+  {
+    label: "Apprentice",
+    icon: GraduationCap,
+    links: [
+      { href: "/apprentice/quiz", label: "Apprentice Quiz", icon: GraduationCap },
+      { href: "/apprentice/flashcards", label: "Apprentice Flashcards", icon: Layers },
     ],
   },
   {

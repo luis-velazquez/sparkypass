@@ -1058,6 +1058,72 @@
         "2023",
         "2026"
       ]
+    },
+    {
+      "id": "GB-J032",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "If the source of a separately derived system and the first disconnecting means are located in two separate enclosures, what is the required conductor called that must be installed with the circuit conductors to ensure electrical conductivity?",
+      "options": [
+        "Equipment Grounding Conductor (EGC)",
+        "System Bonding Jumper (SBJ)",
+        "Supply-Side Bonding Jumper (SSBJ)",
+        "Main Bonding Jumper (MBJ)"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 250.30(A)(2) requires that when the source of a separately derived system and the first disconnecting means are in separate enclosures, a Supply-Side Bonding Jumper (SSBJ) must be installed with the circuit conductors to provide the effective ground-fault current path.",
+      "necReference": "250.30(A)(2)",
+      "sparkyTip": "Remember the dividing line! Because this jumper lives upstream of the first overcurrent protective device, it isn't an EGC. It has to handle un-throttled fault current, which is why it's classified as an SSBJ and sized off the phase wires.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J033",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "Where is the system bonding jumper (SBJ) permitted to be installed for a separately derived system?",
+      "options": [
+        "Only inside the source enclosure.",
+        "At both the source enclosure and the first system disconnecting means.",
+        "At any single point from the source to the first system disconnecting means.",
+        "Only at the first system disconnecting means."
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 250.30(A)(1) requires an unspliced system bonding jumper to be installed at any single point from the source of the separately derived system to the first system disconnecting means or overcurrent device. Installing it at multiple points creates an objectionable parallel path.",
+      "necReference": "250.30(A)(1)",
+      "sparkyTip": "Pick one and done! Bonding the neutral at both the transformer and the first panel creates a parallel path, which turns your metal conduits and enclosures into a normal neutral return path. This is a major safety hazard and a guaranteed failed QAQC inspection.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-J037",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "Which of the following conductors is NOT sized using Table 250.102(C)(1)?",
+      "options": [
+        "Main Bonding Jumper (MBJ)",
+        "System Bonding Jumper (SBJ)",
+        "Supply-Side Bonding Jumper (SSBJ)",
+        "Equipment Grounding Conductor (EGC)"
+      ],
+      "correctAnswer": 3,
+      "explanation": "Table 250.102(C)(1) is specifically used to size the Main Bonding Jumper, System Bonding Jumper, Supply-Side Bonding Jumper, and grounded routing conductors based on the area of the largest ungrounded phase conductor. The Equipment Grounding Conductor (EGC) is sized based on the rating of the upstream overcurrent protective device using a completely different table: Table 250.122.",
+      "necReference": "Table 250.102(C)(1) / Table 250.122",
+      "sparkyTip": "Table trickery is a classic exam tactic! If the wire is protected by a breaker (like an EGC), it lives on Table 250.122. If it is a jumper handling un-throttled fault current upstream of a breaker, it lives on Table 250.102(C)(1).",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
@@ -1500,6 +1566,28 @@
       "explanation": "NEC 250.4 requires an effective ground-fault current path that is low impedance and capable of carrying sufficient current to facilitate the operation of overcurrent devices.",
       "necReference": "250.4(A)(5)",
       "sparkyTip": "Low impedance path = breaker trips fast.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-M021",
+      "category": "grounding-bonding",
+      "necArticle": "Article 250",
+      "difficulty": "master",
+      "calculation": false,
+      "questionText": "You are inspecting a standby generator installation for a 3-phase, 4-wire system. The Automatic Transfer Switch (ATS) is a 3-pole switch with a solid neutral block. How must the neutral connection be handled at the generator?",
+      "options": [
+        "The neutral must be bonded to the generator frame using a System Bonding Jumper (SBJ).",
+        "The neutral must remain isolated (floating) and must not be bonded to the generator frame.",
+        "The neutral must be bonded directly to an independent grounding electrode.",
+        "The neutral must be bonded to the generator frame only if the system exceeds 250 volts to ground."
+      ],
+      "correctAnswer": 1,
+      "explanation": "Because the ATS has a solid neutral block (3 poles on a 4-wire system), the generator's neutral is permanently tied to the utility service neutral, making it a non-separately derived system. NEC 250.35(B) applies here. Bonding the neutral to the generator frame would create an objectionable parallel path for normal neutral return current over the equipment grounding conductors.",
+      "necReference": "250.35(B)",
+      "sparkyTip": "Count the poles on the ATS! If the neutral goes straight through without being switched, leave that factory bonding jumper out of the generator. If you bond it, you are turning your conduits and enclosures into a live neutral return path.",
       "necVersions": [
         "2023",
         "2026"

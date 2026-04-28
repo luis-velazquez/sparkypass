@@ -327,6 +327,7 @@ export default function QuizTakingPage() {
   const searchParams = useSearchParams();
   const categorySlug = params.category as CategorySlug | "all";
   const autoResume = searchParams.get("resume") === "true";
+  const forcedDifficulty = searchParams.get("difficulty") as Difficulty | null;
   const isAllCategories = categorySlug === "all";
 
   const category = useMemo(() =>
@@ -336,8 +337,8 @@ export default function QuizTakingPage() {
     [categorySlug, isAllCategories],
   );
 
-  // Difficulty selection state
-  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+  // Difficulty selection state — skip picker if forced via query param
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(forcedDifficulty);
   const [codebookDismissed, setCodebookDismissed] = useState(false);
 
   // User quiz preferences

@@ -28,7 +28,7 @@
       "necArticle": "Article 450",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), what is the maximum primary fuse rating for a transformer with impedance not more than 6%, installed at any location?",
+      "questionText": "What is the maximum primary fuse rating for a transformer with impedance not more than 6%, installed at any location?",
       "options": [
         "125% of primary FLC",
         "250% of primary FLC",
@@ -40,7 +40,27 @@
       "necReference": "Table 450.3(A)",
       "sparkyTip": "Fuses blow faster than breakers trip, so fuses get a LOWER percentage (300%) compared to circuit breakers (600%). Faster device = lower setting needed.",
       "necVersions": [
-        "2023",
+        "2023"
+      ]
+    },
+    {
+      "id": "TS-A002",
+      "category": "transformer-sizing",
+      "necArticle": "Article 450",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "What is the maximum primary fuse rating for a transformer with impedance not more than 6%, installed at any location?",
+      "options": [
+        "125% of primary FLC",
+        "250% of primary FLC",
+        "300% of primary FLC",
+        "600% of primary FLC"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Per Table 450.5(A), for a transformer with impedance not more than 6% at any location, the maximum primary fuse rating is 300% of the transformer-rated primary current. The 600% value is for circuit breakers, not fuses.",
+      "necReference": "Table 450.5(A)",
+      "sparkyTip": "Fuses blow faster than breakers trip, so fuses get a LOWER percentage (300%) compared to circuit breakers (600%). Faster device = lower setting needed.",
+      "necVersions": [
         "2026"
       ]
     },
@@ -50,7 +70,7 @@
       "necArticle": "Article 450",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), what is the maximum primary circuit breaker setting for a transformer with impedance not more than 6%, installed at any location?",
+      "questionText": "What is the maximum primary circuit breaker setting for a transformer with impedance not more than 6%, installed at any location?",
       "options": [
         "250% of primary FLC",
         "300% of primary FLC",
@@ -58,7 +78,7 @@
         "600% of primary FLC"
       ],
       "correctAnswer": 3,
-      "explanation": "Per Table 450.3(A), for a transformer with impedance not more than 6% at any location, the maximum primary circuit breaker setting is 600% of the transformer-rated primary current. Circuit breakers are permitted a higher setting than fuses (300%) because they have different trip characteristics.",
+      "explanation": "For a transformer with impedance not more than 6% at any location, the maximum primary circuit breaker setting is 600% of the transformer-rated primary current. Circuit breakers are permitted a higher setting than fuses (300%) because they have different trip characteristics.",
       "necReference": "Table 450.3(A)",
       "sparkyTip": "600% for breakers, 300% for fuses — breakers get double! These high percentages exist because the protection is for transformer damage, not conductor protection.",
       "necVersions": [

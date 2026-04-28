@@ -138,7 +138,7 @@
       "necArticle": "Article 680",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Per NEC 680.10, what is the minimum burial depth for underground wiring that is not beneath a building, slab, or paving and supplies a pool, spa, or hot tub?",
+      "questionText": "What is the minimum burial depth for underground wiring that is not beneath a building, slab, or paving and supplies a pool, spa, or hot tub?",
       "options": [
         "6 inches",
         "12 inches",
@@ -626,7 +626,7 @@
       "necArticle": "Article 680",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "Per NEC 680.8(A), what is the minimum clearance required for utility supply conductors (0-750V to ground, not insulated) above a pool?",
+      "questionText": "What is the minimum clearance required for utility supply conductors (0-750V to ground, not insulated) above a pool?",
       "options": [
         "14.5 feet",
         "22.5 feet",

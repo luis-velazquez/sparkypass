@@ -559,7 +559,7 @@
       "necArticle": "Article 430",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A feeder supplies three identical 25 HP, 460V, 3-phase, Design B motors. Per Table 430.250, the FLC for each is 34A. What is the minimum required ampacity for the feeder conductors?",
+      "questionText": "A feeder supplies three identical 25 HP, 460V, 3-phase, Design B motors. The FLC for each is 34A. What is the minimum required ampacity for the feeder conductors?",
       "options": [
         "102A",
         "110.5A",
