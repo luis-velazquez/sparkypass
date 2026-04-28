@@ -7,16 +7,35 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   ShieldAlert,
-  ShieldCheck,
   ChevronRight,
   Timer,
   Flame,
+  BookOpen,
+  Shield,
+  Zap,
+  Box,
+  Cog,
+  GitBranch,
+  HardHat,
+  Cable,
+  type LucideIcon,
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
 import { CATEGORIES } from "@/types/question";
 import { formatCooldown } from "@/lib/circuit-breaker";
 import { ReviewPageShell, ReviewPageHeader, ReviewLoadingState } from "../shared";
+
+const categoryIcons: Record<string, LucideIcon> = {
+  "calculations-and-theory": BookOpen,
+  "grounding-bonding": Shield,
+  services: Zap,
+  "box-fill": Box,
+  "motors-and-generators": Cog,
+  "transformer-sizing": GitBranch,
+  "special-occupancies": HardHat,
+  "wiring-methods": Cable,
+};
 
 interface BreakerStatus {
   categorySlug: string;
@@ -124,15 +143,15 @@ export default function CircuitBreakerPage() {
                         ? "bg-amber/10"
                         : "bg-emerald/10 dark:bg-sparky-green/10"
                   }`}>
-                    {isLocked ? (
-                      <ShieldAlert className="h-4.5 w-4.5 text-red-500" />
-                    ) : (
-                      <ShieldCheck className={`h-4.5 w-4.5 ${
-                        breaker.consecutiveWrong > 0
+                    {(() => {
+                      const Icon = categoryIcons[breaker.categorySlug] ?? ShieldAlert;
+                      const color = isLocked
+                        ? "text-red-500"
+                        : breaker.consecutiveWrong > 0
                           ? "text-amber"
-                          : "text-emerald dark:text-sparky-green"
-                      }`} />
-                    )}
+                          : "text-emerald dark:text-sparky-green";
+                      return <Icon className={`h-4.5 w-4.5 ${color}`} />;
+                    })()}
                   </div>
 
                   {/* Name */}
