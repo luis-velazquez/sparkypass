@@ -37,6 +37,17 @@ const categoryIcons: Record<string, LucideIcon> = {
   "wiring-methods": Cable,
 };
 
+const categoryColors: Record<string, { icon: string; bg: string }> = {
+  "calculations-and-theory": { icon: "text-purple dark:text-purple-light", bg: "bg-purple-soft dark:bg-purple/10" },
+  "grounding-bonding": { icon: "text-emerald dark:text-sparky-green", bg: "bg-emerald/10 dark:bg-sparky-green/10" },
+  services: { icon: "text-amber dark:text-amber-light", bg: "bg-amber/10" },
+  "box-fill": { icon: "text-cyan-500 dark:text-cyan-400", bg: "bg-cyan-500/10" },
+  "motors-and-generators": { icon: "text-indigo-500 dark:text-indigo-400", bg: "bg-indigo-500/10" },
+  "transformer-sizing": { icon: "text-sky-500 dark:text-sky-400", bg: "bg-sky-500/10" },
+  "special-occupancies": { icon: "text-fuchsia-500 dark:text-fuchsia-400", bg: "bg-fuchsia-500/10" },
+  "wiring-methods": { icon: "text-lime-600 dark:text-lime-400", bg: "bg-lime-600/10" },
+};
+
 interface BreakerStatus {
   categorySlug: string;
   categoryName: string;
@@ -136,23 +147,15 @@ export default function CircuitBreakerPage() {
                   className="flex items-center gap-3 px-4 py-3 group transition-colors duration-200 hover:bg-amber/5 dark:hover:bg-sparky-green/5"
                 >
                   {/* Icon */}
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 ${
-                    isLocked
-                      ? "bg-red-500/10"
-                      : breaker.consecutiveWrong > 0
-                        ? "bg-amber/10"
-                        : "bg-emerald/10 dark:bg-sparky-green/10"
-                  }`}>
-                    {(() => {
-                      const Icon = categoryIcons[breaker.categorySlug] ?? ShieldAlert;
-                      const color = isLocked
-                        ? "text-red-500"
-                        : breaker.consecutiveWrong > 0
-                          ? "text-amber"
-                          : "text-emerald dark:text-sparky-green";
-                      return <Icon className={`h-4.5 w-4.5 ${color}`} />;
-                    })()}
-                  </div>
+                  {(() => {
+                    const Icon = categoryIcons[breaker.categorySlug] ?? ShieldAlert;
+                    const colors = categoryColors[breaker.categorySlug];
+                    return (
+                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300 ${colors?.bg ?? "bg-muted"}`}>
+                        <Icon className={`h-4.5 w-4.5 ${colors?.icon ?? "text-muted-foreground"}`} />
+                      </div>
+                    );
+                  })()}
 
                   {/* Name */}
                   <span className="font-medium text-sm text-foreground flex-1 min-w-0 truncate">
