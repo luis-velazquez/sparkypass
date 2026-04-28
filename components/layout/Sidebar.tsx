@@ -97,7 +97,6 @@ const navItems: SidebarItem[] = [
     label: "Apprentice",
     links: [
       { href: "/apprentice/quiz", label: "Apprentice Quiz", icon: GraduationCap },
-      { href: "/apprentice/flashcards", label: "Apprentice Flashcards", icon: Layers },
     ],
   },
   {

@@ -104,7 +104,6 @@ const navItems: MobileNavItem[] = [
     icon: GraduationCap,
     links: [
       { href: "/apprentice/quiz", label: "Apprentice Quiz", icon: GraduationCap },
-      { href: "/apprentice/flashcards", label: "Apprentice Flashcards", icon: Layers },
     ],
   },
   {

@@ -28,7 +28,6 @@ const PAGE_TITLES: Record<string, string> = {
   "/translation-engine": "Slang to Code",
   "/formula-builder": "Formula Builder",
   "/apprentice/quiz": "Apprentice Quiz",
-  "/apprentice/flashcards": "Apprentice Flashcards",
   "/mock-exam": "Mock Exam",
   "/bookmarks": "Bookmarks",
   "/bookmarks/review": "Bookmark Review",
