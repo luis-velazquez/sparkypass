@@ -54,7 +54,7 @@ import {
   STREAK_THRESHOLD,
   getRandomMessage,
 } from "@/components/quiz-engine/sparky-messages";
-import { getRandomQuestions, getQuestionById, getQuestionCountByCategoryAndDifficulty } from "@/lib/questions";
+import { getRandomQuestions, getRandomQuestionsAll, getQuestionById, getQuestionCountByCategoryAndDifficulty, getTotalQuestionCount } from "@/lib/questions";
 import { useNecVersion, getNecReference, getExplanation, getSparkyTip } from "@/lib/nec-version";
 import { getCategoryBySlug, type Question, type CategorySlug, type Difficulty, type NecVersion } from "@/types/question";
 import { getScaffolding, DIFFICULTY_VOLTAGE, getStreakBoostedVoltage } from "@/lib/voltage";
@@ -280,9 +280,11 @@ interface SavedQuizProgress {
   timestamp: number;
 }
 
-function createInitialState(categorySlug: CategorySlug, difficulty?: Difficulty, count?: number, necVersion?: NecVersion): QuizState {
+function createInitialState(categorySlug: CategorySlug | "all", difficulty?: Difficulty, count?: number, necVersion?: NecVersion): QuizState {
   const questionCount = count && count > 0 ? count : 9999;
-  const questions = getRandomQuestions(categorySlug, questionCount, difficulty, necVersion);
+  const questions = categorySlug === "all"
+    ? getRandomQuestionsAll(questionCount, necVersion)
+    : getRandomQuestions(categorySlug, questionCount, difficulty, necVersion);
   return {
     questions,
     currentQuestionIndex: 0,
@@ -323,10 +325,16 @@ export default function QuizTakingPage() {
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const categorySlug = params.category as CategorySlug;
+  const categorySlug = params.category as CategorySlug | "all";
   const autoResume = searchParams.get("resume") === "true";
+  const isAllCategories = categorySlug === "all";
 
-  const category = useMemo(() => getCategoryBySlug(categorySlug), [categorySlug]);
+  const category = useMemo(() =>
+    isAllCategories
+      ? { slug: "all" as const, name: "All Categories", description: "Random questions from every NEC category" }
+      : getCategoryBySlug(categorySlug),
+    [categorySlug, isAllCategories],
+  );
 
   // Difficulty selection state
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
@@ -1307,7 +1315,9 @@ export default function QuizTakingPage() {
             </CardHeader>
             <CardContent className="space-y-3">
               {DIFFICULTY_CONFIG.map((diff) => {
-                const poolCount = getQuestionCountByCategoryAndDifficulty(categorySlug, diff.value, necVersion);
+                const poolCount = isAllCategories
+                  ? getTotalQuestionCount(necVersion)
+                  : getQuestionCountByCategoryAndDifficulty(categorySlug as CategorySlug, diff.value, necVersion);
                 const quizLength = profileQuizLength ?? QUESTIONS_PER_DIFFICULTY[diff.value];
                 const actualCount = Math.min(quizLength, poolCount);
                 const isCustom = profileQuizLength !== null;

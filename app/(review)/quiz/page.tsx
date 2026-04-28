@@ -3,11 +3,11 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { BookOpen, Zap, Shield, ChevronRight, Box, Cog, GitBranch, Trophy, HardHat, Cable } from "lucide-react";
+import { BookOpen, Zap, Shield, ChevronRight, Box, Cog, GitBranch, Trophy, HardHat, Cable, Shuffle } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
 import { CATEGORIES, type Category } from "@/types/question";
-import { getCategoryCounts } from "@/lib/questions";
+import { getCategoryCounts, getTotalQuestionCount } from "@/lib/questions";
 import { useNecVersion } from "@/lib/nec-version";
 
 interface QuizResultData {
@@ -81,6 +81,7 @@ const QUIZ_STORAGE_PREFIX = "sparkypass-quiz-progress-";
 export default function QuizPage() {
   const { necVersion } = useNecVersion();
   const categoryCounts = getCategoryCounts(necVersion);
+  const totalQuestionCount = getTotalQuestionCount(necVersion);
   const [lastScores, setLastScores] = useState<Record<string, QuizResultData>>({});
   const [inProgressCategories, setInProgressCategories] = useState<Set<string>>(new Set());
 
@@ -142,6 +143,31 @@ export default function QuizPage() {
         className="mb-8"
       >
         <Card className="border-border dark:border-stone-800 bg-card dark:bg-stone-900/50 overflow-hidden divide-y divide-border dark:divide-stone-800">
+          {/* All Categories — random mix */}
+          <motion.div
+            initial={{ opacity: 0, x: -10 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
+          >
+            <Link
+              href="/quiz/all"
+              className="flex items-center gap-3 px-4 py-3 group transition-colors duration-200 hover:bg-amber/5 dark:hover:bg-sparky-green/5 hover:border-amber/50"
+            >
+              <div className="w-9 h-9 rounded-lg bg-amber/10 dark:bg-sparky-green/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
+                <Shuffle className="h-4.5 w-4.5 text-amber dark:text-sparky-green" />
+              </div>
+              <span className="font-medium text-sm text-foreground flex-1 min-w-0 truncate">
+                All Categories
+              </span>
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="text-xs text-muted-foreground">
+                  {totalQuestionCount} questions
+                </span>
+                <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+              </div>
+            </Link>
+          </motion.div>
+
           {CATEGORIES.map((category, index) => {
             const Icon = categoryIcons[category.slug];
             const colors = categoryColors[category.slug];
