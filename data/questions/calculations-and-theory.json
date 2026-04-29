@@ -144,7 +144,7 @@
       "id": "LC-A007",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
-      "difficulty": "apprentice",
+      "difficulty": "Journeyman",
       "calculation": false,
       "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
       "options": [
@@ -521,7 +521,7 @@
       "id": "LC-A024",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
-      "difficulty": "apprentice",
+      "difficulty": "journeyman",
       "calculation": false,
       "questionText": "What is the total area available at 40% fill in a 3/4-inch EMT conduit?",
       "options": [
@@ -1181,7 +1181,7 @@
       "id": "LC-A054",
       "category": "calculations-and-theory",
       "necArticle": "Table 310.15(B)(1)",
-      "difficulty": "apprentice",
+      "difficulty": "Journeyman",
       "calculation": false,
       "questionText": "A Mineral Insulated (MI) cable is installed in a boiler room with an ambient temperature of 55°C (131°F). If the cable is rated for 90°C, what is the correction factor that must be applied to its ampacity?",
       "options": [
@@ -1266,7 +1266,7 @@
       ]
     },
     {
-      "id": "LC-A58",
+      "id": "LC-A058",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -2828,10 +2828,10 @@
       }
     },
     {
-      "id": "LC-C9-N4-LEN",
+      "id": "LC-J070",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Notes to Tables",
-      "difficulty": "Journeyman",
+      "difficulty": "journeyman",
       "calculation": false,
       "questionText": "What is the maximum length a conduit or tubing can be to qualify as a nipple and be permitted a 60% fill rate?",
       "options": [
@@ -2854,10 +2854,10 @@
       }
     },
     {
-      "id": "LC-C9-T1-3C",
+      "id": "LC-J071",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
-      "difficulty": "Journeyman",
+      "difficulty": "journeyman",
       "calculation": false,
       "questionText": "What is the maximum permitted conduit or tubing fill percentage when installing three or more conductors?",
       "options": [

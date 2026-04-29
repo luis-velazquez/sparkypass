@@ -803,7 +803,7 @@
       "necArticle": "250.118(10)(b)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "When installing standard Type MC (Metal-Clad) cable, the interlocking metal sheathing alone is not recognized as an effective ground-fault current path. According to NEC 250.118(10), to qualify the metallic sheath as an equipment grounding conductor, it must be listed and combined with which of the following?",
+      "questionText": "When installing standard Type MC (Metal-Clad) cable, the interlocking metal sheathing alone is not recognized as an effective ground-fault current path. To qualify the metallic sheath as an equipment grounding conductor, it must be listed and combined with which of the following?",
       "options": [
         "An external copper bonding jumper strapped to the outside of the armor.",
         "A redundant insulated green grounding conductor connected only at the source.",
@@ -1016,7 +1016,7 @@
       ]
     },
     {
-      "id": "ART110-J002",
+      "id": "GB-J031",
       "category": "general-requirements",
       "necArticle": "Article 110",
       "difficulty": "journeyman",
@@ -1038,7 +1038,7 @@
       ]
     },
     {
-      "id": "GB-J031",
+      "id": "GB-J032",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -1060,7 +1060,7 @@
       ]
     },
     {
-      "id": "GB-J032",
+      "id": "GB-J033",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -1082,7 +1082,7 @@
       ]
     },
     {
-      "id": "GB-J033",
+      "id": "GB-J034",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -1104,7 +1104,7 @@
       ]
     },
     {
-      "id": "GB-J037",
+      "id": "GB-J035",
       "category": "grounding-bonding",
       "necArticle": "Article 250",
       "difficulty": "journeyman",

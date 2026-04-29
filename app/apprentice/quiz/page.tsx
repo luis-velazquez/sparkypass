@@ -38,6 +38,7 @@ function ApprenticeQuizContent() {
   const [bookmarked, setBookmarked] = useState<Set<string>>(new Set());
   const [bestStreak, setBestStreak] = useState(0);
   const streakRef = useRef(0);
+  const explanationRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/login");
@@ -71,6 +72,11 @@ function ApprenticeQuizContent() {
     } else {
       streakRef.current = 0;
     }
+
+    // Scroll to explanation after a brief delay for the UI to render
+    setTimeout(() => {
+      explanationRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 150);
   }, [selectedAnswer, currentQuestion, bestStreak]);
 
   const handleNext = useCallback(() => {
@@ -291,6 +297,7 @@ function ApprenticeQuizContent() {
             {/* Explanation (after answering) */}
             {selectedAnswer !== null && (
               <motion.div
+                ref={explanationRef}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}

@@ -1,7 +1,7 @@
 {
   "apprentice": [
     {
-      "id": "SC-A002",
+      "id": "SC-A001",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -23,7 +23,7 @@
       ]
     },
     {
-      "id": "SC-A003",
+      "id": "SC-A002",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -45,7 +45,7 @@
       ]
     },
     {
-      "id": "SC-A004",
+      "id": "SC-A003",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "apprentice",
@@ -67,12 +67,12 @@
       ]
     },
     {
-      "id": "SC-A006",
+      "id": "SC-A004",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Per NEC 680.22(A), all 125-volt receptacles that supply power to a pool pump motor must have what type of protection?",
+      "questionText": "All 125-volt receptacles that supply power to a pool pump motor must have what type of protection?",
       "options": [
         "AFCI protection",
         "GFCI protection",
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "id": "SC-A007",
+      "id": "SC-A005",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -111,7 +111,7 @@
       ]
     },
     {
-      "id": "SC-A008",
+      "id": "SC-A006",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -133,7 +133,7 @@
       ]
     },
     {
-      "id": "SC-A009",
+      "id": "SC-A007",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -155,7 +155,7 @@
       ]
     },
     {
-      "id": "SC-A010",
+      "id": "SC-A008",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "apprentice",
@@ -179,7 +179,7 @@
   ],
   "journeyman": [
     {
-      "id": "SC-A005",
+      "id": "SC-J001",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -201,7 +201,7 @@
       ]
     },
     {
-      "id": "SC-J001",
+      "id": "SC-J002",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -223,7 +223,7 @@
       ]
     },
     {
-      "id": "SC-J002",
+      "id": "SC-J003",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -245,7 +245,7 @@
       ]
     },
     {
-      "id": "SC-J003",
+      "id": "SC-J004",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -267,7 +267,7 @@
       ]
     },
     {
-      "id": "SC-J004",
+      "id": "SC-J005",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -289,7 +289,7 @@
       ]
     },
     {
-      "id": "SC-J005",
+      "id": "SC-J006",
       "category": "special-occupancies",
       "necArticle": "Article 550",
       "difficulty": "journeyman",
@@ -311,7 +311,7 @@
       ]
     },
     {
-      "id": "SC-J006",
+      "id": "SC-J007",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -333,7 +333,7 @@
       ]
     },
     {
-      "id": "SC-J007",
+      "id": "SC-J008",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -355,7 +355,7 @@
       ]
     },
     {
-      "id": "SC-J008",
+      "id": "SC-J009",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -377,7 +377,7 @@
       ]
     },
     {
-      "id": "SC-J009",
+      "id": "SC-J010",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",
@@ -399,7 +399,7 @@
       ]
     },
     {
-      "id": "SC-J010",
+      "id": "SC-J011",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "journeyman",

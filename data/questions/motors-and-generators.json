@@ -4,7 +4,7 @@
       "id": "MG-A001",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
-      "difficulty": "apprentice",
+      "difficulty": "Journeyman",
       "calculation": false,
       "questionText": "When sizing branch-circuit conductors for a single motor, which current value is generally used?",
       "options": [

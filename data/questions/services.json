@@ -484,7 +484,7 @@
       ]
     },
     {
-      "id": "SV-J001",
+      "id": "SV-J011",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -505,7 +505,7 @@
       ]
     },
     {
-      "id": "SV-J011",
+      "id": "SV-J012",
       "category": "services",
       "necArticle": "Article 230.70(A)(1)",
       "difficulty": "journeyman",
@@ -527,7 +527,7 @@
       ]
     },
     {
-      "id": "SV-J012",
+      "id": "SV-J013",
       "category": "services",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
@@ -552,7 +552,7 @@
       }
     },
     {
-      "id": "SV-J013",
+      "id": "SV-J014",
       "category": "services",
       "difficulty": "journeyman",
       "calculation": false,
@@ -578,7 +578,7 @@
       "sparkyTip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway."
     },
     {
-      "id": "SV-J014",
+      "id": "SV-J015",
       "category": "services",
       "necArticle": "Article 230",
       "difficulty": "journeyman",
@@ -646,7 +646,7 @@
       ]
     },
     {
-      "id": "TR-M002",
+      "id": "SV-M003",
       "category": "transformers",
       "necArticle": "Article 240.21(C)(2)",
       "difficulty": "master",
@@ -668,7 +668,7 @@
       ]
     },
     {
-      "id": "TR-M003",
+      "id": "SV-M004",
       "category": "transformers",
       "necArticle": "Article 240.21(C)(4)",
       "difficulty": "master",
@@ -690,7 +690,7 @@
       ]
     },
     {
-      "id": "FD-M001",
+      "id": "SV-M005",
       "category": "feeders",
       "necArticle": "Article 240.21(B)(2)",
       "difficulty": "master",
