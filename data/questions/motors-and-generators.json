@@ -4,28 +4,6 @@
       "id": "MG-A001",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
-      "difficulty": "Journeyman",
-      "calculation": false,
-      "questionText": "When sizing branch-circuit conductors for a single motor, which current value is generally used?",
-      "options": [
-        "The motor nameplate current rating",
-        "The Full-Load Current (FLC) from the NEC Tables",
-        "The locked-rotor current",
-        "The measured running current"
-      ],
-      "correctAnswer": 1,
-      "explanation": "To determine the ampacity of conductors, switches, and branch-circuit short-circuit and ground-fault protection, the values given in the NEC Tables (like Table 430.250) shall be used instead of the actual current rating marked on the motor nameplate.",
-      "necReference": "430.6(A)(1)",
-      "sparkyTip": "Use the NEC tables for sizing your wire and breakers, but always use the actual nameplate rating for sizing the thermal overloads.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A002",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
       "difficulty": "apprentice",
       "calculation": false,
       "questionText": "Branch-circuit conductors supplying a single continuous-duty motor must have an ampacity of not less than what percentage of the motor's full-load current rating?",
@@ -45,7 +23,7 @@
       ]
     },
     {
-      "id": "MG-A003",
+      "id": "MG-A002",
       "category": "motors-and-generators",
       "necArticle": "Article 445",
       "difficulty": "apprentice",
@@ -67,7 +45,7 @@
       ]
     },
     {
-      "id": "MG-A004",
+      "id": "MG-A003",
       "category": "motors-and-generators",
       "necArticle": "Article 430",
       "difficulty": "apprentice",
@@ -85,50 +63,6 @@
       "sparkyTip": "A 'controller' is just the formal NEC term for whatever device—like a contactor or manual motor switch—actually turns the motor on and off.",
       "necVersions": [
         "2023"
-      ]
-    },
-    {
-      "id": "MG-A005",
-      "category": "motors-and-generators",
-      "necArticle": "Article 430",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "When calculating the feeder conductor size for multiple motors, you take the sum of the full-load currents of all motors and add what percentage of the highest rated motor in the group?",
-      "options": [
-        "10%",
-        "25%",
-        "80%",
-        "125%"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Conductors supplying several motors must have an ampacity of not less than the sum of the full-load current rating of all the motors, plus 25 percent of the highest rated motor in the group.",
-      "necReference": "430.24",
-      "sparkyTip": "You only apply the extra 25% buffer to the LARGEST motor in the group. The rest of the motors are just added in at 100%.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "MG-A006",
-      "category": "motors-and-generators",
-      "necArticle": "Article 445",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "The ampacity of the conductors from the generator terminals to the first distribution device containing overcurrent protection shall not be less than what percentage of the nameplate current rating of the generator?",
-      "options": [
-        "100%",
-        "115%",
-        "125%",
-        "150%"
-      ],
-      "correctAnswer": 1,
-      "explanation": "The ampacity of the conductors from the generator to the first overcurrent device shall not be less than 115 percent of the nameplate current rating of the generator.",
-      "necReference": "445.13(A)",
-      "sparkyTip": "Remember the difference! Generators require 115% for conductor sizing, unlike single continuous-duty motors which use the 125% rule.",
-      "necVersions": [
-        "2023",
-        "2026"
       ]
     }
   ],
@@ -392,6 +326,72 @@
       "explanation": "A code letter indicates the motor's locked-rotor kilovolt-amperes (kVA) per horsepower. This helps in determining the required short-circuit and ground-fault protection.",
       "necReference": "430.7(B)",
       "sparkyTip": "The code letter helps you calculate the massive inrush current the motor pulls the exact moment it tries to start turning.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J013",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "When sizing branch-circuit conductors for a single motor, which current value is generally used?",
+      "options": [
+        "The motor nameplate current rating",
+        "The Full-Load Current (FLC) from the NEC Tables",
+        "The locked-rotor current",
+        "The measured running current"
+      ],
+      "correctAnswer": 1,
+      "explanation": "To determine the ampacity of conductors, switches, and branch-circuit short-circuit and ground-fault protection, the values given in the NEC Tables (like Table 430.250) shall be used instead of the actual current rating marked on the motor nameplate.",
+      "necReference": "430.6(A)(1)",
+      "sparkyTip": "Use the NEC tables for sizing your wire and breakers, but always use the actual nameplate rating for sizing the thermal overloads.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J014",
+      "category": "motors-and-generators",
+      "necArticle": "Article 430",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "When calculating the feeder conductor size for multiple motors, you take the sum of the full-load currents of all motors and add what percentage of the highest rated motor in the group?",
+      "options": [
+        "10%",
+        "25%",
+        "80%",
+        "125%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Conductors supplying several motors must have an ampacity of not less than the sum of the full-load current rating of all the motors, plus 25 percent of the highest rated motor in the group.",
+      "necReference": "430.24",
+      "sparkyTip": "You only apply the extra 25% buffer to the LARGEST motor in the group. The rest of the motors are just added in at 100%.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "MG-J015",
+      "category": "motors-and-generators",
+      "necArticle": "Article 445",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "The ampacity of the conductors from the generator terminals to the first distribution device containing overcurrent protection shall not be less than what percentage of the nameplate current rating of the generator?",
+      "options": [
+        "100%",
+        "115%",
+        "125%",
+        "150%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The ampacity of the conductors from the generator to the first overcurrent device shall not be less than 115 percent of the nameplate current rating of the generator.",
+      "necReference": "445.13(A)",
+      "sparkyTip": "Remember the difference! Generators require 115% for conductor sizing, unlike single continuous-duty motors which use the 125% rule.",
       "necVersions": [
         "2023",
         "2026"

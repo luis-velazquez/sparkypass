@@ -175,50 +175,6 @@
         "2023",
         "2026"
       ]
-    },
-    {
-      "id": "BF-A009",
-      "category": "box-fill",
-      "necArticle": "314.16(B)(5)",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "You are making up a junction box that contains three #12 AWG bare copper equipment grounding conductors (EGCs). How many total conductor volume allowances must you count for these three ground wires combined?",
-      "options": [
-        "Zero (0)",
-        "One (1)",
-        "Two (2)",
-        "Three (3)"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC 314.16(B)(5) states that where up to four equipment grounding conductors enter a box, they are counted as a single volume allowance based on the largest equipment grounding conductor in the box.",
-      "necReference": "NEC 314.16(B)(5)",
-      "sparkyTip": "Grounds get a group discount! The first 4 ground wires in the box only cost you 1 volume allowance total. (Just remember that starting with the 5th ground wire, you have to add an extra 1/4 allowance for each one).",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "BF-A010",
-      "category": "box-fill",
-      "necArticle": "314.16(B)(4)",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "When calculating box fill, how many conductor volume allowances must you deduct for a standard single device, such as a light switch or duplex receptacle, mounted on a single yoke or strap?",
-      "options": [
-        "Zero (0)",
-        "One (1)",
-        "Two (2)",
-        "Three (3)"
-      ],
-      "correctAnswer": 2,
-      "explanation": "According to NEC 314.16(B)(4), for each yoke or strap containing one or more devices, a double volume allowance must be made. This means a single switch or receptacle counts as two conductors, based on the largest conductor connected to that specific device.",
-      "necReference": "NEC 314.16(B)(4)",
-      "sparkyTip": "Every switch or plug costs you TWO wires! It doesn't matter if it's a simple single-pole switch or a bulky GFCI receptacle; if it sits on one mounting strap, it counts as two conductor allowances.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
     }
   ],
   "journeyman": [
@@ -569,6 +525,28 @@
       "explanation": "According to NEC 314.16(B), volume allowances must be made for conductors, internal cable clamps, support fittings (like hickeys or studs), devices/equipment, and equipment grounding conductors. Standard small fittings like lock rings, locknuts, wire connectors (wire nuts), and bushings are exempt and do not require a volume allowance deduction.",
       "necReference": "NEC 314.16(B)",
       "sparkyTip": "Small hardware gets a free pass! Lock rings, locknuts, wire nuts, and bushings don't cost you any box space. You only need to count the core items: wires, internal clamps, support fittings, devices, and grounds.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BF-J017",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(5)",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "You are making up a junction box that contains three #12 AWG bare copper equipment grounding conductors (EGCs). How many total conductor volume allowances must you count for these three ground wires combined?",
+      "options": [
+        "Zero (0)",
+        "One (1)",
+        "Two (2)",
+        "Three (3)"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 314.16(B)(5) states that where up to four equipment grounding conductors enter a box, they are counted as a single volume allowance based on the largest equipment grounding conductor in the box.",
+      "necReference": "NEC 314.16(B)(5)",
+      "sparkyTip": "Grounds get a group discount! The first 4 ground wires in the box only cost you 1 volume allowance total. (Just remember that starting with the 5th ground wire, you have to add an extra 1/4 allowance for each one).",
       "necVersions": [
         "2023",
         "2026"

@@ -52,28 +52,6 @@
       "necArticle": "Article 220",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Using the optional calculation method (220.82), what percentage is applied to general loads exceeding 10 kVA?",
-      "options": [
-        "35%",
-        "50%",
-        "40%",
-        "65%"
-      ],
-      "correctAnswer": 2,
-      "explanation": "NEC 220.82(B) applies 40% to the portion of general loads exceeding 10 kVA. This simplified method often results in smaller service sizes than the standard method.",
-      "necReference": "220.82(B)",
-      "sparkyTip": "40% after 10 kVA in the optional method - that's why customers love it: smaller service = savings!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "LC-A004",
-      "category": "calculations-and-theory",
-      "necArticle": "Article 220",
-      "difficulty": "apprentice",
-      "calculation": false,
       "questionText": "How many VA must be included for each laundry circuit in a dwelling unit load calculation?",
       "options": [
         "1,000 VA",
@@ -94,32 +72,7 @@
       }
     },
     {
-      "id": "LC-A005",
-      "category": "calculations-and-theory",
-      "necArticle": "Article 220",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "Per NEC Table 220.55, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
-      "options": [
-        "8 kW",
-        "10 kW",
-        "12 kW",
-        "11 kW"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Table 220.55, Column C shows that one household range rated not more than 12 kW has a maximum demand of 8 kW. This significant reduction recognizes that all elements rarely operate simultaneously at full power.",
-      "necReference": "Table 220.55, Column C",
-      "sparkyTip": "One range up to 12 kW = 8 kW demand. The NEC knows your stove isn't cooking everything at once!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "necReferences": {
-        "2026": "Table 220.56, Column C"
-      }
-    },
-    {
-      "id": "LC-A006",
+      "id": "LC-A004",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -141,32 +94,7 @@
       ]
     },
     {
-      "id": "LC-A007",
-      "category": "calculations-and-theory",
-      "necArticle": "Article 220",
-      "difficulty": "Journeyman",
-      "calculation": false,
-      "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
-      "options": [
-        "47%",
-        "50%",
-        "52%",
-        "55%"
-      ],
-      "correctAnswer": 0,
-      "explanation": "NEC Table 220.54 shows that for 12 dryers, the demand factor is 47%. The demand factor decreases as the number of dryers increases because they won't all operate simultaneously.",
-      "necReference": "Table 220.54",
-      "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "necReferences": {
-        "2026": "Table 220.55"
-      }
-    },
-    {
-      "id": "LC-A008",
+      "id": "LC-A005",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -188,7 +116,7 @@
       ]
     },
     {
-      "id": "LC-A009",
+      "id": "LC-A006",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -210,7 +138,7 @@
       ]
     },
     {
-      "id": "LC-A010",
+      "id": "LC-A007",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -232,7 +160,7 @@
       ]
     },
     {
-      "id": "LC-A011",
+      "id": "LC-A008",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -254,7 +182,7 @@
       ]
     },
     {
-      "id": "LC-A012",
+      "id": "LC-A009",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -276,7 +204,7 @@
       ]
     },
     {
-      "id": "LC-A013",
+      "id": "LC-A010",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -298,7 +226,7 @@
       ]
     },
     {
-      "id": "LC-A014",
+      "id": "LC-A011",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -320,7 +248,7 @@
       ]
     },
     {
-      "id": "LC-A015",
+      "id": "LC-A012",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -342,7 +270,7 @@
       ]
     },
     {
-      "id": "LC-A016",
+      "id": "LC-A013",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -364,7 +292,7 @@
       ]
     },
     {
-      "id": "LC-A017",
+      "id": "LC-A014",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -386,7 +314,7 @@
       ]
     },
     {
-      "id": "LC-A018",
+      "id": "LC-A015",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -408,7 +336,7 @@
       ]
     },
     {
-      "id": "LC-A019",
+      "id": "LC-A016",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -430,7 +358,7 @@
       ]
     },
     {
-      "id": "LC-A020",
+      "id": "LC-A017",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -452,7 +380,7 @@
       ]
     },
     {
-      "id": "LC-A021",
+      "id": "LC-A018",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -474,7 +402,7 @@
       ]
     },
     {
-      "id": "LC-A022",
+      "id": "LC-A019",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -496,7 +424,7 @@
       ]
     },
     {
-      "id": "LC-A023",
+      "id": "LC-A020",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -518,29 +446,7 @@
       ]
     },
     {
-      "id": "LC-A024",
-      "category": "calculations-and-theory",
-      "necArticle": "Chapter 9",
-      "difficulty": "journeyman",
-      "calculation": false,
-      "questionText": "What is the total area available at 40% fill in a 3/4-inch EMT conduit?",
-      "options": [
-        "0.213 square inches",
-        "0.533 square inches",
-        "0.171 square inches",
-        "0.346 square inches"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Per NEC Chapter 9, Table 4, 3/4-inch EMT has a total area of 0.533 sq in. At 40% fill: 0.533 × 0.40 = 0.213 square inches.",
-      "necReference": "Chapter 9, Table 4",
-      "sparkyTip": "Total area × fill percentage = usable area. Table 4 even has the 40% pre-calculated!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "LC-A025",
+      "id": "LC-A021",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -562,7 +468,7 @@
       ]
     },
     {
-      "id": "LC-A026",
+      "id": "LC-A022",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -584,12 +490,12 @@
       ]
     },
     {
-      "id": "LC-A027",
+      "id": "LC-A023",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "The 40% fill limit exists primarily because:",
+      "questionText": "The 40% conduit fill limit exists primarily because:",
       "options": [
         "Conductors need room to expand",
         "It prevents damage during pulling and allows heat dissipation",
@@ -606,7 +512,7 @@
       ]
     },
     {
-      "id": "LC-A028",
+      "id": "LC-A024",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -628,7 +534,7 @@
       ]
     },
     {
-      "id": "LC-A029",
+      "id": "LC-A025",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -650,7 +556,7 @@
       ]
     },
     {
-      "id": "LC-A030",
+      "id": "LC-A026",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -672,7 +578,7 @@
       ]
     },
     {
-      "id": "LC-A031",
+      "id": "LC-A027",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
@@ -694,7 +600,7 @@
       ]
     },
     {
-      "id": "LC-A032",
+      "id": "LC-A028",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 1, Note 7",
       "difficulty": "apprentice",
@@ -716,7 +622,7 @@
       ]
     },
     {
-      "id": "LC-A033",
+      "id": "LC-A029",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "apprentice",
@@ -738,7 +644,7 @@
       ]
     },
     {
-      "id": "LC-A034",
+      "id": "LC-A030",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "apprentice",
@@ -760,7 +666,7 @@
       ]
     },
     {
-      "id": "LC-A035",
+      "id": "LC-A031",
       "category": "calculations-and-theory",
       "necArticle": "Ohm's Law",
       "difficulty": "apprentice",
@@ -782,7 +688,7 @@
       ]
     },
     {
-      "id": "LC-A036",
+      "id": "LC-A032",
       "category": "calculations-and-theory",
       "necArticle": "Article 100",
       "difficulty": "apprentice",
@@ -804,7 +710,7 @@
       ]
     },
     {
-      "id": "LC-A037",
+      "id": "LC-A033",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "apprentice",
@@ -826,7 +732,7 @@
       ]
     },
     {
-      "id": "LC-A038",
+      "id": "LC-A034",
       "category": "calculations-and-theory",
       "necArticle": "Article 100",
       "difficulty": "apprentice",
@@ -848,7 +754,7 @@
       ]
     },
     {
-      "id": "LC-A039",
+      "id": "LC-A035",
       "category": "calculations-and-theory",
       "necArticle": "General Knowledge",
       "difficulty": "apprentice",
@@ -870,7 +776,7 @@
       ]
     },
     {
-      "id": "LC-A040",
+      "id": "LC-A036",
       "category": "calculations-and-theory",
       "necArticle": "General Safety",
       "difficulty": "apprentice",
@@ -892,7 +798,7 @@
       ]
     },
     {
-      "id": "LC-A041",
+      "id": "LC-A037",
       "category": "calculations-and-theory",
       "necArticle": "General Knowledge",
       "difficulty": "apprentice",
@@ -914,7 +820,7 @@
       ]
     },
     {
-      "id": "LC-A042",
+      "id": "LC-A038",
       "category": "calculations-and-theory",
       "necArticle": "Ohm's Law",
       "difficulty": "apprentice",
@@ -936,7 +842,7 @@
       ]
     },
     {
-      "id": "LC-A043",
+      "id": "LC-A039",
       "category": "calculations-and-theory",
       "necArticle": "Series Circuits",
       "difficulty": "apprentice",
@@ -958,7 +864,7 @@
       ]
     },
     {
-      "id": "LC-A044",
+      "id": "LC-A040",
       "category": "calculations-and-theory",
       "necArticle": "Parallel Circuits",
       "difficulty": "apprentice",
@@ -980,7 +886,7 @@
       ]
     },
     {
-      "id": "LC-A045",
+      "id": "LC-A041",
       "category": "calculations-and-theory",
       "necArticle": "General Knowledge",
       "difficulty": "apprentice",
@@ -1002,7 +908,7 @@
       ]
     },
     {
-      "id": "LC-A046",
+      "id": "LC-A042",
       "category": "calculations-and-theory",
       "necArticle": "General Knowledge",
       "difficulty": "apprentice",
@@ -1024,7 +930,7 @@
       ]
     },
     {
-      "id": "LC-A047",
+      "id": "LC-A043",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "apprentice",
@@ -1046,7 +952,7 @@
       ]
     },
     {
-      "id": "LC-A048",
+      "id": "LC-A044",
       "category": "calculations-and-theory",
       "necArticle": "Article 100",
       "difficulty": "apprentice",
@@ -1068,7 +974,7 @@
       ]
     },
     {
-      "id": "LC-A049",
+      "id": "LC-A045",
       "category": "calculations-and-theory",
       "necArticle": "Ohm's Law",
       "difficulty": "apprentice",
@@ -1090,7 +996,7 @@
       ]
     },
     {
-      "id": "LC-A050",
+      "id": "LC-A046",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "apprentice",
@@ -1112,7 +1018,7 @@
       ]
     },
     {
-      "id": "LC-A051",
+      "id": "LC-A047",
       "category": "calculations-and-theory",
       "necArticle": "General Knowledge",
       "difficulty": "apprentice",
@@ -1134,7 +1040,7 @@
       ]
     },
     {
-      "id": "LC-A052",
+      "id": "LC-A048",
       "category": "calculations-and-theory",
       "necArticle": "Ohm's Law",
       "difficulty": "apprentice",
@@ -1156,7 +1062,7 @@
       ]
     },
     {
-      "id": "LC-A053",
+      "id": "LC-A049",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "apprentice",
@@ -1178,29 +1084,7 @@
       ]
     },
     {
-      "id": "LC-A054",
-      "category": "calculations-and-theory",
-      "necArticle": "Table 310.15(B)(1)",
-      "difficulty": "Journeyman",
-      "calculation": false,
-      "questionText": "A Mineral Insulated (MI) cable is installed in a boiler room with an ambient temperature of 55°C (131°F). If the cable is rated for 90°C, what is the correction factor that must be applied to its ampacity?",
-      "options": [
-        "0.76",
-        "0.82",
-        "0.67",
-        "0.50"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Looking at Table 310.15(B)(1)(1) under the 90°C column, for an ambient temperature range of 51-55°C, the correction factor is 0.76.",
-      "necReference": "Table 310.15(B)(1)(1)",
-      "sparkyTip": "Boiler rooms and industrial furnaces are where correction factors become a matter of life and death for the cable jacket. Always check the high-range of the table.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "LC-A055",
+      "id": "LC-A050",
       "category": "calculations-and-theory",
       "necArticle": "310.15",
       "difficulty": "apprentice",
@@ -1222,7 +1106,7 @@
       ]
     },
     {
-      "id": "LC-A056",
+      "id": "LC-A051",
       "category": "calculations-and-theory",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "apprentice",
@@ -1244,10 +1128,10 @@
       ]
     },
     {
-      "id": "LC-A057",
+      "id": "LC-A052",
       "category": "calculations-and-theory",
       "necArticle": "310.15(C)(1)",
-      "difficulty": "apprentice",
+      "difficulty": "Journeyman",
       "calculation": false,
       "questionText": "Ten current-carrying conductors are in a conduit. The base ampacity must be adjusted by what percentage?",
       "options": [
@@ -1266,7 +1150,7 @@
       ]
     },
     {
-      "id": "LC-A058",
+      "id": "LC-A053",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "apprentice",
@@ -1290,6 +1174,28 @@
         "2023": "220.52(A)",
         "2026": "220.53(A)"
       }
+    },
+    {
+      "id": "LC-A054",
+      "category": "calculations-and-theory",
+      "necArticle": "Parallel Circuits",
+      "difficulty": "apprentice",
+      "calculation": true,
+      "questionText": "Two 100-Ohm resistors are connected in parallel. What is the total resistance?",
+      "options": [
+        "50 Ohms",
+        "200 Ohms",
+        "100 Ohms",
+        "25 Ohms"
+      ],
+      "correctAnswer": 0,
+      "explanation": "For two identical resistors in parallel, divide the value by 2. 100 / 2 = 50 Ohms.",
+      "necReference": "Parallel Circuits",
+      "sparkyTip": "Parallel paths always REDUCE the total resistance. The answer must be smaller than the smallest resistor.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
@@ -2080,7 +1986,7 @@
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
-      "calculation": false,
+      "calculation": true,
       "questionText": "How many #12 AWG THHN conductors can be installed in 1/2-inch EMT?",
       "options": [
         "6 conductors",
@@ -2408,28 +2314,6 @@
     {
       "id": "LC-J051",
       "category": "calculations-and-theory",
-      "necArticle": "Parallel Circuits",
-      "difficulty": "journeyman",
-      "calculation": true,
-      "questionText": "Two 100-Ohm resistors are connected in parallel. What is the total resistance?",
-      "options": [
-        "50 Ohms",
-        "200 Ohms",
-        "100 Ohms",
-        "25 Ohms"
-      ],
-      "correctAnswer": 0,
-      "explanation": "For two identical resistors in parallel, divide the value by 2. 100 / 2 = 50 Ohms.",
-      "necReference": "Parallel Circuits",
-      "sparkyTip": "Parallel paths always REDUCE the total resistance. The answer must be smaller than the smallest resistor.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ]
-    },
-    {
-      "id": "LC-J052",
-      "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
       "calculation": false,
@@ -2450,7 +2334,7 @@
       ]
     },
     {
-      "id": "LC-J053",
+      "id": "LC-J052",
       "category": "calculations-and-theory",
       "necArticle": "Voltage Drop",
       "difficulty": "journeyman",
@@ -2472,7 +2356,7 @@
       ]
     },
     {
-      "id": "LC-J054",
+      "id": "LC-J053",
       "category": "calculations-and-theory",
       "necArticle": "Article 310.10(H)",
       "difficulty": "journeyman",
@@ -2494,7 +2378,7 @@
       ]
     },
     {
-      "id": "LC-J055",
+      "id": "LC-J054",
       "category": "calculations-and-theory",
       "necArticle": "Ohm's Law",
       "difficulty": "journeyman",
@@ -2516,7 +2400,7 @@
       ]
     },
     {
-      "id": "LC-J056",
+      "id": "LC-J055",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
@@ -2538,7 +2422,7 @@
       ]
     },
     {
-      "id": "LC-J057",
+      "id": "LC-J056",
       "category": "calculations-and-theory",
       "necArticle": "Article 100",
       "difficulty": "journeyman",
@@ -2560,7 +2444,7 @@
       ]
     },
     {
-      "id": "LC-J058",
+      "id": "LC-J057",
       "category": "calculations-and-theory",
       "necArticle": "Power Formula",
       "difficulty": "journeyman",
@@ -2582,7 +2466,7 @@
       ]
     },
     {
-      "id": "LC-J059",
+      "id": "LC-J058",
       "category": "calculations-and-theory",
       "necArticle": "Article 110.14(C)",
       "difficulty": "journeyman",
@@ -2604,7 +2488,7 @@
       ]
     },
     {
-      "id": "LC-J060",
+      "id": "LC-J059",
       "category": "calculations-and-theory",
       "necArticle": "Voltage Drop",
       "difficulty": "journeyman",
@@ -2626,7 +2510,7 @@
       ]
     },
     {
-      "id": "LC-J061",
+      "id": "LC-J060",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
@@ -2648,7 +2532,7 @@
       ]
     },
     {
-      "id": "LC-J062",
+      "id": "LC-J061",
       "category": "calculations-and-theory",
       "necArticle": "Article 250",
       "difficulty": "journeyman",
@@ -2670,7 +2554,7 @@
       ]
     },
     {
-      "id": "LC-J063",
+      "id": "LC-J062",
       "category": "calculations-and-theory",
       "necArticle": "Ohm's Law",
       "difficulty": "journeyman",
@@ -2692,7 +2576,7 @@
       ]
     },
     {
-      "id": "LC-J064",
+      "id": "LC-J063",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "journeyman",
@@ -2714,7 +2598,7 @@
       ]
     },
     {
-      "id": "LC-J065",
+      "id": "LC-J064",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
@@ -2736,7 +2620,7 @@
       ]
     },
     {
-      "id": "LC-J066",
+      "id": "LC-J065",
       "category": "calculations-and-theory",
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "journeyman",
@@ -2758,7 +2642,7 @@
       ]
     },
     {
-      "id": "LC-J067",
+      "id": "LC-J066",
       "category": "calculations-and-theory",
       "necArticle": "Table 310.16",
       "difficulty": "journeyman",
@@ -2780,7 +2664,7 @@
       ]
     },
     {
-      "id": "LC-J068",
+      "id": "LC-J067",
       "category": "calculations-and-theory",
       "necArticle": "310.15(B)(1)",
       "difficulty": "journeyman",
@@ -2802,7 +2686,7 @@
       ]
     },
     {
-      "id": "LC-J069",
+      "id": "LC-J068",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
@@ -2828,7 +2712,7 @@
       }
     },
     {
-      "id": "LC-J070",
+      "id": "LC-J069",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9, Notes to Tables",
       "difficulty": "journeyman",
@@ -2854,7 +2738,7 @@
       }
     },
     {
-      "id": "LC-J071",
+      "id": "LC-J070",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
@@ -2878,6 +2762,122 @@
         "2023": "Chapter 9, Table 1",
         "2026": "Chapter 9, Table 1"
       }
+    },
+    {
+      "id": "LC-J071",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 220",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "Using the optional calculation method (220.82), what percentage is applied to general loads exceeding 10 kVA?",
+      "options": [
+        "35%",
+        "50%",
+        "40%",
+        "65%"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 220.82(B) applies 40% to the portion of general loads exceeding 10 kVA. This simplified method often results in smaller service sizes than the standard method.",
+      "necReference": "220.82(B)",
+      "sparkyTip": "40% after 10 kVA in the optional method - that's why customers love it: smaller service = savings!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "LC-J072",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 220",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "Per NEC Table 220.55, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
+      "options": [
+        "8 kW",
+        "10 kW",
+        "12 kW",
+        "11 kW"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Table 220.55, Column C shows that one household range rated not more than 12 kW has a maximum demand of 8 kW. This significant reduction recognizes that all elements rarely operate simultaneously at full power.",
+      "necReference": "Table 220.55, Column C",
+      "sparkyTip": "One range up to 12 kW = 8 kW demand. The NEC knows your stove isn't cooking everything at once!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "Table 220.56, Column C"
+      }
+    },
+    {
+      "id": "LC-J073",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 220",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
+      "options": [
+        "47%",
+        "50%",
+        "52%",
+        "55%"
+      ],
+      "correctAnswer": 0,
+      "explanation": "NEC Table 220.54 shows that for 12 dryers, the demand factor is 47%. The demand factor decreases as the number of dryers increases because they won't all operate simultaneously.",
+      "necReference": "Table 220.54",
+      "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "Table 220.55"
+      }
+    },
+    {
+      "id": "LC-J074",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What is the total area available at 40% fill in a 3/4-inch EMT conduit?",
+      "options": [
+        "0.213 square inches",
+        "0.533 square inches",
+        "0.171 square inches",
+        "0.346 square inches"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Per NEC Chapter 9, Table 4, 3/4-inch EMT has a total area of 0.533 sq in. At 40% fill: 0.533 × 0.40 = 0.213 square inches.",
+      "necReference": "Chapter 9, Table 4",
+      "sparkyTip": "Total area × fill percentage = usable area. Table 4 even has the 40% pre-calculated!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "LC-J075",
+      "category": "calculations-and-theory",
+      "necArticle": "Table 310.15(B)(1)",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "A Mineral Insulated (MI) cable is installed in a boiler room with an ambient temperature of 55°C (131°F). If the cable is rated for 90°C, what is the correction factor that must be applied to its ampacity?",
+      "options": [
+        "0.76",
+        "0.82",
+        "0.67",
+        "0.50"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Looking at Table 310.15(B)(1)(1) under the 90°C column, for an ambient temperature range of 51-55°C, the correction factor is 0.76.",
+      "necReference": "Table 310.15(B)(1)(1)",
+      "sparkyTip": "Boiler rooms and industrial furnaces are where correction factors become a matter of life and death for the cable jacket. Always check the high-range of the table.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
@@ -4559,6 +4559,69 @@
       "sparkyTip": "The measurement changed from 7/8\" to 3/4\" in the 2023 Code to better match real-world strut sizes. If you're too close to the hot roof, you pay the 33°C penalty! Also: 26-30°C is 78-86°F.",
       "necVersions": [
         "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "LC-M077",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 120",
+      "difficulty": "master",
+      "calculation": true,
+      "questionText": "A new dwelling unit has a total footprint of 3,800 sq ft based on outside dimensions, which includes a 400 sq ft attached garage and a 200 sq ft open front porch. Based on 2026 NEC Section 120.13, what is the minimum number of 15-ampere, 120-volt general lighting branch circuits required?",
+      "options": [
+        "4 circuits",
+        "5 circuits",
+        "6 circuits",
+        "7 circuits"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Step 1: Find the applicable floor area by subtracting the garage and open porch (3,800 - 400 - 200 = 3,200 sq ft). Step 2: Per 120.13, use 3 VA per sq ft to determine the minimum branch circuits (3,200 × 3 VA = 9,600 VA). Step 3: Divide the total VA by the circuit voltage (9,600 VA ÷ 120V = 80 Amps). Step 4: Divide the total amps by the breaker size (80A ÷ 15A = 5.33). You cannot install a fraction of a circuit, so you must round up to the next whole number, requiring 6 circuits. (Note: Using the 2 VA rule from 120.41 would incorrectly result in 4 circuits, and failing to subtract the garage/porch would incorrectly result in 7 circuits).",
+      "necReference": "120.13 & 120.11",
+      "sparkyTip": "Sparky says: Master the traps! Always strip out the garage and porch square footage first, and remember—for the physical branch circuits, the dwelling multiplier is still 3 VA. Save that 2 VA number for the main service calculation!",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "LC-M078",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 120",
+      "difficulty": "master",
+      "calculation": false,
+      "questionText": "What is the standard lighting load per square foot used to determine the minimum number of branch circuits for dwelling units?",
+      "options": [
+        "2 VA per sq ft",
+        "3 VA per sq ft",
+        "4 VA per sq ft",
+        "5 VA per sq ft"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC Section 120.13 specifies 3 VA per square foot to calculate the minimum branch circuit load for lighting and general-use receptacles in dwelling units. (Note: The 2 VA rule in 120.41 is strictly for the overall service calculation).",
+      "necReference": "Section 120.13",
+      "sparkyTip": "Sparky says: 3 VA for the branch circuits! Think of it as '3 rooms in a home' to help you remember you still need those physical breakers.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "LC-M079",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 120",
+      "difficulty": "master",
+      "calculation": true,
+      "questionText": "A single-family dwelling has a total floor area of 3,500 sq ft based on outside dimensions. This footprint includes a 500 sq ft attached garage and a 300 sq ft unfinished attic that is not adaptable for future use. According to the 2026 NEC, what is the minimum general lighting load in volt-amperes (VA) to be used for the overall service load calculation before applying demand factors?",
+      "options": [
+        "5,400 VA",
+        "7,000 VA",
+        "8,100 VA",
+        "10,500 VA"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Step 1: Determine the applicable square footage. Section 120.11 dictates that floor area does not include open porches, garages, or unused/unfinished spaces not adaptable for future use (3,500 - 500 - 300 = 2,700 sq ft). Step 2: Because this question asks for the overall service load, you must apply the 2 VA per square foot rule found in Section 120.41 (2,700 sq ft × 2 VA = 5,400 VA). Choosing 8,100 VA means you incorrectly fell for the 3 VA branch-circuit trap.",
+      "necReference": "120.41 & 120.11",
+      "sparkyTip": "Sparky says: 2 VA for the main service! Strip out the garage and unfinished spaces first, then multiply by 2. Don't let the 3 VA branch-circuit rule sneak into your service calculations!",
+      "necVersions": [
         "2026"
       ]
     }
