@@ -20,7 +20,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-A002",
@@ -41,7 +42,8 @@
       "sparkyTip": "Fuses blow faster than breakers trip, so fuses get a LOWER percentage (300%) compared to circuit breakers (600%). Faster device = lower setting needed.",
       "necVersions": [
         "2023"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-A003",
@@ -63,7 +65,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-A004",
@@ -85,7 +88,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     }
   ],
   "journeyman": [
@@ -109,7 +113,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-J002",
@@ -131,7 +136,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-J003",
@@ -153,7 +159,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-J004",
@@ -175,7 +182,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-J005",
@@ -197,7 +205,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-J006",
@@ -219,7 +228,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     }
   ],
   "master": [
@@ -243,7 +253,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M002",
@@ -265,7 +276,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M003",
@@ -287,7 +299,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M004",
@@ -309,7 +322,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M005",
@@ -331,7 +345,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M006",
@@ -353,7 +368,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M007",
@@ -375,7 +391,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M008",
@@ -397,7 +414,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M009",
@@ -419,7 +437,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M010",
@@ -441,7 +460,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M011",
@@ -463,7 +483,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "TS-M012",
@@ -485,7 +506,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     }
   ]
 }

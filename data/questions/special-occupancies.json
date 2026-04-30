@@ -20,7 +20,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A002",
@@ -42,7 +43,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A003",
@@ -64,7 +66,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A004",
@@ -86,7 +89,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A005",
@@ -108,7 +112,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A006",
@@ -130,7 +135,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A007",
@@ -152,7 +158,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-A008",
@@ -174,7 +181,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     }
   ],
   "journeyman": [
@@ -198,7 +206,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J002",
@@ -220,7 +229,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J003",
@@ -242,7 +252,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J004",
@@ -264,7 +275,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J005",
@@ -286,7 +298,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J006",
@@ -308,7 +321,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J007",
@@ -330,7 +344,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J008",
@@ -338,7 +353,7 @@
       "necArticle": "Article 680",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "What is the minimum size of the solid copper bonding conductor used in the equipotential bonding grid for a pool per NEC 680.26(B)(1)?",
+      "questionText": "What is the minimum size of the solid copper bonding conductor used in the equipotential bonding grid for a pool?",
       "options": [
         "6 AWG",
         "8 AWG",
@@ -352,7 +367,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J009",
@@ -374,7 +390,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J010",
@@ -396,7 +413,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-J011",
@@ -418,7 +436,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "HC-J021",
@@ -426,7 +445,7 @@
       "necArticle": "Article 517",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "In a hospital's general care (Category 2) space, a patient bed location must be supplied by at least two branch circuits. According to NEC 517.18(A), which of the following accurately describes the required power sources and panelboard origination?",
+      "questionText": "In a hospital's general care (Category 2) space, a patient bed location must be supplied by which two branch circuits?",
       "options": [
         "One from the equipment branch and one from the normal system; normal circuits can originate from multiple panelboards",
         "One from the life safety branch and one from the normal system; normal circuits must originate in the same panelboard",
@@ -439,7 +458,30 @@
       "sparkyTip": "Sparky says: Keep it 'Normal' and 'Critical'! Remember, while you must have two distinct power sources, all your normal power circuits have to live in the exact same panelboard so a technician can quickly isolate them if needed.",
       "necVersions": [
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
+    },
+    {
+      "id": "HC-J023",
+      "category": "special-occupancies",
+      "necArticle": "Article 517",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "In a hospital facility, which branch of the essential electrical system must supply the power for exit signs and the illumination of the means of egress?",
+      "options": [
+        "The Equipment Branch",
+        "The Life Safety Branch",
+        "The Critical Branch",
+        "The Normal Power System"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Exit signs and egress lighting are strictly for the safe evacuation of a building during an emergency. Therefore, they must be supplied by the Life Safety Branch of the essential electrical system. A common mistake is selecting the Critical Branch, which is instead dedicated to patient care areas and task lighting.",
+      "necReference": "517.33",
+      "sparkyTip": "Sparky says: If it helps people get OUT alive, it belongs on Life Safety! Don't confuse it with the Critical Branch, which is for keeping patients ALIVE in their beds.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "special-occupancies"
     }
   ],
   "master": [
@@ -463,7 +505,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M002",
@@ -485,7 +528,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M003",
@@ -507,7 +551,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M004",
@@ -529,7 +574,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M005",
@@ -551,7 +597,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M006",
@@ -573,7 +620,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M007",
@@ -595,7 +643,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M008",
@@ -617,7 +666,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M009",
@@ -639,7 +689,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     },
     {
       "id": "SC-M010",
@@ -661,7 +712,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "special-occupancies"
     }
   ]
 }

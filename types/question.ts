@@ -13,12 +13,26 @@ export interface Category {
   description: string;
 }
 
+export type ExamTopic =
+  | "calc-theory"
+  | "definitions-theory"
+  | "services-sds"
+  | "feeders"
+  | "branch-circuits"
+  | "wiring-methods"
+  | "equipment-devices"
+  | "motors-generators"
+  | "control-disconnect"
+  | "special-occupancies"
+  | "renewable-energy";
+
 export interface Question {
   id: string;
   category: CategorySlug;
   necArticle?: string;
   difficulty: Difficulty;
   calculation: boolean;
+  examTopic?: ExamTopic;
   questionText: string;
   options: string[];
   correctAnswer: number; // Index of correct option (0-3)

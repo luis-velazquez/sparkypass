@@ -19,7 +19,8 @@
       "sparkyTip": "Remember: 3 VA for dwelling units - think of it as '3 rooms in a home' to help you remember!",
       "necVersions": [
         "2023"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A002",
@@ -44,7 +45,8 @@
       ],
       "necReferences": {
         "2026": "220.53(A)"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A003",
@@ -69,7 +71,8 @@
       ],
       "necReferences": {
         "2026": "220.53(B)"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A004",
@@ -91,7 +94,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A005",
@@ -113,7 +117,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A006",
@@ -135,7 +140,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A007",
@@ -157,7 +163,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A008",
@@ -179,7 +186,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A009",
@@ -201,7 +209,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A010",
@@ -223,7 +232,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A011",
@@ -245,7 +255,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A012",
@@ -267,7 +278,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A013",
@@ -289,7 +301,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A014",
@@ -311,7 +324,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A015",
@@ -333,7 +347,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A016",
@@ -355,7 +370,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A017",
@@ -377,7 +393,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A018",
@@ -399,7 +416,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A019",
@@ -421,7 +439,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A020",
@@ -443,7 +462,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A021",
@@ -465,7 +485,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A022",
@@ -487,7 +508,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A023",
@@ -509,7 +531,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A024",
@@ -531,7 +554,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A025",
@@ -553,7 +577,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A026",
@@ -575,7 +600,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A027",
@@ -597,7 +623,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A028",
@@ -619,7 +646,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A029",
@@ -641,7 +669,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A030",
@@ -663,7 +692,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A031",
@@ -685,7 +715,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A032",
@@ -707,7 +738,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A033",
@@ -729,7 +761,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A034",
@@ -751,7 +784,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A035",
@@ -773,7 +807,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A036",
@@ -795,7 +830,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A037",
@@ -817,7 +853,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A038",
@@ -839,7 +876,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A039",
@@ -861,7 +899,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A040",
@@ -883,7 +922,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A041",
@@ -905,7 +945,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A042",
@@ -927,7 +968,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A043",
@@ -949,7 +991,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A044",
@@ -971,7 +1014,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A045",
@@ -993,7 +1037,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-A046",
@@ -1015,7 +1060,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A047",
@@ -1037,7 +1083,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A048",
@@ -1059,7 +1106,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A049",
@@ -1081,7 +1129,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-A050",
@@ -1103,7 +1152,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A051",
@@ -1125,7 +1175,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A052",
@@ -1147,7 +1198,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A053",
@@ -1173,7 +1225,8 @@
       "necReferences": {
         "2023": "220.52(A)",
         "2026": "220.53(A)"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-A054",
@@ -1195,7 +1248,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     }
   ],
   "journeyman": [
@@ -1219,7 +1273,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J002",
@@ -1244,7 +1299,8 @@
       ],
       "necReferences": {
         "2026": "220.55"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J003",
@@ -1266,7 +1322,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J004",
@@ -1288,7 +1345,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J005",
@@ -1313,7 +1371,8 @@
       ],
       "necReferences": {
         "2026": "Table 220.56 (Column B)"
-      }
+      },
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J006",
@@ -1338,7 +1397,8 @@
       ],
       "necReferences": {
         "2026": "220.54"
-      }
+      },
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J007",
@@ -1360,7 +1420,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J008",
@@ -1382,7 +1443,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J009",
@@ -1407,7 +1469,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J010",
@@ -1429,7 +1492,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J011",
@@ -1451,7 +1515,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J012",
@@ -1473,7 +1538,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J013",
@@ -1495,7 +1561,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J014",
@@ -1517,7 +1584,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J015",
@@ -1539,7 +1607,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J016",
@@ -1561,7 +1630,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J017",
@@ -1583,7 +1653,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J018",
@@ -1605,7 +1676,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J019",
@@ -1627,7 +1699,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J020",
@@ -1649,7 +1722,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J021",
@@ -1671,7 +1745,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J022",
@@ -1693,7 +1768,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J023",
@@ -1715,7 +1791,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J024",
@@ -1737,7 +1814,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J025",
@@ -1759,7 +1837,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J026",
@@ -1781,7 +1860,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J027",
@@ -1803,7 +1883,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J028",
@@ -1825,7 +1906,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J029",
@@ -1847,7 +1929,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J030",
@@ -1869,7 +1952,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J031",
@@ -1891,7 +1975,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J032",
@@ -1913,7 +1998,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J033",
@@ -1935,7 +2021,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J034",
@@ -1957,7 +2044,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J035",
@@ -1979,7 +2067,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J036",
@@ -2001,7 +2090,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J037",
@@ -2023,7 +2113,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J038",
@@ -2045,7 +2136,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J039",
@@ -2067,7 +2159,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J040",
@@ -2089,7 +2182,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J041",
@@ -2111,7 +2205,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J042",
@@ -2133,7 +2228,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J043",
@@ -2155,7 +2251,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J044",
@@ -2177,7 +2274,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J045",
@@ -2199,7 +2297,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J046",
@@ -2221,7 +2320,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J047",
@@ -2243,7 +2343,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J048",
@@ -2265,7 +2366,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J049",
@@ -2287,7 +2389,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J050",
@@ -2309,7 +2412,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J051",
@@ -2331,7 +2435,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J052",
@@ -2353,7 +2458,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J053",
@@ -2375,7 +2481,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J054",
@@ -2397,7 +2504,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J055",
@@ -2419,7 +2527,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J056",
@@ -2441,7 +2550,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J057",
@@ -2463,7 +2573,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J058",
@@ -2485,7 +2596,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J059",
@@ -2507,7 +2619,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J060",
@@ -2529,7 +2642,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J061",
@@ -2551,7 +2665,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J062",
@@ -2573,7 +2688,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J063",
@@ -2595,7 +2711,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J064",
@@ -2617,7 +2734,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J065",
@@ -2639,7 +2757,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-J066",
@@ -2661,7 +2780,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J067",
@@ -2683,7 +2803,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J068",
@@ -2709,7 +2830,8 @@
       "necReferences": {
         "2023": "Chapter 9, Table 1, Note 3",
         "2026": "Chapter 9, Table 1, Note 3"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J069",
@@ -2735,7 +2857,8 @@
       "necReferences": {
         "2023": "Chapter 9, Table 1, Note 4",
         "2026": "Chapter 9, Table 1, Note 4"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J070",
@@ -2761,7 +2884,8 @@
       "necReferences": {
         "2023": "Chapter 9, Table 1",
         "2026": "Chapter 9, Table 1"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J071",
@@ -2769,7 +2893,7 @@
       "necArticle": "Article 220",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Using the optional calculation method (220.82), what percentage is applied to general loads exceeding 10 kVA?",
+      "questionText": "Using the optional calculation method, what percentage is applied to general loads exceeding 10 kVA?",
       "options": [
         "35%",
         "50%",
@@ -2783,7 +2907,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J072",
@@ -2808,7 +2933,8 @@
       ],
       "necReferences": {
         "2026": "Table 220.56, Column C"
-      }
+      },
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J073",
@@ -2833,7 +2959,8 @@
       ],
       "necReferences": {
         "2026": "Table 220.55"
-      }
+      },
+      "examTopic": "feeders"
     },
     {
       "id": "LC-J074",
@@ -2855,7 +2982,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-J075",
@@ -2877,7 +3005,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     }
   ],
   "master": [
@@ -2901,7 +3030,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M002",
@@ -2923,7 +3053,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M003",
@@ -2948,7 +3079,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M004",
@@ -2970,7 +3102,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M005",
@@ -2992,7 +3125,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M006",
@@ -3014,7 +3148,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M007",
@@ -3036,7 +3171,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M008",
@@ -3058,7 +3194,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M009",
@@ -3080,7 +3217,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M010",
@@ -3102,7 +3240,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M011",
@@ -3124,7 +3263,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M012",
@@ -3149,7 +3289,8 @@
       ],
       "necReferences": {
         "2026": "NEC Table 220.57"
-      }
+      },
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M013",
@@ -3171,7 +3312,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M014",
@@ -3196,7 +3338,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M015",
@@ -3218,7 +3361,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M016",
@@ -3240,7 +3384,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M017",
@@ -3262,7 +3407,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M018",
@@ -3284,7 +3430,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M019",
@@ -3306,7 +3453,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M020",
@@ -3328,7 +3476,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M021",
@@ -3350,7 +3499,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M022",
@@ -3372,7 +3522,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M023",
@@ -3394,7 +3545,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M024",
@@ -3416,7 +3568,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M025",
@@ -3438,7 +3591,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M026",
@@ -3460,7 +3614,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M027",
@@ -3482,7 +3637,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M028",
@@ -3504,7 +3660,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M029",
@@ -3526,7 +3683,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M030",
@@ -3548,7 +3706,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M031",
@@ -3570,7 +3729,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M032",
@@ -3592,7 +3752,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M033",
@@ -3614,7 +3775,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M034",
@@ -3636,7 +3798,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M035",
@@ -3658,7 +3821,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M036",
@@ -3680,7 +3844,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M037",
@@ -3702,7 +3867,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M038",
@@ -3724,7 +3890,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M039",
@@ -3746,7 +3913,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M040",
@@ -3768,7 +3936,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M041",
@@ -3790,7 +3959,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M042",
@@ -3812,7 +3982,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M043",
@@ -3834,7 +4005,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M044",
@@ -3856,7 +4028,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M045",
@@ -3878,7 +4051,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M046",
@@ -3900,7 +4074,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M047",
@@ -3922,7 +4097,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M048",
@@ -3944,7 +4120,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M049",
@@ -3966,7 +4143,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M050",
@@ -3988,7 +4166,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M051",
@@ -4010,7 +4189,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M052",
@@ -4032,7 +4212,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M053",
@@ -4054,7 +4235,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M054",
@@ -4076,7 +4258,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M055",
@@ -4098,7 +4281,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M056",
@@ -4120,7 +4304,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M057",
@@ -4142,7 +4327,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M058",
@@ -4164,7 +4350,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M059",
@@ -4186,7 +4373,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M060",
@@ -4208,7 +4396,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M061",
@@ -4230,7 +4419,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M062",
@@ -4252,7 +4442,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M063",
@@ -4274,7 +4465,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M064",
@@ -4296,7 +4488,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M065",
@@ -4318,7 +4511,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M066",
@@ -4340,7 +4534,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M067",
@@ -4362,7 +4557,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "LC-M068",
@@ -4384,7 +4580,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M069",
@@ -4406,7 +4603,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M070",
@@ -4428,7 +4626,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M071",
@@ -4450,7 +4649,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M072",
@@ -4472,7 +4672,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M073",
@@ -4494,7 +4695,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M074",
@@ -4516,7 +4718,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M075",
@@ -4538,7 +4741,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M076",
@@ -4560,7 +4764,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M077",
@@ -4581,7 +4786,8 @@
       "sparkyTip": "Sparky says: Master the traps! Always strip out the garage and porch square footage first, and remember—for the physical branch circuits, the dwelling multiplier is still 3 VA. Save that 2 VA number for the main service calculation!",
       "necVersions": [
         "2026"
-      ]
+      ],
+      "examTopic": "calc-theory"
     },
     {
       "id": "LC-M078",
@@ -4602,7 +4808,8 @@
       "sparkyTip": "Sparky says: 3 VA for the branch circuits! Think of it as '3 rooms in a home' to help you remember you still need those physical breakers.",
       "necVersions": [
         "2026"
-      ]
+      ],
+      "examTopic": "definitions-theory"
     },
     {
       "id": "LC-M079",
@@ -4623,7 +4830,8 @@
       "sparkyTip": "Sparky says: 2 VA for the main service! Strip out the garage and unfinished spaces first, then multiply by 2. Don't let the 3 VA branch-circuit rule sneak into your service calculations!",
       "necVersions": [
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     }
   ]
 }

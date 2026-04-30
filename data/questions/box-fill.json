@@ -20,7 +20,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A002",
@@ -42,7 +43,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A003",
@@ -64,7 +66,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A004",
@@ -86,7 +89,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A005",
@@ -108,7 +112,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A006",
@@ -130,7 +135,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A007",
@@ -152,7 +158,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-A008",
@@ -174,7 +181,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     }
   ],
   "journeyman": [
@@ -198,7 +206,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J002",
@@ -220,7 +229,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J003",
@@ -242,7 +252,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J004",
@@ -264,7 +275,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J005",
@@ -286,7 +298,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J006",
@@ -308,7 +321,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J007",
@@ -330,7 +344,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J008",
@@ -352,7 +367,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J009",
@@ -374,7 +390,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J010",
@@ -396,7 +413,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J011",
@@ -418,7 +436,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J012",
@@ -440,7 +459,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J013",
@@ -462,7 +482,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J014",
@@ -484,7 +505,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J015",
@@ -506,7 +528,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J016",
@@ -528,7 +551,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-J017",
@@ -550,7 +574,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     }
   ],
   "master": [
@@ -574,7 +599,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M002",
@@ -596,7 +622,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M003",
@@ -618,7 +645,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M004",
@@ -640,7 +668,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M005",
@@ -662,7 +691,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M006",
@@ -684,7 +714,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M007",
@@ -706,7 +737,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M008",
@@ -728,7 +760,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M009",
@@ -750,7 +783,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M010",
@@ -772,7 +806,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M011",
@@ -794,7 +829,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M012",
@@ -816,7 +852,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M013",
@@ -838,7 +875,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M014",
@@ -860,7 +898,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M015",
@@ -882,7 +921,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M016",
@@ -904,7 +944,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     },
     {
       "id": "BF-M017",
@@ -926,7 +967,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "branch-circuits"
     }
   ]
 }

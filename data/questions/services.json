@@ -20,7 +20,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A002",
@@ -42,7 +43,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A003",
@@ -64,7 +66,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A004",
@@ -86,7 +89,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A005",
@@ -108,7 +112,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-A006",
@@ -130,7 +135,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-A007",
@@ -152,7 +158,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-A008",
@@ -174,7 +181,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-A009",
@@ -196,7 +204,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A010",
@@ -217,7 +226,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A011",
@@ -238,7 +248,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-A012",
@@ -260,7 +271,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     }
   ],
   "journeyman": [
@@ -284,7 +296,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J002",
@@ -306,7 +319,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J003",
@@ -328,7 +342,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J004",
@@ -350,7 +365,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J005",
@@ -372,7 +388,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J006",
@@ -394,7 +411,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J007",
@@ -416,7 +434,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J008",
@@ -438,7 +457,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J009",
@@ -460,7 +480,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-J010",
@@ -481,7 +502,8 @@
       "sparkyTip": "Emergency disconnect outside - first responders can cut power without entering!",
       "necVersions": [
         "2023"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-J011",
@@ -502,7 +524,8 @@
       "sparkyTip": "Say goodbye to 230.85! The 2026 code simplified things by just forcing the main service disconnect outside. If it's outside and accessible, first responders can easily kill the power in an emergency, which was the whole point of the old rule.",
       "necVersions": [
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-J012",
@@ -524,7 +547,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "SV-J013",
@@ -549,7 +573,8 @@
       ],
       "necReferences": {
         "2026": "NEC Table 220.56 Note 1"
-      }
+      },
+      "examTopic": "feeders"
     },
     {
       "id": "SV-J014",
@@ -575,7 +600,8 @@
       "explanations": {
         "default": "\n\nNEC 230.7 is very direct: Conductors other than service conductors shall not be installed in the same service raceway or service cable. Because service conductors do not have overcurrent protection ahead of them, a fault between the utility wires and a smaller branch-circuit wire sharing that same pipe would cause catastrophic damage. The only standard exceptions are for grounding conductors and equipment bonding jumpers."
       },
-      "sparkyTip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway."
+      "sparkyTip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway.",
+      "examTopic": "feeders"
     },
     {
       "id": "SV-J015",
@@ -597,7 +623,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     }
   ],
   "master": [
@@ -621,7 +648,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     },
     {
       "id": "SV-M002",
@@ -643,7 +671,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-M003",
@@ -665,7 +694,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-M004",
@@ -687,7 +717,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "services-sds"
     },
     {
       "id": "SV-M005",
@@ -709,7 +740,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "feeders"
     }
   ]
 }

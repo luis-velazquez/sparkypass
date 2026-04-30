@@ -20,7 +20,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A002",
@@ -42,7 +43,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A003",
@@ -64,7 +66,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A004",
@@ -86,7 +89,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A005",
@@ -108,7 +112,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A006",
@@ -130,7 +135,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A007",
@@ -152,7 +158,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A008",
@@ -174,7 +181,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A009",
@@ -196,7 +204,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A010",
@@ -218,7 +227,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A011",
@@ -240,7 +250,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A012",
@@ -262,7 +273,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A013",
@@ -284,7 +296,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A014",
@@ -306,7 +319,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A015",
@@ -328,7 +342,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-A016",
@@ -350,7 +365,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     }
   ],
   "journeyman": [
@@ -374,7 +390,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J002",
@@ -396,7 +413,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J003",
@@ -418,7 +436,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J004",
@@ -440,7 +459,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J005",
@@ -462,7 +482,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J006",
@@ -484,7 +505,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J007",
@@ -506,7 +528,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J008",
@@ -528,7 +551,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J009",
@@ -550,7 +574,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J010",
@@ -572,7 +597,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J011",
@@ -594,7 +620,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J012",
@@ -616,7 +643,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J013",
@@ -638,7 +666,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J014",
@@ -660,7 +689,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J015",
@@ -682,7 +712,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J016",
@@ -690,7 +721,7 @@
       "necArticle": "Article 250",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "A rod electrode has 18 ohms resistance. What is required by the NEC? (select the best answer)",
+      "questionText": "A rod electrode has 18 ohms resistance. What is required by the NEC?",
       "options": [
         "No supplemental electrode required",
         "Add a supplemental electrode",
@@ -704,7 +735,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J017",
@@ -712,7 +744,7 @@
       "necArticle": "Article 250",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Which of the following is a grounding electrode type listed in 250.52 for 2023 NEC?",
+      "questionText": "Which of the following is a grounding electrode type listed NEC?",
       "options": [
         "Plastic water pipe",
         "Concrete-encased electrode",
@@ -726,7 +758,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J018",
@@ -752,7 +785,8 @@
       "explanations": {
         "default": "\n\nThe NEC permits the use of multiple terminal bars within a transformer enclosure to alleviate wire congestion. However, to maintain a single bonded assembly, they must be tied together with a bonding jumper that has a cross-sectional area not less than the largest single conductor connected to either of the terminal bars."
       },
-      "sparkyTip": "You can add a second ground bar in that crowded transformer. Just make sure the jumper connecting them is at least as fat as the biggest wire landed on either bar!"
+      "sparkyTip": "You can add a second ground bar in that crowded transformer. Just make sure the jumper connecting them is at least as fat as the biggest wire landed on either bar!",
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J019",
@@ -773,7 +807,8 @@
       "sparkyTip": "Don't be a hack and shove that bare copper through a weep hole or a mounting keyhole! If there isn't a knockout right where you need it, get your hole saw or punch out. Using vents or drains violates the enclosure's listing and is a guaranteed red tag.",
       "necVersions": [
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J020",
@@ -795,7 +830,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J021",
@@ -817,7 +853,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J022",
@@ -839,7 +876,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J023",
@@ -861,7 +899,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J024",
@@ -883,7 +922,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J025",
@@ -905,7 +945,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J026",
@@ -927,7 +968,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J027",
@@ -949,7 +991,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J028",
@@ -971,7 +1014,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J029",
@@ -991,7 +1035,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J030",
@@ -1013,7 +1058,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J031",
@@ -1035,7 +1081,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J032",
@@ -1057,7 +1104,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J033",
@@ -1079,7 +1127,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J034",
@@ -1101,7 +1150,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-J035",
@@ -1123,7 +1173,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     }
   ],
   "master": [
@@ -1147,7 +1198,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M002",
@@ -1169,7 +1221,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M003",
@@ -1195,7 +1248,8 @@
       "explanations": {
         "default": "According to NEC 250.104(B), 'other metal piping' systems, including gas piping, must be bonded to the service equipment enclosure or grounding electrode system using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping."
       },
-      "sparkyTip": "Think of gas pipe bonding as 'equipment protection'—that’s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table."
+      "sparkyTip": "Think of gas pipe bonding as 'equipment protection'—that’s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table.",
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M004",
@@ -1217,7 +1271,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M005",
@@ -1239,7 +1294,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M006",
@@ -1261,7 +1317,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M007",
@@ -1283,7 +1340,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M008",
@@ -1305,7 +1363,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M009",
@@ -1327,7 +1386,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M010",
@@ -1349,7 +1409,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M011",
@@ -1371,7 +1432,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M012",
@@ -1393,7 +1455,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M013",
@@ -1415,7 +1478,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M014",
@@ -1437,7 +1501,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M015",
@@ -1459,7 +1524,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M016",
@@ -1481,7 +1547,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M017",
@@ -1503,7 +1570,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M018",
@@ -1525,7 +1593,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M019",
@@ -1547,7 +1616,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M020",
@@ -1569,7 +1639,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     },
     {
       "id": "GB-M021",
@@ -1591,7 +1662,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "equipment-devices"
     }
   ]
 }

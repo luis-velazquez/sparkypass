@@ -20,7 +20,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-A002",
@@ -42,7 +43,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "MG-A003",
@@ -63,7 +65,8 @@
       "sparkyTip": "A 'controller' is just the formal NEC term for whatever device—like a contactor or manual motor switch—actually turns the motor on and off.",
       "necVersions": [
         "2023"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     }
   ],
   "journeyman": [
@@ -87,7 +90,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J002",
@@ -109,7 +113,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J003",
@@ -131,7 +136,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J004",
@@ -153,7 +159,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J005",
@@ -175,7 +182,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J006",
@@ -197,7 +205,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J007",
@@ -219,7 +228,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "MG-J008",
@@ -241,7 +251,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J009",
@@ -263,7 +274,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "MG-J010",
@@ -285,7 +297,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J011",
@@ -307,7 +320,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J012",
@@ -329,7 +343,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J013",
@@ -351,7 +366,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J014",
@@ -373,7 +389,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-J015",
@@ -395,7 +412,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     }
   ],
   "master": [
@@ -419,7 +437,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M002",
@@ -441,7 +460,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M003",
@@ -463,7 +483,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M004",
@@ -485,7 +506,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M005",
@@ -507,7 +529,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M006",
@@ -529,7 +552,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M007",
@@ -551,7 +575,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M008",
@@ -573,7 +598,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M009",
@@ -595,7 +621,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M010",
@@ -617,7 +644,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M011",
@@ -639,7 +667,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     },
     {
       "id": "MG-M012",
@@ -661,7 +690,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "motors-generators"
     },
     {
       "id": "MG-M013",
@@ -683,7 +713,8 @@
       "necVersions": [
         "2023",
         "2026"
-      ]
+      ],
+      "examTopic": "control-disconnect"
     }
   ]
 }
