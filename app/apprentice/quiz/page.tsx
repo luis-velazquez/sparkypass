@@ -96,6 +96,7 @@ function ApprenticeQuizContent() {
     } else {
       setCurrentIdx((prev) => prev + 1);
       setSelectedAnswer(null);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [currentIdx, questions, answers, bookmarked, bestStreak, router]);
 

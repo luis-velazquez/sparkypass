@@ -341,6 +341,7 @@ function QuizContent() {
       setSparkyMessage("");
       setStreakBroken(false);
       setShowHint(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [isLastQuestion, questions, answers, bookmarked, bestStreak, difficulty, router]);
 

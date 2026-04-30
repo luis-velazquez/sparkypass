@@ -150,6 +150,7 @@ function MockExamContent() {
       setSelectedAnswer(null);
       setIsSubmitted(false);
       setShowHint(false);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [isLastQuestion, finishExam]);
 
