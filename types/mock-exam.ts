@@ -1,53 +1,42 @@
-import type { CategorySlug, Difficulty, NecVersion, Question } from "./question";
+import type { Difficulty, ExamTopic, NecVersion, Question } from "./question";
 
-export interface BlueprintSection {
-  name: string;
-  questionCount: number;
-  categorySlugs: CategorySlug[];
-  difficulties?: Difficulty[];
+export type ExamType = "knowledge" | "calculations";
+export type ExamLevel = "journeyman" | "master";
+
+export interface ExamTopicRequirement {
+  topic: ExamTopic;
+  count: number;
+  /** Fallback topics if there aren't enough questions for this topic */
+  fallback?: ExamTopic[];
 }
 
-export interface ExamBlueprint {
+export interface ExamConfig {
   id: string;
   name: string;
-  state: string;
-  examLevel: "journeyman" | "master";
+  level: ExamLevel;
+  type: ExamType;
   totalQuestions: number;
+  passingScore: number; // number of correct answers to pass
+  passingPercent: number;
   timeLimit: number; // minutes
-  passingScore: number; // percentage (e.g., 70)
-  source?: string;
-  portions?: {
-    name: string;
-    totalItems: number;
-    scoredItems: number;
-    timeLimit: number;
-  }[];
-  sections: BlueprintSection[];
+  /** Only pull questions where calculation matches this. null = no filter */
+  calculationFilter: boolean | null;
+  /** Which difficulty levels to pull from */
+  difficulties: Difficulty[];
+  /** Topic breakdown — how many questions per exam topic */
+  topics: ExamTopicRequirement[];
 }
 
-export interface SectionReport {
-  sectionName: string;
+export interface TopicResult {
+  topic: ExamTopic;
   requested: number;
-  filledFromPrimary: number;
-  filledFromFallback: number;
-  filledFromRedistribution: number;
-  shortage: number;
-  categorySlugs: CategorySlug[];
-}
-
-export interface GenerationReport {
-  totalRequested: number;
-  totalGenerated: number;
-  requestedDifficulty: Difficulty;
-  necVersion?: NecVersion;
-  sections: SectionReport[];
-  hasShortages: boolean;
-  warnings: string[];
+  filled: number;
+  correct: number;
 }
 
 export interface GeneratedExam {
-  blueprint: ExamBlueprint;
+  config: ExamConfig;
   questions: Question[];
-  report: GenerationReport;
   generatedAt: string;
+  warnings: string[];
 }

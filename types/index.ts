@@ -28,11 +28,12 @@ export {
 
 // Re-export mock exam types
 export {
-  type ExamBlueprint,
-  type BlueprintSection,
+  type ExamConfig,
+  type ExamTopicRequirement,
+  type ExamType,
+  type ExamLevel,
+  type TopicResult,
   type GeneratedExam,
-  type GenerationReport,
-  type SectionReport,
 } from "./mock-exam";
 
 // Re-export reward system types
