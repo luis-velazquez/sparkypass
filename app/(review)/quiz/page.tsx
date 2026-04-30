@@ -47,7 +47,7 @@ const DIFFICULTIES: { value: Difficulty; label: string; desc: string; color: str
 
 const QUESTION_TYPES: { value: QuestionType; label: string; desc: string; icon: typeof Calculator }[] = [
   { value: "calculations", label: "Calculations", desc: "Math-based NEC problems", icon: Calculator },
-  { value: "non-calculations", label: "Non-Calculations", desc: "Conceptual and knowledge questions", icon: Ban },
+  { value: "non-calculations", label: "Knowledge", desc: "Conceptual and code knowledge questions", icon: Ban },
   { value: "both", label: "Both", desc: "Full mix of all question types", icon: Layers },
 ];
 
@@ -319,7 +319,7 @@ function QuizContent() {
               <span className="text-amber dark:text-sparky-green">{difficulty === "journeyman" ? "Journeyman" : "Master"}</span> Quiz
             </h1>
             <p className="text-muted-foreground text-sm">
-              {questionType === "calculations" ? "Calculations only" : questionType === "non-calculations" ? "Non-calculations only" : "All question types"}
+              {questionType === "calculations" ? "Calculations only" : questionType === "non-calculations" ? "Knowledge questions only" : "All question types"}
             </p>
           </motion.div>
 
