@@ -70,24 +70,90 @@ function fireQuizConfetti(level: number = 0) {
 
 // ─── Particle Burst ─────────────────────────────────────────────────────────
 
-function ParticleBurst({ x, y, id, streak = 3 }: { x: number; y: number; id: number; streak?: number }) {
-  const particles = useMemo(() => {
-    const count = Math.min(50 + streak * 5, 100);
-    return Array.from({ length: count }, (_, i) => {
-      const angle = (i / count) * 360 + (Math.random() * 15 - 7.5);
-      const rad = (angle * Math.PI) / 180;
-      const distance = 130 + Math.random() * 200;
-      const size = 10 + Math.random() * 18;
-      return { id: i, tx: Math.cos(rad) * distance, ty: Math.sin(rad) * distance + 40, size, color: ["#F59E0B", "#EF4444", "#F97316", "#FBBF24", "#10B981", "#FDE68A", "#FB923C"][i % 7], delay: Math.random() * 0.12 };
-    });
-  }, [streak]);
+function LightningStrike({ x, y, id }: { x: number; y: number; id: number }) {
+  // Generate a jagged lightning path from top of screen to the target point
+  const path = useMemo(() => {
+    const segments: { x: number; y: number }[] = [];
+    const steps = 8 + Math.floor(Math.random() * 4);
+    for (let i = 0; i <= steps; i++) {
+      const progress = i / steps;
+      const jitter = i === 0 || i === steps ? 0 : (Math.random() - 0.5) * 60;
+      segments.push({ x: jitter, y: -y * (1 - progress) });
+    }
+    return segments;
+  }, [y]);
+
+  const pathD = `M ${path[0].x} ${path[0].y} ${path.slice(1).map((p) => `L ${p.x} ${p.y}`).join(" ")}`;
+
   return (
     <div key={id} className="fixed pointer-events-none z-50" style={{ left: x, top: y }}>
-      {particles.map((p) => (
-        <motion.div key={p.id} initial={{ x: 0, y: 0, opacity: 1, scale: 1.5 }} animate={{ x: p.tx, y: p.ty, opacity: 0, scale: 0 }}
-          transition={{ duration: 1.1, delay: p.delay, ease: "easeOut" }}
-          style={{ position: "absolute", width: p.size, height: p.size, borderRadius: "50%", backgroundColor: p.color, boxShadow: `0 0 4px 1px ${p.color}` }} />
-      ))}
+      {/* Main bolt */}
+      <motion.svg
+        width="120" height={y + 20} viewBox={`-60 ${-y} 120 ${y + 20}`}
+        className="absolute" style={{ left: -60, top: -y }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 1, 0.8, 1, 0] }}
+        transition={{ duration: 0.6, times: [0, 0.05, 0.1, 0.15, 0.2, 1] }}
+      >
+        <motion.path
+          d={pathD}
+          stroke="#F59E0B"
+          strokeWidth="3"
+          fill="none"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          filter="url(#bolt-glow)"
+        />
+        <motion.path
+          d={pathD}
+          stroke="#FFFBEB"
+          strokeWidth="1.5"
+          fill="none"
+          strokeLinecap="round"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+        />
+        <defs>
+          <filter id="bolt-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+      </motion.svg>
+
+      {/* Impact flash */}
+      <motion.div
+        className="absolute rounded-full"
+        style={{ left: -30, top: -30, width: 60, height: 60 }}
+        initial={{ scale: 0, opacity: 1 }}
+        animate={{ scale: [0, 2.5, 0], opacity: [1, 0.6, 0] }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
+        <div className="w-full h-full rounded-full bg-amber/40 dark:bg-sparky-green/40 blur-xl" />
+      </motion.div>
+
+      {/* Small sparks at impact */}
+      {Array.from({ length: 6 }).map((_, i) => {
+        const angle = (i / 6) * 360;
+        const rad = (angle * Math.PI) / 180;
+        const dist = 25 + Math.random() * 20;
+        return (
+          <motion.div
+            key={i}
+            className="absolute w-1.5 h-1.5 rounded-full bg-amber dark:bg-sparky-green"
+            style={{ left: -3, top: -3, boxShadow: "0 0 6px 2px rgba(245,158,11,0.6)" }}
+            initial={{ x: 0, y: 0, opacity: 1 }}
+            animate={{ x: Math.cos(rad) * dist, y: Math.sin(rad) * dist, opacity: 0 }}
+            transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+          />
+        );
+      })}
     </div>
   );
 }
@@ -163,7 +229,7 @@ function QuizContent() {
   const [showHint, setShowHint] = useState(false);
   const [streakBroken, setStreakBroken] = useState(false);
   const [milestoneBanner, setMilestoneBanner] = useState<number | null>(null);
-  const [particleBurst, setParticleBurst] = useState<{ x: number; y: number; id: number } | null>(null);
+  const [lightningStrike, setLightningStrike] = useState<{ x: number; y: number; id: number } | null>(null);
 
   const feedbackRef = useRef<HTMLDivElement>(null);
   const answerButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
@@ -235,8 +301,8 @@ function QuizContent() {
         const btn = answerButtonRefs.current[answerIndex];
         if (btn) {
           const rect = btn.getBoundingClientRect();
-          setParticleBurst({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, id: Date.now() });
-          setTimeout(() => setParticleBurst(null), 1200);
+          setLightningStrike({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2, id: Date.now() });
+          setTimeout(() => setLightningStrike(null), 800);
         }
       }
       // Confetti
@@ -426,7 +492,7 @@ function QuizContent() {
   return (
     <>
       {/* Particle burst */}
-      {particleBurst && <ParticleBurst key={particleBurst.id} x={particleBurst.x} y={particleBurst.y} id={particleBurst.id} streak={correctStreak} />}
+      {lightningStrike && <LightningStrike key={lightningStrike.id} x={lightningStrike.x} y={lightningStrike.y} id={lightningStrike.id} />}
 
       <motion.main className="relative min-h-screen bg-cream dark:bg-stone-950" animate={shakeAnimation}>
         <ReviewGridBackground />
