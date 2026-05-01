@@ -41,7 +41,7 @@ import {
 import { SparkyMessage } from "@/components/sparky";
 import { QuestionCard } from "@/components/quiz-engine";
 import { getExamConfig, generateMockExam, EXAM_TOPIC_LABELS } from "@/lib/mock-exam";
-import { useNecVersion, getExplanation, getSparkyTip } from "@/lib/nec-version";
+import { useNecVersion } from "@/lib/nec-version";
 import { ReviewGridBackground, ReviewLoadingState } from "@/app/(review)/shared";
 import type { Question, ExamTopic } from "@/types/question";
 import type { ExamConfig, TopicResult } from "@/types/mock-exam";
@@ -70,12 +70,10 @@ function MockExamContent() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [answers, setAnswers] = useState<Map<string, number>>(new Map());
   const [bookmarked, setBookmarked] = useState<Set<string>>(new Set());
-  const [showHint, setShowHint] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [timeUsed, setTimeUsed] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef(0);
-  const feedbackRef = useRef<HTMLDivElement>(null);
   const answerButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   useEffect(() => {
@@ -137,9 +135,6 @@ function MockExamContent() {
       confetti({ particleCount: 60, spread: 55, origin: { x: 0.5, y: 0.7 }, colors: ["#F59E0B", "#10B981", "#A3FF00"] });
     }
 
-    setTimeout(() => {
-      feedbackRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 400);
   }, [isSubmitted, currentQuestion]);
 
   const handleNext = useCallback(() => {
@@ -149,7 +144,6 @@ function MockExamContent() {
       setCurrentIdx((prev) => prev + 1);
       setSelectedAnswer(null);
       setIsSubmitted(false);
-      setShowHint(false);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [isLastQuestion, finishExam]);
@@ -353,10 +347,7 @@ function MockExamContent() {
   // ─── Playing Screen ────────────────────────────────────────────────────────
   if (!currentQuestion) return <ReviewLoadingState />;
 
-  const isCorrectAnswer = selectedAnswer === currentQuestion.correctAnswer;
   const isBookmarked = bookmarked.has(currentQuestion.id);
-  const explanation = getExplanation(currentQuestion, necVersion as any);
-  const sparkyTip = getSparkyTip(currentQuestion, necVersion as any);
   const progressPct = questions.length > 0 ? ((currentIdx + 1) / questions.length) * 100 : 0;
   const timerWarning = timeRemaining <= 300; // 5 min warning
   const timerCritical = timeRemaining <= 60; // 1 min
@@ -413,7 +404,7 @@ function MockExamContent() {
           </div>
         </div>
 
-        {/* Question Card */}
+        {/* Question Card — no hints on mock exam */}
         <QuestionCard
           question={currentQuestion}
           selectedAnswer={selectedAnswer}
@@ -421,8 +412,9 @@ function MockExamContent() {
           onSelectAnswer={handleSelectAnswer}
           necVersion={necVersion as any}
           answerButtonRefs={answerButtonRefs}
-          showHint={showHint}
-          onToggleHint={() => setShowHint((prev) => !prev)}
+          hintsVisible={false}
+          showHint={false}
+          onToggleHint={() => {}}
         />
 
         {/* Mobile Next Button */}
@@ -481,34 +473,6 @@ function MockExamContent() {
           </div>
         </div>
 
-        {/* Feedback */}
-        <AnimatePresence>
-          {isSubmitted && (
-            <motion.div ref={feedbackRef} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }} transition={{ duration: 0.4 }} className="mb-6">
-              <Card className={`${isCorrectAnswer ? "border-emerald/50 dark:border-sparky-green/50" : "border-amber/50"}`}>
-                <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    {isCorrectAnswer ? (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald/20 text-emerald dark:bg-sparky-green/20 dark:text-sparky-green text-sm font-medium"><CheckCircle2 className="h-3.5 w-3.5" />Correct!</span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-500/20 text-red-500 text-sm font-medium"><XCircle className="h-3.5 w-3.5" />Not Quite</span>
-                    )}
-                  </div>
-                  <div className="p-4 bg-muted/50 dark:bg-stone-800/50 rounded-lg">
-                    <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2"><Book className="h-4 w-4 text-purple" />Explanation</h4>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-3">{explanation}</p>
-                    {sparkyTip && (
-                      <div className="flex items-start gap-2 pt-2 border-t border-border dark:border-stone-800">
-                        <Zap className="h-3.5 w-3.5 text-amber dark:text-sparky-green shrink-0 mt-0.5" />
-                        <p className="text-xs text-muted-foreground italic">{sparkyTip}</p>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </motion.main>
   );
