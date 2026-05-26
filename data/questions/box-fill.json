@@ -183,6 +183,72 @@
         "2026"
       ],
       "examTopic": "branch-circuits"
+    },
+    {
+      "id": "PB-J002",
+      "category": "box-fill",
+      "necArticle": "314.28(A)",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "When calculating a pull that requires box sizing, what size conductor requires you to start using box sizing rules?",
+      "options": [
+        "14 AWG or larger",
+        "10 AWG or larger",
+        "6 AWG or larger",
+        "4 AWG or larger"
+      ],
+      "correctAnswer": 3,
+      "explanation": "NEC 314.28(A) applies to boxes and conduit bodies that contain conductors 4 AWG or larger. Once the conductors are 4 AWG or larger, the box must be sized using the rules for straight pulls, angle pulls, U pulls, or splices.",
+      "necReference": "NEC 314.28(A)",
+      "sparkyTip": "For pull-box sizing, remember the starting point: 4 AWG or larger. Smaller conductors usually fall under regular box-fill rules in 314.16.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
+    },
+    {
+      "id": "PB-J004",
+      "category": "box-fill",
+      "necArticle": "314.28(A)(1)",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "What multiple of the largest raceway is used to size a pull box for a straight pull?",
+      "options": [
+        "4 times",
+        "6 times",
+        "8 times",
+        "12 times"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 314.28(A)(1) requires the length of the box for a straight pull to be at least 8 times the trade size of the largest raceway.",
+      "necReference": "NEC 314.28(A)(1)",
+      "sparkyTip": "Straight pull = 8× the largest raceway. Angle pulls, U pulls, and splices use a different rule.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
+    },
+    {
+      "id": "PB-J005",
+      "category": "box-fill",
+      "necArticle": "314.28(A)(2)",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "What multiple of the largest raceway is used when sizing a pull box for an angle pull or U pull?",
+      "options": [
+        "4 times",
+        "6 times",
+        "8 times",
+        "12 times"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 314.28(A)(2) uses 6 times the trade size of the largest raceway when sizing boxes for angle pulls, U pulls, or splices.",
+      "necReference": "NEC 314.28(A)(2)",
+      "sparkyTip": "Angle pull or U pull = 6× the largest raceway. Straight pulls use 8×, so don’t mix them up.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
     }
   ],
   "journeyman": [
@@ -562,10 +628,10 @@
       "calculation": false,
       "questionText": "You are making up a junction box that contains three #12 AWG bare copper equipment grounding conductors (EGCs). How many total conductor volume allowances must you count for these three ground wires combined?",
       "options": [
-        "Zero (0)",
-        "One (1)",
-        "Two (2)",
-        "Three (3)"
+        "Zero",
+        "One",
+        "Two",
+        "Three"
       ],
       "correctAnswer": 1,
       "explanation": "NEC 314.16(B)(5) states that where up to four equipment grounding conductors enter a box, they are counted as a single volume allowance based on the largest equipment grounding conductor in the box.",
@@ -576,6 +642,28 @@
         "2026"
       ],
       "examTopic": "branch-circuits"
+    },
+    {
+      "id": "PB-J003",
+      "category": "box-fill",
+      "necArticle": "314.28(A)(1)",
+      "difficulty": "journeyman",
+      "calculation": true,
+      "questionText": "According to the NEC, what is the minimum length of a pull box for a straight pull when the largest raceway entering the box is 2 inches?",
+      "options": [
+        "8 inches",
+        "12 inches",
+        "16 inches",
+        "24 inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 314.28(A)(1) requires the length of a box for a straight pull to be at least 8 times the trade size of the largest raceway. If the largest raceway is 2 inches, then 2 × 8 = 16 inches.",
+      "necReference": "NEC 314.28(A)(1)",
+      "sparkyTip": "Straight pull = 8× the largest raceway. Don’t confuse this with the 6× rule used for angle pulls, U pulls, and splices.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
     }
   ],
   "master": [

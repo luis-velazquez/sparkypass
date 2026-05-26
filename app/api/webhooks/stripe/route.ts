@@ -3,6 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import type Stripe from "stripe";
+import { pushSubscriberAttributes } from "@/lib/revenuecat";
 
 export const dynamic = "force-dynamic";
 
@@ -10,6 +11,30 @@ function getPeriodEnd(subscription: Stripe.Subscription): Date {
   // In Stripe v20+, period info is on subscription items
   const firstItem = subscription.items.data[0];
   return new Date(firstItem.current_period_end * 1000);
+}
+
+// After every Stripe-driven users-row mutation, fire-and-forget mirror to RC.
+// Per audit OQ#1: RC is the cross-platform source of truth; we keep users row
+// as fast local cache + read fallback. Errors are logged, not propagated —
+// Stripe webhook MUST return 2xx fast or Stripe retries (causing duplicate
+// state mutations).
+async function mirrorStripeToRC(
+  rowsAffected: Array<{ id: string }>,
+  attrs: {
+    subscriptionStatus: string;
+    subscriptionPeriodEnd?: Date | null;
+    stripeCustomerId?: string | null;
+    stripeSubscriptionId?: string | null;
+  },
+): Promise<void> {
+  // Run pushes in parallel; we typically have 0 or 1 user affected.
+  await Promise.all(
+    rowsAffected.map((r) =>
+      pushSubscriberAttributes(r.id, { ...attrs, subscriptionSource: "stripe" }).catch(
+        (err) => console.error("[stripe-webhook] RC mirror failed:", err),
+      ),
+    ),
+  );
 }
 
 export async function POST(request: Request) {
@@ -46,25 +71,42 @@ export async function POST(request: Request) {
           const subscription = await stripe.subscriptions.retrieve(subscriptionId);
           const periodEnd = getPeriodEnd(subscription);
 
-          await db
+          const affected = await db
             .update(users)
             .set({
               stripeSubscriptionId: subscriptionId,
               subscriptionStatus: "active",
+              subscriptionSource: "stripe",
               subscriptionPeriodEnd: periodEnd,
               updatedAt: new Date(),
             })
-            .where(eq(users.stripeCustomerId, customerId));
+            .where(eq(users.stripeCustomerId, customerId))
+            .returning({ id: users.id });
+
+          await mirrorStripeToRC(affected, {
+            subscriptionStatus: "active",
+            subscriptionPeriodEnd: periodEnd,
+            stripeCustomerId: customerId,
+            stripeSubscriptionId: subscriptionId,
+          });
         } else {
           // One-time payment (lifetime) — no subscription, no period end
-          await db
+          const affected = await db
             .update(users)
             .set({
               subscriptionStatus: "active",
+              subscriptionSource: "stripe",
               subscriptionPeriodEnd: null,
               updatedAt: new Date(),
             })
-            .where(eq(users.stripeCustomerId, customerId));
+            .where(eq(users.stripeCustomerId, customerId))
+            .returning({ id: users.id });
+
+          await mirrorStripeToRC(affected, {
+            subscriptionStatus: "active",
+            subscriptionPeriodEnd: null,
+            stripeCustomerId: customerId,
+          });
         }
 
         break;
@@ -88,14 +130,22 @@ export async function POST(request: Request) {
         const ourStatus = statusMap[subscription.status] || "expired";
         const periodEnd = getPeriodEnd(subscription);
 
-        await db
+        const affected = await db
           .update(users)
           .set({
             subscriptionStatus: ourStatus,
+            subscriptionSource: "stripe",
             subscriptionPeriodEnd: periodEnd,
             updatedAt: new Date(),
           })
-          .where(eq(users.stripeSubscriptionId, subscriptionId));
+          .where(eq(users.stripeSubscriptionId, subscriptionId))
+          .returning({ id: users.id });
+
+        await mirrorStripeToRC(affected, {
+          subscriptionStatus: ourStatus,
+          subscriptionPeriodEnd: periodEnd,
+          stripeSubscriptionId: subscriptionId,
+        });
 
         break;
       }
@@ -104,14 +154,20 @@ export async function POST(request: Request) {
         const subscription = event.data.object as Stripe.Subscription;
         const subscriptionId = subscription.id;
 
-        await db
+        const affected = await db
           .update(users)
           .set({
             subscriptionStatus: "expired",
             stripeSubscriptionId: null,
             updatedAt: new Date(),
           })
-          .where(eq(users.stripeSubscriptionId, subscriptionId));
+          .where(eq(users.stripeSubscriptionId, subscriptionId))
+          .returning({ id: users.id });
+
+        await mirrorStripeToRC(affected, {
+          subscriptionStatus: "expired",
+          subscriptionPeriodEnd: null,
+        });
 
         break;
       }
@@ -121,13 +177,19 @@ export async function POST(request: Request) {
         const customerId = invoice.customer as string;
 
         if (customerId) {
-          await db
+          const affected = await db
             .update(users)
             .set({
               subscriptionStatus: "past_due",
               updatedAt: new Date(),
             })
-            .where(eq(users.stripeCustomerId, customerId));
+            .where(eq(users.stripeCustomerId, customerId))
+            .returning({ id: users.id });
+
+          await mirrorStripeToRC(affected, {
+            subscriptionStatus: "past_due",
+            stripeCustomerId: customerId,
+          });
         }
 
         break;

@@ -1182,7 +1182,7 @@
       "id": "LC-A052",
       "category": "calculations-and-theory",
       "necArticle": "310.15(C)(1)",
-      "difficulty": "Journeyman",
+      "difficulty": "apprentice",
       "calculation": false,
       "questionText": "Ten current-carrying conductors are in a conduit. The base ampacity must be adjusted by what percentage?",
       "options": [
@@ -4832,6 +4832,95 @@
         "2026"
       ],
       "examTopic": "feeders"
+    },
+    {
+      "id": "BC-M045",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 210",
+      "difficulty": "master",
+      "calculation": false,
+      "questionText": "A new single-family dwelling unit is being wired. What is the absolute minimum number of 120-volt, 20-ampere branch circuits required?",
+      "options": [
+        "4 circuits",
+        "5 circuits",
+        "6 circuits",
+        "8 circuits"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Step 1: Section 210.11(C)(1) requires a minimum of two 20A small-appliance branch circuits to serve the kitchen, pantry, and dining room receptacles. Step 2: Section 210.11(C)(2) requires at least one 20A branch circuit for the laundry area. Step 3: Section 210.11(C)(3) requires at least one 20A branch circuit to supply the bathroom receptacle outlets. (Note: A single 20A circuit can supply receptacles in multiple bathrooms as long as it doesn't serve other outlets). Step 4: Section 210.11(C)(4) requires at least one 20A branch circuit to supply the attached garage receptacles. Adding these together (2 + 1 + 1 + 1) gives an absolute minimum of 5 dedicated circuits.",
+      "necReference": "210.11(C)(1) through (C)(4)",
+      "sparkyTip": "Sparky says: Count them up! 2 for the kitchen/dining, 1 for the wash, 1 for the bath(s), and 1 for the garage. Don't get tricked by the number of bathrooms—the code only requires a minimum of ONE 20A circuit to handle all bathroom receptacles in the house, provided it doesn't feed anything else!",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "TF-M089",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "calculation": false,
+      "questionText": "Two dry-type transformers with flat, horizontal tops require 6 inches of clearance. Transformer A is floor-mounted. Transformer B is suspended 14 feet above the floor. What are the required field-applied markings?",
+      "options": [
+        "Both require clearance markings, but only Transformer A requires a 'No Storage' marking.",
+        "Both require clearance markings and 'No Storage' markings.",
+        "Only Transformer A requires clearance and 'No Storage' markings.",
+        "Both require 'No Storage' markings, but only Transformer A requires clearance markings."
+      ],
+      "correctAnswer": 0,
+      "explanation": "NEC 450.11(C) mandates clearance markings on all transformers. However, it only requires 'No Storage' markings on horizontal tops if they are 'readily accessible.' At 14 feet high, Transformer B is not readily accessible, so it only needs the clearance marking.",
+      "necReference": "450.11(C) & Article 100",
+      "sparkyTip": "Sparky says: Clearances get marked on everything! But 'No Storage' labels only go on flat tops you can easily reach. If you need a ladder, it's not readily accessible!",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "transformers"
+    },
+    {
+      "id": "TF-J013",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 450",
+      "difficulty": "master",
+      "calculation": false,
+      "questionText": "A 15 kVA dry-type transformer is securely wall-mounted in an industrial facility, with its top edge located 9 feet above the finished floor. Which of the following field-applied markings is explicitly required for this specific installation?",
+      "options": [
+        "The required ventilation clearances.",
+        "A 'No Storage' warning on the top surface.",
+        "Both the required ventilation clearances and a 'No Storage' warning.",
+        "No field markings are required for transformers mounted above 8 feet."
+      ],
+      "correctAnswer": 0,
+      "explanation": "NEC 450.11(C) contains two separate marking rules. The first sentence states: 'The required clearances shall be marked on the transformer.' This applies universally, regardless of mounting height or location. The second sentence requires a 'prohibit storage' marking ONLY if the top is horizontal and 'readily accessible.' At 9 feet high, the top is not readily accessible, so only the clearance marking is required.",
+      "necReference": "450.11(C)",
+      "sparkyTip": "Sparky says: Don't let the 'No Storage' rule distract you from the basics! Every transformer needs its breathing room (clearances) marked directly on the equipment. You only add the 'No Storage' label if someone can easily reach the flat top to stack materials on it!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "transformers"
+    },
+    {
+      "id": "BC-J094",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 210",
+      "difficulty": "master",
+      "calculation": false,
+      "questionText": "You are designing the layout for a new single-family dwelling with an attached 3-car garage. According to the NEC, what is the minimum number of receptacle outlets required inside the garage?",
+      "options": [
+        "1 receptacle outlet",
+        "2 receptacle outlets",
+        "3 receptacle outlets",
+        "Receptacles are not required in a garage"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 210.52(G)(1) requires at least one receptacle outlet to be installed for each car space. Therefore, a 3-car garage requires a minimum of 3 receptacle outlets.",
+      "necReference": "210.52(G)(1)",
+      "sparkyTip": "Sparky says: One plug per parking spot! If the plans show a 3-car garage, you need to map out at least 3 separate receptacle outlets in that space.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
     }
   ]
 }

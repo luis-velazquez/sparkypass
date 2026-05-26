@@ -189,6 +189,19 @@
         },
         "bottomLine": "The NEC allows rounding up to standard breaker sizes for services and feeders to prevent nuisance tripping, relying on thermal mass and conservative calculations. But for transformer secondaries, the wire must always match or beat the breaker."
       }
+    },
+    {
+      "id": "TIP-003",
+      "type": "sparky-tip",
+      "title": "The Invisible Box: Defending Your Working Space",
+      "category": "General Requirements",
+      "difficulty": "journeyman",
+      "content": "Hey Sparky crew! Let's talk about NEC 110.26. It's one of the most heavily tested safety rules on the exam, and it's constantly violated in the field.\n\nThink of 110.26 as the 'Invisible Refrigerator Box' rule. Whether you are roughing in a restaurant shell condition or racking distribution panels in a high-density data center, the code demands a dedicated box of clear air in front of that gear to keep you alive if things go sideways.\n\nOn the exam, they will try to trick you with the exact dimensions:\n\n1. Width: Minimum 30 inches (or the width of the equipment, whichever is bigger). You don't have to be perfectly centered in this space, you just need 30 total inches of shoulder room.\n2. Depth: Usually 3 feet for standard 120/240V systems. But watch out! If you have grounded metal (like a concrete or block wall) behind you, or higher voltages, it can jump to 3.5 or 4 feet.\n3. Height: 6.5 feet from the floor (or the height of the gear, whichever is taller).\n\nAnd don't forget the 'No Fly Zone' (Dedicated Equipment Space). No plumbing lines or HVAC drip pans are allowed directly above the panel's footprint without protective shielding.",
+      "tables": [
+        "Table 110.26(A)(1) Working Spaces"
+      ],
+      "necReference": "110.26(A) and (E)",
+      "sparkyBottomLine": "Memorize the dimensions of the box! 30 inches wide, 6.5 feet tall, and 3 feet deep (minimum). Protect your working space, because on exam day, those plumbers' pipes above the panel will cost you points!"
     }
   ]
 }

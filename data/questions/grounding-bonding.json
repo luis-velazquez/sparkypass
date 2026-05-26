@@ -537,7 +537,7 @@
       "necArticle": "Article 250",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Which table is used to size the main bonding jumper for service equipment for 2023 NEC?",
+      "questionText": "Which table is used to size the main bonding jumper for service equipment?",
       "options": [
         "Table 250.66",
         "Table 250.122",
@@ -786,7 +786,13 @@
         "default": "\n\nThe NEC permits the use of multiple terminal bars within a transformer enclosure to alleviate wire congestion. However, to maintain a single bonded assembly, they must be tied together with a bonding jumper that has a cross-sectional area not less than the largest single conductor connected to either of the terminal bars."
       },
       "sparkyTip": "You can add a second ground bar in that crowded transformer. Just make sure the jumper connecting them is at least as fat as the biggest wire landed on either bar!",
-      "examTopic": "equipment-devices"
+      "examTopic": "equipment-devices",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 250.30 (separately derived systems), where two terminal bars are connected by an interconnecting bonding jumper, that jumper must be sized not less than the largest conductor connected to either of the terminal bars. The jumper has to carry the full possible fault current that any single conductor on either bar could deliver.",
+      "necReference": "250.30(A)(7)"
     },
     {
       "id": "GB-J019",
@@ -1063,7 +1069,7 @@
     },
     {
       "id": "GB-J031",
-      "category": "general-requirements",
+      "category": "grounding-bonding",
       "necArticle": "Article 110",
       "difficulty": "journeyman",
       "calculation": false,
@@ -1249,7 +1255,13 @@
         "default": "According to NEC 250.104(B), 'other metal piping' systems, including gas piping, must be bonded to the service equipment enclosure or grounding electrode system using a conductor sized per Table 250.122, based on the rating of the circuit likely to energize the piping."
       },
       "sparkyTip": "Think of gas pipe bonding as 'equipment protection'—that’s why it uses the Equipment Grounding Conductor table (250.122) instead of the Service table.",
-      "examTopic": "equipment-devices"
+      "examTopic": "equipment-devices",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 250.104(B), bonding jumpers for other metal piping systems (including gas) are sized using Table 250.122, based on the rating of the circuit likely to energize the piping. This treats the bonding as equipment protection (size to the OCPD), not service-level bonding (which would use Table 250.66 / 250.102(C)(1)).",
+      "necReference": "250.104(B)"
     },
     {
       "id": "GB-M004",

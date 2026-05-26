@@ -154,3 +154,48 @@ export async function sendPasswordResetEmail(
     throw new Error(`Failed to send password reset email: ${error.message}`);
   }
 }
+
+// Sent by /api/auth/mobile/link-request when a mobile user is linking a new
+// OAuth provider (typically Apple via Hide-My-Email) to an existing account.
+// The 6-digit code expires in 10 minutes and is consumed by /link-confirm.
+export async function sendLinkCodeEmail(
+  to: string,
+  name: string,
+  code: string,
+  providerLabel: string,
+) {
+  const safeName = escapeHtml(name);
+  const safeCode = escapeHtml(code);
+  const safeProvider = escapeHtml(providerLabel);
+
+  const { error } = await resend.emails.send({
+    from: fromAddress,
+    to,
+    subject: `Your SparkyPass linking code: ${code}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="color: #f59e0b; text-align: center;">&#9889; SparkyPass</h1>
+        <h2 style="text-align: center;">Link your ${safeProvider} sign-in</h2>
+        <p>Hi ${safeName},</p>
+        <p>Enter this code in the SparkyPass app to link your ${safeProvider} sign-in to this account:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="display: inline-block; font-size: 32px; font-weight: bold; letter-spacing: 8px; padding: 16px 32px; background: #fff7ed; color: #f59e0b; border-radius: 6px; border: 1px solid #f59e0b;">
+            ${safeCode}
+          </div>
+        </div>
+        <p style="color: #666; font-size: 14px;">This code expires in 10 minutes.</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+        <p style="color: #999; font-size: 12px; text-align: center;">
+          If you didn&#39;t try to link a sign-in method, you can safely ignore this email. No changes have been made to your account.
+        </p>
+        ${betaFooterHtml}
+      </div>
+    `,
+    text: `Hi ${name},\n\nEnter this code in the SparkyPass app to link your ${providerLabel} sign-in:\n\n${code}\n\nThis code expires in 10 minutes.\n\nIf you didn't try to link a sign-in method, you can safely ignore this email.${betaFooterText}`,
+  });
+
+  if (error) {
+    console.error("Failed to send link-code email:", error);
+    throw new Error(`Failed to send link-code email: ${error.message}`);
+  }
+}

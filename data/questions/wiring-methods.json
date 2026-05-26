@@ -94,7 +94,13 @@
         "default": "\n\nThe NEC explicitly forbids using the suspended ceiling grid or its support wires as the sole support for electrical wiring methods (like MC cable, EMT, or boxes). The ceiling grid is engineered to hold up the ceiling tiles and lights, not your electrical raceways. You must install independent support wires specifically for the electrical system, and they must be secured at both ends and distinguishable from the ceiling grid wires (often by painting or tagging them)."
       },
       "sparkyTip": "Stay off the ceiling guy's wires! Always shoot your own independent wire into the deck for your boxes and cables. If you zip-tie your MC to the ceiling grid wire, the inspector will make you climb right back up that ladder and cut it all down.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.11(A), raceways, cables, and boxes installed above accessible suspended ceilings must be supported by independent support wires that are distinguishable (by color, tagging, or other means) from the ceiling-suspension wires. Tying to the ceiling grid's own support wires or laying cable on tiles is prohibited.",
+      "necReference": "300.11(A)"
     },
     {
       "id": "WM-A005",
@@ -119,7 +125,13 @@
         "default": "\n\nIn the 2026 NEC, the general rule in 300.24 restricts the total number of bends in a single raceway run to a maximum of 360 degrees (the equivalent of four quarter-bends) between pull points, junction boxes, or conduit bodies. Exceeding this 360-degree limit creates too much friction during the wire pull, which makes the job physically impossible and strips the insulation right off the conductors."
       },
       "sparkyTip": "Four 90s and you're done! 4 x 90 = 360. Once you hit that 360-degree mark with your bender, you must set a box so you can safely pull the wire.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 358.26 (and parallel raceway articles), there shall not be more than the equivalent of four quarter bends (totaling 360°) between pull points. After four 90° bends, a pull box or conduit body must be installed so conductors can be safely pulled without insulation damage.",
+      "necReference": "358.26 (and parallel sections 344.26, 352.26)"
     },
     {
       "id": "WM-A006",
@@ -144,7 +156,13 @@
         "default": "\n\nIn the 2026 NEC, Section 314.22 was explicitly revised to state that surface extensions shall be made by mounting and mechanically securing 'one or more' extension rings over the box. Previously, the Code used the singular phrase 'an extension ring', which led some inspectors to reject stacked rings on job sites. The 2026 update settles the debate and clarifies that multiple extension rings are perfectly legal as long as they are properly secured and grounded."
       },
       "sparkyTip": "Don't let anyone tell you that you can't stack extension boxes! The 2026 Code specifically added the words 'one or more' just to settle this exact argument when you are trying to bring a deeply buried box flush with the drywall.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 314.22 (Surface Extensions), the 2026 NEC was clarified to permit one or more extension rings to be installed on an existing box to extend it. There is no fixed numerical limit — extensions are allowed as needed to bring a buried box flush with finished surfaces.",
+      "necReference": "314.22"
     },
     {
       "id": "WM-A007",
@@ -171,7 +189,13 @@
         "default": "\n\nNEC 334.30 requires NM cable to be supported and secured within 12 inches of every box, cabinet, or fitting. However, to accommodate electricians who want to leave extra slack (a service loop) for future repairs or box adjustments, the Code specifies that the actual length of the cable between the cable entry and the closest support cannot exceed 18 inches. This ensures you can leave a modest 6-inch loop without creating excessive, sloppy, and unsupported cable runs."
       },
       "sparkyTip": "A small loop is a pro move, but a giant loop is a Code violation! You can leave a little slack for the next guy, just make sure your total wire length from the box entry to your first staple doesn't measure more than 18 inches.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 334.30, NM cable must be secured within 12 inches of every box, cabinet, or fitting. The maximum permitted cable length between the cable entry and that closest support is 18 inches — leaving room for a small service loop, but not unlimited slack.",
+      "necReference": "334.30"
     }
   ],
   "journeyman": [
@@ -269,7 +293,13 @@
         "default": "\n\nWhen service conductors are buried 18 inches or deeper and are not encased in concrete, the NEC mandates the installation of a warning ribbon. This ribbon must be placed at least 12 inches (300 mm) above the underground installation. This spacing is critical because it gives machine operators or workers digging by hand a physical warning well before their shovel or bucket actually hits the energized service cables."
       },
       "sparkyTip": "The 12-inch warning rule! Backfill your trench with at least a foot of dirt over the pipe or wire before you roll out the red tape. If you put the tape right on top of the wire, the backhoe operator will rip them both up at the exact same time.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.5(D)(3), a warning ribbon shall be placed in the trench at least 12 inches above the underground installation (whether direct-buried conductors or service raceway). The ribbon must be visible to future excavators well before the conductors themselves are reached.",
+      "necReference": "300.5(D)(3)"
     },
     {
       "id": "WM-J005",
@@ -296,7 +326,13 @@
         "default": "\n\nThe NEC strictly requires that raceways be installed as a complete system between outlet, junction, or splicing points prior to the installation of conductors. Attempting to pull wire through a partially built run and then sleeving the remaining conduit over the conductors creates a severe risk of pinching, scraping, or compromising the wire insulation."
       },
       "sparkyTip": "Pipe first, pull second! Never try to sleeve a piece of EMT or PVC over wires that are already laid out. Build the entire raceway system, secure it, and then break out the fish tape.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.18(A), raceways for conductors must be installed as a complete system between outlet, junction, or splicing points before any conductors are pulled in. You may not sleeve a length of raceway over already-installed conductors.",
+      "necReference": "300.18(A)"
     },
     {
       "id": "WM-J006",
@@ -321,7 +357,13 @@
         "default": "\n\nIn the 2026 NEC, the rules for cables entering enclosures were moved from 312.5(C) to 312.8(C), and a practical new Exception No. 3 was added. It states that cables installed in a complete raceway system (in accordance with the free conductor length rules of 300.14) are not required to be individually secured to the enclosure. Because the complete raceway system already provides mechanical protection and strain relief, requiring a separate cable clamp or securement at the enclosure is unnecessary."
       },
       "sparkyTip": "The raceway acts as the shield! If you pipe a complete raceway system from box to box and pull your cables through it, you don't need to fight with individual Romex connectors where the pipe enters the panel.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 312.5(C) Exception, cables are not required to be individually secured to a cabinet, cutout box, or meter socket enclosure when they are installed in a complete raceway system feeding the enclosure. The raceway provides the mechanical protection and securement that the cable clamp would otherwise provide.",
+      "necReference": "312.5(C) Exception"
     },
     {
       "id": "WM-J007",
@@ -346,7 +388,13 @@
         "default": "\n\nIn the 2026 NEC, the rules for enclosures were relocated and updated. Section 312.11(A)(5) explicitly states that if service conductors are involved, any splicing or tapping of those conductors must be located within the service equipment enclosure. Because service conductors do not have standard overcurrent protection (a main breaker) ahead of them, a sloppy tap in an intermediate pull box or gutter poses a massive fire hazard. The Code now forces these unprotected connections to happen safely inside the main service equipment."
       },
       "sparkyTip": "Keep your line-side taps in the main box! If you are tapping into unfused utility power for a solar or generator installation, you cannot make that connection in a random gutter on the wall. It must happen inside the actual service equipment.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 230.46, splices and taps to service conductors that pass through the wiring space of a cabinet or cutout box must be made within the service equipment enclosure itself. Splicing line-side (unfused) service conductors in an arbitrary wireway or junction box is not permitted.",
+      "necReference": "230.46"
     },
     {
       "id": "WM-J008",
@@ -371,7 +419,13 @@
         "default": "\n\nIn the 2026 NEC, Section 344.29 (Terminations) was explicitly added to clarify the rules for conduit threads entering enclosures. When Rigid Metal Conduit (RMC) enters a box or enclosure through a standard threadless opening (such as a punched knockout), the Code now explicitly mandates the use of paired locknuts (double locknuts)—one on the outside and one on the inside. This ensures a secure mechanical connection and maintains a reliable, low-impedance ground-fault current path."
       },
       "sparkyTip": "Sandwich the box! Unless you are screwing the rigid pipe directly into a threaded factory hub, you must use a locknut on both the outside and the inside of the enclosure to lock it down properly.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 344.42, where RMC enters an enclosure through a knockout that is not a threaded hub, paired locknuts (one inside and one outside the enclosure) are required. A single locknut with a bushing is not sufficient to ensure mechanical securement and electrical continuity.",
+      "necReference": "344.42"
     },
     {
       "id": "WM-J009",
@@ -398,7 +452,13 @@
         "default": "\n\nSection 334.19 of the NEC mandates that the outer nonmetallic sheath of NM cable must extend not less than 1/4 inch (6 mm) inside the box and beyond any cable clamp or cable entry point. This fundamental rule provides consistency across all NM cable installations and guarantees that the individual conductor insulation is protected from abrasion against the sharp metal edges of the clamp or the enclosure knockout."
       },
       "sparkyTip": "Don't strip your Romex too far back! The inspector always looks to see at least a 1/4 inch of that jacket poking through the connector inside the box to prove the wires are protected from the metal clamp.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 312.5(C), where cables enter an enclosure, the outer nonmetallic sheath must extend not less than 1/4 inch inside the enclosure beyond the cable clamp or cable entry. This ensures conductor insulation is not damaged by the metal edges of the clamp or knockout.",
+      "necReference": "312.5(C)"
     },
     {
       "id": "WM-J010",
@@ -425,7 +485,13 @@
         "default": "\n\nSection 352.44(A) of the NEC dictates that expansion fittings must be provided to compensate for thermal expansion and contraction if the conduit's length is expected to change by 1/4 inch (6 mm) or more. Because PVC expands and contracts significantly with temperature changes, calculating this expected movement is critical to prevent the pipe from bowing, snapping, or tearing out of the enclosures during extreme weather shifts."
       },
       "sparkyTip": "PVC moves a lot! If you are running a long straight pipe across a sun-baked roof or the side of a building, always do the math. If the temperature swing causes the pipe to grow or shrink by a 1/4 inch, you must throw an expansion coupling in the run.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 352.44, an expansion fitting is required for PVC conduit where the length change due to thermal expansion and contraction is expected to be 1/4 inch (6 mm) or greater. Table 352.44 gives the expansion coefficient used to calculate the change for a given temperature delta and run length.",
+      "necReference": "352.44"
     },
     {
       "id": "WM-J011",
@@ -452,7 +518,13 @@
         "default": "\n\nSection 358.10 outlines where EMT is permitted to be installed. While EMT is widely known for standard exposed and concealed indoor work, the Code also permits it to be embedded in concrete, placed in direct contact with the earth, or used in areas subject to severe corrosive influences. However, this is strictly under the condition that the tubing is provided with approved supplementary corrosion protection and judged suitable for the environment. It is not permitted where subject to severe physical damage or in unprotected damp cinder fill."
       },
       "sparkyTip": "EMT can go in the dirt or the slab, but it needs a raincoat! If you are burying thin-wall conduit or laying it in a concrete pour, it must have an approved corrosion-resistant coating or wrap applied so the chemicals in the earth or concrete don't rot it away.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 358.10(A), EMT is permitted in concrete, in direct contact with the earth, or in locations subject to severe corrosive influences, provided it is protected by approved supplementary corrosion protection. Bare EMT is not permitted in cinder fill or severely corrosive conditions.",
+      "necReference": "358.10(A)"
     },
     {
       "id": "WM-J012",
@@ -479,7 +551,13 @@
         "default": "\n\nAccording to NEC 310.12(A), the ungrounded service conductors and main feeders that supply the entire load associated with a single-family dwelling are permitted to have an ampacity of not less than 83 percent of the service rating. Because residential loads have a high rate of diversity (meaning not all appliances and lights run at the same time), the Code grants this 83% reduction. For example, a 200A service only requires conductors rated for 166A (200 x 0.83 = 166)."
       },
       "sparkyTip": "The residential magic number is 83%! Whenever you are sizing the main wires that feed the entire house, multiply the main breaker size by 0.83 to find your target ampacity, and then head over to the 75°C column of Table 310.16 to pick your wire.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 310.12 (Single-Phase Dwelling Services and Feeders), ungrounded service-entrance conductors supplying the entire load of a one-family dwelling are permitted to have an ampacity not less than 83% of the service rating. This is the residential 83% rule — multiply the service rating by 0.83 to find required ampacity, then size from the 75°C column.",
+      "necReference": "310.12"
     },
     {
       "id": "WM-J013",
@@ -504,7 +582,13 @@
         "default": "\n\nAccording to NEC 300.11(B), where independent support wires are used to support electrical wiring methods above a suspended ceiling, they must be secured at both ends. This means you must secure the wire to the building structure above, and also tie off the bottom end to the suspended ceiling framing. This prevents the independent support wire from swinging freely and ensures the cables and raceways are held securely in place during maintenance or seismic events."
       },
       "sparkyTip": "Don't just shoot the wire into the deck and let the bottom dangle in the breeze! You have to tie off that bottom end to the ceiling assembly so the wire is tight and secured at both ends.",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.11(A)(1), independent support wires installed above suspended ceilings to support raceways or cables must be secured at both ends — to the structural ceiling above and to the ceiling assembly below — so the wire is taut. A wire that is anchored only at the top and left dangling does not provide secure support.",
+      "necReference": "300.11(A)(1)"
     },
     {
       "id": "WM-J014",
@@ -571,6 +655,978 @@
         "2026"
       ],
       "examTopic": "wiring-methods"
+    },
+    {
+      "id": "CD-J042",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are pulling a new set of feeder conductors through an underground Schedule 40 PVC conduit to supply a remote pump house. To maximize your allowable ampacity for derating purposes, you need an insulation type that won't penalize you for the moisture. Which of the following conductors allows you to safely calculate using the 90°C column?",
+      "options": [
+        "THWN",
+        "XHHW",
+        "THWN-2",
+        "THW"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nUnderground conduits are strictly classified as wet locations. According to Table 310.4(A), adding a \"-2\" suffix to a conductor's insulation type (like THWN-2) indicates it is rated for a maximum operating temperature of 90°C (194°F) in both dry AND wet environments. Without the \"-2\" suffix, standard THWN or XHHW conductors drop to a 75°C rating when used in wet locations, while THW maxes out at 75°C regardless of the location."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Don't get caught out by location definitions! Look up 'Conductors, Insulation' -> 'Table 310.4(A)' to quickly verify the maximum operating temperatures based on location dampness before you lock in your ampacity derating calculations.",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A), THWN-2 is rated 90°C in both dry and wet locations, allowing the 90°C column to be used for ampacity/derating calculations even in wet/underground installations. THWN, XHHW (without the -2), and THW are limited to 75°C in wet locations.",
+      "necReference": "Table 310.4(A)"
+    },
+    {
+      "id": "CD-J043",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are installing feeder conductors in an underground PVC conduit, which is classified as a wet location. To maximize your allowable ampacity and use the 90°C column for derating, which of the following conductor insulation markings must you use?",
+      "options": [
+        "THHN",
+        "THW",
+        "THWN-2",
+        "XHHW"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nAny conduit installed underground is strictly classified as a wet location. While standard insulation types like THWN or XHHW are typically limited to 75°C when exposed to moisture, Table 310.4(A) specifies that the '-2' suffix (e.g., THWN-2) indicates the conductor is rated for a maximum operating temperature of 90°C in both dry AND wet locations."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: The '-2' is your ticket to the 90-degree column in wet environments! Without it, your ampacity drops to the 75-degree column the moment that pipe goes underground.",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A), the '-2' suffix indicates the insulation is rated 90°C in both dry and wet locations. THWN-2 is the conductor that allows you to size from the 90°C column even when the conduit is wet (e.g., underground PVC). Standard THHN and THW do not have the wet-90°C dual rating.",
+      "necReference": "Table 310.4(A)"
+    },
+    {
+      "id": "CD-J044",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Whenever the insulated jacket has a -2 at the end of the markings, what does that mean?",
+      "options": [
+        "It is rated for 90°C in dry locations only.",
+        "It is rated for 90°C in both dry and wet locations.",
+        "It drops to a 75°C rating in wet locations.",
+        "It is approved for direct burial without conduit."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nAccording to Table 310.4(A), the \"-2\" suffix on a conductor's insulation type (such as THWN-2 or XHHW-2) indicates that it is rated for a maximum operating temperature of 90°C (194°F) in both dry AND wet environments. Without this suffix, standard insulation like THWN or XHHW is limited to 75°C when installed in a wet location."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: That '-2' is your golden ticket to the 90-degree column underground! If you don't see it, you must use the 75°C column the second that pipe hits a wet location.",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A), the '-2' suffix on an insulation type (THWN-2, XHHW-2) indicates the conductor is rated 90°C in both dry and wet locations. Without the -2, conductors in wet locations are limited to the 75°C column for ampacity purposes.",
+      "necReference": "Table 310.4(A)"
+    },
+    {
+      "id": "CD-J045",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When referencing conductor insulation types like THHN or THWN, what does the letter 'N' signify in the wire designation?",
+      "options": [
+        "Non-metallic shielding",
+        "Nylon jacket",
+        "Nickel-coated conductor",
+        "Ninety-degree temperature rating"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nIn the NEC wire designation system found in the construction details of Table 310.4(A), the letter 'N' indicates that the conductor has an extruded Nylon jacket. This tough, outer covering is placed over the thermoplastic insulation to provide a physical barrier, protecting the wire from abrasion, friction, and even certain chemicals like oil and gasoline during installation."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Decode the wire! T = Thermoplastic, HH = High Heat (90°C), W = Wet, and N = Nylon. That thin, slippery clear layer you have to strip off the outside of your THHN is the nylon jacket saving your wire during a tough pull!",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A) and the associated insulation letter coding, the 'N' in THHN/THWN designates a nylon outer jacket. The nylon jacket adds abrasion resistance during pulling and improves chemical resistance compared to bare thermoplastic insulation.",
+      "necReference": "Table 310.4(A)"
+    },
+    {
+      "id": "CD-J046",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When looking at the insulation type of a conductor, what does the letter 'W' indicate about its approved application?",
+      "options": [
+        "It has a woven outer jacket.",
+        "It is intended exclusively for welding applications.",
+        "It has a weather-resistant metallic shield.",
+        "It is approved for use in wet locations."
+      ],
+      "correctAnswer": 3,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nIn the NEC conductor designation system detailed in Table 310.4(A), the letter 'W' stands for 'Water' or 'Wet'. Any conductor with a 'W' in its type lettering (such as THWN, XHHW, or RHW) is approved for use in wet locations. This includes underground conduits, concrete slabs in direct contact with the earth, and outdoor installations exposed to the weather."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: W = Wet! If your pipe goes underground or outside, that 'W' is non-negotiable. Without it, your wire is strictly limited to dry or damp locations.",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A), the 'W' in conductor markings (e.g., THW, THWN, XHHW) indicates the insulation is approved for use in wet locations. Conductors without the 'W' are limited to dry or damp locations.",
+      "necReference": "Table 310.4(A)"
+    },
+    {
+      "id": "CD-J047",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When comparing standard THHN/THWN-2 conductors to XHHW-2 for heavy industrial distribution, what is the primary physical difference regarding their insulation material?",
+      "options": [
+        "THHN uses thermoset insulation, while XHHW-2 uses a thermoplastic jacket.",
+        "XHHW-2 utilizes a cross-linked thermoset insulation that will not melt under extreme heat, whereas THHN uses a thermoplastic insulation that can melt.",
+        "THHN has a lower dielectric constant, making it safer for high-fault conditions.",
+        "XHHW-2 requires a dedicated nylon outer jacket to protect against moisture, whereas THHN does not."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nThe 'X' in XHHW stands for Cross-linked polyethylene (XLPE), which is a thermoset insulation. Thermoset materials undergo a chemical curing process during manufacturing that locks their molecular structure, meaning they will not melt—even under the extreme heat of a high-fault short circuit. In contrast, the PVC insulation used in standard THHN/THWN is a thermoplastic, which can soften and melt into a liquid state when exposed to excessive, catastrophic temperatures."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Remember the butter vs. baked cake analogy! Thermoplastic (THHN) melts like butter when it gets too hot. Thermoset (XHHW) is like a baked cake—it's permanently cured and won't melt back into batter, making it the rugged, heavy-duty choice for industrial feeders.",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A), XHHW-2 uses cross-linked polyethylene — a thermoset insulation that is permanently cured and does not melt under extreme heat. THHN/THWN-2 use thermoplastic insulation that softens and can melt at high temperatures, making thermoset the preferred specification for high-fault, mission-critical feeders.",
+      "necReference": "Table 310.4(A)"
+    },
+    {
+      "id": "RC-J015",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "A 20-amp, 125-volt nonlocking receptacle installed in a wet location must be listed as what type?",
+      "options": [
+        "Waterproof type",
+        "Watertight type",
+        "Weatherproof type",
+        "Weather-Resistant type"
+      ],
+      "correctAnswer": 3,
+      "necReferences": {
+        "2020": "406.9(B)(1)",
+        "2023": "406.9(B)(1)",
+        "2026": "406.9(B)(1)"
+      },
+      "explanations": {
+        "default": "\n\nPer NEC 406.9(B)(1), all 15- and 20-ampere, 125- and 250-volt nonlocking receptacles in wet locations must be listed as weather-resistant (WR). The NEC makes strict distinctions in terminology: while the extra-duty cover you put over the device is defined as 'weatherproof', the physical receptacle itself must be 'weather-resistant'."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Watch your terminology! In the field we call everything 'weatherproof', but the codebook is specific. The cover is weatherproof; the receptacle is Weather-Resistant (WR). Don't let similar-sounding words steal your points.",
+      "examTopic": "receptacles",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 406.9(B)(1), 15- and 20-ampere, 125- and 250-volt nonlocking receptacles installed in a wet location must be a listed weather-resistant (WR) type. The 'weatherproof' designation applies to the cover, not the receptacle device itself.",
+      "necReference": "406.9(B)(1)"
+    },
+    {
+      "id": "SW-J018",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "According to the NEC, when calculating the maximum number of devices permitted in a switchboard or panelboard, a 3-pole circuit breaker shall be considered as what?",
+      "options": [
+        "One overcurrent device",
+        "Three overcurrent devices",
+        "A single main disconnect",
+        "A delta-connected device"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "408.54",
+        "2023": "408.54",
+        "2026": "408.54"
+      },
+      "explanations": {
+        "default": "\n\nAccording to NEC 408.54, when determining the total number of overcurrent devices installed in a panelboard or switchboard, you must count the individual poles. Because a 3-pole circuit breaker connects to three separate phases on the busbar, it is legally counted as three individual overcurrent devices against the enclosure's maximum rated capacity."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Count the poles, not the plastic housing! The NEC cares about how many busbar spaces you are eating up. A 3-pole breaker takes 3 spots, so it counts as 3 devices.",
+      "examTopic": "switchboards",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 408.54 (Maximum Number of Overcurrent Devices), a multipole circuit breaker is counted as one overcurrent device per pole. A 3-pole circuit breaker therefore counts as three overcurrent devices toward the panelboard's maximum, because it occupies three busbar positions.",
+      "necReference": "408.54"
+    },
+    {
+      "id": "GR-J021",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "In which setting does the NEC require arc-flash hazard warning labels on equipment likely to require servicing while energized?",
+      "options": [
+        "All occupancies",
+        "Services exceeding 1200 amps",
+        "Other than dwelling units",
+        "Commercial and industrial only"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "110.16(A)",
+        "2023": "110.16(A)",
+        "2026": "110.16"
+      },
+      "explanations": {
+        "default": "\n\nPer NEC 110.16(A), equipment like switchboards and panelboards that require servicing while energized must have arc-flash warning labels. However, this rule specifically applies to equipment in \"other than dwelling units,\" meaning standard residential homes are exempt."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Look up 'Arc-flash hazard warning'. The key phrase is 'other than dwelling units'. A 200A commercial panel needs a sticker; a 200A residential panel does not.",
+      "examTopic": "general-requirements",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 110.16(B), service equipment rated 1200 amperes or more in 'other than dwelling units' must be field- or factory-marked with an arc-flash hazard warning label. The rule explicitly excludes dwelling units, so a residential 200 A panel does not require an arc-flash label while a commercial one does.",
+      "necReference": "110.16(B)"
+    },
+    {
+      "id": "GR-J023",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "While inspecting a piece of commercial electrical equipment, you notice a manufacturer label displaying the equipment's SCCR. What does this acronym stand for?",
+      "options": [
+        "Standard Current Clearing Rating",
+        "Symmetrical Current Capacity Rating",
+        "Short-Circuit Current Rating",
+        "Short-Circuit Capacity Rating"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "Article 100",
+        "2023": "Article 100",
+        "2026": "Article 100"
+      },
+      "explanations": {
+        "default": "\n\nDefined in NEC Article 100, SCCR stands for Short-Circuit Current Rating. This rating represents the maximum prospective fault current that a specific component or assembly (such as a panelboard, switchboard, or motor control center) can safely withstand without sustaining catastrophic physical damage."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: SCCR is the shield! It tells you how massive of a fault the physical box can take before blowing apart. Don't confuse it with Interrupting Rating (AIC), which is the breaker's ability to actually turn that fault off.",
+      "examTopic": "general-requirements",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Article 100 Definitions, SCCR stands for Short-Circuit Current Rating — the prospective symmetrical fault current at a nominal voltage to which an apparatus or system is able to be connected without sustaining damage exceeding defined acceptance criteria. SCCR is the equipment's ability to withstand a fault; AIC (Interrupting Rating) is the OCPD's ability to clear one.",
+      "necReference": "Article 100"
+    },
+    {
+      "id": "SW-J019",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When installing a new commercial distribution panelboard, what specific information must be field-marked on the enclosure to satisfy the Short-Circuit Current Rating?",
+      "options": [
+        "The Interrupting Rating (AIC)",
+        "Available fault current and the calculation date",
+        "Arc-flash boundary and PPE category",
+        "System voltage and breaker clearing time"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "408.6",
+        "2023": "408.6",
+        "2026": "408.6"
+      },
+      "explanations": {
+        "default": "\n\nPer NEC 408.6, panelboards in other than one- and two-family dwellings must be field-marked with the available fault current and the date the calculation was performed to ensure the equipment's short-circuit current rating (SCCR) is adequate."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Look up 'Panelboards' -> 'Short-circuit current rating'. Commercial gear needs two things on the box for 408.6: the available fault current and the exact date!",
+      "examTopic": "switchboards-and-panelboards",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 408.6, panelboards in non-dwelling commercial installations must be field-marked with the maximum available fault current and the date the calculation was performed. The marking must be sufficient to verify that the panelboard's SCCR meets or exceeds the available fault current at its line terminals.",
+      "necReference": "408.6"
+    },
+    {
+      "id": "GR-J025",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Equipment intended to interrupt current at fault levels—such as a circuit breaker or fuse—must have an interrupting rating at least equal to what value?",
+      "options": [
+        "The total connected load of the system",
+        "The short-circuit current rating (SCCR) of the panelboard enclosure",
+        "125% of the continuous load plus the noncontinuous load",
+        "The available fault current at its line terminals"
+      ],
+      "correctAnswer": 3,
+      "necReferences": {
+        "2020": "110.9",
+        "2023": "110.9",
+        "2026": "110.9"
+      },
+      "explanations": {
+        "default": "\n\nPer NEC 110.9, any device intended to interrupt current at fault levels must have an interrupting rating (often called AIC in the field) that is equal to or greater than the available fault current at its line terminals. If a breaker's interrupting rating is lower than the fault current the utility can deliver, the device could violently explode when attempting to clear a short circuit."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Look up 'Interrupting rating'. Remember that 110.9 is all about the breaker's ability to survive turning the fault off. It MUST be rated to handle whatever massive current is waiting at those line terminals!",
+      "examTopic": "general-requirements",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 110.9, equipment intended to interrupt current at fault levels (circuit breakers, fuses) must have an interrupting rating at its nominal voltage that is sufficient for the available fault current at its line terminals. An undersized interrupting rating is a code violation regardless of normal load.",
+      "necReference": "110.9"
+    },
+    {
+      "id": "CON-352-01S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": true,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "An expansion fitting for PVC conduit is required when the expected length change due to temperature is at least:",
+      "options": [
+        "1/8 inch",
+        "1/4 inch",
+        "1/2 inch",
+        "3/4 inch"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "352.44",
+        "2023": "352.44",
+        "2026": "352.44"
+      },
+      "explanations": {
+        "default": "NEC 352.44 requires expansion fittings when PVC thermal expansion or contraction is expected to be 1/4 inch or greater between fixed points."
+      },
+      "sparkyTip": "Field Logic Tip 💡: PVC moves like a snake! If a run expands even a quarter-inch, you must install an expansion joint or risk the conduit bowing or ripping straps off the wall.",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 352.44, PVC conduit must be provided with an expansion fitting where the calculated length change from thermal expansion/contraction is 1/4 inch (6 mm) or greater. Use Table 352.44 to compute the expected movement based on temperature range and conduit length.",
+      "necReference": "352.44"
+    },
+    {
+      "id": "CON-344-02S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When Galvanized Steel RMC and its associated fittings are installed in direct earth burial, what is required?",
+      "options": [
+        "They must be encased in a minimum of 2 inches of concrete",
+        "They must be protected by corrosion protection and judged suitable for the condition",
+        "They must be coated with a minimum of 10-mil PVC",
+        "They must be wrapped in half-lapped electrical tape"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "344.10(B)(1)",
+        "2023": "344.10(B)(1)",
+        "2026": "344.10(B)(1)"
+      },
+      "explanations": {
+        "default": "Per NEC 344.10(B)(1), Galvanized Steel RMC, elbows, couplings, and fittings are permitted in direct earth burial, provided they are protected by corrosion protection and judged suitable for the specific condition of the soil."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Just because it's heavy-duty steel doesn't mean it's invincible underground. Soil chemistry can eat through metal fast. You always have to make sure the material and its corrosion protection are actually rated for that specific dirt!",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 344.10(B), galvanized RMC and its associated fittings installed in direct earth burial must be protected by supplementary corrosion protection that is judged suitable for the soil conditions. Galvanizing alone is not assumed to be adequate in all soils — corrosive soils require additional coating, wrap, or cathodic protection.",
+      "necReference": "344.10(B)"
+    },
+    {
+      "id": "WM-300-01S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "When installing underground service conductors in PVC conduit (not concrete-encased), what physical identification is required?",
+      "options": [
+        "None, since the conductors are in a raceway",
+        "A warning ribbon at least 12 inches above the installation",
+        "Red-colored PVC or red striping on the conduit",
+        "A warning ribbon placed directly on top of the conduit"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "300.7(D)(3)"
+      },
+      "explanations": {
+        "default": "NEC 300.7(D)(3) requires a warning ribbon placed at least 12 inches above underground service conductors, even when installed in a raceway."
+      },
+      "sparkyTip": "Field Logic Tip 💡: New for 2026! You can't skip the warning ribbon just because the service is in pipe. A backhoe can snap PVC easily, and hitting unfused service conductors is catastrophic.",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.5(D)(3), underground installations of service conductors — including those in PVC raceway that are not concrete-encased — must have a warning ribbon installed in the trench at least 12 inches above the conductors. The intent is to provide a visual warning to anyone excavating later.",
+      "necReference": "300.5(D)(3)"
+    },
+    {
+      "id": "CON-352-03S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "To compensate for thermal expansion and contraction in a PVC conduit run where the expected length change is 1/4 inch or greater, what is required?",
+      "options": [
+        "Schedule 80 PVC instead of Schedule 40",
+        "A minimum of 6 inches of conductor slack",
+        "Oversized conduit clamps",
+        "An expansion fitting"
+      ],
+      "correctAnswer": 3,
+      "necReferences": {
+        "2020": "352.44",
+        "2023": "352.44",
+        "2026": "352.44"
+      },
+      "explanations": {
+        "default": "NEC 352.44 dictates that expansion fittings must be provided for PVC conduit to compensate for thermal expansion and contraction where the length change is expected to be 1/4 inch or greater between securely mounted items."
+      },
+      "sparkyTip": "Field Logic Tip 💡: The rule goes both ways! If you know the pipe will move a quarter-inch, you need the expansion joint to prevent the conduit from bowing in the heat or pulling apart in the cold.",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 352.44, where PVC conduit is expected to change length by 1/4 inch (6 mm) or more due to temperature swings, an expansion fitting must be installed in the run. Schedule rating, conduit slack, or oversized clamps are not substitutes for a proper expansion fitting.",
+      "necReference": "352.44"
+    },
+    {
+      "id": "WM-300-02S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "What is the minimum required separation from the lowest surface of roof decking to the top of an EMT run?",
+      "options": [
+        "None (only applies to metal roofs)",
+        "1/2 inch",
+        "1 1/2 inches",
+        "2 inches"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2026": "300.6(E)"
+      },
+      "explanations": {
+        "default": "The 2026 NEC updated 300.6(E) to require a 1 ½-inch minimum clearance under ALL roof decking types, removing the previous limitation to just metal-corrugated roofs."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Big change for 2026! The 1.5-inch rule now applies to wood decking too, since long roofing nails can easily punch through wood sheathing and hit your pipe.",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.4(E), cables and raceways installed under metal-corrugated sheet roof decking must be a minimum of 1-1/2 inches from the lowest surface of the decking. The 2026 NEC extended this clearance to apply to wood roof decking as well, because long roofing nails can easily penetrate sheathing and pierce conductors.",
+      "necReference": "300.4(E)"
+    },
+    {
+      "id": "WM-344-03S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "How must RMC be secured when entering an enclosure through a non-threaded knockout?",
+      "options": [
+        "Single locknut and a metal bushing",
+        "Paired locknuts (one inside, one outside)",
+        "Sealing locknut and plastic bushing",
+        "Locknut-bushing combination"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "344.29"
+      },
+      "explanations": {
+        "default": "2026 NEC 344.29 requires RMC entering a non-threaded enclosure knockout to be secured with paired locknuts (one inside, one outside) before applying a bushing."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Huge 2026 update! The old habit of using one outside locknut and an inside metal bushing is now a violation. You must lock the pipe down with two locknuts first.",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 344.42, when RMC enters an enclosure through a non-threaded knockout, paired locknuts (one inside, one outside) are required to secure the conduit and ensure electrical continuity. The 2026 NEC tightened this rule — a single outside locknut paired with an inside metal bushing is no longer sufficient.",
+      "necReference": "344.42"
+    },
+    {
+      "id": "WM-300-04S",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When running EMT, what is the minimum conductor size that requires an insulated fitting (such as a plastic bushing) to protect the wire from abrasion?",
+      "options": [
+        "8 AWG",
+        "6 AWG",
+        "4 AWG",
+        "2 AWG"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "300.4(G)",
+        "2023": "300.4(G)",
+        "2026": "300.6(G)"
+      },
+      "explanations": {
+        "default": "The NEC dictates that whenever a raceway contains insulated circuit conductors sized 4 AWG or larger, those conductors must be protected from abrasion by a smoothly rounded insulating surface where they enter a box, fitting, or enclosure."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Remember the rhyme '4 and more, protect the core.' Once wire hits 4 AWG, it's heavy and stiff enough that dragging it across a raw metal edge during a pull will easily slice the insulation right off.",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.4(G) (Insulated Fittings), where 4 AWG or larger ungrounded conductors enter a raceway in an enclosure, the conductors must be protected from abrasion by a fitting providing a smooth, rounded insulating surface (e.g., a plastic bushing). Smaller conductors are not exempt by size but rather by the listed connector design.",
+      "necReference": "300.4(G)"
+    },
+    {
+      "id": "WM-314-02S-V2",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Which screws are permitted to attach covers to a box?",
+      "options": [
+        "Self-tapping screws",
+        "Drywall screws",
+        "Machine screws matching the box threads",
+        "Wood screws"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "314.25",
+        "2023": "314.25",
+        "2026": "314.25"
+      },
+      "explanations": {
+        "default": "NEC 314.25 requires cover screws to be machine screws that match the thread gauge or size integral to the box."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Put down the self-tappers and drywall screws! They strip the factory threads and leave razor-sharp points that can slice right through wire insulation.",
+      "examTopic": "boxes-and-enclosures",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 314.42, covers shall be attached to boxes using machine screws that match the box threads. Self-tapping screws, drywall screws, and wood screws are prohibited because they strip the factory threads and leave protruding sharp points that can damage conductor insulation.",
+      "necReference": "314.42"
+    },
+    {
+      "id": "GB-250-01",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Which of the following is NOT permitted as a method for connecting an equipment grounding conductor (EGC) to an enclosure?",
+      "options": [
+        "A listed pressure connector",
+        "A machine screw engaging not less than two threads",
+        "A self tapper",
+        "Exothermic welding"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "250.8(A)",
+        "2023": "250.8(A)",
+        "2026": "250.8(A)"
+      },
+      "explanations": {
+        "default": "NEC 250.8(A) lists approved methods for connecting grounding conductors, which include listed pressure connectors, exothermic welding, and machine screws that engage at least two threads. However, 250.8(B) explicitly prohibits the use of sheet metal screws (commonly referred to in the field as self tappers) for this purpose."
+      },
+      "sparkyTip": "Field Logic Tip 💡: We just talked about this one! Self tappers don't have enough thread depth to handle a dead short. If a fault hits, they can melt or blow out before the breaker ever trips.",
+      "examTopic": "grounding-and-bonding",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 250.8(A), the EGC and bonding jumpers shall be connected to enclosures by listed pressure connectors, terminal bars, exothermic welding, machine screws engaging at least two threads, or thread-forming screws. Sheet-metal/self-tapping screws are specifically not listed as a permitted method because they cannot reliably carry fault current.",
+      "necReference": "250.8(A)"
+    },
+    {
+      "id": "WM-300-06S-V2",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Why must an electrician ensure that every locknut or lock ring is fully tightened against a metal enclosure?",
+      "options": [
+        "To prevent moisture and dust from entering the enclosure",
+        "To establish effective electrical continuity and mechanical securement",
+        "To protect the conductor insulation from sharp edges during a pull",
+        "To satisfy the box fill volume requirements"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "300.10",
+        "2023": "300.10",
+        "2026": "300.12"
+      },
+      "explanations": {
+        "default": "The NEC requires metal raceways and cable armor to be connected to boxes and cabinets so as to provide effective electrical continuity (located in 300.10 for the 2020/2023 cycles, and moved to 300.12 for 2026). A loose locknut creates a high-resistance connection that compromises the ground fault path. Additionally, 314.17(B) requires cables to be mechanically secured to the box."
+      },
+      "sparkyTip": "Field Logic Tip 💡: A loose locknut means a broken ground path! If your MC connector is spinning in the knockout, the connection to the box is weak. If a dead short happens, it will arc and spark instead of safely tripping the breaker. Always tap it tight with your screwdriver!",
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 300.10, metal raceways, cable armor, boxes, and enclosures must be metallically joined together to form a continuous electric conductor and bonded to all boxes/fittings to provide effective ground-fault current path. A loose locknut breaks that continuity, so every locknut and lock ring must be tightened against the enclosure.",
+      "necReference": "300.10"
+    },
+    {
+      "id": "BC-210-01",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "What does the NEC require for the spacing of general wall receptacles in a residential living room?",
+      "options": [
+        "No point along the wall can be more than 6 feet from a receptacle (Max 12 feet between them)",
+        "No point along the wall can be more than 12 feet from a receptacle (Max 24 feet between them)",
+        "Receptacles must be installed exactly every 8 feet",
+        "Receptacles must be installed exactly every 10 feet"
+      ],
+      "correctAnswer": 0,
+      "necReferences": {
+        "2020": "210.52(A)(1)",
+        "2023": "210.52(A)(1)",
+        "2026": "210.52(A)(1)"
+      },
+      "explanations": {
+        "default": "NEC 210.52(A)(1) requires that receptacles be placed so that no point measured horizontally along the floor line is more than 6 feet from a receptacle outlet. This effectively means receptacles can be a maximum of 12 feet apart from each other along a continuous wall."
+      },
+      "sparkyTip": "Field Logic Tip 💡: We call this the '6/12 Rule' in the trade! A standard floor lamp cord is 6 feet long. The code is designed so that no matter where a homeowner pushes a lamp against the wall, the cord will reach a plug without needing a dangerous extension cord.",
+      "examTopic": "branch-circuits",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 210.52(A)(1), receptacles in dwelling general living areas must be placed so that no point measured horizontally along the wall line is more than 6 feet from a receptacle (which works out to a maximum of 12 feet between receptacles). The rule ensures a 6-foot lamp cord will reach an outlet from anywhere along the wall.",
+      "necReference": "210.52(A)(1)"
+    },
+    {
+      "id": "BC-210-02-V2",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "What does the NEC require for the spacing of wall receptacles serving kitchen countertops?",
+      "options": [
+        "No point along the wall line can be more than 4 feet from a receptacle (Max 8 feet between them)",
+        "Receptacles must be installed exactly every 4 feet, regardless of counter length",
+        "No point along the wall line can be more than 2 feet from a receptacle (Max 4 feet between them)",
+        "No point along the wall line can be more than 3 feet from a receptacle (Max 6 feet between them)"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "210.52(C)(1)",
+        "2023": "210.52(C)(1)",
+        "2026": "210.52(C)(1)"
+      },
+      "explanations": {
+        "default": "NEC 210.52(C)(1) requires that a receptacle be installed at each wall counter space 12 inches or wider. Furthermore, they must be spaced so that no point along the wall line is more than 24 inches (2 feet) measured horizontally from a receptacle outlet, meaning the maximum distance between two receptacles is 4 feet."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Just like the 6/12 rule for living rooms, this is the '2/4 Rule' for kitchens! Most small kitchen appliances (like blenders and toasters) only have 2-foot cords. The code is designed so you never have to stretch an appliance cord across the sink or use a dangerous extension cord on a wet counter.",
+      "examTopic": "branch-circuits",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 210.52(C)(2), kitchen countertop receptacles must be installed so that no point along the countertop wall line is more than 24 inches (2 feet) from a receptacle — a maximum of 4 feet between receptacles. This is the '2/4 rule', matching typical small-appliance cord lengths.",
+      "necReference": "210.52(C)(2)"
+    },
+    {
+      "id": "BC-210-03",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "According to the NEC, what is the maximum permitted height for a wall receptacle installed to serve a kitchen countertop or work surface?",
+      "options": [
+        "18 inches above the countertop",
+        "20 inches above the countertop",
+        "24 inches above the countertop",
+        "36 inches above the countertop"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "210.52(C)(5)",
+        "2023": "210.52(C)(3)",
+        "2026": "210.52(C)(3)"
+      },
+      "explanations": {
+        "default": "The NEC requires that countertop receptacles be located on or above the countertop surface, but no more than 20 inches (500 mm) above it. This ensures standard 2-foot appliance cords can safely reach the plug without strain. (Note: The section for receptacle location shifted from 210.52(C)(5) in the 2020 cycle to 210.52(C)(3) in the 2023 and 2026 cycles)."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Standard upper kitchen cabinets are usually mounted 18 inches above the countertops. Because of this 20-inch maximum rule, most electricians rough-in their countertop boxes at about 44 to 46 inches off the floor to hit that perfect sweet spot between the counter and the uppers!",
+      "examTopic": "branch-circuits",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 210.52(C)(5), receptacle outlets serving a kitchen countertop or work surface must be installed not more than 20 inches above the countertop. This keeps the receptacle reachable from the counter and prevents installing it behind upper cabinets.",
+      "necReference": "210.52(C)(5)"
+    },
+    {
+      "id": "CAB-312-11A-01",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "When can a cabinet, cutout box, or meter socket enclosure be used as a junction box, auxiliary gutter, or raceway for conductors feeding through or tapping off to other equipment?",
+      "options": [
+        "When the enclosure is listed for service equipment",
+        "When the conductors do not fill the wiring space at any cross section to more than 75 percent",
+        "When the enclosure has permanent barriers installed between all conductors",
+        "When the conductors are smaller than 1/0 AWG and protected by an OCPD"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2026": "312.11(A)"
+      },
+      "explanation": "NEC 312.11(A) permits cabinets, cutout boxes, and meter socket enclosures to be used as junction boxes, auxiliary gutters, or raceways only where the conductors do not fill the wiring space at any cross section to more than 75 percent.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "312.8(A)",
+      "sparkyTip": "75% is the magic number for using a cabinet as a wireway. Above that, conductors must be in a separate gutter or raceway."
+    },
+    {
+      "id": "DEF-100-CABINET-02",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "According to the NEC, in order for an enclosure to be classified as a cabinet, what is needed?",
+      "options": [
+        "It must have shelves, drawers, or compartments used for storage",
+        "It must contain overcurrent protection and be rated as service equipment",
+        "It must be designed for surface or flush mounting and have a frame, mat, or trim where a swinging door or doors are or can be hung",
+        "It must be large enough to be used as a pull box or auxiliary gutter"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2026": "Article 100 — Cabinet"
+      },
+      "explanation": "A cabinet, in NEC terms, is not a regular storage cabinet. Article 100 defines a cabinet as an enclosure designed for surface or flush mounting and provided with a frame, mat, or trim where a swinging door or doors are or can be hung.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "Article 100",
+      "sparkyTip": "The defining feature of a cabinet is the swinging door (or the ability to mount one) in a frame — not what's inside it."
+    },
+    {
+      "id": "DEF-100-PANELBOARD-01",
+      "category": "wiring-methods",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "In order for equipment to be classified as a panelboard, what is needed?",
+      "options": [
+        "It must be a freestanding assembly with switches, instruments, and OCPDs mounted on the face, back, or both",
+        "It must be an enclosed raceway with hinged or removable covers used to route and protect conductors",
+        "It must be a single panel or group of panel units with buses and automatic OCPDs, designed for control of light, heat, or power circuits, and accessible only from the front",
+        "It must be a cabinet with a frame, mat, or trim where a swinging door or doors are or can be hung"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2026": "Article 100 — Panelboard"
+      },
+      "explanation": "A panelboard is a single panel or group of panel units that includes buses and automatic overcurrent protective devices. It may be equipped with or without switches for the control of light, heat, or power circuits, is designed to be placed in a cabinet, enclosure, or cutout box, and is accessible only from the front.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "Article 100",
+      "sparkyTip": "Panelboard = front-access only, in a cabinet. Switchboard = freestanding, accessible from front and rear. The accessibility distinction is the key tell."
+    },
+    {
+      "id": "SWB-408-PASSTHROUGH-01",
+      "category": "switchboards-and-panelboards",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "You are routing a new feeder and need to pass the conductors horizontally straight through a vertical section of a floor-standing switchboard. You aren’t terminating them in this section. Under the 2026 NEC, what is the required setup to make this legal?",
+      "options": [
+        "The conductors must be upsized by one AWG and wrapped in arc-resistant tape",
+        "The conductors must be isolated from the busbars by a physical barrier",
+        "The switchboard must be equipped with an impedance grounded system",
+        "Horizontal pass-throughs are strictly prohibited and must be routed in a separate wireway"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "408.3(A)(2) Exception",
+        "2026": "408.10(A)(2) Exception"
+      },
+      "explanation": "The NEC allows you to pass conductors horizontally through vertical sections of switchboards and switchgear, but only if they are completely isolated from the live busbars by a factory or field-installed barrier. No barrier, no pass-through!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "408.10(A)(2)",
+      "sparkyTip": "Always look for the factory-installed barriers or crown boxes when passing through vertical sections. Note that the 2026 NEC relocated this rule from 408.3(A)(2) to 408.10(A)(2)."
     }
   ],
   "master": [
@@ -745,7 +1801,48 @@
         "default": "\n\nUnlike rigid metal conduit (RMC) which can often be supported every 10 feet, PVC conduit is highly flexible and sags easily, especially when exposed to heat. Because of this, the NEC dictates stricter support spacing based on the diameter of the pipe. According to Table 352.30(B), PVC conduit sizes ranging from 3-1/2 inches up to 5 inches must be securely supported at intervals not exceeding 7 feet."
       },
       "sparkyTip": "Fat pipe gets more room, but not much! While 1/2-inch PVC needs a strap every 3 feet to keep from sagging, a heavy 4-inch pipe can span up to 7 feet between supports. Always check the table before laying out your strut straps!",
-      "examTopic": "wiring-methods"
+      "examTopic": "wiring-methods",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 352.30, the maximum permitted distance between supports for rigid PVC conduit depends on the trade size. For 4-inch trade size PVC, the maximum support spacing is 7 feet. Smaller trade sizes (e.g., 1/2 inch) are limited to 3 feet; larger sizes get progressively longer spans.",
+      "necReference": "Table 352.30"
+    },
+    {
+      "id": "CD-M010",
+      "category": "wiring-methods",
+      "difficulty": "master",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are reviewing the electrical specifications for a new high-availability data center. The electrical engineer has explicitly mandated that all 480V distribution feeders must utilize XHHW-2 conductors rather than standard THHN/THWN-2, even for runs located entirely within dry, climate-controlled electrical rooms. What is the primary technical justification for specifying this thermoset insulation over thermoplastic in this environment?",
+      "options": [
+        "Thermoset insulation yields a higher base ampacity in the 90°C column than THHN/THWN-2.",
+        "Thermoset insulation has a lower dielectric constant to minimize leakage current and will not melt during catastrophic high-fault conditions.",
+        "The nylon outer jacket of THHN/THWN-2 is strictly prohibited from being installed in data center IT equipment rooms.",
+        "Cross-linked polyethylene (XLPE) eliminates the need for equipment grounding conductors in heavy commercial feeders."
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "Table 310.4(A)",
+        "2023": "Table 310.4(A)",
+        "2026": "Table 310.4(A)"
+      },
+      "explanations": {
+        "default": "\n\nWhile both THHN/THWN-2 and XHHW-2 are rated for 90°C, Master-level design requires understanding how insulation behaves under stress. Thermoset insulation (like XHHW-2) undergoes a chemical cross-linking process (XLPE), meaning its structure is permanently locked and it will never melt, providing a critical safety margin during high-fault short circuits. Furthermore, it possesses a lower dielectric constant than the PVC used in THHN, which significantly reduces the overall leakage current in sensitive environments like data centers and hospitals."
+      },
+      "sparkyTip": "Index Sniper Tip 🎯: Think beyond the ampacity tables! Master-level specification is about worst-case scenarios and system integrity. Thermoplastic (THHN) melts like wax under extreme heat; Thermoset (XHHW-2) just chars. In mission-critical facilities, that material difference protects both the infrastructure and the personnel.",
+      "examTopic": "conductors",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per Table 310.4(A), XHHW-2 is a cross-linked thermoset insulation (XLPE) that does not melt under extreme thermal conditions — it chars instead. THHN/THWN-2 are thermoplastic insulations that soften and can melt. For mission-critical 480 V distribution where fault energy and long-term thermal stability matter, the thermoset's lower dielectric losses and non-melting behavior justify the specification even in dry electrical rooms.",
+      "necReference": "Table 310.4(A)"
     }
   ]
 }

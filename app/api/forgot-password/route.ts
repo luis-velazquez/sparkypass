@@ -63,6 +63,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
+    // Soft-deleted users (30-day grace) get no reset email. Mirror the anti-enum
+    // response so the caller can't probe which emails belong to deleted accounts.
+    if (user.deletedAt) {
+      return NextResponse.json({ success: true });
+    }
+
     // Only allow password reset for email auth users
     if (user.authProvider !== "email") {
       // Don't reveal auth provider - just return success

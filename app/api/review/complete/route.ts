@@ -27,6 +27,36 @@ export async function POST(request: Request) {
       );
     }
 
+    // Idempotency: if the session was already ended, return existing state
+    // instead of awarding Watts again. Protects against retry storms when the
+    // mobile client loses the response on a flaky connection.
+    const [existingSession] = await db
+      .select({ endedAt: studySessions.endedAt, wattsEarned: studySessions.wattsEarned })
+      .from(studySessions)
+      .where(
+        and(
+          eq(studySessions.id, sessionId),
+          eq(studySessions.userId, session.user.id),
+        ),
+      )
+      .limit(1);
+    if (existingSession?.endedAt) {
+      const [u] = await db
+        .select({ wattsBalance: users.wattsBalance })
+        .from(users)
+        .where(eq(users.id, session.user.id))
+        .limit(1);
+      const newBalanceForDisplay = u?.wattsBalance ?? 0;
+      return NextResponse.json({
+        success: true,
+        idempotent: true,
+        wattsEarned: existingSession.wattsEarned,
+        wattsBalance: newBalanceForDisplay,
+        classification: getUserClassification(newBalanceForDisplay).classification,
+        classificationTitle: getClassificationTitle(newBalanceForDisplay),
+      });
+    }
+
     // Get current user state
     const [currentUser] = await db
       .select({

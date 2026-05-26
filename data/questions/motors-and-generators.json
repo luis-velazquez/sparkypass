@@ -214,7 +214,7 @@
       "necArticle": "Table 430.72(B)(2)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "A 60A circuit breaker protects a motor branch circuit. The motor control circuit is tapped from the load side of this breaker using 14 AWG copper wire and runs 20 feet through EMT to a remote Start/Stop push-button station. According to Table 430.72(B)(2), does this 14 AWG control circuit require separate overcurrent protection (inline fuses)?",
+      "questionText": "A 60A circuit breaker protects a motor branch circuit. The motor control circuit is tapped from the load side of this breaker using 14 AWG copper wire and runs 20 feet through EMT to a remote Start/Stop push-button station. Does this 14 AWG control circuit require separate overcurrent protection (inline fuses)?",
       "options": [
         "Yes, because the 60A breaker exceeds the 45A limit for control wires extending beyond the enclosure.",
         "No, because 14 AWG control wires are permitted to be protected by a breaker up to 100A.",

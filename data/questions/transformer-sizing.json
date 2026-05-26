@@ -230,6 +230,108 @@
         "2026"
       ],
       "examTopic": "services-sds"
+    },
+    {
+      "id": "XFMR-450-21B-03",
+      "category": "transformer-sizing",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "A dry-type transformer rated over 112.5 kVA is installed indoors. According to NEC , the transformer room must be of fire-resistant construction with a fire resistance rating of not less than how long?",
+      "options": [
+        "30 minutes",
+        "1 hour",
+        "2 hours",
+        "3 hours"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "450.21(B)",
+        "2023": "450.21(B)",
+        "2026": "450.21(B)"
+      },
+      "explanation": "NEC 450.21(B) requires indoor dry-type transformers rated over 112.5 kVA to be installed in a transformer room of fire-resistant construction. The fire resistance rating must be not less than 1 hour, unless one of the NEC exceptions applies.",
+      "trapExplanation": "Do not confuse the NEC fire-resistance rating with manufacturer clearance requirements for airflow. The NEC rule is asking for the room’s fire rating, which is not less than 1 hour.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "450.21(B)",
+      "sparkyTip": "Indoor dry-type over 112.5 kVA: 1-hour fire-resistant room is the default. Class 155+ insulation with proper separation can exempt it."
+    },
+    {
+      "id": "XFMR-450-22-01",
+      "category": "transformer-sizing",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "According to the NEC, are dry-type transformers permitted to be installed outdoors?",
+      "options": [
+        "No, dry-type transformers are only permitted indoors",
+        "Yes, if they are protected by a weatherproof enclosure",
+        "Yes, but only if they are rated 112.5 kVA or less",
+        "No, unless they are installed in a fire-resistant transformer room"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "450.22",
+        "2023": "450.22",
+        "2026": "450.22"
+      },
+      "explanations": {
+        "default": "Yes. NEC 450.22 permits dry-type transformers to be installed outdoors when they are protected by a weatherproof enclosure."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Do not confuse indoor dry-type rules (450.21) with outdoor rules (450.22). Fire-resistant rooms and 112.5 kVA thresholds apply to indoor installations. If it goes outside, it just needs to be weatherproof!",
+      "examTopic": "transformers",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 450.22, dry-type transformers installed outdoors are permitted provided they are housed in a weatherproof enclosure. The 112.5 kVA threshold and fire-resistant room requirement of 450.21(B) apply to indoor installations only — outdoor dry-types only need weatherproofing.",
+      "necReference": "450.22"
+    },
+    {
+      "id": "XFMR-450-10",
+      "category": "transformer-sizing",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When installing a terminal bar for equipment grounding and bonding connections inside a dry-type transformer enclosure, which of the following mounting locations is specifically prohibited?",
+      "options": [
+        "On the bottom interior surface of the enclosure",
+        "On or over any vented portion of the enclosure",
+        "On the side wall of the enclosure",
+        "Within 6 inches of the primary phase lugs"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "450.10(A)",
+        "2023": "450.10(A)",
+        "2026": "450.10(A)"
+      },
+      "explanations": {
+        "default": "NEC 450.10(A) mandates that a terminal bar for all grounding and bonding conductor connections must be secured inside the transformer enclosure. However, the code explicitly states that this terminal bar shall not be installed on or over any vented portion of the enclosure."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Bolting a ground bar over the louvers or vents creates two massive problems! First, it restricts the airflow the transformer desperately needs to cool down. Second, if a ground wire pops loose or is stripped too long, it could push right through the vent and become a major shock hazard. Always mount it on solid metal!",
+      "examTopic": "transformers",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 450.10, a terminal bar for equipment grounding and bonding inside a dry-type transformer enclosure shall not be installed on or over any vented portion of the enclosure. Blocking the vents restricts cooling airflow, and any loose conductor or stripped strand could push through the louvers and become a shock hazard.",
+      "necReference": "450.10"
     }
   ],
   "master": [

@@ -34,6 +34,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Refuse to verify soft-deleted users. The cascade FK will drop the token
+    // when the user is hard-deleted, so during grace the token still exists —
+    // we treat it as invalid here rather than silently reviving a deleted account.
+    const [recordUser] = await db
+      .select({ deletedAt: users.deletedAt })
+      .from(users)
+      .where(eq(users.id, verificationRecord.userId))
+      .limit(1);
+    if (recordUser?.deletedAt) {
+      return NextResponse.json(
+        { error: "Invalid or expired verification token" },
+        { status: 400 }
+      );
+    }
+
     // Build update: always verify email
     const updateData: {
       emailVerified: boolean;

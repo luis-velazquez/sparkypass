@@ -6,7 +6,15 @@ import crypto from "crypto";
 import { getStreakMilestoneReward, calculateWattsServerSide } from "@/lib/watts";
 import { getUserClassification, getClassificationTitle, checkClassificationAdvancement } from "@/lib/voltage";
 
-// POST - Create a new study session
+// POST - Create a new study session.
+//
+// Idempotency (audit Section 4 — Polish & tooling): client may pass an optional
+// `clientSessionId` (UUID generated on device) so that an offline session
+// reaches the server with a stable identity. Two cases:
+//   1. clientSessionId not supplied → server mints a UUID (legacy behavior).
+//   2. clientSessionId supplied + session already exists for this user → return
+//      the existing row (idempotent create). Without this, a retry on flaky
+//      network would create duplicate sessions.
 export async function POST(request: Request) {
   try {
     const session = await auth();
@@ -16,7 +24,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { sessionType, categorySlug } = body;
+    const { sessionType, categorySlug, clientSessionId } = body;
 
     if (!sessionType || !["quiz", "flashcard", "mock_exam", "daily_challenge", "load_calculator"].includes(sessionType)) {
       return NextResponse.json(
@@ -25,7 +33,32 @@ export async function POST(request: Request) {
       );
     }
 
-    const sessionId = crypto.randomUUID();
+    // Idempotent create: if the client supplied an id and it already maps to a
+    // session for this user, return it instead of inserting a duplicate.
+    if (typeof clientSessionId === "string" && clientSessionId.length > 0) {
+      const [existing] = await db
+        .select({ id: studySessions.id })
+        .from(studySessions)
+        .where(
+          and(
+            eq(studySessions.id, clientSessionId),
+            eq(studySessions.userId, session.user.id),
+          ),
+        )
+        .limit(1);
+      if (existing) {
+        return NextResponse.json({
+          success: true,
+          sessionId: existing.id,
+          idempotent: true,
+        });
+      }
+    }
+
+    const sessionId =
+      typeof clientSessionId === "string" && clientSessionId.length > 0
+        ? clientSessionId
+        : crypto.randomUUID();
 
     await db.insert(studySessions).values({
       id: sessionId,
@@ -40,6 +73,7 @@ export async function POST(request: Request) {
     return NextResponse.json({
       success: true,
       sessionId,
+      idempotent: false,
     });
   } catch (error) {
     console.error("Error creating session:", error);
@@ -70,6 +104,39 @@ export async function PATCH(request: Request) {
         { error: "Session ID required" },
         { status: 400 }
       );
+    }
+
+    // Idempotency: a PATCH-to-end on a session that's already ended is treated
+    // as a duplicate (likely retry after flaky network). Return the existing
+    // wattsEarned + balance instead of re-processing — without this, an offline
+    // client that retries would double-award Watts.
+    const [existingSession] = await db
+      .select({
+        id: studySessions.id,
+        endedAt: studySessions.endedAt,
+        wattsEarned: studySessions.wattsEarned,
+      })
+      .from(studySessions)
+      .where(
+        and(
+          eq(studySessions.id, sessionId),
+          eq(studySessions.userId, session.user.id),
+        ),
+      )
+      .limit(1);
+    if (existingSession?.endedAt) {
+      const [u] = await db
+        .select({ wattsBalance: users.wattsBalance, studyStreak: users.studyStreak })
+        .from(users)
+        .where(eq(users.id, session.user.id))
+        .limit(1);
+      return NextResponse.json({
+        success: true,
+        idempotent: true,
+        wattsEarned: existingSession.wattsEarned,
+        wattsBalance: u?.wattsBalance ?? 0,
+        newStreak: u?.studyStreak ?? 0,
+      });
     }
 
     // Get current user state

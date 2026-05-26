@@ -92,6 +92,10 @@ function ApprenticeQuizContent() {
       sessionStorage.setItem("quizPassed", "true");
       sessionStorage.setItem("quizFinalWatts", "0");
       sessionStorage.setItem("quizDifficulty", "apprentice");
+      console.log("[apprentice-quiz] finishing", {
+        answers: Object.keys(answersObject).length,
+        questions: questions.length,
+      });
       router.push("/quiz/all/results");
     } else {
       setCurrentIdx((prev) => prev + 1);

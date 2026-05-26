@@ -1,9 +1,23 @@
 // Database Schema for SparkyPass
-import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real, uniqueIndex, index } from "drizzle-orm/sqlite-core";
 
 // Auth provider enum values
 export const authProviderValues = ["google", "facebook", "apple", "email"] as const;
 export type AuthProvider = (typeof authProviderValues)[number];
+
+// Subscription source — discriminates which billing system minted the entitlement.
+// 'trial' covers the initial 30-day window before any paid provider is on file.
+export const subscriptionSourceValues = ["stripe", "apple", "trial"] as const;
+export type SubscriptionSource = (typeof subscriptionSourceValues)[number];
+
+// Linked-provider values mirror authProviderValues for now; kept separate so we
+// can add OAuth-only providers (e.g., GitHub) here without forcing an authProvider expansion.
+export const linkedProviderValues = ["google", "apple", "email"] as const;
+export type LinkedProviderValue = (typeof linkedProviderValues)[number];
+
+// Push platforms — iOS only for v1; android added when Section A-Q4 flips
+export const pushPlatformValues = ["ios", "android"] as const;
+export type PushPlatformValue = (typeof pushPlatformValues)[number];
 
 // Users table
 export const users = sqliteTable("users", {
@@ -46,6 +60,12 @@ export const users = sqliteTable("users", {
   subscriptionStatus: text("subscription_status"),  // trialing | active | past_due | canceled | expired
   subscriptionPeriodEnd: integer("subscription_period_end", { mode: "timestamp" }),
   betaAgreedAt: integer("beta_agreed_at", { mode: "timestamp" }),
+  // Mobile foundation (migration 0019)
+  deletedAt: integer("deleted_at", { mode: "timestamp" }),  // soft-delete; 30-day grace then hard delete
+  timezone: text("timezone"),  // IANA name (e.g. "America/Denver"); set on first mobile sign-in
+  subscriptionSource: text("subscription_source", { enum: subscriptionSourceValues }),  // billing provider
+  appleOriginalTxId: text("apple_original_tx_id").unique(),  // RevenueCat-mirrored Apple originalTransactionId
+  notificationPrefs: text("notification_prefs").notNull().default("{}"),  // JSON-encoded prefs blob
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
   updatedAt: integer("updated_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
@@ -300,3 +320,168 @@ export const referrals = sqliteTable("referrals", {
 
 export type Referral = typeof referrals.$inferSelect;
 export type NewReferral = typeof referrals.$inferInsert;
+
+// ─── Mobile foundation (migration 0019) ─────────────────────────────────────
+
+// Refresh tokens for mobile auth. Strict rotation per plan §D-18 and audit OQ#2:
+// every refresh issues a new tokenHash and sets rotatedToHash + rotatedAt on the
+// old row. Old token is accepted for a 30s grace window after rotation; any use
+// past that window revokes the whole device session (theft signal).
+export const refreshTokens = sqliteTable(
+  "refresh_tokens",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    deviceId: text("device_id").notNull(),  // client-generated UUID, stable per install
+    tokenHash: text("token_hash").notNull().unique(),  // SHA-256 of the refresh token
+    rotatedToHash: text("rotated_to_hash"),  // hash of the successor token after rotation
+    rotatedAt: integer("rotated_at", { mode: "timestamp" }),  // when rotation happened
+    revokedAt: integer("revoked_at", { mode: "timestamp" }),  // theft signal or explicit logout
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+    expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),  // 90-day sliding TTL
+    lastUsedAt: integer("last_used_at", { mode: "timestamp" }),
+  },
+  (table) => ({
+    userDeviceIdx: index("refresh_tokens_user_device_idx").on(table.userId, table.deviceId),
+  }),
+);
+
+export type RefreshToken = typeof refreshTokens.$inferSelect;
+export type NewRefreshToken = typeof refreshTokens.$inferInsert;
+
+// Expo push tokens. One row per (user, device). Unregistered on logout, on token
+// rotation (Expo can re-issue), or on receipt of a 410 from Expo's send API.
+export const pushTokens = sqliteTable(
+  "push_tokens",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    token: text("token").notNull().unique(),  // ExponentPushToken[xxx] string
+    deviceId: text("device_id").notNull(),  // matches refresh_tokens.device_id
+    platform: text("platform", { enum: pushPlatformValues }).notNull(),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+    lastUsedAt: integer("last_used_at", { mode: "timestamp" }),
+  },
+  (table) => ({
+    userIdx: index("push_tokens_user_idx").on(table.userId),
+  }),
+);
+
+export type PushToken = typeof pushTokens.$inferSelect;
+export type NewPushToken = typeof pushTokens.$inferInsert;
+
+// Linked OAuth providers. A user can have at most one entry per (provider, providerSubject)
+// pair; the subject is the OAuth subject claim (sub) for Google, the Apple user identifier
+// for SiwA, or null/email for the email provider.
+export const linkedProviders = sqliteTable(
+  "linked_providers",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    provider: text("provider", { enum: linkedProviderValues }).notNull(),
+    providerSubject: text("provider_subject").notNull(),
+    linkedAt: integer("linked_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    providerSubjectIdx: uniqueIndex("linked_providers_provider_subject_idx").on(
+      table.provider,
+      table.providerSubject,
+    ),
+    userIdx: index("linked_providers_user_idx").on(table.userId),
+  }),
+);
+
+export type LinkedProvider = typeof linkedProviders.$inferSelect;
+export type NewLinkedProvider = typeof linkedProviders.$inferInsert;
+
+// Sync event log for offline-first idempotency (audit Section 3 Sync).
+// Client sends (deviceId, batchId, clientId) on every uploaded event; server inserts
+// here before processing and rejects duplicate (deviceId, batchId, clientId) triples.
+// TTL: ~30 days, cleaned by a cron job.
+export const syncEventLog = sqliteTable(
+  "sync_event_log",
+  {
+    id: text("id").primaryKey(),
+    deviceId: text("device_id").notNull(),
+    batchId: text("batch_id").notNull(),
+    clientId: text("client_id").notNull(),  // per-event UUID generated on device
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    processedAt: integer("processed_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    idempotencyIdx: uniqueIndex("sync_event_log_idempotency_idx").on(
+      table.deviceId,
+      table.batchId,
+      table.clientId,
+    ),
+    processedAtIdx: index("sync_event_log_processed_at_idx").on(table.processedAt),  // for TTL sweep
+  }),
+);
+
+export type SyncEventLog = typeof syncEventLog.$inferSelect;
+export type NewSyncEventLog = typeof syncEventLog.$inferInsert;
+
+// Pre-auth account-linking codes for the Hide-My-Email flow (audit OQ#5).
+// When a SiwA user signs up with Apple's relay address and we detect a pre-existing
+// account under their real email, we send a 6-digit code to that email via /api/auth/mobile/link-request,
+// then consume it via /api/auth/mobile/link-confirm to link the new provider. 10-min TTL.
+export const linkCodes = sqliteTable(
+  "link_codes",
+  {
+    id: text("id").primaryKey(),
+    email: text("email").notNull(),
+    provider: text("provider", { enum: linkedProviderValues }).notNull(),
+    providerSubject: text("provider_subject").notNull(),
+    codeHash: text("code_hash").notNull(),  // SHA-256 of the 6-digit code
+    expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+    consumedAt: integer("consumed_at", { mode: "timestamp" }),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    emailIdx: index("link_codes_email_idx").on(table.email),
+    expiresAtIdx: index("link_codes_expires_at_idx").on(table.expiresAt),
+  }),
+);
+
+export type LinkCode = typeof linkCodes.$inferSelect;
+export type NewLinkCode = typeof linkCodes.$inferInsert;
+
+// ─── Feedback (migration 0020) — OQ#9 anti-spam ────────────────────────────
+//
+// Per audit OQ#9 resolution: keep awarding Watts for feedback at public launch
+// BUT gate the payout on moderation approval to prevent spam farming.
+// Implementation:
+//   1. Insert here on submission (pending status)
+//   2. Email also sent (kept for inbox notification)
+//   3. Admin moderation page approves → set rewardedAt + insert Watts transaction
+//   4. Rate limit: 1 reward-eligible submission per user per 24h (enforced in route)
+
+export const feedbackTypeValues = ["bug", "improvement", "confusing"] as const;
+export type FeedbackTypeValue = (typeof feedbackTypeValues)[number];
+
+export const feedbackModerationValues = ["pending", "approved", "rejected"] as const;
+export type FeedbackModerationValue = (typeof feedbackModerationValues)[number];
+
+export const feedback = sqliteTable(
+  "feedback",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    type: text("type", { enum: feedbackTypeValues }).notNull(),
+    message: text("message").notNull(),
+    page: text("page"),
+    moderationStatus: text("moderation_status", { enum: feedbackModerationValues })
+      .notNull()
+      .default("pending"),
+    rewardedAt: integer("rewarded_at", { mode: "timestamp" }),  // null until Watts awarded
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    userIdx: index("feedback_user_idx").on(table.userId),
+    moderationIdx: index("feedback_moderation_idx").on(table.moderationStatus),
+    createdAtIdx: index("feedback_created_at_idx").on(table.createdAt),
+  }),
+);
+
+export type Feedback = typeof feedback.$inferSelect;
+export type NewFeedback = typeof feedback.$inferInsert;

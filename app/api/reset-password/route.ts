@@ -61,6 +61,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // Refuse to reset password for soft-deleted users. The cascade FK drops
+    // the token on hard delete, but during the 30-day grace the token still
+    // exists. Treat as invalid rather than silently rehabilitate the account.
+    const [resetUser] = await db
+      .select({ deletedAt: users.deletedAt })
+      .from(users)
+      .where(eq(users.id, resetRecord.userId))
+      .limit(1);
+    if (resetUser?.deletedAt) {
+      return NextResponse.json(
+        { error: "Invalid or expired reset token. Please request a new one." },
+        { status: 400 }
+      );
+    }
+
     // Hash the new password
     const passwordHash = await hash(password, 10);
 

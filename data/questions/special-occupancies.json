@@ -183,6 +183,111 @@
         "2026"
       ],
       "examTopic": "special-occupancies"
+    },
+    {
+      "id": "HL-500-01",
+      "category": "special-occupancies",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Which of the following is NOT a correct classification of hazardous materials?",
+      "options": [
+        "Class I locations are hazardous because of flammable gases or vapors",
+        "Class II locations are hazardous because of combustible dusts",
+        "Class III locations are hazardous because of easily ignitable fibers or flyings",
+        "Class IV locations are hazardous because of pyrophoric liquids or corrosive aerosols"
+      ],
+      "correctAnswer": 3,
+      "necReferences": {
+        "2020": "500.5",
+        "2023": "500.5",
+        "2026": "500.5"
+      },
+      "explanations": {
+        "default": "The NEC strictly categorizes hazardous locations into three classes: Class I (Gases/Vapors), Class II (Dusts), and Class III (Fibers/Flyings) per NEC 500.5(B), (C), and (D). There is no 'Class IV' designation in the National Electrical Code."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Just remember 1-2-3 = Gas-Dust-Fiber! The NEC stops at Class III. If you see 'Class IV' on an exam, it is always a trick answer.",
+      "examTopic": "hazardous-locations",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 500.5(A), hazardous locations are classified only as Class I (flammable gases/vapors/liquids), Class II (combustible dust), or Class III (ignitable fibers/flyings). There is no Class IV in the NEC — pyrophoric liquids and corrosive aerosols are addressed elsewhere in the code but are not given a 'Class IV' designation.",
+      "necReference": "500.5(A)"
+    },
+    {
+      "id": "HL-500-03",
+      "category": "special-occupancies",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Which of the following statements regarding Hazardous Location Divisions is NOT correct?",
+      "options": [
+        "Division 1 means the hazard is present in the air during normal, everyday operations.",
+        "Division 2 means the hazard is only present during an accident, like a spill or broken pipe.",
+        "Division 2 locations are considered more dangerous and require stricter wiring methods than Division 1.",
+        "A paint booth where flammable vapors are constantly present while painting is classified as Division 1."
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "500.5(B),(C),(D)",
+        "2023": "500.5(B),(C),(D)",
+        "2026": "500.5(B),(C),(D)"
+      },
+      "explanations": {
+        "default": "Division 1 locations are the most hazardous because the explosive material is expected to be present during normal operations. Therefore, Division 1 requires the strictest wiring methods, such as poured conduit seals and heavy explosionproof enclosures. Division 2 locations have less restrictive wiring requirements because the hazard is normally contained and only present under abnormal conditions."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Number 1 is always the big boss! Division 1 means the danger is expected to be there, so it has the heaviest, strictest, and most expensive wiring rules. Division 2 means the danger is normally locked up safely in a drum or pipe.",
+      "examTopic": "hazardous-locations",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 500.5(B), Division 1 is the more hazardous designation — flammable concentrations are present under normal operations. Division 2 covers conditions where the hazard is only present under abnormal/accidental conditions (broken containers, equipment failure). Division 1 demands stricter wiring methods (explosionproof, intrinsically safe), not Division 2.",
+      "necReference": "500.5(B)"
+    },
+    {
+      "id": "HL-500-05-V2",
+      "category": "special-occupancies",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Which term does the NEC use to categorize the specific chemical or dust involved in a hazardous location?",
+      "options": [
+        "Zone",
+        "Category",
+        "Group",
+        "Sector"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "500.6",
+        "2023": "500.6",
+        "2026": "500.6"
+      },
+      "explanations": {
+        "default": "While 'Class' identifies the physical state and 'Division' identifies the likelihood, 'Group' (A through G) classifies the specific combustible material or chemical."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Class = State (Gas/Dust). Division = Situation (Everyday/Accident). Group = The exact chemical!",
+      "examTopic": "hazardous-locations",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 500.6, the NEC uses 'Group' to categorize the specific gas, vapor, or dust within a hazardous location (e.g., Group A acetylene, Group D gasoline, Group E combustible metal dust). Class identifies the state of the hazard; Division identifies the situation; Group identifies the specific material.",
+      "necReference": "500.6"
     }
   ],
   "journeyman": [
@@ -422,7 +527,7 @@
       "necArticle": "Article 680",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per NEC 680.21(A), which wiring method is required within 5 feet of the inside wall of a pool for branch circuits that supply pool equipment?",
+      "questionText": "Which wiring method is required within 5 feet of the inside wall of a pool for branch circuits that supply pool equipment?",
       "options": [
         "Any approved wiring method",
         "Rigid metal conduit, IMC, or a listed nonmetallic raceway system",
@@ -482,6 +587,439 @@
         "2026"
       ],
       "examTopic": "special-occupancies"
+    },
+    {
+      "id": "HL-500-02",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "An electrician is wiring a storage room where sealed 55-gallon drums of flammable solvents are kept. Under normal conditions, no vapors are present in the air. The hazardous vapors would only escape in the event of an accidental spill or a drum rupture. How should this location be classified according to the NEC?",
+      "options": [
+        "Class I, Division 1",
+        "Class I, Division 2",
+        "Class II, Division 1",
+        "Class II, Division 2"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "500.5(B)(2)",
+        "2023": "500.5(B)(2)",
+        "2026": "500.5(B)(2)"
+      },
+      "explanations": {
+        "default": "Per NEC 500.5(B)(2), a Class I, Division 2 location includes areas where volatile flammable liquids or gases are handled, processed, or used, but in which they will normally be confined within closed containers or systems from which they can escape only in case of accidental rupture or breakdown."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Apply the rule of thumb! Division 1 = Everyday operations. Division 2 = Accidental conditions. Since the flammable vapors are safely sealed in drums and only escape if a drum breaks (an accident), it is a Division 2 location.",
+      "examTopic": "hazardous-locations",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 500.5(B)(2), a Class I, Division 2 location is one where flammable liquids/vapors are normally confined in closed containers and would only be released by accidental rupture or failure. Sealed drums of solvent that release vapor only on accidental spill fit this definition exactly. It is Class I (flammable liquid), Division 2 (accidental condition only).",
+      "necReference": "500.5(B)(2)"
+    },
+    {
+      "id": "HL-500-04",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "Once an area is defined by its Class and Division, the NEC further categorizes the specific hazardous materials into \"Groups\" based on their explosive properties. Which of the following materials is categorized as a Class I, Group A hazard—the most volatile gas designation in the code?",
+      "options": [
+        "Gasoline and Propane",
+        "Combustible metal dust",
+        "Acetylene",
+        "Hydrogen"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "500.6(A)(1)",
+        "2023": "500.6(A)(1)",
+        "2026": "500.6(A)(1)"
+      },
+      "explanations": {
+        "default": "NEC 500.6 categorizes materials into specific Groups based on their ignition temperatures and explosion pressures. Group A represents atmospheres containing acetylene, which requires the most stringent explosionproof equipment design due to its extreme volatility. (For context: Hydrogen is Group B, and common fuels like Gasoline and Propane fall under Group D)."
+      },
+      "sparkyTip": "Field Logic Tip 💡: The Class tells you the physical state (gas/dust), the Division tells you how often it's there, and the Group categorizes the exact chemical family. Just remember 'A is for Acetylene'—it is the top of the food chain for explosive gases!",
+      "examTopic": "hazardous-locations",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 500.6(A)(1), Class I Group A is reserved specifically for acetylene because it has the lowest minimum ignition energy and the most extreme explosive characteristics of all Class I gases. Hydrogen is Group B, gasoline/propane fall in Group D, and combustible metal dust is a Class II hazard (Group E), not Class I.",
+      "necReference": "500.6(A)(1)"
+    },
+    {
+      "id": "HL-500-05",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "In the NEC, hazardous locations are defined by their Class (gas, dust, or fiber) and Division (normal or accidental). What term is used to further categorize the exact type of chemical or material involved, such as distinguishing hydrogen from gasoline?",
+      "options": [
+        "Zone",
+        "Category",
+        "Group",
+        "Sector"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "500.6",
+        "2023": "500.6",
+        "2026": "500.6"
+      },
+      "explanations": {
+        "default": "While the 'Class' identifies the physical state of the hazard and the 'Division' identifies the likelihood of it being present, NEC 500.6 uses 'Groups' (designated by letters A through G) to classify the specific combustible material, chemical, or dust involved."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Remember the trio: Class is the state (Gas/Dust), Division is the situation (Everyday/Accident), and Group is the exact chemical (like Acetylene or Grain Dust)!",
+      "examTopic": "hazardous-locations",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 500.6, after Class and Division are established, the NEC uses 'Group' to further categorize the specific chemical or material. Class I gases are divided into Groups A through D; Class II dusts into Groups E, F, and G. Hydrogen (Group B) and gasoline (Group D) are distinguished by their Group letter.",
+      "necReference": "500.6"
+    },
+    {
+      "id": "FP-695-01",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "For a fire pump supply, how many disconnecting means and associated overcurrent protective devices are permitted before the fire pump controller?",
+      "options": [
+        "As many as needed if grouped together",
+        "No more than six",
+        "One",
+        "One for each fire pump motor"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "695.4(B)(1)",
+        "2023": "695.4(B)(1)",
+        "2026": "695.4(B)(1)"
+      },
+      "explanations": {
+        "default": "NEC 695.4(B)(1) permits only one disconnecting means and associated overcurrent protective device in the fire pump supply before the fire pump controller or transfer equipment."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Fire pumps are about reliability. Fewer shutdown points means less chance of accidentally killing power to the pump.",
+      "examTopic": "fire-pumps",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 695.4(B)(1), only a single disconnecting means and associated overcurrent protective device are permitted in the supply path between the source and the listed fire pump controller. Multiple disconnects increase the chance of accidental power loss during a fire — the rule prioritizes reliability over selectivity.",
+      "necReference": "695.4(B)(1)"
+    },
+    {
+      "id": "FP-695-01-D2",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "A fire pump is supplied through a disconnecting means and overcurrent protective device before reaching the listed fire pump controller. How many disconnecting means and associated overcurrent protective devices are permitted in this supply path?",
+      "options": [
+        "As many as needed, if they are grouped together",
+        "No more than six disconnecting means",
+        "One disconnecting means and associated overcurrent protective device",
+        "One disconnecting means for each fire pump motor"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "695.4(B)(1)",
+        "2023": "695.4(B)(1)",
+        "2026": "695.4(B)(1)"
+      },
+      "explanations": {
+        "default": "NEC 695.4(B)(1) limits the fire pump supply connection to one disconnecting means and one associated overcurrent protective device between the power source and the listed fire pump controller, listed fire pump power transfer switch, or listed combination fire pump controller and power transfer switch. Fire pump circuits are treated differently because continuity of power is critical."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Fire pumps are not normal motor loads. The goal is to avoid unnecessary shutdown points. Think: one disconnect, one OCPD, keep the pump running.",
+      "examTopic": "fire-pumps",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 695.4(B)(1), the fire pump supply may pass through exactly one disconnect and one OCPD before the listed controller. The intent is to minimize shutdown points. Multiple disconnects, grouping, or per-motor disconnects are not permitted in this supply path.",
+      "necReference": "695.4(B)(1)"
+    },
+    {
+      "id": "FP-695-02",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "How must a fire pump disconnecting means be marked?",
+      "options": [
+        "Emergency Disconnect",
+        "Fire Pump Disconnecting Means",
+        "Fire Pump Service Switch",
+        "Fire Pump Controller"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "695.4(B)(3)(c)",
+        "2023": "695.4(B)(3)(c)",
+        "2026": "695.4(B)(3)(c)"
+      },
+      "explanations": {
+        "default": "NEC 695.4(B)(3)(c) requires the fire pump disconnecting means to be marked 'Fire Pump Disconnecting Means' in letters at least 1 inch high and visible without opening enclosure doors or covers."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Fire pump disconnects need to be obvious in an emergency. Look for red equipment and the exact marking: 'Fire Pump Disconnecting Means.'",
+      "examTopic": "fire-pumps",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 695.4(B)(2)(a), the fire pump disconnecting means must be marked 'Fire Pump Disconnecting Means' with letters at least 1 inch high, and the marking must be visible without opening any doors or covers. Generic 'Emergency Disconnect' labeling does not satisfy this specific requirement.",
+      "necReference": "695.4(B)(2)(a)"
+    },
+    {
+      "id": "FP-695-03",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "How high must energized fire pump equipment be located above the floor?",
+      "options": [
+        "6 inches",
+        "12 inches",
+        "18 inches",
+        "24 inches"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "695.12(D)",
+        "2023": "695.12(D)",
+        "2026": "695.12(D)"
+      },
+      "explanations": {
+        "default": "NEC 695.12(D) requires energized fire pump equipment to be located at least 12 inches above the floor level. This helps protect critical fire pump equipment from water that may be present in the pump room."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Fire pump equipment has to keep working during an emergency. Keep energized parts elevated—12 inches minimum above the floor.",
+      "examTopic": "fire-pumps",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 695.12(E), energized fire pump equipment must be located at least 12 inches above the floor. This protects the equipment from minor flooding or water accumulation during a fire event when sprinklers are active.",
+      "necReference": "695.12(E)"
+    },
+    {
+      "id": "FP-695-02-D2",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "During a fire pump inspection, the disconnect is labeled “Emergency Disconnect” on the enclosure door. What is wrong with this installation?",
+      "options": [
+        "The label must say “Fire Pump Disconnecting Means” and be visible without opening doors or covers",
+        "The label is acceptable if the disconnect is painted red",
+        "The label must say “Fire Pump Service Equipment” and be located inside the enclosure",
+        "The label is only required when more than one fire pump is installed"
+      ],
+      "correctAnswer": 0,
+      "necReferences": {
+        "2020": "695.4(B)(3)(c)",
+        "2023": "695.4(B)(3)(c)",
+        "2026": "695.4(B)(3)(c)"
+      },
+      "explanations": {
+        "default": "NEC 695.4(B)(3)(c) requires the fire pump disconnecting means to be marked “Fire Pump Disconnecting Means.” The marking must be in letters at least 1 inch high and visible without opening enclosure doors or covers. “Emergency Disconnect” is not the required marking."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Fire pump disconnect labels are not just general warning labels. The NEC wants specific wording that can be seen immediately: “Fire Pump Disconnecting Means.”",
+      "examTopic": "fire-pumps",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 695.4(B)(2)(a), the fire pump disconnect must be labeled exactly 'Fire Pump Disconnecting Means' and the marking must be visible from outside without opening doors or covers. A generic 'Emergency Disconnect' label fails both the specific wording requirement and the external-visibility requirement.",
+      "necReference": "695.4(B)(2)(a)"
+    },
+    {
+      "id": "EVSE-625-40-01",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "How must each outlet installed for electric vehicle charging be supplied?",
+      "options": [
+        "By a general-purpose branch circuit shared with other receptacles",
+        "By an individual branch circuit",
+        "By a multiwire branch circuit only",
+        "By a feeder tap from the nearest panelboard"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "625.40",
+        "2023": "625.40",
+        "2026": "625.40"
+      },
+      "explanation": "NEC 625.40 requires each outlet installed for the purpose of charging electric vehicles to be supplied by an individual branch circuit.",
+      "trapExplanation": "The trap is thinking an EV charger outlet can be treated like a normal convenience receptacle. EV charging equipment has its own rule: the outlet for EV charging must be supplied by an individual branch circuit.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "625.40",
+      "sparkyTip": "EV charging is a continuous load — give it its own circuit. Sharing with general-purpose receptacles is a violation, not just a bad idea."
+    },
+    {
+      "id": "EVSE-625-40-03",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "When installing a receptacle outlet for EV charging at a dwelling unit, the receptacle outlet must be identified for use with which equipment?",
+      "options": [
+        "GFCI or AFCI",
+        "EVSE or WPTE",
+        "SPD or GFP",
+        "EMS or UPS"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "625.40",
+        "2023": "625.40",
+        "2026": "625.40"
+      },
+      "explanation": "NEC 625.40 requires each outlet installed for the purpose of EV charging to be supplied by an individual branch circuit. Where a receptacle outlet is installed for EV charging, it must be identified for use with EVSE or WPTE.",
+      "trapExplanation": "The trap is recognizing common electrical acronyms but choosing the one that matches Article 625 language. GFCI, AFCI, SPD, GFP, EMS, and UPS may appear in electrical work, but 625.40 is looking for EVSE or WPTE.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "625.42(A)",
+      "sparkyTip": "The receptacle itself must be EVSE-listed — not just a standard 14-50R installed near a charger. Look for the EVSE marking on the device."
+    },
+    {
+      "id": "EVSE-625-50-01",
+      "category": "special-occupancies",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "For an indoor EV charging installation, the coupler for EVSE must be located or stored not less than how high above the floor level?",
+      "options": [
+        "12 inches",
+        "18 inches",
+        "24 inches",
+        "48 inches"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "625.50",
+        "2023": "625.50",
+        "2026": "625.50"
+      },
+      "explanation": "For indoor locations, NEC 625.50 requires the coupler for EVSE or WPTE to be located or stored not less than 18 inches above the floor level. For outdoor locations, the minimum is 24 inches above grade level.",
+      "trapExplanation": "The trap is missing the location. Indoor EV charging installations use 18 inches above the floor level, while outdoor installations use 24 inches above grade level.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "625.50(B)",
+      "sparkyTip": "Indoor: 18 inches minimum. Outdoor: 24 inches minimum. Memorize the pair — examiners love this one."
+    },
+    {
+      "id": "FIRE-695-WATER-01",
+      "category": "fire-pumps",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2026"
+      ],
+      "questionText": "You are laying out a new fire pump room. How must the fire pump controller and power transfer switches be positioned in relation to the mechanical pump itself?",
+      "options": [
+        "They must be installed in an adjacent room with a 2-hour fire separation to avoid water exposure",
+        "They must be mounted in NEMA 4X enclosures regardless of their location in the pump room",
+        "They must be located or protected so they will not be damaged by water escaping from pumps or pump connections",
+        "They must be elevated at least 12 inches above the highest water level of the mechanical pump"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2023": "695.12(E)",
+        "2026": "695.12(E)"
+      },
+      "explanation": "Fire pump rooms are inherently wet environments. NEC 695.12(E) explicitly mandates that controllers and power transfer switches must be located or physically protected so that escaping water from the pump or its connections won't cause damage. This is the specific code reference that backs up why drilling a hole in the top of a NEMA 2 drip-proof fire pump controller is a massive liability!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "695.12(E)",
+      "sparkyTip": "Always visualize the spray radius of a blown pump seal or a leaky packing gland when choosing the mounting location for your electrical equipment. (Also, don't confuse this with 695.12(D), which dictates that all energized parts must be at least 12 inches above the floor level!)"
+    },
+    {
+      "id": "ELEV-620-COORD-01",
+      "category": "elevators-and-escalators",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "When a single feeder supplies multiple elevator disconnects, what is required of the overcurrent protective devices (OCPDs) in each disconnect?",
+      "options": [
+        "They must be electronically interlocked",
+        "They must be selectively coordinated with supply-side OCPDs",
+        "They must feature a shunt-trip mechanism",
+        "They must be sized at 125% of the total load"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "620.62",
+        "2026": "620.62"
+      },
+      "explanation": "Under NEC 620.62, if multiple elevator disconnects share a single feeder, their OCPDs must be selectively coordinated with the supply side. This ensures a fault in one car doesn't trip the main feeder and take down the other elevators.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "620.62",
+      "sparkyTip": "Selective coordination means the breaker closest to the fault trips first. For elevators sharing a feeder, it's mandatory, not optional."
     }
   ],
   "master": [
@@ -714,6 +1252,35 @@
         "2026"
       ],
       "examTopic": "special-occupancies"
+    },
+    {
+      "id": "ELEV-620-COORD-01",
+      "category": "elevators-and-escalators",
+      "difficulty": "master",
+      "calculation": false,
+      "validCodeCycles": [
+        "2023",
+        "2026"
+      ],
+      "questionText": "You are routing a single feeder to supply a bank of three elevators in a commercial high-rise. The feeder supplies a separate disconnecting means for each elevator driving machine. According to the NEC, what specific performance requirement must be met for the overcurrent protective devices (OCPDs) in these disconnects?",
+      "options": [
+        "They must be electronically interlocked to prevent simultaneous starting of multiple driving machines",
+        "They must be selectively coordinated with any other supply-side overcurrent protective devices",
+        "They must utilize shunt-trip mechanisms tied to the primary fire alarm control panel",
+        "They must be sized at exactly 125 percent of the continuous load plus 250 percent of the noncontinuous load"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2023": "620.62",
+        "2026": "620.62"
+      },
+      "explanation": "Master exams love testing selective coordination! Under NEC 620.62, if multiple elevator disconnects are fed by a single feeder, their OCPDs must be selectively coordinated with the supply side. This ensures that a single fault in one elevator's circuit trips only its specific breaker, isolating the problem while keeping the other cars running.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReference": "620.62",
+      "sparkyTip": "Selective coordination is a massive concept at the Master level. Remember: it ensures the breaker closest to the fault opens first. For multiple elevators on one feeder, it's mandatory, not just a design suggestion."
     }
   ]
 }

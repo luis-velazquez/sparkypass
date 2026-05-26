@@ -183,8 +183,9 @@ interface IncorrectQuestion {
 export default function QuizResultsPage() {
   const params = useParams();
   const router = useRouter();
-  const categorySlug = params.category as CategorySlug;
+  const categorySlug = params.category as CategorySlug | "all";
   const { necVersion } = useNecVersion();
+  const isAllCategories = categorySlug === "all";
 
   const [resultData, setResultData] = useState<QuizResultData | null>(null);
   const [expandedQuestions, setExpandedQuestions] = useState<Set<string>>(new Set());
@@ -198,7 +199,18 @@ export default function QuizResultsPage() {
   const [bestPercentage, setBestPercentage] = useState<number | null>(null);
   const [unlockedNext, setUnlockedNext] = useState<{ difficulty: Difficulty; label: string } | null>(null);
 
-  const category = useMemo(() => getCategoryBySlug(categorySlug), [categorySlug]);
+  const category = useMemo(
+    () =>
+      isAllCategories
+        ? {
+            slug: "all" as CategorySlug,
+            name: "All Categories",
+            necArticle: "Mixed NEC Articles",
+            description: "Random questions from every NEC category",
+          }
+        : getCategoryBySlug(categorySlug),
+    [categorySlug, isAllCategories],
+  );
 
   // Fetch username for share text
   useEffect(() => {
@@ -212,6 +224,11 @@ export default function QuizResultsPage() {
 
   // Load quiz data from sessionStorage and fetch user XP
   useEffect(() => {
+    // Wait until the URL-derived categorySlug is populated before checking storage.
+    // useParams() can briefly yield an empty params object during client transitions,
+    // and redirecting on that transient state bounces the user off the results page.
+    if (!categorySlug) return;
+
     const answersStr = sessionStorage.getItem("quizAnswers");
     const questionIdsStr = sessionStorage.getItem("quizQuestionIds");
     const storedCategorySlug = sessionStorage.getItem("quizCategory");
@@ -221,7 +238,12 @@ export default function QuizResultsPage() {
     if (difficultyStr) setDifficulty(difficultyStr);
 
     if (!answersStr || !questionIdsStr || storedCategorySlug !== categorySlug) {
-      // No quiz data found or category mismatch - redirect to quiz selection
+      console.warn("[quiz-results] redirecting — missing data", {
+        categorySlug,
+        storedCategorySlug,
+        hasAnswers: !!answersStr,
+        hasQuestionIds: !!questionIdsStr,
+      });
       router.replace("/quiz");
       return;
     }

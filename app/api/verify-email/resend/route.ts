@@ -53,6 +53,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
+    // Soft-deleted users get no resend. Same anti-enum response.
+    if (user.deletedAt) {
+      return NextResponse.json({ success: true });
+    }
+
     // If already verified, return success silently (don't reveal verification status)
     if (user.emailVerified) {
       return NextResponse.json({ success: true });

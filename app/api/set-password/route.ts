@@ -38,6 +38,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Refuse for soft-deleted users — same generic response (anti-enum).
+    if (user.deletedAt) {
+      return NextResponse.json(
+        { error: "Unable to set password" },
+        { status: 400 }
+      );
+    }
+
     // Only allow setting password for verified users who don't have one yet
     if (!user.emailVerified) {
       return NextResponse.json(

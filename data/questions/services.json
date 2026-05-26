@@ -601,7 +601,13 @@
         "default": "\n\nNEC 230.7 is very direct: Conductors other than service conductors shall not be installed in the same service raceway or service cable. Because service conductors do not have overcurrent protection ahead of them, a fault between the utility wires and a smaller branch-circuit wire sharing that same pipe would cause catastrophic damage. The only standard exceptions are for grounding conductors and equipment bonding jumpers."
       },
       "sparkyTip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway.",
-      "examTopic": "feeders"
+      "examTopic": "feeders",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "explanation": "Per 230.7, conductors other than service conductors shall not be installed in the same raceway, cable, or service cable as service conductors. The few narrow exceptions (grounding/bonding conductors, certain load-management conductors) are not general permissions — feeder and branch-circuit conductors are strictly excluded.",
+      "necReference": "230.7"
     },
     {
       "id": "SV-J015",
@@ -676,7 +682,7 @@
     },
     {
       "id": "SV-M003",
-      "category": "transformers",
+      "category": "services",
       "necArticle": "Article 240.21(C)(2)",
       "difficulty": "master",
       "calculation": false,
@@ -699,7 +705,7 @@
     },
     {
       "id": "SV-M004",
-      "category": "transformers",
+      "category": "services",
       "necArticle": "Article 240.21(C)(4)",
       "difficulty": "master",
       "calculation": false,
@@ -722,7 +728,7 @@
     },
     {
       "id": "SV-M005",
-      "category": "feeders",
+      "category": "services",
       "necArticle": "Article 240.21(B)(2)",
       "difficulty": "master",
       "calculation": true,

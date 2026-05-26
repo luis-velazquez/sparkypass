@@ -27,6 +27,32 @@ export async function POST(request: Request) {
       );
     }
 
+    // Idempotency: short-circuit on already-ended sessions. See companion
+    // comment in /api/review/complete.
+    const [existingSession] = await db
+      .select({ endedAt: studySessions.endedAt, wattsEarned: studySessions.wattsEarned })
+      .from(studySessions)
+      .where(
+        and(
+          eq(studySessions.id, sessionId),
+          eq(studySessions.userId, session.user.id),
+        ),
+      )
+      .limit(1);
+    if (existingSession?.endedAt) {
+      const [u] = await db
+        .select({ wattsBalance: users.wattsBalance })
+        .from(users)
+        .where(eq(users.id, session.user.id))
+        .limit(1);
+      return NextResponse.json({
+        success: true,
+        idempotent: true,
+        wattsEarned: existingSession.wattsEarned,
+        wattsBalance: u?.wattsBalance ?? 0,
+      });
+    }
+
     // Get current user state
     const [currentUser] = await db
       .select({

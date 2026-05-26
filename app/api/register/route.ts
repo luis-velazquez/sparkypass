@@ -76,6 +76,19 @@ export async function POST(request: Request) {
       .limit(1);
 
     if (existingUser) {
+      // Soft-deleted accounts retain the email slot through the 30-day grace.
+      // Surface a distinct code so the client can offer "sign in to restore"
+      // instead of the generic "already exists" UX.
+      if (existingUser.deletedAt) {
+        return NextResponse.json(
+          {
+            error:
+              "This account is scheduled for deletion. Sign in to restore it, or wait until deletion completes to re-register.",
+            code: "ACCOUNT_PENDING_DELETION",
+          },
+          { status: 409 }
+        );
+      }
       return NextResponse.json(
         { error: "An account with this email already exists" },
         { status: 409 }
