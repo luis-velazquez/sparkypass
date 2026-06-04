@@ -1,7 +1,7 @@
 # SparkyPass Mobile — Master Build TODO
 
-**Status:** Build phase active. Phase 1 hard blockers + Phase 3 backend soft blockers **complete** (2026-05-21). Phase 2 (mobile project bootstrap) is the next concrete chunk; gated on repo structure decision.
-**Pairs with:** [mobile-conversion-plan.md](./mobile-conversion-plan.md) (decisions), [mobile-api-audit.md](./mobile-api-audit.md) (backend specs)
+**Status:** Build phase active. Phase 1 hard blockers + Phase 3 backend soft blockers **complete** (2026-05-21). **Repo structure decided 2026-06-02: Option β** — two repos + shared `sparkypass-ui` package; see convergence sub-plan. Phase 2 bootstrap unblocked once shared package lands.
+**Pairs with:** [mobile-conversion-plan.md](./mobile-conversion-plan.md) (decisions), [mobile-api-audit.md](./mobile-api-audit.md) (backend specs), [mobile-showdown-convergence.md](./mobile-showdown-convergence.md) (repo + shared-package decision)
 **Owner:** Solo + AI
 
 This is the master tracker. Check items off as they ship. New tasks discovered during build go at the bottom of the relevant phase or in §Open follow-ups.
@@ -71,11 +71,8 @@ ADMIN_USER_IDS=<your-user-id>           # comma-separated for /admin/feedback ac
 
 Can start as soon as Phase 1B is done. Most of this is one-time setup.
 
-- [ ] Decide repo structure (one of):
-  - Option α: monorepo with `/web` and `/mobile` (Turborepo or pnpm workspaces)
-  - Option β: separate repo `sparkypass-mobile`
-  - Option γ: this repo gets a `/mobile` subfolder, no monorepo tooling
-  - _Decide before writing first mobile code._ Affects Showdown convergence too.
+- [x] **Repo structure decided 2026-06-02: Option β** (two repos + shared `sparkypass-ui` package). See [mobile-showdown-convergence.md](./mobile-showdown-convergence.md).
+- [ ] **Prereq:** Stand up `sparkypass-ui` shared package + migrate Showdown to consume it (~½ day). Blocks the mobile bootstrap only in the sense that the new `sparkypass-mobile` repo should consume the shared package from its first commit.
 - [ ] `npx create-expo-app sparkypass-mobile --template blank-typescript`
 - [ ] Install core deps: expo-router, expo-secure-store, expo-apple-authentication, expo-notifications, expo-local-authentication (deferred but install now), expo-sqlite, react-native-mmkv, zustand, @tanstack/react-query, react-native-reanimated, expo-haptics
 - [ ] EAS configure (`eas build:configure`)
