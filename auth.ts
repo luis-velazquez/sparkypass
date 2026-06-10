@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { getMobileSession } from "@/lib/auth-mobile";
+import { TRIAL_PERIOD_MS } from "@/lib/subscription";
 
 const nextAuth = NextAuth({
   trustHost: true,
@@ -124,7 +125,7 @@ const nextAuth = NextAuth({
               name: user.name || "User",
               authProvider: account?.provider as "google" | "facebook" | "apple",
               emailVerified: true,
-              trialEndsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+              trialEndsAt: new Date(Date.now() + TRIAL_PERIOD_MS),
               subscriptionStatus: "trialing",
             });
             user.id = newUserId;

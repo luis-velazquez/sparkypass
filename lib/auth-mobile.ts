@@ -22,6 +22,7 @@ import {
   linkedProviders,
   type LinkedProviderValue,
 } from "@/lib/db";
+import { TRIAL_PERIOD_MS } from "@/lib/subscription";
 
 const ACCESS_TOKEN_TTL_SECONDS = 60 * 60;  // 1 hour
 const REFRESH_TOKEN_TTL_SECONDS = 90 * 24 * 60 * 60;  // 90 days (sliding)
@@ -487,7 +488,7 @@ export async function resolveOAuthUser(
   //    auth.ts's signIn callback (30-day trial, emailVerified=true since
   //    OAuth providers vouch for the email).
   const newUserId = crypto.randomUUID();
-  const trialEndsAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const trialEndsAt = new Date(Date.now() + TRIAL_PERIOD_MS);
 
   // If we have no email at all (Apple after first sign-in with relay), use a
   // placeholder that satisfies the NOT NULL + UNIQUE constraint. The user can

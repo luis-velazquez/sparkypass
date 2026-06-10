@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { Clock, Zap } from "lucide-react";
+import { TRIAL_PERIOD_DAYS } from "@/lib/subscription";
 
 export function TrialStatusHeader() {
   const { data: session } = useSession();
@@ -17,7 +18,7 @@ export function TrialStatusHeader() {
   const now = new Date();
   const msLeft = trialEnd.getTime() - now.getTime();
   const daysLeft = Math.max(0, Math.ceil(msLeft / (1000 * 60 * 60 * 24)));
-  const totalDays = 7;
+  const totalDays = TRIAL_PERIOD_DAYS;
   const progress = Math.max(0, Math.min(100, ((totalDays - daysLeft) / totalDays) * 100));
 
   if (daysLeft <= 0) return null;
