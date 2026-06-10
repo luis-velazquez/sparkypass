@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, studySessions, wattsTransactions } from "@/lib/db";
-import { eq, and, sql } from "drizzle-orm";
+import { eq, and, sql, count, isNotNull } from "drizzle-orm";
 import crypto from "crypto";
 import { getStreakMilestoneReward, calculateWattsServerSide } from "@/lib/watts";
 import { getUserClassification, getClassificationTitle, checkClassificationAdvancement } from "@/lib/voltage";
+import { trackEvent } from "@/lib/analytics";
 
 // POST - Create a new study session.
 //
@@ -247,6 +248,63 @@ export async function PATCH(request: Request) {
     const classificationTitle = getClassificationTitle(newBalance);
 
     console.log(`Session complete for user ${session.user.id}: +${totalWattsEarned}W, streak=${newStreak}`);
+
+    // ── Analytics (Phase 3) ── Emitted ONLY on this non-idempotent path; the
+    // early return at the top handles retries, so these never double-count.
+    const previousLifetime = currentUser?.wattsLifetime || 0;
+    const newLifetime = updatedUser.wattsLifetime;
+    const accuracy =
+      questionsAnswered && questionsAnswered > 0
+        ? Math.round(((questionsCorrect ?? 0) / questionsAnswered) * 100)
+        : null;
+    const [{ value: endedCount } = { value: 0 }] = await db
+      .select({ value: count() })
+      .from(studySessions)
+      .where(and(eq(studySessions.userId, session.user.id), isNotNull(studySessions.endedAt)));
+
+    const emits: Promise<void>[] = [
+      trackEvent({
+        event: "study_session_completed",
+        userId: session.user.id,
+        properties: { session_type: activityType, questions_answered: questionsAnswered ?? 0, accuracy, watts_earned: totalWattsEarned },
+      }),
+    ];
+    if (activityType === "daily_challenge") {
+      emits.push(trackEvent({
+        event: "daily_challenge_completed",
+        userId: session.user.id,
+        properties: { questions_correct: questionsCorrect ?? 0, questions_answered: questionsAnswered ?? 0, watts_earned: totalWattsEarned, perfect: accuracy === 100 },
+      }));
+    }
+    if (newStreak > (currentUser?.studyStreak || 0)) {
+      emits.push(trackEvent({
+        event: "streak_extended",
+        userId: session.user.id,
+        properties: { new_streak: newStreak, best_streak: newBestStreak, is_milestone: streakBonus > 0, used_streak_fuse: !!streakFuseActive },
+      }));
+    }
+    if (endedCount === 1) {
+      emits.push(trackEvent({
+        event: "first_quiz_completed",
+        userId: session.user.id,
+        properties: { session_type: activityType, questions_answered: questionsAnswered ?? 0, accuracy },
+      }));
+    }
+    if (previousLifetime === 0 && totalWattsEarned > 0) {
+      emits.push(trackEvent({
+        event: "first_watts_earned",
+        userId: session.user.id,
+        properties: { watts_amount: totalWattsEarned, source: activityType },
+      }));
+    }
+    if (advancement) {
+      emits.push(trackEvent({
+        event: "rank_advanced",
+        userId: session.user.id,
+        properties: { to_classification: advancement.newTitle, watts_lifetime: newLifetime },
+      }));
+    }
+    await Promise.all(emits);
 
     return NextResponse.json({
       success: true,

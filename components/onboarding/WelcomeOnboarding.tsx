@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SparkyAvatar } from "@/components/sparky";
+import { getAnalytics } from "@/lib/analytics/web";
 
 interface WelcomeOnboardingProps {
   isOpen: boolean;
@@ -17,6 +18,15 @@ interface WelcomeOnboardingProps {
 }
 
 export function WelcomeOnboarding({ isOpen, onComplete, onSkip }: WelcomeOnboardingProps) {
+  const handleComplete = () => {
+    getAnalytics().track("onboarding_completed", { skipped: false });
+    onComplete();
+  };
+  const handleSkip = () => {
+    getAnalytics().track("onboarding_completed", { skipped: true });
+    onSkip();
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
       <DialogContent
@@ -69,14 +79,14 @@ export function WelcomeOnboarding({ isOpen, onComplete, onSkip }: WelcomeOnboard
               className="w-full"
             >
               <Button
-                onClick={onComplete}
+                onClick={handleComplete}
                 className="w-full bg-amber hover:bg-amber-dark text-white dark:bg-sparky-green dark:hover:bg-sparky-green-dark dark:text-stone-950"
               >
                 <Zap className="h-4 w-4 mr-2" />
                 Let&apos;s Go!
               </Button>
               <button
-                onClick={onSkip}
+                onClick={handleSkip}
                 className="mt-3 text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
                 Skip introduction

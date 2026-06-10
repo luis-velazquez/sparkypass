@@ -4,7 +4,8 @@ import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { sendVerificationEmail } from "@/lib/email";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
-import { TRIAL_PERIOD_MS } from "@/lib/subscription";
+import { TRIAL_PERIOD_MS, TRIAL_PERIOD_DAYS } from "@/lib/subscription";
+import { trackEvent } from "@/lib/analytics";
 
 // 5 registrations per 15 minutes
 const registerLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5 });
@@ -108,6 +109,20 @@ export async function POST(request: Request) {
       subscriptionStatus: "trialing",
       betaAgreedAt: new Date(),
     });
+
+    // Analytics (Phase 3) — activation + monetization funnel entry points.
+    await Promise.all([
+      trackEvent({
+        event: "signup_completed",
+        userId,
+        properties: { method: "email", trial_length_days: TRIAL_PERIOD_DAYS },
+      }),
+      trackEvent({
+        event: "trial_started",
+        userId,
+        properties: { source: "signup", trial_length_days: TRIAL_PERIOD_DAYS },
+      }),
+    ]);
 
     // Generate verification token
     const token = generateToken();

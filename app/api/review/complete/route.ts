@@ -5,6 +5,7 @@ import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 import { getUserClassification, getClassificationTitle } from "@/lib/voltage";
 import { calculateWattsServerSide } from "@/lib/watts";
+import { trackEvent } from "@/lib/analytics";
 
 export async function POST(request: Request) {
   try {
@@ -107,6 +108,18 @@ export async function POST(request: Request) {
       voltageAtTime: 277,
       ampsAtTime: questionsCorrect ?? 0,
       description: `Review session complete (${questionsReviewed || 0} questions)`,
+    });
+
+    // Analytics (Phase 3) — non-idempotent path only (early return above handles retries).
+    await trackEvent({
+      event: "review_completed",
+      userId: session.user.id,
+      properties: {
+        questions_reviewed: questionsReviewed ?? 0,
+        questions_correct: questionsCorrect ?? 0,
+        watts_earned: wattsEarned,
+        weak_spots: false,
+      },
     });
 
     const classification = getUserClassification(newBalance).classification;
