@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BetaBadge } from "@/components/ui/beta-badge";
+import { getAnalytics } from "@/lib/analytics/web";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -47,6 +48,12 @@ export default function RegisterPage() {
       setFormError("You must be at least 18 years old to use SparkyPass");
       return;
     }
+
+    // Analytics: signup attempt (pre-auth, anon_id only).
+    getAnalytics().track("signup_started", {
+      method: "email",
+      referral_code: referralCode.trim() || undefined,
+    });
 
     setIsLoading(true);
     try {

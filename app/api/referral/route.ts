@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { auth } from "@/auth";
 import { db, users, referrals, wattsTransactions, type Referral } from "@/lib/db";
 import { eq, sql, and } from "drizzle-orm";
+import { trackEvent } from "@/lib/analytics";
 
 const REFERRAL_WATTS_REWARD = 100;
 
@@ -164,6 +165,15 @@ export async function POST(request: Request) {
       voltageAtTime: 0,
       ampsAtTime: 0,
       description: "Referral bonus — new beta tester joined",
+    });
+
+    // Analytics (Phase 3) — fires after the "already referred" guard above, so
+    // a given referral is counted once. Attributed to the referrer (the actor
+    // who earns); the new user is in props.
+    await trackEvent({
+      event: "referral_completed",
+      userId: referrerId,
+      properties: { referrer_id: referrerId, referred_user_id: referredUserId, watts_awarded: REFERRAL_WATTS_REWARD },
     });
 
     return NextResponse.json({ success: true, wattsAwarded: REFERRAL_WATTS_REWARD });

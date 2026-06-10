@@ -12,6 +12,14 @@ import type { EventName } from "@/lib/analytics-events";
 export function useAnalytics() {
   const pathname = usePathname();
   const prev = useRef<string | null>(null);
+  const opened = useRef(false);
+
+  // Fire app_open once per page load (the provider mounts this once at root).
+  useEffect(() => {
+    if (opened.current) return;
+    opened.current = true;
+    getAnalytics().track("app_open");
+  }, []);
 
   useEffect(() => {
     if (pathname && pathname !== prev.current) {
