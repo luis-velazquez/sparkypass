@@ -179,7 +179,7 @@ export async function PATCH(request: Request) {
     const streakBonus = getStreakMilestoneReward(newStreak) || 0;
     const totalWattsEarned = wattsEarned + streakBonus;
 
-    const previousBalance = currentUser?.wattsBalance || 0;
+    const previousLifetime = currentUser?.wattsLifetime || 0;
 
     // Update the session
     await db
@@ -213,6 +213,7 @@ export async function PATCH(request: Request) {
       .returning({ wattsBalance: users.wattsBalance, wattsLifetime: users.wattsLifetime });
 
     const newBalance = updatedUser.wattsBalance;
+    const newLifetime = updatedUser.wattsLifetime;
 
     // Log activity watts transaction
     await db.insert(wattsTransactions).values({
@@ -240,11 +241,11 @@ export async function PATCH(request: Request) {
       });
     }
 
-    // Check for classification advancement
-    const advancement = checkClassificationAdvancement(previousBalance, newBalance);
+    // Check for classification advancement (lifetime Watts — never demotes on spend)
+    const advancement = checkClassificationAdvancement(previousLifetime, newLifetime);
 
-    const classification = getUserClassification(newBalance).classification;
-    const classificationTitle = getClassificationTitle(newBalance);
+    const classification = getUserClassification(newLifetime).classification;
+    const classificationTitle = getClassificationTitle(newLifetime);
 
     console.log(`Session complete for user ${session.user.id}: +${totalWattsEarned}W, streak=${newStreak}`);
 

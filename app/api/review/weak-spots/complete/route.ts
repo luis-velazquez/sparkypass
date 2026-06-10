@@ -105,8 +105,8 @@ export async function POST(request: Request) {
       description: `Weak spots session complete (${questionsReviewed || 0} questions)`,
     });
 
-    const classification = getUserClassification(newBalance).classification;
-    const classificationTitle = getClassificationTitle(newBalance);
+    const classification = getUserClassification(newLifetime).classification;
+    const classificationTitle = getClassificationTitle(newLifetime);
 
     return NextResponse.json({
       success: true,

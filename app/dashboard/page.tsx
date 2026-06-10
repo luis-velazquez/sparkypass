@@ -533,8 +533,8 @@ export default function DashboardPage() {
   const displayName = userData?.username || userData?.name || session?.user?.name || "Electrician";
   const wattsBalance = progressStats?.wattsBalance ?? userData?.wattsBalance ?? 0;
   const wattsLifetime = progressStats?.wattsLifetime ?? userData?.wattsLifetime ?? 0;
-  const classification = (progressStats?.classification ?? userData?.classification ?? "watt_apprentice") as UserClassification;
-  const classificationTitle = progressStats?.classificationTitle ?? userData?.classificationTitle ?? getClassificationTitle(wattsBalance);
+  const classification = (progressStats?.classification ?? userData?.classification ?? "milliwatt") as UserClassification;
+  const classificationTitle = progressStats?.classificationTitle ?? userData?.classificationTitle ?? getClassificationTitle(wattsLifetime);
   const studyStreak = progressStats?.studyStreak ?? userData?.studyStreak ?? 0;
   const bestStudyStreak = progressStats?.bestStudyStreak ?? 0;
   const dailyChallengeCompleted = progressStats?.dailyChallengeCompleted ?? false;
@@ -544,7 +544,7 @@ export default function DashboardPage() {
     ? new Date(userData.targetExamDate)
     : null;
 
-  const classificationProgress = getClassificationProgress(wattsBalance);
+  const classificationProgress = getClassificationProgress(wattsLifetime);
 
   const daysUntilExam = targetExamDate
     ? Math.ceil(
