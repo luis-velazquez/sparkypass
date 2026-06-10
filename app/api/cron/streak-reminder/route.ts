@@ -13,6 +13,13 @@
 // preferred time hits exactly one cron run per day. Belt-and-suspenders: we
 // also check daily-challenge completion at send time so a user who already
 // did the daily by the time the cron fires gets skipped.
+//
+// Streak-save warning (the higher-urgency, load-bearing nudge): in the single
+// [22:00, 22:15) local window, a user whose streak is alive (studied yesterday)
+// but UNtouched today, with streak ≥ 3 and no active Streak Fuse, gets a
+// last-chance "your streak ends at midnight" push instead of the generic
+// reminder. Same one-window-per-day idempotency as above. The streak-save check
+// runs first and `continue`s, so a user never gets both in the same run.
 
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and, gte, isNotNull, isNull } from "drizzle-orm";
@@ -73,6 +80,10 @@ function userLocalDateString(tz: string, when: Date): string | null {
   }
 }
 
+// Streak-save warning fires in the single 15-min window starting here (local).
+// 22:00 = two hours before midnight: a genuine last chance, one window per day.
+const STREAK_SAVE_MINUTES = 22 * 60; // 22:00 local
+
 export async function GET(request: NextRequest) {
   if (!verifyCronRequest(request)) {
     return NextResponse.json({ error: "Unauthorized", code: "UNAUTHORIZED" }, { status: 401 });
@@ -90,17 +101,21 @@ export async function GET(request: NextRequest) {
       timezone: users.timezone,
       notificationPrefs: users.notificationPrefs,
       studyStreak: users.studyStreak,
+      lastStudyDate: users.lastStudyDate,
+      streakFuseExpiresAt: users.streakFuseExpiresAt,
     })
     .from(users)
     .innerJoin(pushTokens, eq(pushTokens.userId, users.id))
     .where(and(isNotNull(users.timezone), isNull(users.deletedAt)));
 
   let queuedFor = 0;
+  let queuedStreakSave = 0;
   let skippedNoMatch = 0;
   let skippedAlreadyDid = 0;
   let skippedDisabled = 0;
 
   const sendQueue: { userId: string; streak: number; tokens: string[] }[] = [];
+  const streakSaveQueue: { userId: string; streak: number; tokens: string[] }[] = [];
 
   for (const u of rows) {
     if (!u.timezone) {
@@ -120,9 +135,38 @@ export async function GET(request: NextRequest) {
       skippedNoMatch++;
       continue;
     }
-
-    // Match if local time is in [desired, desired+15min).
     const localMinutes = local.hour * 60 + local.minute;
+
+    // ── Streak-save warning (takes precedence over the generic reminder) ──
+    // Fired once/day in [22:00, 22:15) local for a streak that's alive but
+    // untouched today. An active Streak Fuse means tonight isn't a risk → skip.
+    const streak = u.studyStreak ?? 0;
+    const fuseActive =
+      u.streakFuseExpiresAt != null && new Date(u.streakFuseExpiresAt) > now;
+    const inStreakSaveWindow =
+      localMinutes >= STREAK_SAVE_MINUTES && localMinutes < STREAK_SAVE_MINUTES + 15;
+    if (inStreakSaveWindow && streak >= 3 && !fuseActive) {
+      const yesterdayLocal = userLocalDateString(
+        u.timezone,
+        new Date(now.getTime() - 24 * 60 * 60 * 1000),
+      );
+      const lastStudyLocal = u.lastStudyDate
+        ? userLocalDateString(u.timezone, new Date(u.lastStudyDate))
+        : null;
+      // At risk iff the last study day was yesterday: streak intact, but if
+      // today passes untouched it resets at local midnight.
+      if (lastStudyLocal && yesterdayLocal && lastStudyLocal === yesterdayLocal) {
+        const tokens = await tokensForUser(u.id);
+        if (tokens.length > 0) {
+          streakSaveQueue.push({ userId: u.id, streak, tokens });
+          queuedStreakSave++;
+        }
+        continue; // suppress the generic reminder for this user this run
+      }
+    }
+
+    // ── Generic daily reminder ──
+    // Match if local time is in [desired, desired+15min).
     const desiredMinutes = desiredHour * 60 + desiredMinute;
     const diff = localMinutes - desiredMinutes;
     const inWindow = diff >= 0 && diff < 15;
@@ -155,7 +199,7 @@ export async function GET(request: NextRequest) {
     const tokens = await tokensForUser(u.id);
     if (tokens.length === 0) continue;
 
-    sendQueue.push({ userId: u.id, streak: u.studyStreak ?? 0, tokens });
+    sendQueue.push({ userId: u.id, streak, tokens });
     queuedFor++;
   }
 
@@ -173,11 +217,23 @@ export async function GET(request: NextRequest) {
     })),
   );
 
-  const result = await sendPushNotifications(messages);
+  // Streak-save warnings — higher urgency, fired in the last-chance window.
+  const streakSaveMessages = streakSaveQueue.flatMap(({ streak, tokens }) =>
+    tokens.map((token) => ({
+      to: token,
+      title: `⚡ Your ${streak}-day streak ends at midnight`,
+      body: "A few minutes of study now keeps it alive — don't lose your progress.",
+      data: { type: "streak-save", streak },
+      sound: "default" as const,
+    })),
+  );
+
+  const result = await sendPushNotifications([...messages, ...streakSaveMessages]);
 
   console.log("[cron/streak-reminder]", {
     candidates: rows.length,
     queuedFor,
+    queuedStreakSave,
     skippedNoMatch,
     skippedAlreadyDid,
     skippedDisabled,
@@ -188,6 +244,7 @@ export async function GET(request: NextRequest) {
     ok: true,
     candidates: rows.length,
     queuedFor,
+    queuedStreakSave,
     skippedNoMatch,
     skippedAlreadyDid,
     skippedDisabled,
