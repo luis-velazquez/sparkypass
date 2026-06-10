@@ -1,18 +1,32 @@
 "use client";
 
+import { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useAnalytics } from "@/hooks/useAnalytics";
+import { getAnalytics } from "@/lib/analytics/web";
 
 /**
- * Mounts the analytics hook for authenticated users.
- * Drop this inside SessionProvider to auto-track page views.
+ * Boots the analytics singleton (queue + batching + lifecycle flush) and keeps
+ * identity in sync with the NextAuth session. Page views auto-track via
+ * useAnalytics(). Must render inside SessionProvider.
  */
 export function AnalyticsProvider() {
-  const { status } = useSession();
-  // The hook auto-tracks page views internally
+  const { data: session, status } = useSession();
+
+  // Auto-track page views (anon + authenticated).
   useAnalytics();
 
-  // Only run when authenticated — no-op component
-  if (status !== "authenticated") return null;
+  // Boot the singleton once.
+  useEffect(() => {
+    getAnalytics().init();
+  }, []);
+
+  // Keep identity in sync as auth resolves. First-party ingestion derives userId
+  // server-side; this drives PostHog identity in Phase 4 (carried as a batch hint).
+  useEffect(() => {
+    if (status === "loading") return;
+    getAnalytics().identify(session?.user?.id ?? null);
+  }, [status, session?.user?.id]);
+
   return null;
 }

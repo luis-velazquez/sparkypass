@@ -1,54 +1,30 @@
 "use client";
 
-import { useEffect, useCallback, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
-
-type ClientEvent =
-  | "page_view"
-  | "feature_use"
-  | "quiz_start"
-  | "quiz_complete"
-  | "feedback_prompt_shown"
-  | "feedback_submitted"
-  | "drop_off";
-
-function sendEvent(event: ClientEvent, page?: string, metadata?: Record<string, unknown>) {
-  if (typeof navigator !== "undefined" && "sendBeacon" in navigator) {
-    navigator.sendBeacon(
-      "/api/analytics",
-      JSON.stringify({ event, page, metadata })
-    );
-  } else {
-    fetch("/api/analytics", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event, page, metadata }),
-      keepalive: true,
-    }).catch(() => {});
-  }
-}
+import { getAnalytics } from "@/lib/analytics/web";
+import type { EventName } from "@/lib/analytics-events";
 
 /**
- * Auto-tracks page views on route change.
- * Returns a `track` function for manual event tracking.
+ * Auto-tracks `page_view` on route change and returns a typed `track()` for
+ * manual events. Delegates to the batching singleton (lib/analytics/web).
  */
 export function useAnalytics() {
   const pathname = usePathname();
-  const prevPathname = useRef<string | null>(null);
+  const prev = useRef<string | null>(null);
 
-  // Track page views on route change
   useEffect(() => {
-    if (pathname && pathname !== prevPathname.current) {
-      sendEvent("page_view", pathname);
-      prevPathname.current = pathname;
+    if (pathname && pathname !== prev.current) {
+      getAnalytics().track("page_view", undefined, pathname);
+      prev.current = pathname;
     }
   }, [pathname]);
 
   const track = useCallback(
-    (event: ClientEvent, metadata?: Record<string, unknown>) => {
-      sendEvent(event, pathname, metadata);
+    (event: EventName, properties?: Record<string, unknown>) => {
+      getAnalytics().track(event, properties, pathname ?? undefined);
     },
-    [pathname]
+    [pathname],
   );
 
   return { track };
