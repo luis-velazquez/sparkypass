@@ -293,13 +293,27 @@ export const wattsTransactions = sqliteTable("watts_transactions", {
 export type WattsTransaction = typeof wattsTransactions.$inferSelect;
 export type NewWattsTransaction = typeof wattsTransactions.$inferInsert;
 
-// Beta analytics events (first-party, privacy-friendly)
+// Beta analytics events (first-party spine). v2 (migration 0021) adds
+// platform/session/anon/funnel columns + an idempotency key so web + mobile
+// share ONE stream. Event taxonomy lives in lib/analytics-events.ts (EVENT_CATALOG);
+// funnel/step are SERVER-derived from it at ingest (never client-set).
 export const analyticsEvents = sqliteTable("analytics_events", {
   id: text("id").primaryKey(),
+  eventId: text("event_id"),  // client-minted UUID; idempotency key for offline batch retries (partial-unique)
   userId: text("user_id").references(() => users.id, { onDelete: "set null" }),
-  event: text("event").notNull(),  // page_view, feature_use, session_start, session_end, feedback_prompt, drop_off
+  anonId: text("anon_id"),  // persistent pre-auth id; survives signup so activation stitches
+  sessionId: text("session_id"),  // analytics session (rotates on foreground/idle); NOT studySessions.id
+  event: text("event").notNull(),  // validated against EVENT_CATALOG (lib/analytics-events.ts)
+  funnel: text("funnel"),  // activation|monetization|retention|core — server-derived from catalog
+  step: text("step"),  // funnel step label — server-derived
+  platform: text("platform").notNull().default("web"),  // web|ios|android
+  appVersion: text("app_version"),
+  osVersion: text("os_version"),
+  deviceModel: text("device_model"),
   page: text("page"),
-  metadata: text("metadata"),  // JSON string for extra context (e.g. quiz category, button clicked)
+  properties: text("properties"),  // typed per-event JSON (new writes); legacy rows use metadata
+  metadata: text("metadata"),  // legacy JSON blob — kept; reads COALESCE(properties, metadata)
+  clientTs: integer("client_ts"),  // unix-ms on-device event time for offline ordering
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 
