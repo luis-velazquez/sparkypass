@@ -4,6 +4,7 @@ import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { sendVerificationEmail } from "@/lib/email";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { TRIAL_PERIOD_MS } from "@/lib/subscription";
 
 // 5 registrations per 15 minutes
 const registerLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5 });
@@ -103,7 +104,7 @@ export async function POST(request: Request) {
       email: email.toLowerCase(),
       authProvider: "email",
       emailVerified: false,
-      trialEndsAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      trialEndsAt: new Date(Date.now() + TRIAL_PERIOD_MS),
       subscriptionStatus: "trialing",
       betaAgreedAt: new Date(),
     });
