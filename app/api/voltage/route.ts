@@ -24,7 +24,8 @@ export async function GET() {
       .limit(1);
 
     const wattsBalance = user?.wattsBalance || 0;
-    const progress = getClassificationProgress(wattsBalance);
+    // Rank/progress key on lifetime Watts (monotonic) so spending never demotes.
+    const progress = getClassificationProgress(user?.wattsLifetime || 0);
 
     return NextResponse.json({
       classification: progress.current.classification,

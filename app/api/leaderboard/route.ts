@@ -70,7 +70,7 @@ export async function GET() {
       userId: user.id,
       username: user.username,
       wattsLifetime: user.wattsLifetime,
-      classificationTitle: getClassificationTitle(user.wattsBalance),
+      classificationTitle: getClassificationTitle(user.wattsLifetime),
       studyStreak: user.studyStreak,
       leaderboardTier: getLeaderboardTier(user.wattsLifetime),
       isCurrentUser: user.id === userId,

@@ -1,7 +1,7 @@
 # SparkyPass Mobile — Master Build TODO
 
-**Status:** Build phase active. Phase 1 hard blockers + Phase 3 backend soft blockers **complete** (2026-05-21). Phase 2 (mobile project bootstrap) is the next concrete chunk; gated on repo structure decision.
-**Pairs with:** [mobile-conversion-plan.md](./mobile-conversion-plan.md) (decisions), [mobile-api-audit.md](./mobile-api-audit.md) (backend specs)
+**Status:** Build phase active. Phase 1 hard blockers + Phase 3 backend soft blockers **complete** (2026-05-21). **Repo structure decided 2026-06-02: Option β** — two repos + shared `sparkypass-ui` package; see convergence sub-plan. Phase 2 bootstrap unblocked once shared package lands. **Audit + 5 decisions locked 2026-06-08** (sync → durable-outbox/server-authoritative; streak-save push → v1; analytics+flags → Sprint 1; NEC 2020 → v1; reward-model reconciliation) — see plan §8 Decisions log. Pricing reframe deferred.
+**Pairs with:** [mobile-conversion-plan.md](./mobile-conversion-plan.md) (decisions), [mobile-api-audit.md](./mobile-api-audit.md) (backend specs), [mobile-showdown-convergence.md](./mobile-showdown-convergence.md) (repo + shared-package decision)
 **Owner:** Solo + AI
 
 This is the master tracker. Check items off as they ship. New tasks discovered during build go at the bottom of the relevant phase or in §Open follow-ups.
@@ -71,11 +71,8 @@ ADMIN_USER_IDS=<your-user-id>           # comma-separated for /admin/feedback ac
 
 Can start as soon as Phase 1B is done. Most of this is one-time setup.
 
-- [ ] Decide repo structure (one of):
-  - Option α: monorepo with `/web` and `/mobile` (Turborepo or pnpm workspaces)
-  - Option β: separate repo `sparkypass-mobile`
-  - Option γ: this repo gets a `/mobile` subfolder, no monorepo tooling
-  - _Decide before writing first mobile code._ Affects Showdown convergence too.
+- [x] **Repo structure decided 2026-06-02: Option β** (two repos + shared `sparkypass-ui` package). See [mobile-showdown-convergence.md](./mobile-showdown-convergence.md).
+- [ ] **Prereq:** Stand up `sparkypass-ui` shared package + migrate Showdown to consume it (~½ day). Blocks the mobile bootstrap only in the sense that the new `sparkypass-mobile` repo should consume the shared package from its first commit.
 - [ ] `npx create-expo-app sparkypass-mobile --template blank-typescript`
 - [ ] Install core deps: expo-router, expo-secure-store, expo-apple-authentication, expo-notifications, expo-local-authentication (deferred but install now), expo-sqlite, react-native-mmkv, zustand, @tanstack/react-query, react-native-reanimated, expo-haptics
 - [ ] EAS configure (`eas build:configure`)
@@ -117,6 +114,7 @@ Each ships as backend work between mobile sprints. Order is flexible; sync is hi
 - [x] `lib/push.ts` — Expo HTTP push helper (`sendPushNotifications`, batches of 100, auto-cleans DeviceNotRegistered tokens)
 - [x] `lib/cron-auth.ts` — `verifyCronRequest` (Vercel's `Authorization: Bearer $CRON_SECRET`)
 - [x] Vercel Cron every 15 min — `/api/cron/streak-reminder` (tz-local match + 18h daily-challenge skip)
+- [ ] **Streak-save warning branch — PULLED INTO v1 (2026-06-08).** Add to the existing `/api/cron/streak-reminder`: if `studyStreak ≥ 3` AND no qualifying session today AND local time is in the last ~2h before midnight → send the streak-save variant and **suppress** the generic reminder. The plan's own "biggest conversion lift"; near-free on the shipped cron.
 - [x] Vercel Cron Sunday 14:00 UTC — `/api/cron/weekly-digest` (per-user 7-day stats)
 
 ### 3E. Content delivery ✅
@@ -154,7 +152,9 @@ Sprints are roughly 2-week chunks. Each sprint should ship to TestFlight interna
 - [ ] Token storage in Keychain (expo-secure-store)
 - [ ] Auth state machine (zustand + react-query)
 - [ ] App shell: tab navigation (Dashboard / Quiz / Review / Profile)
-- [ ] Dashboard screen: fetch `/api/user` + `/api/progress/stats`, render Watts/Voltage/Amps + streak + greeting
+- [ ] Dashboard screen: fetch `/api/user` + `/api/progress/stats`, render **Watts + classification rank** + streak + greeting (NO Amps gauge / Voltage-tier ladder — deprecated in code; lead with Watts)
+- [ ] **Analytics + feature-flag foundation** (PostHog/Amplitude RN, offline-batched, remote-config) — events carry `platform/appVersion/osVersion/anon-deviceId`; instrument signup + first-session funnels (plan §E-24a). _Sprint 1, not Sprint 7._
+- [ ] **Foundation a11y/theming rules** in the Sprint-1 primitives: WCAG-AA-validate the `sparkypass-ui` tokens once (before they propagate to 2 apps), no hardcoded font sizes (Dynamic Type), native system dark mode (not the web MutationObserver toggle), VoiceOver labels on Sparky/Watts components
 - [ ] Sparky mascot component (port from web — 17 SVG expressions to react-native-svg)
 - [ ] Settings screen: timezone, notification prefs, account info, delete account
 - [ ] Network layer: tanstack-query setup with bearer-token interceptor, retry, offline error handling
@@ -169,22 +169,24 @@ Sprints are roughly 2-week chunks. Each sprint should ship to TestFlight interna
 - [ ] Daily Challenge screen
 - [ ] WattsEarnedToast component (port from web)
 
-### Sprint 3: Offline-first data layer (~2 weeks)
-- [ ] SQLite schema on device (mirror of relevant server tables + local-only event queue)
-- [ ] Watts ledger as append-only local table
-- [ ] Quiz attempt local persistence
-- [ ] Sync engine: drain local queue → `POST /api/sync/upload`, reconcile state → `GET /api/sync/state`
-- [ ] Network-state observer (NetInfo) — auto-sync on reconnect
-- [ ] Conflict-free local UI: Watts/streak/SRS updated from server reconciliation
-- [ ] End-to-end: airplane mode, take a quiz, restore network, verify server state matches
+### Sprint 3: Offline data layer — durable outbox + server-authoritative compute (~2 weeks) *(reframed 2026-06-08)*
+**Invariant:** on-device SQLite is a durable outbox + disposable read-cache, **NEVER the system of record.** Client renders optimistic UI from local rules but treats only the server's reconciled values as truth. This deletes the conflict matrix.
+- [ ] **Backend prep:** extract `lib/award-session.ts` (Watts + streak + ledger insert, idempotent on `(userId, sourceSessionId)`) and `lib/ingest-answer.ts` (SM-2 + breaker), called by **both** `PATCH /api/sessions` and `/api/sync/upload` — closes the offline-session-earns-0-Watts hole (migration 0021: `source_session_id` + partial unique index on `wattsTransactions`)
+- [ ] **Backend prep:** SRS scheduled from `answeredAt` (not server time) with server clamp to `[now−60d, now]`; circuit-breaker derived from recent contiguous answers (not replayed)
+- [ ] **Backend prep:** re-key `sync_event_log` idempotency to `(userId, clientId)`; per-event transactions (claim can't burn on a throw); bump `users.updatedAt` only on ≥1 success
+- [ ] On-device SQLite: append-only outbox table (raw events) + read-cache tables
+- [ ] `user_version`-pragma migration runner + nuke-and-rebuild-from-`/api/sync/state` fallback
+- [ ] Sync engine: drain outbox → `POST /api/sync/upload`; overwrite local read-models from `GET /api/sync/state`
+- [ ] Network-state observer (NetInfo) — auto-sync on reconnect; outbox survives app-kill mid-sync
+- [ ] **E2E acceptance:** airplane mode → take quiz → kill app mid-sync → upgrade schema → restore network → server state correct, no lost/double events, Watts/streak awarded
 
 ### Sprint 4: SRS + Circuit Breaker (~2 weeks)
 - [ ] Daily Review screen (uses `/api/review/due`)
 - [ ] Weak Spots Review screen
 - [ ] Circuit Breaker UI per category (tripped state, cooldown timer, reset-with-Watts button)
 - [ ] Power Grid visualization (port from web — category mastery viz)
-- [ ] Streak tracking + Voltage tier UI
-- [ ] Amps gauge
+- [ ] Streak tracking + classification/rank UI (Watts-driven; lead the HUD with Watts)
+- [ ] ~~Amps gauge~~ **CUT (2026-06-08)** — `amps.ts` = correct-answer count, not a multiplier; a near-static "Amps" gauge collides with electricians' real-world knowledge (amps = current). Put P=V×I on one optional "how scoring works" card instead.
 
 ### Sprint 5: Bookmarks + Flashcards + Power-ups (~1.5 weeks)
 - [ ] Bookmarks list + review mode
@@ -237,7 +239,7 @@ Deferred per planning §B-6. Move to a separate `mobile-vnext.md` when v1 ships.
 - Full power-ups shop (only Streak Fuse in v1)
 - Admin tools
 - Account data export (per OQ#8)
-- Streak save warning push (deferred to v1.1)
+- ~~Streak save warning push (deferred to v1.1)~~ → **moved to v1 (2026-06-08)**, see Phase 3D
 - Apple Watch app
 - Home screen widgets
 - Live Activities
@@ -248,6 +250,15 @@ Deferred per planning §B-6. Move to a separate `mobile-vnext.md` when v1 ships.
 ## Open follow-ups (discovered during build)
 
 _Add as found._
+
+**From the 2026-06-08 audit (decisions in plan §8):**
+- [ ] **NEC 2020 as first-class cycle (v1)** — add `2020` to `NecVersion`, state→cycle map in onboarding, flag/gate cross-cycle answer changes, label the verified cycle. Full 2020 answer-key authoring = parallel content track.
+- [x] **Reward-model rank-curve redesign — DONE 2026-06-09.** Replaced the 0/1K/1M/1B curve with a **10-rank SI-Watt-prefix ladder** (Milliwatt→Yottawatt) at 0/1k/3k/7.5k/15k/28k/48k/75k/110k/160k lifetime Watts. **Also fixed a second latent bug:** rank was keyed off `wattsBalance` at every call site, so spending a power-up demoted you — switched all ~10 server routes + 2 client pages to `wattsLifetime` (monotonic). Folded colors/greeting/advancement copy into the `CLASSIFICATIONS` array (deleted the 3 parallel maps in `sparky-messages.ts` + `VoltageDisplay.tsx`); adding a rank is now a one-line edit. `tsc --noEmit` clean. Applies to the live web app; mobile inherits it.
+- [ ] **Content-ops loop** — in-app "report this question" → triage queue (reuse the `feedback`/moderation table + admin UI already built); per-question provenance (`verifiedAgainstCycle`, `verifiedAt`); prefer fetch-on-demand content so a fix ships via the `/api/question-packs` ETag path, not an App Store release.
+- [ ] **Operator runbook** (pre-TestFlight) — EAS Update channels + canary cohort + `runtimeVersion` discipline + one-command rollback; Sentry release-health tied to EAS build/update IDs; real support intake; `SKStoreReview.requestReview` at a genuine peak (first mock pass / streak milestone, never after a wrong answer).
+- [ ] **Showdown ↔ SparkyPass house-ad cross-sell** (v1.1) — no-account-link deep links both directions; instrument cross-installs; keep deeper account-linking deferred per convergence doc.
+- [ ] **Pricing reframe (deferred)** — annual plan + exam-window (non-renewing) pass + 7-day card-on-file trial + metered freemium; confirm/kill the "$14.99 matches web" framing. Own dedicated pass.
+- [ ] **Load Calculator (v1.1, top of backlog)** — carve ONE non-gamified tool on the 635-LOC pure-TS NEC engine in `app/load-calculator/_shared/nec/`; job-site utility Pocket Prep lacks. NOT v1.
 
 - [ ] Repo structure decision (Phase 2 first item) — affects Showdown convergence
 - [ ] Showdown convergence sub-plan — separate doc when repo decision lands

@@ -4,13 +4,7 @@ import { motion } from "framer-motion";
 import { Zap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { UserClassification } from "@/types/reward-system";
-
-const CLASSIFICATION_COLORS: Record<UserClassification, { text: string; bg: string; glow: string }> = {
-  watt_apprentice: { text: "text-stone-400", bg: "bg-stone-400/10", glow: "" },
-  kilowatt_electrician: { text: "text-amber dark:text-sparky-green", bg: "bg-amber/10 dark:bg-sparky-green/10", glow: "drop-shadow-[0_0_4px_rgba(245,158,11,0.3)]" },
-  megawatt_electrician: { text: "text-purple dark:text-purple-light", bg: "bg-purple/10", glow: "drop-shadow-[0_0_8px_rgba(139,92,246,0.4)]" },
-  gigawatt_electrician: { text: "text-red-500 dark:text-red-400", bg: "bg-red-500/10", glow: "drop-shadow-[0_0_12px_rgba(239,68,68,0.5)]" },
-};
+import { getClassificationByKey } from "@/lib/voltage";
 
 interface VoltageDisplayProps {
   classification: UserClassification;
@@ -21,7 +15,7 @@ interface VoltageDisplayProps {
 }
 
 export function VoltageDisplay({ classification, title, wattsBalance, size = "md", className }: VoltageDisplayProps) {
-  const colors = CLASSIFICATION_COLORS[classification];
+  const colors = getClassificationByKey(classification).colors;
 
   const iconSize = { sm: "h-3 w-3", md: "h-4 w-4", lg: "h-5 w-5" };
   const wattsSize = { sm: "text-sm", md: "text-lg", lg: "text-2xl" };

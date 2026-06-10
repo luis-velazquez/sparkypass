@@ -85,7 +85,7 @@ export async function GET() {
         name: user.name,
         username: user.username,
         wattsLifetime: user.wattsLifetime,
-        classificationTitle: getClassificationTitle(user.wattsBalance),
+        classificationTitle: getClassificationTitle(user.wattsLifetime),
         studyStreak: user.studyStreak,
         since: f.createdAt?.toISOString() || null,
       };

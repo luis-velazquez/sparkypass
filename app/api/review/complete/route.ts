@@ -42,18 +42,19 @@ export async function POST(request: Request) {
       .limit(1);
     if (existingSession?.endedAt) {
       const [u] = await db
-        .select({ wattsBalance: users.wattsBalance })
+        .select({ wattsBalance: users.wattsBalance, wattsLifetime: users.wattsLifetime })
         .from(users)
         .where(eq(users.id, session.user.id))
         .limit(1);
       const newBalanceForDisplay = u?.wattsBalance ?? 0;
+      const lifetimeForDisplay = u?.wattsLifetime ?? 0;
       return NextResponse.json({
         success: true,
         idempotent: true,
         wattsEarned: existingSession.wattsEarned,
         wattsBalance: newBalanceForDisplay,
-        classification: getUserClassification(newBalanceForDisplay).classification,
-        classificationTitle: getClassificationTitle(newBalanceForDisplay),
+        classification: getUserClassification(lifetimeForDisplay).classification,
+        classificationTitle: getClassificationTitle(lifetimeForDisplay),
       });
     }
 
@@ -109,8 +110,8 @@ export async function POST(request: Request) {
       description: `Review session complete (${questionsReviewed || 0} questions)`,
     });
 
-    const classification = getUserClassification(newBalance).classification;
-    const classificationTitle = getClassificationTitle(newBalance);
+    const classification = getUserClassification(newLifetime).classification;
+    const classificationTitle = getClassificationTitle(newLifetime);
 
     return NextResponse.json({
       success: true,

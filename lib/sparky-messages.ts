@@ -1,5 +1,6 @@
 import type { SparkyVariant } from "@/components/sparky/SparkyAvatar";
 import type { UserClassification } from "@/types/reward-system";
+import { getClassificationByKey } from "@/lib/voltage";
 
 interface SparkyReaction {
   message: string;
@@ -10,34 +11,19 @@ function pick<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// --- Dashboard greetings by classification ---
+// --- Dashboard greetings by classification (driven from CLASSIFICATIONS) ---
+// Rank-flavored greeting comes from the single source in lib/voltage.ts; a small
+// generic pool adds variety without maintaining a parallel per-rank map.
 
-const DASHBOARD_GREETINGS: Record<UserClassification, string[]> = {
-  watt_apprentice: [
-    "Welcome back, apprentice! Ready to learn the fundamentals?",
-    "Hey there! Let's build a solid foundation today.",
-    "Good to see you! Every correct answer adds watts to your balance.",
-  ],
-  kilowatt_electrician: [
-    "Kilowatt Electrician! The circuits are humming — keep it going.",
-    "You've crossed 1,000W! Your NEC knowledge is building momentum.",
-    "Impressive dedication! Time to push deeper into the code.",
-  ],
-  megawatt_electrician: [
-    "Megawatt Electrician! You're handling high-voltage concepts with ease.",
-    "Over a million watts — the exam doesn't stand a chance!",
-    "The NEC is becoming second nature. Keep the current flowing!",
-  ],
-  gigawatt_electrician: [
-    "Gigawatt Electrician! You ARE the code reference. Legendary!",
-    "Over a billion watts — your mastery is truly electrifying.",
-    "Maximum classification achieved. Maintain that edge!",
-  ],
-};
+const GENERIC_GREETINGS: string[] = [
+  "Good to see you! Every correct answer adds Watts to your balance.",
+  "Ready to power through some NEC questions?",
+  "Let's keep the current flowing — time to study.",
+];
 
 export function getDashboardGreeting(classification: UserClassification): SparkyReaction {
-  const messages = DASHBOARD_GREETINGS[classification] || DASHBOARD_GREETINGS.watt_apprentice;
-  return { message: pick(messages), variant: "default" };
+  const cfg = getClassificationByKey(classification);
+  return { message: pick([cfg.greeting, ...GENERIC_GREETINGS]), variant: "default" };
 }
 
 // --- Streak milestones ---
@@ -136,18 +122,11 @@ export function getReviewReminder(dueCount: number): SparkyReaction {
   };
 }
 
-// --- Classification advancement ---
-
-const CLASSIFICATION_MESSAGES: Record<UserClassification, string> = {
-  watt_apprentice: "Welcome to SparkyPass! Start studying to earn watts!",
-  kilowatt_electrician: "Kilowatt Electrician! You've crossed 1,000W — your dedication is paying off!",
-  megawatt_electrician: "MEGAWATT ELECTRICIAN! Over a million watts! Your NEC mastery is exceptional!",
-  gigawatt_electrician: "GIGAWATT ELECTRICIAN! A BILLION WATTS! You are the ultimate electrician!",
-};
+// --- Classification advancement (driven from CLASSIFICATIONS) ---
 
 export function getClassificationAdvancementMessage(classification: UserClassification): SparkyReaction {
   return {
-    message: CLASSIFICATION_MESSAGES[classification] || "Classification advanced! Keep powering up!",
+    message: getClassificationByKey(classification).advancementMessage,
     variant: "proud",
   };
 }

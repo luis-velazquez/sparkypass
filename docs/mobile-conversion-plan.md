@@ -21,9 +21,9 @@ All planning questions answered. Full reasoning in Section 4. Build phase blocke
 | **Stack** | React Native + Expo + TypeScript (converges with [[SparkyPass Showdown]]) |
 | **Platform** | iOS-first, Android possibly someday |
 | **Long-term role** | Mobile eventually replaces web |
-| **v1 scope** | Core + retention loop: quiz, daily challenge, SRS+Circuit Breaker, Watts/Voltage/Amps, Sparky, bookmarks, flashcards, Streak Fuse, referrals, Power Grid viz |
+| **v1 scope** | Core + retention loop: quiz, daily challenge, SRS+Circuit Breaker, Watts + classification ranks, Sparky, bookmarks, flashcards, Streak Fuse, referrals, Power Grid viz |
 | **Deferred past v1** | 4 minigames, mock exam, load calculator, friends/leaderboard, full power-ups shop, admin |
-| **Offline** | Full offline-first (local SQLite, append-only Watts ledger, server reconciliation on sync) |
+| **Offline** | Full offline study; **durable local outbox + server-authoritative compute** (local SQLite is a disposable cache, not the system of record). Server is the sole authority for Watts/SRS/streak/breaker. *(revised 2026-06-08 — see §8)* |
 | **Question bank** | Hybrid — Apprentice/Journeyman bundled, Master fetched |
 | **Launch bar** | TestFlight beta 3–6 months → public launch |
 | **Monetization** | **Apple IAP from day one** via RevenueCat. SBP rate 15%. iOS price matches web at $14.99/mo. No migration of existing Stripe subscribers. Power-ups Watts-only. |
@@ -34,10 +34,12 @@ All planning questions answered. Full reasoning in Section 4. Build phase blocke
 | **Backend** | Stays on Vercel + Turso + Drizzle for v1. Turso → Postgres flagged as future task. |
 | **Real-time** | None in v1. |
 | **Crash reporting** | `@sentry/react-native`, same Sentry org as web. |
-| **Push v1** | Daily streak reminder + weekly digest. |
+| **Push v1** | Daily streak reminder + **streak-save warning** + weekly digest. *(streak-save pulled into v1 2026-06-08)* |
 | **Min iOS** | iOS 15+. |
 | **Team** | Solo, with AI assistance. |
 | **Timeline** | Open-ended (~4–6 months to TestFlight). |
+| **Analytics** | PostHog/Amplitude RN + remote-config feature flags, **wired in Sprint 1** (offline-batched; every retention change ships behind a flag). *(added 2026-06-08)* |
+| **NEC code cycle** | 2020 + 2023/2026; cross-cycle answer-change flagging in v1; full 2020 authoring as a parallel content track. *(added 2026-06-08)* |
 | **Next deliverable** | API contract audit (see Section 7). |
 
 ---
@@ -51,7 +53,7 @@ All planning questions answered. Full reasoning in Section 4. Build phase blocke
 | API routes (`app/api/`) | ~60+ |
 | React components | 88 |
 | DB tables (Drizzle + Turso SQLite) | 18 |
-| Question bank | 9 JSON files in `data/questions/`, ~2,000+ questions |
+| Question bank | 8 JSON files in `data/questions/`, **~550 questions** (verified 2026-06-08; the earlier "~2,000+" figure was wrong) |
 | Auth | NextAuth v5 (Google OAuth + email/password), JWT sessions |
 | Payments | Stripe (checkout, customer portal, webhooks) |
 | Animation deps | Framer Motion, canvas-confetti |
@@ -193,7 +195,7 @@ Decision: accept this. Widgets and watchOS are post-v1. RN handles 95% of v1; we
    - Spaced repetition: Daily + Weak Spots review
    - Circuit Breaker (tied to SRS)
    - Flashcards (with bookmarks)
-   - Streak tracking + Voltage tier display + Amps gauge
+   - Streak tracking + classification/rank display (Watts-driven). **NB (2026-06-08): no 7-tier Voltage ladder and no Amps gauge** — both were deprecated in code (`lib/voltage.ts:2` "No more 7-tier system"; `lib/amps.ts:1` "amps = correct answers"). Lead the HUD with Watts; surface Voltage only contextually at difficulty unlocks; put P=V×I on one optional "how scoring works" card.
    - Power-ups: Streak Fuse only
    - Referrals
    - Power Grid visualization
@@ -202,11 +204,15 @@ Decision: accept this. Widgets and watchOS are post-v1. RN handles 95% of v1; we
 
    _Implication:_ Target ~4–6 month build to TestFlight beta. Existing web features stay live to cover deferred functionality during the parallel-running period (per Section A Q2: web eventually retires once mobile reaches parity).
 
-7. **Offline scope?** → **Full offline-first.**
+7. **Offline scope?** → **Full offline study, server-authoritative compute.** *(architecture revised 2026-06-08 — see §8 Decisions log)*
 
-   User can take quizzes, earn Watts, update SRS state, and view bookmarks with no network. App syncs to backend on reconnect.
+   User can take quizzes, earn Watts, update review state, and view bookmarks with no network. App syncs to backend on reconnect. The **user-visible promise is unchanged** from the original "full offline-first" answer; only the **architecture** changed.
 
-   _Implication:_ Local SQLite (likely WatermelonDB or op-sqlite + Drizzle-on-RN) for on-device state. Watts ledger must be append-only on device so server can reconcile without losing transactions. SRS algorithm runs locally, server is the durable record. Conflict policy needed (recommend: server-wins for read-models like Voltage tier; client-wins for in-flight quiz attempts). Adds ~2–3 weeks of infra work.
+   _Implication:_ On-device SQLite (op-sqlite / expo-sqlite) is a **durable local outbox + disposable read-cache, never the system of record.** The client appends raw events (answer, session-end) to the outbox and renders **optimistic UI from local rules**, but does NOT treat any locally-computed Watts/SRS/streak/breaker value as authoritative. On reconnect it drains the outbox through the **same server ingest functions the online path uses** — extract `lib/award-session.ts` (Watts + streak + ledger, idempotent on `(userId, sourceSessionId)`) and `lib/ingest-answer.ts` (SM-2 + breaker), called from BOTH `PATCH /api/sessions` and `/api/sync/upload` — then overwrites local read-models from `GET /api/sync/state`.
+
+   This **deletes the conflict-resolution matrix**: no client-wins/server-wins rules, no on-device balance recompute, no SRS last-write-wins. Why it's the better outcome (not just less code): it makes the audited offline-session-earns-0-Watts hole *structurally impossible*, and collapses a multi-rule reconciliation surface to one drain-and-overwrite path for a single-user (usually single-device) audience.
+
+   Correctness fixes folded into the design: SRS scheduled from `answeredAt` (not server processing time) with a server clamp to `[now−60d, now]` so a wrong device clock can't schedule reviews in the future; circuit-breaker **derived** from the most-recent contiguous answers at sync time (not replayed from stale events); `sync_event_log` idempotency re-keyed from per-device to **per-account** (`userId, clientId`); **per-event transactions** so a throwing handler can't burn an idempotency slot and lose the event; `users.updatedAt` bumped only when ≥1 event actually succeeds. On-device schema gets a `user_version`-pragma migration runner with a nuke-and-rebuild-from-`/api/sync/state` fallback (safe precisely because the server is authoritative). Same ~2–3 week budget as the original plan, with a smaller test surface.
 
 8. **Question bank distribution?** → **Hybrid — bundle a starter set, fetch the rest.**
 
@@ -284,15 +290,26 @@ Decision: accept this. Widgets and watchOS are post-v1. RN handles 95% of v1; we
 
 22. **Sentry:** **Yes — `@sentry/react-native`, same Sentry org as web.** Same project initially is fine; split into a mobile-specific project if signal-to-noise becomes a problem during beta. Existing server-side `instrumentation.ts` stays untouched.
 
-23. **Push notifications v1:**
+23. **Push notifications v1:** *(streak-save warning pulled into v1 — 2026-06-08)*
     - **Daily streak reminder** (user-configurable time, default 7pm local; sent only if daily challenge not yet completed)
+    - **Streak-save warning** (studyStreak ≥ 3, no qualifying session today, fires in the last ~2h before local midnight; suppresses the generic daily reminder when it fires). This is **one added branch on the already-shipped 15-min cron** (`/api/cron/streak-reminder`), not new infrastructure — and the plan's own documented "biggest conversion lift," so it must run for the *entire* beta rather than being discovered late.
     - **Weekly progress digest** (Sunday morning local time; server-side cron job aggregates the week's stats per user)
 
-    _Deferred to post-v1:_ Streak save warning (probably v1.1 — biggest conversion lift), power-up expiry alerts (low frequency, low value), friend activity (depends on friends feature shipping).
+    _Deferred to post-v1:_ power-up expiry alerts (low frequency, low value), friend activity (depends on friends feature shipping), exam-date-timed targeted pushes (need notification segmentation the v1 push system doesn't have).
 
     _Implementation:_ Expo Push Notifications service for the abstraction layer; backend cron job runs in Vercel Cron or a scheduled Supabase Edge Function. Time-zone aware — store `users.timezone` (new column).
 
 24. **Minimum iOS version:** **iOS 15+.** Maximum addressable market (~99.5%) — important for an audience that often holds phones longer than the consumer average. No Live Activities or Interactive Widgets in v1 anyway (we deferred widgets in Section A), so the modern-API trade is moot for now. Expo SDK 53+ supports iOS 15+.
+
+    _Engineering note (added 2026-06-08):_ iOS 15 silently sets the hardware floor at A9 / 2GB (iPhone 6s / SE-1). The heaviest surfaces (17 live SVG Sparky expressions, Power Grid + Reanimated + confetti, an unbounded local SQLite) punish exactly that device. Make device-class an explicit constraint: pre-rasterize Sparky to PNG/WebP, virtualize the Watts-ledger/bookmarks lists, cap/prune the local DB (licensed by the cache-is-disposable invariant), and add "runs acceptably on the floor device" to the sprint acceptance bar.
+
+#### E additions (decided 2026-06-08)
+
+24a. **Product analytics & experimentation:** **Sprint 1, not Sprint 7.** A 3–6 month beta is unmeasurable without it — every retention change otherwise ships on a guess. Adopt one offline-batched mobile analytics + remote-config/feature-flag tool (PostHog RN or Amplitude). Every retention change ships behind a flag (roll back without an App Store release). Extend events with `platform / appVersion / osVersion / stable-anon deviceId` (the existing `analytics_events` table has none of these). Instrument three funnels from build 1: taste-quiz→signup→paywall, trial-start→convert→lapse, day0→day1→day7 streak. **This gates whether the beta produces learning or just cost.**
+
+24b. **NEC code-cycle fidelity:** **Add NEC 2020 as a first-class version.** Verified: `NecVersion` is `2023|2026` only with zero 2020 questions, yet many state boards still test NEC 2020 — a user shown a 2023-only answer is the most likely source of 1-star "wrong answer" reviews. v1: add `2020` to `NecVersion`, map state→cycle in onboarding, **flag/gate any question whose answer changed across cycles** so a 2020 user never sees a 2023 answer as "correct," and label which cycle the bank is verified against. Full 2020 answer-key authoring is real SME work — run it as a parallel content track that may extend past TestFlight (omitting a question is better than getting its answer wrong).
+
+24c. **Privacy Manifest / App Store review surface:** **Promote from a Sprint 7 checklist line to a Phase 0/2 deliverable.** This is a high-disclosure app (3 OAuth identifiers, IAP history, study/usage data, push tokens, IP-timezone, free-text feedback) on a stack of exactly the Required-Reason-API libraries that cause silent binary rejection if `PrivacyInfo.xcprivacy` is wrong (expo-secure-store/Keychain, expo-sqlite, react-native-mmkv, FileManager). Author the Data-Collected matrix now, enumerate Required-Reason declarations, confirm each SDK (RevenueCat/Sentry/analytics/expo-notifications) ships a manifest EAS will merge, and decide ATT explicitly. Getting it wrong is a 1–2 week review-cycle loss at the worst moment.
 
 ### F. Resources / process ✅ ANSWERED 2026-05-19
 
@@ -324,6 +341,9 @@ Decision: accept this. Widgets and watchOS are post-v1. RN handles 95% of v1; we
 - **API surface stability:** 60+ endpoints. A mobile client will lock the shape of these. Worth an API audit + versioning strategy before mobile work starts.
 - **Theming:** the app supports light/dark via MutationObserver + class on `documentElement`. iOS dark mode is system-driven. Theme toggle UI will need redesign.
 - **Onboarding tour (react-joyride):** doesn't translate to any native stack — needs full rebuild in whatever framework wins.
+- **Reward-model drift (found 2026-06-08):** the docs described a model the code outgrew (7-tier Voltage, Amps multiplier gauge, ~2,000 questions). Verified reality: Voltage = quiz difficulty, Amps = correct-answer count, ~550 questions, and a 0/1K/1M/1B classification curve whose progress bar freezes after the 1,000-Watt rank. Docs reconciled; the rank curve still needs a redesign to ~8–12 named ranks (also improves the live web app). **Lesson: re-verify any "current architecture" claim against source before porting it.**
+- **No measurement during beta (found 2026-06-08):** no product analytics or feature-flag/A-B infra exists. Resolved by decision §E-24a (analytics + flags in Sprint 1).
+- **Content operations gap (found 2026-06-08):** no path from a "wrong answer" report to a shipped fix in days vs. an App Store release. Add an in-app report→triage queue (reuse the feedback/moderation table), per-question provenance, and prefer fetch-on-demand content so corrections ship via the `/api/question-packs` ETag path, not a binary release.
 
 ---
 
@@ -376,4 +396,5 @@ _Add entries as decisions get made._
 - 2026-05-19 — Section F answered. **Solo build with AI assistance**, no contractors at v1. **Open-ended timeline** — ship to TestFlight when ready (~4–6 months realistic). Hold the line on Section B scope; resist feature creep. **Next concrete output: API contract audit**, then phased sprint plan. Planning phase complete; build phase blocked only on the API audit and Apple Developer setup tasks.
 - 2026-05-20 — API contract audit completed. See [mobile-api-audit.md](./mobile-api-audit.md). 26 endpoints READY out of 53 existing — backend in better shape than expected. 18 net-new endpoints fully spec'd. 35-task backend prep checklist with day estimates. **~7 days of hard-blocker backend work** (schema, mobile auth shim) before mobile sprint 1 can begin; remaining ~28 days of backend work parallelizes with mobile sprint 1+. Surfaced 9 open questions including Hide-My-Email linking-flow gap (+1d) and a recommendation to use RevenueCat as the entitlement source-of-truth.
 - 2026-05-20 — **All 9 audit open questions resolved.** 8/9 accepted recommended answers. OQ#9 deviated: feedback Watts reward kept at public launch, with rate-limit + length-min + manual moderation queue + Watts gating mitigation (+0.5d backend). OQ#5 added Hide-My-Email pre-auth linking endpoints (+1d). OQ#8 deferred account export to v1.1 (−1d). **Net total backend estimate: ~35.5 days** (effectively unchanged from initial ~35). Backend critical path is unblocked — pre-build phase is complete.
+- 2026-06-08 — **Multi-lens audit (code-grounded) + 5 decisions locked.** A 7-lens adversarial audit verified against source that the planning docs describe a reward model the code outgrew, and surfaced sync-correctness holes. **Verified facts:** question bank ~550 (not "~2,000+"); **7-tier Voltage system removed** (`lib/voltage.ts` — Voltage now = quiz difficulty); **Amps = correct-answer count** (`lib/amps.ts`), not a multiplier; classification curve is 4 ranks at 0/1K/1M/1B Watts (progress bar frozen past Kilowatt); `/api/sync/upload` `handleSessionEnd` sets `wattsEarned:0` and skips streak, `handleProgress` skips SRS+breaker, `claimIdempotency` runs before the handler (throw → event lost), `updatedAt` bumps even on all-fail. **Decisions:** **(1) Sync re-architected** — bidirectional offline-first → **durable outbox + server-authoritative compute** (local SQLite is a disposable cache; server is sole authority for Watts/SRS/streak/breaker; deletes the conflict matrix and makes the 0-Watts hole structurally impossible). Supersedes the Q7 conflict policy. User framing: "most efficient outcome" over least code — this is both. **(2) Pricing reframe DEFERRED** (annual + exam-window pass + metered freemium) to a later dedicated pass; keep $14.99 for now; **confirm the "matches web" claim** — audit found no $14.99 web plan (web annual $299.99). **(3) Streak-save warning push PULLED INTO v1** (one branch on the shipped 15-min cron). **(4) Product analytics + feature flags MOVED TO Sprint 1.** **(5) NEC 2020 added as a first-class code cycle** for v1 (label + cross-cycle flagging; full authoring as a content track). Reward-model docs reconciled (§1.5, §2, §B-6, §5); rank-curve redesign to ~8–12 named ranks proposed, pending rank names (also improves the live web app). Privacy-Manifest and device-class-budget promoted to early deliverables; content-ops loop and Showdown house-ad cross-sell logged as follow-ups.
 - 2026-05-20 — **Build phase started — Phase 1 hard blockers complete, Phase 3 ~80% complete.** Shipped: migrations 0019 + 0020; mobile auth shim (`lib/auth-mobile.ts` — JWT mint/verify + opaque refresh tokens with strict rotation + 30s grace + theft revocation + OAuth user resolution with restore-on-same-provider); wrapped `auth()` in `auth.ts` so all 26 ready routes accept Bearer tokens transparently; 7 mobile auth endpoints (apple/google/email/refresh/logout/link-request/link-confirm); soft-delete enforced at auth choke points + auth-bypassing flows; account DELETE + link endpoints with restore-on-sign-in across all auth paths; RevenueCat webhook; question-pack manifest + tier download with 304 support; push-token + notification-prefs + timezone endpoints; feedback rewrite to persist + gate Watts on moderation, with admin list + moderate routes; sessions idempotent create + end (no double-award on retry); watts/transactions pagination; `/api/sync/upload` (7 event types) + `/api/sync/state` (delta-based with `since` cursor). Full `tsc --noEmit` clean. Both migrations verified on a temp copy of local DB. **Standalone `/api/account/restore` deemed unnecessary** — restore-on-sign-in covers the UX without an extra endpoint. **Still pending** (tracked in build-todo): Stripe-webhook → RC mirroring, hard-delete cron, streak/digest/resistance crons + Expo HTTP push integration, admin moderation UI page, idempotency on review completes. New env vars required pre-deploy: `MOBILE_JWT_SECRET`, `GOOGLE_IOS_CLIENT_ID`, `APPLE_IOS_BUNDLE_ID`, `REVENUECAT_WEBHOOK_SECRET`, `ADMIN_USER_IDS`.

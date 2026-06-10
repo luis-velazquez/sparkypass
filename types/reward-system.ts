@@ -9,10 +9,16 @@ export type QuizVoltage = 120 | 208 | 277 | 480;
 // ─── User Classification (replaces 7-tier system) ──────────────────────────
 
 export type UserClassification =
-  | "watt_apprentice"
+  | "milliwatt"
+  | "watt_electrician"
   | "kilowatt_electrician"
   | "megawatt_electrician"
-  | "gigawatt_electrician";
+  | "gigawatt_electrician"
+  | "terawatt_electrician"
+  | "petawatt_electrician"
+  | "exawatt_electrician"
+  | "zettawatt_electrician"
+  | "yottawatt_electrician";
 
 // ─── Quiz Watts Result ─────────────────────────────────────────────────────
 
