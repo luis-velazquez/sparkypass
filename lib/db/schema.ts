@@ -287,6 +287,7 @@ export const wattsTransactions = sqliteTable("watts_transactions", {
   voltageAtTime: integer("voltage_at_time").notNull(),  // tier at time of transaction
   ampsAtTime: real("amps_at_time").notNull(),  // amps at time of transaction
   description: text("description"),
+  sourceSessionId: text("source_session_id"),  // idempotency key for session awards (migration 0022); partial-unique on (user_id, source_session_id)
   createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
 });
 

@@ -1,10 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, studySessions, wattsTransactions } from "@/lib/db";
-import { eq, and, sql } from "drizzle-orm";
+import { db, users, studySessions } from "@/lib/db";
+import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
-import { getStreakMilestoneReward, calculateWattsServerSide } from "@/lib/watts";
-import { getUserClassification, getClassificationTitle, checkClassificationAdvancement } from "@/lib/voltage";
+import { awardSession } from "@/lib/award-session";
 
 // POST - Create a new study session.
 //
@@ -96,9 +95,6 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const { sessionId, activityType = "quiz_complete", questionsAnswered, questionsCorrect } = body;
 
-    // Server-side watts calculation — ignore any client-provided wattsEarned
-    const wattsEarned = calculateWattsServerSide(activityType, questionsCorrect ?? 0, questionsAnswered ?? 0);
-
     if (!sessionId) {
       return NextResponse.json(
         { error: "Session ID required" },
@@ -139,123 +135,24 @@ export async function PATCH(request: Request) {
       });
     }
 
-    // Get current user state
-    const [currentUser] = await db
-      .select({
-        wattsBalance: users.wattsBalance,
-        wattsLifetime: users.wattsLifetime,
-        studyStreak: users.studyStreak,
-        bestStudyStreak: users.bestStudyStreak,
-        lastStudyDate: users.lastStudyDate,
-        streakFuseExpiresAt: users.streakFuseExpiresAt,
-      })
-      .from(users)
-      .where(eq(users.id, session.user.id))
-      .limit(1);
-
-    // Calculate study streak using UTC date strings
-    const todayUTC = new Date().toISOString().slice(0, 10);
-    const yesterdayDate = new Date();
-    yesterdayDate.setUTCDate(yesterdayDate.getUTCDate() - 1);
-    const yesterdayUTC = yesterdayDate.toISOString().slice(0, 10);
-
-    const streakFuseActive = currentUser?.streakFuseExpiresAt && currentUser.streakFuseExpiresAt > new Date();
-
-    let newStreak = 1;
-    if (currentUser?.lastStudyDate) {
-      const lastStudyUTC = new Date(currentUser.lastStudyDate).toISOString().slice(0, 10);
-      if (lastStudyUTC === yesterdayUTC) {
-        newStreak = (currentUser.studyStreak || 0) + 1;
-      } else if (lastStudyUTC === todayUTC) {
-        newStreak = currentUser.studyStreak || 1;
-      } else if (streakFuseActive) {
-        newStreak = (currentUser.studyStreak || 0) + 1;
-      }
-    }
-
-    const newBestStreak = Math.max(newStreak, currentUser?.bestStudyStreak || 0);
-
-    // Check for streak milestone bonus
-    const streakBonus = getStreakMilestoneReward(newStreak) || 0;
-    const totalWattsEarned = wattsEarned + streakBonus;
-
-    const previousBalance = currentUser?.wattsBalance || 0;
-
-    // Update the session
-    await db
-      .update(studySessions)
-      .set({
-        endedAt: new Date(),
-        wattsEarned: totalWattsEarned,
-        questionsAnswered: questionsAnswered ?? null,
-        questionsCorrect: questionsCorrect ?? null,
-      })
-      .where(
-        and(
-          eq(studySessions.id, sessionId),
-          eq(studySessions.userId, session.user.id)
-        )
-      );
-
-    // Atomic balance update — prevents lost updates from concurrent requests
-    const [updatedUser] = await db
-      .update(users)
-      .set({
-        wattsBalance: sql`${users.wattsBalance} + ${totalWattsEarned}`,
-        wattsLifetime: sql`${users.wattsLifetime} + ${totalWattsEarned}`,
-        xp: sql`${users.wattsLifetime} + ${totalWattsEarned}`,
-        studyStreak: newStreak,
-        bestStudyStreak: newBestStreak,
-        lastStudyDate: new Date(),
-        updatedAt: new Date(),
-      })
-      .where(eq(users.id, session.user.id))
-      .returning({ wattsBalance: users.wattsBalance, wattsLifetime: users.wattsLifetime });
-
-    const newBalance = updatedUser.wattsBalance;
-
-    // Log activity watts transaction
-    await db.insert(wattsTransactions).values({
-      id: crypto.randomUUID(),
+    // Award via the shared, idempotent path (same code the offline sync ingest
+    // uses, so a session credits Watts exactly once across online + offline).
+    const award = await awardSession({
       userId: session.user.id,
-      type: activityType,
-      amount: wattsEarned,
-      balanceAfter: newBalance - streakBonus,
-      voltageAtTime: 0,
-      ampsAtTime: 0,
-      description: `${activityType} (${questionsCorrect ?? 0}/${questionsAnswered ?? 0} correct)`,
+      sessionId,
+      activityType,
+      questionsAnswered: questionsAnswered ?? 0,
+      questionsCorrect: questionsCorrect ?? 0,
     });
-
-    // Log streak milestone bonus if applicable
-    if (streakBonus > 0) {
-      await db.insert(wattsTransactions).values({
-        id: crypto.randomUUID(),
-        userId: session.user.id,
-        type: "streak_milestone",
-        amount: streakBonus,
-        balanceAfter: newBalance,
-        voltageAtTime: 0,
-        ampsAtTime: 0,
-        description: `${newStreak}-day streak milestone!`,
-      });
-    }
-
-    // Check for classification advancement
-    const advancement = checkClassificationAdvancement(previousBalance, newBalance);
-
-    const classification = getUserClassification(newBalance).classification;
-    const classificationTitle = getClassificationTitle(newBalance);
-
-    console.log(`Session complete for user ${session.user.id}: +${totalWattsEarned}W, streak=${newStreak}`);
 
     return NextResponse.json({
       success: true,
-      wattsEarned: totalWattsEarned,
-      wattsBalance: newBalance,
-      newStreak,
-      classification,
-      classificationTitle,
-      advancement,
+      wattsEarned: award.wattsEarned,
+      wattsBalance: award.wattsBalance,
+      newStreak: award.newStreak,
+      classification: award.classification,
+      classificationTitle: award.classificationTitle,
+      advancement: award.advancement,
     });
   } catch (error) {
     console.error("Error ending session:", error);

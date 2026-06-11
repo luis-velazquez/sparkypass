@@ -29,6 +29,7 @@ import {
   flashcardBookmarks,
   syncEventLog,
 } from "@/lib/db";
+import { awardSession } from "@/lib/award-session";
 
 type IngestEvent =
   | { type: "progress"; clientId: string; questionId: string; isCorrect: boolean; timeSpentSeconds?: number; answeredAt: string }
@@ -155,7 +156,11 @@ async function handleSessionEnd(
   }
 
   const [existing] = await db
-    .select({ id: studySessions.id, endedAt: studySessions.endedAt })
+    .select({
+      id: studySessions.id,
+      endedAt: studySessions.endedAt,
+      sessionType: studySessions.sessionType,
+    })
     .from(studySessions)
     .where(and(eq(studySessions.id, ev.clientSessionId), eq(studySessions.userId, userId)))
     .limit(1);
@@ -163,22 +168,27 @@ async function handleSessionEnd(
     return { clientId: ev.clientId, ok: false, error: "Session not found", code: "SESSION_NOT_FOUND" };
   }
   if (existing.endedAt) {
-    return { clientId: ev.clientId, ok: true, skipped: true };  // already ended
+    return { clientId: ev.clientId, ok: true, skipped: true };  // already ended/awarded
   }
 
-  // Set ended state. Server-side Watts calc is intentionally skipped here in
-  // v1 — the canonical Watts award still flows through PATCH /api/sessions
-  // when the client is back online. The sync upload records the raw fact that
-  // the session ended; Watts reconciliation is a follow-up so we don't risk
-  // double-awarding while the client may also be retrying the PATCH path.
-  await db
-    .update(studySessions)
-    .set({
-      endedAt,
-      questionsAnswered: typeof ev.questionsAnswered === "number" ? ev.questionsAnswered : null,
-      questionsCorrect: typeof ev.questionsCorrect === "number" ? ev.questionsCorrect : null,
-    })
-    .where(eq(studySessions.id, ev.clientSessionId));
+  // Award via the shared idempotent path — the SAME logic as PATCH /api/sessions,
+  // so an offline session credits Watts exactly once (closes the audit's
+  // "offline session earns 0 Watts" hole). Streak is dated as-of `endedAt` (play
+  // time); awardSession's atomic endedAt claim is the double-award guard.
+  const activityType =
+    typeof ev.activityType === "string" && ev.activityType.length > 0
+      ? ev.activityType
+      : existing.sessionType === "daily_challenge"
+        ? "daily_challenge"
+        : "quiz_complete";
+  await awardSession({
+    userId,
+    sessionId: ev.clientSessionId,
+    activityType,
+    questionsAnswered: typeof ev.questionsAnswered === "number" ? ev.questionsAnswered : 0,
+    questionsCorrect: typeof ev.questionsCorrect === "number" ? ev.questionsCorrect : 0,
+    at: endedAt,
+  });
   return { clientId: ev.clientId, ok: true };
 }
 
