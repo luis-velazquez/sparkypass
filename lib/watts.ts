@@ -90,6 +90,7 @@ const SERVER_ACTIVITY_VOLTAGE: Record<string, number> = {
   index_sniper: 12,
   translation_engine: 12,
   formula_builder: 12,
+  porta_jon: 100,             // break-time 3-question quiz; 3/3 also earns a Royal Flush bonus
 };
 
 /**

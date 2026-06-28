@@ -53,6 +53,11 @@ export const users = sqliteTable("users", {
   bestStudyStreak: integer("best_study_streak").notNull().default(0),
   lastStudyDate: integer("last_study_date", { mode: "timestamp" }),
   lastPenaltyDate: integer("last_penalty_date", { mode: "timestamp" }),
+  // Porta Jon Challenge — break-time 3-question quiz gamification (migration 0023)
+  throneStreak: integer("throne_streak").notNull().default(0),  // consecutive-day throne streak
+  throneStreakBest: integer("throne_streak_best").notNull().default(0),  // all-time best
+  throneLastCompletedAt: integer("throne_last_completed_at", { mode: "timestamp" }),  // drives 2h cooldown + streak date
+  scrollsDodged: integer("scrolls_dodged").notNull().default(0),  // lifetime challenges completed (anti-doomscroll tally + title)
   // Subscription fields
   trialEndsAt: integer("trial_ends_at", { mode: "timestamp" }),
   stripeCustomerId: text("stripe_customer_id").unique(),

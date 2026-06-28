@@ -13,6 +13,12 @@ import {
   getClassificationTitle,
   checkClassificationAdvancement,
 } from "@/lib/voltage";
+import {
+  PORTA_JON_ACTIVITY_TYPE,
+  PORTA_JON_QUESTION_COUNT,
+  PORTA_JON_ROYAL_FLUSH_BONUS,
+  getPortaJonTitle,
+} from "@/lib/porta-jon";
 import type { UserClassification } from "@/types/reward-system";
 
 export interface AwardSessionInput {
@@ -33,6 +39,14 @@ export interface AwardSessionResult {
   classification: UserClassification;
   classificationTitle: string;
   advancement: { newClassification: UserClassification; newTitle: string } | null;
+  // Porta Jon Challenge extras — only populated when activityType === 'porta_jon'.
+  portaJon?: {
+    throneStreak: number;
+    throneStreakBest: number;
+    scrollsDodged: number;
+    title: string;
+    royalFlush: boolean;
+  };
 }
 
 function dayString(d: Date): string {
@@ -56,6 +70,10 @@ export async function awardSession(
       bestStudyStreak: users.bestStudyStreak,
       lastStudyDate: users.lastStudyDate,
       streakFuseExpiresAt: users.streakFuseExpiresAt,
+      throneStreak: users.throneStreak,
+      throneStreakBest: users.throneStreakBest,
+      throneLastCompletedAt: users.throneLastCompletedAt,
+      scrollsDodged: users.scrollsDodged,
     })
     .from(users)
     .where(eq(users.id, input.userId))
@@ -82,7 +100,32 @@ export async function awardSession(
   }
   const newBestStreak = Math.max(newStreak, currentUser.bestStudyStreak || 0);
   const streakBonus = getStreakMilestoneReward(newStreak) || 0;
-  const totalWattsEarned = wattsEarned + streakBonus;
+
+  // ─ Porta Jon Challenge: throne streak (daily), scrolls-dodged, Royal Flush ─
+  // The 2h cooldown is gated by the caller (PATCH /api/sessions); the per-session
+  // atomic claim below still guarantees a given challenge advances throne once.
+  const isPortaJon = input.activityType === PORTA_JON_ACTIVITY_TYPE;
+  const royalFlush =
+    isPortaJon &&
+    input.questionsAnswered >= PORTA_JON_QUESTION_COUNT &&
+    input.questionsCorrect >= PORTA_JON_QUESTION_COUNT;
+  const royalFlushBonus = royalFlush ? PORTA_JON_ROYAL_FLUSH_BONUS : 0;
+
+  let newThroneStreak = currentUser.throneStreak || 0;
+  let newThroneBest = currentUser.throneStreakBest || 0;
+  let newScrollsDodged = currentUser.scrollsDodged || 0;
+  if (isPortaJon) {
+    newThroneStreak = 1;
+    if (currentUser.throneLastCompletedAt) {
+      const lastThrone = dayString(new Date(currentUser.throneLastCompletedAt));
+      if (lastThrone === yesterdayDay) newThroneStreak = (currentUser.throneStreak || 0) + 1;
+      else if (lastThrone === atDay) newThroneStreak = currentUser.throneStreak || 1;
+    }
+    newThroneBest = Math.max(newThroneStreak, currentUser.throneStreakBest || 0);
+    newScrollsDodged = (currentUser.scrollsDodged || 0) + 1;
+  }
+
+  const totalWattsEarned = wattsEarned + royalFlushBonus + streakBonus;
   const previousBalance = currentUser.wattsBalance || 0;
 
   // Atomic claim: end the session only if it isn't already ended. If the other
@@ -115,6 +158,15 @@ export async function awardSession(
       classification: current.classification,
       classificationTitle: current.title,
       advancement: null,
+      portaJon: isPortaJon
+        ? {
+            throneStreak: currentUser.throneStreak || 0,
+            throneStreakBest: currentUser.throneStreakBest || 0,
+            scrollsDodged: currentUser.scrollsDodged || 0,
+            title: getPortaJonTitle(currentUser.scrollsDodged || 0).title,
+            royalFlush: false,
+          }
+        : undefined,
     };
   }
 
@@ -128,6 +180,15 @@ export async function awardSession(
       bestStudyStreak: newBestStreak,
       lastStudyDate: at,
       updatedAt: new Date(),
+      // A Porta Jon run also advances its own throne streak + scrolls-dodged.
+      ...(isPortaJon
+        ? {
+            throneStreak: newThroneStreak,
+            throneStreakBest: newThroneBest,
+            throneLastCompletedAt: at,
+            scrollsDodged: newScrollsDodged,
+          }
+        : {}),
     })
     .where(eq(users.id, input.userId))
     .returning({ wattsBalance: users.wattsBalance });
@@ -140,13 +201,14 @@ export async function awardSession(
     .values({
       id: crypto.randomUUID(),
       userId: input.userId,
+      // Royal Flush bonus is folded into the main porta_jon entry (not a separate row).
       type: input.activityType,
-      amount: wattsEarned,
+      amount: wattsEarned + royalFlushBonus,
       balanceAfter: newBalance - streakBonus,
       sourceSessionId: input.sessionId,
       voltageAtTime: 0,
       ampsAtTime: 0,
-      description: `${input.activityType} (${input.questionsCorrect}/${input.questionsAnswered} correct)`,
+      description: `${input.activityType} (${input.questionsCorrect}/${input.questionsAnswered} correct)${royalFlush ? " — Royal Flush!" : ""}`,
     })
     .onConflictDoNothing();
 
@@ -178,5 +240,14 @@ export async function awardSession(
     classification: classification.classification,
     classificationTitle: classification.title,
     advancement,
+    portaJon: isPortaJon
+      ? {
+          throneStreak: newThroneStreak,
+          throneStreakBest: newThroneBest,
+          scrollsDodged: newScrollsDodged,
+          title: getPortaJonTitle(newScrollsDodged).title,
+          royalFlush,
+        }
+      : undefined,
   };
 }

@@ -4,6 +4,7 @@ import { db, users, studySessions } from "@/lib/db";
 import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 import { awardSession } from "@/lib/award-session";
+import { PORTA_JON_ACTIVITY_TYPE, portaJonCooldownRemaining } from "@/lib/porta-jon";
 
 // POST - Create a new study session.
 //
@@ -135,6 +136,28 @@ export async function PATCH(request: Request) {
       });
     }
 
+    // Porta Jon Challenge is gated to once every 2h. Reject early so a counted
+    // attempt isn't consumed during cooldown (the client also gates this via
+    // GET /api/porta-jon/state, so this is a server-side safety net).
+    if (activityType === PORTA_JON_ACTIVITY_TYPE) {
+      const [u] = await db
+        .select({ throneLastCompletedAt: users.throneLastCompletedAt })
+        .from(users)
+        .where(eq(users.id, session.user.id))
+        .limit(1);
+      const remaining = portaJonCooldownRemaining(u?.throneLastCompletedAt ?? null);
+      if (remaining > 0) {
+        return NextResponse.json(
+          {
+            success: false,
+            error: "Porta Jon Challenge is on cooldown.",
+            cooldownRemainingMs: remaining,
+          },
+          { status: 429 },
+        );
+      }
+    }
+
     // Award via the shared, idempotent path (same code the offline sync ingest
     // uses, so a session credits Watts exactly once across online + offline).
     const award = await awardSession({
@@ -153,6 +176,7 @@ export async function PATCH(request: Request) {
       classification: award.classification,
       classificationTitle: award.classificationTitle,
       advancement: award.advancement,
+      portaJon: award.portaJon,
     });
   } catch (error) {
     console.error("Error ending session:", error);
