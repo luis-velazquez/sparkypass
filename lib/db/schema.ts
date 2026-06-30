@@ -58,6 +58,7 @@ export const users = sqliteTable("users", {
   throneStreakBest: integer("throne_streak_best").notNull().default(0),  // all-time best
   throneLastCompletedAt: integer("throne_last_completed_at", { mode: "timestamp" }),  // drives 2h cooldown + streak date
   scrollsDodged: integer("scrolls_dodged").notNull().default(0),  // lifetime challenges completed (anti-doomscroll tally + title)
+  portaJonLongestStreak: integer("porta_jon_longest_streak").notNull().default(0),  // all-time best consecutive-correct streak (endless run, migration 0024)
   // Subscription fields
   trialEndsAt: integer("trial_ends_at", { mode: "timestamp" }),
   stripeCustomerId: text("stripe_customer_id").unique(),

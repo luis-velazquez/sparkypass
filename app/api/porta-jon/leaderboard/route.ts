@@ -16,6 +16,7 @@ export interface PortaJonLeaderboardEntry {
   title: string;
   titleIcon: string;
   isCurrentUser: boolean;
+  longestStreak: number; // all-time best consecutive-correct streak
 }
 
 export async function GET() {
@@ -51,6 +52,7 @@ export async function GET() {
       name: string;
       scrollsDodged: number;
       throneStreak: number;
+      portaJonLongestStreak: number;
     };
     const rows: CrewRow[] = await db
       .select({
@@ -59,6 +61,7 @@ export async function GET() {
         name: users.name,
         scrollsDodged: users.scrollsDodged,
         throneStreak: users.throneStreak,
+        portaJonLongestStreak: users.portaJonLongestStreak,
       })
       .from(users)
       .where(inArray(users.id, Array.from(crewIds)));
@@ -80,6 +83,7 @@ export async function GET() {
           title: title.title,
           titleIcon: title.icon,
           isCurrentUser: u.id === me,
+          longestStreak: u.portaJonLongestStreak || 0,
         };
       });
 

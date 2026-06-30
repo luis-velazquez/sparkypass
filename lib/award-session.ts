@@ -46,6 +46,7 @@ export interface AwardSessionResult {
     scrollsDodged: number;
     title: string;
     royalFlush: boolean;
+    longestStreak: number; // all-time best consecutive-correct streak
   };
 }
 
@@ -74,6 +75,7 @@ export async function awardSession(
       throneStreakBest: users.throneStreakBest,
       throneLastCompletedAt: users.throneLastCompletedAt,
       scrollsDodged: users.scrollsDodged,
+      portaJonLongestStreak: users.portaJonLongestStreak,
     })
     .from(users)
     .where(eq(users.id, input.userId))
@@ -114,6 +116,10 @@ export async function awardSession(
   let newThroneStreak = currentUser.throneStreak || 0;
   let newThroneBest = currentUser.throneStreakBest || 0;
   let newScrollsDodged = currentUser.scrollsDodged || 0;
+  // Endless-run personal best. In the survival run the client only answers
+  // correctly until the run-ending miss, so questionsCorrect IS the run's
+  // consecutive-correct streak — no separate field needed.
+  let newPortaJonLongest = currentUser.portaJonLongestStreak || 0;
   if (isPortaJon) {
     newThroneStreak = 1;
     if (currentUser.throneLastCompletedAt) {
@@ -123,6 +129,7 @@ export async function awardSession(
     }
     newThroneBest = Math.max(newThroneStreak, currentUser.throneStreakBest || 0);
     newScrollsDodged = (currentUser.scrollsDodged || 0) + 1;
+    newPortaJonLongest = Math.max(currentUser.portaJonLongestStreak || 0, input.questionsCorrect || 0);
   }
 
   const totalWattsEarned = wattsEarned + royalFlushBonus + streakBonus;
@@ -165,6 +172,7 @@ export async function awardSession(
             scrollsDodged: currentUser.scrollsDodged || 0,
             title: getPortaJonTitle(currentUser.scrollsDodged || 0).title,
             royalFlush: false,
+            longestStreak: currentUser.portaJonLongestStreak || 0,
           }
         : undefined,
     };
@@ -187,6 +195,7 @@ export async function awardSession(
             throneStreakBest: newThroneBest,
             throneLastCompletedAt: at,
             scrollsDodged: newScrollsDodged,
+            portaJonLongestStreak: newPortaJonLongest,
           }
         : {}),
     })
@@ -247,6 +256,7 @@ export async function awardSession(
           scrollsDodged: newScrollsDodged,
           title: getPortaJonTitle(newScrollsDodged).title,
           royalFlush,
+          longestStreak: newPortaJonLongest,
         }
       : undefined,
   };

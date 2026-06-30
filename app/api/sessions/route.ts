@@ -4,7 +4,7 @@ import { db, users, studySessions } from "@/lib/db";
 import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 import { awardSession } from "@/lib/award-session";
-import { PORTA_JON_ACTIVITY_TYPE, portaJonCooldownRemaining } from "@/lib/porta-jon";
+import { PORTA_JON_ACTIVITY_TYPE, portaJonCooldownRemaining, getPortaJonTitle } from "@/lib/porta-jon";
 
 // POST - Create a new study session.
 //
@@ -123,7 +123,14 @@ export async function PATCH(request: Request) {
       .limit(1);
     if (existingSession?.endedAt) {
       const [u] = await db
-        .select({ wattsBalance: users.wattsBalance, studyStreak: users.studyStreak })
+        .select({
+          wattsBalance: users.wattsBalance,
+          studyStreak: users.studyStreak,
+          throneStreak: users.throneStreak,
+          throneStreakBest: users.throneStreakBest,
+          scrollsDodged: users.scrollsDodged,
+          portaJonLongestStreak: users.portaJonLongestStreak,
+        })
         .from(users)
         .where(eq(users.id, session.user.id))
         .limit(1);
@@ -133,6 +140,20 @@ export async function PATCH(request: Request) {
         wattsEarned: existingSession.wattsEarned,
         wattsBalance: u?.wattsBalance ?? 0,
         newStreak: u?.studyStreak ?? 0,
+        // Echo the stored throne stats on a duplicate porta_jon end so the
+        // completion screen still shows the title/streak/best, not "Run over".
+        ...(activityType === PORTA_JON_ACTIVITY_TYPE
+          ? {
+              portaJon: {
+                throneStreak: u?.throneStreak ?? 0,
+                throneStreakBest: u?.throneStreakBest ?? 0,
+                scrollsDodged: u?.scrollsDodged ?? 0,
+                title: getPortaJonTitle(u?.scrollsDodged ?? 0).title,
+                royalFlush: false,
+                longestStreak: u?.portaJonLongestStreak ?? 0,
+              },
+            }
+          : {}),
       });
     }
 

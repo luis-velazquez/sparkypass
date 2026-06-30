@@ -20,6 +20,7 @@ export interface PortaJonStateResponse {
   titleIcon: string;
   nextTitle: string | null;
   challengesToNextTitle: number;
+  longestStreak: number; // all-time best consecutive-correct streak
 }
 
 export async function GET() {
@@ -35,6 +36,7 @@ export async function GET() {
         throneStreakBest: users.throneStreakBest,
         throneLastCompletedAt: users.throneLastCompletedAt,
         scrollsDodged: users.scrollsDodged,
+        portaJonLongestStreak: users.portaJonLongestStreak,
       })
       .from(users)
       .where(eq(users.id, session.user.id))
@@ -57,6 +59,7 @@ export async function GET() {
       titleIcon: progress.current.icon,
       nextTitle: progress.next?.title ?? null,
       challengesToNextTitle: progress.remaining,
+      longestStreak: u.portaJonLongestStreak || 0,
     };
     return NextResponse.json(payload);
   } catch (error) {
