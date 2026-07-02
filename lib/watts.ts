@@ -42,7 +42,6 @@ export const STREAK_WATTS_MILESTONES: Record<number, number> = {
 // ─── Power-up Costs ──────────────────────────────────────────────────────────
 
 export const POWER_UP_COSTS: Record<PowerUpType, number> = {
-  streak_fuse: 200,
   formula_sheet: 150,
   breaker_reset: 100,
 };

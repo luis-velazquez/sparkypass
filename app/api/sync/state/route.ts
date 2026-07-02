@@ -20,6 +20,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { eq, and, gt } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db, users, bookmarks, flashcardBookmarks } from "@/lib/db";
+import { isStreakSkipAvailable, streakSkipResetsAt } from "@/lib/streak";
 
 const MAX_DELTA_ROWS = 1000;
 
@@ -56,7 +57,7 @@ export async function GET(request: NextRequest) {
       studyStreak: users.studyStreak,
       bestStudyStreak: users.bestStudyStreak,
       lastStudyDate: users.lastStudyDate,
-      streakFuseExpiresAt: users.streakFuseExpiresAt,
+      streakSkipUsedAt: users.streakSkipUsedAt,
       subscriptionStatus: users.subscriptionStatus,
       subscriptionSource: users.subscriptionSource,
       subscriptionPeriodEnd: users.subscriptionPeriodEnd,
@@ -102,13 +103,19 @@ export async function GET(request: NextRequest) {
     .where(flashcardBookmarkWhere)
     .limit(MAX_DELTA_ROWS);
 
+  // Emit the SAME derived streak-skip shape as GET /api/user (not the raw column),
+  // so this blob and /api/user are interchangeable in the mobile AuthUser cache.
+  const now = new Date();
+  const { streakSkipUsedAt, ...userRest } = user;
+
   return NextResponse.json({
-    serverTime: new Date().toISOString(),
-    recommendedNextSince: new Date().toISOString(),  // client caches this for the next GET
+    serverTime: now.toISOString(),
+    recommendedNextSince: now.toISOString(),  // client caches this for the next GET
     user: {
-      ...user,
+      ...userRest,
       lastStudyDate: user.lastStudyDate?.toISOString() ?? null,
-      streakFuseExpiresAt: user.streakFuseExpiresAt?.toISOString() ?? null,
+      streakSkipAvailable: isStreakSkipAvailable(streakSkipUsedAt, now),
+      streakSkipResetsAt: streakSkipResetsAt(streakSkipUsedAt, now),
       subscriptionPeriodEnd: user.subscriptionPeriodEnd?.toISOString() ?? null,
       trialEndsAt: user.trialEndsAt?.toISOString() ?? null,
       updatedAt: user.updatedAt?.toISOString() ?? null,

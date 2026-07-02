@@ -8,6 +8,7 @@ import { db, users, studySessions, wattsTransactions } from "@/lib/db";
 import { eq, and, isNull, sql } from "drizzle-orm";
 import crypto from "crypto";
 import { getStreakMilestoneReward, calculateWattsServerSide } from "@/lib/watts";
+import { isStreakSkipAvailable } from "@/lib/streak";
 import {
   getUserClassification,
   getClassificationTitle,
@@ -70,7 +71,7 @@ export async function awardSession(
       studyStreak: users.studyStreak,
       bestStudyStreak: users.bestStudyStreak,
       lastStudyDate: users.lastStudyDate,
-      streakFuseExpiresAt: users.streakFuseExpiresAt,
+      streakSkipUsedAt: users.streakSkipUsedAt,
       throneStreak: users.throneStreak,
       throneStreakBest: users.throneStreakBest,
       throneLastCompletedAt: users.throneLastCompletedAt,
@@ -87,21 +88,45 @@ export async function awardSession(
 
   // Streak relative to `at` (the play day) — so a synced-late session is dated as
   // of when it was played, not when it reached the server.
+  const DAY_MS = 24 * 60 * 60 * 1000;
   const atDay = dayString(at);
-  const yesterdayDay = dayString(new Date(at.getTime() - 24 * 60 * 60 * 1000));
-  const fuseActive =
-    !!currentUser.streakFuseExpiresAt &&
-    currentUser.streakFuseExpiresAt > new Date();
+  const yesterdayDay = dayString(new Date(at.getTime() - DAY_MS));
+  const twoDaysAgoDay = dayString(new Date(at.getTime() - 2 * DAY_MS));
+  const lastStudyDay = currentUser.lastStudyDate
+    ? dayString(new Date(currentUser.lastStudyDate))
+    : null;
+  // Free automatic weekly grace: one missed day is forgiven, at most once per
+  // rolling 7 days (replaces the paid Streak Fuse). Only bridges a SINGLE missed
+  // day — a 2+ day gap always resets.
+  const graceAvailable = isStreakSkipAvailable(currentUser.streakSkipUsedAt, at);
 
-  let newStreak = 1;
-  if (currentUser.lastStudyDate) {
-    const last = dayString(new Date(currentUser.lastStudyDate));
-    if (last === yesterdayDay) newStreak = (currentUser.studyStreak || 0) + 1;
-    else if (last === atDay) newStreak = currentUser.studyStreak || 1;
-    else if (fuseActive) newStreak = (currentUser.studyStreak || 0) + 1;
+  // Only (re)compute the streak for a session on the NEWEST study day so far. A
+  // same-day repeat OR a late/out-of-order offline session (at <= last study day)
+  // leaves the streak untouched: no reset, no backward roll of lastStudyDate, no
+  // milestone re-award. Watts are still awarded (idempotent per session).
+  const advancesDay = lastStudyDay === null || atDay > lastStudyDay;
+
+  let newStreak = currentUser.studyStreak || 0;
+  let streakAdvanced = false;
+  let graceUsed = false;
+  if (advancesDay) {
+    streakAdvanced = true;
+    if (lastStudyDay === null) {
+      newStreak = 1; // first ever session
+    } else if (lastStudyDay === yesterdayDay) {
+      newStreak = (currentUser.studyStreak || 0) + 1; // consecutive day
+    } else if (lastStudyDay === twoDaysAgoDay && graceAvailable) {
+      newStreak = (currentUser.studyStreak || 0) + 1; // one missed day, forgiven
+      graceUsed = true;
+    } else {
+      newStreak = 1; // 2+ days missed, or the weekly skip is already spent → reset
+    }
   }
   const newBestStreak = Math.max(newStreak, currentUser.bestStudyStreak || 0);
-  const streakBonus = getStreakMilestoneReward(newStreak) || 0;
+  // Milestone bonus only when the streak actually moved to a new day — never on a
+  // same-day repeat — so a milestone (e.g. +800W at 30 days) can't be farmed by
+  // replaying quizzes on the same day.
+  const streakBonus = streakAdvanced ? getStreakMilestoneReward(newStreak) || 0 : 0;
 
   // ─ Porta Jon Challenge: throne streak (daily), scrolls-dodged, Royal Flush ─
   // The 2h cooldown is gated by the caller (PATCH /api/sessions); the per-session
@@ -186,7 +211,11 @@ export async function awardSession(
       xp: sql`${users.wattsLifetime} + ${totalWattsEarned}`,
       studyStreak: newStreak,
       bestStudyStreak: newBestStreak,
-      lastStudyDate: at,
+      // Never roll lastStudyDate backward: a late/out-of-order session keeps the
+      // existing (newer) date so it can't corrupt future streak day-math.
+      lastStudyDate: advancesDay ? at : currentUser.lastStudyDate,
+      // Consume the weekly free skip only when it actually saved the streak.
+      ...(graceUsed ? { streakSkipUsedAt: at } : {}),
       updatedAt: new Date(),
       // A Porta Jon run also advances its own throne streak + scrolls-dodged.
       ...(isPortaJon

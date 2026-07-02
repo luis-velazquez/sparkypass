@@ -1,6 +1,8 @@
 "use client";
 
 import { Shield, FileText } from "lucide-react";
+// Shield retained as the default icon; "streak_fuse" is retired but historical
+// purchase rows may still surface here.
 import { getPowerUpName } from "@/lib/power-ups";
 import type { PowerUpTypeValue } from "@/lib/db/schema";
 
@@ -15,7 +17,6 @@ interface ActivePowerUpBannerProps {
 }
 
 const ICON_MAP: Record<string, typeof Shield> = {
-  streak_fuse: Shield,
   formula_sheet: FileText,
 };
 

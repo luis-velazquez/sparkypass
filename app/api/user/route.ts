@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { getUserClassification, getClassificationTitle } from "@/lib/voltage";
+import { isStreakSkipAvailable, streakSkipResetsAt } from "@/lib/streak";
 
 export async function GET() {
   try {
@@ -15,10 +16,12 @@ export async function GET() {
     const [user] = await db
       .select({
         name: users.name,
+        email: users.email,
         username: users.username,
         wattsBalance: users.wattsBalance,
         wattsLifetime: users.wattsLifetime,
         studyStreak: users.studyStreak,
+        streakSkipUsedAt: users.streakSkipUsedAt,
         targetExamDate: users.targetExamDate,
         hasSeenOnboarding: users.hasSeenOnboarding,
         hasSeenTour: users.hasSeenTour,
@@ -35,14 +38,20 @@ export async function GET() {
     const classification = getUserClassification(user.wattsBalance).classification;
     const classificationTitle = getClassificationTitle(user.wattsBalance);
 
+    const now = new Date();
+
     return NextResponse.json({
       name: user.name,
+      email: user.email,
       username: user.username,
       wattsBalance: user.wattsBalance,
       wattsLifetime: user.wattsLifetime,
       classification,
       classificationTitle,
       studyStreak: user.studyStreak,
+      // Free weekly streak-skip status (auto-forgives one missed day per 7 days).
+      streakSkipAvailable: isStreakSkipAvailable(user.streakSkipUsedAt, now),
+      streakSkipResetsAt: streakSkipResetsAt(user.streakSkipUsedAt, now),
       targetExamDate: user.targetExamDate?.toISOString() || null,
       hasSeenOnboarding: user.hasSeenOnboarding ?? false,
       hasSeenTour: user.hasSeenTour ?? false,

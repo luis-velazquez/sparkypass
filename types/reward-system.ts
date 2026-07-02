@@ -118,7 +118,7 @@ export interface Friendship {
 
 // ─── Power-ups ──────────────────────────────────────────────────────────────
 
-export type PowerUpType = "streak_fuse" | "formula_sheet" | "breaker_reset";
+export type PowerUpType = "formula_sheet" | "breaker_reset";
 
 export interface PowerUpConfig {
   type: PowerUpType;

@@ -161,7 +161,7 @@ export default function PowerUpsPage() {
             message={
               cantAffordAnything
                 ? "Looks like you need more Watts! Play quizzes, games, or complete daily challenges to earn more. You'll be back shopping in no time!"
-                : "Use your hard-earned Watts to buy power-ups! Protect your streak with a Fuse, reveal formulas with a Formula Sheet, or instantly reset a tripped breaker."
+                : "Use your hard-earned Watts to buy power-ups! Reveal formulas with a Formula Sheet, instantly reset a tripped breaker, or unlock a Sparky Tip."
             }
             variant={cantAffordAnything ? "sad" : undefined}
           />

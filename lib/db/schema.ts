@@ -48,10 +48,11 @@ export const users = sqliteTable("users", {
   wattsLifetime: integer("watts_lifetime").notNull().default(0),  // Total Watts ever earned
   ampsBase: real("amps_base").notNull().default(0),  // Current amps value
   ampsLastCalculated: integer("amps_last_calculated", { mode: "timestamp" }),
-  streakFuseExpiresAt: integer("streak_fuse_expires_at", { mode: "timestamp" }),
+  streakFuseExpiresAt: integer("streak_fuse_expires_at", { mode: "timestamp" }),  // DEPRECATED: retired with the paid Streak Fuse; replaced by free weekly grace (streakSkipUsedAt). Column kept dormant to avoid a destructive migration.
   studyStreak: integer("study_streak").notNull().default(0),
   bestStudyStreak: integer("best_study_streak").notNull().default(0),
   lastStudyDate: integer("last_study_date", { mode: "timestamp" }),
+  streakSkipUsedAt: integer("streak_skip_used_at", { mode: "timestamp" }),  // last time the free weekly streak-skip was auto-consumed (migration 0025)
   lastPenaltyDate: integer("last_penalty_date", { mode: "timestamp" }),
   // Porta Jon Challenge — break-time 3-question quiz gamification (migration 0023)
   throneStreak: integer("throne_streak").notNull().default(0),  // consecutive-day throne streak
@@ -115,7 +116,10 @@ export const friendshipStatusValues = ["pending", "accepted", "declined", "block
 export type FriendshipStatusValue = (typeof friendshipStatusValues)[number];
 
 // Power-up type enum values
-export const powerUpTypeValues = ["streak_fuse", "formula_sheet", "breaker_reset", "sparky_tip"] as const;
+// "streak_fuse" retired — streak protection is now a free automatic weekly grace
+// (see lib/streak.ts). Historical power_up_purchases rows may still hold it; SQLite
+// has no CHECK constraint, so old data is unaffected by dropping it from this enum.
+export const powerUpTypeValues = ["formula_sheet", "breaker_reset", "sparky_tip"] as const;
 export type PowerUpTypeValue = (typeof powerUpTypeValues)[number];
 
 // User progress table - tracks individual question attempts

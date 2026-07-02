@@ -10,14 +10,8 @@ export interface PowerUpDefinition {
 }
 
 export const POWER_UP_DEFINITIONS: Record<PowerUpTypeValue, PowerUpDefinition> = {
-  streak_fuse: {
-    type: "streak_fuse",
-    name: "Streak Fuse",
-    description: "Protects your study streak for 24 hours. If you miss a day, your streak stays intact!",
-    cost: 200,
-    duration: "24 hours",
-    icon: "Shield",
-  },
+  // Streak Fuse retired — streak protection is now a free automatic weekly grace
+  // (one missed day forgiven per 7 days). See lib/streak.ts.
   formula_sheet: {
     type: "formula_sheet",
     name: "Formula Sheet",

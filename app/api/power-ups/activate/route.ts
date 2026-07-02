@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { db, users, powerUpPurchases } from "@/lib/db";
+import { db, powerUpPurchases } from "@/lib/db";
 import { eq, and, isNull } from "drizzle-orm";
 
 export async function POST(request: Request) {
@@ -40,23 +40,11 @@ export async function POST(request: Request) {
 
     const now = new Date();
 
-    // Set expiry based on type
-    let expiresAt: Date | null = null;
-    if (purchase.powerUpType === "streak_fuse") {
-      // 24 hours from activation
-      expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000);
-
-      // Also set the user's streakFuseExpiresAt field
-      await db
-        .update(users)
-        .set({ streakFuseExpiresAt: expiresAt, updatedAt: now })
-        .where(eq(users.id, userId));
-    } else if (purchase.powerUpType === "formula_sheet") {
-      // Active until used (marked as used when quiz completes)
-      // No expiry — consumed on next quiz
-      expiresAt = null;
-    } else if (purchase.powerUpType === "breaker_reset" || purchase.powerUpType === "sparky_tip") {
-      // Instant use — mark as used immediately
+    // breaker_reset / sparky_tip are instant — mark used and return immediately.
+    if (
+      purchase.powerUpType === "breaker_reset" ||
+      purchase.powerUpType === "sparky_tip"
+    ) {
       await db
         .update(powerUpPurchases)
         .set({ isActive: false, usedAt: now })
@@ -68,20 +56,17 @@ export async function POST(request: Request) {
       });
     }
 
-    // Activate the power-up
+    // formula_sheet: active until consumed on the next quiz (no expiry).
     await db
       .update(powerUpPurchases)
-      .set({
-        isActive: true,
-        expiresAt,
-      })
+      .set({ isActive: true, expiresAt: null })
       .where(eq(powerUpPurchases.id, purchaseId));
 
     return NextResponse.json({
       success: true,
       type: purchase.powerUpType,
-      expiresAt: expiresAt?.toISOString() || null,
-      message: `${purchase.powerUpType === "streak_fuse" ? "Streak Fuse" : "Formula Sheet"} activated!`,
+      expiresAt: null,
+      message: "Formula Sheet activated!",
     });
   } catch (error) {
     console.error("Error activating power-up:", error);
