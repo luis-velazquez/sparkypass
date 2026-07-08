@@ -21,6 +21,7 @@ export async function GET() {
         wattsBalance: users.wattsBalance,
         wattsLifetime: users.wattsLifetime,
         studyStreak: users.studyStreak,
+        bestStudyStreak: users.bestStudyStreak,
         streakSkipUsedAt: users.streakSkipUsedAt,
         targetExamDate: users.targetExamDate,
         hasSeenOnboarding: users.hasSeenOnboarding,
@@ -49,6 +50,7 @@ export async function GET() {
       classification,
       classificationTitle,
       studyStreak: user.studyStreak,
+      bestStudyStreak: user.bestStudyStreak,
       // Free weekly streak-skip status (auto-forgives one missed day per 7 days).
       streakSkipAvailable: isStreakSkipAvailable(user.streakSkipUsedAt, now),
       streakSkipResetsAt: streakSkipResetsAt(user.streakSkipUsedAt, now),
