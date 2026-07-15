@@ -27,6 +27,7 @@ export async function GET() {
         hasSeenOnboarding: users.hasSeenOnboarding,
         hasSeenTour: users.hasSeenTour,
         necYear: users.necYear,
+        passwordHash: users.passwordHash,
       })
       .from(users)
       .where(eq(users.id, session.user.id))
@@ -58,6 +59,9 @@ export async function GET() {
       hasSeenOnboarding: user.hasSeenOnboarding ?? false,
       hasSeenTour: user.hasSeenTour ?? false,
       necYear: user.necYear,
+      // Apple/Google-only accounts have no password; the mobile Settings hides
+      // the change-password entry for them (US-009).
+      hasPassword: Boolean(user.passwordHash),
     });
   } catch (error) {
     console.error("Error fetching user data:", error);

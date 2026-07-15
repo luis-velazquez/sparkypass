@@ -13,7 +13,7 @@
 //                                     (rejects if user has deleted_at set)
 
 import { SignJWT, jwtVerify } from "jose";
-import { eq, and, isNull } from "drizzle-orm";
+import { eq, and, isNull, ne } from "drizzle-orm";
 import crypto from "crypto";
 import {
   db,
@@ -387,6 +387,29 @@ export async function revokeRefreshToken(
         isNull(refreshTokens.revokedAt),
       ),
     );
+}
+
+/**
+ * Revoke every active refresh token for a user, optionally sparing one device.
+ * Password reset revokes all (the resetter must sign in fresh everywhere);
+ * change-password spares the device that performed the change.
+ */
+export async function revokeAllRefreshTokensForUser(
+  userId: string,
+  exceptDeviceId?: string,
+): Promise<void> {
+  const now = new Date();
+  const conditions = [
+    eq(refreshTokens.userId, userId),
+    isNull(refreshTokens.revokedAt),
+  ];
+  if (exceptDeviceId) {
+    conditions.push(ne(refreshTokens.deviceId, exceptDeviceId));
+  }
+  await db
+    .update(refreshTokens)
+    .set({ revokedAt: now })
+    .where(and(...conditions));
 }
 
 // ─── OAuth user resolution ──────────────────────────────────────────────────

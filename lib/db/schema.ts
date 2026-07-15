@@ -457,6 +457,38 @@ export const linkCodes = sqliteTable(
 export type LinkCode = typeof linkCodes.$inferSelect;
 export type NewLinkCode = typeof linkCodes.$inferInsert;
 
+// ─── Auth codes (migration 0026) — native-auth mobile flows ────────────────
+//
+// 6-digit emailed codes for in-app email verification (register/resend) and
+// password reset (forgot/reset). Mirrors link_codes — SHA-256 of the code at
+// rest, 15-min TTL, consumed_at — plus an attempts counter: 5 wrong guesses
+// invalidate the code. Only the newest unconsumed row per (email, purpose) is
+// honored; issuing a new code consumes prior ones.
+export const authCodePurposeValues = ["verify_email", "password_reset"] as const;
+export type AuthCodePurpose = (typeof authCodePurposeValues)[number];
+
+export const authCodes = sqliteTable(
+  "auth_codes",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    email: text("email").notNull(),
+    purpose: text("purpose", { enum: authCodePurposeValues }).notNull(),
+    codeHash: text("code_hash").notNull(),  // SHA-256 of the 6-digit code
+    attempts: integer("attempts").notNull().default(0),
+    expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+    consumedAt: integer("consumed_at", { mode: "timestamp" }),
+    createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    emailPurposeIdx: index("auth_codes_email_purpose_idx").on(table.email, table.purpose),
+    expiresAtIdx: index("auth_codes_expires_at_idx").on(table.expiresAt),
+  }),
+);
+
+export type AuthCode = typeof authCodes.$inferSelect;
+export type NewAuthCode = typeof authCodes.$inferInsert;
+
 // ─── Feedback (migration 0020) — OQ#9 anti-spam ────────────────────────────
 //
 // Per audit OQ#9 resolution: keep awarding Watts for feedback at public launch
