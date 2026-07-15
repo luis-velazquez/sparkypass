@@ -1,8 +1,25 @@
 import Stripe from "stripe";
 
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: "2026-01-28.clover",
-  typescript: true,
+// Constructed lazily on first use: `new Stripe()` THROWS when the key is
+// missing, and Next's build-time page-data collection evaluates this module
+// for every route that imports it — a missing STRIPE_SECRET_KEY in the build
+// environment must fail the Stripe CALL, not the whole deploy (this took
+// down deploys on 2026-07-14).
+let client: Stripe | null = null;
+function getStripe(): Stripe {
+  if (!client) {
+    client = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+      apiVersion: "2026-01-28.clover",
+      typescript: true,
+    });
+  }
+  return client;
+}
+
+export const stripe: Stripe = new Proxy({} as Stripe, {
+  get(_target, prop) {
+    return Reflect.get(getStripe(), prop, getStripe());
+  },
 });
 
 export type PlanKey = "quarterly" | "yearly" | "lifetime";
