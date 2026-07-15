@@ -1,6 +1,14 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Constructed lazily on first send: `new Resend()` throws when the key is
+// missing, and Next's build-time page-data collection evaluates this module
+// for every route that imports it — a missing RESEND_API_KEY must fail the
+// send, not the deploy (same class of failure as lib/stripe, 2026-07-14).
+let _resend: Resend | null = null;
+function getResend(): Resend {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
+}
 
 const fromAddress =
   process.env.EMAIL_FROM || "SparkyPass <onboarding@resend.dev>";
@@ -25,7 +33,7 @@ export async function sendVerificationEmail(
 ) {
   const safeName = escapeHtml(name);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: "Verify your email to get started with SparkyPass",
@@ -63,7 +71,7 @@ export async function sendWelcomeTrialEmail(to: string, name: string) {
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const safeName = escapeHtml(name);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: "Welcome to SparkyPass Beta — Your 30-Day Free Trial is Active!",
@@ -121,7 +129,7 @@ export async function sendPasswordResetEmail(
 ) {
   const safeName = escapeHtml(name);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: "Reset your SparkyPass password",
@@ -168,7 +176,7 @@ export async function sendLinkCodeEmail(
   const safeCode = escapeHtml(code);
   const safeProvider = escapeHtml(providerLabel);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: `Your SparkyPass linking code: ${code}`,
@@ -208,7 +216,7 @@ export async function sendVerificationCodeEmail(
   const safeName = escapeHtml(name);
   const safeCode = escapeHtml(code);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: `Your SparkyPass verification code: ${code}`,
@@ -248,7 +256,7 @@ export async function sendPasswordResetCodeEmail(
   const safeName = escapeHtml(name);
   const safeCode = escapeHtml(code);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: `Your SparkyPass password reset code: ${code}`,
