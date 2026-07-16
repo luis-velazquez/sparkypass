@@ -6,7 +6,9 @@ import { cn } from "@/lib/utils";
 import { getClassificationTitle, getClassificationProgress } from "@/lib/levels";
 
 interface XPProgressBarProps {
-  wattsBalance: number;
+  /** LIFETIME watts — classification keys off the monotonic total, not the
+   *  spendable balance. */
+  wattsLifetime: number;
   /** Show the classification label above the bar */
   showLevel?: boolean;
   /** Show watts numbers below the bar */
@@ -20,15 +22,15 @@ interface XPProgressBarProps {
 }
 
 export function XPProgressBar({
-  wattsBalance,
+  wattsLifetime,
   showLevel = true,
   showXPNumbers = true,
   size = "md",
   className,
   animationDuration = 0.8,
 }: XPProgressBarProps) {
-  const classificationTitle = getClassificationTitle(wattsBalance);
-  const progress = getClassificationProgress(wattsBalance);
+  const classificationTitle = getClassificationTitle(wattsLifetime);
+  const progress = getClassificationProgress(wattsLifetime);
   const isMax = !progress.next;
 
   const barHeight = {
@@ -61,7 +63,7 @@ export function XPProgressBar({
                 size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-2xl"
               )}
             >
-              {wattsBalance.toLocaleString()}W
+              {wattsLifetime.toLocaleString()}W
             </span>
             <span className={cn("text-muted-foreground", textSize[size])}>
               {classificationTitle}
@@ -88,7 +90,7 @@ export function XPProgressBar({
             textSize[size]
           )}
         >
-          <span>{wattsBalance.toLocaleString()}W</span>
+          <span>{wattsLifetime.toLocaleString()}W</span>
           {isMax ? (
             <span className="text-amber dark:text-sparky-green font-medium">Max Classification!</span>
           ) : (

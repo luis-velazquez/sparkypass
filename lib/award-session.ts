@@ -68,6 +68,7 @@ export async function awardSession(
   const [currentUser] = await db
     .select({
       wattsBalance: users.wattsBalance,
+      wattsLifetime: users.wattsLifetime,
       studyStreak: users.studyStreak,
       bestStudyStreak: users.bestStudyStreak,
       lastStudyDate: users.lastStudyDate,
@@ -159,6 +160,8 @@ export async function awardSession(
 
   const totalWattsEarned = wattsEarned + royalFlushBonus + streakBonus;
   const previousBalance = currentUser.wattsBalance || 0;
+  // Classification keys off LIFETIME watts (monotonic), not the spendable balance.
+  const previousLifetime = currentUser.wattsLifetime || 0;
 
   // Atomic claim: end the session only if it isn't already ended. If the other
   // path (online PATCH vs offline sync) ended it first, this updates 0 rows and
@@ -181,7 +184,7 @@ export async function awardSession(
     .returning({ id: studySessions.id });
 
   if (claimed.length === 0) {
-    const current = getUserClassification(previousBalance);
+    const current = getUserClassification(previousLifetime);
     return {
       awarded: false,
       wattsEarned: 0,
@@ -229,9 +232,13 @@ export async function awardSession(
         : {}),
     })
     .where(eq(users.id, input.userId))
-    .returning({ wattsBalance: users.wattsBalance });
+    .returning({
+      wattsBalance: users.wattsBalance,
+      wattsLifetime: users.wattsLifetime,
+    });
 
   const newBalance = updated.wattsBalance;
+  const newLifetime = updated.wattsLifetime;
 
   // Ledger — idempotent on (user_id, source_session_id) belt-and-suspenders.
   await db
@@ -267,8 +274,8 @@ export async function awardSession(
       .onConflictDoNothing();
   }
 
-  const advancement = checkClassificationAdvancement(previousBalance, newBalance);
-  const classification = getUserClassification(newBalance);
+  const advancement = checkClassificationAdvancement(previousLifetime, newLifetime);
+  const classification = getUserClassification(newLifetime);
 
   return {
     awarded: true,

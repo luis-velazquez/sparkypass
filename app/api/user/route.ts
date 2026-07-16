@@ -37,8 +37,8 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const classification = getUserClassification(user.wattsBalance).classification;
-    const classificationTitle = getClassificationTitle(user.wattsBalance);
+    const classification = getUserClassification(user.wattsLifetime).classification;
+    const classificationTitle = getClassificationTitle(user.wattsLifetime);
 
     const now = new Date();
 

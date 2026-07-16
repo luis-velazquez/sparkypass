@@ -206,8 +206,8 @@ export default function ProfilePage() {
     );
   }
 
-  const classificationTitle = getClassificationTitle(profile.wattsBalance);
-  const classificationProgress = getClassificationProgress(profile.wattsBalance);
+  const classificationTitle = getClassificationTitle(profile.wattsLifetime);
+  const classificationProgress = getClassificationProgress(profile.wattsLifetime);
   const memberSince = profile.createdAt
     ? format(new Date(profile.createdAt), "MMMM d, yyyy")
     : "Unknown";

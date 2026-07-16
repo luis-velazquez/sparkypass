@@ -125,8 +125,8 @@ export async function GET() {
     const accuracy =
       totalAnswered > 0 ? Math.round((correctCount / totalAnswered) * 100) : 0;
 
-    const classification = getUserClassification(user?.wattsBalance || 0).classification;
-    const classificationTitle = getClassificationTitle(user?.wattsBalance || 0);
+    const classification = getUserClassification(user?.wattsLifetime || 0).classification;
+    const classificationTitle = getClassificationTitle(user?.wattsLifetime || 0);
 
     return NextResponse.json({
       totalAnswered,
