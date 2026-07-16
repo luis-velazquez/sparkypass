@@ -36,7 +36,8 @@ export type SparkyVariant =
   | "cool"
   | "sleeping"
   | "graduation"
-  | "electrified";
+  | "electrified"
+  | "vest";
 
 export interface SparkyAvatarProps
   extends React.HTMLAttributes<HTMLDivElement>,
@@ -67,6 +68,7 @@ export function SparkyAvatar({
     sleeping: "/sleeping-sparky.svg",
     graduation: "/graduation-sparky.svg",
     electrified: "/electrified-sparky.svg",
+    vest: "/sparkypass-vest.svg",
   };
 
   if (variant in svgVariants) {

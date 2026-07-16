@@ -422,6 +422,7 @@ export default function ProfilePage() {
           >
             <SparkyMessage
               size="medium"
+              variant="vest"
               message="Looking good! Keep working hard and you'll be a Master Electrician before you know it. I believe in you!"
             />
           </motion.div>
