@@ -191,7 +191,7 @@
       "necArticle": "Article 430",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "A feeder supplies three motors with full-load currents of 44 A, 26 A, and 14 A. Per 430.24, what is the minimum feeder conductor ampacity?",
+      "questionText": "A feeder supplies three motors with full-load currents of 44 A, 26 A, and 14 A. What is the minimum feeder conductor ampacity?",
       "options": [
         "95 A",
         "100 A",

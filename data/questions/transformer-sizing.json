@@ -130,7 +130,7 @@
         "600% of primary FLC"
       ],
       "correctAnswer": 1,
-      "explanation": "Per Table 450.3(A), for a supervised location with primary-only protection (no secondary OCPD), the maximum primary fuse rating is 250% of the rated primary current. This is lower than the 300% permitted when secondary protection is also provided, because the primary device must provide all the transformer protection by itself.",
+      "explanation": "For a supervised location with primary-only protection (no secondary OCPD), the maximum primary fuse rating is 250% of the rated primary current. This is lower than the 300% permitted when secondary protection is also provided, because the primary device must provide all the transformer protection by itself.",
       "necReference": "Table 450.3(A)",
       "sparkyTip": "Supervised primary-only: fuse = 250%, breaker = 300%. These are tighter than the \"any location\" values because there is no secondary backup device.",
       "necVersions": [
@@ -145,7 +145,7 @@
       "necArticle": "Article 450",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), what is the maximum secondary fuse rating for a transformer with impedance not more than 6%?",
+      "questionText": "For a transformer in a supervised location with both primary and secondary voltages over 1000V, what is the maximum secondary fuse rating if the impedance is not more than 6%?",
       "options": [
         "125% of secondary FLC",
         "225% of secondary FLC",
@@ -153,9 +153,9 @@
         "300% of secondary FLC"
       ],
       "correctAnswer": 2,
-      "explanation": "Per Table 450.3(A), for a transformer with impedance not more than 6%, the maximum secondary fuse rating is 250% of the rated secondary current. The secondary circuit breaker is permitted up to 300%. Remember, fuses always get a lower percentage than circuit breakers.",
+      "explanation": "Per Table 450.3(A) under 'Supervised locations only', for a transformer with secondary voltage over 1000V and an impedance not more than 6%, the maximum secondary fuse rating is 250% of the rated secondary current. A secondary circuit breaker is permitted up to 300%.",
       "necReference": "Table 450.3(A)",
-      "sparkyTip": "Secondary protection follows the same fuse-vs-breaker pattern: fuse at 250%, breaker at 300% for ≤6% impedance. For >6%, it drops to 225% fuse / 250% breaker.",
+      "sparkyTip": "Secondary protection over 1000V follows a fuse-vs-breaker pattern in supervised locations: fuse at 250%, breaker at 300% for ≤6% impedance. For >6%, it drops to 225% fuse / 250% breaker.",
       "necVersions": [
         "2023",
         "2026"
@@ -594,17 +594,17 @@
       "necArticle": "Article 450",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 750 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary fuse rating?",
+      "questionText": "A 750 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. What is the maximum calculated rating for the primary fuse?",
       "options": [
         "208.2 amperes",
-        "260.3 amperes",
+        "260.2 amperes",
         "312.3 amperes",
         "624.5 amperes"
       ],
       "correctAnswer": 1,
-      "explanation": "Step 1: Primary FLC = 750,000 VA ÷ (4160V × 1.732) = 104.1A. Step 2: Supervised location, primary-only protection: per Table 450.3(A), primary fuse = 250%. Step 3: 104.1A × 2.50 = 260.3 amperes maximum fuse rating.",
+      "explanation": "Step 1: Primary FLC = 750,000 VA ÷ (4160V × 1.732) = 104.09A. Step 2: In Table 450.3(A), the 'Not more than 6%' row allows a 300% fuse but requires secondary protection. Since this is a primary-only installation, you must use the 'Supervised locations only - Any' impedance row, limiting the primary fuse to 250%. Step 3: 104.09A × 250% = 260.22 amperes.",
       "necReference": "Table 450.3(A)",
-      "sparkyTip": "Supervised primary-only fuse = 250% (the tightest primary setting in the table). The other options use 200% (208.2A), 300% (312.3A), and 600% (624.5A) — common mistakes from grabbing the wrong row or column.",
+      "sparkyTip": "The 5% impedance is a master-level trap! Candidates often see 5% and grab the 300% multiplier from the 'Not more than 6%' row—but that row requires secondary protection. For primary-only, you are forced to use the 'Any' impedance row.",
       "necVersions": [
         "2023",
         "2026"

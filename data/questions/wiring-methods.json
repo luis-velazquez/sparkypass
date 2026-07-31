@@ -196,6 +196,135 @@
       ],
       "explanation": "Per 334.30, NM cable must be secured within 12 inches of every box, cabinet, or fitting. The maximum permitted cable length between the cable entry and that closest support is 18 inches — leaving room for a small service loop, but not unlimited slack.",
       "necReference": "334.30"
+    },
+    {
+      "id": "PRAC-SW-001",
+      "category": "wiring-methods",
+      "necArticle": "N/A",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "When wiring a standard 3-way switch circuit, how many traveler wires are required between the two switches?",
+      "options": [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ],
+      "correctAnswer": 1,
+      "explanation": "A standard 3-way switch setup requires two traveler wires to connect the traveler terminals of one switch to the traveler terminals of the other. This allows the circuit to be opened or closed from either switch location.",
+      "necReference": "N/A",
+      "sparkyTip": "Always group and identify your travelers (often with red or blue tape) so you don't accidentally mix them up with your common wire (the line or the switch leg) when making up the box.",
+      "necVersions": []
+    },
+    {
+      "id": "WIR-2006-001",
+      "category": "wiring-and-protection",
+      "necArticle": "N/A",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "What is the standard color used to identify the grounded (neutral) conductor in a 277/480-volt system?",
+      "options": [
+        "White",
+        "Green",
+        "Gray",
+        "Brown"
+      ],
+      "correctAnswer": 2,
+      "explanation": "For systems operating at more than 150 volts to ground, such as a 277/480V system, the grounded (neutral) conductor must be identified by a continuous gray outer finish (or white/gray with a colored stripe other than green) to distinguish it from the standard white neutrals of 120V systems.",
+      "necReference": "NEC 200.6(B)",
+      "sparkyTip": "A standard field memory trick for 480V systems is 'BOY' (Brown, Orange, Yellow) for the phase conductors, and Gray for the neutral. Never mix up your 277V gray neutrals with your 120V white ones in shared pull boxes.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-REC-001",
+      "category": "wiring-devices",
+      "necArticle": "406.10(B)",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "When wiring a standard 120V receptacle, what is the color of the terminal screw where the hot (ungrounded) wire is connected?",
+      "options": [
+        "Silver",
+        "Green",
+        "Brass/Gold",
+        "White"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The terminal for the ungrounded (hot) conductor is identified by a brass or dark-colored screw. Silver screws are reserved for the grounded (neutral) conductor, and green hexagon-shaped screws are for the equipment grounding conductor.",
+      "necReference": "NEC 406.10(B)",
+      "sparkyTip": "A classic field saying is 'Black to Brass, to save your...'. The hot wire (usually black or red) always lands on the darker brass screw, while the white neutral lands on the lighter silver screw.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-RACE-001",
+      "category": "conduit-fill",
+      "necArticle": "Chapter 9",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "When determining the allowable percentage of conduit fill and finding the dimensions of raceways and conductors, which NEC Chapter contains the required tables?",
+      "options": [
+        "Chapter 1",
+        "Chapter 3",
+        "Chapter 9",
+        "Informative Annex C"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Chapter 9 contains the mandatory tables for calculating conduit fill, including Table 1 (Percent of Cross Section of Conduit), Table 4 (Dimensions and Percent Area of Conduit), and Table 5 (Dimensions of Insulated Conductors). While Chapter 3 covers the general installation rules for the wiring methods, the mathematical tables live in Chapter 9.",
+      "necReference": "n/a",
+      "sparkyTip": "Don't let Informative Annex C trick you! Annex C is fantastic for quick-referencing a conduit filled with conductors of the exact same size, but Chapter 9 is mandatory when you are calculating a mix of different conductor sizes.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-GEN-001",
+      "category": "general-knowledge",
+      "necArticle": "Article 100",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "Which Article of the NEC is dedicated entirely to the definitions of essential terms used throughout the codebook?",
+      "options": [
+        "Article 90",
+        "Article 100",
+        "Article 110",
+        "Article 200"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Article 100 is the master list of definitions for the NEC. Starting with the 2023 Code cycle, all definitions used throughout the NEC were consolidated into Article 100 rather than being scattered in the '.2' sections of individual articles.",
+      "necReference": "Article 100",
+      "sparkyTip": "Always check Article 100 before arguing over a code rule! The NEC's specific definition of a word (like 'Accessible' vs 'Readily Accessible') can completely change how a rule is applied.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-NAV-001",
+      "category": "code-navigation",
+      "necArticle": "Index",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "What is the most effective tool in the NEC for quickly locating a specific code rule?",
+      "options": [
+        "Table of Contents",
+        "Article 90",
+        "The Keyword Index",
+        "Informative Annex A"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Keyword Index, located at the very back of the NEC, is the single most critical navigation tool for any electrician. While the Table of Contents provides a broad overview of Chapters and Articles, the Index allows you to search by specific nouns, locations, or components to immediately locate the exact section, subsection, or exception you need without aimlessly flipping pages.",
+      "necReference": "n/a",
+      "sparkyTip": "Passing your exam isn't about memorizing the codebook—it's about mastering the Index! When you read a question, identify the core noun (e.g., 'Transformer', 'Marinas', 'Grounding') and hit the Index first. It will save you massive amounts of time.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "journeyman": [
@@ -1627,6 +1756,206 @@
       ],
       "necReference": "408.10(A)(2)",
       "sparkyTip": "Always look for the factory-installed barriers or crown boxes when passing through vertical sections. Note that the 2026 NEC relocated this rule from 408.3(A)(2) to 408.10(A)(2)."
+    },
+    {
+      "id": "SWBD-40818A-002",
+      "category": "switchboards-panelboards-switchgear",
+      "necArticle": "408.18(A)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "Without a noncombustible shield, what is the minimum clearance required between the top of a non-totally enclosed switchboard and a combustible ceiling?",
+      "options": [
+        "12 inches",
+        "24 inches",
+        "36 inches",
+        "48 inches"
+      ],
+      "correctAnswer": 2,
+      "explanation": "According to NEC 408.18(A), for other than a totally enclosed switchboard or switchgear, a space of not less than 36 inches (900 mm or 3 ft) must be provided between the top of the equipment and any combustible ceiling, unless a noncombustible shield is provided.",
+      "necReference": "NEC 408.18(A)",
+      "sparkyTip": "Always check the ceiling material. If the ceiling is noncombustible (like concrete or metal decking), or if you install a noncombustible shield above the gear, this specific 3-foot clearance rule does not apply.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "SWBD-40840-EXC",
+      "category": "switchboards-panelboards-switchgear",
+      "necArticle": "408.40 Exception",
+      "difficulty": "Master",
+      "calculation": false,
+      "questionText": "When installing an isolated ground receptacle for sensitive equipment, how is the insulated equipment grounding conductor permitted to be handled at the local subpanel?",
+      "options": [
+        "It must terminate on the neutral bar",
+        "It may pass through without connecting to the equipment grounding bar",
+        "It must bond to the metallic enclosure",
+        "It must splice to the standard grounding conductor"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The exception to NEC 408.40 allows an isolated equipment grounding conductor to pass through the panelboard without connecting to the panelboard’s equipment grounding terminal bar, allowing it to run straight back to the applicable service or separately derived system.",
+      "necReference": "NEC 408.40 Exception",
+      "sparkyTip": "During QA/QC walks, verify that the isolated ground (IG) wire retains its insulation and entirely avoids the ground bar in downstream subpanels. It must make a clean, continuous run.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "SWBD-40841-EXC",
+      "category": "switchboards-panelboards-switchgear",
+      "necArticle": "408.41 Exception",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "You are wiring a distribution panel. Under what condition is it acceptable to terminate more than one grounded conductor in a single terminal lug?",
+      "options": [
+        "When the conductors are size 10 AWG or smaller",
+        "When the conductors are part of a parallel circuit and the terminal is identified for multiple conductors",
+        "When the panelboard is rated for 200 amps or less",
+        "When they are twisted together before entering the terminal"
+      ],
+      "correctAnswer": 1,
+      "explanation": "While the general rule requires each grounded conductor to have its own individual terminal, the exception to NEC 408.41 allows grounded conductors of parallel circuits to share a single terminal, provided that specific terminal is identified (rated) for connecting more than one conductor.",
+      "necReference": "NEC 408.41 Exception",
+      "sparkyTip": "Always remember the 'one neutral per hole' rule! The only time you can double-tap a neutral is if you are pulling parallel conductors (like parallel 3/0 neutrals) into a lug specifically stamped for multiple wires.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "LUM-41010-002",
+      "category": "luminaires",
+      "necArticle": "410.10(D)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When installing luminaires, what is the vertical height of the restricted zone, measured from the top of the bathtub rim, within which hanging fixtures are prohibited?",
+      "options": [
+        "6 feet",
+        "7 feet 6 inches",
+        "8 feet",
+        "10 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 410.10(D) establishes a restricted zone measuring 3 feet horizontally and 8 feet (2.5 m) vertically from the top of the bathtub rim or shower threshold. Hanging fixtures, such as chandeliers and paddle fans, are prohibited in this space.",
+      "necReference": "NEC 410.10(D)",
+      "sparkyTip": "Always remember the 3-by-8 rule for tubs. If the ceiling is lower than 8 feet above the tub rim, you cannot install any hanging fixtures or paddle fans in that footprint.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "LUM-41010-D2",
+      "category": "luminaires",
+      "necArticle": "410.10(D)(2)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "You are installing a flush-mounted luminaire directly above a bathtub, 7 feet above the rim. If the fixture is positioned where it will be subject to actual shower spray, what minimum listing must it carry?",
+      "options": [
+        "Damp location",
+        "Wet location",
+        "Corrosion resistant",
+        "Weatherproof"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Luminaires installed within the 8-foot vertical footprint of a bathtub or shower must be listed for damp locations. However, if the fixture is placed in a position where it is subject to direct shower spray, the requirement upgrades and it must be explicitly marked for wet locations.",
+      "necReference": "NEC 410.10(D)(2)",
+      "sparkyTip": "Not all over-tub fixtures need a wet rating. If the showerhead is positioned so it cannot directly spray the fixture, a standard damp rating (like most standard LED wafers) is completely compliant.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-40609C-11",
+      "category": "wiring-devices",
+      "necArticle": "406.9(C)(1)(1)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "What is the restricted horizontal distance from the outside edge of a bathtub rim or shower threshold where a standard convenience receptacle is prohibited?",
+      "options": [
+        "1 foot",
+        "2 feet",
+        "3 feet",
+        "4 feet"
+      ],
+      "correctAnswer": 2,
+      "explanation": "Standard convenience receptacles are not permitted to be installed within a restricted zone that measures 3 feet (900 mm) horizontally and 8 feet (2.5 m) vertically from the top of the bathtub rim or shower stall threshold.",
+      "necReference": "NEC 406.9(C)(1)(1)",
+      "sparkyTip": "Keep the tape measure handy during the rough-in. Unless the bathroom is so small that you have to use the farthest-wall exception, that 3-foot horizontal bubble is a strict 'no-fly zone' for receptacles.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-30003C-01",
+      "category": "wiring-methods",
+      "necArticle": "300.3(C)(1)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "Under what condition are 120V and 277V circuit conductors permitted to occupy the same conduit or raceway?",
+      "options": [
+        "They are never permitted in the same raceway and must be in separate conduits.",
+        "Only if they are separated by a continuous, nonconductive physical barrier.",
+        "Yes, provided all conductors have an insulation rating equal to at least the maximum circuit voltage applied.",
+        "Yes, but the total fill capacity of the conduit must be derated by an additional 50%."
+      ],
+      "correctAnswer": 2,
+      "explanation": "Conductors of ac and dc circuits, rated 1000 volts or less, can occupy the same raceway or enclosure. The critical requirement is that all conductors must have an insulation rating equal to at least the maximum circuit voltage applied to any conductor within the raceway.",
+      "necReference": "NEC 300.3(C)(1)",
+      "sparkyTip": "Since standard THHN/THWN-2 building wire is rated for 600V, pulling 120V and 277V together easily meets this insulation rule. The real QA/QC catch on these pulls is ensuring the different system conductors and their respective neutrals are properly identified and grouped at your termination points!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "WD-J015",
+      "category": "wiring-devices",
+      "necArticle": "Article 406",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "You are installing a 15-ampere, 125-volt nonlocking-type receptacle in an outdoor wet location. According to the NEC, the receptacle itself must be listed and identified as which of the following?",
+      "options": [
+        "Water-resistant",
+        "Weatherproof",
+        "Weather-resistant",
+        "Waterproof"
+      ],
+      "correctAnswer": 2,
+      "explanation": "This is a classic terminology trap. While the enclosure and cover for a receptacle in a wet location must be 'weatherproof' (typically an in-use or 'bubble' cover), NEC 406.9(B)(1) strictly mandates that the 15- and 20-ampere, 125- and 250-volt nonlocking receptacle itself be listed and identified as 'weather-resistant'. The NEC does not use the terms 'waterproof' or 'water-resistant' for these specific devices.",
+      "necReference": "NEC 406.9(B)(1)",
+      "sparkyTip": "Look for the little 'WR' stamped directly on the face of the outlet! A good way to remember this for the exam: the COVER is Weatherproof (WP), but the RECEPTACLE is Weather-Resistant (WR).",
+      "necVersions": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "examTopic": "wiring-devices"
+    },
+    {
+      "id": "BC-J022",
+      "category": "branch-circuits",
+      "necArticle": "Article 210",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "When utilizing a standard 120-volt, 15- or 20-ampere branch circuit, what is the maximum allowable capacity rating for a single piece of portable, cord-and-plug-connected utilization equipment that is not fastened in place?",
+      "options": [
+        "50 percent",
+        "80 percent",
+        "100 percent",
+        "125 percent"
+      ],
+      "correctAnswer": 1,
+      "explanation": "To prevent accidental overloading on general-purpose branch circuits, the NEC limits how much power a single portable device can pull. For 15- and 20-ampere circuits, any single piece of cord-and-plug-connected equipment that is not fastened in place is restricted to a maximum of 80 percent of the branch circuit's overall ampere rating.",
+      "necReference": "NEC 210.23(A)(1)",
+      "sparkyTip": "If you have a 20-amp circuit, 80% is 16 amps. That is exactly why heavy-draw portable appliances like space heaters and hair dryers are usually capped between 1,500 and 1,800 watts—they are engineered to stay just under that 80% threshold so they don't trip the breaker!",
+      "necVersions": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
     }
   ],
   "master": [
@@ -1775,6 +2104,30 @@
         "2026"
       ],
       "examTopic": "wiring-methods"
+    },
+    {
+      "id": "PB-J007",
+      "category": "switchboards-and-panelboards",
+      "necArticle": "Article 408",
+      "difficulty": "Master",
+      "calculation": false,
+      "questionText": "When determining the maximum number of overcurrent devices installed in a panelboard, what is a 3-pole circuit breaker considered to be?",
+      "options": [
+        "1 individual overcurrent protection device.",
+        "A single multipole disconnecting means.",
+        "3 overcurrent protection devices.",
+        "An equivalent of 1.5 times a single-pole device."
+      ],
+      "correctAnswer": 2,
+      "explanation": "To prevent overloading, panelboards must be provided with physical means to prevent the installation of more overcurrent devices than they were designed, rated, and listed for. For the purposes of tracking and determining this maximum number, the NEC dictates that a 2-pole circuit breaker counts as two overcurrent devices, and a 3-pole circuit breaker counts as three overcurrent devices.",
+      "necReference": "NEC 408.54",
+      "sparkyTip": "Think about the bus stabs. A 3-pole breaker occupies three physical spaces on the panelboard's bus assembly, so the Code naturally counts it as three distinct overcurrent devices when you are auditing the panel's listed capacity.",
+      "necVersions": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "examTopic": "switchboards-and-panelboards"
     },
     {
       "id": "WM-M007",

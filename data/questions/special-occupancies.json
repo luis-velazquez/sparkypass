@@ -481,7 +481,7 @@
       "necArticle": "Article 680",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per NEC 680.23(A)(3), what protection is required for all luminaires installed in the walls of a pool that operate at more than the low voltage contact limit?",
+      "questionText": "What protection is required for all luminaires installed in the walls of a pool that operate at more than the low voltage contact limit?",
       "options": [
         "AFCI protection",
         "GFCI protection",
@@ -1020,6 +1020,29 @@
       ],
       "necReference": "620.62",
       "sparkyTip": "Selective coordination means the breaker closest to the fault trips first. For elevators sharing a feeder, it's mandatory, not optional."
+    },
+    {
+      "id": "SC-M008",
+      "category": "special-occupancies",
+      "necArticle": "Article 680",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "What are the two key electrical safety requirements for a permanently installed fountain?",
+      "options": [
+        "AFCI protection and surge protection",
+        "GFCI protection for all circuits and bonding of all metal parts",
+        "Only a disconnect switch within sight",
+        "Only double insulation on all conductors"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 680.51 requires GFCI protection for all electrical equipment associated with fountains, and NEC 680.52 requires bonding of all metal piping and metal parts of the fountain that are in contact with the water. Together these two requirements ensure both shock protection and equipotential bonding.",
+      "necReference": "680.51, 680.52",
+      "sparkyTip": "Fountains get the same treatment as pools: GFCI everything + bond all metal. People wade in fountains too, so the NEC treats them seriously.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "special-occupancies"
     }
   ],
   "master": [
@@ -1121,7 +1144,7 @@
       "necArticle": "Article 550",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A mobile home's calculated load per 550.18 is 13,500 VA at 120/240V. Can the standard 50-ampere power-supply cord serve this home?",
+      "questionText": "A mobile home's calculated load is 13,500 VA at 120/240V. Can the standard 50-ampere power-supply cord serve this home?",
       "options": [
         "Yes — the 50A cord can supply up to 15,000 VA",
         "Yes — demand factors reduce the load below 50A",
@@ -1129,7 +1152,7 @@
         "No — a 60A power-supply cord must be used instead"
       ],
       "correctAnswer": 2,
-      "explanation": "The current draw is 13,500 VA ÷ 240V = 56.25 amperes, which exceeds the 50-ampere cord rating. Per 550.10(A), when the calculated load exceeds the cord capacity, a permanently installed feeder rated not less than the calculated load must be used instead of a power-supply cord.",
+      "explanation": "Step 1: Calculate the current draw (13,500 VA ÷ 240V = 56.25 amperes). Step 2: Evaluate cord limits. Per 550.10(A), mobile home supply cords cannot exceed 50 amperes. Because 56.25A exceeds this limit, a permanently installed feeder must be used instead of a cord.",
       "necReference": "550.10(A)",
       "sparkyTip": "A 50A cord at 240V maxes out at 12,000 VA (50 × 240). If the calculated load exceeds that, the Code requires a permanent feeder — there is no 60A cord option for mobile homes.",
       "necVersions": [
@@ -1167,7 +1190,7 @@
       "necArticle": "Article 680",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "Per NEC 680.44, what protection is required for all electrical equipment associated with a permanently installed indoor spa or hot tub, including the outlet supplying it?",
+      "questionText": "What protection is required for all electrical equipment associated with a permanently installed indoor spa or hot tub, including the outlet supplying it?",
       "options": [
         "AFCI protection",
         "GFCI protection for all 125V and 240V outlets",
@@ -1185,35 +1208,12 @@
       "examTopic": "special-occupancies"
     },
     {
-      "id": "SC-M008",
-      "category": "special-occupancies",
-      "necArticle": "Article 680",
-      "difficulty": "master",
-      "calculation": false,
-      "questionText": "Per NEC 680.51 and 680.52, what are the two key electrical safety requirements for a permanently installed fountain?",
-      "options": [
-        "AFCI protection and surge protection",
-        "GFCI protection for all circuits and bonding of all metal parts",
-        "Only a disconnect switch within sight",
-        "Only double insulation on all conductors"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC 680.51 requires GFCI protection for all electrical equipment associated with fountains, and NEC 680.52 requires bonding of all metal piping and metal parts of the fountain that are in contact with the water. Together these two requirements ensure both shock protection and equipotential bonding.",
-      "necReference": "680.51, 680.52",
-      "sparkyTip": "Fountains get the same treatment as pools: GFCI everything + bond all metal. People wade in fountains too, so the NEC treats them seriously.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "special-occupancies"
-    },
-    {
       "id": "SC-M009",
       "category": "special-occupancies",
       "necArticle": "Article 680",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "Per NEC 680.12, where must the disconnecting means for a pool motor be located?",
+      "questionText": "Where must the disconnecting means for a pool motor be located?",
       "options": [
         "Inside the house panel only",
         "Within sight from the pool motor and at least 5 feet from the inside wall of the pool",

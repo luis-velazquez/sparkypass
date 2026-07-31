@@ -763,36 +763,22 @@
     },
     {
       "id": "GB-J018",
-      "category": "grounding-bonding",
-      "difficulty": "journeyman",
+      "category": "grounding-and-bonding",
+      "necArticle": "450.12(A)(4)",
+      "difficulty": "Journeyman",
       "calculation": false,
-      "validCodeCycles": [
-        "2023",
-        "2026"
-      ],
-      "questionText": "You are terminating conductors inside a dry-type transformer enclosure. Due to congestion from multiple supply-side bonding jumpers and equipment grounding conductors, you install two separate terminal bars. This is permitted ONLY if the terminal bars are interconnected with a bonding jumper. How must this interconnecting bonding jumper be sized?",
+      "questionText": "You are terminating conductors inside a dry-type transformer enclosure. Due to congestion from multiple supply-side bonding jumpers and equipment grounding conductors, you install two separate terminal bars. This is permitted ONLY if the terminal bars are interconnected with a bonding jumper. Under the 2026 NEC, how must this interconnecting bonding jumper be sized?",
       "options": [
-        "Not less than the equivalent size of the main bonding jumper (MBJ).",
-        "Not less than 1/0 AWG copper or 3/0 AWG aluminum.",
-        "Not less than the largest conductor connected to either interconnected terminal bar.",
-        "Based on the rating of the secondary overcurrent protective device using Table 250.122."
+        "Not less than the equivalent size of the main bonding jumper (MBJ)",
+        "Not less than 1/0 AWG copper or 3/0 AWG aluminum",
+        "Not less than the largest conductor connected to either interconnected terminal bar",
+        "Based on the rating of the secondary overcurrent protective device using Table 250.122"
       ],
       "correctAnswer": 2,
-      "necReferences": {
-        "2023": "450.10(A)",
-        "2026": "450.12(A)(4)"
-      },
-      "explanations": {
-        "default": "\n\nThe NEC permits the use of multiple terminal bars within a transformer enclosure to alleviate wire congestion. However, to maintain a single bonded assembly, they must be tied together with a bonding jumper that has a cross-sectional area not less than the largest single conductor connected to either of the terminal bars."
-      },
-      "sparkyTip": "You can add a second ground bar in that crowded transformer. Just make sure the jumper connecting them is at least as fat as the biggest wire landed on either bar!",
-      "examTopic": "equipment-devices",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "explanation": "Per 250.30 (separately derived systems), where two terminal bars are connected by an interconnecting bonding jumper, that jumper must be sized not less than the largest conductor connected to either of the terminal bars. The jumper has to carry the full possible fault current that any single conductor on either bar could deliver.",
-      "necReference": "250.30(A)(7)"
+      "explanation": "To relieve congestion inside a transformer, the 2026 NEC permits the use of multiple terminal bars if they are bonded together to act as a single electrical assembly. Under 450.12(A)(4), the interconnecting bonding jumper must have a cross-sectional area not less than the largest single conductor connected to either of the interconnected terminal bars. This ensures the jumper can safely carry the maximum possible fault current delivered to either bar.",
+      "necReference": "NEC 450.12(A)(4)",
+      "sparkyTip": "You can finally add a second ground bar in that crowded transformer! Just make sure the jumper connecting them is at least as fat as the biggest wire landed on either bar.",
+      "necVersions": "2026"
     },
     {
       "id": "GB-J019",
@@ -1181,6 +1167,247 @@
         "2026"
       ],
       "examTopic": "equipment-devices"
+    },
+    {
+      "id": "BOND-25092B-001",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.92(B)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When ensuring electrical continuity at service equipment, which of the following is strictly prohibited from being used as the sole means of bonding?",
+      "options": [
+        "Threaded couplings made up wrenchtight",
+        "Standard locknuts or bushings",
+        "Bonding-type locknuts",
+        "Threadless couplings made up tight"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Because service conductors do not have overcurrent protection ahead of them to clear a fault quickly, standard locknuts or bushings cannot be relied upon as the sole means of bonding service equipment. You must use robust methods like bonding jumpers, bonding locknuts, or wrenchtight threaded connections.",
+      "necReference": "NEC 250.92(B)",
+      "sparkyTip": "If you punch a hole in the side of a service disconnect for a metal nipple, a standard locknut on the inside and outside will fail inspection. You have to use a grounding locknut or a grounding bushing with a jumper attached.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "BOND-25094B-001",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.94(B)(1)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When an alternative 'other means' is used for intersystem bonding instead of a standard intersystem bonding termination (IBT), what is the minimum permitted size for a copper conductor connecting the bonding system to the grounding electrode system?",
+      "options": [
+        "10 AWG",
+        "8 AWG",
+        "6 AWG",
+        "4 AWG"
+      ],
+      "correctAnswer": 2,
+      "explanation": "According to NEC 250.94(B)(1), when utilizing an alternative 'other means' for communication bonding, the conductor connecting the bonding system back to the grounding electrode system must not be smaller than 6 AWG copper (or 4 AWG aluminum or copper-clad aluminum).",
+      "necReference": "NEC 250.94(B)(1)",
+      "sparkyTip": "Telecom and cable installers need a solid grounding point. Whether you install a standard IBT block or use an approved alternative method, you must run at least a #6 copper to tie it back to the primary grounding system.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "GB-250-92-01",
+      "category": "grounding-and-bonding",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "At service equipment, can standard locknuts be the only means used to bond service raceways?",
+      "options": [
+        "Yes, if they are made up wrench-tight",
+        "Yes, if the raceway is metallic",
+        "No, standard locknuts cannot be the only bonding means",
+        "No, bonding is only required on feeders"
+      ],
+      "correctAnswer": 2,
+      "necReferences": {
+        "2020": "250.92(B)",
+        "2023": "250.92(B)",
+        "2026": "250.92(B)"
+      },
+      "explanations": {
+        "default": "NEC 250.92(B) requires electrical continuity at service equipment, service raceways, and service conductor enclosures. Standard locknuts or bushings are permitted for mechanical connection, but they cannot be the only means used for the required bonding."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Service raceways need a reliable fault-current path. Standard locknuts alone are not enough—use an approved bonding method such as bonding bushings, bonding jumpers, threaded hubs, or other listed bonding devices.",
+      "examTopic": "grounding-and-bonding"
+    },
+    {
+      "id": "GB-250-94-01",
+      "category": "grounding-and-bonding",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "A copper busbar is used for communications system bonding. What size conductor must connect the busbar to the grounding electrode system?",
+      "options": [
+        "Not smaller than 6 AWG copper",
+        "The largest grounding electrode conductor connected to the busbar",
+        "The same size as the service neutral conductor",
+        "Not larger than 4 AWG copper"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "250.94(B)(1)",
+        "2023": "250.94(B)(1)",
+        "2026": "250.94(B)(1)"
+      },
+      "explanations": {
+        "default": "NEC 250.94(B) allows an aluminum or copper busbar to be used for communications system bonding. The busbar must be connected to the grounding electrode system by a conductor sized as the larger of two choices. Under 250.94(B)(1), one option is the largest grounding electrode conductor connected to the busbar."
+      },
+      "sparkyTip": "Field Logic Tip 💡: Don’t confuse this with the old 'minimum 6 AWG copper' idea. For this busbar method, look at the largest grounding electrode conductor connected to the busbar, then compare it with the other permitted sizing method.",
+      "examTopic": "grounding-and-bonding"
+    },
+    {
+      "id": "GB-250-97-01",
+      "category": "grounding-and-bonding",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "validCodeCycles": [
+        "2020",
+        "2023",
+        "2026"
+      ],
+      "questionText": "A metal raceway contains feeder conductors for a 480/277 volt circuit. What does the NEC require?",
+      "options": [
+        "Standard locknuts are always enough",
+        "The raceway must be bonded for circuits over 250V to ground",
+        "Bonding is only required for service raceways",
+        "The raceway must be isolated from the equipment grounding conductor"
+      ],
+      "correctAnswer": 1,
+      "necReferences": {
+        "2020": "250.97",
+        "2023": "250.97",
+        "2026": "250.97"
+      },
+      "explanations": {
+        "default": "NEC 250.97 requires bonding for metal raceways and metal enclosures containing conductors for circuits over 250 volts to ground. The bonding methods must comply with 250.92(B)(2) through (B)(4), except as permitted for reducing washers."
+      },
+      "sparkyTip": "Field Logic Tip 💡: On 277/480V systems, you are over 250V to ground. Don’t treat the raceway bonding like a basic 120/208V install—verify the bonding method.",
+      "examTopic": "grounding-and-bonding"
+    },
+    {
+      "id": "DEV-GND-001",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.30(A)(5)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When installing a dry-type transformer, what is the NEC term for the conductor that connects the equipment grounding terminal (or ground bus) to the building steel or other approved electrode?",
+      "options": [
+        "Equipment Grounding Conductor",
+        "Supply-Side Bonding Jumper",
+        "Grounding Electrode Conductor",
+        "System Bonding Jumper"
+      ],
+      "correctAnswer": 2,
+      "explanation": "The Grounding Electrode Conductor (GEC) is the conductor used to connect the system grounded conductor or the equipment to a grounding electrode, such as structural building steel or a water pipe.",
+      "necReference": "NEC 250.30(A)(5)",
+      "sparkyTip": "Think of the word 'Electrode'. If the wire is leaving the equipment to hit the literal earth (or building steel/water pipe acting as earth), it is the Grounding Electrode Conductor.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-GND-002",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.30(A)(1)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "Inside a separately derived system like a dry-type transformer, what is the correct term for the bonding jumper that connects the grounded circuit conductor (the neutral/X0) to the equipment grounding terminal or the case?",
+      "options": [
+        "Main Bonding Jumper",
+        "System Bonding Jumper",
+        "Supply-Side Bonding Jumper",
+        "Equipment Grounding Conductor"
+      ],
+      "correctAnswer": 1,
+      "explanation": "The System Bonding Jumper (SBJ) is the connection between the grounded circuit conductor (neutral) and the supply-side bonding jumper, or the equipment grounding conductor, at a separately derived system. Note that it is called a 'System' bonding jumper here, whereas the similar connection at the main service is called the 'Main' bonding jumper.",
+      "necReference": "NEC 250.30(A)(1) & Article 100",
+      "sparkyTip": "Services get a Main Bonding Jumper (MBJ). Separately Derived Systems get a System Bonding Jumper (SBJ). They do the exact same job, just in different locations!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-GND-003",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.30(A)(2)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When routing conductors from the secondary side of a transformer to the first disconnecting means, what is the required grounding/bonding conductor pulled in that raceway called?",
+      "options": [
+        "Equipment Grounding Conductor",
+        "Grounding Electrode Conductor",
+        "System Bonding Jumper",
+        "Supply-Side Bonding Jumper"
+      ],
+      "correctAnswer": 3,
+      "explanation": "The Supply-Side Bonding Jumper (SSBJ) is a conductor installed on the supply side of a service or within a service equipment enclosure, or for a separately derived system, that ensures the required electrical conductivity between metal parts required to be electrically connected. Because there is no overcurrent protection on the secondary conductors until they hit the first disconnect, this wire is sized differently than a standard EGC.",
+      "necReference": "NEC 250.30(A)(2) & 250.102(C)",
+      "sparkyTip": "If it is on the line side of an overcurrent device (like transformer secondaries hitting a main breaker panel), it is a Supply-Side Bonding Jumper, sized off Table 250.102(C)(1). Once it passes a breaker, it becomes an Equipment Grounding Conductor (EGC), sized off Table 250.122.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-GND-005",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.30(A)(5)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "You are making the grounding connections inside a separately derived dry-type transformer. To keep the wiring neat, you bolt one ground lug to the left side of the enclosure for the System Bonding Jumper (SBJ) and bolt a second, separate ground lug on the right side of the enclosure for the Grounding Electrode Conductor (GEC). According to the NEC, is this installation method allowed?",
+      "options": [
+        "Yes, as long as both lugs are listed and the paint is scraped to bare metal.",
+        "Yes, provided the transformer enclosure is listed as an equipment grounding conductor.",
+        "No, the SBJ must land on the primary side and the GEC on the secondary side.",
+        "No, the GEC and the SBJ must terminate at the exact same point."
+      ],
+      "correctAnswer": 3,
+      "explanation": "NEC 250.30(A)(5) explicitly states that the Grounding Electrode Conductor (GEC) must connect to the grounded conductor of the derived system at the *same point* where the System Bonding Jumper (SBJ) is connected. You cannot use the transformer's sheet metal enclosure as the conductive path between these two critical connections. They must land on the same ground bus or the same terminal block to prevent objectionable currents from traveling through the transformer case.",
+      "necReference": "NEC 250.30(A)(5)",
+      "sparkyTip": "Think of the GEC and the SBJ as best friends inside a transformer—they always have to hold hands! If you land them on opposite sides of the can, the fault current has to travel through the sheet metal to get to the earth, which creates a dangerous condition and violates the code.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-GND-005",
+      "category": "grounding-and-bonding",
+      "necArticle": "250.30(A)(5)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When grounding a dry-type transformer, is it permissible to land the System Bonding Jumper (SBJ) and Grounding Electrode Conductor (GEC) on two separate ground lugs bolted to different sides of the enclosure?",
+      "options": [
+        "Yes, if the paint is scraped to bare metal under both lugs",
+        "Yes, if the enclosure is listed as an equipment grounding conductor",
+        "No, they must terminate at the exact same point",
+        "No, the GEC must connect to the primary side ground"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 250.30(A)(5) states that the Grounding Electrode Conductor (GEC) must connect to the grounded conductor of the derived system at the same point where the System Bonding Jumper (SBJ) is connected. You cannot use the transformer's sheet metal enclosure as the conductive path between these two connections.",
+      "necReference": "NEC 250.30(A)(5)",
+      "sparkyTip": "Think of the GEC and the SBJ as best friends inside a transformer—they always have to hold hands! They must land on the same ground bus or terminal block to prevent dangerous fault currents from traveling through the sheet metal case.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ]
     }
   ],
   "master": [
@@ -1453,7 +1680,7 @@
       "necArticle": "250.30(A)(1) Exception No. 2",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "Generally, NEC 250.30(A)(1) strictly prohibits installing a system bonding jumper at both the transformer enclosure and the secondary panelboard to prevent parallel neutral current paths. Under which of the following specific conditions does Exception No. 2 permit bonding at BOTH locations?",
+      "questionText": "Generally, the NEC strictly prohibits installing a system bonding jumper at both the transformer enclosure and the secondary panelboard to prevent parallel neutral current paths. Under which of the following specific conditions does Exception No. 2 permit bonding at BOTH locations?",
       "options": [
         "When the secondary conductors are 500 kcmil or larger.",
         "When a ground-fault relay is installed on the secondary main breaker.",
@@ -1568,7 +1795,7 @@
       "necArticle": "250.30(B)",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "An industrial facility utilizes an ungrounded 480V, 3-phase delta dry-type transformer (a separately derived system) to maintain operations during a single ground fault. According to NEC 250.30(B), where must the grounding electrode conductor (GEC) for this ungrounded system terminate?",
+      "questionText": "An industrial facility utilizes an ungrounded 480V, 3-phase delta dry-type transformer (a separately derived system) to maintain operations during a single ground fault. Where must the grounding electrode conductor (GEC) for this ungrounded system terminate?",
       "options": [
         "To the X0 terminal of the secondary winding.",
         "To the metal enclosure of the separately derived system.",

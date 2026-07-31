@@ -1250,6 +1250,52 @@
         "2026"
       ],
       "examTopic": "calc-theory"
+    },
+    {
+      "id": "LC-J016",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "Which Chapter 9 table provides the dimensions and percent area of conduit and tubing?",
+      "options": [
+        "Table 1",
+        "Table 4",
+        "Table 5",
+        "Table 8"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Table 4 provides the dimensions and percent area of conduit and tubing for various raceway types (EMT, IMC, RMC, etc.).",
+      "necReference": "Chapter 9",
+      "sparkyTip": "Table 4 = conduit dimensions. Table 5 = conductor dimensions. Don't mix them up!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "definitions-theory"
+    },
+    {
+      "id": "LC-M025",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "What is the reactance (XL) per 1000 feet for conductors in steel conduit?",
+      "options": [
+        "It varies by conductor size",
+        "It is constant at approximately 0.050 ohms",
+        "It is constant at approximately 0.068 ohms",
+        "It is zero for all conductors"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Reactance varies by conductor size and conduit type. In steel conduit, it ranges from about 0.050 to 0.068 ohms per 1000 feet depending on conductor size.",
+      "necReference": "Chapter 9, Table 9",
+      "sparkyTip": "Reactance varies with conductor size. Larger conductors generally have lower reactance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "definitions-theory"
     }
   ],
   "journeyman": [
@@ -1308,7 +1354,7 @@
       "necArticle": "Table 220.42",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to the Standard Method (Table 220.42), what portion of the general lighting load in a dwelling unit is calculated at 100% demand factor?",
+      "questionText": "According to the Standard Method, what portion of the general lighting load in a dwelling unit is calculated at 100% demand factor?",
       "options": [
         "The first 3,000 VA",
         "The first 10,000 VA",
@@ -1611,29 +1657,6 @@
       "examTopic": "definitions-theory"
     },
     {
-      "id": "LC-J016",
-      "category": "calculations-and-theory",
-      "necArticle": "Chapter 9",
-      "difficulty": "journeyman",
-      "calculation": false,
-      "questionText": "Which Chapter 9 table provides the dimensions and percent area of conduit and tubing?",
-      "options": [
-        "Table 1",
-        "Table 4",
-        "Table 5",
-        "Table 8"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Table 4 provides the dimensions and percent area of conduit and tubing for various raceway types (EMT, IMC, RMC, etc.).",
-      "necReference": "Chapter 9",
-      "sparkyTip": "Table 4 = conduit dimensions. Table 5 = conductor dimensions. Don't mix them up!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "definitions-theory"
-    },
-    {
       "id": "LC-J017",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
@@ -1662,7 +1685,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Table 4, which has the largest internal area: 1\" EMT, 1\" IMC, or 1\" RMC?",
+      "questionText": "Which has the largest internal area: 1\" EMT, 1\" IMC, or 1\" RMC?",
       "options": [
         "1\" EMT",
         "1\" IMC",
@@ -3007,16 +3030,78 @@
         "2026"
       ],
       "examTopic": "definitions-theory"
-    }
-  ],
-  "master": [
+    },
+    {
+      "id": "DEV-CALC-005",
+      "category": "load-calculations",
+      "necArticle": "120.14(I)",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "When calculating loads for occupancies other than dwelling units, what is the minimum calculated volt-ampere (VA) load for a general-use receptacle outlet consisting of a single yoke or strap?",
+      "options": [
+        "180 VA",
+        "90 VA",
+        "0 VA",
+        "1500 VA"
+      ],
+      "correctAnswer": 0,
+      "explanation": "According to NEC 120.14(I), in commercial or non-dwelling occupancies, receptacle outlets are calculated at not less than 180 volt-amperes for each single or for each multiple receptacle on one yoke (strap).",
+      "necReference": "NEC 120.14(I)",
+      "sparkyTip": "This is the 'Commercial 180' rule! A standard duplex plug is on one yoke, so it counts as 180 VA. If you have a quad-receptacle installed on two yokes, it would be calculated at 360 VA.",
+      "necVersions": [
+        "2026"
+      ],
+      "script": "Article one-twenty dot fourteen I. <break time=\"0.3s\" /> In occupancies other than dwelling units, what is the minimum calculated VA load for a standard receptacle outlet on a single yoke? <break time=\"3.0s\" /> The answer is: A, <break time=\"0.3s\" /> 180 VA."
+    },
+    {
+      "id": "DEV-CALC-003",
+      "category": "load-calculations",
+      "necArticle": "120.14(G)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When performing a load calculation for a commercial storefront, what is the required volt-ampere (VA) allowance per linear foot of show window?",
+      "options": [
+        "180 VA",
+        "200 VA",
+        "250 VA",
+        "1,200 VA"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 120.14(G) dictates that a minimum allowance of 200 volt-amperes (VA) per linear foot of show window must be used when calculating the overall service or feeder load.",
+      "necReference": "NEC 120.14(G)",
+      "sparkyTip": "Memorize this number! For load calculations (Art. 120), always use 200 VA per linear foot. Just don't confuse this math rule with the physical receptacle placement rule (Art. 210.62), which requires you to actually install one plug for every 12 linear feet of window.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-CALC-004",
+      "category": "load-calculations",
+      "necArticle": "120.14(F)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When performing a load calculation for a commercial occupancy, what is the minimum calculated volt-ampere load required for a sign or outline lighting branch circuit?",
+      "options": [
+        "180 VA",
+        "1,200 VA",
+        "1,500 VA",
+        "2,000 VA"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 120.14(F) mandates that sign and outline lighting outlets must be calculated at a minimum of 1,200 volt-amperes (VA) for each required branch circuit.",
+      "necReference": "NEC 120.14(F) & 600.5(A)",
+      "sparkyTip": "Even if you know the customer is installing a highly efficient LED sign that only pulls 2 amps, you MUST still use the 1,200 VA minimum for your load calculation! The Code requires this buffer because signs are frequently swapped out or upgraded by future tenants.",
+      "necVersions": [
+        "2026"
+      ]
+    },
     {
       "id": "LC-M001",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
-      "difficulty": "master",
+      "difficulty": "Journeyman",
       "calculation": false,
-      "questionText": "When calculating dwelling unit loads using the optional method (220.82), what percentage is applied to the first 10 kVA of general loads?",
+      "questionText": "When calculating dwelling unit loads using the optional method, what percentage is applied to the first 10 kVA of general loads?",
       "options": [
         "100%",
         "80%",
@@ -3032,7 +3117,9 @@
         "2026"
       ],
       "examTopic": "definitions-theory"
-    },
+    }
+  ],
+  "master": [
     {
       "id": "LC-M002",
       "category": "calculations-and-theory",
@@ -3572,29 +3659,6 @@
       "examTopic": "definitions-theory"
     },
     {
-      "id": "LC-M025",
-      "category": "calculations-and-theory",
-      "necArticle": "Chapter 9",
-      "difficulty": "master",
-      "calculation": false,
-      "questionText": "What is the reactance (XL) per 1000 feet for conductors in steel conduit?",
-      "options": [
-        "It varies by conductor size",
-        "It is constant at approximately 0.050 ohms",
-        "It is constant at approximately 0.068 ohms",
-        "It is zero for all conductors"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Reactance varies by conductor size and conduit type. In steel conduit, it ranges from about 0.050 to 0.068 ohms per 1000 feet depending on conductor size.",
-      "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Reactance varies with conductor size. Larger conductors generally have lower reactance.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "definitions-theory"
-    },
-    {
       "id": "LC-M026",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
@@ -3646,7 +3710,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 1-inch EMT nipple is 24 inches long. Using the 60% fill allowance, what is the maximum number of #8 AWG THHN conductors allowed?",
+      "questionText": "A 1-inch EMT nipple is 20 inches long. What is the maximum number of #8 AWG THHN conductors allowed?",
       "options": [
         "12 conductors",
         "13 conductors",
@@ -3654,9 +3718,9 @@
         "15 conductors"
       ],
       "correctAnswer": 2,
-      "explanation": "60% area = 0.865 × 0.60 = 0.519 sq in. Max conductors = 0.519 ÷ 0.0366 = 14.18, so 14 conductors.",
-      "necReference": "Chapter 9, Table 1 Note 4; Tables 4 & 5",
-      "sparkyTip": "Nipples ≤ 24 inches can use 60% fill. Remember to recalc the fill area.",
+      "explanation": "Per Ch 9, Table 4, the 60% fill area for 1-inch EMT is 0.518 sq in. Per Table 5, #8 THHN is 0.0366 sq in. 0.518 ÷ 0.0366 = 14.15. Since the decimal is less than 0.8, we drop it, allowing 14 conductors.",
+      "necReference": "Chapter 9, Table 1 Notes 4 & 7; Tables 4 & 5",
+      "sparkyTip": "Nipples ≤ 24 inches use 60% fill. Remember Note 7: you can only round up to the next whole conductor if the decimal is 0.8 or larger.",
       "necVersions": [
         "2023",
         "2026"
