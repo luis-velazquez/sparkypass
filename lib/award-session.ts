@@ -5,7 +5,7 @@
 // (Audit: docs/mobile-conversion-plan.md §8 durable-outbox reframe.)
 
 import { db, users, studySessions, wattsTransactions } from "@/lib/db";
-import { eq, and, isNull, sql } from "drizzle-orm";
+import { eq, and, isNull, isNotNull, sql } from "drizzle-orm";
 import crypto from "crypto";
 import { getStreakMilestoneReward, calculateWattsServerSide } from "@/lib/watts";
 import { isStreakSkipAvailable } from "@/lib/streak";
@@ -26,6 +26,9 @@ export interface AwardSessionInput {
   userId: string;
   sessionId: string;
   activityType: string;
+  /** Stored session row's type — used for load-calculator repeat decay. */
+  sessionType: string;
+  categorySlug: string | null;
   questionsAnswered: number;
   questionsCorrect: number;
   /** When the session ended (play time). Defaults to now; used for the streak date. */
@@ -59,11 +62,32 @@ export async function awardSession(
   input: AwardSessionInput,
 ): Promise<AwardSessionResult> {
   const at = input.at ?? new Date();
-  const wattsEarned = calculateWattsServerSide(
+  let wattsEarned = calculateWattsServerSide(
     input.activityType,
     input.questionsCorrect,
     input.questionsAnswered,
   );
+
+  // Load-calculator repeat decay: replaying the same scenario pays less (1st run
+  // 100%, 2nd 50%, 3rd+ 25%). Counted BEFORE the atomic endedAt claim below, so
+  // the current session (endedAt still NULL) is excluded and a re-send never
+  // recomputes decay — it's stopped at the claim.
+  if (input.activityType === "load_calculator" && input.categorySlug !== null) {
+    const [prior] = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(studySessions)
+      .where(
+        and(
+          eq(studySessions.userId, input.userId),
+          eq(studySessions.categorySlug, input.categorySlug),
+          eq(studySessions.sessionType, "load_calculator"),
+          isNotNull(studySessions.endedAt),
+        ),
+      );
+    const priorRuns = Number(prior?.count ?? 0);
+    if (priorRuns === 1) wattsEarned = Math.round(wattsEarned * 0.5);
+    else if (priorRuns >= 2) wattsEarned = Math.round(wattsEarned * 0.25);
+  }
 
   const [currentUser] = await db
     .select({

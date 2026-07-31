@@ -160,6 +160,7 @@ async function handleSessionEnd(
       id: studySessions.id,
       endedAt: studySessions.endedAt,
       sessionType: studySessions.sessionType,
+      categorySlug: studySessions.categorySlug,
     })
     .from(studySessions)
     .where(and(eq(studySessions.id, ev.clientSessionId), eq(studySessions.userId, userId)))
@@ -175,16 +176,22 @@ async function handleSessionEnd(
   // so an offline session credits Watts exactly once (closes the audit's
   // "offline session earns 0 Watts" hole). Streak is dated as-of `endedAt` (play
   // time); awardSession's atomic endedAt claim is the double-award guard.
+  // Load-calculator sessions derive activityType from the STORED row — even if
+  // the outbox payload omits or mis-states it — so repeat decay can't be dodged.
   const activityType =
-    typeof ev.activityType === "string" && ev.activityType.length > 0
-      ? ev.activityType
-      : existing.sessionType === "daily_challenge"
-        ? "daily_challenge"
-        : "quiz_complete";
+    existing.sessionType === "load_calculator"
+      ? "load_calculator"
+      : typeof ev.activityType === "string" && ev.activityType.length > 0
+        ? ev.activityType
+        : existing.sessionType === "daily_challenge"
+          ? "daily_challenge"
+          : "quiz_complete";
   await awardSession({
     userId,
     sessionId: ev.clientSessionId,
     activityType,
+    sessionType: existing.sessionType,
+    categorySlug: existing.categorySlug,
     questionsAnswered: typeof ev.questionsAnswered === "number" ? ev.questionsAnswered : 0,
     questionsCorrect: typeof ev.questionsCorrect === "number" ? ev.questionsCorrect : 0,
     at: endedAt,

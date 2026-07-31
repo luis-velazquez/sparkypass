@@ -112,6 +112,8 @@ export async function PATCH(request: Request) {
         id: studySessions.id,
         endedAt: studySessions.endedAt,
         wattsEarned: studySessions.wattsEarned,
+        sessionType: studySessions.sessionType,
+        categorySlug: studySessions.categorySlug,
       })
       .from(studySessions)
       .where(
@@ -181,10 +183,17 @@ export async function PATCH(request: Request) {
 
     // Award via the shared, idempotent path (same code the offline sync ingest
     // uses, so a session credits Watts exactly once across online + offline).
+    // Load-calculator sessions derive activityType from the STORED row, not the
+    // client, so a spoofed activityType can't dodge repeat decay.
     const award = await awardSession({
       userId: session.user.id,
       sessionId,
-      activityType,
+      activityType:
+        existingSession?.sessionType === "load_calculator"
+          ? "load_calculator"
+          : activityType,
+      sessionType: existingSession?.sessionType ?? "quiz",
+      categorySlug: existingSession?.categorySlug ?? null,
       questionsAnswered: questionsAnswered ?? 0,
       questionsCorrect: questionsCorrect ?? 0,
     });

@@ -90,6 +90,7 @@ const SERVER_ACTIVITY_VOLTAGE: Record<string, number> = {
   translation_engine: 12,
   formula_builder: 12,
   porta_jon: 100,             // break-time 3-question quiz; 3/3 also earns a Royal Flush bonus
+  load_calculator: 240,
 };
 
 /**
@@ -118,7 +119,7 @@ export function calculateWattsServerSide(
   const rawWatts = clampedCorrect * voltage;
 
   // Quiz-type activities apply pass/fail penalty
-  const quizTypes = ["quiz_complete", "mock_exam_complete"];
+  const quizTypes = ["quiz_complete", "mock_exam_complete", "load_calculator"];
   if (quizTypes.includes(activityType)) {
     const passed = (clampedCorrect / safeAnswered) >= PASS_THRESHOLD;
     return passed ? rawWatts : Math.round(rawWatts * 0.5);
