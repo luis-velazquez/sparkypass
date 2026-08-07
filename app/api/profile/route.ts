@@ -32,6 +32,7 @@ export async function GET() {
         createdAt: users.createdAt,
         trialEndsAt: users.trialEndsAt,
         subscriptionStatus: users.subscriptionStatus,
+        subscriptionSource: users.subscriptionSource,
         subscriptionPeriodEnd: users.subscriptionPeriodEnd,
         betaAgreedAt: users.betaAgreedAt,
       })
@@ -42,6 +43,17 @@ export async function GET() {
     if (!user) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
+
+    // Read-time trial expiry. Signup seeds a 30-day 'trialing' and no cron or
+    // webhook ever ends it — derive the effective status here so an expired
+    // trial reports 'expired' to every client (mobile gates Pro on this).
+    // The row itself is left untouched; this stays idempotent and needs no
+    // migration.
+    const effectiveSubscriptionStatus =
+      user.subscriptionStatus === "trialing" &&
+      (!user.trialEndsAt || user.trialEndsAt <= new Date())
+        ? "expired"
+        : user.subscriptionStatus || null;
 
     return NextResponse.json({
       name: user.name,
@@ -61,7 +73,8 @@ export async function GET() {
       wattsLifetime: user.wattsLifetime ?? 0,
       createdAt: user.createdAt?.toISOString() || null,
       trialEndsAt: user.trialEndsAt?.toISOString() || null,
-      subscriptionStatus: user.subscriptionStatus || null,
+      subscriptionStatus: effectiveSubscriptionStatus,
+      subscriptionSource: user.subscriptionSource || null,
       subscriptionPeriodEnd: user.subscriptionPeriodEnd?.toISOString() || null,
       isBetaTester: !!user.betaAgreedAt,
     });
@@ -83,10 +96,11 @@ export async function PATCH(request: Request) {
     }
 
     const body = await request.json();
-    const { targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode, necYear, hasSeenOnboarding, hasSeenTour } = body;
+    const { name, targetExamDate, newsletterOptedIn, showHintsOnMaster, questionsPerQuiz, focusMode, necYear, hasSeenOnboarding, hasSeenTour } = body;
 
     // Build update object with only provided fields
     const updateData: {
+      name?: string;
       targetExamDate?: Date | null;
       newsletterOptedIn?: boolean;
       showHintsOnMaster?: boolean;
@@ -99,6 +113,25 @@ export async function PATCH(request: Request) {
     } = {
       updatedAt: new Date(),
     };
+
+    // Handle name update (mobile Settings "Change name"). Unlike the omitted
+    // fields below, a provided-but-invalid name is a hard 400 — silently
+    // skipping it would report success for a name that didn't change.
+    if (name !== undefined) {
+      if (typeof name !== "string" || name.trim().length === 0) {
+        return NextResponse.json(
+          { error: "Name is required" },
+          { status: 400 }
+        );
+      }
+      if (name.trim().length > 80) {
+        return NextResponse.json(
+          { error: "Name must be 80 characters or fewer" },
+          { status: 400 }
+        );
+      }
+      updateData.name = name.trim();
+    }
 
     // Handle targetExamDate update
     if (targetExamDate !== undefined) {

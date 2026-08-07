@@ -24,6 +24,12 @@ export interface PowerGridCategory {
   recentWrong: boolean;
 }
 
+export interface LevelStanding {
+  answered: number;
+  correct: number;
+  accuracy: number;
+}
+
 export interface PowerGridResponse {
   categories: PowerGridCategory[];
   overallProgress: number;
@@ -31,6 +37,12 @@ export interface PowerGridResponse {
   brownedOutCount: number;
   deEnergizedCount: number;
   flickeringCount: number;
+  /** "Where you stand" by license level: master-difficulty attempts vs the
+   *  journeyman track (journeyman + apprentice difficulties). */
+  levels: {
+    journeyman: LevelStanding;
+    master: LevelStanding;
+  };
 }
 
 function computeStatus(
@@ -101,6 +113,13 @@ export async function GET() {
     // Track recent wrong answers (last 24 hours)
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
+    // License-level standing: master-difficulty attempts in one bucket,
+    // journeyman + apprentice (the journeyman track) in the other.
+    const levelProgress = {
+      journeyman: { answered: 0, correct: 0 },
+      master: { answered: 0, correct: 0 },
+    };
+
     allProgress.forEach((p: any) => {
       const question = getQuestionById(p.questionId);
       if (!question) return;
@@ -109,8 +128,11 @@ export async function GET() {
         categoryProgress[cat] = { answered: 0, correct: 0, recentWrong: false };
       }
       categoryProgress[cat].answered++;
+      const level = question.difficulty === "master" ? "master" : "journeyman";
+      levelProgress[level].answered++;
       if (p.isCorrect) {
         categoryProgress[cat].correct++;
+        levelProgress[level].correct++;
       } else if (p.answeredAt && p.answeredAt >= oneDayAgo) {
         categoryProgress[cat].recentWrong = true;
       }
@@ -192,6 +214,12 @@ export async function GET() {
       ? Math.round((totalCorrectAll / totalAnsweredAll) * 100)
       : 0;
 
+    const toStanding = (l: { answered: number; correct: number }): LevelStanding => ({
+      answered: l.answered,
+      correct: l.correct,
+      accuracy: l.answered > 0 ? Math.round((l.correct / l.answered) * 100) : 0,
+    });
+
     return NextResponse.json({
       categories,
       overallProgress,
@@ -199,6 +227,10 @@ export async function GET() {
       brownedOutCount,
       deEnergizedCount,
       flickeringCount,
+      levels: {
+        journeyman: toStanding(levelProgress.journeyman),
+        master: toStanding(levelProgress.master),
+      },
     } satisfies PowerGridResponse);
   } catch (error) {
     console.error("Error fetching power grid:", error);
