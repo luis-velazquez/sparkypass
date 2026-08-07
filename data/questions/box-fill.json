@@ -24,52 +24,6 @@
       "examTopic": "branch-circuits"
     },
     {
-      "id": "BF-A002",
-      "category": "box-fill",
-      "necArticle": "Article 314",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "How many volume allowances must be counted for a single-gang device yoke (switch or receptacle)?",
-      "options": [
-        "One based on the largest conductor connected to that device",
-        "Two based on the largest conductor connected to that device",
-        "One for each conductor connected",
-        "None - devices don't count"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Per NEC 314.16(B)(4), for each yoke or strap containing one or more devices, a double volume allowance based on the largest conductor connected to that device shall be made.",
-      "necReference": "314.16(B)(4)",
-      "sparkyTip": "Devices count DOUBLE! One switch or receptacle = 2x the largest wire size connected to it.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
-      "id": "BF-A003",
-      "category": "box-fill",
-      "necArticle": "Article 314",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "What is the minimum volume for a standard 4-inch square box that is 1-1/2 inches deep?",
-      "options": [
-        "18.0 cubic inches",
-        "21.0 cubic inches",
-        "24.0 cubic inches",
-        "30.3 cubic inches"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Per NEC Table 314.16(A), a 4 × 1-1/2 inch square box has a volume of 21.0 cubic inches.",
-      "necReference": "Table 314.16(A)",
-      "sparkyTip": "Know your common box sizes! 4-inch square at 1-1/2 deep = 21 cubic inches.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
       "id": "BF-A004",
       "category": "box-fill",
       "necArticle": "Article 314",
@@ -91,164 +45,6 @@
         "2026"
       ],
       "examTopic": "branch-circuits"
-    },
-    {
-      "id": "BF-A005",
-      "category": "box-fill",
-      "necArticle": "Article 314",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "What is the minimum depth for outlet boxes in walls or ceilings?",
-      "options": [
-        "1/2 inch",
-        "1-1/4 inches",
-        "1-1/2 inches",
-        "2 inches"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Per NEC 314.24 (A), outlet boxes shall have a minimum internal depth of 1/2 inch (12.7 mm).",
-      "necReference": "314.24",
-      "sparkyTip": "Minimum box depth is 1/2 inch, but deeper is usually better for working room!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
-      "id": "BF-A006",
-      "category": "box-fill",
-      "necArticle": "Article 314",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "What is the volume allowance for a #8 AWG conductor?",
-      "options": [
-        "2.5 cubic inches",
-        "3.0 cubic inches",
-        "4.0 cubic inches",
-        "5.0 cubic inches"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Per NEC Table 314.16(B), a #8 AWG conductor has a volume allowance of 3.0 cubic inches.",
-      "necReference": "Table 314.16(B)",
-      "sparkyTip": "#8 AWG = 3.0 cubic inches. As wires get bigger, so does the volume needed!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
-      "id": "BF-A007",
-      "category": "box-fill",
-      "necArticle": "Article 314",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "What is the minimum volume for a 3 × 2 × 2-1/2 inch device box?",
-      "options": [
-        "10.5 cubic inches",
-        "12.5 cubic inches",
-        "14.0 cubic inches",
-        "18.0 cubic inches"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Per NEC Table 314.16(A), a 3 × 2 × 2-1/2 inch device box has a volume of 12.5 cubic inches.",
-      "necReference": "Table 314.16(A)",
-      "sparkyTip": "Standard single-gang boxes are around 12-14 cubic inches. Know your common sizes!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
-      "id": "BF-A008",
-      "category": "box-fill",
-      "necArticle": "314.16(B)(1)",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "When calculating box fill, how many conductor volume allowances must you count for a short 'pigtail' wire that originates from a wire nut and terminates on a receptacle within the exact same box?",
-      "options": [
-        "Zero (0)",
-        "One (1)",
-        "Two (2)",
-        "One-half (0.5)"
-      ],
-      "correctAnswer": 0,
-      "explanation": "According to NEC 314.16(B)(1), a conductor that does not leave the box (meaning it originates and terminates entirely within the same enclosure) is not counted when calculating box fill.",
-      "necReference": "NEC 314.16(B)(1)",
-      "sparkyTip": "Pigtails are free! If a wire never actually leaves the box, you do not count it in your volume allowance.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
-      "id": "PB-J002",
-      "category": "box-fill",
-      "necArticle": "314.28(A)",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "When calculating a pull that requires box sizing, what size conductor requires you to start using box sizing rules?",
-      "options": [
-        "14 AWG or larger",
-        "10 AWG or larger",
-        "6 AWG or larger",
-        "4 AWG or larger"
-      ],
-      "correctAnswer": 3,
-      "explanation": "NEC 314.28(A) applies to boxes and conduit bodies that contain conductors 4 AWG or larger. Once the conductors are 4 AWG or larger, the box must be sized using the rules for straight pulls, angle pulls, U pulls, or splices.",
-      "necReference": "NEC 314.28(A)",
-      "sparkyTip": "For pull-box sizing, remember the starting point: 4 AWG or larger. Smaller conductors usually fall under regular box-fill rules in 314.16.",
-      "necVersions": [
-        "2026"
-      ],
-      "examTopic": "boxes-and-enclosures"
-    },
-    {
-      "id": "PB-J004",
-      "category": "box-fill",
-      "necArticle": "314.28(A)(1)",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "What multiple of the largest raceway is used to size a pull box for a straight pull?",
-      "options": [
-        "4 times",
-        "6 times",
-        "8 times",
-        "12 times"
-      ],
-      "correctAnswer": 2,
-      "explanation": "NEC 314.28(A)(1) requires the length of the box for a straight pull to be at least 8 times the trade size of the largest raceway.",
-      "necReference": "NEC 314.28(A)(1)",
-      "sparkyTip": "Straight pull = 8× the largest raceway. Angle pulls, U pulls, and splices use a different rule.",
-      "necVersions": [
-        "2026"
-      ],
-      "examTopic": "boxes-and-enclosures"
-    },
-    {
-      "id": "PB-J005",
-      "category": "box-fill",
-      "necArticle": "314.28(A)(2)",
-      "difficulty": "apprentice",
-      "calculation": false,
-      "questionText": "What multiple of the largest raceway is used when sizing a pull box for an angle pull or U pull?",
-      "options": [
-        "4 times",
-        "6 times",
-        "8 times",
-        "12 times"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC 314.28(A)(2) uses 6 times the trade size of the largest raceway when sizing boxes for angle pulls, U pulls, or splices.",
-      "necReference": "NEC 314.28(A)(2)",
-      "sparkyTip": "Angle pull or U pull = 6× the largest raceway. Straight pulls use 8×, so don’t mix them up.",
-      "necVersions": [
-        "2026"
-      ],
-      "examTopic": "boxes-and-enclosures"
     }
   ],
   "journeyman": [
@@ -414,35 +210,12 @@
       "examTopic": "branch-circuits"
     },
     {
-      "id": "BF-J008",
-      "category": "box-fill",
-      "necArticle": "Article 314.28",
-      "difficulty": "journeyman",
-      "calculation": false,
-      "questionText": "Standard box fill calculations (cubic inch volume) are used for conductors size 6 AWG and smaller. Which NEC Article governs the minimum sizing requirements for junction boxes containing conductors 4 AWG and larger?",
-      "options": [
-        "Article 314.16(B)",
-        "Article 314.28",
-        "Article 312.6",
-        "Article 376.22"
-      ],
-      "correctAnswer": 1,
-      "explanation": "NEC 314.16 applies to boxes containing conductors 6 AWG and smaller (volume calculations). When conductors are 4 AWG or larger, the box sizing must comply with NEC 314.28, which dictates minimum length and width based on the size of the raceways (8x and 6x rules) to ensure proper wire bending space.",
-      "necReference": "NEC 314.28(A)",
-      "sparkyTip": "Remember the cutoff: 6 AWG and smaller = cubic inch volume (314.16), 4 AWG and larger = 8x and 6x raceway rules (314.28).",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "branch-circuits"
-    },
-    {
       "id": "BF-J009",
       "category": "box-fill",
       "necArticle": "Article 314.28",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "At what minimum conductor size does the NEC require pull and junction boxes to be sized according to the dimensional calculations of Article 314.28 (such as the 8x and 6x rules) rather than the volume calculations of Article 314.16?",
+      "questionText": "At what minimum conductor size does the NEC require pull and junction boxes to be sized according to the dimensional calculations?",
       "options": [
         "6 AWG",
         "4 AWG",
@@ -488,7 +261,7 @@
       "necArticle": "314.16(B)(5)",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "A junction box contains six 12 AWG equipment grounding conductors (EGCs). According to 314.16(B)(5), how many total conductor volume allowances must be counted for these ground wires?",
+      "questionText": "A junction box contains six 12 AWG equipment grounding conductors (EGCs). How many total conductor volume allowances must be counted for these ground wires?",
       "options": [
         "1 allowance",
         "1.25 allowances",
@@ -511,7 +284,7 @@
       "necArticle": "314.16(A)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "When calculating the available volume of a junction box in accordance with 314.16(A), what is the minimum volume allowance that must be deducted for the installation of a metal barrier?",
+      "questionText": "When calculating the available volume of a junction box, what is the minimum volume allowance that must be deducted for the installation of a metal barrier?",
       "options": [
         "0 cubic inches",
         "1/2 cubic inch",
@@ -534,7 +307,7 @@
       "necArticle": "314.16(B)",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "Three conduits enter a junction box containing the following: six 12 AWG conductors, three 12 AWG equipment grounding conductors, three splices, three 12 AWG pigtails, three lock rings, and one duplex receptacle. According to 314.16(B), what is the total conductor volume allowance count (equivalent number of wires) for this box?",
+      "questionText": "Three conduits enter a junction box containing the following: six 12 AWG conductors, three 12 AWG equipment grounding conductors, three splices, three 12 AWG pigtails, three lock rings, and one duplex receptacle. What is the total conductor volume allowance count (equivalent number of wires) for this box?",
       "options": [
         "8",
         "9",
@@ -557,7 +330,7 @@
       "necArticle": "314.16(B)",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "A junction box contains four 10 AWG conductors, six 12 AWG conductors, and five 12 AWG equipment grounding conductors. According to 314.16(B), what is the total minimum volume required for this box in cubic inches?",
+      "questionText": "A junction box contains four 10 AWG conductors, six 12 AWG conductors, and five 12 AWG equipment grounding conductors. What is the total minimum volume required for this box in cubic inches?",
       "options": [
         "25.75 cu in",
         "26.31 cu in",
@@ -644,6 +417,166 @@
       "examTopic": "branch-circuits"
     },
     {
+      "id": "BF-A002",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "How many volume allowances must be counted for a single-gang device yoke (switch or receptacle)?",
+      "options": [
+        "One based on the largest conductor connected to that device",
+        "Two based on the largest conductor connected to that device",
+        "One for each conductor connected",
+        "None - devices don't count"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC 314.16(B)(4), for each yoke or strap containing one or more devices, a double volume allowance based on the largest conductor connected to that device shall be made.",
+      "necReference": "314.16(B)(4)",
+      "sparkyTip": "Devices count DOUBLE! One switch or receptacle = 2x the largest wire size connected to it.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "BF-A003",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What is the minimum volume for a standard 4-inch square box that is 1-1/2 inches deep?",
+      "options": [
+        "18.0 cubic inches",
+        "21.0 cubic inches",
+        "24.0 cubic inches",
+        "30.3 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(A), a 4 × 1-1/2 inch square box has a volume of 21.0 cubic inches.",
+      "necReference": "Table 314.16(A)",
+      "sparkyTip": "Know your common box sizes! 4-inch square at 1-1/2 deep = 21 cubic inches.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "BF-A005",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What is the minimum depth for outlet boxes in walls or ceilings?",
+      "options": [
+        "1/2 inch",
+        "1-1/4 inches",
+        "1-1/2 inches",
+        "2 inches"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Per NEC 314.24 (A), outlet boxes shall have a minimum internal depth of 1/2 inch (12.7 mm).",
+      "necReference": "314.24",
+      "sparkyTip": "Minimum box depth is 1/2 inch, but deeper is usually better for working room!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "BF-A006",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What is the volume allowance for a #8 AWG conductor?",
+      "options": [
+        "2.5 cubic inches",
+        "3.0 cubic inches",
+        "4.0 cubic inches",
+        "5.0 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(B), a #8 AWG conductor has a volume allowance of 3.0 cubic inches.",
+      "necReference": "Table 314.16(B)",
+      "sparkyTip": "#8 AWG = 3.0 cubic inches. As wires get bigger, so does the volume needed!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "BF-A007",
+      "category": "box-fill",
+      "necArticle": "Article 314",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What is the minimum volume for a 3 × 2 × 2-1/2 inch device box?",
+      "options": [
+        "10.5 cubic inches",
+        "12.5 cubic inches",
+        "14.0 cubic inches",
+        "18.0 cubic inches"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Per NEC Table 314.16(A), a 3 × 2 × 2-1/2 inch device box has a volume of 12.5 cubic inches.",
+      "necReference": "Table 314.16(A)",
+      "sparkyTip": "Standard single-gang boxes are around 12-14 cubic inches. Know your common sizes!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "BF-A008",
+      "category": "box-fill",
+      "necArticle": "314.16(B)(1)",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "When calculating box fill, how many conductor volume allowances must you count for a short 'pigtail' wire that originates from a wire nut and terminates on a receptacle within the exact same box?",
+      "options": [
+        "Zero (0)",
+        "One (1)",
+        "Two (2)",
+        "One-half (0.5)"
+      ],
+      "correctAnswer": 0,
+      "explanation": "According to NEC 314.16(B)(1), a conductor that does not leave the box (meaning it originates and terminates entirely within the same enclosure) is not counted when calculating box fill.",
+      "necReference": "NEC 314.16(B)(1)",
+      "sparkyTip": "Pigtails are free! If a wire never actually leaves the box, you do not count it in your volume allowance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "branch-circuits"
+    },
+    {
+      "id": "PB-J002",
+      "category": "box-fill",
+      "necArticle": "314.28(A)",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "When calculating a pull that requires box sizing, what size conductor requires you to start using box sizing rules?",
+      "options": [
+        "14 AWG or larger",
+        "10 AWG or larger",
+        "6 AWG or larger",
+        "4 AWG or larger"
+      ],
+      "correctAnswer": 3,
+      "explanation": "NEC 314.28(A) applies to boxes and conduit bodies that contain conductors 4 AWG or larger. Once the conductors are 4 AWG or larger, the box must be sized using the rules for straight pulls, angle pulls, U pulls, or splices.",
+      "necReference": "NEC 314.28(A)",
+      "sparkyTip": "For pull-box sizing, remember the starting point: 4 AWG or larger. Smaller conductors usually fall under regular box-fill rules in 314.16.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
+    },
+    {
       "id": "PB-J003",
       "category": "box-fill",
       "necArticle": "314.28(A)(1)",
@@ -660,6 +593,50 @@
       "explanation": "NEC 314.28(A)(1) requires the length of a box for a straight pull to be at least 8 times the trade size of the largest raceway. If the largest raceway is 2 inches, then 2 × 8 = 16 inches.",
       "necReference": "NEC 314.28(A)(1)",
       "sparkyTip": "Straight pull = 8× the largest raceway. Don’t confuse this with the 6× rule used for angle pulls, U pulls, and splices.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
+    },
+    {
+      "id": "PB-J004",
+      "category": "box-fill",
+      "necArticle": "314.28(A)(1)",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What multiple of the largest raceway is used to size a pull box for a straight pull?",
+      "options": [
+        "4 times",
+        "6 times",
+        "8 times",
+        "12 times"
+      ],
+      "correctAnswer": 2,
+      "explanation": "NEC 314.28(A)(1) requires the length of the box for a straight pull to be at least 8 times the trade size of the largest raceway.",
+      "necReference": "NEC 314.28(A)(1)",
+      "sparkyTip": "Straight pull = 8× the largest raceway. Angle pulls, U pulls, and splices use a different rule.",
+      "necVersions": [
+        "2026"
+      ],
+      "examTopic": "boxes-and-enclosures"
+    },
+    {
+      "id": "PB-J005",
+      "category": "box-fill",
+      "necArticle": "314.28(A)(2)",
+      "difficulty": "journeyman",
+      "calculation": false,
+      "questionText": "What multiple of the largest raceway is used when sizing a pull box for an angle pull or U pull?",
+      "options": [
+        "4 times",
+        "6 times",
+        "8 times",
+        "12 times"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 314.28(A)(2) uses 6 times the trade size of the largest raceway when sizing boxes for angle pulls, U pulls, or splices.",
+      "necReference": "NEC 314.28(A)(2)",
+      "sparkyTip": "Angle pull or U pull = 6× the largest raceway. Straight pulls use 8×, so don’t mix them up.",
       "necVersions": [
         "2026"
       ],

@@ -74,7 +74,7 @@
       "necArticle": "Article 450",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), in a supervised location with primary-only protection, is secondary overcurrent protection required?",
+      "questionText": "In a supervised location with primary-only protection, is secondary overcurrent protection required?",
       "options": [
         "Yes — secondary protection is always required",
         "Yes — but only for impedance over 6%",
@@ -82,7 +82,7 @@
         "No — but only if a circuit breaker is used on the primary"
       ],
       "correctAnswer": 2,
-      "explanation": "Per Table 450.3(A), in a supervised location with primary-only protection, secondary overcurrent protection is not required. This is the key advantage of the supervised primary-only option — it allows a simpler installation with tighter primary settings (CB at 300%, fuse at 250%) in exchange for eliminating the secondary device.",
+      "explanation": "In a supervised location with primary-only protection, secondary overcurrent protection is not required. This is the key advantage of the supervised primary-only option — it allows a simpler installation with tighter primary settings (CB at 300%, fuse at 250%) in exchange for eliminating the secondary device.",
       "necReference": "Table 450.3(A)",
       "sparkyTip": "Supervised location + primary-only protection = no secondary OCPD needed. The trade-off is tighter primary settings (300% CB / 250% fuse vs. 600% CB / 300% fuse).",
       "necVersions": [
@@ -99,7 +99,7 @@
       "necArticle": "Article 450",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), what is the maximum primary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%, installed at any location?",
+      "questionText": "What is the maximum primary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%, installed at any location?",
       "options": [
         "250% of primary FLC",
         "300% of primary FLC",
@@ -122,7 +122,7 @@
       "necArticle": "Article 450",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), what is the maximum primary fuse rating for a supervised location with primary-only protection?",
+      "questionText": "What is the maximum primary fuse rating for a supervised location with primary-only protection?",
       "options": [
         "125% of primary FLC",
         "250% of primary FLC",
@@ -191,7 +191,7 @@
       "necArticle": "Article 450",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), what is the maximum secondary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%?",
+      "questionText": "What is the maximum secondary circuit breaker setting for a transformer with impedance greater than 6% but not more than 10%?",
       "options": [
         "125% of secondary FLC",
         "225% of secondary FLC",
@@ -502,7 +502,7 @@
       "necArticle": "Article 450",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 1000 kVA, 4160V to 480Y/277V, 3-phase transformer has 5.75% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary fuse rating?",
+      "questionText": "A 1000 kVA, 4160V to 480Y/277V, 3-phase transformer has 5.75% impedance and is installed at any location. What is the maximum primary fuse rating?",
       "options": [
         "208.2 amperes",
         "277.6 amperes",
@@ -548,7 +548,7 @@
       "necArticle": "Article 450",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 300 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed at any location. Per Table 450.3(A), what is the maximum secondary fuse rating?",
+      "questionText": "A 300 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed at any location. What is the maximum secondary fuse rating?",
       "options": [
         "541.3 amperes",
         "721.7 amperes",
@@ -571,7 +571,7 @@
       "necArticle": "Article 450",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer has 8% impedance and is installed at any location. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
+      "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer has 8% impedance and is installed at any location. What is the maximum primary circuit breaker setting?",
       "options": [
         "208.2 amperes",
         "277.6 amperes",

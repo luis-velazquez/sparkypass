@@ -122,7 +122,7 @@
       "necArticle": "Table 430.7(B)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "A 30 HP, 460V, 3-phase motor has a NEMA Code Letter K stamped on its nameplate. According to NEC Table 430.7(B), what is the maximum locked-rotor current (LRA) for this motor?",
+      "questionText": "A 30 HP, 460V, 3-phase motor has a NEMA Code Letter K stamped on its nameplate. What is the maximum locked-rotor current (LRA) for this motor?",
       "options": [
         "301A",
         "320A",
