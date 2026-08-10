@@ -28,24 +28,36 @@ export default function TermsPage() {
               Terms and Conditions
             </CardTitle>
             <p className="text-sm text-muted-foreground">
-              Last updated: February 11, 2026
+              Last updated: August 7, 2026
             </p>
           </CardHeader>
           <CardContent className="prose prose-sm max-w-none space-y-6 text-muted-foreground">
             <section>
               <h2 className="text-lg font-semibold text-foreground">1. Acceptance of Terms</h2>
               <p>
-                By creating an account and using SparkyPass, you agree to be bound by these
-                Terms and Conditions. If you do not agree, please do not use the service.
+                By downloading or using the SparkyPass app, creating an account, or purchasing
+                a subscription, you agree to be bound by these Terms and Conditions, an
+                agreement between you and SparkyPass LLC (&quot;SparkyPass,&quot; &quot;we&quot;).
+                If you do not agree, please do not use the service. If you downloaded the app from the
+                Apple App Store, your license to use the app is additionally governed by
+                Apple&apos;s standard{" "}
+                <a
+                  href="https://www.apple.com/legal/internet-services/itunes/dev/stdeula/"
+                  className="text-amber hover:text-amber-dark underline"
+                >
+                  Licensed Application End User License Agreement
+                </a>{" "}
+                and the App Store Terms of Service.
               </p>
             </section>
 
             <section>
               <h2 className="text-lg font-semibold text-foreground">2. Description of Service</h2>
               <p>
-                SparkyPass is an online study platform designed to help users prepare for the
-                Texas Master Electrician exam. The service includes practice quizzes, flashcards,
-                mock exams, load calculators, and other study tools.
+                SparkyPass is a study app designed to help users prepare for Texas electrician
+                licensing exams (Journeyman and Master). The service includes practice quizzes,
+                flashcards, load calculators, study games, and other study tools,
+                provided through the SparkyPass mobile application and related services.
               </p>
             </section>
 
@@ -59,7 +71,55 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground">4. Acceptable Use</h2>
+              <h2 className="text-lg font-semibold text-foreground">4. Subscriptions, Billing, and Cancellation</h2>
+              <p>
+                SparkyPass Pro is an auto-renewable monthly subscription purchased through Apple
+                In-App Purchase:
+              </p>
+              <ul className="list-disc list-inside space-y-1 ml-2">
+                <li>
+                  <strong>Length and price</strong> &mdash; 1 month, $14.99 USD per month (the exact
+                  price in your local currency is shown in the app before you buy)
+                </li>
+                <li>
+                  <strong>Introductory offers</strong> &mdash; where eligible, a free trial or a
+                  discounted first month may be offered; introductory offers are limited to one
+                  per Apple Account
+                </li>
+                <li>
+                  <strong>Billing</strong> &mdash; payment is charged to your Apple Account at
+                  confirmation of purchase, or at the end of a free trial unless canceled before
+                  the trial ends
+                </li>
+                <li>
+                  <strong>Renewal</strong> &mdash; the subscription renews automatically unless you
+                  cancel at least 24 hours before the end of the current period
+                </li>
+                <li>
+                  <strong>Cancellation</strong> &mdash; manage or cancel anytime in iOS Settings
+                  &rarr; your Apple Account &rarr; Subscriptions. Deleting the app or deleting your
+                  SparkyPass account does not cancel your subscription
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-semibold text-foreground">5. Refunds</h2>
+              <p>
+                All purchases are processed by Apple. Refund requests are handled by Apple under
+                the App Store terms &mdash; you can request one at{" "}
+                <a
+                  href="https://reportaproblem.apple.com"
+                  className="text-amber hover:text-amber-dark underline"
+                >
+                  reportaproblem.apple.com
+                </a>
+                . SparkyPass cannot issue refunds for App Store purchases directly.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-lg font-semibold text-foreground">6. Acceptable Use</h2>
               <p>You agree not to:</p>
               <ul className="list-disc list-inside space-y-1 ml-2">
                 <li>Share your account with others</li>
@@ -67,10 +127,13 @@ export default function TermsPage() {
                 <li>Attempt to reverse engineer or disrupt the service</li>
                 <li>Use the service for any unlawful purpose</li>
               </ul>
+              <p className="mt-2">
+                We may suspend or terminate accounts that violate these terms.
+              </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground">5. Intellectual Property</h2>
+              <h2 className="text-lg font-semibold text-foreground">7. Intellectual Property</h2>
               <p>
                 All content on SparkyPass, including questions, explanations, and study materials,
                 is the property of SparkyPass and is protected by copyright. NEC code references
@@ -79,25 +142,28 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground">6. Disclaimer</h2>
+              <h2 className="text-lg font-semibold text-foreground">8. Disclaimer</h2>
               <p>
-                SparkyPass is a study aid and does not guarantee passing the Texas Master
-                Electrician exam. The content is provided &quot;as is&quot; for educational purposes.
-                Always refer to the current NEC codebook and official exam preparation materials.
+                SparkyPass is a study aid and does not guarantee passing any licensing exam. The
+                content is provided &quot;as is&quot; for educational purposes. Always refer to the
+                current NEC codebook and official exam preparation materials.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground">7. Privacy</h2>
+              <h2 className="text-lg font-semibold text-foreground">9. Privacy</h2>
               <p>
-                We collect and use your personal information only as needed to provide the service.
-                Your email address is used for account verification, password resets, and optional
-                newsletter communications. We do not sell your personal information to third parties.
+                Our{" "}
+                <Link href="/privacy" className="text-amber hover:text-amber-dark underline">
+                  Privacy Policy
+                </Link>{" "}
+                describes what information we collect and how we use and protect it. We do not
+                sell your personal information to third parties.
               </p>
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground">8. Changes to Terms</h2>
+              <h2 className="text-lg font-semibold text-foreground">10. Changes to Terms</h2>
               <p>
                 We reserve the right to update these terms at any time. Continued use of the
                 service after changes constitutes acceptance of the new terms.
@@ -105,14 +171,15 @@ export default function TermsPage() {
             </section>
 
             <section>
-              <h2 className="text-lg font-semibold text-foreground">9. Contact</h2>
+              <h2 className="text-lg font-semibold text-foreground">11. Contact</h2>
               <p>
-                If you have questions about these terms, please contact us at{" "}
+                SparkyPass is operated by SparkyPass LLC. If you have questions about these
+                terms, please contact us at{" "}
                 <a
-                  href="mailto:noreply@sparkypass.com"
+                  href="mailto:support@sparkypass.com"
                   className="text-amber hover:text-amber-dark underline"
                 >
-                  noreply@sparkypass.com
+                  support@sparkypass.com
                 </a>
                 .
               </p>
@@ -123,11 +190,12 @@ export default function TermsPage() {
               <p>
                 This app is an independent educational tool and is not affiliated with, endorsed by,
                 or sponsored by the National Fire Protection Association (NFPA). While we strive to
-                provide the most accurate information based on the 2023 National Electrical Code&reg;,
-                electrical codes vary by jurisdiction and are subject to change. This content is for
-                educational purposes only and does not constitute professional engineering or
-                installation advice. Always consult your local Authority Having Jurisdiction (AHJ)
-                and the official NFPA 70&reg; text before performing electrical work.
+                provide the most accurate information based on the 2023 and 2026 editions of the
+                National Electrical Code&reg;, electrical codes vary by jurisdiction and are subject
+                to change. This content is for educational purposes only and does not constitute
+                professional engineering or installation advice. Always consult your local Authority
+                Having Jurisdiction (AHJ) and the official NFPA 70&reg; text before performing
+                electrical work.
               </p>
             </section>
           </CardContent>
