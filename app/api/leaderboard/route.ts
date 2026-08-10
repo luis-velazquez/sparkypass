@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users } from "@/lib/db";
-import { eq, inArray, or } from "drizzle-orm";
+import { and, eq, gt, or } from "drizzle-orm";
 import { getClassificationTitle } from "@/lib/voltage";
 
 export interface LeaderboardEntry {
@@ -53,7 +53,14 @@ export async function GET() {
       .from(users)
       .where(
         or(
-          inArray(users.subscriptionStatus, ["active", "trialing"]),
+          eq(users.subscriptionStatus, "active"),
+          // 'trialing' is only real while the trial hasn't lapsed — the status
+          // column is not flipped at expiry (only /api/profile derives it), so
+          // an unchecked inArray kept expired trials on the board forever.
+          and(
+            eq(users.subscriptionStatus, "trialing"),
+            gt(users.trialEndsAt, new Date()),
+          ),
           eq(users.id, userId),
         ),
       );

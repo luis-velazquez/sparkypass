@@ -11,7 +11,6 @@ import { NextResponse } from "next/server";
 import { eq } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db, users } from "@/lib/db";
-import { stripe } from "@/lib/stripe";
 
 export async function DELETE() {
   const session = await auth();
@@ -30,7 +29,6 @@ export async function DELETE() {
   const [existing] = await db
     .select({
       deletedAt: users.deletedAt,
-      stripeSubscriptionId: users.stripeSubscriptionId,
       subscriptionSource: users.subscriptionSource,
     })
     .from(users)
@@ -55,37 +53,11 @@ export async function DELETE() {
     });
   }
 
-  // Cancel any active Stripe subscription at the end of the current period.
-  // We use cancel_at_period_end=true (not immediate) so users keep access for
-  // what they already paid for — same behavior as the Stripe customer portal's
-  // own cancel button. Failures here are logged but don't block the delete:
-  // the hard-delete cron will eventually purge the user row, and the Stripe
-  // sub will either lapse naturally or appear in the Stripe dashboard as a
-  // billing-against-no-user anomaly we resolve manually. We don't want a
-  // transient Stripe outage to prevent users from deleting their account.
-  //
   // Apple IAP cancellation is NOT initiated here. Apple's rules require
   // subscription management to happen via the App Store (Settings → Apple ID
   // → Subscriptions), and developers cannot programmatically cancel Apple
-  // subscriptions on behalf of users. The mobile delete UX should surface a
-  // link explaining this — handled client-side.
-  let stripeSubCancelled = false;
-  if (existing.stripeSubscriptionId) {
-    try {
-      await stripe.subscriptions.update(existing.stripeSubscriptionId, {
-        cancel_at_period_end: true,
-        metadata: { cancelled_via: "account_delete", cancelled_at: now.toISOString() },
-      });
-      stripeSubCancelled = true;
-    } catch (err) {
-      console.error(
-        "[account/delete] Stripe subscription cancel failed for",
-        existing.stripeSubscriptionId,
-        err,
-      );
-    }
-  }
-
+  // subscriptions on behalf of users. The mobile delete UX surfaces this —
+  // handled client-side. (Web/Stripe billing removed 2026-08.)
   await db
     .update(users)
     .set({ deletedAt: now, updatedAt: now })
@@ -96,7 +68,6 @@ export async function DELETE() {
     deletedAt: now.toISOString(),
     hardDeleteAt: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(),
     alreadyDeleted: false,
-    stripeSubCancelled,
     appleSubscriptionNote:
       existing.subscriptionSource === "apple"
         ? "Apple subscriptions must be cancelled in iOS Settings → Apple ID → Subscriptions. Your account data will be deleted regardless after the 30-day grace period."

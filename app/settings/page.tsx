@@ -44,6 +44,7 @@ interface ProfileData {
   showHintsOnMaster: boolean;
   necYear: string;
   subscriptionStatus: string | null;
+  subscriptionSource: string | null;
   trialEndsAt: string | null;
   subscriptionPeriodEnd: string | null;
   isBetaTester: boolean;
@@ -93,7 +94,6 @@ function SettingsContent() {
   const [tipEnabled, setTipEnabled] = useState(true);
 
   // Billing state
-  const [billingLoading, setBillingLoading] = useState(false);
 
   // Password state
   const [currentPassword, setCurrentPassword] = useState("");
@@ -300,21 +300,6 @@ function SettingsContent() {
       setQuizPrefError("Something went wrong. Please try again.");
     } finally {
       setQuizPrefSaving(false);
-    }
-  };
-
-  const handleManageBilling = async () => {
-    setBillingLoading(true);
-    try {
-      const res = await fetch("/api/stripe/portal", { method: "POST" });
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      }
-    } catch (error) {
-      console.error("Portal error:", error);
-    } finally {
-      setBillingLoading(false);
     }
   };
 
@@ -733,25 +718,14 @@ function SettingsContent() {
                 </div>
               )}
 
-              {(profile.subscriptionStatus === "active" || profile.subscriptionStatus === "past_due" || profile.subscriptionStatus === "canceled") && (
-                <Button
-                  onClick={handleManageBilling}
-                  disabled={billingLoading}
-                  variant="outline"
-                  className="w-full border-border dark:border-stone-700"
-                >
-                  {billingLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Loading...
-                    </>
-                  ) : (
-                    <>
-                      <ExternalLink className="mr-2 h-4 w-4" />
-                      Manage Billing
-                    </>
-                  )}
-                </Button>
+              {/* Web/Stripe billing removed 2026-08 — subscriptions are managed
+                  through Apple in the iOS app. */}
+              {profile.subscriptionSource === "apple" &&
+                (profile.subscriptionStatus === "active" || profile.subscriptionStatus === "past_due") && (
+                <p className="text-sm text-muted-foreground">
+                  Manage your subscription on your iPhone: Settings &rarr; your Apple
+                  Account &rarr; Subscriptions.
+                </p>
               )}
 
               {(!profile.subscriptionStatus || profile.subscriptionStatus === "expired" || (profile.subscriptionStatus === "trialing")) && (
