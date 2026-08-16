@@ -140,7 +140,9 @@ export async function POST(request: NextRequest) {
       passwordHash,
       authProvider: "email",
       emailVerified: false,
-      trialEndsAt: new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000),
+      // 7 free days (2026-08-16 model: hard paywall after — $0.99 first
+      // month, then $14.99/mo until cancelled).
+      trialEndsAt: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000),
       subscriptionStatus: "trialing",
       betaAgreedAt: now,
       ...(timezone ? { timezone } : {}),
