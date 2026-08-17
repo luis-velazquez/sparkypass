@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | SparkyPass",
   },
   description:
-    "Pass your Texas Master Electrician exam with SparkyPass. Gamified NEC quizzes, mini-games, flashcards, and personalized study plans with Sparky your mentor.",
+    "Pass your Texas Master Electrician exam with SparkyPass. Gamified NEC quizzes, mini-games, daily challenges, and personalized study plans with Sparky your mentor.",
   metadataBase: new URL("https://sparkypass.com"),
 };
 
