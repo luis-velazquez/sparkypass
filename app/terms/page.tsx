@@ -56,7 +56,7 @@ export default function TermsPage() {
               <p>
                 SparkyPass is a study app designed to help users prepare for Texas electrician
                 licensing exams (Journeyman and Master). The service includes practice quizzes,
-                flashcards, load calculators, study games, and other study tools,
+                load calculators, study games, daily challenges, and other study tools,
                 provided through the SparkyPass mobile application and related services.
               </p>
             </section>
