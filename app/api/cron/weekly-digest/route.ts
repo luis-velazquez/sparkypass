@@ -1,8 +1,9 @@
 // GET /api/cron/weekly-digest
 //
-// Vercel Cron — Sunday 14:00 UTC (vercel.json). For users with weeklyDigest
-// enabled and a push token, send a one-line summary of the prior 7 days:
-// total questions answered, accuracy %, current voltage tier.
+// Vercel Cron — Sunday 14:00 UTC (vercel.json). For users with a push token who
+// haven't turned the digest off (it's opt-out — default on), send a one-line
+// summary of the prior 7 days: questions answered, accuracy %, Watts earned,
+// current study streak.
 //
 // The 14:00-UTC slot is a reasonable Sunday-morning compromise across US time
 // zones (06:00 PT → 10:00 ET, roughly the start-of-day notification slot for
@@ -16,6 +17,7 @@ import {
   users,
   userProgress,
   pushTokens,
+  wattsTransactions,
 } from "@/lib/db";
 import { sendPushNotifications, tokensForUser } from "@/lib/push";
 import { verifyCronRequest } from "@/lib/cron-auth";
@@ -45,7 +47,6 @@ export async function GET(request: NextRequest) {
     .selectDistinct({
       id: users.id,
       notificationPrefs: users.notificationPrefs,
-      level: users.level,
       studyStreak: users.studyStreak,
     })
     .from(users)
@@ -60,13 +61,18 @@ export async function GET(request: NextRequest) {
     tokens: string[];
     answered: number;
     correct: number;
-    voltageTier: number;
+    watts: number;
     streak: number;
   }> = [];
 
   for (const u of candidates) {
+    // Opt-out: send unless the user has EXPLICITLY turned the digest off. A
+    // missing weeklyDigest key (the column default "{}" that everyone who never
+    // opened notification settings carries) means default-on — matching what
+    // the in-app toggle shows via /api/user/notification-prefs' DEFAULTS. The
+    // old `!prefs` check treated default-on users as disabled and skipped them.
     const prefs = parsePrefs(u.notificationPrefs).weeklyDigest;
-    if (!prefs || prefs.enabled === false) {
+    if (prefs?.enabled === false) {
       skippedDisabled++;
       continue;
     }
@@ -95,6 +101,23 @@ export async function GET(request: NextRequest) {
       continue;
     }
 
+    // Watts earned this week (positive transactions only — spending doesn't
+    // count against the "you earned" framing).
+    const [wattsRow] = await db
+      .select({
+        earned: sql<number>`COALESCE(SUM(CASE WHEN ${wattsTransactions.amount} > 0 THEN ${wattsTransactions.amount} ELSE 0 END), 0)`.as(
+          "earned",
+        ),
+      })
+      .from(wattsTransactions)
+      .where(
+        and(
+          eq(wattsTransactions.userId, u.id),
+          gte(wattsTransactions.createdAt, oneWeekAgo),
+        ),
+      );
+    const watts = Number(wattsRow?.earned ?? 0);
+
     const tokens = await tokensForUser(u.id);
     if (tokens.length === 0) continue;
 
@@ -102,20 +125,23 @@ export async function GET(request: NextRequest) {
       tokens,
       answered,
       correct,
-      voltageTier: u.level ?? 1,
+      watts,
       streak: u.studyStreak ?? 0,
     });
     queued++;
   }
 
-  const messages = sendQueue.flatMap(({ tokens, answered, correct, voltageTier, streak }) => {
+  const messages = sendQueue.flatMap(({ tokens, answered, correct, watts, streak }) => {
     const pct = answered > 0 ? Math.round((correct / answered) * 100) : 0;
+    const wattsLine = watts > 0 ? ` · +${watts.toLocaleString()} ⚡` : "";
     const streakLine = streak > 0 ? ` · ${streak}-day streak` : "";
     return tokens.map((token) => ({
       to: token,
       title: "Your week with Sparky ⚡",
-      body: `${answered} questions · ${pct}% accuracy · Voltage tier ${voltageTier}${streakLine}`,
-      data: { type: "weekly-digest", answered, correct, pct, voltageTier },
+      body: `${answered} questions · ${pct}% accuracy${wattsLine}${streakLine}`,
+      // `route` tells the app where to deep-link when the notification is tapped
+      // (the full Progress report, with study time / pace / history).
+      data: { type: "weekly-digest", route: "/progress", answered, correct, pct, watts },
       sound: "default" as const,
     }));
   });
