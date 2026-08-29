@@ -70,7 +70,11 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const audience = process.env.APPLE_IOS_BUNDLE_ID;
+  // The audience is the app's bundle id — a product constant, not a secret.
+  // The env var stayed unset in every environment, so Apple sign-in returned
+  // "Server misconfigured" to every user; the constant is the default and the
+  // env remains an override for test builds.
+  const audience = process.env.APPLE_IOS_BUNDLE_ID ?? "com.sparkypass.app";
   if (!audience) {
     console.error("[auth/mobile/apple] APPLE_IOS_BUNDLE_ID not configured");
     return NextResponse.json(
