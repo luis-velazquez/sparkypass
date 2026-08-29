@@ -506,11 +506,13 @@ export async function resolveOAuthUser(
     }
   }
 
-  // 3. No match — create a fresh user. Mirrors the OAuth user-creation in
-  //    auth.ts's signIn callback (30-day trial, emailVerified=true since
-  //    OAuth providers vouch for the email).
+  // 3. No match — create a fresh user. NO server-side trial (2026-08-29):
+  //    the paywall's Apple IAP intro offer — 7-day trial or $0.99 first
+  //    month — is the ONLY trial. A server grant stacked on top of it let a
+  //    user ride ~14 free days. Accounts start free (null status); Pro comes
+  //    exclusively from RevenueCat/webhooks. emailVerified=true since OAuth
+  //    providers vouch for the email.
   const newUserId = crypto.randomUUID();
-  const trialEndsAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
   // If we have no email at all (Apple after first sign-in with relay), use a
   // placeholder that satisfies the NOT NULL + UNIQUE constraint. The user can
@@ -524,9 +526,6 @@ export async function resolveOAuthUser(
     name: claims.name || "Sparky user",
     authProvider: claims.provider,
     emailVerified: claims.emailVerified,
-    trialEndsAt,
-    subscriptionStatus: "trialing",
-    subscriptionSource: "trial",
   });
 
   await db.insert(linkedProviders).values({
