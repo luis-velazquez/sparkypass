@@ -140,10 +140,10 @@ export async function POST(request: NextRequest) {
       passwordHash,
       authProvider: "email",
       emailVerified: false,
-      // 7 free days (2026-08-16 model: hard paywall after — $0.99 first
-      // month, then $14.99/mo until cancelled).
-      trialEndsAt: new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000),
-      subscriptionStatus: "trialing",
+      // NO server-side trial (2026-08-29): the paywall's Apple IAP intro
+      // offer — 7-day trial or $0.99 first month — is the ONLY trial; a
+      // server grant stacked ~14 free days on top of it. Accounts start
+      // free (null status); Pro comes exclusively from RevenueCat/webhooks.
       betaAgreedAt: now,
       ...(timezone ? { timezone } : {}),
     });
