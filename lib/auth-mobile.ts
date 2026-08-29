@@ -483,11 +483,14 @@ export async function resolveOAuthUser(
     }
   }
 
-  // 3. No match — create a fresh user. Mirrors the OAuth user-creation in
-  //    auth.ts's signIn callback (30-day trial, emailVerified=true since
-  //    OAuth providers vouch for the email).
+  // 3. No match — create a fresh user. The signup trial is the MOBILE
+  //    policy: 7 days, matching the email register route — the product is
+  //    "7-day trial or $0.99 first month" via Apple IAP. (This used to mirror
+  //    the website's 30-day NextAuth trial; the web billing is being retired
+  //    and is no longer the reference.) emailVerified=true since OAuth
+  //    providers vouch for the email.
   const newUserId = crypto.randomUUID();
-  const trialEndsAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+  const trialEndsAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
   // If we have no email at all (Apple after first sign-in with relay), use a
   // placeholder that satisfies the NOT NULL + UNIQUE constraint. The user can
