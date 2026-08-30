@@ -40,9 +40,16 @@ async function makeClientSecret(): Promise<string> {
 }
 
 /** Exchange the sign-in authorizationCode for Apple's refresh token.
- *  Returns null (never throws) when unconfigured or the exchange fails. */
+ *  Returns null (never throws) when unconfigured or the exchange fails.
+ *  `expectedSub` binds the code to the verified identity token's subject:
+ *  Apple's token response carries an id_token, and a mismatched sub means
+ *  the caller paired their own identityToken with someone else's code —
+ *  storing that token would let their deletion revoke the victim's grant.
+ *  (Payload is read without signature verification: the response arrived
+ *  over TLS directly from Apple.) */
 export async function exchangeAppleAuthCode(
   authorizationCode: string,
+  expectedSub?: string,
 ): Promise<string | null> {
   if (!siwaRevocationConfigured()) {
     console.warn("[apple-revocation] env unset; skipping code exchange");
@@ -58,12 +65,30 @@ export async function exchangeAppleAuthCode(
         code: authorizationCode,
         grant_type: "authorization_code",
       }),
+      signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) {
       console.warn("[apple-revocation] token exchange failed", res.status);
       return null;
     }
-    const data = (await res.json()) as { refresh_token?: string };
+    const data = (await res.json()) as {
+      refresh_token?: string;
+      id_token?: string;
+    };
+    if (expectedSub && data.id_token) {
+      try {
+        const payload = JSON.parse(
+          Buffer.from(data.id_token.split(".")[1], "base64url").toString(),
+        ) as { sub?: string };
+        if (payload.sub !== expectedSub) {
+          console.warn("[apple-revocation] code subject mismatch; discarding");
+          return null;
+        }
+      } catch {
+        console.warn("[apple-revocation] unparseable id_token; discarding");
+        return null;
+      }
+    }
     return data.refresh_token ?? null;
   } catch (e) {
     console.warn("[apple-revocation] token exchange error", e);
@@ -90,6 +115,7 @@ export async function revokeAppleRefreshToken(
         token: refreshToken,
         token_type_hint: "refresh_token",
       }),
+      signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) console.warn("[apple-revocation] revoke failed", res.status);
     return res.ok;

@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
     const subject = claims.sub;
     after(async () => {
       try {
-        const refreshToken = await exchangeAppleAuthCode(authorizationCode);
+        const refreshToken = await exchangeAppleAuthCode(authorizationCode, subject);
         if (refreshToken) {
           await db
             .update(linkedProviders)

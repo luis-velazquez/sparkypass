@@ -7,7 +7,7 @@
 // period. This endpoint marks deleted_at; a daily Vercel Cron sweeps anything
 // older than 30 days for hard delete.
 
-import { NextResponse } from "next/server";
+import { NextResponse, after } from "next/server";
 import { and, eq, isNotNull } from "drizzle-orm";
 import { auth } from "@/auth";
 import { db, users, linkedProviders } from "@/lib/db";
@@ -64,27 +64,35 @@ export async function DELETE() {
     .set({ deletedAt: now, updatedAt: now })
     .where(eq(users.id, userId));
 
-  // Revoke the Sign in with Apple grant (5.1.1(v)) — best-effort. On success
-  // the stored token is cleared; on failure it is KEPT so the hard-delete
-  // cron retries before the row is purged.
-  const appleLinks = await db
-    .select({ id: linkedProviders.id, token: linkedProviders.appleRefreshToken })
-    .from(linkedProviders)
-    .where(
-      and(
-        eq(linkedProviders.userId, userId),
-        eq(linkedProviders.provider, "apple"),
-        isNotNull(linkedProviders.appleRefreshToken),
-      ),
-    );
-  for (const link of appleLinks) {
-    if (await revokeAppleRefreshToken(link.token!)) {
-      await db
-        .update(linkedProviders)
-        .set({ appleRefreshToken: null })
-        .where(eq(linkedProviders.id, link.id));
+  // Revoke the Sign in with Apple grant (5.1.1(v)) — after the response, so
+  // a slow/hung appleid.apple.com can never stall the user's deletion (the
+  // soft-delete above is already committed). Best-effort: on success the
+  // stored token is cleared; on failure it is KEPT so the hard-delete cron
+  // retries before the row is purged.
+  after(async () => {
+    try {
+      const appleLinks = await db
+        .select({ id: linkedProviders.id, token: linkedProviders.appleRefreshToken })
+        .from(linkedProviders)
+        .where(
+          and(
+            eq(linkedProviders.userId, userId),
+            eq(linkedProviders.provider, "apple"),
+            isNotNull(linkedProviders.appleRefreshToken),
+          ),
+        );
+      for (const link of appleLinks) {
+        if (await revokeAppleRefreshToken(link.token!)) {
+          await db
+            .update(linkedProviders)
+            .set({ appleRefreshToken: null })
+            .where(eq(linkedProviders.id, link.id));
+        }
+      }
+    } catch (e) {
+      console.warn("[account] SiwA revocation failed", e);
     }
-  }
+  });
 
   return NextResponse.json({
     ok: true,
