@@ -392,6 +392,9 @@ export const linkedProviders = sqliteTable(
     provider: text("provider", { enum: linkedProviderValues }).notNull(),
     providerSubject: text("provider_subject").notNull(),
     linkedAt: integer("linked_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+    // Apple refresh token captured at sign-in (exchange of authorizationCode);
+    // consumed by account deletion to revoke the SiwA grant (5.1.1(v)).
+    appleRefreshToken: text("apple_refresh_token"),
   },
   (table) => ({
     providerSubjectIdx: uniqueIndex("linked_providers_provider_subject_idx").on(

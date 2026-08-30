@@ -21,8 +21,9 @@
 // app_user_id are ack'd and ignored by the RevenueCat webhook.
 
 import { NextRequest, NextResponse } from "next/server";
-import { lt, and, isNotNull } from "drizzle-orm";
-import { db, users } from "@/lib/db";
+import { lt, and, eq, inArray, isNotNull } from "drizzle-orm";
+import { db, users, linkedProviders } from "@/lib/db";
+import { revokeAppleRefreshToken } from "@/lib/apple-revocation";
 import { verifyCronRequest } from "@/lib/cron-auth";
 
 const GRACE_DAYS = 30;
@@ -60,6 +61,22 @@ export async function GET(request: NextRequest) {
       "deleted_at=",
       u.deletedAt?.toISOString(),
     );
+  }
+
+  // Last-chance SiwA revocation (5.1.1(v)): tokens the soft-delete pass
+  // failed to revoke get one retry before the cascade wipes the rows.
+  const appleLinks = await db
+    .select({ token: linkedProviders.appleRefreshToken })
+    .from(linkedProviders)
+    .where(
+      and(
+        inArray(linkedProviders.userId, candidates.map((u: { id: string }) => u.id)),
+        eq(linkedProviders.provider, "apple"),
+        isNotNull(linkedProviders.appleRefreshToken),
+      ),
+    );
+  for (const link of appleLinks) {
+    await revokeAppleRefreshToken(link.token!);
   }
 
   const result = await db

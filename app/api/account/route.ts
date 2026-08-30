@@ -8,9 +8,10 @@
 // older than 30 days for hard delete.
 
 import { NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
+import { and, eq, isNotNull } from "drizzle-orm";
 import { auth } from "@/auth";
-import { db, users } from "@/lib/db";
+import { db, users, linkedProviders } from "@/lib/db";
+import { revokeAppleRefreshToken } from "@/lib/apple-revocation";
 
 export async function DELETE() {
   const session = await auth();
@@ -62,6 +63,28 @@ export async function DELETE() {
     .update(users)
     .set({ deletedAt: now, updatedAt: now })
     .where(eq(users.id, userId));
+
+  // Revoke the Sign in with Apple grant (5.1.1(v)) — best-effort. On success
+  // the stored token is cleared; on failure it is KEPT so the hard-delete
+  // cron retries before the row is purged.
+  const appleLinks = await db
+    .select({ id: linkedProviders.id, token: linkedProviders.appleRefreshToken })
+    .from(linkedProviders)
+    .where(
+      and(
+        eq(linkedProviders.userId, userId),
+        eq(linkedProviders.provider, "apple"),
+        isNotNull(linkedProviders.appleRefreshToken),
+      ),
+    );
+  for (const link of appleLinks) {
+    if (await revokeAppleRefreshToken(link.token!)) {
+      await db
+        .update(linkedProviders)
+        .set({ appleRefreshToken: null })
+        .where(eq(linkedProviders.id, link.id));
+    }
+  }
 
   return NextResponse.json({
     ok: true,

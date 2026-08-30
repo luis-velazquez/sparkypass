@@ -9,12 +9,13 @@
 // fullName is NOT in the identity token; the iOS client passes it separately
 // on first sign-in and we apply it only when creating a new user.
 
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { createRemoteJWKSet, jwtVerify } from "jose";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import crypto from "crypto";
-import { db, users } from "@/lib/db";
+import { db, users, linkedProviders } from "@/lib/db";
 import { createTokenPair, resolveOAuthUser } from "@/lib/auth-mobile";
+import { exchangeAppleAuthCode } from "@/lib/apple-revocation";
 
 const APPLE_JWKS = createRemoteJWKSet(
   new URL("https://appleid.apple.com/auth/keys"),
@@ -25,6 +26,10 @@ interface RequestBody {
   nonce?: unknown;
   fullName?: unknown;
   deviceId?: unknown;
+  /** Apple's one-shot auth code (5-min TTL) — exchanged for the refresh token
+   *  that account deletion later revokes (5.1.1(v)). Optional: older app
+   *  builds don't send it. */
+  authorizationCode?: unknown;
 }
 
 interface AppleIdTokenPayload {
@@ -151,6 +156,36 @@ export async function POST(request: NextRequest) {
       },
       { status: 409 },
     );
+  }
+
+  // Capture the SiwA refresh token AFTER the response is sent (after()):
+  // the exchange is a network round-trip to Apple and must neither slow down
+  // nor be able to fail the sign-in. Row is keyed by (provider, subject) —
+  // resolveOAuthUser has just guaranteed it exists.
+  const authorizationCode =
+    typeof body.authorizationCode === "string" && body.authorizationCode
+      ? body.authorizationCode
+      : null;
+  if (authorizationCode) {
+    const subject = claims.sub;
+    after(async () => {
+      try {
+        const refreshToken = await exchangeAppleAuthCode(authorizationCode);
+        if (refreshToken) {
+          await db
+            .update(linkedProviders)
+            .set({ appleRefreshToken: refreshToken })
+            .where(
+              and(
+                eq(linkedProviders.provider, "apple"),
+                eq(linkedProviders.providerSubject, subject),
+              ),
+            );
+        }
+      } catch (e) {
+        console.warn("[auth/mobile/apple] refresh-token capture failed", e);
+      }
+    });
   }
 
   const pair = await createTokenPair(result.userId, deviceId);
