@@ -118,6 +118,7 @@ export async function revokeAppleRefreshToken(
       signal: AbortSignal.timeout(10_000),
     });
     if (!res.ok) console.warn("[apple-revocation] revoke failed", res.status);
+    else console.log("[apple-revocation] revoked ok");
     return res.ok;
   } catch (e) {
     console.warn("[apple-revocation] revoke error", e);
