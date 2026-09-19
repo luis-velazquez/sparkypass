@@ -168,7 +168,7 @@
       "necArticle": "Article 450",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per Table 450.3(A), how does increasing transformer impedance from ≤6% to greater than 6% affect the maximum primary circuit breaker setting at any location?",
+      "questionText": "How does increasing transformer impedance from ≤6% to greater than 6% affect the maximum primary circuit breaker setting at any location?",
       "options": [
         "It increases from 400% to 600%",
         "It decreases from 600% to 400%",
@@ -241,7 +241,7 @@
         "2023",
         "2026"
       ],
-      "questionText": "A dry-type transformer rated over 112.5 kVA is installed indoors. According to NEC , the transformer room must be of fire-resistant construction with a fire resistance rating of not less than how long?",
+      "questionText": "A dry-type transformer rated over 112.5 kVA is installed indoors. According to the NEC, the transformer room must be of fire-resistant construction with a fire resistance rating of not less than how long?",
       "options": [
         "30 minutes",
         "1 hour",
@@ -410,7 +410,7 @@
       "necArticle": "Table 450.3(B); 240.6(A)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 75 kVA, 480V to 208Y/120V 3-phase transformer is installed with primary-only overcurrent protection. Per NEC Table 450.3(B), what is the maximum standard overcurrent device rating for the primary?",
+      "questionText": "A 75 kVA, 480V to 208Y/120V 3-phase transformer is installed with primary-only overcurrent protection. Per the NEC, what is the maximum standard overcurrent device rating for the primary?",
       "options": [
         "100 amps",
         "110 amps",
@@ -433,7 +433,7 @@
       "necArticle": "Table 450.3(B)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 45 kVA, 480V to 208Y/120V 3-phase transformer has both primary AND secondary overcurrent protection installed. Per NEC Table 450.3(B), what is the maximum rating for the primary overcurrent device?",
+      "questionText": "A 45 kVA, 480V to 208Y/120V 3-phase transformer has both primary AND secondary overcurrent protection installed. Per the NEC, what is the maximum rating for the primary overcurrent device?",
       "options": [
         "70 amps",
         "100 amps",
@@ -525,7 +525,7 @@
       "necArticle": "Article 450",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per Table 450.3(A), what is the maximum primary circuit breaker setting?",
+      "questionText": "A 500 kVA, 4160V to 480Y/277V, 3-phase transformer with 5% impedance is installed in a supervised location with primary-only protection. Per the NEC, what is the maximum primary circuit breaker setting?",
       "options": [
         "138.8 amperes",
         "173.5 amperes",

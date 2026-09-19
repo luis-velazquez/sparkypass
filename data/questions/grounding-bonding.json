@@ -236,7 +236,7 @@
       "necArticle": "250.12",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Your journeyman hands you a grounding terminal bar and asks you to bolt it inside a painted dry-type transformer enclosure. According to NEC 250.12, what must you do to the enclosure surface before installing the bar to ensure it is Code-compliant?",
+      "questionText": "Your journeyman hands you a grounding terminal bar and asks you to bolt it inside a painted dry-type transformer enclosure. According to the NEC, what must you do to the enclosure surface before installing the bar to ensure it is Code-compliant?",
       "options": [
         "Spray the contact area with cold galvanizing compound.",
         "Apply a thick layer of dielectric grease over the paint.",
@@ -786,7 +786,7 @@
       "necArticle": "250.64(G)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "You are routing a bare copper Grounding Electrode Conductor (GEC) into a metal outdoor equipment enclosure. According to the strict enclosure entry rules detailed in NEC 250.64, which of the following is the ONLY acceptable method for this conductor to enter the cabinet?",
+      "questionText": "You are routing a bare copper Grounding Electrode Conductor (GEC) into a metal outdoor equipment enclosure. According to the strict enclosure entry rules detailed in the NEC, which of the following is the ONLY acceptable method for this conductor to enter the cabinet?",
       "options": [
         "Through a factory-machined drainage opening (weep hole) at the bottom.",
         "Through the factory louvered ventilation openings to maintain a straight pull.",
@@ -969,7 +969,7 @@
       "necArticle": "Article 250",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to NEC 250.52(A)(4), what are the minimum conductor size and length requirements for a ground ring electrode?",
+      "questionText": "According to the NEC, what are the minimum conductor size and length requirements for a ground ring electrode?",
       "options": [
         "4 AWG copper, at least 10 feet long",
         "2 AWG copper, at least 20 feet long",
@@ -1440,7 +1440,7 @@
       "necArticle": "250.30(A)(5), Table 250.66",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "A 112.5 kVA separately derived system (transformer) is installed using 500 kcmil copper secondary phase conductors. According to NEC 250.30(A)(5), what is the minimum required size for the copper grounding electrode conductor (GEC)?",
+      "questionText": "A 112.5 kVA separately derived system (transformer) is installed using 500 kcmil copper secondary phase conductors. According to the NEC, what is the minimum required size for the copper grounding electrode conductor (GEC)?",
       "options": [
         "#2 AWG",
         "1/0 AWG",
@@ -1565,7 +1565,7 @@
       "necArticle": "408.40 Exception",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "Under the exception to NEC 408.40, an isolated equipment grounding bus is permitted inside a panelboard to reduce electromagnetic interference for sensitive equipment. Which of the following describes the Code-compliant installation of the conductors connected to this isolated bus?",
+      "questionText": "Under an exception in the NEC, an isolated equipment grounding bus is permitted inside a panelboard to reduce electromagnetic interference for sensitive equipment. Which of the following describes the Code-compliant installation of the conductors connected to this isolated bus?",
       "options": [
         "They must be bonded to the local panelboard enclosure using a system bonding jumper.",
         "They must be connected to a separate, dedicated ground rod that is isolated from the building's grounding electrode system.",
@@ -1588,7 +1588,7 @@
       "necArticle": "250.30(A)(5)",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "You are verifying the installation of a 480V to 208Y/120V dry-type transformer (a separately derived system). The installer chose to locate the system bonding jumper (SBJ) at the first disconnecting means (the secondary panelboard) rather than inside the transformer enclosure. According to NEC 250.30(A), where MUST the grounding electrode conductor (GEC) be connected to the grounded system conductor?",
+      "questionText": "You are verifying the installation of a 480V to 208Y/120V dry-type transformer (a separately derived system). The installer chose to locate the system bonding jumper (SBJ) at the first disconnecting means (the secondary panelboard) rather than inside the transformer enclosure. According to the NEC, where MUST the grounding electrode conductor (GEC) be connected to the grounded system conductor?",
       "options": [
         "Inside the transformer enclosure, directly to the X0 terminal.",
         "At the exact same point where the system bonding jumper is installed (the secondary panelboard).",
@@ -1611,7 +1611,7 @@
       "necArticle": "250.30(A)(2) & 250.102(C)(2)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "You are installing a wire-type supply-side bonding jumper (SSBJ) from a 480V transformer to a secondary panelboard. The ungrounded secondary conductors consist of three parallel sets of 4/0 AWG copper installed in three separate nonmetallic conduits. According to NEC 250.30(A) and 250.102(C), what is the minimum required size of the copper SSBJ installed in *each* individual conduit?",
+      "questionText": "You are installing a wire-type supply-side bonding jumper (SSBJ) from a 480V transformer to a secondary panelboard. The ungrounded secondary conductors consist of three parallel sets of 4/0 AWG copper installed in three separate nonmetallic conduits. According to the NEC, what is the minimum required size of the copper SSBJ installed in *each* individual conduit?",
       "options": [
         "2 AWG",
         "1/0 AWG",
@@ -1634,7 +1634,7 @@
       "necArticle": "250.30(A)(6)",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "A commercial building contains multiple separately derived systems (dry-type transformers). The installer chooses to install a common grounding electrode conductor (GEC) rather than running individual GECs to the building steel for each transformer. According to NEC 250.30(A)(6), what is the minimum required size for this common GEC if it is made of copper?",
+      "questionText": "A commercial building contains multiple separately derived systems (dry-type transformers). The installer chooses to install a common grounding electrode conductor (GEC) rather than running individual GECs to the building steel for each transformer. According to the NEC, what is the minimum required size for this common GEC if it is made of copper?",
       "options": [
         "4/0 AWG",
         "250 kcmil",

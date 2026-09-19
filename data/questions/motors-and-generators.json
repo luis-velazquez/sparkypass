@@ -52,7 +52,7 @@
       "necArticle": "Article 430",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "According to NEC Article 430, what is the definition of a motor controller?",
+      "questionText": "According to the NEC, what is the definition of a motor controller?",
       "options": [
         "Any switch or device that is normally used to start and stop a motor",
         "The main breaker in the electrical service panel",
@@ -76,7 +76,7 @@
       "necArticle": "Article 430",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "A 25 HP, 460V, 3-phase squirrel cage motor has a nameplate FLA of 32A. Per NEC Table 430.250, the FLC is 34A. What current value must be used to size the branch circuit conductors?",
+      "questionText": "A 25 HP, 460V, 3-phase squirrel cage motor has a nameplate FLA of 32A. The FLC is 34A. What current value must be used to size the branch circuit conductors?",
       "options": [
         "32A (nameplate FLA)",
         "34A (Table 430.250 FLC)",
@@ -99,7 +99,7 @@
       "necArticle": "430.52(C)(3) Ex. 1",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "A 50 HP, 460V, 3-phase AC motor has a full-load current of 65A per Table 430.250. It is NOT a Design B energy-efficient or premium efficiency motor. If the starting current causes nuisance tripping at the standard setting, what is the absolute maximum permitted setting for an instantaneous trip circuit breaker (MCP)?",
+      "questionText": "A 50 HP, 460V, 3-phase AC motor has a full-load current of 65A. It is NOT a Design B energy-efficient or premium efficiency motor. If the starting current causes nuisance tripping at the standard setting, what is the absolute maximum permitted setting for an instantaneous trip circuit breaker (MCP)?",
       "options": [
         "520A",
         "650A",
@@ -145,7 +145,7 @@
       "necArticle": "Article 430",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "A 7.5 HP, 208V, 3-phase motor has an FLC of 24.2A per Table 430.250. The motor nameplate shows 22A FLA and a service factor of 1.0. What is the maximum overload protection?",
+      "questionText": "A 7.5 HP, 208V, 3-phase motor has an FLC of 24.2A. The motor nameplate shows 22A FLA and a service factor of 1.0. What is the maximum overload protection?",
       "options": [
         "25.3A",
         "27.8A",

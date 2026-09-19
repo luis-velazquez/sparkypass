@@ -6,7 +6,7 @@
       "necArticle": "Article 220",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "What is the standard general lighting load per square foot for dwelling units according to NEC Table 220.12?",
+      "questionText": "What is the standard general lighting load per square foot for dwelling units according to the NEC?",
       "options": [
         "2 VA per sq ft",
         "3 VA per sq ft",
@@ -126,7 +126,7 @@
       "necArticle": "Article 220",
       "difficulty": "apprentice",
       "calculation": true,
-      "questionText": "Using the optional calculation method for a dwelling (220.82), the total general load is 12000 VA. Apply 100% to the first 10 kVA and 40% to the remainder. What is the calculated demand in VA?",
+      "questionText": "Using the optional calculation method for a dwelling, the total general load is 12000 VA. Apply 100% to the first 10 kVA and 40% to the remainder. What is the calculated demand in VA?",
       "options": [
         "10800 VA",
         "11400 VA",
@@ -172,7 +172,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "What is the maximum conduit fill percentage for two conductors according to Table 1?",
+      "questionText": "What is the maximum conduit fill percentage for two conductors according to the NEC?",
       "options": [
         "25%",
         "31%",
@@ -402,7 +402,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "What unit is used for reactance in Table 9?",
+      "questionText": "What unit is used for reactance in NEC Chapter 9?",
       "options": [
         "Ohms per foot",
         "Ohms per 1000 feet",
@@ -1161,7 +1161,7 @@
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Based on Table 310.15(B)(1), at what ambient Celsius temperature range is the correction factor 1.00 (requiring no adjustment to conductor ampacity)?",
+      "questionText": "According to the NEC, at what ambient Celsius temperature range is the correction factor 1.00 (requiring no adjustment to conductor ampacity)?",
       "options": [
         "21-25°C",
         "26-30°C",
@@ -1639,7 +1639,7 @@
       "necArticle": "110.14(C)(1)(b)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of NEC Table 310.16?",
+      "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of the NEC ampacity table?",
       "options": [
         "60°C Column",
         "75°C Column",
@@ -1731,7 +1731,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "What is the internal diameter of 3/4\" EMT according to Table 4?",
+      "questionText": "What is the internal diameter of 3/4\" EMT according to the NEC?",
       "options": [
         "0.622 inches",
         "0.824 inches",
@@ -1846,7 +1846,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Table 9, at what temperature are the AC resistance values given?",
+      "questionText": "According to NEC Chapter 9, at what temperature are the AC resistance values given?",
       "options": [
         "60°C",
         "75°C",
@@ -1938,7 +1938,7 @@
       "necArticle": "Chapter 9, Table 4",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to NEC Chapter 9, Table 4, what is the 100% total internal area of 2-inch Electrical Metallic Tubing (EMT)?",
+      "questionText": "According to NEC Chapter 9, what is the 100% total internal area of 2-inch Electrical Metallic Tubing (EMT)?",
       "options": [
         "1.342 sq in",
         "2.014 sq in",
@@ -2444,7 +2444,7 @@
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Chapter 9, Table 8, what is the Circular Mil (CM) area of a #10 AWG conductor?",
+      "questionText": "According to Chapter 9, what is the Circular Mil (CM) area of a #10 AWG conductor?",
       "options": [
         "10,380 CM",
         "6,530 CM",
@@ -2835,7 +2835,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Chapter 9, Table 1, Note 3, how must grounding or bonding conductors be treated when calculating conduit fill?",
+      "questionText": "According to Chapter 9, how must grounding or bonding conductors be treated when calculating conduit fill?",
       "options": [
         "They are excluded from the total count.",
         "They are counted as one conductor regardless of size.",
@@ -2939,7 +2939,7 @@
       "necArticle": "Article 220",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per NEC Table 220.55, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
+      "questionText": "Per the NEC, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
       "options": [
         "8 kW",
         "10 kW",
@@ -3175,7 +3175,7 @@
       "necArticle": "Article 430",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A feeder supplies three motors with full-load currents of 28 A, 18 A, and 12 A. Per 430.24, what is the minimum feeder conductor ampacity?",
+      "questionText": "A feeder supplies three motors with full-load currents of 28 A, 18 A, and 12 A. What is the minimum feeder conductor ampacity?",
       "options": [
         "65 A",
         "70 A",
@@ -3198,7 +3198,7 @@
       "necArticle": "430.52(C)(1) Ex. 1; 240.6(A)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A continuous-duty motor has a full-load current (FLC) of 25 A. Using an inverse time circuit breaker sized at 250% per Table 430.52, what is the maximum standard OCPD rating permitted?",
+      "questionText": "A continuous-duty motor has a full-load current (FLC) of 25 A. Using an inverse time circuit breaker sized at 250%, what is the maximum standard OCPD rating permitted?",
       "options": [
         "70 A",
         "60 A",
@@ -3313,7 +3313,7 @@
       "necArticle": "625.41, Table 310.16",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 48-amp EV charging station is being installed 80 feet away from the service panel using THHN copper conductors in PVC conduit. What is the minimum size conductor required to satisfy ampacity requirements, and what is the estimated voltage drop at 240V using Chapter 9, Table 8?",
+      "questionText": "A 48-amp EV charging station is being installed 80 feet away from the service panel using THHN copper conductors in PVC conduit. What is the minimum size conductor required to satisfy ampacity requirements, and what is the estimated voltage drop at 240V using Chapter 9?",
       "options": [
         "#6 AWG; 1.6% drop",
         "#4 AWG; 1.0% drop",
@@ -3385,7 +3385,7 @@
       "necArticle": "220.83(B)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "An existing dwelling is fed by a 200A, 120/240V service. The homeowner is adding a detached residential shop and new electric space heating. The existing house has 26,000 VA of connected general lighting, receptacles, and appliances, plus a 5,000 VA AC unit. The new shop adds 7,200 VA of general lighting, a 5 HP 240V compressor (28A), and 10,000 VA of electric space heating. Using the Optional Method for an existing dwelling (220.83), does the 200A service have the capacity to handle this addition, and what is the new calculated load?",
+      "questionText": "An existing dwelling is fed by a 200A, 120/240V service. The homeowner is adding a detached residential shop and new electric space heating. The existing house has 26,000 VA of connected general lighting, receptacles, and appliances, plus a 5,000 VA AC unit. The new shop adds 7,200 VA of general lighting, a 5 HP 240V compressor (28A), and 10,000 VA of electric space heating. Using the Optional Method for an existing dwelling, does the 200A service have the capacity to handle this addition, and what is the new calculated load?",
       "options": [
         "Yes, the total load is 128A, leaving 72A of spare capacity.",
         "Yes, the total load is 133A, leaving 67A of spare capacity.",
@@ -3434,7 +3434,7 @@
       "necArticle": "630.11(A) and (B)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A fabrication shop is installing a new feeder to supply five nonmotor generator arc welders. All five welders operate at a 50% duty cycle, but they have different primary nameplate current ratings: 100A, 80A, 60A, 50A, and 40A. According to NEC Article 630, what is the minimum required ampacity for the feeder conductors supplying this specific group of welders?",
+      "questionText": "A fabrication shop is installing a new feeder to supply five nonmotor generator arc welders. All five welders operate at a 50% duty cycle, but they have different primary nameplate current ratings: 100A, 80A, 60A, 50A, and 40A. According to the NEC, what is the minimum required ampacity for the feeder conductors supplying this specific group of welders?",
       "options": [
         "290 Amps",
         "234 Amps",
@@ -4055,7 +4055,7 @@
       "necArticle": "Chapter 9, Table 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "For a 500 kcmil steel-conduit feeder, Chapter 9 Table 9 lists AC resistance as 0.029 ohms/kft and Inductive Reactance (XL) as 0.048 ohms/kft. What is the approximate Impedance (Z) per 1000ft?",
+      "questionText": "For a 500 kcmil steel-conduit feeder, the AC resistance is 0.029 ohms/kft and the Inductive Reactance (XL) is 0.048 ohms/kft. What is the approximate Impedance (Z) per 1000ft?",
       "options": [
         "0.056 ohms",
         "0.077 ohms",
@@ -4308,7 +4308,7 @@
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "Using Chapter 9 Table 9, a 6 AWG copper THHN in steel conduit has an effective Z of 0.491 ohms/1000 ft at 0.85 PF. What is the voltage drop for a 45A load at 175 feet on a single-phase 240V circuit?",
+      "questionText": "A 6 AWG copper THHN in steel conduit has an effective Z of 0.491 ohms/1000 ft at 0.85 PF. What is the voltage drop for a 45A load at 175 feet on a single-phase 240V circuit?",
       "options": [
         "7.7V",
         "6.2V",
@@ -4400,7 +4400,7 @@
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "When calculating AC voltage drop using Table 9, which column should you use for a circuit with an 0.85 power factor in steel (magnetic) conduit?",
+      "questionText": "When calculating AC voltage drop, which column should you use for a circuit with an 0.85 power factor in steel (magnetic) conduit?",
       "options": [
         "XL (reactance) column only",
         "AC Resistance column only",
@@ -4653,7 +4653,7 @@
       "necArticle": "Chapter 9, Table 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "Using Table 9 effective Z, a single-phase 208V circuit draws 75A at 200 feet. Effective Z = 0.404 ohms/1000 ft. What is the voltage drop?",
+      "questionText": "A single-phase 208V circuit draws 75A at 200 feet. The effective Z = 0.404 ohms/1000 ft. What is the voltage drop?",
       "options": [
         "9.1V",
         "12.1V",
@@ -4837,7 +4837,7 @@
       "necArticle": "Article 120",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A new dwelling unit has a total footprint of 3,800 sq ft based on outside dimensions, which includes a 400 sq ft attached garage and a 200 sq ft open front porch. Based on 2026 NEC Section 120.13, what is the minimum number of 15-ampere, 120-volt general lighting branch circuits required?",
+      "questionText": "A new dwelling unit has a total footprint of 3,800 sq ft based on outside dimensions, which includes a 400 sq ft attached garage and a 200 sq ft open front porch. Based on the 2026 NEC, what is the minimum number of 15-ampere, 120-volt general lighting branch circuits required?",
       "options": [
         "4 circuits",
         "5 circuits",

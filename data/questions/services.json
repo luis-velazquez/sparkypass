@@ -732,7 +732,7 @@
       "necArticle": "Article 240.21(B)(2)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A continuous feeder is protected by a 600-ampere overcurrent protective device. You need to install a tap to this feeder to supply a fused disconnect located 20 feet away. According to the 25-foot feeder tap rule in NEC 240.21(B)(2), what is the minimum allowable ampacity for these tap conductors?",
+      "questionText": "A continuous feeder is protected by a 600-ampere overcurrent protective device. You need to install a tap to this feeder to supply a fused disconnect located 20 feet away. According to the 25-foot feeder tap rule, what is the minimum allowable ampacity for these tap conductors?",
       "options": [
         "60 Amperes",
         "200 Amperes",

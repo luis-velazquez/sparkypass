@@ -121,7 +121,7 @@
       "necArticle": "Article 680",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Which of the following must be included in the equipotential bonding grid for a permanently installed pool per NEC 680.26(B)?",
+      "questionText": "Which of the following must be included in the equipotential bonding grid for a permanently installed pool?",
       "options": [
         "Only the pool water itself",
         "Metal parts of the pool structure, metal fittings, and forming shells",
@@ -435,7 +435,7 @@
       "necArticle": "Article 680",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per NEC 680.8, what is the minimum clearance for overhead conductors (insulated supply or service drop cables at 0-750V to ground) above the pool water level or diving platform?",
+      "questionText": "What is the minimum clearance for overhead conductors (insulated supply or service drop cables at 0-750V to ground) above the pool water level or diving platform?",
       "options": [
         "10 feet",
         "14.5 feet",
@@ -504,7 +504,7 @@
       "necArticle": "Article 680",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per NEC 680.23(A)(5), what is the maximum voltage permitted for luminaires installed in a pool?",
+      "questionText": "What is the maximum voltage permitted for luminaires installed in a pool?",
       "options": [
         "120 volts",
         "150 volts",
@@ -1052,7 +1052,7 @@
       "necArticle": "Article 550",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A mobile home park has 2 lots, each with the minimum calculated load of 16,000 VA. Using Table 550.31 (55% demand factor for 2 lots), what is the total demand load for the park service?",
+      "questionText": "A mobile home park has 2 lots, each with the minimum calculated load of 16,000 VA. Using a 55% demand factor for 2 lots, what is the total demand load for the park service?",
       "options": [
         "16,000 VA",
         "17,600 VA",
@@ -1167,7 +1167,7 @@
       "necArticle": "Article 680",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "Per NEC 680.26(B)(2), the equipotential bonding grid must extend how far horizontally from the inside walls of a permanently installed pool?",
+      "questionText": "The equipotential bonding grid must extend how far horizontally from the inside walls of a permanently installed pool?",
       "options": [
         "12 inches",
         "18 inches",
