@@ -2964,24 +2964,24 @@
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
-      "calculation": false,
+      "calculation": true,
       "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
       "options": [
+        "46%",
         "47%",
         "50%",
-        "52%",
-        "55%"
+        "52%"
       ],
       "correctAnswer": 0,
-      "explanation": "NEC Table 220.54 shows that for 12 dryers, the demand factor is 47%. The demand factor decreases as the number of dryers increases because they won't all operate simultaneously.",
+      "explanation": "NEC Table 220.54 (or Table 120.54 in the 2026 NEC) dictates that for 12 to 23 dryers, the demand factor is 47% minus 1% for each dryer exceeding 11. For 12 dryers, 12 - 11 = 1, so 47% - 1% = 46%.",
       "necReference": "Table 220.54",
-      "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!",
+      "sparkyTip": "More dryers = lower demand factor. Remember the formula for 12-23 dryers: 47% minus 1% for each dryer over 11!",
       "necVersions": [
         "2023",
         "2026"
       ],
       "necReferences": {
-        "2026": "Table 220.55"
+        "2026": "Table 120.54"
       },
       "examTopic": "feeders"
     },
@@ -3117,6 +3117,32 @@
         "2026"
       ],
       "examTopic": "definitions-theory"
+    },
+    {
+      "id": "LC-J076",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 220",
+      "difficulty": "journeyman",
+      "calculation": true,
+      "questionText": "For multifamily dwellings, what is the demand factor for 16 household electric clothes dryers?",
+      "options": [
+        "38%",
+        "42%",
+        "45%",
+        "47%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC Table 220.54 (or Table 120.54 in the 2026 NEC) dictates that for 12 to 23 dryers, the demand factor is 47% minus 1% for each dryer exceeding 11. For 16 dryers, 16 - 11 = 5, so 47% - 5% = 42%.",
+      "necReference": "Table 220.54",
+      "sparkyTip": "When calculating 12-23 dryers, find the difference from 11 and subtract that exact number from 47.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "Table 120.54"
+      },
+      "examTopic": "feeders"
     }
   ],
   "master": [

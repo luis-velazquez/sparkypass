@@ -1040,7 +1040,7 @@
         "2023",
         "2026"
       ],
-      "questionText": "According to the NEC, when calculating the maximum number of devices permitted in a switchboard or panelboard, a 3-pole circuit breaker shall be considered as what?",
+      "questionText": "When calculating the maximum number of devices permitted in a switchboard or panelboard, a 3-pole circuit breaker shall be considered as what?",
       "options": [
         "One overcurrent device",
         "Three overcurrent devices",
@@ -1623,7 +1623,7 @@
         "2023",
         "2026"
       ],
-      "questionText": "According to the NEC, what is the maximum permitted height for a wall receptacle installed to serve a kitchen countertop or work surface?",
+      "questionText": "What is the maximum permitted height for a wall receptacle installed to serve a kitchen countertop or work surface?",
       "options": [
         "18 inches above the countertop",
         "20 inches above the countertop",

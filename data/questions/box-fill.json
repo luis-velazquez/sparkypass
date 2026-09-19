@@ -582,7 +582,7 @@
       "necArticle": "314.28(A)(1)",
       "difficulty": "journeyman",
       "calculation": true,
-      "questionText": "According to the NEC, what is the minimum length of a pull box for a straight pull when the largest raceway entering the box is 2 inches?",
+      "questionText": "What is the minimum length of a pull box for a straight pull when the largest raceway entering the box is 2 inches?",
       "options": [
         "8 inches",
         "12 inches",

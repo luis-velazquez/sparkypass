@@ -533,7 +533,7 @@
       "necArticle": "Article 230.70(A)(1)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to the NEC, where must the service disconnecting means be installed relative to the service entrance conductors entering the building?",
+      "questionText": "Where must the service disconnecting means be installed relative to the service entrance conductors entering the building?",
       "options": [
         "Within 10 feet of the entrance",
         "Inside nearest the point of entrance",
