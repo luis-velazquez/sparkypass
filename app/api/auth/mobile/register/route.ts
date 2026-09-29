@@ -140,10 +140,15 @@ export async function POST(request: NextRequest) {
       passwordHash,
       authProvider: "email",
       emailVerified: false,
-      // NO server-side trial (2026-08-29): the paywall's Apple IAP intro
-      // offer — 7-day trial or $0.99 first month — is the ONLY trial; a
-      // server grant stacked ~14 free days on top of it. Accounts start
-      // free (null status); Pro comes exclusively from RevenueCat/webhooks.
+      // 7-day free access (2026-09-29, reverting the 2026-08-29 zeroing):
+      // new accounts get a server-managed 7-day trial (countdown banner on
+      // the dashboard), then the hard paywall on every launch. The App Store
+      // product carries NO StoreKit intro offer, so this is the only free
+      // period (no ~14-day stacking). /api/profile flips trialing->expired
+      // once trialEndsAt passes.
+      subscriptionStatus: "trialing",
+      trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      subscriptionSource: "trial",
       betaAgreedAt: now,
       ...(timezone ? { timezone } : {}),
     });

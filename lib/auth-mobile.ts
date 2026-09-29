@@ -506,12 +506,11 @@ export async function resolveOAuthUser(
     }
   }
 
-  // 3. No match — create a fresh user. NO server-side trial (2026-08-29):
-  //    the paywall's Apple IAP intro offer — 7-day trial or $0.99 first
-  //    month — is the ONLY trial. A server grant stacked on top of it let a
-  //    user ride ~14 free days. Accounts start free (null status); Pro comes
-  //    exclusively from RevenueCat/webhooks. emailVerified=true since OAuth
-  //    providers vouch for the email.
+  // 3. No match — create a fresh user with a server-managed 7-day trial
+  //    (2026-09-29, reverting the 2026-08-29 zeroing): new mobile signups get
+  //    7 free days (countdown on the dashboard), then the hard paywall. The
+  //    App Store product has NO StoreKit intro offer, so this is the only free
+  //    period. emailVerified=true since OAuth providers vouch for the email.
   const newUserId = crypto.randomUUID();
 
   // If we have no email at all (Apple after first sign-in with relay), use a
@@ -526,6 +525,9 @@ export async function resolveOAuthUser(
     name: claims.name || "Sparky user",
     authProvider: claims.provider,
     emailVerified: claims.emailVerified,
+    subscriptionStatus: "trialing",
+    trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    subscriptionSource: "trial",
   });
 
   await db.insert(linkedProviders).values({
