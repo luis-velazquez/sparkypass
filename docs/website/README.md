@@ -35,7 +35,7 @@ Texas electricians studying for the Journeyman and Master exams. Most will visit
 
    Leave the load-calculation tool out until the load-calc fixes ship.
 4. **What you get:** 500+ practice questions, formula flashcards, timed mock exams, progress tracking and daily challenges.
-5. **Price:** the App Store paywall's current offer, which today is a 7-day free trial or $0.99 for the first month, then $14.99 a month. Cancel anytime in Apple ID settings. Check it in the app before launch.
+5. **Price:** the App Store paywall's current offer, which today is a 7-day free trial, then $14.99 a month (one plan; the $0.99 first month was dropped in Sept 2026). Cancel anytime in Apple ID settings. Check it in the app before launch.
 6. **FAQ:**
    - About the exam (PSI, open book, the passing score, English and Spanish), each with a dated link to TDLR or PSI. Re-check every fact at build time.
    - Is there an Android app? Not yet.

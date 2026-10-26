@@ -23,7 +23,7 @@ Turn visitors into paying subscribers of the iPhone app.
 - **The site is promotional (D-51).** The web app is retiring. Don't build web-app features, and don't remove web-app pages or routes until Luis says the retirement starts. See `docs/website/README.md`.
 - **There is no web sign-up (D-52).** Every call to action goes to the App Store: `https://apps.apple.com/app/id6801112841`, with a campaign link per button. Never add a sign-up form, a web checkout or a link to `/register` or `/pricing`.
 - **Desktop visitors** get a QR code that opens the App Store on their phone. Android visitors are told plainly that the app is iPhone-only for now.
-- **The site sells from day one (D-53).** The offer is the App Store paywall's: $14.99 a month, starting with a 7-day free trial or $0.99 for the first month. Check the current offer in the app before you quote a price.
+- **The site sells from day one (D-53).** The offer is the App Store paywall's: one plan, $14.99 a month, starting with a 7-day free trial. There is no $0.99 first month; it was dropped in Sept 2026. Check the current offer in the app before you quote a price.
 - **The first job** is the redesign in `docs/website/README.md`: a new homepage, the three teaser quizzes and short animations of the app.
 
 ## You own
