@@ -1,0 +1,469 @@
+{
+  "_readme": "Source of truth for the 60 public practice questions. `tests[].questionIds` reference data/questions/*.json (journeyman tier). `overrides` are SITE-ONLY corrections approved during the 2026-10-27 review (near-verbatim code text paraphrased, stale 2020 section lettering fixed, 2026 Article 220 → 120 numbering applied per the app's convention). The app's question bank is not modified by this file. Regenerate with: node scripts/build-practice-tests.mjs",
+  "tests": [
+    {
+      "slug": "test-1",
+      "number": 1,
+      "title": "Code Fundamentals & Wiring Methods",
+      "blurb": "General requirements from Articles 100 and 110, Chapter 3 wiring methods, conductor insulation markings, and Article 314 box fill with five worked volume calculations.",
+      "focus": [
+        "Articles 100 & 110",
+        "Chapter 3 wiring methods",
+        "Conductor markings",
+        "Box fill (314)"
+      ],
+      "questionIds": [
+        "GR-J023",
+        "GR-J025",
+        "SV-J009",
+        "LC-J015",
+        "SV-J005",
+        "WM-J003",
+        "WM-J004",
+        "WM-J005",
+        "WM-J011",
+        "WM-300-04S",
+        "DEV-30003C-01",
+        "CD-J043",
+        "CD-J046",
+        "BF-J010",
+        "BF-J007",
+        "BF-J013",
+        "BF-J014",
+        "BF-J015",
+        "BF-J011",
+        "BF-J006"
+      ]
+    },
+    {
+      "slug": "test-2",
+      "number": 2,
+      "title": "Services, Grounding & Branch Circuits",
+      "blurb": "Article 230 service clearances and disconnects, Article 250 grounding and bonding (GEC and EGC sizing, electrodes, bonding at the service), branch-circuit and device rules, and Article 220 dwelling demand factors with three worked calculations.",
+      "focus": [
+        "Services (230)",
+        "Grounding & bonding (250)",
+        "Branch circuits & devices",
+        "Dwelling demand factors (220)"
+      ],
+      "questionIds": [
+        "SV-J015",
+        "SV-J012",
+        "SV-J014",
+        "WM-J012",
+        "GB-J001",
+        "GB-J035",
+        "GB-J005",
+        "GB-J002",
+        "GB-J012",
+        "GB-J030",
+        "BOND-25092B-001",
+        "GB-J024",
+        "BC-210-01",
+        "RC-J015",
+        "LUM-41010-002",
+        "SW-J018",
+        "SV-J013",
+        "LC-J005",
+        "LC-J076",
+        "LC-J006"
+      ]
+    },
+    {
+      "slug": "test-3",
+      "number": 3,
+      "title": "Calculations, Motors & Special Occupancies",
+      "blurb": "Ohm's law and voltage drop, Chapter 9 conduit fill and ampacity correction, Article 430 motor conductor, overload and breaker sizing, transformer rooms, and special occupancies: hazardous locations, pools, fire pumps, EV charging and mobile homes. Ten of the twenty are worked calculations.",
+      "focus": [
+        "Ohm's law & voltage drop",
+        "Conduit fill & ampacity",
+        "Motors (430) & transformers",
+        "Special occupancies"
+      ],
+      "questionIds": [
+        "LC-J013",
+        "LC-J063",
+        "LC-J064",
+        "LC-J012",
+        "LC-J046",
+        "LC-J031",
+        "LC-J036",
+        "LC-J065",
+        "LC-J068",
+        "LC-J029",
+        "MG-J001",
+        "MG-J005",
+        "MG-J006",
+        "MG-J004",
+        "XFMR-450-21B-03",
+        "HL-500-02",
+        "SC-J008",
+        "FP-695-01",
+        "EVSE-625-50-01",
+        "SC-J003"
+      ]
+    }
+  ],
+  "overrides": {
+    "GR-J023": {
+      "explanation": "Per Article 100, SCCR stands for Short-Circuit Current Rating — the maximum fault current a component or assembly (panelboard, switchboard, motor control center) can be connected to and still withstand without damage beyond what its listing allows. SCCR is the equipment's ability to withstand a fault; AIC (interrupting rating) is the overcurrent device's ability to clear one.",
+      "topic": "General Requirements"
+    },
+    "LC-J015": {
+      "tip": "Over 100 A = 75°C column. 100 A or less = 60°C column unless the equipment is marked for 75°C terminations (most modern gear is). THHN is 90°C wire, but its 90°C ampacity is only the starting point for ambient and bundling adjustments — the final ampacity can never exceed the termination column.",
+      "topic": "Terminations"
+    },
+    "SV-J005": {
+      "explanation": "Article 100 defines the service point as the spot where the serving utility's equipment ends and the premises (customer-side) wiring begins — the demarcation line between the two. Where that point falls is decided by the utility.",
+      "topic": "Services"
+    },
+    "WM-J003": {
+      "prompt": "For a general location (not under a building, slab, driveway, or any other special condition in the burial-depth table), what is the minimum cover required for direct-buried cable versus a listed nonmetallic raceway (PVC)?",
+      "explanation": "The first row of the minimum-cover table ('All locations not specified below') calls for 24 inches of cover over direct-buried cables or conductors (Column 1) but only 18 inches over listed nonmetallic raceways such as PVC (Column 3).",
+      "ref2026": "Table 300.7",
+      "tip": "Top row: cable = 24 inches, PVC = 18 inches (rigid metal conduit only needs 6).",
+      "topic": "Underground Wiring"
+    },
+    "WM-J004": {
+      "explanation": "Underground service conductors buried 18 inches or deeper without concrete encasement must have a warning ribbon run through the trench a minimum of 12 inches above the conductors or raceway, so anyone digging later hits the ribbon well before reaching the conductors.",
+      "topic": "Underground Wiring"
+    },
+    "WM-J005": {
+      "explanation": "Raceways have to be installed as a complete system between outlet, junction, or splicing points before any conductors are pulled in. You may not sleeve a length of raceway over already-installed conductors.",
+      "topic": "Raceways"
+    },
+    "WM-J011": {
+      "replace": {
+        "prompt": [
+          [
+            "Based on the 'Uses Permitted',",
+            "Based on the 'Uses Permitted' rules for EMT,"
+          ]
+        ],
+        "explanation": [
+          [
+            "Per 358.10(A),",
+            "Per 358.10,"
+          ]
+        ]
+      },
+      "ref2023": "358.10",
+      "ref2026": "358.10",
+      "topic": "EMT"
+    },
+    "WM-300-04S": {
+      "explanation": "Where 4 AWG or larger insulated conductors enter a box, cabinet, or enclosure from a raceway, they must be protected from abrasion by an identified fitting with a smooth, rounded insulating surface (such as a plastic bushing), unless the conductors are separated from the raceway edge by securely fastened insulating material. Conductors smaller than 4 AWG are outside this rule.",
+      "topic": "Raceway Fittings"
+    },
+    "DEV-30003C-01": {
+      "explanation": "Conductors of different AC or DC circuits can share a raceway or enclosure as long as none of them is rated over 1000 volts. The only condition is that every conductor in the raceway be insulated for at least the highest voltage present on any conductor sharing it.",
+      "topic": "Conductors in Raceways"
+    },
+    "CD-J043": {
+      "tip": "The '-2' is your ticket to the 90-degree column in wet environments! Without it, your ampacity drops to the 75-degree column the moment that pipe goes underground.",
+      "topic": "Conductor Insulation"
+    },
+    "CD-J046": {
+      "tip": "W = Wet! If your pipe goes underground or outside, that 'W' is non-negotiable. Without it, your wire is strictly limited to dry or damp locations.",
+      "topic": "Conductor Insulation"
+    },
+    "BF-J010": {
+      "replace": {
+        "explanation": [
+          [
+            "NEC 314.16(B)(1) dictates that each loop or coil of unbroken conductor not less than twice this minimum length (which would be 12 inches) shall be counted twice.",
+            "NEC 314.16(B)(1) says that when an unbroken conductor forms a loop or coil at least twice that minimum (12 inches or more), it counts as two conductors."
+          ],
+          [
+            "NEC 300.14 requires",
+            "NEC 300.14 (300.16 in the 2026 NEC) requires"
+          ]
+        ]
+      },
+      "topic": "Box Fill",
+      "ref2023": "314.16(B)(1); 300.14",
+      "ref2026": "314.16(B)(1); 300.16"
+    },
+    "BF-J007": {
+      "replace": {
+        "explanation": [
+          [
+            "Per NEC 314.16(C)(2), conduit bodies are allowed to contain splices, taps, or devices ONLY if the manufacturer has durably and legibly marked the cubic-inch capacity on the interior or exterior of the fitting.",
+            "Per NEC 314.16(C)(2), a conduit body may hold splices, taps, or devices only when the manufacturer has permanently stamped its volume on the fitting."
+          ]
+        ]
+      },
+      "topic": "Conduit Bodies"
+    },
+    "BF-J014": {
+      "tip": "When you have mixed wire sizes, you can no longer just count 'wires' — you must convert everything to cubic inches! Notice how 25.75 is the trap answer for anyone who forgets the extra 1/4 allowance for the fifth ground wire.",
+      "topic": "Box Fill"
+    },
+    "BF-J015": {
+      "replace": {
+        "explanation": [
+          [
+            "Step 2: According to 314.16(A), the total volume of a wiring enclosure is the sum of the assembled sections, including the space provided by extension rings or domed covers that are marked with their volume.",
+            "Step 2: Under 314.16(A), you count the box itself plus any volume-marked extension ring, plaster ring, or domed cover attached to it."
+          ]
+        ]
+      },
+      "topic": "Box Fill"
+    },
+    "BF-J006": {
+      "explanation": "Count the allowances: 6 conductors [314.16(B)(1)] + the grounds (three, so one allowance) [314.16(B)(5)] + one internal clamp (one) [314.16(B)(2)] + one device yoke (two) [314.16(B)(4)] = 10 equivalents. Volume = 10 × 2.25 cu in (Table 314.16(B), 12 AWG) = 22.5 cu in.",
+      "tip": "Up to four grounds count as one allowance (each extra ground adds 1/4); an internal clamp counts as one; a device yoke counts as two.",
+      "topic": "Box Fill"
+    },
+    "SV-J015": {
+      "explanation": "Service-drop conductors need at least 12 feet of clearance above residential property and driveways. The same 12-foot figure covers commercial areas that trucks don't drive through, as long as the voltage to ground is 300 V or less.",
+      "topic": "Service Clearances"
+    },
+    "SV-J012": {
+      "explanation": "Under 230.70(A)(1), the service disconnect must sit at a readily accessible spot — either outside the building, or inside at the point closest to where the service conductors come in. The Code gives no maximum distance in feet; local amendments often do.",
+      "topic": "Service Disconnect"
+    },
+    "SV-J014": {
+      "replace": {
+        "prompt": [
+          [
+            "the exact same raceway",
+            "the same raceway"
+          ]
+        ]
+      },
+      "options": [
+        "They are permitted as long as all conductors share the same insulation voltage rating.",
+        "They are permitted provided the total conductor fill does not exceed 40% of the raceway.",
+        "They are prohibited; a service raceway or service cable may carry only service conductors.",
+        "They are permitted only if separated by a listed physical barrier inside the raceway."
+      ],
+      "explanation": "Under 230.7, a service raceway or service cable is reserved for service conductors — feeder and branch-circuit conductors can't share it. The only exceptions are grounding electrode conductors, supply-side bonding jumpers, and load-management control conductors that have their own overcurrent protection; none of them opens the door to feeders or branch circuits.",
+      "topic": "Service Raceways"
+    },
+    "WM-J012": {
+      "explanation": "Under 310.12(A), the service conductors feeding the entire load of a one-family dwelling (100–400 A, single-phase 120/240 V) only need an ampacity equal to 83% of the service rating — residential loads are diverse, so a 200 A service can run on conductors rated 166 A. Multiply the service rating by 0.83, then size from the 75°C column of Table 310.16.",
+      "topic": "Dwelling Services"
+    },
+    "GB-J001": {
+      "explanation": "The GEC is sized from the largest ungrounded service-entrance conductor, not from the breaker. A 200 A dwelling service is commonly wired with 2/0 AWG copper (the 83% rule in 310.12 calls for at least 166 A). Table 250.66 puts 2/0 and 3/0 AWG copper in the same row, and that row calls for a 4 AWG copper grounding electrode conductor.",
+      "ref2023": "Table 250.66; 310.12",
+      "ref2026": "Table 250.66; 310.12",
+      "topic": "Grounding Electrode Conductor"
+    },
+    "GB-J035": {
+      "replace": {
+        "explanation": [
+          [
+            "and grounded routing conductors",
+            "and grounded (neutral) conductors"
+          ]
+        ]
+      },
+      "topic": "Bonding Jumpers"
+    },
+    "GB-J005": {
+      "prompt": "What is the minimum size copper equipment grounding conductor for a circuit protected by a 60-ampere overcurrent device?",
+      "topic": "Equipment Grounding"
+    },
+    "GB-J002": {
+      "explanation": "Under 250.53(A)(2), a single rod electrode must be supplemented by a second electrode unless it can be shown to have a resistance to earth of 25 ohms or less — so a rod that measures over 25 ohms needs an additional electrode, typically a second rod driven at least 6 feet from the first.",
+      "topic": "Grounding Electrodes"
+    },
+    "GB-J012": {
+      "explanation": "Under 250.52(A)(1), a buried metal water pipe qualifies as a grounding electrode only when at least 10 feet (3.0 m) of it is in direct contact with the earth. Even then, 250.53(D)(2) says a water-pipe electrode must always be backed up by a supplemental electrode (such as a ground rod), no matter how long the pipe is.",
+      "topic": "Grounding Electrodes"
+    },
+    "GB-J030": {
+      "ref2023": "250.118(A)(5)(b) and (d)",
+      "ref2026": "250.118(A)(5)(b) and (d)",
+      "explanation": "While the FMC is under the 6 ft limit of 250.118(A)(5)(c), it fails two other conditions of 250.118(A)(5). Condition (b): FMC may serve as the sole EGC only where the circuit conductors it contains are protected by an overcurrent device rated 20 amperes or less. Condition (d): where the flex is used to provide flexibility to minimize vibration (typical for a transformer connection), a wire-type equipment grounding conductor must be installed regardless of length.",
+      "topic": "Equipment Grounding"
+    },
+    "BC-210-01": {
+      "explanation": "Per 210.52(A)(1), receptacles in dwelling general living areas must be spaced so that any point along the wall is within 6 feet (measured horizontally) of a receptacle, which works out to a maximum of 12 feet between receptacles. The rule ensures a 6-foot lamp cord will reach an outlet from anywhere along the wall.",
+      "tip": "We call this the '6/12 Rule' in the trade! A standard floor lamp cord is 6 feet long. The code is designed so that no matter where a homeowner pushes a lamp against the wall, the cord will reach a plug without needing a dangerous extension cord.",
+      "topic": "Receptacle Spacing"
+    },
+    "RC-J015": {
+      "options": [
+        "Waterproof type",
+        "Watertight type",
+        "Weatherproof type",
+        "Weather-resistant type"
+      ],
+      "explanation": "Per 406.9(B)(1), a nonlocking 15- or 20-amp, 125- or 250-volt receptacle installed in a wet location has to be a listed weather-resistant (WR) device. The 'weatherproof' designation applies to the cover, not the receptacle itself.",
+      "topic": "Wet-Location Receptacles"
+    },
+    "LUM-41010-002": {
+      "explanation": "NEC 410.10(D) defines a keep-out zone that extends 3 feet out from the bathtub rim or shower threshold and 8 feet up from it. Hanging and cord-connected fixtures, such as chandeliers, pendants, and paddle fans, are prohibited anywhere in that zone.",
+      "topic": "Luminaires"
+    },
+    "SW-J018": {
+      "prompt": "When determining the maximum number of overcurrent devices permitted in a panelboard, a 3-pole circuit breaker shall be considered as what?",
+      "explanation": "Per 408.54 (Maximum Number of Overcurrent Devices), a panelboard must have a physical means to prevent installing more overcurrent devices than it is designed, rated, and listed for, and for that count a 2-pole or 3-pole circuit breaker is considered two or three overcurrent devices, respectively. A 3-pole breaker therefore counts as three overcurrent devices because it occupies three busbar positions.",
+      "tip": "Count the poles, not the plastic housing! The NEC cares about how many busbar spaces you are eating up. A 3-pole breaker takes 3 spots, so it counts as 3 devices.",
+      "topic": "Panelboards"
+    },
+    "SV-J013": {
+      "explanation": "Refer to Table 220.55, Column C (Table 120.55 in the 2026 NEC). The demand for one range not over 12 kW is 8 kW. Note 1 adds 5% to that Column C value for every kilowatt (or major fraction of a kilowatt) by which a range rated over 12 kW (up to 27 kW) exceeds 12 kW. This range is 2 kW over, so 2 × 5% = 10%. 8 kW × 1.10 = 8.8 kVA.",
+      "ref2023": "Table 220.55, Note 1",
+      "ref2026": "Table 120.55, Note 1",
+      "topic": "Range Demand"
+    },
+    "LC-J005": {
+      "prompt": "What is the minimum calculated demand load for four household wall-mounted ovens, each having a nameplate rating of 5 kW?",
+      "ref2026": "Table 120.55 (Column B)",
+      "topic": "Cooking Appliance Demand"
+    },
+    "LC-J076": {
+      "explanation": "NEC Table 220.54 (Table 120.54 in the 2026 NEC) sets the demand factor for 12 to 23 dryers at 47% minus 1% for each dryer over 11. For 16 dryers, 16 − 11 = 5, so 47% − 5% = 42%.",
+      "ref2026": "Table 120.54",
+      "topic": "Dryer Demand"
+    },
+    "LC-J006": {
+      "ref2026": "120.53",
+      "topic": "Appliance Demand"
+    },
+    "LC-J013": {
+      "replace": {
+        "explanation": [
+          [
+            "When voltage drops, power drops exponentially.",
+            "When voltage drops, power drops with the square of the voltage (P is proportional to E²), not in straight proportion."
+          ]
+        ]
+      },
+      "topic": "Electrical Theory",
+      "ref2023": "Ohm's law / power formula",
+      "ref2026": "Ohm's law / power formula"
+    },
+    "LC-J063": {
+      "replace": {
+        "prompt": [
+          [
+            "supplies a 40A continuous load",
+            "supplies a 40A load"
+          ]
+        ]
+      },
+      "topic": "Voltage Drop"
+    },
+    "LC-J012": {
+      "explanation": "Three-phase voltage drop = 1.732 × I × R × D / 1000 = 1.732 × 60 A × 0.197 Ω × 150 ft / 1000 = 3.07 V line-to-line.",
+      "tip": "For three-phase, use 1.732 (√3) instead of the single-phase factor of 2 — it is the most common mix-up on voltage drop problems.",
+      "topic": "Voltage Drop"
+    },
+    "LC-J036": {
+      "explanation": "Per Informative Annex C, Table C.1 (EMT), 1/2-inch EMT can accommodate 9 #12 AWG THHN conductors at the 40% fill limit of Chapter 9, Table 1.",
+      "ref2023": "Informative Annex C, Table C.1",
+      "ref2026": "Informative Annex C, Table C.1",
+      "topic": "Conduit Fill"
+    },
+    "LC-J065": {
+      "prompt": "A set of #12 AWG THHN copper conductors is installed in a walk-in cooler with an ambient temperature of 10°C (50°F). What is the corrected ampacity of the conductors (before any other adjustments)?",
+      "explanation": "According to Table 310.16, #12 AWG THHN has a 90°C base ampacity of 30 A. For an ambient temperature of 10°C (the '10°C or less' row), the correction factor in Table 310.15(B)(1)(1) for 90°C conductors is 1.15. Calculation: 30 A × 1.15 = 34.5 A.",
+      "ref2023": "Table 310.16; Table 310.15(B)(1)(1)",
+      "ref2026": "Table 310.16; Table 310.15(B)(1)(1)",
+      "topic": "Ampacity Correction"
+    },
+    "LC-J068": {
+      "explanation": "Chapter 9, Table 1, Note 3 requires equipment grounding and bonding conductors to be counted toward conduit fill, using the real cross-sectional area of the conductor — whether it is bare or insulated. Bare conductor areas come from Chapter 9, Table 8.",
+      "topic": "Conduit Fill"
+    },
+    "LC-J029": {
+      "options": [
+        "1.342 sq in",
+        "2.013 sq in",
+        "3.356 sq in",
+        "3.408 sq in"
+      ],
+      "replace": {
+        "tip": [
+          [
+            "2.014",
+            "2.013"
+          ]
+        ]
+      },
+      "topic": "Conduit Fill"
+    },
+    "MG-J005": {
+      "ref2023": "430.52(C)(1), Table 430.52(C)(1), Table 430.250, 240.6(A)",
+      "ref2026": "430.52(C)(1), Table 430.52(C)(1), Table 430.250, 240.6(A)",
+      "replace": {
+        "explanation": [
+          [
+            "According to Table 430.52, the maximum percentage",
+            "According to Table 430.52(C)(1), the maximum percentage"
+          ]
+        ]
+      },
+      "topic": "Motor Branch-Circuit Protection"
+    },
+    "MG-J006": {
+      "explanation": "Per NEC 430.24, feeder conductors for several motors are sized at 125% of the largest motor FLC plus 100% of the others: (44 A × 1.25) + 26 A + 14 A = 55 + 40 = 95 A minimum ampacity.",
+      "topic": "Motor Feeders"
+    },
+    "MG-J004": {
+      "explanation": "Per NEC 430.32(A)(1), a separate overload device is sized from the motor NAMEPLATE full-load current: 125% for motors with a marked service factor of 1.15 or greater OR a marked temperature rise of 40°C or less; 115% for all other motors. This motor is SF 1.0 and has no 40°C rise marking, so it is an 'other motor': 22 A × 1.15 = 25.3 A maximum. Use NAMEPLATE amps for overloads, not Table FLC.",
+      "tip": "No 1.15 SF and no 40°C rise marking = 115% overload max. And always use NAMEPLATE amps for overload sizing — one of the few times you don't use Table 430.250!",
+      "topic": "Motor Overloads"
+    },
+    "HL-500-02": {
+      "tip": "Apply the rule of thumb! Division 1 = everyday operations. Division 2 = accidental conditions. Since the flammable vapors are safely sealed in drums and only escape if a drum breaks (an accident), it is a Division 2 location.",
+      "topic": "Hazardous Locations"
+    },
+    "FP-695-01": {
+      "tip": "Fire pumps are about reliability. Fewer shutdown points means less chance of accidentally killing power to the pump.",
+      "topic": "Fire Pumps"
+    },
+    "EVSE-625-50-01": {
+      "ref2023": "625.50",
+      "ref2026": "625.50",
+      "explanation": "For indoor locations, NEC 625.50 requires the coupling means of the EVSE (or WPTE) to be stored or located not less than 18 in. (450 mm) and not more than 4 ft above the floor level. For outdoor locations the minimum is 24 in. (600 mm) above the parking surface, with the same 4 ft maximum.",
+      "topic": "EV Charging"
+    },
+    "GR-J025": {
+      "topic": "General Requirements"
+    },
+    "SV-J009": {
+      "topic": "Working Space"
+    },
+    "BF-J013": {
+      "topic": "Box Fill"
+    },
+    "BF-J011": {
+      "topic": "Box Fill"
+    },
+    "BOND-25092B-001": {
+      "topic": "Service Bonding"
+    },
+    "GB-J024": {
+      "topic": "Grounding Electrodes"
+    },
+    "LC-J064": {
+      "topic": "Voltage Drop"
+    },
+    "LC-J046": {
+      "topic": "Ohm's Law",
+      "ref2023": "Ohm's law / power formula",
+      "ref2026": "Ohm's law / power formula"
+    },
+    "LC-J031": {
+      "topic": "Conduit Fill"
+    },
+    "MG-J001": {
+      "topic": "Motor Conductors"
+    },
+    "XFMR-450-21B-03": {
+      "topic": "Transformers"
+    },
+    "SC-J008": {
+      "topic": "Swimming Pools"
+    },
+    "SC-J003": {
+      "topic": "Mobile Homes"
+    }
+  }
+}

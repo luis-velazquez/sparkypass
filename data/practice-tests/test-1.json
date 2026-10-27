@@ -1,0 +1,374 @@
+{
+  "slug": "test-1",
+  "number": 1,
+  "title": "Code Fundamentals & Wiring Methods",
+  "blurb": "General requirements from Articles 100 and 110, Chapter 3 wiring methods, conductor insulation markings, and Article 314 box fill with five worked volume calculations.",
+  "focus": [
+    "Articles 100 & 110",
+    "Chapter 3 wiring methods",
+    "Conductor markings",
+    "Box fill (314)"
+  ],
+  "questions": [
+    {
+      "id": "GR-J023",
+      "n": 1,
+      "topic": "General Requirements",
+      "calculation": false,
+      "prompt": "While inspecting a piece of commercial electrical equipment, you notice a manufacturer label displaying the equipment's SCCR. What does this acronym stand for?",
+      "options": [
+        "Short-Circuit Current Rating",
+        "Standard Current Clearing Rating",
+        "Short-Circuit Capacity Rating",
+        "Symmetrical Current Capacity Rating"
+      ],
+      "answer": 0,
+      "explanation": "Per Article 100, SCCR stands for Short-Circuit Current Rating — the maximum fault current a component or assembly (panelboard, switchboard, motor control center) can be connected to and still withstand without damage beyond what its listing allows. SCCR is the equipment's ability to withstand a fault; AIC (interrupting rating) is the overcurrent device's ability to clear one.",
+      "ref2023": "Article 100",
+      "ref2026": "Article 100",
+      "tip": "SCCR is the shield! It tells you how massive of a fault the physical box can take before blowing apart. Don't confuse it with Interrupting Rating (AIC), which is the breaker's ability to actually turn that fault off."
+    },
+    {
+      "id": "GR-J025",
+      "n": 2,
+      "topic": "General Requirements",
+      "calculation": false,
+      "prompt": "Equipment intended to interrupt current at fault levels—such as a circuit breaker or fuse—must have an interrupting rating at least equal to what value?",
+      "options": [
+        "125% of the continuous load plus the noncontinuous load",
+        "The total connected load of the system",
+        "The available fault current at its line terminals",
+        "The short-circuit current rating (SCCR) of the panelboard enclosure"
+      ],
+      "answer": 2,
+      "explanation": "Per 110.9, equipment intended to interrupt current at fault levels (circuit breakers, fuses) must have an interrupting rating at its nominal voltage that is sufficient for the available fault current at its line terminals. An undersized interrupting rating is a code violation regardless of normal load.",
+      "ref2023": "110.9",
+      "ref2026": "110.9",
+      "tip": "Look up 'Interrupting rating'. Remember that 110.9 is all about the breaker's ability to survive turning the fault off. It MUST be rated to handle whatever massive current is waiting at those line terminals!"
+    },
+    {
+      "id": "SV-J009",
+      "n": 3,
+      "topic": "Working Space",
+      "calculation": false,
+      "prompt": "What is the minimum working clearance required in front of a 480V switchboard where there are exposed live parts on one side and a concrete/block wall (grounded) on the other side?",
+      "options": [
+        "4 feet",
+        "3.5 feet (42 inches)",
+        "5 feet",
+        "3 feet"
+      ],
+      "answer": 1,
+      "explanation": "This falls under NEC Table 110.26(A)(1), Condition 2 (Exposed live parts on one side, grounded parts on the other). For 151-600 Volts, the minimum depth is 3 feet 6 inches (3.5 feet).",
+      "ref2023": "Table 110.26(A)(1)",
+      "ref2026": "Table 110.26(A)(1)",
+      "tip": "Concrete walls count as 'Grounded'! If you have 480V and a concrete wall behind you, you need that extra 6 inches (3.5 ft total)."
+    },
+    {
+      "id": "LC-J015",
+      "n": 4,
+      "topic": "Terminations",
+      "calculation": false,
+      "prompt": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of the NEC ampacity table?",
+      "options": [
+        "90°C Column",
+        "The column corresponding to the insulation rating",
+        "60°C Column",
+        "75°C Column"
+      ],
+      "answer": 3,
+      "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75°C. Therefore, conductor ampacity must not exceed the 75°C column value, even if the wire insulation is rated for 90°C (like THHN).",
+      "ref2023": "110.14(C)(1)(b)",
+      "ref2026": "110.14(C)(1)(b)",
+      "tip": "Over 100 A = 75°C column. 100 A or less = 60°C column unless the equipment is marked for 75°C terminations (most modern gear is). THHN is 90°C wire, but its 90°C ampacity is only the starting point for ambient and bundling adjustments — the final ampacity can never exceed the termination column."
+    },
+    {
+      "id": "SV-J005",
+      "n": 5,
+      "topic": "Services",
+      "calculation": false,
+      "prompt": "The service point is defined as the point of connection between:",
+      "options": [
+        "The meter and the panel",
+        "The utility facilities and premises wiring",
+        "The transformer and service conductors",
+        "The service drop and mast"
+      ],
+      "answer": 1,
+      "explanation": "Article 100 defines the service point as the spot where the serving utility's equipment ends and the premises (customer-side) wiring begins — the demarcation line between the two. Where that point falls is decided by the utility.",
+      "ref2023": "Article 100 Definitions",
+      "ref2026": "Article 100 Definitions",
+      "tip": "Service point = where utility responsibility ends and yours begins!"
+    },
+    {
+      "id": "WM-J003",
+      "n": 6,
+      "topic": "Underground Wiring",
+      "calculation": false,
+      "prompt": "For a general location (not under a building, slab, driveway, or any other special condition in the burial-depth table), what is the minimum cover required for direct-buried cable versus a listed nonmetallic raceway (PVC)?",
+      "options": [
+        "Both require 18 inches of cover.",
+        "Both require 24 inches of cover.",
+        "Cable requires 24 inches; PVC requires 18 inches.",
+        "Cable requires 18 inches; PVC requires 12 inches."
+      ],
+      "answer": 2,
+      "explanation": "The first row of the minimum-cover table ('All locations not specified below') calls for 24 inches of cover over direct-buried cables or conductors (Column 1) but only 18 inches over listed nonmetallic raceways such as PVC (Column 3).",
+      "ref2023": "Table 300.5",
+      "ref2026": "Table 300.7",
+      "tip": "Top row: cable = 24 inches, PVC = 18 inches (rigid metal conduit only needs 6)."
+    },
+    {
+      "id": "WM-J004",
+      "n": 7,
+      "topic": "Underground Wiring",
+      "calculation": false,
+      "prompt": "You are installing underground residential service conductors in a trench that is 24 inches deep, and the conductors are not encased in concrete. To warn future excavators, the NEC requires a warning ribbon to be placed in the trench. What is the minimum required distance this warning ribbon must be placed above the underground installation?",
+      "options": [
+        "12 inches",
+        "6 inches",
+        "18 inches",
+        "8 inches"
+      ],
+      "answer": 0,
+      "explanation": "Underground service conductors buried 18 inches or deeper without concrete encasement must have a warning ribbon run through the trench a minimum of 12 inches above the conductors or raceway, so anyone digging later hits the ribbon well before reaching the conductors.",
+      "ref2023": "300.5(D)(3)",
+      "ref2026": "300.7(D)(3)",
+      "tip": "The 12-inch warning rule! Backfill your trench with at least a foot of dirt over the pipe or wire before you roll out the red tape. If you put the tape right on top of the wire, the backhoe operator will rip them both up at the exact same time."
+    },
+    {
+      "id": "WM-J005",
+      "n": 8,
+      "topic": "Raceways",
+      "calculation": false,
+      "prompt": "You are installing a run of Electrical Metallic Tubing (EMT) for a new branch circuit. According to the NEC, at what point in the installation are you permitted to pull the insulated conductors into the raceway?",
+      "options": [
+        "Whenever making a tight bend requires the wire to be pulled through the conduit body before continuing the run.",
+        "Simultaneously while assembling the conduit joints to save time on long runs.",
+        "As soon as the raceway is securely fastened to the first junction box.",
+        "Only after the raceway has been installed as a complete system between outlet, junction, or splicing points."
+      ],
+      "answer": 3,
+      "explanation": "Raceways have to be installed as a complete system between outlet, junction, or splicing points before any conductors are pulled in. You may not sleeve a length of raceway over already-installed conductors.",
+      "ref2023": "300.18(A)",
+      "ref2026": "300.20(A)",
+      "tip": "Pipe first, pull second! Never try to sleeve a piece of EMT or PVC over wires that are already laid out. Build the entire raceway system, secure it, and then break out the fish tape."
+    },
+    {
+      "id": "WM-J011",
+      "n": 9,
+      "topic": "EMT",
+      "calculation": false,
+      "prompt": "Electrical Metallic Tubing (EMT) is a highly versatile wiring method. Based on the 'Uses Permitted' rules for EMT, in which of the following specific locations is EMT explicitly allowed to be installed?",
+      "options": [
+        "Directly buried in cinder fill subject to permanent moisture, without any additional concrete protection.",
+        "Embedded in poured concrete or in direct contact with the earth, provided it is protected by approved supplementary corrosion protection.",
+        "Used as the sole structural support for heavy luminaires or equipment boxes.",
+        "Where it will be subject to severe physical damage during normal facility operation."
+      ],
+      "answer": 1,
+      "explanation": "Per 358.10, EMT is permitted in concrete, in direct contact with the earth, or in locations subject to severe corrosive influences, provided it is protected by approved supplementary corrosion protection. Bare EMT is not permitted in cinder fill or severely corrosive conditions.",
+      "ref2023": "358.10",
+      "ref2026": "358.10",
+      "tip": "EMT can go in the dirt or the slab, but it needs a raincoat! If you are burying thin-wall conduit or laying it in a concrete pour, it must have an approved corrosion-resistant coating or wrap applied so the chemicals in the earth or concrete don't rot it away."
+    },
+    {
+      "id": "WM-300-04S",
+      "n": 10,
+      "topic": "Raceway Fittings",
+      "calculation": false,
+      "prompt": "When running EMT, what is the minimum conductor size that requires an insulated fitting (such as a plastic bushing) to protect the wire from abrasion?",
+      "options": [
+        "2 AWG",
+        "8 AWG",
+        "6 AWG",
+        "4 AWG"
+      ],
+      "answer": 3,
+      "explanation": "Where 4 AWG or larger insulated conductors enter a box, cabinet, or enclosure from a raceway, they must be protected from abrasion by an identified fitting with a smooth, rounded insulating surface (such as a plastic bushing), unless the conductors are separated from the raceway edge by securely fastened insulating material. Conductors smaller than 4 AWG are outside this rule.",
+      "ref2023": "300.4(G)",
+      "ref2026": "300.6(G)",
+      "tip": "Remember the rhyme '4 and more, protect the core.' Once wire hits 4 AWG, it's heavy and stiff enough that dragging it across a raw metal edge during a pull will easily slice the insulation right off."
+    },
+    {
+      "id": "DEV-30003C-01",
+      "n": 11,
+      "topic": "Conductors in Raceways",
+      "calculation": false,
+      "prompt": "Under what condition are 120V and 277V circuit conductors permitted to occupy the same conduit or raceway?",
+      "options": [
+        "Only if they are separated by a continuous, nonconductive physical barrier.",
+        "Yes, provided all conductors have an insulation rating equal to at least the maximum circuit voltage applied.",
+        "Yes, but the total fill capacity of the conduit must be derated by an additional 50%.",
+        "They are never permitted in the same raceway and must be in separate conduits."
+      ],
+      "answer": 1,
+      "explanation": "Conductors of different AC or DC circuits can share a raceway or enclosure as long as none of them is rated over 1000 volts. The only condition is that every conductor in the raceway be insulated for at least the highest voltage present on any conductor sharing it.",
+      "ref2023": "300.3(C)(1)",
+      "ref2026": "300.3(C)(1)",
+      "tip": "Since standard THHN/THWN-2 building wire is rated for 600V, pulling 120V and 277V together easily meets this insulation rule. The real QA/QC catch on these pulls is ensuring the different system conductors and their respective neutrals are properly identified and grouped at your termination points!"
+    },
+    {
+      "id": "CD-J043",
+      "n": 12,
+      "topic": "Conductor Insulation",
+      "calculation": false,
+      "prompt": "You are installing feeder conductors in an underground PVC conduit, which is classified as a wet location. To maximize your allowable ampacity and use the 90°C column for derating, which of the following conductor insulation markings must you use?",
+      "options": [
+        "THHN",
+        "THW",
+        "XHHW",
+        "THWN-2"
+      ],
+      "answer": 3,
+      "explanation": "Per Table 310.4(A), the '-2' suffix indicates the insulation is rated 90°C in both dry and wet locations. THWN-2 is the conductor that allows you to size from the 90°C column even when the conduit is wet (e.g., underground PVC). Standard THHN and THW do not have the wet-90°C dual rating.",
+      "ref2023": "Table 310.4(A)",
+      "ref2026": "Table 310.4(A)",
+      "tip": "The '-2' is your ticket to the 90-degree column in wet environments! Without it, your ampacity drops to the 75-degree column the moment that pipe goes underground."
+    },
+    {
+      "id": "CD-J046",
+      "n": 13,
+      "topic": "Conductor Insulation",
+      "calculation": false,
+      "prompt": "When looking at the insulation type of a conductor, what does the letter 'W' indicate about its approved application?",
+      "options": [
+        "It has a weather-resistant metallic shield.",
+        "It is approved for use in wet locations.",
+        "It has a woven outer jacket.",
+        "It is intended exclusively for welding applications."
+      ],
+      "answer": 1,
+      "explanation": "Per Table 310.4(A), the 'W' in conductor markings (e.g., THW, THWN, XHHW) indicates the insulation is approved for use in wet locations. Conductors without the 'W' are limited to dry or damp locations.",
+      "ref2023": "Table 310.4(A)",
+      "ref2026": "Table 310.4(A)",
+      "tip": "W = Wet! If your pipe goes underground or outside, that 'W' is non-negotiable. Without it, your wire is strictly limited to dry or damp locations."
+    },
+    {
+      "id": "BF-J010",
+      "n": 14,
+      "topic": "Box Fill",
+      "calculation": false,
+      "prompt": "A 12 AWG solid conductor enters a junction box and loops through without being spliced or terminated to any device. The total length of this unbroken loop inside the box measures 14 inches. When calculating the total box fill, how many conductor volume allowances must be counted for this specific wire?",
+      "options": [
+        "One (1)",
+        "Two (2)",
+        "Zero (0)",
+        "Three (3)"
+      ],
+      "answer": 1,
+      "explanation": "NEC 300.14 (300.16 in the 2026 NEC) requires a minimum of 6 inches for free conductors. NEC 314.16(B)(1) says that when an unbroken conductor forms a loop or coil at least twice that minimum (12 inches or more), it counts as two conductors. Because the unbroken loop is 14 inches, it meets this threshold and must be counted as two conductors.",
+      "ref2023": "314.16(B)(1); 300.14",
+      "ref2026": "314.16(B)(1); 300.16",
+      "tip": "Measure those loops! A standard straight pull-through only counts as 1 wire. But if you leave a long service loop (12 inches or more) inside the box, the Code penalizes you and makes you count it as 2 wires."
+    },
+    {
+      "id": "BF-J007",
+      "n": 15,
+      "topic": "Conduit Bodies",
+      "calculation": false,
+      "prompt": "An electrician installs a 3/4-inch Type C conduit body in the middle of a long straight run of EMT. Under what condition is the electrician permitted to make wire splices inside this conduit body?",
+      "options": [
+        "Only if the manufacturer has durably marked the cubic-inch capacity on the conduit body.",
+        "Only if the conduit body is supported within 3 feet.",
+        "Splices are never permitted in a conduit body; they are strictly for pulling.",
+        "Only if the conductors are 4 AWG or larger."
+      ],
+      "answer": 0,
+      "explanation": "Per NEC 314.16(C)(2), a conduit body may hold splices, taps, or devices only when the manufacturer has permanently stamped its volume on the fitting. You must then calculate the box fill to ensure the splices don't exceed that stamped volume.",
+      "ref2023": "314.16(C)(2)",
+      "ref2026": "314.16(C)(2)",
+      "tip": "Not all condulets are created equal! If you buy a cheap conduit body that doesn't have a volume stamp on the inside, it is legally just a pull-point. If you bury a wire nut in there, the inspector will make you rip it out!"
+    },
+    {
+      "id": "BF-J013",
+      "n": 16,
+      "topic": "Box Fill",
+      "calculation": true,
+      "prompt": "Three conduits enter a junction box containing the following: six 12 AWG conductors, three 12 AWG equipment grounding conductors, three splices, three 12 AWG pigtails, three lock rings, and one duplex receptacle. What is the total conductor volume allowance count (equivalent number of wires) for this box?",
+      "options": [
+        "8",
+        "9",
+        "14",
+        "11"
+      ],
+      "answer": 1,
+      "explanation": "Step 1: Six 12 AWG conductors count as 1 each (6 allowances). Step 2: Up to four ground wires count as a single volume allowance (1 allowance). Step 3: Splice connectors (wire nuts) are considered small fittings and are exempt (0 allowances). Step 4: Pigtails originate and terminate in the box, making them exempt (0 allowances). Step 5: Lock rings are small fittings and are exempt (0 allowances). Step 6: One receptacle counts as a double volume allowance (2 allowances). Total: 6 + 1 + 0 + 0 + 0 + 2 = 9 equivalent conductor volume allowances.",
+      "ref2023": "314.16(B)(1) through (B)(5)",
+      "ref2026": "314.16(B)(1) through (B)(5)",
+      "tip": "Ignore the noise! Exams love to throw pigtails, splices (wire nuts), and lock rings at you to see if you'll bite. Only count the incoming/outgoing wires, the device (x2), and the grounds (first 4 = 1 allowance)."
+    },
+    {
+      "id": "BF-J014",
+      "n": 17,
+      "topic": "Box Fill",
+      "calculation": true,
+      "prompt": "A junction box contains four 10 AWG conductors, six 12 AWG conductors, and five 12 AWG equipment grounding conductors. What is the total minimum volume required for this box in cubic inches?",
+      "options": [
+        "25.75 cu in",
+        "28.00 cu in",
+        "34.75 cu in",
+        "26.31 cu in"
+      ],
+      "answer": 3,
+      "explanation": "Step 1: Calculate 10 AWG volume (4 conductors x 2.50 cu in = 10.0 cu in). Step 2: Calculate 12 AWG current-carrying volume (6 conductors x 2.25 cu in = 13.5 cu in). Step 3: Calculate the ground wire allowance. Per 314.16(B)(5), the first four EGCs count as 1 allowance, and the 5th counts as 1/4 (0.25) allowance. Total ground allowances = 1.25. Multiply by the volume of a 12 AWG wire (1.25 x 2.25 cu in = 2.8125 cu in). Step 4: Add the totals together (10.0 + 13.5 + 2.8125 = 26.3125 cu in).",
+      "ref2023": "314.16(B)(1) & (B)(5); Table 314.16(B)",
+      "ref2026": "314.16(B)(1) & (B)(5); Table 314.16(B)",
+      "tip": "When you have mixed wire sizes, you can no longer just count 'wires' — you must convert everything to cubic inches! Notice how 25.75 is the trap answer for anyone who forgets the extra 1/4 allowance for the fifth ground wire."
+    },
+    {
+      "id": "BF-J015",
+      "n": 18,
+      "topic": "Box Fill",
+      "calculation": true,
+      "prompt": "A 4-inch square box that is 2-1/8 inches deep is installed with an extension ring. The extension ring is stamped with a marked volume of 21.0 cubic inches. According to the NEC, what is the total available volume of this assembled enclosure?",
+      "options": [
+        "60.6 cu in",
+        "30.3 cu in",
+        "51.3 cu in",
+        "42.0 cu in"
+      ],
+      "answer": 2,
+      "explanation": "Step 1: Look up the standard volume for a 4 x 2-1/8 inch square box in Table 314.16(A), which is 30.3 cu in. Step 2: Under 314.16(A), you count the box itself plus any volume-marked extension ring, plaster ring, or domed cover attached to it. Step 3: Add the box volume to the extension ring volume (30.3 + 21.0 = 51.3 cu in).",
+      "ref2023": "314.16(A); Table 314.16(A)",
+      "ref2026": "314.16(A); Table 314.16(A)",
+      "tip": "Mud rings and extension rings give you free space! Always look up your base box in Table 314.16(A) first, then add the stamped volume of whatever ring or domed cover you bolt onto it."
+    },
+    {
+      "id": "BF-J011",
+      "n": 19,
+      "topic": "Box Fill",
+      "calculation": true,
+      "prompt": "A junction box contains six 12 AWG equipment grounding conductors (EGCs). How many total conductor volume allowances must be counted for these ground wires?",
+      "options": [
+        "2 allowances",
+        "1.25 allowances",
+        "1.5 allowances",
+        "1 allowance"
+      ],
+      "answer": 2,
+      "explanation": "NEC 314.16(B)(5) dictates that up to four EGCs entering a box count as a single (1) volume allowance. For every EGC beyond the first four, you must add a 1/4 (0.25) volume allowance. For six EGCs: The first four = 1 allowance. The 5th and 6th = 0.5 allowance (0.25 x 2). Total = 1.5 volume allowances.",
+      "ref2023": "314.16(B)(5)",
+      "ref2026": "314.16(B)(5)",
+      "tip": "Grounds get a group discount, but the free ride ends at four! The first 4 grounds cost you 1 full allowance. Every ground wire after that adds an extra 1/4 allowance. And remember, it is always based on the largest ground wire in the box!"
+    },
+    {
+      "id": "BF-J006",
+      "n": 20,
+      "topic": "Box Fill",
+      "calculation": true,
+      "prompt": "A box contains 6 current-carrying 12 AWG conductors, 3 equipment grounds, one internal clamp, and one device yoke. Using 2.25 cu in per 12 AWG conductor, what is the minimum required box volume?",
+      "options": [
+        "22.5 cu in",
+        "21.5 cu in",
+        "24.5 cu in",
+        "23.5 cu in"
+      ],
+      "answer": 0,
+      "explanation": "Count the allowances: 6 conductors [314.16(B)(1)] + the grounds (three, so one allowance) [314.16(B)(5)] + one internal clamp (one) [314.16(B)(2)] + one device yoke (two) [314.16(B)(4)] = 10 equivalents. Volume = 10 × 2.25 cu in (Table 314.16(B), 12 AWG) = 22.5 cu in.",
+      "ref2023": "314.16(B)",
+      "ref2026": "314.16(B)",
+      "tip": "Up to four grounds count as one allowance (each extra ground adds 1/4); an internal clamp counts as one; a device yoke counts as two."
+    }
+  ]
+}

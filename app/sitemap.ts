@@ -1,30 +1,30 @@
 import type { MetadataRoute } from "next";
+import { CONTENT_UPDATED, PRACTICE_HUB_PATH, SITE_URL } from "@/lib/site";
 
-const BASE_URL = "https://sparkypass.com";
+const lastModified = new Date(CONTENT_UPDATED);
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const page = (
+    path: string,
+    priority: number,
+    changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] = "monthly",
+  ) => ({
+    url: `${SITE_URL}${path}`,
+    lastModified,
+    changeFrequency,
+    priority,
+  });
 
-  // Public marketing & info pages
-  const staticPages: MetadataRoute.Sitemap = [
-    { url: BASE_URL, lastModified: now, changeFrequency: "weekly", priority: 1.0 },
-    { url: `${BASE_URL}/pricing`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${BASE_URL}/register`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
-    { url: `${BASE_URL}/login`, lastModified: now, changeFrequency: "monthly", priority: 0.5 },
-    { url: `${BASE_URL}/contact`, lastModified: now, changeFrequency: "monthly", priority: 0.4 },
-    { url: `${BASE_URL}/privacy`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${BASE_URL}/terms`, lastModified: now, changeFrequency: "yearly", priority: 0.2 },
+  return [
+    page("/", 1.0, "weekly"),
+    page(PRACTICE_HUB_PATH, 0.9, "weekly"),
+    page(`${PRACTICE_HUB_PATH}/test-1`, 0.8),
+    page(`${PRACTICE_HUB_PATH}/test-2`, 0.8),
+    page(`${PRACTICE_HUB_PATH}/test-3`, 0.8),
+    page("/texas-journeyman-electrician-practice-test", 0.8),
+    page("/contact", 0.4, "yearly"),
+    page("/privacy", 0.2, "yearly"),
+    page("/terms", 0.2, "yearly"),
+    page("/dmca", 0.1, "yearly"),
   ];
-
-  // Feature / tool pages (publicly accessible, high SEO value)
-  const featurePages: MetadataRoute.Sitemap = [
-    { url: `${BASE_URL}/quiz`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE_URL}/flashcards`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE_URL}/mock-exam`, lastModified: now, changeFrequency: "weekly", priority: 0.8 },
-    { url: `${BASE_URL}/load-calculator`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE_URL}/load-calculator/commercial`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE_URL}/leaderboard`, lastModified: now, changeFrequency: "daily", priority: 0.6 },
-  ];
-
-  return [...staticPages, ...featurePages];
 }

@@ -1,0 +1,374 @@
+{
+  "slug": "test-2",
+  "number": 2,
+  "title": "Services, Grounding & Branch Circuits",
+  "blurb": "Article 230 service clearances and disconnects, Article 250 grounding and bonding (GEC and EGC sizing, electrodes, bonding at the service), branch-circuit and device rules, and Article 220 dwelling demand factors with three worked calculations.",
+  "focus": [
+    "Services (230)",
+    "Grounding & bonding (250)",
+    "Branch circuits & devices",
+    "Dwelling demand factors (220)"
+  ],
+  "questions": [
+    {
+      "id": "SV-J015",
+      "n": 1,
+      "topic": "Service Clearances",
+      "calculation": false,
+      "prompt": "What is the minimum overhead clearance required for service-drop conductors passing over a residential property and driveway?",
+      "options": [
+        "12 feet",
+        "18 feet",
+        "15 feet",
+        "10 feet"
+      ],
+      "answer": 0,
+      "explanation": "Service-drop conductors need at least 12 feet of clearance above residential property and driveways. The same 12-foot figure covers commercial areas that trucks don't drive through, as long as the voltage to ground is 300 V or less.",
+      "ref2023": "230.24(B)(2)",
+      "ref2026": "230.24(B)(2)",
+      "tip": "10 feet for pedestrian areas, 12 feet for residential driveways, and 18 feet for public streets. Commit those three numbers to memory!"
+    },
+    {
+      "id": "SV-J012",
+      "n": 2,
+      "topic": "Service Disconnect",
+      "calculation": false,
+      "prompt": "Where must the service disconnecting means be installed relative to the service entrance conductors entering the building?",
+      "options": [
+        "Within 10 feet of the entrance",
+        "Inside nearest the point of entrance",
+        "Within 6 feet of the entrance",
+        "As close to the meter as possible"
+      ],
+      "answer": 1,
+      "explanation": "Under 230.70(A)(1), the service disconnect must sit at a readily accessible spot — either outside the building, or inside at the point closest to where the service conductors come in. The Code gives no maximum distance in feet; local amendments often do.",
+      "ref2023": "230.70(A)(1)",
+      "ref2026": "230.70(A)(1)",
+      "tip": "The NEC is vague here! It just says 'Nearest the point of entrance.' Check your LOCAL city code—they often set a strict limit (like 6ft or 10ft)."
+    },
+    {
+      "id": "SV-J014",
+      "n": 3,
+      "topic": "Service Raceways",
+      "calculation": false,
+      "prompt": "What is the general rule regarding the installation of feeder or branch-circuit conductors within the same raceway as service conductors?",
+      "options": [
+        "They are permitted only if separated by a listed physical barrier inside the raceway.",
+        "They are permitted provided the total conductor fill does not exceed 40% of the raceway.",
+        "They are prohibited; a service raceway or service cable may carry only service conductors.",
+        "They are permitted as long as all conductors share the same insulation voltage rating."
+      ],
+      "answer": 2,
+      "explanation": "Under 230.7, a service raceway or service cable is reserved for service conductors — feeder and branch-circuit conductors can't share it. The only exceptions are grounding electrode conductors, supply-side bonding jumpers, and load-management control conductors that have their own overcurrent protection; none of them opens the door to feeders or branch circuits.",
+      "ref2023": "230.7",
+      "ref2026": "230.7",
+      "tip": "Keep the utility power isolated! Unless it's a bare ground wire or a specific load-management wire, absolutely nothing else is allowed inside the service raceway."
+    },
+    {
+      "id": "WM-J012",
+      "n": 4,
+      "topic": "Dwelling Services",
+      "calculation": false,
+      "prompt": "For a single-family dwelling, when calculating the minimum ampacity for ungrounded service-entrance conductors that supply the entire load of the dwelling, the NEC permits these conductors to have an ampacity of not less than what percentage of the service rating?",
+      "options": [
+        "83%",
+        "80%",
+        "100%",
+        "125%"
+      ],
+      "answer": 0,
+      "explanation": "Under 310.12(A), the service conductors feeding the entire load of a one-family dwelling (100–400 A, single-phase 120/240 V) only need an ampacity equal to 83% of the service rating — residential loads are diverse, so a 200 A service can run on conductors rated 166 A. Multiply the service rating by 0.83, then size from the 75°C column of Table 310.16.",
+      "ref2023": "310.12(A)",
+      "ref2026": "310.12(A)",
+      "tip": "The residential magic number is 83%! Whenever you are sizing the main wires that feed the entire house, multiply the main breaker size by 0.83 to find your target ampacity, and then head over to the 75°C column of Table 310.16 to pick your wire."
+    },
+    {
+      "id": "GB-J001",
+      "n": 5,
+      "topic": "Grounding Electrode Conductor",
+      "calculation": false,
+      "prompt": "What is the minimum size Copper Grounding Electrode Conductor (GEC) required for a standard residential 200-Ampere service supplied by 2/0 AWG Copper service-entrance conductors?",
+      "options": [
+        "#6 AWG",
+        "#2 AWG",
+        "#4 AWG",
+        "#8 AWG"
+      ],
+      "answer": 2,
+      "explanation": "The GEC is sized from the largest ungrounded service-entrance conductor, not from the breaker. A 200 A dwelling service is commonly wired with 2/0 AWG copper (the 83% rule in 310.12 calls for at least 166 A). Table 250.66 puts 2/0 and 3/0 AWG copper in the same row, and that row calls for a 4 AWG copper grounding electrode conductor.",
+      "ref2023": "Table 250.66; 310.12",
+      "ref2026": "Table 250.66; 310.12",
+      "tip": "Don't guess based on the breaker! Size the GEC based on the service WIRE size. 200A = 2/0 Cu Wire = #4 Cu Ground."
+    },
+    {
+      "id": "GB-J035",
+      "n": 6,
+      "topic": "Bonding Jumpers",
+      "calculation": false,
+      "prompt": "Which of the following conductors is NOT sized based on the size of the ungrounded (phase) conductors?",
+      "options": [
+        "System Bonding Jumper (SBJ)",
+        "Equipment Grounding Conductor (EGC)",
+        "Main Bonding Jumper (MBJ)",
+        "Supply-Side Bonding Jumper (SSBJ)"
+      ],
+      "answer": 1,
+      "explanation": "Table 250.102(C)(1) is specifically used to size the Main Bonding Jumper, System Bonding Jumper, Supply-Side Bonding Jumper, and grounded (neutral) conductors based on the area of the largest ungrounded phase conductor. The Equipment Grounding Conductor (EGC) is sized based on the rating of the upstream overcurrent protective device using a completely different table: Table 250.122.",
+      "ref2023": "Table 250.102(C)(1) / Table 250.122",
+      "ref2026": "Table 250.102(C)(1) / Table 250.122",
+      "tip": "Table trickery is a classic exam tactic! If the wire is protected by a breaker (like an EGC), it lives on Table 250.122. If it is a jumper handling un-throttled fault current upstream of a breaker, it lives on Table 250.102(C)(1)."
+    },
+    {
+      "id": "GB-J005",
+      "n": 7,
+      "topic": "Equipment Grounding",
+      "calculation": false,
+      "prompt": "What is the minimum size copper equipment grounding conductor for a circuit protected by a 60-ampere overcurrent device?",
+      "options": [
+        "#8 AWG",
+        "#14 AWG",
+        "#10 AWG",
+        "#12 AWG"
+      ],
+      "answer": 2,
+      "explanation": "NEC Table 250.122 specifies a minimum #10 AWG copper equipment grounding conductor for overcurrent devices rated 60 amperes.",
+      "ref2023": "Table 250.122",
+      "ref2026": "Table 250.122",
+      "tip": "Table 250.122 is your EGC sizing guide - match the breaker size to find your wire!"
+    },
+    {
+      "id": "GB-J002",
+      "n": 8,
+      "topic": "Grounding Electrodes",
+      "calculation": false,
+      "prompt": "When a single ground rod has a resistance greater than 25 ohms, what is required?",
+      "options": [
+        "Use a different location",
+        "Nothing additional required",
+        "Install a larger rod",
+        "Add a supplemental electrode"
+      ],
+      "answer": 3,
+      "explanation": "Under 250.53(A)(2), a single rod electrode must be supplemented by a second electrode unless it can be shown to have a resistance to earth of 25 ohms or less — so a rod that measures over 25 ohms needs an additional electrode, typically a second rod driven at least 6 feet from the first.",
+      "ref2023": "250.53(A)(2)",
+      "ref2026": "250.53(A)(2)",
+      "tip": "Over 25 ohms? Add another rod! Two rods are the solution to high resistance."
+    },
+    {
+      "id": "GB-J012",
+      "n": 9,
+      "topic": "Grounding Electrodes",
+      "calculation": false,
+      "prompt": "To qualify as a grounding electrode, a metal underground water pipe must be in direct contact with the earth for a minimum distance of:",
+      "options": [
+        "20 feet",
+        "10 feet",
+        "8 feet",
+        "5 feet"
+      ],
+      "answer": 1,
+      "explanation": "Under 250.52(A)(1), a buried metal water pipe qualifies as a grounding electrode only when at least 10 feet (3.0 m) of it is in direct contact with the earth. Even then, 250.53(D)(2) says a water-pipe electrode must always be backed up by a supplemental electrode (such as a ground rod), no matter how long the pipe is.",
+      "ref2023": "250.52(A)(1); 250.53(D)(2)",
+      "ref2026": "250.52(A)(1); 250.53(D)(2)",
+      "tip": "10 feet is the magic number to BE an electrode. But here is the real-world trap: Even if you have 100 feet of pipe, the NEC doesn't trust it! You ALWAYS have to add a supplemental ground rod just in case the utility company swaps the water meter for plastic later."
+    },
+    {
+      "id": "GB-J030",
+      "n": 10,
+      "topic": "Equipment Grounding",
+      "calculation": false,
+      "prompt": "A contractor uses a 5-foot whip of Flexible Metal Conduit (FMC) as the sole equipment grounding conductor (EGC) for a 100-amp transformer feeder. Is this compliant?",
+      "options": [
+        "No, FMC used for transformer feeders is restricted to a maximum length of 3 feet.",
+        "Yes, provided bonding jumpers and grounding bushings are installed at both terminations.",
+        "Yes, it is compliant because the total length in the ground-return path does not exceed 6 feet.",
+        "No, FMC can only serve as an EGC if the circuit is protected at 20 amps or less, and a wire-type EGC is required when installed for flexibility."
+      ],
+      "answer": 3,
+      "explanation": "While the FMC is under the 6 ft limit of 250.118(A)(5)(c), it fails two other conditions of 250.118(A)(5). Condition (b): FMC may serve as the sole EGC only where the circuit conductors it contains are protected by an overcurrent device rated 20 amperes or less. Condition (d): where the flex is used to provide flexibility to minimize vibration (typical for a transformer connection), a wire-type equipment grounding conductor must be installed regardless of length.",
+      "ref2023": "250.118(A)(5)(b) and (d)",
+      "ref2026": "250.118(A)(5)(b) and (d)",
+      "tip": "The 6-foot rule is a trap! If the breaker is over 20A or the flex is used for vibration control, you must pull a green wire."
+    },
+    {
+      "id": "BOND-25092B-001",
+      "n": 11,
+      "topic": "Service Bonding",
+      "calculation": false,
+      "prompt": "When ensuring electrical continuity at service equipment, which of the following is strictly prohibited from being used as the sole means of bonding?",
+      "options": [
+        "Threaded couplings made up wrenchtight",
+        "Standard locknuts or bushings",
+        "Bonding-type locknuts",
+        "Threadless couplings made up tight"
+      ],
+      "answer": 1,
+      "explanation": "Because service conductors do not have overcurrent protection ahead of them to clear a fault quickly, standard locknuts or bushings cannot be relied upon as the sole means of bonding service equipment. You must use robust methods like bonding jumpers, bonding locknuts, or wrenchtight threaded connections.",
+      "ref2023": "250.92(B)",
+      "ref2026": "250.92(B)",
+      "tip": "If you punch a hole in the side of a service disconnect for a metal nipple, a standard locknut on the inside and outside will fail inspection. You have to use a grounding locknut or a grounding bushing with a jumper attached."
+    },
+    {
+      "id": "GB-J024",
+      "n": 12,
+      "topic": "Grounding Electrodes",
+      "calculation": false,
+      "prompt": "Unless otherwise listed for multiple conductors, how many grounding electrode conductors are permitted to be connected to the grounding electrode by a single clamp or fitting?",
+      "options": [
+        "No limit (as long as they fit)",
+        "One",
+        "Two",
+        "Three"
+      ],
+      "answer": 1,
+      "explanation": "NEC 250.70 prohibits connecting more than ONE conductor to the grounding electrode by a single clamp or fitting, unless the device is specifically listed for multiple conductors.",
+      "ref2023": "250.70",
+      "ref2026": "250.70",
+      "tip": "One clamp = One wire (unless listed otherwise)."
+    },
+    {
+      "id": "BC-210-01",
+      "n": 13,
+      "topic": "Receptacle Spacing",
+      "calculation": false,
+      "prompt": "What does the NEC require for the spacing of general wall receptacles in a residential living room?",
+      "options": [
+        "No point along the wall can be more than 6 feet from a receptacle (Max 12 feet between them)",
+        "No point along the wall can be more than 12 feet from a receptacle (Max 24 feet between them)",
+        "Receptacles must be installed exactly every 10 feet",
+        "Receptacles must be installed exactly every 8 feet"
+      ],
+      "answer": 0,
+      "explanation": "Per 210.52(A)(1), receptacles in dwelling general living areas must be spaced so that any point along the wall is within 6 feet (measured horizontally) of a receptacle, which works out to a maximum of 12 feet between receptacles. The rule ensures a 6-foot lamp cord will reach an outlet from anywhere along the wall.",
+      "ref2023": "210.52(A)(1)",
+      "ref2026": "210.52(A)(1)",
+      "tip": "We call this the '6/12 Rule' in the trade! A standard floor lamp cord is 6 feet long. The code is designed so that no matter where a homeowner pushes a lamp against the wall, the cord will reach a plug without needing a dangerous extension cord."
+    },
+    {
+      "id": "RC-J015",
+      "n": 14,
+      "topic": "Wet-Location Receptacles",
+      "calculation": false,
+      "prompt": "A 20-amp, 125-volt nonlocking receptacle installed in a wet location must be listed as what type?",
+      "options": [
+        "Weatherproof type",
+        "Waterproof type",
+        "Watertight type",
+        "Weather-resistant type"
+      ],
+      "answer": 3,
+      "explanation": "Per 406.9(B)(1), a nonlocking 15- or 20-amp, 125- or 250-volt receptacle installed in a wet location has to be a listed weather-resistant (WR) device. The 'weatherproof' designation applies to the cover, not the receptacle itself.",
+      "ref2023": "406.9(B)(1)",
+      "ref2026": "406.9(B)(1)",
+      "tip": "Watch your terminology! In the field we call everything 'weatherproof', but the codebook is specific. The cover is weatherproof; the receptacle is Weather-Resistant (WR). Don't let similar-sounding words steal your points."
+    },
+    {
+      "id": "LUM-41010-002",
+      "n": 15,
+      "topic": "Luminaires",
+      "calculation": false,
+      "prompt": "When installing luminaires, what is the vertical height of the restricted zone, measured from the top of the bathtub rim, within which hanging fixtures are prohibited?",
+      "options": [
+        "6 feet",
+        "8 feet",
+        "10 feet",
+        "7 feet 6 inches"
+      ],
+      "answer": 1,
+      "explanation": "NEC 410.10(D) defines a keep-out zone that extends 3 feet out from the bathtub rim or shower threshold and 8 feet up from it. Hanging and cord-connected fixtures, such as chandeliers, pendants, and paddle fans, are prohibited anywhere in that zone.",
+      "ref2023": "410.10(D)",
+      "ref2026": "410.10(D)",
+      "tip": "Always remember the 3-by-8 rule for tubs. If the ceiling is lower than 8 feet above the tub rim, you cannot install any hanging fixtures or paddle fans in that footprint."
+    },
+    {
+      "id": "SW-J018",
+      "n": 16,
+      "topic": "Panelboards",
+      "calculation": false,
+      "prompt": "When determining the maximum number of overcurrent devices permitted in a panelboard, a 3-pole circuit breaker shall be considered as what?",
+      "options": [
+        "A single main disconnect",
+        "Three overcurrent devices",
+        "A delta-connected device",
+        "One overcurrent device"
+      ],
+      "answer": 1,
+      "explanation": "Per 408.54 (Maximum Number of Overcurrent Devices), a panelboard must have a physical means to prevent installing more overcurrent devices than it is designed, rated, and listed for, and for that count a 2-pole or 3-pole circuit breaker is considered two or three overcurrent devices, respectively. A 3-pole breaker therefore counts as three overcurrent devices because it occupies three busbar positions.",
+      "ref2023": "408.54",
+      "ref2026": "408.54",
+      "tip": "Count the poles, not the plastic housing! The NEC cares about how many busbar spaces you are eating up. A 3-pole breaker takes 3 spots, so it counts as 3 devices."
+    },
+    {
+      "id": "SV-J013",
+      "n": 17,
+      "topic": "Range Demand",
+      "calculation": true,
+      "prompt": "What is the feeder demand load for a single 14 kW household electric range rated at 240 volts?",
+      "options": [
+        "8.0 kVA",
+        "14.0 kVA",
+        "11.0 kVA",
+        "8.8 kVA"
+      ],
+      "answer": 3,
+      "explanation": "Refer to Table 220.55, Column C (Table 120.55 in the 2026 NEC). The demand for one range not over 12 kW is 8 kW. Note 1 adds 5% to that Column C value for every kilowatt (or major fraction of a kilowatt) by which a range rated over 12 kW (up to 27 kW) exceeds 12 kW. This range is 2 kW over, so 2 × 5% = 10%. 8 kW × 1.10 = 8.8 kVA.",
+      "ref2023": "Table 220.55, Note 1",
+      "ref2026": "Table 120.55, Note 1",
+      "tip": "For ranges over 12 kW, start with the 8 kW base from Column C and add 5% per extra kW. A 14 kW range is 2 kW over, so that's a 10% bump."
+    },
+    {
+      "id": "LC-J005",
+      "n": 18,
+      "topic": "Cooking Appliance Demand",
+      "calculation": true,
+      "prompt": "What is the minimum calculated demand load for four household wall-mounted ovens, each having a nameplate rating of 5 kW?",
+      "options": [
+        "10 kW",
+        "17 kW",
+        "16 kW",
+        "20 kW"
+      ],
+      "answer": 0,
+      "explanation": "Step 1: Determine the column. Since 5 kW falls between 3.5 kW and 8.75 kW, we use Column B. Step 2: Find the demand factor. According to Column B, the demand factor for 4 appliances is 50%. Step 3: Calculate total connected load (4 ovens × 5 kW = 20 kW). Step 4: Apply the demand factor (20 kW × 0.50 = 10 kW).",
+      "ref2023": "Table 220.55 (Column B)",
+      "ref2026": "Table 120.55 (Column B)",
+      "tip": "Table 220.55 is a beast! Always check the wattage first to pick your column. Because these were 5 kW, they landed in Column B, where you use percentages instead of a flat kW value."
+    },
+    {
+      "id": "LC-J076",
+      "n": 19,
+      "topic": "Dryer Demand",
+      "calculation": true,
+      "prompt": "For multifamily dwellings, what is the demand factor for 16 household electric clothes dryers?",
+      "options": [
+        "38%",
+        "45%",
+        "42%",
+        "47%"
+      ],
+      "answer": 2,
+      "explanation": "NEC Table 220.54 (Table 120.54 in the 2026 NEC) sets the demand factor for 12 to 23 dryers at 47% minus 1% for each dryer over 11. For 16 dryers, 16 − 11 = 5, so 47% − 5% = 42%.",
+      "ref2023": "Table 220.54",
+      "ref2026": "Table 120.54",
+      "tip": "When calculating 12-23 dryers, find the difference from 11 and subtract that exact number from 47."
+    },
+    {
+      "id": "LC-J006",
+      "n": 20,
+      "topic": "Appliance Demand",
+      "calculation": false,
+      "prompt": "What demand factor can be applied to four or more fastened-in-place appliances in a dwelling unit?",
+      "options": [
+        "75%",
+        "65%",
+        "100%",
+        "80%"
+      ],
+      "answer": 0,
+      "explanation": "NEC 220.53 allows a 75% demand factor for four or more fastened-in-place appliances (other than cooking equipment, dryers, and heating/AC). This includes appliances like water heaters, dishwashers, and disposals.",
+      "ref2023": "220.53",
+      "ref2026": "120.53",
+      "tip": "Four or more fixed appliances? Take 75%. Not everything runs at once!"
+    }
+  ]
+}

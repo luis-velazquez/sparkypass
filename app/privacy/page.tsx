@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Zap } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default function PrivacyPage() {
   return (
@@ -24,9 +24,9 @@ export default function PrivacyPage() {
             >
               <Zap className="h-10 w-10 text-amber" />
             </Link>
-            <CardTitle className="text-2xl font-bold font-display">
+            <h1 className="text-2xl font-bold font-display leading-tight">
               Privacy Policy
-            </CardTitle>
+            </h1>
             <p className="text-sm text-muted-foreground">
               Last updated: August 7, 2026
             </p>

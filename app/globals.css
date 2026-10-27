@@ -20,6 +20,7 @@ html {
   --amber-dark: #D97706;
   --amber-lighter: #FEF3C7;
   --amber-glow: rgba(245, 158, 11, 0.25);
+  --amber-text: #A04A08;   /* amber for small text: >=5.2:1 on cream, cream-dark and white */
 
   /* === SECONDARY — PURPLE === */
   --purple: #8B5CF6;
@@ -131,6 +132,7 @@ html {
   --color-amber: var(--amber);
   --color-amber-light: var(--amber-light);
   --color-amber-dark: var(--amber-dark);
+  --color-amber-text: var(--amber-text);
   --color-amber-lighter: var(--amber-lighter);
   --color-emerald: var(--emerald);
   --color-emerald-light: var(--emerald-light);
@@ -226,23 +228,10 @@ html {
    Stone-based dark — warm, not blue-black
    ================================================================ */
 
-/* System dark mode preference */
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    --background: #1C1917;
-    --foreground: #FAFAF9;
-    --card: #292524;
-    --card-foreground: #FAFAF9;
-    --border: #44403C;
-    --muted: #44403C;
-    --muted-foreground: #A8A29E;
-    --input: #44403C;
-    --ring: #F59E0B;
-    --cream: #292524;
-    --cream-dark: #1C1917;
-    --purple-soft: #3B2F63;
-  }
-}
+/* The promotional site commits to the light look that matches the App Store
+   screenshots. `.dark` tokens are kept for any component that still carries
+   dark: variants, but nothing applies the class. */
+html { color-scheme: light; }
 
 .dark {
   --background: #1C1917;
@@ -544,4 +533,60 @@ button:not(:disabled),
 }
 :is(.dark) .animate-cta-glow {
   animation: cta-glow-dark 2.5s ease-in-out infinite;
+}
+
+/* ================================================================
+   PROMOTIONAL SITE
+   ================================================================ */
+
+/* Blueprint grid texture (legal pages + hero) */
+.blueprint-grid {
+  background-image:
+    linear-gradient(rgba(245, 158, 11, 0.5) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(245, 158, 11, 0.5) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Page-load rise: one orchestrated moment in the hero, nothing else moves */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-rise { animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.rise-1 { animation-delay: 0.05s; }
+.rise-2 { animation-delay: 0.15s; }
+.rise-3 { animation-delay: 0.25s; }
+.rise-4 { animation-delay: 0.35s; }
+
+/* Answer reveal: explanation grows open under the chosen option */
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-reveal { animation: reveal 0.35s ease-out both; }
+
+/* Correct-answer flash on the option row */
+@keyframes correct-flash {
+  0%   { box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.45); }
+  100% { box-shadow: 0 0 0 10px rgba(5, 150, 105, 0); }
+}
+.animate-correct-flash { animation: correct-flash 0.6s ease-out; }
+
+/* Native disclosure (FAQ) — no JS */
+details.faq > summary { list-style: none; cursor: pointer; }
+details.faq > summary::-webkit-details-marker { display: none; }
+details.faq > summary .faq-chevron { transition: transform 200ms ease; }
+details.faq[open] > summary .faq-chevron { transform: rotate(180deg); }
+
+/* Scroll anchors clear the sticky header; opaque focus ring (WCAG 1.4.11) */
+@layer base {
+  [id] { scroll-margin-top: 5.5rem; }
+  :focus-visible { outline: 2px solid var(--amber-dark); outline-offset: 2px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise, .animate-reveal, .animate-correct-flash, .animate-cta-glow {
+    animation: none !important;
+  }
+  html { scroll-behavior: auto; }
 }
