@@ -15,15 +15,15 @@
 // email-anchored pre-auth linking codes — they reference user by email, not
 // FK). For v1 we let them age out via expires_at — they're 10 minutes long.
 //
-// Stripe subscriptions need to be canceled before the row goes away, otherwise
-// we keep charging a now-anonymous customer. v1: skip auto-cancel here and rely
-// on the user having canceled in the Stripe portal before initiating delete.
-// (Tracked as a v1.1 follow-up — DELETE /api/account should kick off Stripe
-// cancellation in the same flow.)
+// Apple subscriptions cannot be canceled server-side (Apple owns the billing
+// relationship); the mobile delete flow tells users to cancel in iOS Settings.
+// Purging the row is safe regardless — entitlement events for an unknown
+// app_user_id are ack'd and ignored by the RevenueCat webhook.
 
 import { NextRequest, NextResponse } from "next/server";
-import { lt, and, isNotNull } from "drizzle-orm";
-import { db, users } from "@/lib/db";
+import { lt, and, eq, inArray, isNotNull } from "drizzle-orm";
+import { db, users, linkedProviders } from "@/lib/db";
+import { revokeAppleRefreshToken } from "@/lib/apple-revocation";
 import { verifyCronRequest } from "@/lib/cron-auth";
 
 const GRACE_DAYS = 30;
@@ -61,6 +61,22 @@ export async function GET(request: NextRequest) {
       "deleted_at=",
       u.deletedAt?.toISOString(),
     );
+  }
+
+  // Last-chance SiwA revocation (5.1.1(v)): tokens the soft-delete pass
+  // failed to revoke get one retry before the cascade wipes the rows.
+  const appleLinks = await db
+    .select({ token: linkedProviders.appleRefreshToken })
+    .from(linkedProviders)
+    .where(
+      and(
+        inArray(linkedProviders.userId, candidates.map((u: { id: string }) => u.id)),
+        eq(linkedProviders.provider, "apple"),
+        isNotNull(linkedProviders.appleRefreshToken),
+      ),
+    );
+  for (const link of appleLinks) {
+    await revokeAppleRefreshToken(link.token!);
   }
 
   const result = await db

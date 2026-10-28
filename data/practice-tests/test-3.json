@@ -1,0 +1,374 @@
+{
+  "slug": "test-3",
+  "number": 3,
+  "title": "Calculations, Motors & Special Occupancies",
+  "blurb": "Ohm's law and voltage drop, Chapter 9 conduit fill and ampacity correction, Article 430 motor conductor, overload and breaker sizing, transformer rooms, and special occupancies: hazardous locations, pools, fire pumps, EV charging and mobile homes. Ten of the twenty are worked calculations.",
+  "focus": [
+    "Ohm's law & voltage drop",
+    "Conduit fill & ampacity",
+    "Motors (430) & transformers",
+    "Special occupancies"
+  ],
+  "questions": [
+    {
+      "id": "LC-J013",
+      "n": 1,
+      "topic": "Electrical Theory",
+      "calculation": true,
+      "prompt": "A residential electric range has a nameplate rating of 12 kW at 240 volts. If this range is connected to a 208-volt single-phase supply, what will be the approximate power consumption?",
+      "options": [
+        "10.4 kW",
+        "12.0 kW",
+        "9.0 kW",
+        "8.3 kW"
+      ],
+      "answer": 2,
+      "explanation": "Because the physical heating element doesn't change, its resistance stays the same. When voltage drops, power drops with the square of the voltage (P is proportional to E²), not in straight proportion.\nMethod 1 (The Short Way): Square the voltage ratio. (208V / 240V)^2 = 0.751. Multiply by original power: 12 kW * 0.751 = 9.01 kW.\nMethod 2 (The Long Way): First, find the element's fixed resistance using R = E^2 / P. (240V)^2 / 12,000W = 4.8 ohms. Now, apply the new voltage to that resistance using P = E^2 / R. (208V)^2 / 4.8 ohms = 9,013 Watts (9.0 kW).",
+      "ref2023": "Ohm's law / power formula",
+      "ref2026": "Ohm's law / power formula",
+      "tip": "Did you pick 10.4 kW? You fell for the trap! You can't just use a straight percentage because power is based on the SQUARE of the voltage. Master those two formulas: R = E^2 / P and P = E^2 / R."
+    },
+    {
+      "id": "LC-J063",
+      "n": 2,
+      "topic": "Voltage Drop",
+      "calculation": true,
+      "prompt": "A 240V single-phase circuit supplies a 40A load through 10 AWG copper conductors (10,380 CM) at a distance of 150 feet. Using K = 12.9, what is the approximate voltage drop?",
+      "options": [
+        "29.8V",
+        "7.5V",
+        "18.6V",
+        "14.9V"
+      ],
+      "answer": 3,
+      "explanation": "VD = 2 × K × I × D / CM = 2 × 12.9 × 40 × 150 / 10,380 = 154,800 / 10,380 = 14.9V. That's 14.9 / 240 = 6.2%, which exceeds the 3% branch circuit recommendation.",
+      "ref2023": "Chapter 9, Table 8",
+      "ref2026": "Chapter 9, Table 8",
+      "tip": "Always plug into VD = 2KID/CM first, then check if the percentage is under 3% for branch circuits!"
+    },
+    {
+      "id": "LC-J064",
+      "n": 3,
+      "topic": "Voltage Drop",
+      "calculation": true,
+      "prompt": "What is the maximum one-way distance for a 208V single-phase, 30A circuit using 8 AWG copper (16,510 CM) to stay within 3% voltage drop? (K = 12.9)",
+      "options": [
+        "165 feet",
+        "133 feet",
+        "120 feet",
+        "85 feet"
+      ],
+      "answer": 1,
+      "explanation": "Max VD = 208 × 0.03 = 6.24V. D = VD × CM / (2 × K × I) = 6.24 × 16,510 / (2 × 12.9 × 30) = 133.1 ft.",
+      "ref2023": "Chapter 9, Table 8",
+      "ref2026": "Chapter 9, Table 8",
+      "tip": "208V gives more distance than 120V for the same wire and current."
+    },
+    {
+      "id": "LC-J012",
+      "n": 4,
+      "topic": "Voltage Drop",
+      "calculation": true,
+      "prompt": "A 3-phase feeder carries 60 A and runs 150 ft one-way. The conductor resistance is 0.197 ohms per 1000 ft. What is the approximate line-to-line voltage drop in volts?",
+      "options": [
+        "4.47 V",
+        "3.07 V",
+        "3.77 V",
+        "2.37 V"
+      ],
+      "answer": 1,
+      "explanation": "Three-phase voltage drop = 1.732 × I × R × D / 1000 = 1.732 × 60 A × 0.197 Ω × 150 ft / 1000 = 3.07 V line-to-line.",
+      "ref2023": "215.2(A) Informational Note",
+      "ref2026": "215.2(A) Informational Note",
+      "tip": "For three-phase, use 1.732 (√3) instead of the single-phase factor of 2 — it is the most common mix-up on voltage drop problems."
+    },
+    {
+      "id": "LC-J046",
+      "n": 5,
+      "topic": "Ohm's Law",
+      "calculation": true,
+      "prompt": "A 240V heating element is rated at 4,800 Watts. What is the resistance of this element?",
+      "options": [
+        "24 ohms",
+        "0.05 ohms",
+        "50 ohms",
+        "12 ohms"
+      ],
+      "answer": 3,
+      "explanation": "Using the power formula R = E² / P. R = 240² / 4,800. R = 57,600 / 4,800 = 12 ohms.",
+      "ref2023": "Ohm's law / power formula",
+      "ref2026": "Ohm's law / power formula",
+      "tip": "When you only have Volts and Watts, square the Volts first! Think: 'Volts times Volts divided by Watts'."
+    },
+    {
+      "id": "LC-J031",
+      "n": 6,
+      "topic": "Conduit Fill",
+      "calculation": false,
+      "prompt": "What is the minimum size EMT required for a 50-foot run enclosing three #6 AWG THHN conductors?",
+      "options": [
+        "1/2\"",
+        "1-1/4\"",
+        "1\"",
+        "3/4\""
+      ],
+      "answer": 3,
+      "explanation": "Because the raceway exceeds 24 inches, it is subject to the standard 40% fill limit (Chapter 9, Table 1) and not the 60% nipple exception. When all conductors are the exact same size and type, use Annex C. Looking at Annex C, Table C.1 for EMT: a 1/2\" conduit holds a maximum of two #6 THHN conductors, while a 3/4\" conduit holds up to four. Therefore, 3/4\" is the minimum size.",
+      "ref2023": "Annex C, Table C.1 & Chapter 9 Table 1 Note 4",
+      "ref2026": "Annex C, Table C.1 & Chapter 9 Table 1 Note 4",
+      "tip": "The '50-foot run' detail is the test writer's way of telling you: 'Do NOT use the 60% nipple rule!' Once you know you're at 40% fill, and the wires match, skip the calculator and jump straight to Annex C."
+    },
+    {
+      "id": "LC-J036",
+      "n": 7,
+      "topic": "Conduit Fill",
+      "calculation": true,
+      "prompt": "How many #12 AWG THHN conductors can be installed in 1/2-inch EMT?",
+      "options": [
+        "6 conductors",
+        "7 conductors",
+        "12 conductors",
+        "9 conductors"
+      ],
+      "answer": 3,
+      "explanation": "Per Informative Annex C, Table C.1 (EMT), 1/2-inch EMT can accommodate 9 #12 AWG THHN conductors at the 40% fill limit of Chapter 9, Table 1.",
+      "ref2023": "Informative Annex C, Table C.1",
+      "ref2026": "Informative Annex C, Table C.1",
+      "tip": "Annex C tables give you the answer directly! C.1 is for EMT - memorize common combinations."
+    },
+    {
+      "id": "LC-J065",
+      "n": 8,
+      "topic": "Ampacity Correction",
+      "calculation": true,
+      "prompt": "A set of #12 AWG THHN copper conductors is installed in a walk-in cooler with an ambient temperature of 10°C (50°F). What is the corrected ampacity of the conductors (before any other adjustments)?",
+      "options": [
+        "30.9 Amps",
+        "30 Amps",
+        "25.5 Amps",
+        "34.5 Amps"
+      ],
+      "answer": 3,
+      "explanation": "According to Table 310.16, #12 AWG THHN has a 90°C base ampacity of 30 A. For an ambient temperature of 10°C (the '10°C or less' row), the correction factor in Table 310.15(B)(1)(1) for 90°C conductors is 1.15. Calculation: 30 A × 1.15 = 34.5 A.",
+      "ref2023": "Table 310.16; Table 310.15(B)(1)(1)",
+      "ref2026": "Table 310.16; Table 310.15(B)(1)(1)",
+      "tip": "Temperature correction works both ways! In cold ambient temperatures, the conductor can dissipate heat more efficiently, allowing for a higher ampacity. Just remember: 26-30°C (78-86°F) is your baseline 1.00 multiplier!"
+    },
+    {
+      "id": "LC-J068",
+      "n": 9,
+      "topic": "Conduit Fill",
+      "calculation": false,
+      "prompt": "According to Chapter 9, how must grounding or bonding conductors be treated when calculating conduit fill?",
+      "options": [
+        "They are excluded from the total count.",
+        "They must be included using their actual dimensions (insulated or bare).",
+        "They are counted as one conductor regardless of size.",
+        "Only insulated grounding conductors must be included."
+      ],
+      "answer": 1,
+      "explanation": "Chapter 9, Table 1, Note 3 requires equipment grounding and bonding conductors to be counted toward conduit fill, using the real cross-sectional area of the conductor — whether it is bare or insulated. Bare conductor areas come from Chapter 9, Table 8.",
+      "ref2023": "Chapter 9, Table 1, Note 3",
+      "ref2026": "Chapter 9, Table 1, Note 3",
+      "tip": "Don't forget: If it's a bare conductor, you won't find it in Table 5. You have to flip to Table 8 (Conductor Properties) to get the area for your calculation!"
+    },
+    {
+      "id": "LC-J029",
+      "n": 10,
+      "topic": "Conduit Fill",
+      "calculation": false,
+      "prompt": "According to NEC Chapter 9, what is the 100% total internal area of 2-inch Electrical Metallic Tubing (EMT)?",
+      "options": [
+        "1.342 sq in",
+        "2.013 sq in",
+        "3.356 sq in",
+        "3.408 sq in"
+      ],
+      "answer": 2,
+      "explanation": "Step 1: Navigate to Chapter 9, Table 4 and find the specific page for Electrical Metallic Tubing (EMT). Step 2: Locate Trade Size 2. Step 3: Look under the '100% Total Area' column. The value is 3.356 square inches.",
+      "ref2023": "Chapter 9, Table 4",
+      "ref2026": "Chapter 9, Table 4",
+      "tip": "Did you pick 1.342 or 2.013? You fell for the column trap! 1.342 is the 40% fill area (for pulling 3 or more wires). 2.013 is the 60% fill area (for short nipples). The question asked for the TOTAL area (100%), which is 3.356 sq in."
+    },
+    {
+      "id": "MG-J001",
+      "n": 11,
+      "topic": "Motor Conductors",
+      "calculation": false,
+      "prompt": "A 25 HP, 460V, 3-phase squirrel cage motor has a nameplate FLA of 32A. The FLC is 34A. What current value must be used to size the branch circuit conductors?",
+      "options": [
+        "42.5A (125% of Table FLC)",
+        "34A (Table 430.250 FLC)",
+        "32A (nameplate FLA)",
+        "40A (125% of nameplate)"
+      ],
+      "answer": 0,
+      "explanation": "Per NEC 430.22, branch circuit conductors must have ampacity not less than 125% of the motor FLC from Table 430.250 — NOT the nameplate FLA. 34A × 1.25 = 42.5A minimum ampacity required.",
+      "ref2023": "430.22; Table 430.250",
+      "ref2026": "430.22; Table 430.250",
+      "tip": "Never use nameplate FLA for conductor sizing — always use Table 430.250 FLC × 125%!"
+    },
+    {
+      "id": "MG-J005",
+      "n": 12,
+      "topic": "Motor Branch-Circuit Protection",
+      "calculation": true,
+      "prompt": "What is the maximum size standard inverse-time circuit breaker that can be used for branch-circuit, short-circuit, and ground-fault protection for a 25 HP, 460V, 3-phase, squirrel-cage motor (Design B)?",
+      "options": [
+        "85A",
+        "100A",
+        "80A",
+        "90A"
+      ],
+      "answer": 3,
+      "explanation": "First, find the FLC from Table 430.250 for a 25 HP, 460V motor, which is 34A. According to Table 430.52(C)(1), the maximum percentage for an inverse-time breaker is 250% of the FLC. So, 34A × 2.50 = 85A. However, 85A is not a standard circuit breaker size listed in 240.6(A). Per 430.52(C)(1) Exception No. 1, if the calculated value does not correspond to a standard size, you are permitted to use the next higher standard size. The next standard size up from 85A is 90A.",
+      "ref2023": "430.52(C)(1), Table 430.52(C)(1), Table 430.250, 240.6(A)",
+      "ref2026": "430.52(C)(1), Table 430.52(C)(1), Table 430.250, 240.6(A)",
+      "tip": "The 'next size up' rule for motor branch-circuit protection is a crucial exception. Don't just stop at the calculated value; always check if you need to round up to the next standard breaker or fuse size."
+    },
+    {
+      "id": "MG-J006",
+      "n": 13,
+      "topic": "Motor Feeders",
+      "calculation": true,
+      "prompt": "A feeder supplies three motors with full-load currents of 44 A, 26 A, and 14 A. What is the minimum feeder conductor ampacity?",
+      "options": [
+        "90 A",
+        "100 A",
+        "95 A",
+        "105 A"
+      ],
+      "answer": 2,
+      "explanation": "Per NEC 430.24, feeder conductors for several motors are sized at 125% of the largest motor FLC plus 100% of the others: (44 A × 1.25) + 26 A + 14 A = 55 + 40 = 95 A minimum ampacity.",
+      "ref2023": "430.24",
+      "ref2026": "430.24",
+      "tip": "Largest motor at 125%, all others at 100%."
+    },
+    {
+      "id": "MG-J004",
+      "n": 14,
+      "topic": "Motor Overloads",
+      "calculation": true,
+      "prompt": "A 7.5 HP, 208V, 3-phase motor has an FLC of 24.2A. The motor nameplate shows 22A FLA and a service factor of 1.0. What is the maximum overload protection?",
+      "options": [
+        "25.3A",
+        "24.2A",
+        "30.25A",
+        "27.8A"
+      ],
+      "answer": 0,
+      "explanation": "Per NEC 430.32(A)(1), a separate overload device is sized from the motor NAMEPLATE full-load current: 125% for motors with a marked service factor of 1.15 or greater OR a marked temperature rise of 40°C or less; 115% for all other motors. This motor is SF 1.0 and has no 40°C rise marking, so it is an 'other motor': 22 A × 1.15 = 25.3 A maximum. Use NAMEPLATE amps for overloads, not Table FLC.",
+      "ref2023": "430.32(A)(1)",
+      "ref2026": "430.32(A)(1)",
+      "tip": "No 1.15 SF and no 40°C rise marking = 115% overload max. And always use NAMEPLATE amps for overload sizing — one of the few times you don't use Table 430.250!"
+    },
+    {
+      "id": "XFMR-450-21B-03",
+      "n": 15,
+      "topic": "Transformers",
+      "calculation": false,
+      "prompt": "A dry-type transformer rated over 112.5 kVA is installed indoors. According to the NEC, the transformer room must be of fire-resistant construction with a fire resistance rating of not less than how long?",
+      "options": [
+        "30 minutes",
+        "2 hours",
+        "1 hour",
+        "3 hours"
+      ],
+      "answer": 2,
+      "explanation": "NEC 450.21(B) requires indoor dry-type transformers rated over 112.5 kVA to be installed in a transformer room of fire-resistant construction. The fire resistance rating must be not less than 1 hour, unless one of the NEC exceptions applies.",
+      "ref2023": "450.21(B)",
+      "ref2026": "450.21(B)",
+      "tip": "Indoor dry-type over 112.5 kVA: 1-hour fire-resistant room is the default. Class 155+ insulation with proper separation can exempt it."
+    },
+    {
+      "id": "HL-500-02",
+      "n": 16,
+      "topic": "Hazardous Locations",
+      "calculation": false,
+      "prompt": "An electrician is wiring a storage room where sealed 55-gallon drums of flammable solvents are kept. Under normal conditions, no vapors are present in the air. The hazardous vapors would only escape in the event of an accidental spill or a drum rupture. How should this location be classified according to the NEC?",
+      "options": [
+        "Class II, Division 2",
+        "Class II, Division 1",
+        "Class I, Division 2",
+        "Class I, Division 1"
+      ],
+      "answer": 2,
+      "explanation": "Per 500.5(B)(2), a Class I, Division 2 location is one where flammable liquids/vapors are normally confined in closed containers and would only be released by accidental rupture or failure. Sealed drums of solvent that release vapor only on accidental spill fit this definition exactly. It is Class I (flammable liquid), Division 2 (accidental condition only).",
+      "ref2023": "500.5(B)(2)",
+      "ref2026": "500.5(B)(2)",
+      "tip": "Apply the rule of thumb! Division 1 = everyday operations. Division 2 = accidental conditions. Since the flammable vapors are safely sealed in drums and only escape if a drum breaks (an accident), it is a Division 2 location."
+    },
+    {
+      "id": "SC-J008",
+      "n": 17,
+      "topic": "Swimming Pools",
+      "calculation": false,
+      "prompt": "What is the minimum size of the solid copper bonding conductor used in the equipotential bonding grid for a pool?",
+      "options": [
+        "12 AWG",
+        "6 AWG",
+        "8 AWG",
+        "10 AWG"
+      ],
+      "answer": 2,
+      "explanation": "NEC 680.26(B)(1) requires that the equipotential bonding grid use a minimum 8 AWG solid copper conductor. This conductor connects all metal parts and creates a grid that equalizes the voltage potential around the pool.",
+      "ref2023": "680.26(B)(1)",
+      "ref2026": "680.26(B)(1)",
+      "tip": "Remember: #8 solid copper for pool bonding grid. It must be SOLID, not stranded — solid copper holds up better when buried in concrete or soil."
+    },
+    {
+      "id": "FP-695-01",
+      "n": 18,
+      "topic": "Fire Pumps",
+      "calculation": false,
+      "prompt": "For a fire pump supply, how many disconnecting means and associated overcurrent protective devices are permitted before the fire pump controller?",
+      "options": [
+        "One",
+        "One for each fire pump motor",
+        "As many as needed if grouped together",
+        "No more than six"
+      ],
+      "answer": 0,
+      "explanation": "Per 695.4(B)(1), only a single disconnecting means and associated overcurrent protective device are permitted in the supply path between the source and the listed fire pump controller. Multiple disconnects increase the chance of accidental power loss during a fire — the rule prioritizes reliability over selectivity.",
+      "ref2023": "695.4(B)(1)",
+      "ref2026": "695.4(B)(1)",
+      "tip": "Fire pumps are about reliability. Fewer shutdown points means less chance of accidentally killing power to the pump."
+    },
+    {
+      "id": "EVSE-625-50-01",
+      "n": 19,
+      "topic": "EV Charging",
+      "calculation": false,
+      "prompt": "For an indoor EV charging installation, the coupler for EVSE must be located or stored not less than how high above the floor level?",
+      "options": [
+        "18 inches",
+        "12 inches",
+        "48 inches",
+        "24 inches"
+      ],
+      "answer": 0,
+      "explanation": "For indoor locations, NEC 625.50 requires the coupling means of the EVSE (or WPTE) to be stored or located not less than 18 in. (450 mm) and not more than 4 ft above the floor level. For outdoor locations the minimum is 24 in. (600 mm) above the parking surface, with the same 4 ft maximum.",
+      "ref2023": "625.50",
+      "ref2026": "625.50",
+      "tip": "Indoor: 18 inches minimum. Outdoor: 24 inches minimum. Memorize the pair — examiners love this one."
+    },
+    {
+      "id": "SC-J003",
+      "n": 20,
+      "topic": "Mobile Homes",
+      "calculation": false,
+      "prompt": "In a mobile home, the grounded conductor and the equipment grounding conductor must be:",
+      "options": [
+        "Bonded at any accessible point in the home",
+        "Bonded together at the mobile home panelboard",
+        "Kept separate throughout the mobile home",
+        "Connected at the power-supply cord plug"
+      ],
+      "answer": 2,
+      "explanation": "Per NEC 550.16(A), the grounded (neutral) conductor and the equipment grounding conductor must be kept separate in a mobile home. The neutral-to-ground bond is made at the service disconnecting means (the outdoor pedestal), not inside the mobile home.",
+      "ref2023": "550.16(A)",
+      "ref2026": "550.16(A)",
+      "tip": "A mobile home panelboard works like a sub-panel — neutral and ground stay separate! The bond happens at the outdoor disconnect."
+    }
+  ]
+}

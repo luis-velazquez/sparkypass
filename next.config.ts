@@ -1,6 +1,51 @@
 import type { NextConfig } from "next";
 import { withSentryConfig } from "@sentry/nextjs";
 
+const PRACTICE_HUB = "/free-journeyman-electrician-practice-test";
+
+/**
+ * Retired web-app URLs. The iPhone app owns these experiences now; every old
+ * public URL 308s to the closest promotional page so indexed links and old
+ * bookmarks keep working. `/api/*` is deliberately absent — the app's API base.
+ */
+const RETIRED_TO_HOME = [
+  "/login",
+  "/register",
+  "/register/profile",
+  "/forgot-password",
+  "/reset-password",
+  "/verify-email",
+  "/dashboard",
+  "/profile",
+  "/settings",
+  "/bookmarks",
+  "/bookmarks/:path*",
+  "/friends",
+  "/power-grid",
+  "/power-grid/:path*",
+  "/power-ups",
+  "/watts",
+  "/tips",
+  "/daily",
+  "/review",
+  "/circuit-breaker",
+  "/circuit-breaker/:path*",
+  "/index-sniper",
+  "/index-game",
+  "/translation-engine",
+  "/formula-builder",
+  "/apprentice/:path*",
+  "/admin/:path*",
+  "/beta-agreement",
+  "/changelog",
+  "/known-issues",
+  "/acceptable-use",
+  "/status",
+  "/leaderboard",
+];
+
+const RETIRED_TO_PRACTICE = ["/quiz", "/quiz/:path*", "/mock-exam", "/mock-exam/:path*", "/flashcards", "/flashcards/:path*"];
+
 const nextConfig: NextConfig = {
   headers: async () => [
     {
@@ -14,6 +59,13 @@ const nextConfig: NextConfig = {
         { key: "Strict-Transport-Security", value: "max-age=31536000; includeSubDomains" },
       ],
     },
+  ],
+  redirects: async () => [
+    ...RETIRED_TO_HOME.map((source) => ({ source, destination: "/", permanent: true })),
+    ...RETIRED_TO_PRACTICE.map((source) => ({ source, destination: PRACTICE_HUB, permanent: true })),
+    { source: "/pricing", destination: "/#pro", permanent: true },
+    { source: "/load-calculator", destination: "/#features", permanent: true },
+    { source: "/load-calculator/:path*", destination: "/#features", permanent: true },
   ],
 };
 

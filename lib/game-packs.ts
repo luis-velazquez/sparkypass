@@ -1,9 +1,9 @@
 // Centralized game pack catalog for the expansion pack shop system.
 // Imports pack data from each game and builds a unified catalog with pricing.
 
-import { SNIPER_PACKS } from "@/app/(games)/index-sniper/sniper-data";
-import { TRANSLATION_PACKS } from "@/app/(games)/translation-engine/translation-data";
-import { FORMULA_PACKS } from "@/app/(games)/formula-builder/builder-data";
+import { SNIPER_PACKS } from "@/lib/game-data/sniper-data";
+import { TRANSLATION_PACKS } from "@/lib/game-data/translation-data";
+import { FORMULA_PACKS } from "@/lib/game-data/builder-data";
 
 export type GameId = "index-sniper" | "translation-engine" | "formula-builder";
 

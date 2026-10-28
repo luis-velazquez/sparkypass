@@ -13,7 +13,7 @@
 //                                     (rejects if user has deleted_at set)
 
 import { SignJWT, jwtVerify } from "jose";
-import { eq, and, isNull } from "drizzle-orm";
+import { eq, and, isNull, ne } from "drizzle-orm";
 import crypto from "crypto";
 import {
   db,
@@ -389,6 +389,29 @@ export async function revokeRefreshToken(
     );
 }
 
+/**
+ * Revoke every active refresh token for a user, optionally sparing one device.
+ * Password reset revokes all (the resetter must sign in fresh everywhere);
+ * change-password spares the device that performed the change.
+ */
+export async function revokeAllRefreshTokensForUser(
+  userId: string,
+  exceptDeviceId?: string,
+): Promise<void> {
+  const now = new Date();
+  const conditions = [
+    eq(refreshTokens.userId, userId),
+    isNull(refreshTokens.revokedAt),
+  ];
+  if (exceptDeviceId) {
+    conditions.push(ne(refreshTokens.deviceId, exceptDeviceId));
+  }
+  await db
+    .update(refreshTokens)
+    .set({ revokedAt: now })
+    .where(and(...conditions));
+}
+
 // ─── OAuth user resolution ──────────────────────────────────────────────────
 //
 // Per plan §D-16 (auto-link by email with explicit confirmation): the OAuth
@@ -483,12 +506,11 @@ export async function resolveOAuthUser(
     }
   }
 
-  // 3. No match — create a fresh user. NO server-side trial (2026-08-29):
-  //    the paywall's Apple IAP intro offer — 7-day trial or $0.99 first
-  //    month — is the ONLY trial. A server grant stacked on top of it let a
-  //    user ride ~14 free days. Accounts start free (null status); Pro comes
-  //    exclusively from RevenueCat/webhooks. emailVerified=true since OAuth
-  //    providers vouch for the email.
+  // 3. No match — create a fresh user with a server-managed 7-day trial
+  //    (2026-09-29, reverting the 2026-08-29 zeroing): new mobile signups get
+  //    7 free days (countdown on the dashboard), then the hard paywall. The
+  //    App Store product has NO StoreKit intro offer, so this is the only free
+  //    period. emailVerified=true since OAuth providers vouch for the email.
   const newUserId = crypto.randomUUID();
 
   // If we have no email at all (Apple after first sign-in with relay), use a
@@ -503,6 +525,9 @@ export async function resolveOAuthUser(
     name: claims.name || "Sparky user",
     authProvider: claims.provider,
     emailVerified: claims.emailVerified,
+    subscriptionStatus: "trialing",
+    trialEndsAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    subscriptionSource: "trial",
   });
 
   await db.insert(linkedProviders).values({

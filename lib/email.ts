@@ -1,6 +1,14 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Constructed lazily on first send: `new Resend()` throws when the key is
+// missing, and Next's build-time page-data collection evaluates this module
+// for every route that imports it — a missing RESEND_API_KEY must fail the
+// send, not the deploy (same class of failure as lib/stripe, 2026-07-14).
+let _resend: Resend | null = null;
+function getResend(): Resend {
+  if (!_resend) _resend = new Resend(process.env.RESEND_API_KEY);
+  return _resend;
+}
 
 const fromAddress =
   process.env.EMAIL_FROM || "SparkyPass <onboarding@resend.dev>";
@@ -25,7 +33,7 @@ export async function sendVerificationEmail(
 ) {
   const safeName = escapeHtml(name);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: "Verify your email to get started with SparkyPass",
@@ -63,7 +71,7 @@ export async function sendWelcomeTrialEmail(to: string, name: string) {
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
   const safeName = escapeHtml(name);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: "Welcome to SparkyPass Beta — Your 30-Day Free Trial is Active!",
@@ -121,7 +129,7 @@ export async function sendPasswordResetEmail(
 ) {
   const safeName = escapeHtml(name);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: "Reset your SparkyPass password",
@@ -168,7 +176,7 @@ export async function sendLinkCodeEmail(
   const safeCode = escapeHtml(code);
   const safeProvider = escapeHtml(providerLabel);
 
-  const { error } = await resend.emails.send({
+  const { error } = await getResend().emails.send({
     from: fromAddress,
     to,
     subject: `Your SparkyPass linking code: ${code}`,
@@ -197,5 +205,85 @@ export async function sendLinkCodeEmail(
   if (error) {
     console.error("Failed to send link-code email:", error);
     throw new Error(`Failed to send link-code email: ${error.message}`);
+  }
+}
+
+export async function sendVerificationCodeEmail(
+  to: string,
+  name: string,
+  code: string,
+) {
+  const safeName = escapeHtml(name);
+  const safeCode = escapeHtml(code);
+
+  const { error } = await getResend().emails.send({
+    from: fromAddress,
+    to,
+    subject: `Your SparkyPass verification code: ${code}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="color: #f59e0b; text-align: center;">&#9889; SparkyPass</h1>
+        <h2 style="text-align: center;">Verify your email</h2>
+        <p>Hi ${safeName},</p>
+        <p>Enter this code in the SparkyPass app to verify your email and activate your account:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="display: inline-block; font-size: 32px; font-weight: bold; letter-spacing: 8px; padding: 16px 32px; background: #fff7ed; color: #f59e0b; border-radius: 6px; border: 1px solid #f59e0b;">
+            ${safeCode}
+          </div>
+        </div>
+        <p style="color: #666; font-size: 14px;">This code expires in 15 minutes.</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+        <p style="color: #999; font-size: 12px; text-align: center;">
+          If you didn&#39;t create a SparkyPass account, you can safely ignore this email.
+        </p>
+        ${betaFooterHtml}
+      </div>
+    `,
+    text: `Hi ${name},\n\nEnter this code in the SparkyPass app to verify your email and activate your account:\n\n${code}\n\nThis code expires in 15 minutes.\n\nIf you didn't create a SparkyPass account, you can safely ignore this email.${betaFooterText}`,
+  });
+
+  if (error) {
+    console.error("Failed to send verification-code email:", error);
+    throw new Error(`Failed to send verification-code email: ${error.message}`);
+  }
+}
+
+export async function sendPasswordResetCodeEmail(
+  to: string,
+  name: string,
+  code: string,
+) {
+  const safeName = escapeHtml(name);
+  const safeCode = escapeHtml(code);
+
+  const { error } = await getResend().emails.send({
+    from: fromAddress,
+    to,
+    subject: `Your SparkyPass password reset code: ${code}`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="color: #f59e0b; text-align: center;">&#9889; SparkyPass</h1>
+        <h2 style="text-align: center;">Reset your password</h2>
+        <p>Hi ${safeName},</p>
+        <p>Enter this code in the SparkyPass app to set a new password:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="display: inline-block; font-size: 32px; font-weight: bold; letter-spacing: 8px; padding: 16px 32px; background: #fff7ed; color: #f59e0b; border-radius: 6px; border: 1px solid #f59e0b;">
+            ${safeCode}
+          </div>
+        </div>
+        <p style="color: #666; font-size: 14px;">This code expires in 15 minutes. After you reset your password, you&#39;ll be signed out of all devices.</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+        <p style="color: #999; font-size: 12px; text-align: center;">
+          If you didn&#39;t request a password reset, you can safely ignore this email. Your password has not been changed.
+        </p>
+        ${betaFooterHtml}
+      </div>
+    `,
+    text: `Hi ${name},\n\nEnter this code in the SparkyPass app to set a new password:\n\n${code}\n\nThis code expires in 15 minutes. After you reset your password, you'll be signed out of all devices.\n\nIf you didn't request a password reset, you can safely ignore this email. Your password has not been changed.${betaFooterText}`,
+  });
+
+  if (error) {
+    console.error("Failed to send password-reset-code email:", error);
+    throw new Error(`Failed to send password-reset-code email: ${error.message}`);
   }
 }

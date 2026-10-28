@@ -24,7 +24,7 @@ export async function GET() {
       .limit(1);
 
     const wattsBalance = user?.wattsBalance || 0;
-    const progress = getClassificationProgress(wattsBalance);
+    const progress = getClassificationProgress(user?.wattsLifetime || 0);
 
     return NextResponse.json({
       classification: progress.current.classification,

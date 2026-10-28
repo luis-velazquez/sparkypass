@@ -13,30 +13,60 @@ function pick<T>(arr: T[]): T {
 // --- Dashboard greetings by classification ---
 
 const DASHBOARD_GREETINGS: Record<UserClassification, string[]> = {
-  watt_apprentice: [
-    "Welcome back, apprentice! Ready to learn the fundamentals?",
+  milliwatt_electrician: [
+    "Welcome back! Every electrician starts at a trickle of current.",
     "Hey there! Let's build a solid foundation today.",
     "Good to see you! Every correct answer adds watts to your balance.",
   ],
+  watt_electrician: [
+    "Watt Electrician! The first thousand is the hardest — it's lit.",
+    "Your bulb's glowing now. Keep feeding it current!",
+    "1,000 lifetime watts down. The fundamentals are taking hold.",
+  ],
   kilowatt_electrician: [
     "Kilowatt Electrician! The circuits are humming — keep it going.",
-    "You've crossed 1,000W! Your NEC knowledge is building momentum.",
+    "3,000 lifetime watts! Your NEC knowledge is building momentum.",
     "Impressive dedication! Time to push deeper into the code.",
   ],
   megawatt_electrician: [
     "Megawatt Electrician! You're handling high-voltage concepts with ease.",
-    "Over a million watts — the exam doesn't stand a chance!",
+    "Serious power now — the exam doesn't stand a chance!",
     "The NEC is becoming second nature. Keep the current flowing!",
   ],
   gigawatt_electrician: [
-    "Gigawatt Electrician! You ARE the code reference. Legendary!",
-    "Over a billion watts — your mastery is truly electrifying.",
-    "Maximum classification achieved. Maintain that edge!",
+    "Gigawatt Electrician! You're running plant-level power.",
+    "15,000 lifetime watts — your study habit is industrial-grade.",
+    "The grid runs on discipline like yours. Keep it flowing!",
+  ],
+  terawatt_electrician: [
+    "Terawatt Electrician! Transmission-line voltage. Respect.",
+    "28,000 lifetime watts — you're carrying serious load.",
+    "High-tension knowledge, safely grounded. Keep climbing!",
+  ],
+  petawatt_electrician: [
+    "Petawatt Electrician! You strike like lightning now.",
+    "48,000 lifetime watts — storm-level output!",
+    "The code book fears you a little. As it should.",
+  ],
+  exawatt_electrician: [
+    "Exawatt Electrician! Full-storm force. Incredible.",
+    "75,000 lifetime watts — thunderhead territory!",
+    "Few make it this far. The summit's in sight.",
+  ],
+  zettawatt_electrician: [
+    "Zettawatt Electrician! Solar-scale output. Blinding.",
+    "110,000 lifetime watts — you outshine the sun!",
+    "One rank left. Total mastery is within reach.",
+  ],
+  yottawatt_electrician: [
+    "Yottawatt Electrician! You ARE the code reference. Legendary!",
+    "160,000 lifetime watts — maximum classification achieved.",
+    "The summit. Maintain that edge, master!",
   ],
 };
 
 export function getDashboardGreeting(classification: UserClassification): SparkyReaction {
-  const messages = DASHBOARD_GREETINGS[classification] || DASHBOARD_GREETINGS.watt_apprentice;
+  const messages = DASHBOARD_GREETINGS[classification] || DASHBOARD_GREETINGS.milliwatt_electrician;
   return { message: pick(messages), variant: "default" };
 }
 
@@ -139,10 +169,16 @@ export function getReviewReminder(dueCount: number): SparkyReaction {
 // --- Classification advancement ---
 
 const CLASSIFICATION_MESSAGES: Record<UserClassification, string> = {
-  watt_apprentice: "Welcome to SparkyPass! Start studying to earn watts!",
-  kilowatt_electrician: "Kilowatt Electrician! You've crossed 1,000W — your dedication is paying off!",
-  megawatt_electrician: "MEGAWATT ELECTRICIAN! Over a million watts! Your NEC mastery is exceptional!",
-  gigawatt_electrician: "GIGAWATT ELECTRICIAN! A BILLION WATTS! You are the ultimate electrician!",
+  milliwatt_electrician: "Welcome to SparkyPass! Start studying to earn watts!",
+  watt_electrician: "Watt Electrician! Your first 1,000 lifetime watts — the bulb is lit!",
+  kilowatt_electrician: "Kilowatt Electrician! 3,000 lifetime watts — your dedication is paying off!",
+  megawatt_electrician: "MEGAWATT ELECTRICIAN! 7,500 lifetime watts of NEC mastery!",
+  gigawatt_electrician: "GIGAWATT ELECTRICIAN! 15,000 lifetime watts — plant-level power!",
+  terawatt_electrician: "TERAWATT ELECTRICIAN! 28,000 lifetime watts — transmission-line voltage!",
+  petawatt_electrician: "PETAWATT ELECTRICIAN! 48,000 lifetime watts — you strike like lightning!",
+  exawatt_electrician: "EXAWATT ELECTRICIAN! 75,000 lifetime watts — full-storm force!",
+  zettawatt_electrician: "ZETTAWATT ELECTRICIAN! 110,000 lifetime watts — solar-scale output!",
+  yottawatt_electrician: "YOTTAWATT ELECTRICIAN! 160,000 lifetime watts — the ultimate electrician!",
 };
 
 export function getClassificationAdvancementMessage(classification: UserClassification): SparkyReaction {

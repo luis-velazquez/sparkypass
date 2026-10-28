@@ -6,7 +6,7 @@
       "necArticle": "Article 220",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "What is the standard general lighting load per square foot for dwelling units according to NEC Table 220.12?",
+      "questionText": "What is the standard general lighting load per square foot for dwelling units according to the NEC?",
       "options": [
         "2 VA per sq ft",
         "3 VA per sq ft",
@@ -126,7 +126,7 @@
       "necArticle": "Article 220",
       "difficulty": "apprentice",
       "calculation": true,
-      "questionText": "Using the optional calculation method for a dwelling (220.82), the total general load is 12000 VA. Apply 100% to the first 10 kVA and 40% to the remainder. What is the calculated demand in VA?",
+      "questionText": "Using the optional calculation method for a dwelling, the total general load is 12000 VA. Apply 100% to the first 10 kVA and 40% to the remainder. What is the calculated demand in VA?",
       "options": [
         "10800 VA",
         "11400 VA",
@@ -172,7 +172,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "What is the maximum conduit fill percentage for two conductors according to Table 1?",
+      "questionText": "What is the maximum conduit fill percentage for two conductors according to the NEC?",
       "options": [
         "25%",
         "31%",
@@ -402,7 +402,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "What unit is used for reactance in Table 9?",
+      "questionText": "What unit is used for reactance in NEC Chapter 9?",
       "options": [
         "Ohms per foot",
         "Ohms per 1000 feet",
@@ -1161,7 +1161,7 @@
       "necArticle": "Table 310.15(B)(1)",
       "difficulty": "apprentice",
       "calculation": false,
-      "questionText": "Based on Table 310.15(B)(1), at what ambient Celsius temperature range is the correction factor 1.00 (requiring no adjustment to conductor ampacity)?",
+      "questionText": "According to the NEC, at what ambient Celsius temperature range is the correction factor 1.00 (requiring no adjustment to conductor ampacity)?",
       "options": [
         "21-25°C",
         "26-30°C",
@@ -1250,6 +1250,52 @@
         "2026"
       ],
       "examTopic": "calc-theory"
+    },
+    {
+      "id": "LC-J016",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "Which Chapter 9 table provides the dimensions and percent area of conduit and tubing?",
+      "options": [
+        "Table 1",
+        "Table 4",
+        "Table 5",
+        "Table 8"
+      ],
+      "correctAnswer": 1,
+      "explanation": "Table 4 provides the dimensions and percent area of conduit and tubing for various raceway types (EMT, IMC, RMC, etc.).",
+      "necReference": "Chapter 9",
+      "sparkyTip": "Table 4 = conduit dimensions. Table 5 = conductor dimensions. Don't mix them up!",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "definitions-theory"
+    },
+    {
+      "id": "LC-M025",
+      "category": "calculations-and-theory",
+      "necArticle": "Chapter 9",
+      "difficulty": "apprentice",
+      "calculation": false,
+      "questionText": "What is the reactance (XL) per 1000 feet for conductors in steel conduit?",
+      "options": [
+        "It varies by conductor size",
+        "It is constant at approximately 0.050 ohms",
+        "It is constant at approximately 0.068 ohms",
+        "It is zero for all conductors"
+      ],
+      "correctAnswer": 0,
+      "explanation": "Reactance varies by conductor size and conduit type. In steel conduit, it ranges from about 0.050 to 0.068 ohms per 1000 feet depending on conductor size.",
+      "necReference": "Chapter 9, Table 9",
+      "sparkyTip": "Reactance varies with conductor size. Larger conductors generally have lower reactance.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "examTopic": "definitions-theory"
     }
   ],
   "journeyman": [
@@ -1308,7 +1354,7 @@
       "necArticle": "Table 220.42",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to the Standard Method (Table 220.42), what portion of the general lighting load in a dwelling unit is calculated at 100% demand factor?",
+      "questionText": "According to the Standard Method, what portion of the general lighting load in a dwelling unit is calculated at 100% demand factor?",
       "options": [
         "The first 3,000 VA",
         "The first 10,000 VA",
@@ -1593,7 +1639,7 @@
       "necArticle": "110.14(C)(1)(b)",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of NEC Table 310.16?",
+      "questionText": "Unless the equipment is listed and marked otherwise, conductor ampacity for circuits rated over 100 amperes shall be selected from which temperature column of the NEC ampacity table?",
       "options": [
         "60°C Column",
         "75°C Column",
@@ -1604,29 +1650,6 @@
       "explanation": "Per NEC 110.14(C)(1)(b), for circuits rated over 100 amperes or conductors larger than 1 AWG, equipment terminals are assumed to be rated for 75°C. Therefore, conductor ampacity must not exceed the 75°C column value, even if the wire insulation is rated for 90°C (like THHN).",
       "necReference": "NEC 110.14(C)(1)(b)",
       "sparkyTip": "Over 100A = 75°C column. Under 100A = 60°C column. The insulation rating doesn't matter for sizing — it's the termination temperature that governs. THHN is 90°C wire, but you still size it at 75°C!",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "definitions-theory"
-    },
-    {
-      "id": "LC-J016",
-      "category": "calculations-and-theory",
-      "necArticle": "Chapter 9",
-      "difficulty": "journeyman",
-      "calculation": false,
-      "questionText": "Which Chapter 9 table provides the dimensions and percent area of conduit and tubing?",
-      "options": [
-        "Table 1",
-        "Table 4",
-        "Table 5",
-        "Table 8"
-      ],
-      "correctAnswer": 1,
-      "explanation": "Table 4 provides the dimensions and percent area of conduit and tubing for various raceway types (EMT, IMC, RMC, etc.).",
-      "necReference": "Chapter 9",
-      "sparkyTip": "Table 4 = conduit dimensions. Table 5 = conductor dimensions. Don't mix them up!",
       "necVersions": [
         "2023",
         "2026"
@@ -1662,7 +1685,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Table 4, which has the largest internal area: 1\" EMT, 1\" IMC, or 1\" RMC?",
+      "questionText": "Which has the largest internal area: 1\" EMT, 1\" IMC, or 1\" RMC?",
       "options": [
         "1\" EMT",
         "1\" IMC",
@@ -1708,7 +1731,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "What is the internal diameter of 3/4\" EMT according to Table 4?",
+      "questionText": "What is the internal diameter of 3/4\" EMT according to the NEC?",
       "options": [
         "0.622 inches",
         "0.824 inches",
@@ -1823,7 +1846,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Table 9, at what temperature are the AC resistance values given?",
+      "questionText": "According to NEC Chapter 9, at what temperature are the AC resistance values given?",
       "options": [
         "60°C",
         "75°C",
@@ -1915,7 +1938,7 @@
       "necArticle": "Chapter 9, Table 4",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to NEC Chapter 9, Table 4, what is the 100% total internal area of 2-inch Electrical Metallic Tubing (EMT)?",
+      "questionText": "According to NEC Chapter 9, what is the 100% total internal area of 2-inch Electrical Metallic Tubing (EMT)?",
       "options": [
         "1.342 sq in",
         "2.014 sq in",
@@ -2421,7 +2444,7 @@
       "necArticle": "Chapter 9, Table 8",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Chapter 9, Table 8, what is the Circular Mil (CM) area of a #10 AWG conductor?",
+      "questionText": "According to Chapter 9, what is the Circular Mil (CM) area of a #10 AWG conductor?",
       "options": [
         "10,380 CM",
         "6,530 CM",
@@ -2812,7 +2835,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "According to Chapter 9, Table 1, Note 3, how must grounding or bonding conductors be treated when calculating conduit fill?",
+      "questionText": "According to Chapter 9, how must grounding or bonding conductors be treated when calculating conduit fill?",
       "options": [
         "They are excluded from the total count.",
         "They are counted as one conductor regardless of size.",
@@ -2916,7 +2939,7 @@
       "necArticle": "Article 220",
       "difficulty": "journeyman",
       "calculation": false,
-      "questionText": "Per NEC Table 220.55, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
+      "questionText": "Per the NEC, what is the maximum demand in kW for a single household range rated not more than 12 kW?",
       "options": [
         "8 kW",
         "10 kW",
@@ -2941,24 +2964,24 @@
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
       "difficulty": "journeyman",
-      "calculation": false,
+      "calculation": true,
       "questionText": "For multifamily dwellings, what is the demand factor for clothes dryers when there are 12 dryers?",
       "options": [
+        "46%",
         "47%",
         "50%",
-        "52%",
-        "55%"
+        "52%"
       ],
       "correctAnswer": 0,
-      "explanation": "NEC Table 220.54 shows that for 12 dryers, the demand factor is 47%. The demand factor decreases as the number of dryers increases because they won't all operate simultaneously.",
+      "explanation": "NEC Table 220.54 (or Table 120.54 in the 2026 NEC) dictates that for 12 to 23 dryers, the demand factor is 47% minus 1% for each dryer exceeding 11. For 12 dryers, 12 - 11 = 1, so 47% - 1% = 46%.",
       "necReference": "Table 220.54",
-      "sparkyTip": "More dryers = lower demand factor. Check Table 220.54 for the exact percentages!",
+      "sparkyTip": "More dryers = lower demand factor. Remember the formula for 12-23 dryers: 47% minus 1% for each dryer over 11!",
       "necVersions": [
         "2023",
         "2026"
       ],
       "necReferences": {
-        "2026": "Table 220.55"
+        "2026": "Table 120.54"
       },
       "examTopic": "feeders"
     },
@@ -3007,16 +3030,78 @@
         "2026"
       ],
       "examTopic": "definitions-theory"
-    }
-  ],
-  "master": [
+    },
+    {
+      "id": "DEV-CALC-005",
+      "category": "load-calculations",
+      "necArticle": "120.14(I)",
+      "difficulty": "Apprentice",
+      "calculation": false,
+      "questionText": "When calculating loads for occupancies other than dwelling units, what is the minimum calculated volt-ampere (VA) load for a general-use receptacle outlet consisting of a single yoke or strap?",
+      "options": [
+        "180 VA",
+        "90 VA",
+        "0 VA",
+        "1500 VA"
+      ],
+      "correctAnswer": 0,
+      "explanation": "According to NEC 120.14(I), in commercial or non-dwelling occupancies, receptacle outlets are calculated at not less than 180 volt-amperes for each single or for each multiple receptacle on one yoke (strap).",
+      "necReference": "NEC 120.14(I)",
+      "sparkyTip": "This is the 'Commercial 180' rule! A standard duplex plug is on one yoke, so it counts as 180 VA. If you have a quad-receptacle installed on two yokes, it would be calculated at 360 VA.",
+      "necVersions": [
+        "2026"
+      ],
+      "script": "Article one-twenty dot fourteen I. <break time=\"0.3s\" /> In occupancies other than dwelling units, what is the minimum calculated VA load for a standard receptacle outlet on a single yoke? <break time=\"3.0s\" /> The answer is: A, <break time=\"0.3s\" /> 180 VA."
+    },
+    {
+      "id": "DEV-CALC-003",
+      "category": "load-calculations",
+      "necArticle": "120.14(G)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When performing a load calculation for a commercial storefront, what is the required volt-ampere (VA) allowance per linear foot of show window?",
+      "options": [
+        "180 VA",
+        "200 VA",
+        "250 VA",
+        "1,200 VA"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 120.14(G) dictates that a minimum allowance of 200 volt-amperes (VA) per linear foot of show window must be used when calculating the overall service or feeder load.",
+      "necReference": "NEC 120.14(G)",
+      "sparkyTip": "Memorize this number! For load calculations (Art. 120), always use 200 VA per linear foot. Just don't confuse this math rule with the physical receptacle placement rule (Art. 210.62), which requires you to actually install one plug for every 12 linear feet of window.",
+      "necVersions": [
+        "2026"
+      ]
+    },
+    {
+      "id": "DEV-CALC-004",
+      "category": "load-calculations",
+      "necArticle": "120.14(F)",
+      "difficulty": "Journeyman",
+      "calculation": false,
+      "questionText": "When performing a load calculation for a commercial occupancy, what is the minimum calculated volt-ampere load required for a sign or outline lighting branch circuit?",
+      "options": [
+        "180 VA",
+        "1,200 VA",
+        "1,500 VA",
+        "2,000 VA"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC 120.14(F) mandates that sign and outline lighting outlets must be calculated at a minimum of 1,200 volt-amperes (VA) for each required branch circuit.",
+      "necReference": "NEC 120.14(F) & 600.5(A)",
+      "sparkyTip": "Even if you know the customer is installing a highly efficient LED sign that only pulls 2 amps, you MUST still use the 1,200 VA minimum for your load calculation! The Code requires this buffer because signs are frequently swapped out or upgraded by future tenants.",
+      "necVersions": [
+        "2026"
+      ]
+    },
     {
       "id": "LC-M001",
       "category": "calculations-and-theory",
       "necArticle": "Article 220",
-      "difficulty": "master",
+      "difficulty": "Journeyman",
       "calculation": false,
-      "questionText": "When calculating dwelling unit loads using the optional method (220.82), what percentage is applied to the first 10 kVA of general loads?",
+      "questionText": "When calculating dwelling unit loads using the optional method, what percentage is applied to the first 10 kVA of general loads?",
       "options": [
         "100%",
         "80%",
@@ -3033,6 +3118,34 @@
       ],
       "examTopic": "definitions-theory"
     },
+    {
+      "id": "LC-J076",
+      "category": "calculations-and-theory",
+      "necArticle": "Article 220",
+      "difficulty": "journeyman",
+      "calculation": true,
+      "questionText": "For multifamily dwellings, what is the demand factor for 16 household electric clothes dryers?",
+      "options": [
+        "38%",
+        "42%",
+        "45%",
+        "47%"
+      ],
+      "correctAnswer": 1,
+      "explanation": "NEC Table 220.54 (or Table 120.54 in the 2026 NEC) dictates that for 12 to 23 dryers, the demand factor is 47% minus 1% for each dryer exceeding 11. For 16 dryers, 16 - 11 = 5, so 47% - 5% = 42%.",
+      "necReference": "Table 220.54",
+      "sparkyTip": "When calculating 12-23 dryers, find the difference from 11 and subtract that exact number from 47.",
+      "necVersions": [
+        "2023",
+        "2026"
+      ],
+      "necReferences": {
+        "2026": "Table 120.54"
+      },
+      "examTopic": "feeders"
+    }
+  ],
+  "master": [
     {
       "id": "LC-M002",
       "category": "calculations-and-theory",
@@ -3088,7 +3201,7 @@
       "necArticle": "Article 430",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A feeder supplies three motors with full-load currents of 28 A, 18 A, and 12 A. Per 430.24, what is the minimum feeder conductor ampacity?",
+      "questionText": "A feeder supplies three motors with full-load currents of 28 A, 18 A, and 12 A. What is the minimum feeder conductor ampacity?",
       "options": [
         "65 A",
         "70 A",
@@ -3111,7 +3224,7 @@
       "necArticle": "430.52(C)(1) Ex. 1; 240.6(A)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A continuous-duty motor has a full-load current (FLC) of 25 A. Using an inverse time circuit breaker sized at 250% per Table 430.52, what is the maximum standard OCPD rating permitted?",
+      "questionText": "A continuous-duty motor has a full-load current (FLC) of 25 A. Using an inverse time circuit breaker sized at 250%, what is the maximum standard OCPD rating permitted?",
       "options": [
         "70 A",
         "60 A",
@@ -3226,7 +3339,7 @@
       "necArticle": "625.41, Table 310.16",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 48-amp EV charging station is being installed 80 feet away from the service panel using THHN copper conductors in PVC conduit. What is the minimum size conductor required to satisfy ampacity requirements, and what is the estimated voltage drop at 240V using Chapter 9, Table 8?",
+      "questionText": "A 48-amp EV charging station is being installed 80 feet away from the service panel using THHN copper conductors in PVC conduit. What is the minimum size conductor required to satisfy ampacity requirements, and what is the estimated voltage drop at 240V using Chapter 9?",
       "options": [
         "#6 AWG; 1.6% drop",
         "#4 AWG; 1.0% drop",
@@ -3298,7 +3411,7 @@
       "necArticle": "220.83(B)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "An existing dwelling is fed by a 200A, 120/240V service. The homeowner is adding a detached residential shop and new electric space heating. The existing house has 26,000 VA of connected general lighting, receptacles, and appliances, plus a 5,000 VA AC unit. The new shop adds 7,200 VA of general lighting, a 5 HP 240V compressor (28A), and 10,000 VA of electric space heating. Using the Optional Method for an existing dwelling (220.83), does the 200A service have the capacity to handle this addition, and what is the new calculated load?",
+      "questionText": "An existing dwelling is fed by a 200A, 120/240V service. The homeowner is adding a detached residential shop and new electric space heating. The existing house has 26,000 VA of connected general lighting, receptacles, and appliances, plus a 5,000 VA AC unit. The new shop adds 7,200 VA of general lighting, a 5 HP 240V compressor (28A), and 10,000 VA of electric space heating. Using the Optional Method for an existing dwelling, does the 200A service have the capacity to handle this addition, and what is the new calculated load?",
       "options": [
         "Yes, the total load is 128A, leaving 72A of spare capacity.",
         "Yes, the total load is 133A, leaving 67A of spare capacity.",
@@ -3347,7 +3460,7 @@
       "necArticle": "630.11(A) and (B)",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A fabrication shop is installing a new feeder to supply five nonmotor generator arc welders. All five welders operate at a 50% duty cycle, but they have different primary nameplate current ratings: 100A, 80A, 60A, 50A, and 40A. According to NEC Article 630, what is the minimum required ampacity for the feeder conductors supplying this specific group of welders?",
+      "questionText": "A fabrication shop is installing a new feeder to supply five nonmotor generator arc welders. All five welders operate at a 50% duty cycle, but they have different primary nameplate current ratings: 100A, 80A, 60A, 50A, and 40A. According to the NEC, what is the minimum required ampacity for the feeder conductors supplying this specific group of welders?",
       "options": [
         "290 Amps",
         "234 Amps",
@@ -3572,29 +3685,6 @@
       "examTopic": "definitions-theory"
     },
     {
-      "id": "LC-M025",
-      "category": "calculations-and-theory",
-      "necArticle": "Chapter 9",
-      "difficulty": "master",
-      "calculation": false,
-      "questionText": "What is the reactance (XL) per 1000 feet for conductors in steel conduit?",
-      "options": [
-        "It varies by conductor size",
-        "It is constant at approximately 0.050 ohms",
-        "It is constant at approximately 0.068 ohms",
-        "It is zero for all conductors"
-      ],
-      "correctAnswer": 0,
-      "explanation": "Reactance varies by conductor size and conduit type. In steel conduit, it ranges from about 0.050 to 0.068 ohms per 1000 feet depending on conductor size.",
-      "necReference": "Chapter 9, Table 9",
-      "sparkyTip": "Reactance varies with conductor size. Larger conductors generally have lower reactance.",
-      "necVersions": [
-        "2023",
-        "2026"
-      ],
-      "examTopic": "definitions-theory"
-    },
-    {
       "id": "LC-M026",
       "category": "calculations-and-theory",
       "necArticle": "Chapter 9",
@@ -3646,7 +3736,7 @@
       "necArticle": "Chapter 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A 1-inch EMT nipple is 24 inches long. Using the 60% fill allowance, what is the maximum number of #8 AWG THHN conductors allowed?",
+      "questionText": "A 1-inch EMT nipple is 20 inches long. What is the maximum number of #8 AWG THHN conductors allowed?",
       "options": [
         "12 conductors",
         "13 conductors",
@@ -3654,9 +3744,9 @@
         "15 conductors"
       ],
       "correctAnswer": 2,
-      "explanation": "60% area = 0.865 × 0.60 = 0.519 sq in. Max conductors = 0.519 ÷ 0.0366 = 14.18, so 14 conductors.",
-      "necReference": "Chapter 9, Table 1 Note 4; Tables 4 & 5",
-      "sparkyTip": "Nipples ≤ 24 inches can use 60% fill. Remember to recalc the fill area.",
+      "explanation": "Per Ch 9, Table 4, the 60% fill area for 1-inch EMT is 0.518 sq in. Per Table 5, #8 THHN is 0.0366 sq in. 0.518 ÷ 0.0366 = 14.15. Since the decimal is less than 0.8, we drop it, allowing 14 conductors.",
+      "necReference": "Chapter 9, Table 1 Notes 4 & 7; Tables 4 & 5",
+      "sparkyTip": "Nipples ≤ 24 inches use 60% fill. Remember Note 7: you can only round up to the next whole conductor if the decimal is 0.8 or larger.",
       "necVersions": [
         "2023",
         "2026"
@@ -3991,7 +4081,7 @@
       "necArticle": "Chapter 9, Table 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "For a 500 kcmil steel-conduit feeder, Chapter 9 Table 9 lists AC resistance as 0.029 ohms/kft and Inductive Reactance (XL) as 0.048 ohms/kft. What is the approximate Impedance (Z) per 1000ft?",
+      "questionText": "For a 500 kcmil steel-conduit feeder, the AC resistance is 0.029 ohms/kft and the Inductive Reactance (XL) is 0.048 ohms/kft. What is the approximate Impedance (Z) per 1000ft?",
       "options": [
         "0.056 ohms",
         "0.077 ohms",
@@ -4244,7 +4334,7 @@
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "Using Chapter 9 Table 9, a 6 AWG copper THHN in steel conduit has an effective Z of 0.491 ohms/1000 ft at 0.85 PF. What is the voltage drop for a 45A load at 175 feet on a single-phase 240V circuit?",
+      "questionText": "A 6 AWG copper THHN in steel conduit has an effective Z of 0.491 ohms/1000 ft at 0.85 PF. What is the voltage drop for a 45A load at 175 feet on a single-phase 240V circuit?",
       "options": [
         "7.7V",
         "6.2V",
@@ -4336,7 +4426,7 @@
       "necArticle": "Chapter 9, Tables 8 & 9",
       "difficulty": "master",
       "calculation": false,
-      "questionText": "When calculating AC voltage drop using Table 9, which column should you use for a circuit with an 0.85 power factor in steel (magnetic) conduit?",
+      "questionText": "When calculating AC voltage drop, which column should you use for a circuit with an 0.85 power factor in steel (magnetic) conduit?",
       "options": [
         "XL (reactance) column only",
         "AC Resistance column only",
@@ -4589,7 +4679,7 @@
       "necArticle": "Chapter 9, Table 9",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "Using Table 9 effective Z, a single-phase 208V circuit draws 75A at 200 feet. Effective Z = 0.404 ohms/1000 ft. What is the voltage drop?",
+      "questionText": "A single-phase 208V circuit draws 75A at 200 feet. The effective Z = 0.404 ohms/1000 ft. What is the voltage drop?",
       "options": [
         "9.1V",
         "12.1V",
@@ -4773,7 +4863,7 @@
       "necArticle": "Article 120",
       "difficulty": "master",
       "calculation": true,
-      "questionText": "A new dwelling unit has a total footprint of 3,800 sq ft based on outside dimensions, which includes a 400 sq ft attached garage and a 200 sq ft open front porch. Based on 2026 NEC Section 120.13, what is the minimum number of 15-ampere, 120-volt general lighting branch circuits required?",
+      "questionText": "A new dwelling unit has a total footprint of 3,800 sq ft based on outside dimensions, which includes a 400 sq ft attached garage and a 200 sq ft open front porch. Based on the 2026 NEC, what is the minimum number of 15-ampere, 120-volt general lighting branch circuits required?",
       "options": [
         "4 circuits",
         "5 circuits",

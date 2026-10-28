@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { SparkyMessage } from "@/components/sparky";
 
 const MAX_NAME_LENGTH = 100;
@@ -154,9 +154,9 @@ export default function ContactPage() {
                     <CheckCircle className="h-12 w-12 text-emerald" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-bold font-display">
+                <h1 className="text-2xl font-bold font-display leading-tight">
                   Message Sent!
-                </CardTitle>
+                </h1>
                 <p className="text-muted-foreground">
                   Thanks for reaching out. We&apos;ll get back to you as soon as possible.
                 </p>
@@ -168,9 +168,9 @@ export default function ContactPage() {
                     <Mail className="h-12 w-12 text-purple" />
                   </div>
                 </div>
-                <CardTitle className="text-2xl font-bold font-display">
+                <h1 className="text-2xl font-bold font-display leading-tight">
                   Contact Us
-                </CardTitle>
+                </h1>
                 <p className="text-muted-foreground">
                   Have questions, feedback, or need help? We&apos;d love to hear from you!
                 </p>

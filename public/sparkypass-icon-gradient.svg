@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <defs>
+    <linearGradient id="bolt-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFEB70"></stop>
+      <stop offset="55%" stop-color="#FFD23F"></stop>
+      <stop offset="100%" stop-color="#FFB61E"></stop>
+    </linearGradient>
+  </defs>
+  <polygon points="249.0,305.5 246.4,209.9 196.1,215.8 261.3,39.4 253.6,157.6 303.9,149.3" fill="#F58411"></polygon>
+  <polygon points="252.1,285.7 258.0,196.5 207.1,207.1 256.6,61.5 240.6,171.9 293.1,158.4" fill="url(#bolt-grad)"></polygon>
+  <polygon points="459.5,458.8 367.1,388.7 350.6,445.7 250.5,307.3 332.2,356.6 348.6,302.0" fill="#F58411"></polygon>
+  <polygon points="444.3,443.0 360.4,368.6 348.1,431.4 264.6,320.3 339.2,374.9 350.9,316.4" fill="url(#bolt-grad)"></polygon>
+  <polygon points="42.6,460.0 134.5,386.9 102.1,341.2 247.4,306.1 174.5,364.4 207.9,407.7" fill="#F58411"></polygon>
+  <polygon points="60.3,450.6 150.9,389.2 115.1,346.1 230.8,314.2 157.8,362.4 194.7,403.5" fill="url(#bolt-grad)"></polygon>
+</svg>

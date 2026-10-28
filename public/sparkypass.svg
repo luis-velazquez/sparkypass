@@ -1,0 +1,64 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Sparky the construction worker mascot">
+
+  <defs>
+    <filter id="sparky-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+    <radialGradient id="face-grad" cx="0.38" cy="0.32" r="0.85">
+      <stop offset="0%" stop-color="#FDE68A"></stop>
+      <stop offset="55%" stop-color="#FBBF24"></stop>
+      <stop offset="100%" stop-color="#F59E0B"></stop>
+    </radialGradient>
+    <clipPath id="face-clip">
+      <circle cx="50" cy="58" r="24"></circle>
+    </clipPath>
+    <linearGradient id="hat-grad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FFFFFF"></stop>
+      <stop offset="100%" stop-color="#E2E8F0"></stop>
+    </linearGradient>
+  </defs>
+
+  
+  <path d="M23 100 Q25 84 38 80 L50 89 L62 80 Q75 84 77 100 Z" fill="#F97316"></path>
+  <path d="M31 100 Q32.5 88 37.5 83.5 L42 86.5 Q38 91 37 100 Z" fill="#F1F5F9"></path>
+  <path d="M69 100 Q67.5 88 62.5 83.5 L58 86.5 Q62 91 63 100 Z" fill="#F1F5F9"></path>
+
+  
+  <circle cx="50" cy="58" r="24" fill="url(#face-grad)"></circle>
+
+  
+  <ellipse cx="50" cy="44" rx="21" ry="4.5" fill="#B45309" opacity="0.28" clip-path="url(#face-clip)"></ellipse>
+
+  
+  <circle cx="35" cy="63" r="4" fill="#F97316" opacity="0.45"></circle>
+  <circle cx="65" cy="63" r="4" fill="#F97316" opacity="0.45"></circle>
+
+  
+  <ellipse cx="40" cy="54" rx="5" ry="6" fill="white"></ellipse>
+  <ellipse cx="60" cy="54" rx="5" ry="6" fill="white"></ellipse>
+  <circle cx="41" cy="55" r="3" fill="#292524"></circle>
+  <circle cx="61" cy="55" r="3" fill="#292524"></circle>
+  <circle cx="42" cy="53" r="1.5" fill="white"></circle>
+  <circle cx="62" cy="53" r="1.5" fill="white"></circle>
+
+  
+  <path d="M34 48 Q40 45 46 48" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"></path>
+  <path d="M54 48 Q60 45 66 48" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"></path>
+
+  
+  <path d="M38 68 Q50 78 62 68" stroke="#92400E" stroke-width="3" fill="none" stroke-linecap="round"></path>
+
+  
+  <path d="M28 38 L28 32 Q28 13 50 13 Q72 13 72 32 L72 38 Z" fill="url(#hat-grad)"></path>
+  <path d="M46 13.6 Q50 12.4 54 13.6 L54 38 L46 38 Z" fill="#E2E8F0"></path>
+  <rect x="18" y="36" width="64" height="7" rx="3.5" fill="#CBD5E1"></rect>
+  <rect x="18" y="36" width="64" height="3" rx="1.5" fill="#94A3B8" opacity="0.35"></rect>
+  <path d="M32 30 Q33 20 40 16" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"></path>
+
+  
+  <path d="M51 22 L48 28 L51 28 L48 34 L55 26 L52 26 L55 22 Z" fill="#A3FF00" filter="url(#sparky-glow)" transform="translate(9,0)"></path>
+</svg>

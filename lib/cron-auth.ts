@@ -1,18 +1,28 @@
 // Vercel Cron authentication.
 //
-// Vercel sends an `Authorization: Bearer <CRON_SECRET>` header on every
-// scheduled invocation. The secret is auto-set in production; in development,
-// set it manually in .env.local to test cron endpoints with curl.
+// When a CRON_SECRET env var is set, Vercel attaches it as
+// `Authorization: Bearer <CRON_SECRET>` to every scheduled cron invocation
+// (it is NOT auto-generated — you must create the env var). Cron routes are
+// otherwise public HTTP endpoints, so the secret is what keeps anyone on the
+// internet from triggering them (mass push, quota burn, DB load).
 
 import { NextRequest } from "next/server";
 
 export function verifyCronRequest(request: NextRequest): boolean {
   const expected = process.env.CRON_SECRET;
   if (!expected) {
-    // Without CRON_SECRET set we accept all requests so local dev `curl` works.
-    // In production Vercel always sets it, so this fallthrough only matters in
-    // dev. Log a warning so a misconfigured prod environment is visible.
-    console.warn("[cron-auth] CRON_SECRET not set — accepting cron request unauthenticated");
+    // Fail CLOSED in production: a live cron route with no secret is
+    // world-triggerable. Only local dev (no VERCEL env) falls open so `curl`
+    // can exercise the endpoint without a secret.
+    if (process.env.VERCEL) {
+      console.error(
+        "[cron-auth] CRON_SECRET not set in a Vercel environment — rejecting request",
+      );
+      return false;
+    }
+    console.warn(
+      "[cron-auth] CRON_SECRET not set — accepting cron request unauthenticated (dev only)",
+    );
     return true;
   }
   const presented = request.headers.get("authorization");

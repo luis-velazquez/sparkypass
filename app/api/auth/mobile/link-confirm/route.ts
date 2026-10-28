@@ -6,6 +6,11 @@
 // On success, mints an access + refresh token pair so the client is signed in
 // as the linked (existing) user immediately.
 
+// KNOWN GAP (SiwA revocation): Apple links created via this conflict-linking
+// flow carry no apple_refresh_token — the sign-in that had the 5-minute
+// authorizationCode exited on the 409 before the exchange. Such users get a
+// revocable token on their next direct Apple sign-in; deletion before then
+// has nothing to revoke (accepted for v1).
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and, gt, isNull } from "drizzle-orm";
 import crypto from "crypto";

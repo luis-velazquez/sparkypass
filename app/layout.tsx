@@ -1,153 +1,78 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Outfit, Nunito, Space_Mono } from "next/font/google";
-import Link from "next/link";
 
-import { Logo } from "@/components/layout/Logo";
-import { MobileNav } from "@/components/layout/MobileNav";
-import { Sidebar } from "@/components/layout/Sidebar";
-import { SidebarProvider } from "@/components/layout/SidebarContext";
-import { SidebarContentWrapper, SidebarTopBar } from "@/components/layout/SidebarContentWrapper";
-import { SessionProvider } from "@/components/providers/SessionProvider";
-import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { Toaster } from "sonner";
-import { AuthButtons } from "@/components/layout/AuthButtons";
-import { UserMenu } from "@/components/layout/UserMenu";
-import { HideOnMarketing } from "@/components/layout/AppShell";
-import { FeedbackWidget } from "@/components/feedback/FeedbackWidget";
-import { AnalyticsProvider } from "@/components/providers/AnalyticsProvider";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { SiteFooter } from "@/components/site/SiteFooter";
+import { APP_STORE_ID, SITE_NAME, SITE_URL } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const nunito = Nunito({
   variable: "--font-nunito",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const spaceMono = Space_Mono({
   variable: "--font-space-mono",
   subsets: ["latin"],
   weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "SparkyPass | Texas Master Electrician Exam Prep",
-    template: "%s | SparkyPass",
+    default: "SparkyPass: Electrician Exam Prep App for the NEC",
+    template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Pass your Texas Master Electrician exam with SparkyPass. Gamified NEC quizzes, mini-games, flashcards, and personalized study plans with Sparky your mentor.",
-  metadataBase: new URL("https://sparkypass.com"),
+    "SparkyPass is the iPhone app for journeyman and master electrician exam prep: 550+ NEC practice questions explained answer by answer, load calculators, and study games. 60 free questions, no signup.",
+  applicationName: SITE_NAME,
+  itunes: { appId: APP_STORE_ID },
+  openGraph: { type: "website", siteName: SITE_NAME, locale: "en_US" },
+  twitter: { card: "summary_large_image" },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: { telephone: false },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#FEFCF6",
+  colorScheme: "light",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <head>
-        <meta name="theme-color" id="theme-color-meta" content="#ffffff" />
-        <script dangerouslySetInnerHTML={{ __html: `
-          (function(){
-            var m=document.getElementById('theme-color-meta');
-            function u(){m.content=document.documentElement.classList.contains('dark')?'#1c1917':'#ffffff'}
-            u();
-            new MutationObserver(u).observe(document.documentElement,{attributes:true,attributeFilter:['class']});
-          })();
-        `}} />
-      </head>
-      <body
-        className={`${outfit.variable} ${nunito.variable} ${spaceMono.variable} antialiased min-h-screen`}
-      >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
+    <html lang="en" className="light">
+      <body className={`${outfit.variable} ${nunito.variable} ${spaceMono.variable} flex min-h-screen flex-col antialiased`}>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-amber focus:px-4 focus:py-2 focus:font-semibold focus:text-stone-900"
         >
-        <SessionProvider>
-        <AnalyticsProvider />
-        <SidebarProvider>
-
-        {/* Desktop sidebar (xl+) — hidden on marketing pages */}
-        <HideOnMarketing>
-          <Sidebar />
-        </HideOnMarketing>
-
-        {/* Mobile/tablet header (below xl) — hidden on marketing pages */}
-        <HideOnMarketing>
-          <header className="sticky top-0 z-50 w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 xl:hidden">
-            <div className="container mx-auto flex h-16 items-center justify-between px-4">
-              <div className="flex items-center gap-1">
-                <MobileNav />
-                <Logo />
-              </div>
-              <div className="flex items-center gap-2">
-                <UserMenu />
-                <AuthButtons />
-              </div>
-            </div>
-          </header>
-        </HideOnMarketing>
-
-        {/* Desktop top bar (xl+) — hidden on marketing pages */}
-        <HideOnMarketing>
-          <SidebarTopBar>
-            <div className="flex items-center gap-2">
-              <UserMenu />
-              <AuthButtons />
-            </div>
-          </SidebarTopBar>
-        </HideOnMarketing>
-
-        {/* Main content — shifted right on xl+ */}
-        <SidebarContentWrapper>
-          <main className="flex-1">{children}</main>
-
-          {/* Footer — only on mobile/tablet for app pages (sidebar has footer on xl+) */}
-          <HideOnMarketing>
-          <footer className="border-t border-border bg-card xl:hidden">
-            <div className="container mx-auto px-4 py-8">
-              <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div className="flex items-center gap-2">
-                  <img src="/sparkypass-icon-orange.svg" alt="SparkyPass" className="w-5 h-5" />
-                  <span className="font-semibold">SparkyPass</span>
-                </div>
-                <nav className="flex gap-6 text-sm text-muted-foreground">
-                  <Link href="/contact" className="hover:text-foreground">
-                    Contact
-                  </Link>
-                  <Link href="/privacy" className="hover:text-foreground">
-                    Privacy
-                  </Link>
-                  <Link href="/terms" className="hover:text-foreground">
-                    Terms
-                  </Link>
-                </nav>
-                <p className="text-sm text-muted-foreground">
-                  &copy; {new Date().getFullYear()} SparkyPass. All rights
-                  reserved.
-                </p>
-              </div>
-            </div>
-          </footer>
-          </HideOnMarketing>
-        </SidebarContentWrapper>
-
-        </SidebarProvider>
-        </SessionProvider>
-        {/* Floating feedback widget — app pages only */}
-        <HideOnMarketing>
-          <FeedbackWidget />
-        </HideOnMarketing>
-
-        <Toaster position="top-center" richColors closeButton />
-        </ThemeProvider>
+          Skip to content
+        </a>
+        <SiteHeader />
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -1,0 +1,87 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Sparky the construction worker mascot, graduating">
+
+  <defs>
+    <filter id="sparky-glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+    <radialGradient id="face-grad" cx="0.38" cy="0.32" r="0.85">
+      <stop offset="0%" stop-color="#FDE68A"></stop>
+      <stop offset="55%" stop-color="#FBBF24"></stop>
+      <stop offset="100%" stop-color="#F59E0B"></stop>
+    </radialGradient>
+    <clipPath id="face-clip">
+      <circle cx="50" cy="58" r="24"></circle>
+    </clipPath>
+    <!-- both vest panels, used to clip the reflective stripes -->
+    <clipPath id="vest-panels">
+      <path d="M32.5 100 L32.5 87 Q32.5 82.6 36.8 80.9 L46.5 87.6 L46.5 100 Z"></path>
+      <path d="M67.5 100 L67.5 87 Q67.5 82.6 63.2 80.9 L53.5 87.6 L53.5 100 Z"></path>
+    </clipPath>
+  </defs>
+
+  <!-- dark work shirt (base body) -->
+  <path d="M23 100 Q25 84 38 80 L50 89 L62 80 Q75 84 77 100 Z" fill="#334155"></path>
+  <!-- shirt collar shading along neckline -->
+  <path d="M38 80 L50 89 L62 80" stroke="#1E293B" stroke-width="2" fill="none" stroke-linecap="round"></path>
+
+  <!-- hi-vis vest: two open front panels -->
+  <path d="M32.5 100 L32.5 87 Q32.5 82.6 36.8 80.9 L46.5 87.6 L46.5 100 Z" fill="#F97316" stroke="#C2410C" stroke-width="0.9" stroke-linejoin="round"></path>
+  <path d="M67.5 100 L67.5 87 Q67.5 82.6 63.2 80.9 L53.5 87.6 L53.5 100 Z" fill="#F97316" stroke="#C2410C" stroke-width="0.9" stroke-linejoin="round"></path>
+
+  <g clip-path="url(#vest-panels)">
+    <!-- vertical reflective stripes, one per panel -->
+    <path d="M36 100 L36 86.5 Q36 82.5 40 80.5 L45 84 Q40.8 86.5 40.8 90 L40.8 100 Z" fill="#FDE047"></path>
+    <path d="M64 100 L64 86.5 Q64 82.5 60 80.5 L55 84 Q59.2 86.5 59.2 90 L59.2 100 Z" fill="#FDE047"></path>
+    <path d="M38.4 100 L38.4 87.5 Q38.4 84.5 41.5 82.6" stroke="#E5E7EB" stroke-width="1.2" fill="none"></path>
+    <path d="M61.6 100 L61.6 87.5 Q61.6 84.5 58.5 82.6" stroke="#E5E7EB" stroke-width="1.2" fill="none"></path>
+
+    <!-- horizontal reflective band across both panels -->
+    <rect x="30" y="91.5" width="40" height="4.6" fill="#FDE047"></rect>
+    <line x1="30" y1="93.8" x2="70" y2="93.8" stroke="#E5E7EB" stroke-width="1.4"></line>
+  </g>
+
+  <!-- inner vest edges (open front) -->
+  <line x1="46.5" y1="87.6" x2="46.5" y2="100" stroke="#C2410C" stroke-width="0.9"></line>
+  <line x1="53.5" y1="87.6" x2="53.5" y2="100" stroke="#C2410C" stroke-width="0.9"></line>
+
+  <!-- face -->
+  <circle cx="50" cy="58" r="24" fill="url(#face-grad)"></circle>
+
+  <ellipse cx="50" cy="44" rx="21" ry="4.5" fill="#B45309" opacity="0.28" clip-path="url(#face-clip)"></ellipse>
+
+  <circle cx="35" cy="63" r="4" fill="#F97316" opacity="0.45"></circle>
+  <circle cx="65" cy="63" r="4" fill="#F97316" opacity="0.45"></circle>
+
+  <ellipse cx="40" cy="54" rx="5" ry="6" fill="white"></ellipse>
+  <ellipse cx="60" cy="54" rx="5" ry="6" fill="white"></ellipse>
+  <circle cx="41" cy="55" r="3" fill="#292524"></circle>
+  <circle cx="61" cy="55" r="3" fill="#292524"></circle>
+  <circle cx="42" cy="53" r="1.5" fill="white"></circle>
+  <circle cx="62" cy="53" r="1.5" fill="white"></circle>
+
+  <path d="M34 48 Q40 45 46 48" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"></path>
+  <path d="M54 48 Q60 45 66 48" stroke="#92400E" stroke-width="2" fill="none" stroke-linecap="round"></path>
+
+  <!-- proud grin -->
+  <path d="M38 68 Q50 78 62 68" stroke="#92400E" stroke-width="3" fill="none" stroke-linecap="round"></path>
+
+  <!-- graduation cap: skull cap -->
+  <path d="M33 41 Q33 28 50 27 Q67 28 67 41 Z" fill="#0F172A"></path>
+
+  <!-- spark bolt on cap front -->
+  <path d="M51 22 L48 28 L51 28 L48 34 L55 26 L52 26 L55 22 Z" fill="#A3FF00" filter="url(#sparky-glow)" transform="translate(50 37) scale(0.55) translate(-51.5 -28)"></path>
+
+  <!-- mortarboard -->
+  <path d="M24 25 L50 16 L76 25 L50 34 Z" fill="#1E293B" stroke="#0F172A" stroke-width="0.8" stroke-linejoin="round"></path>
+  <path d="M24 25 L50 34 L76 25 L76 26.8 L50 35.8 L24 26.8 Z" fill="#0F172A"></path>
+
+  <!-- button and tassel -->
+  <circle cx="50" cy="25" r="1.5" fill="#FDE047"></circle>
+  <path d="M50 25 Q62 20.5 73 24.5 L73 35" stroke="#FDE047" stroke-width="1.5" fill="none" stroke-linecap="round"></path>
+  <path d="M71.3 35 L74.7 35 L75.2 41 Q73 43.2 70.8 41 Z" fill="#FDE047"></path>
+  <rect x="71.5" y="35.2" width="3" height="1.6" rx="0.8" fill="#F59E0B"></rect>
+</svg>
