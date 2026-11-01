@@ -1,0 +1,31 @@
+# Runs Sparky's notification engine every hour.
+#
+# Vercel's current plan only allows once-a-day crons (vercel.json keeps a daily
+# 16:00 UTC run as a fallback), but Sparky sends at each user's local time, so
+# it needs an hourly trigger. Overlapping or missed runs are safe: every send
+# is keyed in notification_log.
+#
+# Needs one repository secret: CRON_SECRET (the same value set in Vercel).
+name: Sparky notifications
+
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Trigger /api/cron/sparky-notify
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "CRON_SECRET repository secret is not set" >&2
+            exit 1
+          fi
+          curl --fail-with-body --silent --show-error --max-time 90 \
+            -H "Authorization: Bearer $CRON_SECRET" \
+            "https://sparkypass.com/api/cron/sparky-notify"
