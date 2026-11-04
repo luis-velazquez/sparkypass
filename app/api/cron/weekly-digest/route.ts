@@ -1,14 +1,15 @@
 // GET /api/cron/weekly-digest
 //
-// Vercel Cron — Sunday 14:00 UTC (vercel.json). For users with a push token who
+// Vercel Cron — Monday 15:00 UTC (vercel.json). Nothing goes out on Sunday, a
+// day of rest, so the digest waits for Monday. For users with a push token who
 // haven't turned the digest off (it's opt-out — default on), send a one-line
 // summary of the prior 7 days: questions answered, accuracy %, Watts earned,
 // current study streak.
 //
-// The 14:00-UTC slot is a reasonable Sunday-morning compromise across US time
-// zones (06:00 PT → 10:00 ET, roughly the start-of-day notification slot for
-// most North-American electricians). Per-user timezone tailoring is overkill
-// for v1 — the digest fires once a week, not on a precise minute.
+// Monday 15:00 UTC is Monday morning across US time zones (7–8 AM Pacific,
+// 10–11 AM Eastern, depending on daylight saving) and is never Sunday in any
+// time zone. Per-user timezone tailoring is overkill for v1 — the digest fires
+// once a week, not on a precise minute.
 
 import { NextRequest, NextResponse } from "next/server";
 import { eq, and, gte, isNull, sql } from "drizzle-orm";

@@ -7,7 +7,7 @@
   "crons": [
     {
       "path": "/api/cron/weekly-digest",
-      "schedule": "0 14 * * 0"
+      "schedule": "0 15 * * 1"
     },
     {
       "path": "/api/cron/hard-delete",
