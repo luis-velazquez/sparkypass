@@ -22,6 +22,43 @@ const pctOf = (t: { answered: number; correct: number }) =>
   t.answered > 0 ? Math.round((t.correct / t.answered) * 100) : 0;
 const plural = (n: number, word: string) => `${n.toLocaleString("en-US")} ${word}${n === 1 ? "" : "s"}`;
 
+/** Topic names as the app shows them, with the one long name cut down to fit a push. */
+const SHORT_TOPIC_NAMES: Record<string, string> = {
+  "special-occupancies": "Special Occupancies",
+};
+const topicName = (t: { slug: string; name: string }) => SHORT_TOPIC_NAMES[t.slug] ?? t.name;
+
+/** The Texas exams pass at 70%; the report measures every topic against it. */
+const PASSING = 70;
+/** Under this many answers, a week's percentages are noise, so the report leaves them out. */
+const THIN_WEEK = 10;
+
+/**
+ * Join opener + middle + ask within MAX_BODY. When it runs long, the short ask
+ * goes in first, and the opener is dropped only if that still doesn't fit.
+ */
+function joinBody(opener: string | null, middle: string, ask: readonly [long: string, short: string]): string {
+  const tries = [
+    [opener, middle, ask[0]],
+    [opener, middle, ask[1]],
+    [middle, ask[0]],
+    [middle, ask[1]],
+  ];
+  for (const parts of tries) {
+    const text = parts.filter(Boolean).join(" ");
+    if (text.length <= MAX_BODY) return text;
+  }
+  return `${middle} ${ask[1]}`;
+}
+
+/** A short quiz on one topic at the user's level. Matches the quiz screen's params (n = count, d = level). */
+function practiceRoute(slug: string, level: "journeyman" | "master", count: number): string {
+  return `/quiz/${slug}?n=${count}${level === "master" ? "&d=master" : ""}`;
+}
+
+/** Questions in the weekly report's practice round; the copy promises this number. */
+export const REPORT_ROUND = 10;
+
 const STREAK_SAVER: Variant<Of<"streak_saver">>[] = [
   (c, n) =>
     c.streak > 0
@@ -41,7 +78,7 @@ const EXAM_COUNTDOWN: Variant<Of<"exam_countdown">>[] = [
   (c) => {
     const when = c.daysLeft === 1 ? "Exam tomorrow" : `${c.daysLeft} days to exam day`;
     const body = c.weakTopic
-      ? `${c.weakTopic.name} is your last soft spot at ${pctOf(c.weakTopic)}%. Ten minutes on it today pays off.`
+      ? `${topicName(c.weakTopic)} is your last soft spot at ${pctOf(c.weakTopic)}%. Ten minutes on it today pays off.`
       : "Keep the reps going. Today's daily challenge keeps you sharp.";
     return { title: `${when}. You've got this.`, body };
   },
@@ -51,7 +88,7 @@ const EXAM_COUNTDOWN: Variant<Of<"exam_countdown">>[] = [
       c.daysLeft === 1
         ? "Light review today, then rest. You've put in the work. Get some sleep tonight."
         : c.weakTopic
-          ? `Spend today on ${c.weakTopic.name} (${c.weakTopic.necArticle}). That's where the points are.`
+          ? `Spend today on ${topicName(c.weakTopic)} (${c.weakTopic.necArticle}). That's where the points are.`
           : "Keep the daily reps going. Steady practice beats cramming every time.";
     return { title, body };
   },
@@ -80,29 +117,79 @@ const MILESTONE: Variant<Of<"milestone">>[] = [
   },
 ];
 
-const WEEKLY_REPORT: Variant<Of<"weekly_report">>[] = [
+// The weekly progress report: how the week went, then one area to work on.
+// Only good news gets called out; a dip never makes it into a push. The area
+// to work on is framed against the 70% passing mark, and the tap opens a
+// 10-question round on it.
+type Report = Of<"weekly_report">;
+
+/** The one piece of good news for the opener: a topic that climbed, the strongest topic, or the overall gain. */
+function goodNews(c: Report): string | null {
+  const focusSlug = c.focus?.topic.slug;
+  if (c.improved && c.improved.topic.slug !== focusSlug) {
+    return `${topicName(c.improved.topic)} went from ${c.improved.before}% to ${c.improved.after}%.`;
+  }
+  if (c.bestTopic && c.bestTopic.slug !== focusSlug) {
+    return `${topicName(c.bestTopic)} is your strongest at ${pctOf(c.bestTopic)}%.`;
+  }
+  if (c.deltaPct !== null && c.deltaPct >= 5) return `That's up ${c.deltaPct} points from last week.`;
+  return null;
+}
+
+/** "Work on this next", in two wordings. */
+function nextUp(c: Report, v: 0 | 1): string {
+  const f = c.focus;
+  if (!f) return v === 0 ? `Everything you practiced is at ${PASSING}% or better.` : "Every topic you practiced is passing.";
+  const name = topicName(f.topic);
+  if (f.reason === "unpracticed") {
+    return v === 0 ? `${name} hasn't had much practice lately.` : `${name} could use some reps.`;
+  }
+  // Weak, but climbing: show the climb instead of the low number.
+  if (c.improved && c.improved.topic.slug === f.topic.slug) {
+    return v === 0
+      ? `${name} went from ${c.improved.before}% to ${c.improved.after}%. Let's get it to ${PASSING}%.`
+      : `${name} is climbing, ${c.improved.before}% to ${c.improved.after}%.`;
+  }
+  return v === 0 ? `${name} is at ${f.pct}%, and passing is ${PASSING}%.` : `Next up: ${name} at ${f.pct}%.`;
+}
+
+/** The one ask, long and short. */
+function ask(c: Report, v: 0 | 1): readonly [string, string] {
+  if (!c.focus) return v === 0 ? ["Tap for the full report.", "Tap for the full report."] : ["Keep it rolling.", "Keep it rolling."];
+  const short = "Tap to practice it.";
+  if (v === 0) return [`Tap for ${REPORT_ROUND} ${topicName(c.focus.topic)} questions.`, short];
+  return c.focus.reason === "weak"
+    ? ["Ten questions today moves that number.", short]
+    : [`Tap for a quick ${REPORT_ROUND}-question round.`, short];
+}
+
+const WEEKLY_REPORT: Variant<Report>[] = [
+  // "Your week: 86 questions, 74% ⚡" / good news, next up, tap for 10.
   (c) => {
-    // Only celebrate improvement; a dip isn't worth a push-notification frown.
-    const trend = c.deltaPct !== null && c.deltaPct > 0 ? ` (up ${c.deltaPct} pts)` : "";
-    const best = c.bestTopic ? ` ${c.bestTopic.name} is your strongest circuit.` : "";
-    return { title: "Your week, by the numbers", body: `${plural(c.answered, "question")}, ${c.pct}% right${trend}.${best} Tap for the full report.` };
-  },
-  (c, n) => {
-    const streak = c.streak > 0 ? ` and a ${c.streak}-day streak` : "";
+    const thin = c.answered < THIN_WEEK;
     return {
-      title: `Week in review${comma(n)} ⚡`,
-      body: `${plural(c.answered, "question")} at ${c.pct}%${streak}. Tap to see where you're strongest.`,
+      title: thin ? `Your week: ${plural(c.answered, "question")} ⚡` : `Your week: ${plural(c.answered, "question")}, ${c.pct}% ⚡`,
+      body: joinBody(thin ? "Every rep counts." : goodNews(c), nextUp(c, 0), ask(c, 0)),
     };
+  },
+  // "Week in review, Luis ⚡" / the numbers, next up, one ask.
+  (c, n) => {
+    const thin = c.answered < THIN_WEEK;
+    const trend = c.deltaPct !== null && c.deltaPct > 0 ? `, up ${c.deltaPct} points` : "";
+    const numbers = thin
+      ? `${plural(c.answered, "question")} this week.`
+      : `${plural(c.answered, "question")} at ${c.pct}%${trend}.`;
+    return { title: `Week in review${comma(n)} ⚡`, body: joinBody(numbers, nextUp(c, 1), ask(c, 1)) };
   },
 ];
 
 const WEAK_SPOT: Variant<Of<"weak_spot">>[] = [
   (c) => ({
-    title: `${c.topic.name} is fighting back`,
+    title: `${topicName(c.topic)} is fighting back`,
     body: `You're at ${pctOf(c.topic)}% on ${c.topic.necArticle}. Five focused questions and we'll tighten it up.`,
   }),
   (c, n) => ({
-    title: `Let's work on ${c.topic.name}`,
+    title: `Let's work on ${topicName(c.topic)}`,
     body: `${pctOf(c.topic)}% over your last ${c.topic.answered} tries${comma(n)}. A short quiz today moves that number.`,
   }),
 ];
@@ -134,12 +221,13 @@ export function routeFor(c: Candidate): string {
     case "comeback":
       return "/daily";
     case "exam_countdown":
-      return c.weakTopic ? `/quiz/${c.weakTopic.slug}` : "/daily";
+      return c.weakTopic ? practiceRoute(c.weakTopic.slug, c.level, 10) : "/daily";
     case "milestone":
-    case "weekly_report":
       return "/progress";
+    case "weekly_report":
+      return c.focus ? practiceRoute(c.focus.topic.slug, c.level, REPORT_ROUND) : "/progress";
     case "weak_spot":
-      return `/quiz/${c.topic.slug}`;
+      return practiceRoute(c.topic.slug, c.level, 5);
     case "review_due":
       return "/review/daily";
   }

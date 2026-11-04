@@ -7,8 +7,10 @@
 //      count toward Sparky's coaching caps (it's an alarm they asked for).
 //   2. Coaching messages (everything else) share the guardrails below and go
 //      out in two local-time windows, highest priority first.
+//
+// Nothing goes out on Sunday in either lane: it's a day of rest.
 
-import type { Candidate, SentRecord, TopicStat, UserFacts } from "./types";
+import type { Candidate, Focus, SentRecord, TopicGain, TopicStat, UserFacts } from "./types";
 import { daysBetween, localDate, type LocalClock } from "./time";
 import { getUserClassification } from "@/lib/voltage";
 
@@ -24,6 +26,16 @@ export const STREAK_SAVER_GRACE_MIN = 180;
 export const MORNING = { start: 9, end: 12 };
 export const AFTERNOON = { start: 16, end: 19 };
 
+/** Sunday is a day of rest: nothing goes out all day, in the user's local time. */
+export const QUIET_WEEKDAY = 0;
+const SATURDAY = 6;
+/** The weekly progress report goes out Monday morning. */
+export const REPORT_WEEKDAY = 1;
+
+export function isQuietDay(clock: LocalClock): boolean {
+  return clock.weekday === QUIET_WEEKDAY;
+}
+
 // ── Thresholds ───────────────────────────────────────────────────────────────
 export const EXAM_COUNTDOWN_DAYS = [30, 14, 7, 3, 1];
 export const STREAK_MILESTONES = [7, 14, 30, 50, 100, 200, 365];
@@ -36,6 +48,33 @@ export const REVIEW_DUE_COOLDOWN_DAYS = 3;
 export const COMEBACK_STEPS = [3, 7, 14];
 /** Last week needs this many answers before "up 6%" means anything. */
 const MIN_ANSWERED_FOR_DELTA = 10;
+
+// Weekly report: "how you did" plus one area to work on next.
+/** A topic needs this many answers in 14 days before the report calls it weak. */
+export const FOCUS_MIN_ANSWERED = 8;
+/** At or under this many answers in 14 days, a topic counts as unpracticed. */
+export const UNPRACTICED_MAX_ANSWERED = 2;
+/** Both weeks need this many answers in a topic before "went from X% to Y%". */
+export const IMPROVED_MIN_ANSWERED = 5;
+/** Points a topic must climb week over week to be called out. */
+export const IMPROVED_MIN_GAIN = 10;
+/** The weak-spot nudge waits this long after a weekly report, so it reads as a follow-up. */
+export const REPORT_FOLLOW_UP_GAP_DAYS = 3;
+/**
+ * Rough exam emphasis, most first (data/blueprints plus grounding, which runs
+ * through the service and equipment sections). Only breaks ties between
+ * equally unpracticed topics.
+ */
+const EXAM_EMPHASIS = [
+  "calculations-and-theory",
+  "grounding-bonding",
+  "services",
+  "wiring-methods",
+  "special-occupancies",
+  "box-fill",
+  "motors-and-generators",
+  "transformer-sizing",
+];
 
 const COACHING_TYPES = new Set([
   "exam_countdown",
@@ -78,6 +117,50 @@ function bestTopic(topics: TopicStat[]): TopicStat | null {
   return trusted[0] ?? null;
 }
 
+/** The topic that climbed the most since last week (10+ points, 5+ answers both weeks), or null. */
+export function mostImproved(thisWeek: TopicStat[], lastWeek: TopicStat[]): TopicGain | null {
+  let best: TopicGain | null = null;
+  for (const t of thisWeek) {
+    const prev = lastWeek.find((p) => p.slug === t.slug);
+    if (!prev || t.answered < IMPROVED_MIN_ANSWERED || prev.answered < IMPROVED_MIN_ANSWERED) continue;
+    const gain = { topic: t, before: pct(prev), after: pct(t) };
+    if (gain.after - gain.before < IMPROVED_MIN_GAIN) continue;
+    if (!best || gain.after - gain.before > best.after - best.before) best = gain;
+  }
+  return best;
+}
+
+/**
+ * What the weekly report asks them to work on: the weakest topic under the
+ * passing mark (8+ answers in 14 days), else the most exam-relevant topic
+ * they've barely practiced, else nothing (everything practiced is passing).
+ * `topics` must list every known topic, including ones at 0 answered.
+ */
+export function focusTopic(topics: TopicStat[]): Focus | null {
+  const weak = weakestTopic(topics, FOCUS_MIN_ANSWERED);
+  if (weak) return { topic: weak, pct: pct(weak), reason: "weak" };
+  const emphasis = (slug: string) => EXAM_EMPHASIS.indexOf(slug);
+  const thin = topics
+    .filter((t) => emphasis(t.slug) !== -1 && t.answered <= UNPRACTICED_MAX_ANSWERED)
+    .sort((a, b) => a.answered - b.answered || emphasis(a.slug) - emphasis(b.slug));
+  return thin[0] ? { topic: thin[0], pct: pct(thin[0]), reason: "unpracticed" } : null;
+}
+
+/**
+ * Whether the account can use the app right now: an unexpired free week, or a
+ * live subscription. RevenueCat keeps "active" through a cancellation until the
+ * period ends, and "past_due" is Apple's billing-retry window. Matches
+ * /api/profile, which reports an expired free week as "expired".
+ *
+ * Sparky sends nothing to anyone else: every push opens a screen behind the
+ * paywall, and Apple only allows marketing pushes with explicit opt-in
+ * (App Review Guideline 4.5.4).
+ */
+export function hasAccess(status: string | null, trialEndsAt: Date | null, now: Date): boolean {
+  if (status === "active" || status === "past_due") return true;
+  return status === "trialing" && trialEndsAt !== null && trialEndsAt.getTime() > now.getTime();
+}
+
 // ── Streak saver lane ────────────────────────────────────────────────────────
 export function streakSaver(
   facts: UserFacts,
@@ -85,7 +168,7 @@ export function streakSaver(
   clock: LocalClock,
 ): Candidate | null {
   const pref = facts.prefs.dailyStreakReminder;
-  if (!pref.enabled) return null;
+  if (!pref.enabled || isQuietDay(clock)) return null;
   const nowMin = clock.hour * 60 + clock.minute;
   const wantMin = pref.hour * 60 + pref.minute;
   if (nowMin < wantMin || nowMin >= wantMin + STREAK_SAVER_GRACE_MIN) return null;
@@ -104,10 +187,22 @@ function examCountdown(facts: UserFacts, history: SentRecord[], clock: LocalCloc
   // Exam dates are calendar days; read them in UTC so a noon-UTC date never shifts a day.
   const examDay = facts.targetExamDate.toISOString().slice(0, 10);
   const daysLeft = daysBetween(clock.date, examDay);
-  if (!EXAM_COUNTDOWN_DAYS.includes(daysLeft)) return null;
-  const dedupKey = `exam_${daysLeft}_${examDay}`;
+  // A countdown day that falls on a Sunday goes out on the Saturday before.
+  const step = EXAM_COUNTDOWN_DAYS.includes(daysLeft)
+    ? daysLeft
+    : clock.weekday === SATURDAY && EXAM_COUNTDOWN_DAYS.includes(daysLeft - 1)
+      ? daysLeft - 1
+      : null;
+  if (step === null) return null;
+  const dedupKey = `exam_${step}_${examDay}`;
   if (wasSent(history, dedupKey)) return null;
-  return { type: "exam_countdown", dedupKey, daysLeft, weakTopic: weakestTopic(facts.topics14d) };
+  return {
+    type: "exam_countdown",
+    dedupKey,
+    daysLeft,
+    weakTopic: weakestTopic(facts.topics14d),
+    level: facts.level,
+  };
 }
 
 function milestone(facts: UserFacts, history: SentRecord[]): Candidate | null {
@@ -144,7 +239,7 @@ function milestone(facts: UserFacts, history: SentRecord[]): Candidate | null {
 }
 
 function weeklyReport(facts: UserFacts, history: SentRecord[], clock: LocalClock): Candidate | null {
-  if (!facts.prefs.weeklyDigest.enabled || clock.weekday !== 0) return null;
+  if (!facts.prefs.weeklyDigest.enabled || clock.weekday !== REPORT_WEEKDAY) return null;
   if (facts.answeredThisWeek === 0) return null;
   const dedupKey = `weekly_${clock.date}`;
   if (wasSent(history, dedupKey)) return null;
@@ -160,6 +255,9 @@ function weeklyReport(facts: UserFacts, history: SentRecord[], clock: LocalClock
     pct: thisPct,
     deltaPct,
     bestTopic: bestTopic(facts.topicsThisWeek),
+    improved: mostImproved(facts.topicsThisWeek, facts.topicsLastWeek),
+    focus: focusTopic(facts.topics14d),
+    level: facts.level,
     streak: facts.studyStreak,
     watts: facts.wattsThisWeek,
   };
@@ -168,9 +266,11 @@ function weeklyReport(facts: UserFacts, history: SentRecord[], clock: LocalClock
 function weakSpot(facts: UserFacts, history: SentRecord[], clock: LocalClock, now: Date): Candidate | null {
   if (!facts.prefs.weakSpots.enabled) return null;
   if (sentWithin(history, "weak_spot", now, WEAK_SPOT_COOLDOWN_DAYS)) return null;
+  // The Monday report already named an area; give them a few days with it.
+  if (sentWithin(history, "weekly_report", now, REPORT_FOLLOW_UP_GAP_DAYS)) return null;
   const topic = weakestTopic(facts.topics14d);
   if (!topic) return null;
-  return { type: "weak_spot", dedupKey: `weak_${topic.slug}_${clock.date}`, topic };
+  return { type: "weak_spot", dedupKey: `weak_${topic.slug}_${clock.date}`, topic, level: facts.level };
 }
 
 function reviewDue(facts: UserFacts, history: SentRecord[], clock: LocalClock, now: Date): Candidate | null {
@@ -217,11 +317,11 @@ export function coachingCandidate(
   clock: LocalClock,
   now: Date,
 ): Candidate | null {
-  if (coachingBlockedReason(facts, history, clock, now)) return null;
+  if (isQuietDay(clock) || coachingBlockedReason(facts, history, clock, now)) return null;
   if (inWindow(clock, MORNING)) {
     return (
       examCountdown(facts, history, clock) ??
-      weeklyReport(facts, history, clock) ??  // Sunday only; a milestone can wait a day
+      weeklyReport(facts, history, clock) ??  // Mondays only; a milestone can wait a day
       milestone(facts, history)
     );
   }

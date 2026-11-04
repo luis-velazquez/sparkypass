@@ -16,9 +16,23 @@ export interface ActivityFacts {
   answeredLastWeek: number;
   correctLastWeek: number;
   topicsThisWeek: TopicStat[];
+  topicsLastWeek: TopicStat[];
   topics14d: TopicStat[];
   reviewDue: number;
 }
+
+/**
+ * A few bank questions carry an older or narrower category slug. Fold the ones
+ * that clearly belong to one of the app's 8 topics; any other stray slug still
+ * counts toward the week's totals but not toward a topic, because the report
+ * can only send people to the 8 topic quizzes.
+ */
+const TOPIC_ALIASES: Record<string, string> = {
+  "grounding-and-bonding": "grounding-bonding",
+  "load-calculations": "calculations-and-theory",
+  "fire-pumps": "special-occupancies",
+  "elevators-and-escalators": "special-occupancies",
+};
 
 /** Past sends that still matter: the last 30 days, plus every milestone ever. */
 export async function loadHistory(userId: string, now: Date): Promise<SentRecord[]> {
@@ -39,17 +53,15 @@ export async function loadHistory(userId: string, now: Date): Promise<SentRecord
   return rows as SentRecord[];
 }
 
+/** Accuracy per topic. Lists all 8 topics, including ones with 0 answered, so "unpracticed" can be spotted. */
 function topicStats(rows: { questionId: string; isCorrect: boolean }[]): TopicStat[] {
-  const byTopic = new Map<string, TopicStat>();
+  const byTopic = new Map<string, TopicStat>(
+    CATEGORIES.map((c) => [c.slug, { slug: c.slug, name: c.name, necArticle: c.necArticle, answered: 0, correct: 0 }]),
+  );
   for (const r of rows) {
-    const slug = getQuestionById(r.questionId)?.category;
-    if (!slug) continue;
-    let stat = byTopic.get(slug);
-    if (!stat) {
-      const cat = CATEGORIES.find((c) => c.slug === slug);
-      stat = { slug, name: cat?.name ?? slug, necArticle: cat?.necArticle ?? "", answered: 0, correct: 0 };
-      byTopic.set(slug, stat);
-    }
+    const raw = getQuestionById(r.questionId)?.category;
+    const stat = raw ? byTopic.get(TOPIC_ALIASES[raw] ?? raw) : undefined;
+    if (!stat) continue;
     stat.answered += 1;
     if (r.isCorrect) stat.correct += 1;
   }
@@ -95,6 +107,7 @@ export async function loadActivity(userId: string, now: Date): Promise<ActivityF
     answeredLastWeek: lastWeek.length,
     correctLastWeek: correct(lastWeek),
     topicsThisWeek: topicStats(thisWeek),
+    topicsLastWeek: topicStats(lastWeek),
     topics14d: topicStats(recent),
     reviewDue: Number(due?.n ?? 0),
   };

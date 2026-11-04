@@ -5,7 +5,7 @@
 export interface NotificationPrefs {
   /** The user's own daily reminder ("streak saver") at a time they pick. */
   dailyStreakReminder: { enabled: boolean; hour: number; minute: number };
-  /** Sunday progress report. */
+  /** Monday progress report (nothing is ever sent on Sunday). */
   weeklyDigest: { enabled: boolean };
   /** Countdown pushes at 30/14/7/3/1 days before the exam date. */
   examCountdown: { enabled: boolean };

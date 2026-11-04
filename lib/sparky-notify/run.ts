@@ -9,7 +9,7 @@ import { db, notificationLog, pushTokens, users } from "@/lib/db";
 import { sendPushNotifications, tokensForUser, type PushMessage } from "@/lib/push";
 import { loadActivity, loadHistory } from "./facts";
 import { parseNotificationPrefs } from "./prefs";
-import { coachingCandidate, streakSaver, AFTERNOON, MORNING } from "./rules";
+import { coachingCandidate, hasAccess, isQuietDay, streakSaver, AFTERNOON, MORNING } from "./rules";
 import { firstNameOf, renderMessage } from "./templates";
 import { localClock } from "./time";
 import type { Candidate, SentRecord, SparkyMessage, UserFacts } from "./types";
@@ -38,6 +38,9 @@ export async function runSparkyNotifications(now: Date, opts: { dryRun?: boolean
       lastStudyDate: users.lastStudyDate,
       targetExamDate: users.targetExamDate,
       wattsLifetime: users.wattsLifetime,
+      focusMode: users.focusMode,
+      subscriptionStatus: users.subscriptionStatus,
+      trialEndsAt: users.trialEndsAt,
     })
     .from(users)
     .innerJoin(pushTokens, eq(pushTokens.userId, users.id))
@@ -46,8 +49,11 @@ export async function runSparkyNotifications(now: Date, opts: { dryRun?: boolean
   const toSend: Array<{ userId: string; candidate: Candidate; message: SparkyMessage }> = [];
 
   for (const u of rows) {
+    // Only people who can open the app today: see hasAccess.
+    if (!hasAccess(u.subscriptionStatus ?? null, u.trialEndsAt ?? null, now)) continue;
     const clock = localClock(u.timezone!, now);
-    if (!clock) continue;
+    // Sunday (their local time) is a day of rest: nothing goes out.
+    if (!clock || isQuietDay(clock)) continue;
 
     const facts: UserFacts = {
       userId: u.id,
@@ -58,6 +64,7 @@ export async function runSparkyNotifications(now: Date, opts: { dryRun?: boolean
       lastStudyAt: u.lastStudyDate ?? null,
       targetExamDate: u.targetExamDate ?? null,
       wattsLifetime: u.wattsLifetime ?? 0,
+      level: u.focusMode === "master" ? "master" : "journeyman",
       // Activity numbers are filled in below, only when coaching is possible.
       wattsThisWeek: 0,
       answeredTotal: 0,
@@ -66,6 +73,7 @@ export async function runSparkyNotifications(now: Date, opts: { dryRun?: boolean
       answeredLastWeek: 0,
       correctLastWeek: 0,
       topicsThisWeek: [],
+      topicsLastWeek: [],
       topics14d: [],
       reviewDue: 0,
     };
