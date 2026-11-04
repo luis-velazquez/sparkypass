@@ -531,3 +531,43 @@ export const feedback = sqliteTable(
 
 export type Feedback = typeof feedback.$inferSelect;
 export type NewFeedback = typeof feedback.$inferInsert;
+
+// ─── Sparky notifications (migration 0029) ──────────────────────────────────
+//
+// One row per push Sparky sends (per user, not per device). Drives the
+// frequency caps, per-type cooldowns, one-time milestone keys, and template
+// rotation in lib/sparky-notify. `openedAt` is reserved for tap tracking.
+export const notificationTypeValues = [
+  "streak_saver",
+  "exam_countdown",
+  "milestone",
+  "weekly_report",
+  "weak_spot",
+  "review_due",
+  "comeback",
+] as const;
+export type NotificationTypeValue = (typeof notificationTypeValues)[number];
+
+export const notificationLog = sqliteTable(
+  "notification_log",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    type: text("type", { enum: notificationTypeValues }).notNull(),
+    // What this send was about (e.g. "streak_30", "streak_saver_2026-11-01"). Unique
+    // per user, so two overlapping cron runs can never send the same message twice.
+    dedupKey: text("dedup_key"),
+    variant: integer("variant").notNull().default(0),  // template index, so the next send can rotate
+    title: text("title").notNull(),
+    body: text("body").notNull(),
+    sentAt: integer("sent_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+    openedAt: integer("opened_at", { mode: "timestamp" }),
+  },
+  (table) => ({
+    userSentIdx: index("notification_log_user_sent_idx").on(table.userId, table.sentAt),
+    userKeyIdx: uniqueIndex("notification_log_user_key_idx").on(table.userId, table.dedupKey),
+  }),
+);
+
+export type NotificationLog = typeof notificationLog.$inferSelect;
+export type NewNotificationLog = typeof notificationLog.$inferInsert;

@@ -6,8 +6,8 @@
   "regions": ["iad1"],
   "crons": [
     {
-      "path": "/api/cron/weekly-digest",
-      "schedule": "0 14 * * 0"
+      "path": "/api/cron/sparky-notify",
+      "schedule": "0 16 * * *"
     },
     {
       "path": "/api/cron/hard-delete",
