@@ -6,6 +6,8 @@ export const SITE_URL = "https://sparkypass.com";
 export const SITE_NAME = "SparkyPass";
 export const LEGAL_ENTITY = "SparkyPass LLC";
 export const SUPPORT_EMAIL = "support@sparkypass.com";
+/** The SparkyPass inbox (iCloud Custom Email Domain). Replies to offer emails go here. */
+export const INFO_EMAIL = "info@sparkypass.com";
 
 export const APP_STORE_ID = "6801112841";
 export const APP_STORE_URL = `https://apps.apple.com/us/app/sparkypass/id${APP_STORE_ID}`;

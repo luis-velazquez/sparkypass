@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Zap } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { INFO_EMAIL } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Unsubscribe | SparkyPass",
@@ -39,13 +40,13 @@ export default async function UnsubscribePage({
       <>
         <p>
           Open the unsubscribe link from the email again, or write to{" "}
-          <a className="underline" href="mailto:support@sparkypass.com">
-            support@sparkypass.com
+          <a className="underline" href={`mailto:${INFO_EMAIL}`}>
+            {INFO_EMAIL}
           </a>{" "}
           and we&apos;ll take you off the list.
         </p>
         <p lang="es">
-          Abre otra vez el enlace del correo, o escríbenos a support@sparkypass.com y te
+          Abre otra vez el enlace del correo, o escríbenos a {INFO_EMAIL} y te
           daremos de baja.
         </p>
       </>

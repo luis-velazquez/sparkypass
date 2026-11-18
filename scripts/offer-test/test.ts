@@ -151,7 +151,7 @@ async function main() {
     assert.equal(e.from, "SparkyPass <hello@sparkypass.com>");
     assert.doesNotMatch(e.text + e.html + e.from, /Luis/);
     assert.match(e.text, /\n\nSparkyPass\n\n/);
-    assert.equal(e.replyTo, "support@sparkypass.com");
+    assert.equal(e.replyTo, "info@sparkypass.com");
     assert.equal(e.headers["List-Unsubscribe-Post"], "List-Unsubscribe=One-Click");
     assert.match(e.headers["List-Unsubscribe"], /^<https:\/\/sparkypass\.com\/api\/email\/unsubscribe\?u=u_[a-z0-9A-Z_]+&t=[\w-]{32}>$/);
     assert.match(e.text, /PO Box 123, Dallas, TX 75201/);

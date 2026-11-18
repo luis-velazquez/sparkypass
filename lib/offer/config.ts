@@ -6,8 +6,7 @@
 //                          the job only reports who would get what.
 //   MAILING_ADDRESS        postal address for the footer (US anti-spam law,
 //                          plan E-04). Live sends refuse to run without it.
-//   OFFER_REPLY_TO         where replies go. Falls back to CONTACT_EMAIL,
-//                          then support@sparkypass.com.
+//   OFFER_REPLY_TO         where replies go. Default info@sparkypass.com.
 //   OFFER_EMAIL_FROM       full From header. Default: "SparkyPass" with
 //                          EMAIL_FROM's address.
 //   OFFER_DAILY_CAP        offer emails per day (default 60; Resend's free
@@ -16,7 +15,7 @@
 //                          match the offer in App Store Connect.
 //   OFFER_TEST_TO          the one address test copies may go to.
 
-import { APP_STORE_ID, PRO_PRICE, SUPPORT_EMAIL } from "@/lib/site";
+import { APP_STORE_ID, INFO_EMAIL, PRO_PRICE } from "@/lib/site";
 
 export const OFFER_STUDIED_THRESHOLD = 20; // email 2A at 20+ free-week answers, else 2B (E-11)
 export const LOW_CODE_WARNING = 50;
@@ -35,8 +34,7 @@ export const fullPriceText = () => PRO_PRICE;
 
 export const mailingAddress = () => process.env.MAILING_ADDRESS?.trim() || null;
 
-export const replyTo = () =>
-  process.env.OFFER_REPLY_TO?.trim() || process.env.CONTACT_EMAIL?.trim() || SUPPORT_EMAIL;
+export const replyTo = () => process.env.OFFER_REPLY_TO?.trim() || INFO_EMAIL;
 
 /** "SparkyPass <hello@…>", using the verified address from EMAIL_FROM. */
 export function offerFrom(): string | null {
