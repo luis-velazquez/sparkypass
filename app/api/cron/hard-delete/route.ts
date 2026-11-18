@@ -6,7 +6,8 @@
 //
 // Cascade deletes (via ON DELETE CASCADE foreign keys) drop all dependent
 // rows: user_progress, study_sessions, bookmarks, flashcard_bookmarks,
-// quiz_results, question_srs, circuit_breaker_state, friendships, power_up_purchases,
+// quiz_results, question_srs, circuit_breaker_state, friendships, crew_codes,
+// crew_invite_emails, power_up_purchases,
 // game_pack_purchases, game_mastery_state, watts_transactions, referrals,
 // refresh_tokens, push_tokens, linked_providers, sync_event_log, feedback,
 // verification_tokens, password_reset_tokens.

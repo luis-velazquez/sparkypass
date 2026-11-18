@@ -1,8 +1,25 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, friendships } from "@/lib/db";
-import { eq, and, or, ne } from "drizzle-orm";
-import { getClassificationTitle } from "@/lib/voltage";
+import { eq, and, or, ne, inArray, isNull } from "drizzle-orm";
+import { crewDisplayName } from "@/lib/crew";
+import { getPortaJonTitle } from "@/lib/porta-jon";
+
+// GET /api/friends — the Throne Room crew list: accepted friends, requests
+// waiting on you, and requests you sent. Friends see only the basics: a
+// display name (username, else first name) and Throne Room stats. Never an
+// email, a phone number or study data. Users in the 30-day deletion grace
+// are left out.
+export interface CrewFriend {
+  friendshipId: string;
+  friendId: string;
+  name: string;
+  title: string;
+  titleIcon: string;
+  scrollsDodged: number;
+  longestStreak: number;
+  since: string | null;
+}
 
 export async function GET() {
   try {
@@ -13,7 +30,6 @@ export async function GET() {
 
     const userId = session.user.id;
 
-    // Get all friendships involving this user (not blocked)
     const allFriendships = await db
       .select({
         id: friendships.id,
@@ -21,94 +37,79 @@ export async function GET() {
         addresseeId: friendships.addresseeId,
         status: friendships.status,
         createdAt: friendships.createdAt,
+        updatedAt: friendships.updatedAt,
       })
       .from(friendships)
       .where(
         and(
-          or(
-            eq(friendships.requesterId, userId),
-            eq(friendships.addresseeId, userId),
-          ),
+          or(eq(friendships.requesterId, userId), eq(friendships.addresseeId, userId)),
           ne(friendships.status, "blocked"),
+          ne(friendships.status, "declined"),
         ),
       );
 
-    // Collect all friend user IDs
-    const friendUserIds = new Set<string>();
-    allFriendships.forEach((f: any) => {
-      friendUserIds.add(f.requesterId === userId ? f.addresseeId : f.requesterId);
-    });
+    const friendUserIds: string[] = [
+      ...new Set<string>(
+        allFriendships.map((f: { requesterId: string; addresseeId: string }) =>
+          f.requesterId === userId ? f.addresseeId : f.requesterId,
+        ),
+      ),
+    ];
 
-    // Fetch user data for all friends
-    const friendUsers = friendUserIds.size > 0
-      ? await db
-          .select({
-            id: users.id,
-            name: users.name,
-            username: users.username,
-            wattsLifetime: users.wattsLifetime,
-            wattsBalance: users.wattsBalance,
-            studyStreak: users.studyStreak,
-          })
-          .from(users)
-          .where(or(...[...friendUserIds].map((id) => eq(users.id, id))))
-      : [];
-
-    const userMap = new Map(friendUsers.map((u: any) => [u.id, u]));
-
-    // Categorize friendships
-    const accepted: typeof result = [];
-    const pendingIncoming: typeof result = [];
-    const pendingOutgoing: typeof result = [];
-
-    type FriendInfo = {
-      friendshipId: string;
-      friendId: string;
+    type Row = {
+      id: string;
       name: string;
       username: string | null;
-      wattsLifetime: number;
-      classificationTitle: string;
-      studyStreak: number;
-      since: string | null;
+      scrollsDodged: number | null;
+      portaJonLongestStreak: number | null;
     };
+    const friendUsers: Row[] =
+      friendUserIds.length > 0
+        ? await db
+            .select({
+              id: users.id,
+              name: users.name,
+              username: users.username,
+              scrollsDodged: users.scrollsDodged,
+              portaJonLongestStreak: users.portaJonLongestStreak,
+            })
+            .from(users)
+            .where(and(inArray(users.id, friendUserIds), isNull(users.deletedAt)))
+        : [];
+    const userMap = new Map(friendUsers.map((u) => [u.id, u]));
 
-    const result: FriendInfo[] = [];
+    const friends: CrewFriend[] = [];
+    const pendingIncoming: CrewFriend[] = [];
+    const pendingOutgoing: CrewFriend[] = [];
 
-    allFriendships.forEach((f: any) => {
+    for (const f of allFriendships) {
       const friendId = f.requesterId === userId ? f.addresseeId : f.requesterId;
-      const user = userMap.get(friendId) as any;
-      if (!user) return;
-
-      const info: FriendInfo = {
+      const u = userMap.get(friendId);
+      if (!u) continue;
+      const scrolls = u.scrollsDodged || 0;
+      const title = getPortaJonTitle(scrolls);
+      const info: CrewFriend = {
         friendshipId: f.id,
-        friendId: user.id,
-        name: user.name,
-        username: user.username,
-        wattsLifetime: user.wattsLifetime,
-        classificationTitle: getClassificationTitle(user.wattsLifetime),
-        studyStreak: user.studyStreak,
-        since: f.createdAt?.toISOString() || null,
+        friendId: u.id,
+        name: crewDisplayName(u.username, u.name),
+        title: title.title,
+        titleIcon: title.icon,
+        scrollsDodged: scrolls,
+        longestStreak: u.portaJonLongestStreak || 0,
+        since: (f.status === "accepted" ? f.updatedAt : f.createdAt)?.toISOString() || null,
       };
+      if (f.status === "accepted") friends.push(info);
+      else if (f.requesterId === userId) pendingOutgoing.push(info);
+      else pendingIncoming.push(info);
+    }
 
-      if (f.status === "accepted") {
-        accepted.push(info);
-      } else if (f.status === "pending") {
-        if (f.requesterId === userId) {
-          pendingOutgoing.push(info);
-        } else {
-          pendingIncoming.push(info);
-        }
-      }
-    });
-
-    // Sort accepted friends by watts lifetime descending
-    accepted.sort((a, b) => b.wattsLifetime - a.wattsLifetime);
+    friends.sort((a, b) => b.scrollsDodged - a.scrollsDodged || a.name.localeCompare(b.name));
 
     return NextResponse.json({
-      friends: accepted,
+      friends,
       pendingIncoming,
       pendingOutgoing,
-      totalFriends: accepted.length,
+      totalFriends: friends.length,
     });
   } catch (error) {
     console.error("Error fetching friends:", error);
