@@ -22,12 +22,19 @@ import {
   linkedProviderValues,
 } from "@/lib/db";
 import { createTokenPair } from "@/lib/auth-mobile";
+import { linkSubject } from "@/lib/google-id-token";
+import { rateLimit, getClientIp } from "@/lib/rate-limit";
+
+// Codes are 6 digits with no per-code attempt counter, so cap guesses per IP.
+const linkConfirmLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10 });
 
 interface RequestBody {
   email?: unknown;
   code?: unknown;
   provider?: unknown;
+  /** Apple only. Google sends idToken and the subject is read from it. */
   providerSubject?: unknown;
+  idToken?: unknown;
   deviceId?: unknown;
 }
 
@@ -36,6 +43,14 @@ function hashCode(code: string): string {
 }
 
 export async function POST(request: NextRequest) {
+  const limit = linkConfirmLimiter.check(getClientIp(request));
+  if (!limit.success) {
+    return NextResponse.json(
+      { error: "Too many attempts. Try again later.", code: "RATE_LIMITED" },
+      { status: 429, headers: { "Retry-After": "900" } },
+    );
+  }
+
   let body: RequestBody;
   try {
     body = (await request.json()) as RequestBody;
@@ -49,13 +64,12 @@ export async function POST(request: NextRequest) {
   const email = typeof body.email === "string" ? body.email.toLowerCase().trim() : null;
   const code = typeof body.code === "string" ? body.code.trim() : null;
   const provider = typeof body.provider === "string" ? body.provider : null;
-  const providerSubject = typeof body.providerSubject === "string" ? body.providerSubject : null;
   const deviceId = typeof body.deviceId === "string" ? body.deviceId.trim() : null;
 
-  if (!email || !code || !provider || !providerSubject || !deviceId) {
+  if (!email || !code || !provider || !deviceId) {
     return NextResponse.json(
       {
-        error: "email, code, provider, providerSubject, and deviceId are required",
+        error: "email, code, provider, and deviceId are required",
         code: "MISSING_FIELDS",
       },
       { status: 400 },
@@ -68,6 +82,15 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+
+  const linked = await linkSubject(provider, body);
+  if (!linked.ok) {
+    return NextResponse.json(
+      { error: linked.error, code: linked.code },
+      { status: linked.status },
+    );
+  }
+  const providerSubject = linked.subject;
 
   const codeHash = hashCode(code);
   const now = new Date();

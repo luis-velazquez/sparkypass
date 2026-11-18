@@ -1,30 +1,20 @@
 // POST /api/auth/mobile/google
 //
-// Mobile Google sign-in. Verifies a Google ID token (issued by the iOS app's
-// Google Sign-In SDK) against Google's JWKS, then resolves or creates the user
-// per the policy in lib/auth-mobile.ts:resolveOAuthUser (no silent merges; an
-// email collision with an existing account triggers the link-request flow).
+// Mobile Google sign-in. Verifies a Google ID token (from the iOS app's Google
+// sign-in) against Google's JWKS, then resolves or creates the user per the
+// policy in lib/auth-mobile.ts:resolveOAuthUser (no silent merges; an email
+// collision with an existing account sends the app into the link flow:
+// link-request emails a code, link-confirm attaches Google to the account).
 
 import { NextRequest, NextResponse } from "next/server";
-import { createRemoteJWKSet, jwtVerify } from "jose";
 import { eq } from "drizzle-orm";
 import { db, users } from "@/lib/db";
 import { createTokenPair, resolveOAuthUser } from "@/lib/auth-mobile";
-
-const GOOGLE_JWKS = createRemoteJWKSet(
-  new URL("https://www.googleapis.com/oauth2/v3/certs"),
-);
+import { verifyGoogleIdToken, type GoogleClaims } from "@/lib/google-id-token";
 
 interface RequestBody {
   idToken?: unknown;
   deviceId?: unknown;
-}
-
-interface GoogleIdTokenPayload {
-  sub: string;
-  email?: string;
-  email_verified?: boolean;
-  name?: string;
 }
 
 export async function POST(request: NextRequest) {
@@ -48,23 +38,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const audience = process.env.GOOGLE_IOS_CLIENT_ID;
-  if (!audience) {
-    console.error("[auth/mobile/google] GOOGLE_IOS_CLIENT_ID not configured");
-    return NextResponse.json(
-      { error: "Server misconfigured", code: "INTERNAL" },
-      { status: 500 },
-    );
-  }
-
-  let claims: GoogleIdTokenPayload;
+  let claims: GoogleClaims;
   try {
-    const { payload } = await jwtVerify(idToken, GOOGLE_JWKS, {
-      issuer: ["https://accounts.google.com", "accounts.google.com"],
-      audience,
-    });
-    if (typeof payload.sub !== "string") throw new Error("missing sub");
-    claims = payload as unknown as GoogleIdTokenPayload;
+    claims = await verifyGoogleIdToken(idToken);
   } catch (err) {
     console.warn("[auth/mobile/google] Token verification failed:", err);
     return NextResponse.json(
@@ -76,9 +52,9 @@ export async function POST(request: NextRequest) {
   const result = await resolveOAuthUser({
     provider: "google",
     providerSubject: claims.sub,
-    email: claims.email ?? null,
-    name: claims.name ?? null,
-    emailVerified: Boolean(claims.email_verified),
+    email: claims.email,
+    name: claims.name,
+    emailVerified: claims.emailVerified,
   });
 
   if (result.kind === "conflict") {
