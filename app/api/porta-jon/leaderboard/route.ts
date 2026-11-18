@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db, users, friendships } from "@/lib/db";
-import { eq, and, or, inArray } from "drizzle-orm";
+import { eq, and, or, inArray, isNull } from "drizzle-orm";
 import { getPortaJonTitle } from "@/lib/porta-jon";
+import { crewDisplayName } from "@/lib/crew";
 
 // GET /api/porta-jon/leaderboard — the crew board: the current user plus their
 // accepted friends, ranked by lifetime challenges completed (scrolls dodged),
@@ -64,7 +65,13 @@ export async function GET() {
         portaJonLongestStreak: users.portaJonLongestStreak,
       })
       .from(users)
-      .where(inArray(users.id, Array.from(crewIds)));
+      // Crew in the 30-day deletion grace drop off the board (you never do).
+      .where(
+        and(
+          inArray(users.id, Array.from(crewIds)),
+          or(eq(users.id, me), isNull(users.deletedAt)),
+        ),
+      );
 
     const leaderboard: PortaJonLeaderboardEntry[] = rows
       .sort(
@@ -77,7 +84,8 @@ export async function GET() {
         return {
           rank: i + 1,
           userId: u.id,
-          username: u.username || u.name || "Electrician",
+          // Username, else first name only: friends see the basics.
+          username: crewDisplayName(u.username, u.name),
           scrollsDodged: u.scrollsDodged || 0,
           throneStreak: u.throneStreak || 0,
           title: title.title,

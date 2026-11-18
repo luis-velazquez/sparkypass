@@ -287,3 +287,51 @@ export async function sendPasswordResetCodeEmail(
     throw new Error(`Failed to send password-reset-code email: ${error.message}`);
   }
 }
+
+/** Throne Room crew invite, sent when someone adds an email that has no
+ *  SparkyPass account. Carries the sender's crew code; never an account link. */
+export async function sendCrewInviteEmail(
+  to: string,
+  inviterName: string,
+  code: string,
+  appStoreUrl: string,
+) {
+  const safeName = escapeHtml(inviterName);
+  const shown = `${code.slice(0, 3)}-${code.slice(3)}`;
+  const safeCode = escapeHtml(shown);
+
+  const { error } = await getResend().emails.send({
+    from: fromAddress,
+    to,
+    subject: `${inviterName} wants you on their SparkyPass crew`,
+    html: `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+        <h1 style="color: #f59e0b; text-align: center;">&#9889; SparkyPass</h1>
+        <h2 style="text-align: center;">You&#39;re invited to a crew</h2>
+        <p>${safeName} is studying for the electrical license exam with SparkyPass and wants you on their crew in the Throne Room.</p>
+        <p>Get the app, then open <strong>Porta Jon &rarr; Throne Room &rarr; Enter a code</strong> and type:</p>
+        <div style="text-align: center; margin: 30px 0;">
+          <div style="display: inline-block; font-size: 32px; font-weight: bold; letter-spacing: 6px; padding: 16px 32px; background: #fff7ed; color: #f59e0b; border-radius: 6px; border: 1px solid #f59e0b;">
+            ${safeCode}
+          </div>
+        </div>
+        <div style="text-align: center; margin: 30px 0;">
+          <a href="${appStoreUrl}" style="background-color: #f59e0b; color: #000; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+            Get SparkyPass on the App Store
+          </a>
+        </div>
+        <p style="color: #666; font-size: 14px;">Crew members see each other&#39;s name and Throne Room stats. Nothing else is shared.</p>
+        <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+        <p style="color: #999; font-size: 12px; text-align: center;">
+          You got this because ${safeName} entered your email address in SparkyPass. If you don&#39;t know them, you can ignore this email.
+        </p>
+      </div>
+    `,
+    text: `${inviterName} is studying for the electrical license exam with SparkyPass and wants you on their crew in the Throne Room.\n\nGet the app: ${appStoreUrl}\n\nThen open Porta Jon > Throne Room > Enter a code and type: ${shown}\n\nCrew members see each other's name and Throne Room stats. Nothing else is shared.\n\nYou got this because ${inviterName} entered your email address in SparkyPass. If you don't know them, you can ignore this email.`,
+  });
+
+  if (error) {
+    console.error("Failed to send crew invite email:", error);
+    throw new Error(`Failed to send crew invite email: ${error.message}`);
+  }
+}

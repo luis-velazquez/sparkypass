@@ -244,6 +244,24 @@ export const friendships = sqliteTable("friendships", {
 export type Friendship = typeof friendships.$inferSelect;
 export type NewFriendship = typeof friendships.$inferInsert;
 
+// Throne Room crew codes (migration 0029): one shareable code per user.
+// Entering someone's code makes you crew (an accepted friendship) at once.
+export const crewCodes = sqliteTable("crew_codes", {
+  userId: text("user_id").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  code: text("code").notNull().unique(),
+  createdAt: integer("created_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
+// Crew invite emails sent to addresses with no account (migration 0029), for
+// the per-sender daily cap and the per-address cooldown. SHA-256 of the
+// address only.
+export const crewInviteEmails = sqliteTable("crew_invite_emails", {
+  id: text("id").primaryKey(),
+  inviterId: text("inviter_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  emailHash: text("email_hash").notNull(),
+  sentAt: integer("sent_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+});
+
 // Power-up purchases
 export const powerUpPurchases = sqliteTable("power_up_purchases", {
   id: text("id").primaryKey(),
