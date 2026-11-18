@@ -11,6 +11,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { createRemoteJWKSet, jwtVerify } from "jose";
+import { verifyGoogleIdToken } from "@/lib/google-id-token";
 import { eq, and } from "drizzle-orm";
 import crypto from "crypto";
 import { auth } from "@/auth";
@@ -20,9 +21,6 @@ import {
   linkedProviderValues,
 } from "@/lib/db";
 
-const GOOGLE_JWKS = createRemoteJWKSet(
-  new URL("https://www.googleapis.com/oauth2/v3/certs"),
-);
 const APPLE_JWKS = createRemoteJWKSet(
   new URL("https://appleid.apple.com/auth/keys"),
 );
@@ -44,15 +42,9 @@ async function verifyProviderToken(
   nonce: string | null,
 ): Promise<{ ok: true; subject: string } | { ok: false; reason: string }> {
   if (provider === "google") {
-    const audience = process.env.GOOGLE_IOS_CLIENT_ID;
-    if (!audience) return { ok: false, reason: "GOOGLE_IOS_CLIENT_ID_MISSING" };
     try {
-      const { payload } = await jwtVerify(idToken, GOOGLE_JWKS, {
-        issuer: ["https://accounts.google.com", "accounts.google.com"],
-        audience,
-      });
-      if (typeof payload.sub !== "string") return { ok: false, reason: "INVALID_TOKEN" };
-      return { ok: true, subject: payload.sub };
+      const claims = await verifyGoogleIdToken(idToken);
+      return { ok: true, subject: claims.sub };
     } catch {
       return { ok: false, reason: "INVALID_TOKEN" };
     }

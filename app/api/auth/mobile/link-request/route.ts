@@ -17,6 +17,7 @@ import crypto from "crypto";
 import { db, users, linkCodes, linkedProviderValues } from "@/lib/db";
 import { sendLinkCodeEmail } from "@/lib/email";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { linkSubject, providerLabel } from "@/lib/google-id-token";
 
 const linkRequestLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 3 });
 const CODE_TTL_MS = 10 * 60 * 1000;  // 10 minutes
@@ -25,7 +26,9 @@ const MAX_PENDING_CODES_PER_EMAIL = 5;  // per hour
 interface RequestBody {
   email?: unknown;
   provider?: unknown;
+  /** Apple only. Google sends idToken and the subject is read from it. */
   providerSubject?: unknown;
+  idToken?: unknown;
 }
 
 function generateSixDigitCode(): string {
@@ -62,11 +65,10 @@ export async function POST(request: NextRequest) {
 
   const email = typeof body.email === "string" ? body.email.toLowerCase().trim() : null;
   const provider = typeof body.provider === "string" ? body.provider : null;
-  const providerSubject = typeof body.providerSubject === "string" ? body.providerSubject : null;
 
-  if (!email || !provider || !providerSubject) {
+  if (!email || !provider) {
     return NextResponse.json(
-      { error: "email, provider, and providerSubject are required", code: "MISSING_FIELDS" },
+      { error: "email and provider are required", code: "MISSING_FIELDS" },
       { status: 400 },
     );
   }
@@ -77,6 +79,15 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
+
+  const linked = await linkSubject(provider, body);
+  if (!linked.ok) {
+    return NextResponse.json(
+      { error: linked.error, code: linked.code },
+      { status: linked.status },
+    );
+  }
+  const providerSubject = linked.subject;
 
   // Look up user — but always return success regardless of existence (anti-enum).
   const [user] = await db
@@ -109,7 +120,7 @@ export async function POST(request: NextRequest) {
       });
 
       try {
-        await sendLinkCodeEmail(email, user.name, code, provider);
+        await sendLinkCodeEmail(email, user.name, code, providerLabel(provider));
       } catch (err) {
         // Log but don't reveal email-send failures to the caller (anti-enum).
         console.error("[auth/mobile/link-request] sendLinkCodeEmail failed:", err);
