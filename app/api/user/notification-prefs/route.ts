@@ -127,10 +127,21 @@ export async function PUT(request: NextRequest) {
     current.weeklyDigest.enabled = body.weeklyDigest.enabled;
   }
 
+  // Keep every other key in the stored blob (e.g. offerEmails, set by the
+  // unsubscribe link in offer emails): writing only the two sections above
+  // would silently re-subscribe someone who unsubscribed.
+  let stored: Record<string, unknown> = {};
+  try {
+    const parsed = JSON.parse(existing?.notificationPrefs || "{}");
+    if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) stored = parsed;
+  } catch {
+    /* a broken blob is replaced */
+  }
+
   await db
     .update(users)
     .set({
-      notificationPrefs: JSON.stringify(current),
+      notificationPrefs: JSON.stringify({ ...stored, ...current }),
       updatedAt: new Date(),
     })
     .where(eq(users.id, session.user.id));

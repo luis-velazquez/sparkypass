@@ -28,7 +28,7 @@ export default function PrivacyPage() {
               Privacy Policy
             </h1>
             <p className="text-sm text-muted-foreground">
-              Last updated: August 7, 2026
+              Last updated: November 18, 2026
             </p>
           </CardHeader>
           <CardContent className="prose prose-sm max-w-none space-y-6 text-muted-foreground">
@@ -77,6 +77,11 @@ export default function PrivacyPage() {
                 <li>Sync your progress across your devices</li>
                 <li>Provide access to your subscription</li>
                 <li>Send email verification and password reset emails</li>
+                <li>
+                  Email you about your account, such as a reminder before your free week ends
+                  and an occasional subscription offer. Every one of these emails has an
+                  unsubscribe link, and you can unsubscribe at any time
+                </li>
                 <li>Deliver study reminders and notifications you enable</li>
                 <li>Diagnose crashes and improve the app and study materials</li>
               </ul>
@@ -96,7 +101,7 @@ export default function PrivacyPage() {
                 <li><strong>Expo</strong> &mdash; delivers app updates and push notifications (receives your push token and device platform if you enable reminders)</li>
                 <li><strong>Sentry</strong> &mdash; crash reports and app performance diagnostics (device model, OS version, app version); these reports are not linked to your account identity. While our website remains available, it also records session replays to diagnose errors</li>
                 <li><strong>Stripe</strong> &mdash; payment processing for subscriptions purchased on our website (legacy accounts only; the app uses Apple In-App Purchase)</li>
-                <li><strong>Resend</strong> &mdash; for sending transactional emails (verification, password reset)</li>
+                <li><strong>Resend</strong> &mdash; for sending our emails (verification, password reset, free-week reminders and subscription offers)</li>
                 <li><strong>Turso</strong> &mdash; for secure database hosting</li>
                 <li><strong>Vercel</strong> &mdash; for application hosting</li>
               </ul>
