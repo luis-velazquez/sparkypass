@@ -3,6 +3,7 @@ import { auth } from "@/auth";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { validateUsername, normalizeUsername } from "@/lib/username";
+import { activeOffer } from "@/lib/offer/codes";
 
 export async function GET() {
   try {
@@ -55,6 +56,22 @@ export async function GET() {
         ? "expired"
         : user.subscriptionStatus || null;
 
+    // The $0.99 first-month code (lib/offer), shown on the app's paywall while
+    // it's before its use-by date and the user isn't Pro. Never fails the
+    // profile: a missing table (migration 0030 not applied) just means none.
+    const now = new Date();
+    const isPro =
+      effectiveSubscriptionStatus === "active" ||
+      effectiveSubscriptionStatus === "past_due" ||
+      effectiveSubscriptionStatus === "trialing" ||
+      (effectiveSubscriptionStatus === "canceled" &&
+        !!user.subscriptionPeriodEnd &&
+        user.subscriptionPeriodEnd > now);
+    const offer = await activeOffer(session.user.id, isPro, now).catch((err) => {
+      console.error("[profile] offer lookup failed:", err);
+      return null;
+    });
+
     return NextResponse.json({
       name: user.name,
       email: user.email,
@@ -77,6 +94,7 @@ export async function GET() {
       subscriptionSource: user.subscriptionSource || null,
       subscriptionPeriodEnd: user.subscriptionPeriodEnd?.toISOString() || null,
       isBetaTester: !!user.betaAgreedAt,
+      offer,
     });
   } catch (error) {
     console.error("Error fetching profile:", error);

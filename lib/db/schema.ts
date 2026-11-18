@@ -492,6 +492,52 @@ export const authCodes = sqliteTable(
 export type AuthCode = typeof authCodes.$inferSelect;
 export type NewAuthCode = typeof authCodes.$inferInsert;
 
+// ─── $0.99 first-month offer (migration 0030) ──────────────────────────────
+//
+// One-time App Store offer codes, imported from App Store Connect, and the
+// offer messages sent to free-week users who never subscribed (lib/offer/).
+// offer_codes.user_id has no foreign key on purpose: a hard-deleted account's
+// code stays used, never goes back into the pool.
+export const offerCodes = sqliteTable(
+  "offer_codes",
+  {
+    code: text("code").primaryKey(),
+    batch: text("batch").notNull(),
+    expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
+    userId: text("user_id"),
+    givenAt: integer("given_at", { mode: "timestamp" }),
+    importedAt: integer("imported_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    userIdx: uniqueIndex("offer_codes_user_idx").on(table.userId),
+    poolIdx: index("offer_codes_pool_idx").on(table.userId, table.expiresAt),
+  }),
+);
+
+// day6_email | day15_email | day19_email | day15_push
+export const offerMessageValues = ["day6_email", "day15_email", "day19_email", "day15_push"] as const;
+export type OfferMessageValue = (typeof offerMessageValues)[number];
+
+export const offerMessages = sqliteTable(
+  "offer_messages",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    message: text("message", { enum: offerMessageValues }).notNull(),
+    version: text("version"),  // "A" | "B" for day15_email (E-11)
+    code: text("code"),
+    providerId: text("provider_id"),  // Resend email id
+    sentAt: integer("sent_at", { mode: "timestamp" }).notNull().$defaultFn(() => new Date()),
+  },
+  (table) => ({
+    userMessageIdx: uniqueIndex("offer_messages_user_message_idx").on(table.userId, table.message),
+    sentAtIdx: index("offer_messages_sent_at_idx").on(table.sentAt),
+  }),
+);
+
+export type OfferCode = typeof offerCodes.$inferSelect;
+export type OfferMessage = typeof offerMessages.$inferSelect;
+
 // ─── Feedback (migration 0020) — OQ#9 anti-spam ────────────────────────────
 //
 // Per audit OQ#9 resolution: keep awarding Watts for feedback at public launch

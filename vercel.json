@@ -12,6 +12,10 @@
     {
       "path": "/api/cron/hard-delete",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/offer-emails",
+      "schedule": "0 15 * * 1-6"
     }
   ]
 }
