@@ -11,6 +11,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { INFO_EMAIL } from "@/lib/site";
 import crypto from "crypto";
 import { eq, and, gt } from "drizzle-orm";
 import { auth } from "@/auth";
@@ -119,7 +120,7 @@ export async function POST(request: NextRequest) {
       improvement: "Suggestion",
       confusing: "Confusing",
     };
-    const contactEmail = process.env.CONTACT_EMAIL || "avgluis@gmail.com";
+    const contactEmail = process.env.CONTACT_EMAIL || INFO_EMAIL;
     const resend = new Resend(process.env.RESEND_API_KEY);
     const fromAddress = process.env.EMAIL_FROM || "SparkyPass <onboarding@resend.dev>";
 

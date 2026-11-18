@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
+import { INFO_EMAIL } from "@/lib/site";
 
 // In-memory rate limiting store
 // In production, use Redis or database-backed rate limiting
@@ -233,7 +234,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get contact email from environment
-    const contactEmail = process.env.CONTACT_EMAIL || "avgluis@gmail.com";
+    const contactEmail = process.env.CONTACT_EMAIL || INFO_EMAIL;
 
     // Build plain text email content
     const emailContent = `
