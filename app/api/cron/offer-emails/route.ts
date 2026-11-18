@@ -63,10 +63,10 @@ async function sendSamples() {
   };
   const common = { code, redeemUrl: redeemUrl(code), useBy, timeZone: tz, price: offerPriceText(), fullPrice: fullPriceText() };
   const samples = [
-    renderDay6({ name: "Luis Velazquez", when: "tomorrow", answered: 42, watts: 1250, fullPrice: fullPriceText() }, footer),
-    renderDay15({ name: "Luis Velazquez", version: "A", answered: 42, watts: 1250, ...common }, footer),
-    renderDay15({ name: "Luis Velazquez", version: "B", answered: 3, watts: 60, ...common }, footer),
-    renderDay19({ name: "Luis Velazquez", daysLeft: 3, ...common }, footer),
+    renderDay6({ name: "Alex Rivera", when: "tomorrow", answered: 42, watts: 1250, fullPrice: fullPriceText() }, footer),
+    renderDay15({ name: "Alex Rivera", version: "A", answered: 42, watts: 1250, ...common }, footer),
+    renderDay15({ name: "Alex Rivera", version: "B", answered: 3, watts: 60, ...common }, footer),
+    renderDay19({ name: "Alex Rivera", daysLeft: 3, ...common }, footer),
   ];
   const resend = new Resend(process.env.RESEND_API_KEY);
   const sent: string[] = [];

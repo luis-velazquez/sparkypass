@@ -6,10 +6,10 @@
 //                          the job only reports who would get what.
 //   MAILING_ADDRESS        postal address for the footer (US anti-spam law,
 //                          plan E-04). Live sends refuse to run without it.
-//   OFFER_REPLY_TO         where replies go (plan E-15). Falls back to
-//                          CONTACT_EMAIL, then support@sparkypass.com.
-//   OFFER_EMAIL_FROM       full From header. Default: "Luis at SparkyPass"
-//                          with EMAIL_FROM's address.
+//   OFFER_REPLY_TO         where replies go. Falls back to CONTACT_EMAIL,
+//                          then support@sparkypass.com.
+//   OFFER_EMAIL_FROM       full From header. Default: "SparkyPass" with
+//                          EMAIL_FROM's address.
 //   OFFER_DAILY_CAP        offer emails per day (default 60; Resend's free
 //                          plan allows 100 a day, sign-up emails included).
 //   OFFER_PRICE_TEXT       the offer price as shown (default "$0.99"). It must
@@ -38,7 +38,7 @@ export const mailingAddress = () => process.env.MAILING_ADDRESS?.trim() || null;
 export const replyTo = () =>
   process.env.OFFER_REPLY_TO?.trim() || process.env.CONTACT_EMAIL?.trim() || SUPPORT_EMAIL;
 
-/** "Luis at SparkyPass <hello@…>", using the verified address from EMAIL_FROM. */
+/** "SparkyPass <hello@…>", using the verified address from EMAIL_FROM. */
 export function offerFrom(): string | null {
   const explicit = process.env.OFFER_EMAIL_FROM?.trim();
   if (explicit) return explicit;
@@ -47,7 +47,7 @@ export function offerFrom(): string | null {
   const match = base.match(/<([^>]+)>/);
   const address = (match ? match[1] : base).trim();
   if (!address.includes("@")) return null;
-  return `Luis at SparkyPass <${address}>`;
+  return `SparkyPass <${address}>`;
 }
 
 export function redeemUrl(code: string): string {

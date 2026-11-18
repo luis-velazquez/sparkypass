@@ -32,12 +32,15 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const envPath = [join(ROOT, ".env.local"), join(homedir(), "Projects/sparkypass/.env.local")].find((p) => existsSync(p));
-if (!envPath) {
+// OFFER_SCRIPT_DB_URL=file:/path/test.db points the script at a local test
+// database instead of production (used to test the script itself).
+const testDb = process.env.OFFER_SCRIPT_DB_URL;
+const envPath = testDb ? null : [join(ROOT, ".env.local"), join(homedir(), "Projects/sparkypass/.env.local")].find((p) => existsSync(p));
+if (!testDb && !envPath) {
   console.error("✗ No .env.local found");
   process.exit(1);
 }
-const env = Object.fromEntries(
+const env = testDb ? { TURSO_DATABASE_URL: testDb } : Object.fromEntries(
   readFileSync(envPath, "utf8")
     .split("\n")
     .filter((l) => /^[A-Z_]+=/.test(l))
@@ -46,6 +49,7 @@ const env = Object.fromEntries(
       return [l.slice(0, i), l.slice(i + 1).replace(/^"|"$/g, "")];
     }),
 );
+if (testDb) console.log(`(test database: ${testDb})`);
 const db = createClient({ url: env.TURSO_DATABASE_URL, authToken: env.TURSO_AUTH_TOKEN });
 
 const now = Math.floor(Date.now() / 1000);

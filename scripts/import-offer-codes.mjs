@@ -59,9 +59,12 @@ for (const line of readFileSync(file, "utf8").split(/\r?\n/)) {
 }
 if (codes.size === 0) die("No codes found in the file.");
 
-const envPath = [join(ROOT, ".env.local"), join(homedir(), "Projects/sparkypass/.env.local")].find((p) => existsSync(p));
-if (!envPath) die("No .env.local found");
-const env = Object.fromEntries(
+// OFFER_SCRIPT_DB_URL=file:/path/test.db points the script at a local test
+// database instead of production (used to test the script itself).
+const testDb = process.env.OFFER_SCRIPT_DB_URL;
+const envPath = testDb ? null : [join(ROOT, ".env.local"), join(homedir(), "Projects/sparkypass/.env.local")].find((p) => existsSync(p));
+if (!testDb && !envPath) die("No .env.local found");
+const env = testDb ? { TURSO_DATABASE_URL: testDb, TURSO_AUTH_TOKEN: "local" } : Object.fromEntries(
   readFileSync(envPath, "utf8")
     .split("\n")
     .filter((l) => /^[A-Z_]+=/.test(l))
@@ -71,6 +74,7 @@ const env = Object.fromEntries(
     }),
 );
 for (const k of ["TURSO_DATABASE_URL", "TURSO_AUTH_TOKEN"]) if (!env[k]) die(`${k} missing from ${envPath}`);
+if (testDb) console.log(`(test database: ${testDb})`);
 const db = createClient({ url: env.TURSO_DATABASE_URL, authToken: env.TURSO_AUTH_TOKEN });
 
 const table = await db.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='offer_codes'");

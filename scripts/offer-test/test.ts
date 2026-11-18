@@ -148,7 +148,9 @@ async function main() {
   assert.match(byTo["d19@x.test"].text, /good through November 24/);
   assert.match(byTo["d19@x.test"].text, /hasta el 24 de noviembre/);
   for (const e of mocks.sentEmails as any[]) {
-    assert.equal(e.from, "Luis at SparkyPass <hello@sparkypass.com>");
+    assert.equal(e.from, "SparkyPass <hello@sparkypass.com>");
+    assert.doesNotMatch(e.text + e.html + e.from, /Luis/);
+    assert.match(e.text, /\n\nSparkyPass\n\n/);
     assert.equal(e.replyTo, "support@sparkypass.com");
     assert.equal(e.headers["List-Unsubscribe-Post"], "List-Unsubscribe=One-Click");
     assert.match(e.headers["List-Unsubscribe"], /^<https:\/\/sparkypass\.com\/api\/email\/unsubscribe\?u=u_[a-z0-9A-Z_]+&t=[\w-]{32}>$/);

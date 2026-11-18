@@ -1,7 +1,7 @@
 // The three offer emails (HQ Plan/sparkypass-offer-emails-plan.md, v0.2).
 //
-// From "Luis at SparkyPass", plain and short, one button, signed "Luis"
-// (E-15). English first, then the same email in Spanish (E-03 option a: the
+// From "SparkyPass", plain and short, one button, signed "SparkyPass"
+// (E-15, without a personal name). English first, then the same email in Spanish (E-03 option a: the
 // server doesn't know who uses Español). Every email has the footer the US
 // anti-spam law needs: why they got it, an unsubscribe link, a postal address.
 //
@@ -79,6 +79,8 @@ const hiEs = (name: string) => {
   return f ? `Hola, ${f}:` : "Hola:";
 };
 
+const SIGNATURE = "SparkyPass";
+
 const num = (n: number) => n.toLocaleString("en-US");
 
 export function formatDate(d: Date, timeZone: string, lang: "en" | "es"): string {
@@ -126,13 +128,13 @@ function build(b: Body, footer: Footer): Rendered {
 ${b.en.slice(0, cut).map(para).join("\n")}
 ${button}
 ${b.en.slice(cut).map(para).join("\n")}
-${para("Luis")}
+${para(SIGNATURE)}
 <hr style="border:none;border-top:1px solid #e7e5e4;margin:28px 0 20px;">
 <p style="margin:0 0 12px;font-size:13px;color:#78716c;text-transform:uppercase;letter-spacing:0.05em;">En español</p>
 ${b.es.slice(0, cut).map(para).join("\n")}
 ${esLink}
 ${b.es.slice(cut).map(para).join("\n")}
-${para("Luis")}
+${para(SIGNATURE)}
 <hr style="border:none;border-top:1px solid #e7e5e4;margin:28px 0 16px;">
 <p style="margin:0 0 8px;font-size:12px;line-height:1.5;color:#78716c;">Sent by SparkyPass because you have a SparkyPass account. · Te lo enviamos porque tienes una cuenta de SparkyPass.</p>
 <p style="margin:0 0 8px;font-size:12px;line-height:1.5;color:#78716c;"><a href="${esc(footer.unsubscribeUrl)}" style="color:#78716c;">Unsubscribe from offer emails · Darme de baja de las ofertas</a></p>
@@ -144,14 +146,14 @@ ${para("Luis")}
     ...b.en.slice(0, cut).map(plain),
     `${b.button.label}: ${b.button.url}`,
     ...b.en.slice(cut).map(plain),
-    "Luis",
+    SIGNATURE,
     "",
     "— En español —",
     "",
     ...b.es.slice(0, cut).map(plain),
     `${b.esLink.label}: ${b.esLink.url}`,
     ...b.es.slice(cut).map(plain),
-    "Luis",
+    SIGNATURE,
     "",
     "---",
     "Sent by SparkyPass because you have a SparkyPass account. · Te lo enviamos porque tienes una cuenta de SparkyPass.",
