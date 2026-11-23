@@ -49,6 +49,7 @@ export default function PrivacyPage() {
               <ul className="list-disc list-inside space-y-1 ml-2">
                 <li>Quiz answers, study progress, and session history</li>
                 <li>Bookmarked questions and review history</li>
+                <li>Flash card progress and the highlights you make</li>
                 <li>Study rewards data (Watts earned, rank, streaks)</li>
                 <li>Your target exam date, if you tell us when your exam is</li>
               </ul>
