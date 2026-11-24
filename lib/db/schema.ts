@@ -1,5 +1,5 @@
 // Database Schema for SparkyPass
-import { sqliteTable, text, integer, real, uniqueIndex, index } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, real, uniqueIndex, index, primaryKey } from "drizzle-orm/sqlite-core";
 
 // Auth provider enum values
 export const authProviderValues = ["google", "facebook", "apple", "email"] as const;
@@ -177,6 +177,74 @@ export const flashcardBookmarks = sqliteTable("flashcard_bookmarks", {
 // Type inference for FlashcardBookmark from schema
 export type FlashcardBookmark = typeof flashcardBookmarks.$inferSelect;
 export type NewFlashcardBookmark = typeof flashcardBookmarks.$inferInsert;
+
+// Flash card study state, one row per user and question (migration 0031).
+// Timestamps are plain epoch milliseconds, unlike the mode: "timestamp" columns elsewhere.
+export const flashcardProgress = sqliteTable(
+  "flashcard_progress",
+  {
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    questionId: text("question_id").notNull(),
+    status: text("status").notNull(),
+    knows: integer("knows").notNull().default(0),
+    knowDay: integer("know_day"),
+    step: integer("step").notNull().default(0),
+    dueDay: integer("due_day"),
+    introducedDay: integer("introduced_day"),
+    lastAgainDay: integer("last_again_day"),
+    updatedAt: integer("updated_at").notNull(),
+    changedAt: integer("changed_at").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.questionId] }),
+    changedIdx: index("flashcard_progress_changed_idx").on(table.userId, table.changedAt, table.questionId),
+  }),
+);
+
+// Flash card highlights, including erased ones (deleted_at) so erases sync (migration 0031).
+export const flashcardMarks = sqliteTable(
+  "flashcard_marks",
+  {
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    id: text("id").notNull(),
+    questionId: text("question_id").notNull(),
+    lang: text("lang").notNull(),
+    field: text("field").notNull(),
+    kind: text("kind").notNull().default("user"),
+    startOffset: integer("start_offset").notNull(),
+    endOffset: integer("end_offset").notNull(),
+    quote: text("quote").notNull(),
+    prefix: text("prefix").notNull(),
+    suffix: text("suffix").notNull(),
+    textHash: text("text_hash").notNull(),
+    keyHash: text("key_hash").notNull(),
+    createdAt: integer("created_at").notNull(),
+    updatedAt: integer("updated_at").notNull(),
+    deletedAt: integer("deleted_at"),
+    changedAt: integer("changed_at").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.id] }),
+    changedIdx: index("flashcard_marks_changed_idx").on(table.userId, table.changedAt, table.id),
+  }),
+);
+
+// Starred flash cards, one row per user and question (migration 0031). Unstarring
+// keeps the row with starred = false so the unstar syncs to other devices.
+export const flashcardStars = sqliteTable(
+  "flashcard_stars",
+  {
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    questionId: text("question_id").notNull(),
+    starred: integer("starred", { mode: "boolean" }).notNull(),
+    updatedAt: integer("updated_at").notNull(),
+    changedAt: integer("changed_at").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.questionId] }),
+    changedIdx: index("flashcard_stars_changed_idx").on(table.userId, table.changedAt, table.questionId),
+  }),
+);
 
 // Quiz results table - tracks completed quiz scores by category
 export const quizResults = sqliteTable("quiz_results", {
