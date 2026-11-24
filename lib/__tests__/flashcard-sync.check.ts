@@ -8,19 +8,22 @@ import { createClient, type Client } from "@libsql/client";
 import { and, eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/libsql";
 import * as schema from "../db/schema";
-import { flashcardMarks, flashcardProgress } from "../db/schema";
+import { flashcardMarks, flashcardProgress, flashcardStars } from "../db/schema";
 import {
   applySync,
   MAX_CARD_ROWS,
   MAX_MARK_ROWS,
+  MAX_STAR_ROWS,
   parseSyncBody,
   resolveCard,
   validateCard,
   validateMark,
+  validateStar,
   type CardRow,
   type Db,
   type FlashcardSyncResponse,
   type MarkRow,
+  type StarRow,
   type SyncCursor,
 } from "../flashcard-sync";
 
@@ -73,6 +76,18 @@ const mark = (id: string, over: Partial<MarkRow> = {}): MarkRow => ({
 const MARK_A = "m0123456789abcdef";
 const MARK_B = "s0123456789abcdef";
 
+const star = (questionId: string, over: Partial<StarRow> = {}): StarRow => ({
+  questionId,
+  starred: true,
+  updatedAt: T0,
+  ...over,
+});
+
+/** Every response must carry the star fields, whatever the request held. */
+const carriesStars = (res: FlashcardSyncResponse) =>
+  Array.isArray(res.saved.stars) && Array.isArray(res.changes.stars) &&
+  Number.isSafeInteger(res.cursor.starsAt) && typeof res.cursor.starsId === "string";
+
 async function freshDb(): Promise<{ client: Client; db: Db }> {
   const client = createClient({ url: ":memory:" });
   await client.execute("CREATE TABLE users (id text PRIMARY KEY, email text, deleted_at integer)");
@@ -87,7 +102,7 @@ async function addUser(client: Client, id: string) {
 const send = (
   db: Db,
   userId: string,
-  rows: { cards?: unknown[]; marks?: unknown[]; cursor?: SyncCursor | null },
+  rows: { cards?: unknown[]; marks?: unknown[]; stars?: unknown[]; cursor?: SyncCursor | null },
   now: number,
 ): Promise<FlashcardSyncResponse> =>
   applySync(
@@ -99,6 +114,7 @@ const send = (
       cursor: rows.cursor ?? null,
       cards: (rows.cards ?? []) as CardRow[],
       marks: (rows.marks ?? []) as MarkRow[],
+      stars: (rows.stars ?? []) as StarRow[],
     },
     now,
   );
@@ -106,6 +122,12 @@ const send = (
 async function storedCard(db: Db, userId: string, questionId: string) {
   const [row] = await db.select().from(flashcardProgress)
     .where(and(eq(flashcardProgress.userId, userId), eq(flashcardProgress.questionId, questionId)));
+  return row;
+}
+
+async function storedStar(db: Db, userId: string, questionId: string) {
+  const [row] = await db.select().from(flashcardStars)
+    .where(and(eq(flashcardStars.userId, userId), eq(flashcardStars.questionId, questionId)));
   return row;
 }
 
@@ -132,6 +154,15 @@ async function seedMarks(db: Db, userId: string, total: number, changedAt: numbe
   for (let i = 0; i < rows.length; i += 500) await db.insert(flashcardMarks).values(rows.slice(i, i + 500));
 }
 
+async function seedStars(db: Db, userId: string, total: number, changedAt: number) {
+  const rows = Array.from({ length: total }, (_, i) => ({
+    ...star(`STAR-${String(i).padStart(5, "0")}`),
+    userId,
+    changedAt,
+  }));
+  for (let i = 0; i < rows.length; i += 500) await db.insert(flashcardStars).values(rows.slice(i, i + 500));
+}
+
 async function checkMigration() {
   const { client } = await freshDb();
   let twice = true;
@@ -145,6 +176,7 @@ async function checkMigration() {
   for (const [table, drizzleTable] of [
     ["flashcard_progress", flashcardProgress],
     ["flashcard_marks", flashcardMarks],
+    ["flashcard_stars", flashcardStars],
   ] as const) {
     const info = await client.execute(`PRAGMA table_info(${table})`);
     const actual = info.rows.map((r) => String(r.name)).sort();
@@ -153,6 +185,31 @@ async function checkMigration() {
       .map((c) => c.name)
       .sort();
     check(`${table} columns match the schema`, JSON.stringify(actual) === JSON.stringify(expected), actual.join(","));
+  }
+
+  const starCols = await client.execute("PRAGMA table_info(flashcard_stars)");
+  check(
+    "flashcard_stars columns are NOT NULL with the (user_id, question_id) key",
+    starCols.rows.every((r) => Number(r.notnull) === 1) &&
+      starCols.rows.filter((r) => Number(r.pk) > 0).map((r) => String(r.name)).join(",") === "user_id,question_id" &&
+      starCols.rows.find((r) => r.name === "starred")?.type === "INTEGER",
+    JSON.stringify(starCols.rows),
+  );
+  const starKeys = await client.execute("PRAGMA foreign_key_list(flashcard_stars)");
+  check(
+    "flashcard_stars cascades from users",
+    starKeys.rows.length === 1 && starKeys.rows[0].table === "users" && starKeys.rows[0].from === "user_id" &&
+      starKeys.rows[0].to === "id" && starKeys.rows[0].on_delete === "CASCADE",
+    JSON.stringify(starKeys.rows),
+  );
+  for (const [indexName, columns] of [
+    ["flashcard_progress_changed_idx", "user_id,changed_at,question_id"],
+    ["flashcard_marks_changed_idx", "user_id,changed_at,id"],
+    ["flashcard_stars_changed_idx", "user_id,changed_at,question_id"],
+  ] as const) {
+    const info = await client.execute(`PRAGMA index_info(${indexName})`);
+    const actual = info.rows.map((r) => String(r.name)).join(",");
+    check(`${indexName} covers ${columns}`, actual === columns, actual);
   }
   client.close();
 }
@@ -189,6 +246,55 @@ async function checkBatchShapes() {
     cards: [card("DUP-1", { step: 1, updatedAt: T0 + 5 }), card("DUP-1", { step: 2, updatedAt: T0 + 9 }), card("DUP-1", { step: 3, updatedAt: T0 + 7 })],
   }, T0 + 10);
   check("a repeated key keeps the newest row", repeated.saved.cards.length === 1 && repeated.saved.cards[0].step === 2);
+
+  const starsOnly = await send(db, "u1", { stars: [star("GB-M016")] }, T0);
+  check(
+    "stars-only saves the star",
+    starsOnly.saved.stars.length === 1 && starsOnly.saved.cards.length === 0 && starsOnly.saved.marks.length === 0,
+  );
+  check(
+    "a saved star has exactly the wire fields",
+    JSON.stringify(starsOnly.saved.stars[0]) === JSON.stringify({ questionId: "GB-M016", starred: true, updatedAt: T0 }),
+    JSON.stringify(starsOnly.saved.stars[0]),
+  );
+  check(
+    "every response carries the star fields",
+    [pull, cardsOnly, marksOnly, allBad, mixed, repeated, starsOnly].every(carriesStars),
+  );
+  check("a response without star writes saves no stars", cardsOnly.saved.stars.length === 0 && marksOnly.saved.stars.length === 0);
+
+  const badStar = await send(db, "u1", { stars: [{ questionId: "bad id", starred: true, updatedAt: T0 }] }, T0);
+  check(
+    "a bad star is rejected as kind star",
+    badStar.rejected.length === 1 && badStar.rejected[0].kind === "star" &&
+      badStar.rejected[0].key === "bad id" && badStar.rejected[0].code === "INVALID" && badStar.saved.stars.length === 0,
+    JSON.stringify(badStar.rejected),
+  );
+  const mixedStars = await send(db, "u1", { stars: [star("WM-J008"), { ...star("WM-J009"), starred: "yes" }] }, T0);
+  check(
+    "a bad star is rejected alone",
+    mixedStars.saved.stars.length === 1 && mixedStars.saved.stars[0].questionId === "WM-J008" &&
+      mixedStars.rejected.length === 1 && mixedStars.rejected[0].key === "WM-J009",
+  );
+  const oddKeys = await send(db, "u1", { stars: [{ questionId: "Q".repeat(300), starred: true, updatedAt: T0 }, 5] }, T0);
+  check(
+    "a rejected star key is cut to 200 characters, a non-object star has an empty key",
+    oddKeys.rejected.length === 2 && oddKeys.rejected[0].key === "Q".repeat(200) && oddKeys.rejected[1].key === "" &&
+      oddKeys.rejected.every((r) => r.kind === "star" && r.code === "INVALID"),
+    JSON.stringify(oddKeys.rejected.map((r) => [r.kind, r.key.length, r.code])),
+  );
+  const repeatedStars = await send(db, "u1", {
+    stars: [
+      star("DUP-1", { starred: false, updatedAt: T0 + 5 }),
+      star("DUP-1", { starred: true, updatedAt: T0 + 9 }),
+      star("DUP-1", { starred: false, updatedAt: T0 + 7 }),
+    ],
+  }, T0 + 10);
+  check(
+    "a repeated star key keeps the newest row",
+    repeatedStars.saved.stars.length === 1 && repeatedStars.saved.stars[0].starred === true &&
+      repeatedStars.saved.stars[0].updatedAt === T0 + 9,
+  );
   client.close();
 }
 
@@ -297,6 +403,57 @@ async function checkMarks() {
   client.close();
 }
 
+async function checkStars() {
+  const { client, db } = await freshDb();
+  await addUser(client, "u1");
+
+  const first = await send(db, "u1", { stars: [star("GB-M016", { updatedAt: T0 })] }, T0);
+  check("a star is stored", first.saved.stars[0]?.starred === true && first.saved.stars[0].updatedAt === T0);
+  check("a star write sets changed_at to now", (await storedStar(db, "u1", "GB-M016")).changedAt === T0);
+  await send(db, "u1", { stars: [star("GB-M016", { updatedAt: T0 + 40 })] }, T0 + 40);
+  check("the same star from two phones is one row", (await rowCount(client, "flashcard_stars", "u1")) === 1);
+
+  // Last write wins, both ways.
+  const unstarred = await send(db, "u1", { stars: [star("GB-M016", { starred: false, updatedAt: T0 + 50 })] }, T0 + 50);
+  check("a newer unstar beats a star", unstarred.saved.stars[0].starred === false && unstarred.saved.stars[0].updatedAt === T0 + 50);
+  check("an unstar keeps the row", (await rowCount(client, "flashcard_stars", "u1")) === 1);
+  const restarred = await send(db, "u1", { stars: [star("GB-M016", { updatedAt: T0 + 60 })] }, T0 + 60);
+  check("a newer star beats an unstar", restarred.saved.stars[0].starred === true && restarred.saved.stars[0].updatedAt === T0 + 60);
+  const beforeOlder = await storedStar(db, "u1", "GB-M016");
+  const olderUnstar = await send(db, "u1", { stars: [star("GB-M016", { starred: false, updatedAt: T0 + 55 })] }, T0 + 70);
+  check(
+    "an older unstar loses and returns the stored star",
+    olderUnstar.saved.stars[0].starred === true && olderUnstar.saved.stars[0].updatedAt === T0 + 60,
+  );
+  check("a losing star write leaves changed_at alone", (await storedStar(db, "u1", "GB-M016")).changedAt === beforeOlder.changedAt);
+
+  await send(db, "u1", { stars: [star("WM-J008", { starred: false, updatedAt: T0 + 100 })] }, T0 + 100);
+  check("an unstar the server never saw is stored as a row", (await storedStar(db, "u1", "WM-J008"))?.starred === false);
+  const olderStar = await send(db, "u1", { stars: [star("WM-J008", { updatedAt: T0 + 90 })] }, T0 + 110);
+  check(
+    "an older star loses and returns the stored unstar",
+    olderStar.saved.stars[0].starred === false && olderStar.saved.stars[0].updatedAt === T0 + 100,
+  );
+  const tie = await send(db, "u1", { stars: [star("WM-J008", { updatedAt: T0 + 100 })] }, T0 + 120);
+  check("an equal stamp keeps the stored value", tie.saved.stars[0].starred === false);
+
+  const stored = await client.execute({
+    sql: "SELECT question_id, starred, typeof(starred) AS t FROM flashcard_stars WHERE user_id = ? ORDER BY question_id",
+    args: ["u1"],
+  });
+  const storedText = stored.rows.map((r) => `${r.question_id}=${r.starred}:${r.t}`).join(",");
+  check("starred is stored as integer 1 and 0", storedText === "GB-M016=1:integer,WM-J008=0:integer", storedText);
+
+  const pull = await send(db, "u1", {}, T0 + 200);
+  const pulled = new Map(pull.changes.stars.map((s) => [s.questionId, s]));
+  check(
+    "a pull returns stars and unstars as booleans",
+    pull.changes.stars.length === 2 && pulled.get("GB-M016")?.starred === true && pulled.get("WM-J008")?.starred === false,
+    JSON.stringify(pull.changes.stars),
+  );
+  client.close();
+}
+
 function checkValidators() {
   const now = T0;
   const badCards: Partial<Record<keyof CardRow, unknown>>[] = [
@@ -353,6 +510,41 @@ function checkValidators() {
     validateMark(mark(MARK_A, { startOffset: 3800, endOffset: 4000, quote: "q".repeat(200) }), now) !== null,
   );
 
+  const badStars: Partial<Record<keyof StarRow, unknown>>[] = [
+    { questionId: "-leading" },
+    { questionId: "A".repeat(41) },
+    { questionId: "bad id" },
+    { questionId: 7 },
+    { starred: 1 },
+    { starred: 0 },
+    { starred: "true" },
+    { starred: null },
+    { updatedAt: 0 },
+    { updatedAt: -5 },
+    { updatedAt: 1.5 },
+    { updatedAt: "1" },
+    { updatedAt: null },
+    { updatedAt: Number.MAX_SAFE_INTEGER + 1 },
+  ];
+  for (const over of badStars) {
+    check(`star rejected: ${JSON.stringify(over)}`, validateStar({ ...star("OK-1"), ...over }, now) === null);
+  }
+  const { starred: _starred, ...noStarred } = star("OK-1");
+  void _starred;
+  check("a star without starred is rejected", validateStar(noStarred, now) === null);
+  check("a good star passes", validateStar(star("OK-1"), now)?.starred === true);
+  check("a good unstar passes", validateStar(star("OK-1", { starred: false }), now)?.starred === false);
+  check(
+    "a non-object star is rejected",
+    validateStar("x", now) === null && validateStar(null, now) === null && validateStar([star("OK-1")], now) === null,
+  );
+  check("star updatedAt is clamped", validateStar(star("OK-1", { updatedAt: now + 999_999 }), now)?.updatedAt === now + 300_000);
+  check(
+    "a star keeps only its wire fields",
+    JSON.stringify(validateStar({ ...star("OK-1"), userId: "u2", changedAt: 1 }, now)) ===
+      JSON.stringify({ questionId: "OK-1", starred: true, updatedAt: now }),
+  );
+
   const envelope = { v: 1, ownerId: "u1", cursor: null, cards: [], marks: [] };
   check("a good envelope parses", parseSyncBody(envelope).ok);
   const codeOf = (json: unknown) => {
@@ -367,6 +559,52 @@ function checkValidators() {
   check("over 200 cards", codeOf({ ...envelope, cards: new Array(201).fill(0) }) === "TOO_MANY");
   check("over 200 marks", codeOf({ ...envelope, marks: new Array(201).fill(0) }) === "TOO_MANY");
   check("a bad row does not fail the envelope", codeOf({ ...envelope, cards: [{ junk: true }] }) === "ok");
+
+  // Stars are optional so builds from before stars keep working.
+  const noStars = parseSyncBody(envelope);
+  check("an envelope without stars parses to no stars", noStars.ok && noStars.body.stars.length === 0);
+  const withStars = parseSyncBody({ ...envelope, stars: [star("OK-1")] });
+  check("an envelope with stars passes them on", withStars.ok && withStars.body.stars.length === 1);
+  check("stars not an array", codeOf({ ...envelope, stars: {} }) === "BAD_ROWS");
+  check("stars null", codeOf({ ...envelope, stars: null }) === "BAD_ROWS");
+  check("over 200 stars", codeOf({ ...envelope, stars: new Array(201).fill(0) }) === "TOO_MANY");
+  check("200 stars are allowed", codeOf({ ...envelope, stars: new Array(200).fill(0) }) === "ok");
+  check("a bad star row does not fail the envelope", codeOf({ ...envelope, stars: [{ junk: true }] }) === "ok");
+
+  const oldCursor = { cardsAt: 5, cardsId: "A", marksAt: 6, marksId: "m" };
+  const fromOld = parseSyncBody({ ...envelope, cursor: oldCursor });
+  check(
+    "a cursor without star fields starts stars at 0",
+    fromOld.ok && JSON.stringify(fromOld.body.cursor) === JSON.stringify({ ...oldCursor, starsAt: 0, starsId: "" }),
+    fromOld.ok ? JSON.stringify(fromOld.body.cursor) : fromOld.code,
+  );
+  const fromNew = parseSyncBody({ ...envelope, cursor: { ...oldCursor, starsAt: 7, starsId: "GB-M016" } });
+  check(
+    "a cursor with star fields keeps them",
+    fromNew.ok && fromNew.body.cursor?.starsAt === 7 && fromNew.body.cursor.starsId === "GB-M016",
+  );
+  check(
+    "a 64-character starsId is allowed",
+    codeOf({ ...envelope, cursor: { ...oldCursor, starsAt: 0, starsId: "x".repeat(64) } }) === "ok",
+  );
+  for (const bad of [
+    { starsAt: -1, starsId: "" },
+    { starsAt: 1.5, starsId: "" },
+    { starsAt: "5", starsId: "" },
+    { starsAt: null, starsId: "" },
+    { starsAt: Number.MAX_SAFE_INTEGER + 1, starsId: "" },
+    { starsAt: 0, starsId: 5 },
+    { starsAt: 0, starsId: null },
+    { starsAt: 0, starsId: "x".repeat(65) },
+    { starsAt: 0, starsId: "a\u0000b" },
+    { starsAt: 0 },
+    { starsId: "" },
+  ]) {
+    check(
+      `bad star cursor: ${JSON.stringify(bad).slice(0, 60)}`,
+      codeOf({ ...envelope, cursor: { ...oldCursor, ...bad } }) === "BAD_CURSOR",
+    );
+  }
 }
 
 async function checkCeilings() {
@@ -396,6 +634,30 @@ async function checkCeilings() {
   check("marks stop at the ceiling", (await rowCount(client, "flashcard_marks", "u1")) === MAX_MARK_ROWS);
   check("the over-ceiling new mark gets LIMIT", marks.rejected.length === 1 && marks.rejected[0].code === "LIMIT");
   check("an existing mark still updates at the ceiling", marks.saved.marks[0]?.deletedAt === T0 + 9);
+
+  await seedStars(db, "u1", MAX_STAR_ROWS - 1, T0);
+  const stars = await send(db, "u1", {
+    stars: [star("NEW-1"), star("NEW-2"), star("STAR-00000", { starred: false, updatedAt: T0 + 7 })],
+  }, T0 + 7);
+  check("stars stop at the ceiling", (await rowCount(client, "flashcard_stars", "u1")) === MAX_STAR_ROWS);
+  check(
+    "the over-ceiling new star gets LIMIT",
+    stars.rejected.length === 1 && stars.rejected[0].kind === "star" &&
+      stars.rejected[0].key === "NEW-2" && stars.rejected[0].code === "LIMIT",
+    JSON.stringify(stars.rejected),
+  );
+  check("an existing star still updates at the ceiling", (await storedStar(db, "u1", "STAR-00000")).starred === false);
+  check(
+    "a LIMIT star is left out of saved",
+    stars.saved.stars.length === 2 && !stars.saved.stars.some((s) => s.questionId === "NEW-2"),
+  );
+  const full = await send(db, "u1", { stars: [star("NEW-3"), star("NEW-1", { starred: false, updatedAt: T0 + 8 })] }, T0 + 8);
+  check(
+    "an unstarred row still counts toward the star ceiling",
+    full.rejected.length === 1 && full.rejected[0].key === "NEW-3" && full.rejected[0].code === "LIMIT" &&
+      full.saved.stars.length === 1 && full.saved.stars[0].starred === false,
+    JSON.stringify(full.rejected),
+  );
   client.close();
 }
 
@@ -439,6 +701,34 @@ async function checkPaging() {
   check("nothing repeats after it settles", settled.changes.cards.length === 0);
   late.client.close();
   client.close();
+
+  // Stars page the same way.
+  const starDb = await freshDb();
+  await addUser(starDb.client, "u1");
+  await seedStars(starDb.db, "u1", 1300, changedAt);
+  const seenStars = new Set<string>();
+  const starCursors: SyncCursor[] = [];
+  let starCursor: SyncCursor | null = null;
+  let starTotal = 0;
+  for (;;) {
+    const res: FlashcardSyncResponse = await send(starDb.db, "u1", { cursor: starCursor }, T0);
+    starTotal += res.changes.stars.length;
+    for (const s of res.changes.stars) seenStars.add(s.questionId);
+    starCursor = res.cursor;
+    starCursors.push(res.cursor);
+    if (!res.hasMore || starCursors.length > 10) break;
+  }
+  check("1,300 stars with one changed_at page in 3", starCursors.length === 3, `pages=${starCursors.length}`);
+  check("every star arrives exactly once", seenStars.size === 1300 && starTotal === 1300, `seen=${seenStars.size} total=${starTotal}`);
+  check(
+    "the star cursor advances to each page's last row",
+    starCursors.map((c) => `${c.starsAt === changedAt}:${c.starsId}`).join(",") ===
+      "true:STAR-00499,true:STAR-00999,true:STAR-01299",
+    JSON.stringify(starCursors.map((c) => [c.starsAt, c.starsId])),
+  );
+  const starsSettled = await send(starDb.db, "u1", { cursor: starCursor }, T0 + 1000);
+  check("a settled star cursor returns nothing", starsSettled.changes.stars.length === 0 && !starsSettled.hasMore);
+  starDb.client.close();
 }
 
 // Regression checks.
@@ -497,6 +787,44 @@ async function checkMarkRetry() {
   const eraseAt = T0 + 360_000;
   const erased = await send(db, "u1", { marks: [mark(MARK_A, { updatedAt: eraseAt, deletedAt: eraseAt })] }, eraseAt);
   check("a correct clock's erase wins after a fast clock's retry", erased.saved.marks[0].deletedAt === eraseAt);
+  client.close();
+}
+
+async function checkStarRetry() {
+  const { client, db } = await freshDb();
+  await addUser(client, "u1");
+
+  const fastStamp = T0 + 3_600_000;
+  const first = await send(db, "u1", { stars: [star("FAST", { updatedAt: fastStamp })] }, T0);
+  check("a fast star clock is clamped to now + 5 min", first.saved.stars[0].updatedAt === T0 + 300_000);
+  const before = await storedStar(db, "u1", "FAST");
+  const retry = await send(db, "u1", { stars: [star("FAST", { updatedAt: fastStamp })] }, T0 + 240_000);
+  const after = await storedStar(db, "u1", "FAST");
+  check(
+    "an identical star retry from a fast clock writes nothing",
+    retry.saved.stars[0].updatedAt === first.saved.stars[0].updatedAt &&
+      after.updatedAt === before.updatedAt && after.changedAt === before.changedAt,
+    `updatedAt ${before.updatedAt} -> ${after.updatedAt}`,
+  );
+  const unstarAt = T0 + 360_000;
+  const unstarred = await send(db, "u1", { stars: [star("FAST", { starred: false, updatedAt: unstarAt })] }, unstarAt);
+  check(
+    "a correct clock's unstar wins after a fast clock's retry",
+    unstarred.saved.stars[0].starred === false && unstarred.saved.stars[0].updatedAt === unstarAt,
+  );
+
+  // A settled phone must not be sent its own retried row again.
+  const settled = await send(db, "u1", {}, unstarAt + 600_000);
+  check("the star cursor settles on the stored row", settled.cursor.starsAt === unstarAt && settled.cursor.starsId === "FAST");
+  const resent = await send(db, "u1", { stars: [star("FAST", { starred: false, updatedAt: unstarAt + 5 })] }, unstarAt + 600_001);
+  check("a same-value star retry with a newer stamp returns the stored row", resent.saved.stars[0].updatedAt === unstarAt);
+  const repull = await send(db, "u1", { cursor: settled.cursor }, unstarAt + 600_002);
+  check("a star retry is not pulled again", repull.changes.stars.length === 0);
+  check(
+    "an idle star cursor stays put",
+    repull.cursor.starsAt === unstarAt && repull.cursor.starsId === "FAST",
+    JSON.stringify(repull.cursor),
+  );
   client.close();
 }
 
@@ -563,6 +891,123 @@ async function checkPagingBothTables() {
   }
 }
 
+async function checkPagingWithStars() {
+  // Stars are the only table with more pages: hasMore must still be true, and the
+  // finished tables hold their exact cursors until the whole pull ends.
+  const { client, db } = await freshDb();
+  await addUser(client, "u1");
+  const recent = T0 - 1000;
+  await seedCards(db, "u1", 300, recent);
+  await seedMarks(db, "u1", 200, recent);
+  await seedStars(db, "u1", 1700, recent);
+  const cardIds = new Set<string>();
+  const markIds = new Set<string>();
+  const starIds = new Set<string>();
+  let starRows = 0;
+  let first: FlashcardSyncResponse | null = null;
+  let cursor: SyncCursor | null = null;
+  let rounds = 0;
+  for (;;) {
+    const res: FlashcardSyncResponse = await send(db, "u1", { cursor }, T0);
+    rounds++;
+    first ??= res;
+    for (const c of res.changes.cards) cardIds.add(c.questionId);
+    for (const m of res.changes.marks) markIds.add(m.id);
+    for (const s of res.changes.stars) starIds.add(s.questionId);
+    starRows += res.changes.stars.length;
+    cursor = res.cursor;
+    if (!res.hasMore || rounds > 40) break;
+  }
+  check(
+    "stars alone keep hasMore true",
+    first?.hasMore === true && first.changes.cards.length === 300 && first.changes.marks.length === 200 &&
+      first.changes.stars.length === 500,
+  );
+  check(
+    "finished tables hold their exact cursors while stars page",
+    first?.cursor.cardsAt === recent && first.cursor.cardsId === "SEED-00299" &&
+      first.cursor.marksAt === recent && first.cursor.marksId === `m${(199).toString(16).padStart(16, "0")}` &&
+      first.cursor.starsAt === recent && first.cursor.starsId === "STAR-00499",
+    JSON.stringify(first?.cursor),
+  );
+  check("three tables finish in the largest one's page count", rounds === 4, `rounds=${rounds}`);
+  check(
+    "three tables deliver every row once",
+    cardIds.size === 300 && markIds.size === 200 && starIds.size === 1700 && starRows === 1700,
+    `${cardIds.size}/${markIds.size}/${starIds.size}/${starRows}`,
+  );
+  check(
+    "the final cursor of all three tables rests on the safety floor",
+    cursor?.cardsAt === T0 - 120_000 && cursor?.cardsId === "" && cursor?.marksAt === T0 - 120_000 &&
+      cursor?.marksId === "" && cursor?.starsAt === T0 - 120_000 && cursor?.starsId === "",
+    JSON.stringify(cursor),
+  );
+  client.close();
+
+  // Stars finish first while marks page: a late star behind the held cursor is
+  // still seen once the pull ends and the cursor rewinds.
+  const late = await freshDb();
+  await addUser(late.client, "u1");
+  await send(late.db, "u1", { stars: [star("FIRST")] }, T0 - 100);
+  await seedMarks(late.db, "u1", 1100, T0 - 1000);
+  const round1 = await send(late.db, "u1", {}, T0);
+  check(
+    "the short star table holds its exact cursor mid-pull",
+    round1.hasMore && round1.cursor.starsAt === T0 - 100 && round1.cursor.starsId === "FIRST",
+  );
+  await send(late.db, "u1", { stars: [star("LATE-STAR")] }, T0 - 500);
+  const round2 = await send(late.db, "u1", { cursor: round1.cursor }, T0);
+  check(
+    "an empty star page keeps the held cursor mid-pull",
+    round2.hasMore && round2.changes.stars.length === 0 &&
+      round2.cursor.starsAt === T0 - 100 && round2.cursor.starsId === "FIRST",
+    JSON.stringify(round2.cursor),
+  );
+  const round3 = await send(late.db, "u1", { cursor: round2.cursor }, T0);
+  check(
+    "the pull ends and the star table rewinds",
+    !round3.hasMore && round3.cursor.starsAt === T0 - 120_000 && round3.cursor.starsId === "",
+  );
+  const nextSync = await send(late.db, "u1", { cursor: round3.cursor }, T0 + 1000);
+  check("a late star commit during a pull is still seen", nextSync.changes.stars.some((s) => s.questionId === "LATE-STAR"));
+  late.client.close();
+}
+
+async function checkOlderClient() {
+  const { client, db } = await freshDb();
+  await addUser(client, "u1");
+  await send(db, "u1", { stars: [star("GB-M016")] }, T0 - 600_000); // from a newer phone
+
+  // A build from before stars: no stars key and a cursor without star fields.
+  const parsed = parseSyncBody({
+    v: 1,
+    ownerId: "u1",
+    cursor: { cardsAt: 0, cardsId: "", marksAt: 0, marksId: "" },
+    cards: [card("WM-J008")],
+    marks: [mark(MARK_A)],
+  });
+  check("an older client's body parses", parsed.ok);
+  if (!parsed.ok) {
+    client.close();
+    return;
+  }
+  const res = await applySync(db, "u1", parsed.body, T0);
+  check(
+    "an older client's rows are saved",
+    res.saved.cards.length === 1 && res.saved.marks.length === 1 && res.rejected.length === 0,
+    JSON.stringify(res.rejected),
+  );
+  check("an older client still gets the star fields", carriesStars(res) && res.saved.stars.length === 0);
+  check(
+    "an older client's pull starts stars from the beginning",
+    res.changes.stars.length === 1 && res.changes.stars[0].questionId === "GB-M016" &&
+      res.cursor.starsAt === T0 - 600_000 && res.cursor.starsId === "GB-M016",
+    JSON.stringify(res.cursor),
+  );
+  check("an older client's upload leaves stars alone", (await storedStar(db, "u1", "GB-M016")).starred === true);
+  client.close();
+}
+
 function checkStoredTextIsFaithful() {
   for (const over of [
     { startOffset: 0, endOffset: 5, quote: "a\u0000cde" },
@@ -581,11 +1026,18 @@ async function checkIsolation() {
   await addUser(client, "u1");
   await addUser(client, "u2");
 
-  await send(db, "u1", { cards: [card("SHARED", { step: 7 })], marks: [mark(MARK_A)] }, T0);
+  await send(db, "u1", { cards: [card("SHARED", { step: 7 })], marks: [mark(MARK_A)], stars: [star("SHARED")] }, T0);
   const smuggled = await send(db, "u2", {
     cards: [{ ...card("SHARED", { step: 1 }), userId: "u1", changedAt: 1 }],
     marks: [{ ...mark(MARK_A, { updatedAt: T0 + 5, deletedAt: T0 + 5 }), userId: "u1", changedAt: 1 }],
+    stars: [{ ...star("SHARED", { starred: false, updatedAt: T0 + 5 }), userId: "u1", changedAt: 1 }],
   }, T0 + 5);
+  check("a smuggled userId cannot unstar another user's card", (await storedStar(db, "u1", "SHARED")).starred === true);
+  check(
+    "the same star key is stored for the second user",
+    smuggled.saved.stars.length === 1 && smuggled.saved.stars[0].starred === false &&
+      (await storedStar(db, "u2", "SHARED")).changedAt === T0 + 5,
+  );
   check("a smuggled userId cannot change another user's card", (await storedCard(db, "u1", "SHARED")).step === 7);
   const [victimMark] = await db.select().from(flashcardMarks)
     .where(and(eq(flashcardMarks.userId, "u1"), eq(flashcardMarks.id, MARK_A)));
@@ -597,6 +1049,7 @@ async function checkIsolation() {
     pull.changes.cards.length === 1 && pull.changes.cards[0].step === 1 &&
       pull.changes.marks.length === 1 && pull.changes.marks[0].deletedAt === T0 + 5,
   );
+  check("a pull returns only the caller's stars", pull.changes.stars.length === 1 && pull.changes.stars[0].starred === false);
   client.close();
 }
 
@@ -641,6 +1094,45 @@ async function checkRoute() {
   const ok = await post(good("u1"));
   const okBody = (await ok.json()) as FlashcardSyncResponse;
   check("a good request returns 200", ok.status === 200 && okBody.v === 1 && okBody.saved.cards.length === 1);
+  check("a response without stars sent still carries the star fields", ok.status === 200 && carriesStars(okBody));
+
+  const starred = await post({ ...good("u1"), stars: [star("ROUTE-1"), { questionId: "bad id", starred: true, updatedAt: T0 }] });
+  const starredBody = (await starred.json()) as FlashcardSyncResponse;
+  check(
+    "a request with stars saves them over the wire",
+    starred.status === 200 && starredBody.saved.stars.length === 1 &&
+      starredBody.saved.stars[0].questionId === "ROUTE-1" && starredBody.saved.stars[0].starred === true,
+  );
+  check(
+    "a bad star comes back in rejected",
+    starredBody.rejected.length === 1 && starredBody.rejected[0].kind === "star" &&
+      starredBody.rejected[0].key === "bad id" && starredBody.rejected[0].code === "INVALID",
+  );
+  const older = await post({
+    v: 1,
+    ownerId: "u1",
+    cursor: { cardsAt: 0, cardsId: "", marksAt: 0, marksId: "" },
+    cards: [],
+    marks: [],
+  });
+  const olderBody = (await older.json()) as FlashcardSyncResponse;
+  check(
+    "an older client's request returns 200 with the star fields",
+    older.status === 200 && carriesStars(olderBody) && olderBody.changes.stars.some((s) => s.questionId === "ROUTE-1"),
+  );
+  const notList = await post({ ...good("u1"), stars: "nope" });
+  check(
+    "stars that are not a list return 400 BAD_ROWS",
+    notList.status === 400 && ((await notList.json()) as { code?: string }).code === "BAD_ROWS",
+  );
+  const badStarCursor = await post({
+    ...good("u1"),
+    cursor: { cardsAt: 0, cardsId: "", marksAt: 0, marksId: "", starsAt: -1, starsId: "" },
+  });
+  check(
+    "a bad star cursor returns 400 BAD_CURSOR",
+    badStarCursor.status === 400 && ((await badStarCursor.json()) as { code?: string }).code === "BAD_CURSOR",
+  );
 
   sessionUser = "rate-user";
   let limited: Response | null = null;
@@ -671,7 +1163,7 @@ async function checkHardDelete() {
     args: [Math.floor((Date.now() - 40 * 86_400_000) / 1000)],
   });
   for (const userId of ["gone", "kept"]) {
-    await send(db, userId, { cards: [card("HD-1")], marks: [mark(MARK_A)] }, T0);
+    await send(db, userId, { cards: [card("HD-1")], marks: [mark(MARK_A)], stars: [star("HD-1")] }, T0);
   }
 
   stubs.set("@/lib/db", { ...schema, db });
@@ -689,6 +1181,8 @@ async function checkHardDelete() {
   check("hard delete removes the user's marks", (await rowCount(client, "flashcard_marks", "gone")) === 0);
   check("hard delete keeps other users' cards", (await rowCount(client, "flashcard_progress", "kept")) === 1);
   check("hard delete keeps other users' marks", (await rowCount(client, "flashcard_marks", "kept")) === 1);
+  check("hard delete removes the user's stars", (await rowCount(client, "flashcard_stars", "gone")) === 0);
+  check("hard delete keeps other users' stars", (await rowCount(client, "flashcard_stars", "kept")) === 1);
   client.close();
 }
 
@@ -697,12 +1191,16 @@ async function main() {
   await checkBatchShapes();
   await checkConflicts();
   await checkMarks();
+  await checkStars();
   checkValidators();
   await checkCeilings();
   await checkPaging();
   await checkNoOpMerge();
   await checkMarkRetry();
+  await checkStarRetry();
   await checkPagingBothTables();
+  await checkPagingWithStars();
+  await checkOlderClient();
   checkStoredTextIsFaithful();
   await checkIsolation();
   await checkRoute();

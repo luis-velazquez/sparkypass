@@ -5,7 +5,7 @@
 import { and, asc, count, eq, getTableColumns, gt, inArray, or, sql, type SQL } from "drizzle-orm";
 import type { LibSQLDatabase } from "drizzle-orm/libsql";
 import type { SQLiteTable } from "drizzle-orm/sqlite-core";
-import { flashcardMarks, flashcardProgress } from "@/lib/db/schema";
+import { flashcardMarks, flashcardProgress, flashcardStars } from "@/lib/db/schema";
 import type * as schema from "@/lib/db/schema";
 
 export type Db = LibSQLDatabase<typeof schema>;
@@ -46,11 +46,20 @@ export interface MarkRow {
   deletedAt: number | null;
 }
 
+/** Unstarring is a row with starred: false. Sync never deletes star rows. */
+export interface StarRow {
+  questionId: string;
+  starred: boolean;
+  updatedAt: number;
+}
+
 export interface SyncCursor {
   cardsAt: number;
   cardsId: string;
   marksAt: number;
   marksId: string;
+  starsAt: number;
+  starsId: string;
 }
 
 export interface FlashcardSyncRequest {
@@ -59,14 +68,15 @@ export interface FlashcardSyncRequest {
   cursor: SyncCursor | null;
   cards: CardRow[];
   marks: MarkRow[];
+  stars: StarRow[];
 }
 
 export interface FlashcardSyncResponse {
   v: 1;
   serverTime: number;
-  saved: { cards: CardRow[]; marks: MarkRow[] };
-  rejected: { kind: "card" | "mark"; key: string; code: string }[];
-  changes: { cards: CardRow[]; marks: MarkRow[] };
+  saved: { cards: CardRow[]; marks: MarkRow[]; stars: StarRow[] };
+  rejected: { kind: "card" | "mark" | "star"; key: string; code: string }[];
+  changes: { cards: CardRow[]; marks: MarkRow[]; stars: StarRow[] };
   cursor: SyncCursor;
   hasMore: boolean;
 }
@@ -74,6 +84,7 @@ export interface FlashcardSyncResponse {
 export const MAX_BATCH = 200;
 export const MAX_CARD_ROWS = 2_000;
 export const MAX_MARK_ROWS = 10_000;
+export const MAX_STAR_ROWS = 2_000;
 export const PAGE = 500;
 
 const MAX_CURSOR_ID = 64;
@@ -115,7 +126,13 @@ function parseCursor(raw: unknown): SyncCursor | null | undefined {
   const { cardsAt, cardsId, marksAt, marksId } = raw;
   if (!isInt(cardsAt) || cardsAt < 0 || !isInt(marksAt) || marksAt < 0) return undefined;
   if (!isText(cardsId, MAX_CURSOR_ID) || !isText(marksId, MAX_CURSOR_ID)) return undefined;
-  return { cardsAt, cardsId, marksAt, marksId };
+  // A build from before stars sends neither star field and pulls stars from the
+  // start. Sending only one of the two is refused like any other bad field.
+  const noStars = raw.starsAt === undefined && raw.starsId === undefined;
+  const starsAt = noStars ? 0 : raw.starsAt;
+  const starsId = noStars ? "" : raw.starsId;
+  if (!isInt(starsAt) || starsAt < 0 || !isText(starsId, MAX_CURSOR_ID)) return undefined;
+  return { cardsAt, cardsId, marksAt, marksId, starsAt, starsId };
 }
 
 /**
@@ -132,10 +149,11 @@ export function parseSyncBody(
   }
   const cursor = parseCursor(json.cursor);
   if (cursor === undefined) return { ok: false, code: "BAD_CURSOR" };
-  if (!Array.isArray(json.cards) || !Array.isArray(json.marks)) {
+  const stars = json.stars === undefined ? [] : json.stars; // builds from before stars send none
+  if (!Array.isArray(json.cards) || !Array.isArray(json.marks) || !Array.isArray(stars)) {
     return { ok: false, code: "BAD_ROWS" };
   }
-  if (json.cards.length > MAX_BATCH || json.marks.length > MAX_BATCH) {
+  if (json.cards.length > MAX_BATCH || json.marks.length > MAX_BATCH || stars.length > MAX_BATCH) {
     return { ok: false, code: "TOO_MANY" };
   }
   return {
@@ -146,6 +164,7 @@ export function parseSyncBody(
       cursor,
       cards: json.cards as CardRow[],
       marks: json.marks as MarkRow[],
+      stars: stars as StarRow[],
     },
   };
 }
@@ -203,6 +222,13 @@ export function validateMark(raw: unknown, now: number): MarkRow | null {
     updatedAt: Math.min(updatedAt, now + FUTURE_LIMIT_MS),
     deletedAt,
   };
+}
+
+export function validateStar(raw: unknown, now: number): StarRow | null {
+  if (!isRecord(raw)) return null;
+  const { questionId, starred, updatedAt } = raw;
+  if (!isQuestionId(questionId) || typeof starred !== "boolean" || !isStamp(updatedAt)) return null;
+  return { questionId, starred, updatedAt: Math.min(updatedAt, now + FUTURE_LIMIT_MS) };
 }
 
 const RANK = { new: 0, learning: 1, learned: 2 } as const;
@@ -289,6 +315,10 @@ function toMark(r: typeof flashcardMarks.$inferSelect): MarkRow {
   };
 }
 
+function toStar(r: typeof flashcardStars.$inferSelect): StarRow {
+  return { questionId: r.questionId, starred: r.starred, updatedAt: r.updatedAt };
+}
+
 /** If a batch repeats a key, keep the row with the highest updatedAt. */
 function latestByKey<T extends { updatedAt: number }>(rows: T[], keyOf: (row: T) => string): T[] {
   const best = new Map<string, T>();
@@ -346,7 +376,7 @@ function pageOf<T extends { changedAt: number }>(rows: T[], keyOf: (row: T) => s
 }
 
 /**
- * While either table has more pages, each cursor is the exact last row. Rewinding
+ * While any table has more pages, each cursor is the exact last row. Rewinding
  * one table to the safety floor early would re-read it and keep hasMore true.
  */
 const nextCursor = (
@@ -380,11 +410,19 @@ export async function applySync(
     if (mark) checkedMarks.push(mark);
     else rejected.push({ kind: "mark", key: rejectedKey(raw, "id"), code: "INVALID" });
   }
+  const checkedStars: StarRow[] = [];
+  for (const raw of body.stars as unknown[]) {
+    const star = validateStar(raw, now);
+    if (star) checkedStars.push(star);
+    else rejected.push({ kind: "star", key: rejectedKey(raw, "questionId"), code: "INVALID" });
+  }
 
   const uniqueCards = latestByKey(checkedCards, (c) => c.questionId);
   const uniqueMarks = latestByKey(checkedMarks, (m) => m.id);
+  const uniqueStars = latestByKey(checkedStars, (s) => s.questionId);
   const cardIds = uniqueCards.map((c) => c.questionId);
   const markIds = uniqueMarks.map((m) => m.id);
+  const starIds = uniqueStars.map((s) => s.questionId);
 
   const stored = cardIds.length
     ? await db.select().from(flashcardProgress)
@@ -399,6 +437,13 @@ export async function applySync(
   const storedMarkBy = new Map(storedMarks.map((r) => [r.id, toMark(r)]));
   const knownMarks = new Set(storedMarkBy.keys());
 
+  const storedStars = starIds.length
+    ? await db.select().from(flashcardStars)
+        .where(and(eq(flashcardStars.userId, userId), inArray(flashcardStars.questionId, starIds)))
+    : [];
+  const storedStarBy = new Map(storedStars.map((r) => [r.questionId, toStar(r)]));
+  const knownStars = new Set(storedStarBy.keys());
+
   let cardRoom = 0;
   if (uniqueCards.some((c) => !storedBy.has(c.questionId))) {
     const [row] = await db.select({ n: count() }).from(flashcardProgress)
@@ -411,11 +456,19 @@ export async function applySync(
       .where(eq(flashcardMarks.userId, userId));
     markRoom = MAX_MARK_ROWS - (row?.n ?? 0);
   }
+  let starRoom = 0;
+  if (uniqueStars.some((s) => !knownStars.has(s.questionId))) {
+    const [row] = await db.select({ n: count() }).from(flashcardStars)
+      .where(eq(flashcardStars.userId, userId));
+    starRoom = MAX_STAR_ROWS - (row?.n ?? 0);
+  }
 
   const cardGate = admit(uniqueCards, (c) => c.questionId, new Set(storedBy.keys()), cardRoom);
   const markGate = admit(uniqueMarks, (m) => m.id, knownMarks, markRoom);
+  const starGate = admit(uniqueStars, (s) => s.questionId, knownStars, starRoom);
   for (const c of cardGate.over) rejected.push({ kind: "card", key: c.questionId, code: "LIMIT" });
   for (const m of markGate.over) rejected.push({ kind: "mark", key: m.id, code: "LIMIT" });
+  for (const s of starGate.over) rejected.push({ kind: "star", key: s.questionId, code: "LIMIT" });
 
   const cardWrites = cardGate.admitted.flatMap((c) => {
     const next = resolveCard(c, storedBy.get(c.questionId));
@@ -449,9 +502,24 @@ export async function applySync(
         setWhere: sql`excluded."updated_at" > ${flashcardMarks.updatedAt}`,
       });
   }
+  // Same retry rule as marks: re-sending the stored starred value writes nothing.
+  const starWrites = starGate.admitted.filter((s) => {
+    const current = storedStarBy.get(s.questionId);
+    return !current || current.starred !== s.starred;
+  });
+  if (starWrites.length) {
+    await db.insert(flashcardStars)
+      .values(starWrites.map((s) => ({ ...s, userId, changedAt: now })))
+      .onConflictDoUpdate({
+        target: [flashcardStars.userId, flashcardStars.questionId],
+        set: excludedSet(flashcardStars, ["userId", "questionId"]),
+        setWhere: sql`excluded."updated_at" > ${flashcardStars.updatedAt}`,
+      });
+  }
 
   const savedCardIds = cardGate.admitted.map((c) => c.questionId);
   const savedMarkIds = markGate.admitted.map((m) => m.id);
+  const savedStarIds = starGate.admitted.map((s) => s.questionId);
   const savedCards = savedCardIds.length
     ? await db.select().from(flashcardProgress)
         .where(and(eq(flashcardProgress.userId, userId), inArray(flashcardProgress.questionId, savedCardIds)))
@@ -460,11 +528,17 @@ export async function applySync(
     ? await db.select().from(flashcardMarks)
         .where(and(eq(flashcardMarks.userId, userId), inArray(flashcardMarks.id, savedMarkIds)))
     : [];
+  const savedStars = savedStarIds.length
+    ? await db.select().from(flashcardStars)
+        .where(and(eq(flashcardStars.userId, userId), inArray(flashcardStars.questionId, savedStarIds)))
+    : [];
 
   const cardsAt = body.cursor?.cardsAt ?? 0;
   const cardsId = body.cursor?.cardsId ?? "";
   const marksAt = body.cursor?.marksAt ?? 0;
   const marksId = body.cursor?.marksId ?? "";
+  const starsAt = body.cursor?.starsAt ?? 0;
+  const starsId = body.cursor?.starsId ?? "";
 
   const cardRows = await db.select().from(flashcardProgress)
     .where(and(
@@ -486,20 +560,39 @@ export async function applySync(
     ))
     .orderBy(asc(flashcardMarks.changedAt), asc(flashcardMarks.id))
     .limit(PAGE + 1);
+  const starRows = await db.select().from(flashcardStars)
+    .where(and(
+      eq(flashcardStars.userId, userId),
+      or(
+        gt(flashcardStars.changedAt, starsAt),
+        and(eq(flashcardStars.changedAt, starsAt), gt(flashcardStars.questionId, starsId)),
+      ),
+    ))
+    .orderBy(asc(flashcardStars.changedAt), asc(flashcardStars.questionId))
+    .limit(PAGE + 1);
 
   const cardPage = pageOf(cardRows, (r) => r.questionId);
   const markPage = pageOf(markRows, (r) => r.id);
-  const hasMore = cardPage.more || markPage.more;
+  const starPage = pageOf(starRows, (r) => r.questionId);
+  const hasMore = cardPage.more || markPage.more || starPage.more;
   const nextCards = nextCursor(cardPage.last, cardsAt, cardsId, hasMore, now);
   const nextMarks = nextCursor(markPage.last, marksAt, marksId, hasMore, now);
+  const nextStars = nextCursor(starPage.last, starsAt, starsId, hasMore, now);
 
   return {
     v: 1,
     serverTime: now,
-    saved: { cards: savedCards.map(toCard), marks: savedMarks.map(toMark) },
+    saved: { cards: savedCards.map(toCard), marks: savedMarks.map(toMark), stars: savedStars.map(toStar) },
     rejected,
-    changes: { cards: cardPage.kept.map(toCard), marks: markPage.kept.map(toMark) },
-    cursor: { cardsAt: nextCards.at, cardsId: nextCards.id, marksAt: nextMarks.at, marksId: nextMarks.id },
+    changes: { cards: cardPage.kept.map(toCard), marks: markPage.kept.map(toMark), stars: starPage.kept.map(toStar) },
+    cursor: {
+      cardsAt: nextCards.at,
+      cardsId: nextCards.id,
+      marksAt: nextMarks.at,
+      marksId: nextMarks.id,
+      starsAt: nextStars.at,
+      starsId: nextStars.id,
+    },
     hasMore,
   };
 }

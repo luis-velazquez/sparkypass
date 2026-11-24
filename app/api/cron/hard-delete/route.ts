@@ -22,7 +22,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { lt, and, eq, inArray, isNotNull } from "drizzle-orm";
-import { db, users, linkedProviders, flashcardProgress, flashcardMarks } from "@/lib/db";
+import { db, users, linkedProviders, flashcardProgress, flashcardMarks, flashcardStars } from "@/lib/db";
 import { revokeAppleRefreshToken } from "@/lib/apple-revocation";
 import { verifyCronRequest } from "@/lib/cron-auth";
 
@@ -83,6 +83,7 @@ export async function GET(request: NextRequest) {
   const candidateIds = candidates.map((u: { id: string }) => u.id);
   await db.delete(flashcardProgress).where(inArray(flashcardProgress.userId, candidateIds));
   await db.delete(flashcardMarks).where(inArray(flashcardMarks.userId, candidateIds));
+  await db.delete(flashcardStars).where(inArray(flashcardStars.userId, candidateIds));
 
   const result = await db
     .delete(users)

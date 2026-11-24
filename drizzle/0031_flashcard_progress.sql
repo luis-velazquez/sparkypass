@@ -39,3 +39,15 @@ CREATE TABLE IF NOT EXISTS `flashcard_marks` (
 );
 CREATE INDEX IF NOT EXISTS `flashcard_marks_changed_idx`
   ON `flashcard_marks` (`user_id`,`changed_at`,`id`);
+
+CREATE TABLE IF NOT EXISTS `flashcard_stars` (
+  `user_id` text NOT NULL,
+  `question_id` text NOT NULL,
+  `starred` integer NOT NULL,
+  `updated_at` integer NOT NULL,
+  `changed_at` integer NOT NULL,
+  PRIMARY KEY(`user_id`, `question_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
+);
+CREATE INDEX IF NOT EXISTS `flashcard_stars_changed_idx`
+  ON `flashcard_stars` (`user_id`,`changed_at`,`question_id`);

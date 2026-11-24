@@ -229,6 +229,23 @@ export const flashcardMarks = sqliteTable(
   }),
 );
 
+// Starred flash cards, one row per user and question (migration 0031). Unstarring
+// keeps the row with starred = false so the unstar syncs to other devices.
+export const flashcardStars = sqliteTable(
+  "flashcard_stars",
+  {
+    userId: text("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    questionId: text("question_id").notNull(),
+    starred: integer("starred", { mode: "boolean" }).notNull(),
+    updatedAt: integer("updated_at").notNull(),
+    changedAt: integer("changed_at").notNull(),
+  },
+  (table) => ({
+    pk: primaryKey({ columns: [table.userId, table.questionId] }),
+    changedIdx: index("flashcard_stars_changed_idx").on(table.userId, table.changedAt, table.questionId),
+  }),
+);
+
 // Quiz results table - tracks completed quiz scores by category
 export const quizResults = sqliteTable("quiz_results", {
   id: text("id").primaryKey(),

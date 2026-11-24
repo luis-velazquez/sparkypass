@@ -1,7 +1,7 @@
 // POST /api/flashcards/sync
 //
-// Uploads a phone's changed flash card rows and highlights and returns what
-// changed on other devices. Separate from /api/sync/upload on purpose: flash
+// Uploads a phone's changed flash card rows, highlights and stars and returns
+// what changed on other devices. Separate from /api/sync/upload on purpose: flash
 // cards earn no Watts and touch no streak, history or weak-spot data.
 // Conflict rules live in lib/flashcard-sync.ts.
 
